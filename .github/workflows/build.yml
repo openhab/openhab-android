@@ -26,13 +26,14 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: 11
+          cache: gradle
 
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.0.6
 
       - name: Configure Gradle
         run: |
-          mkdir ~/.gradle/
+          mkdir -p ~/.gradle/
           echo -e "org.gradle.jvmargs=-Xmx8192M\nmapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o\norg.gradle.daemon=false" >> ~/.gradle/gradle.properties
 
       - name: Build
