@@ -1,0 +1,5 @@
+## What's Changed
+* Don't check overflow button by @mueller-ma in https://github.com/openhab/openhab-android/pull/3299
+* Update parsing of icon name by @mueller-ma in https://github.com/openhab/openhab-android/pull/3297
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.3.5-beta...3.3.6-beta
