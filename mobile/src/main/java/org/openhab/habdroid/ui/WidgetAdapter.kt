@@ -507,7 +507,7 @@ class WidgetAdapter(
     }
 
     class FrameViewHolder internal constructor(initData: ViewHolderInitData) :
-        ViewHolder(initData, R.layout.widgetlist_frameitem) {
+        ViewHolder(initData, R.layout.widgetlist_frameitem, R.layout.widgetlist_frameitem_compact) {
         private val labelView: TextView = itemView.findViewById(R.id.widgetlabel)
         private val containerView: View = itemView.findViewById(R.id.container)
         private val spacer: View = itemView.findViewById(R.id.first_view_spacer)
