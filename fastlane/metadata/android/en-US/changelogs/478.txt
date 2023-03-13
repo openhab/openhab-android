@@ -1,0 +1,5 @@
+## What's Changed
+* Ignore alarms set by Signal by @mueller-ma in https://github.com/openhab/openhab-android/pull/3304
+* Add compact layout for frames by @mueller-ma in https://github.com/openhab/openhab-android/pull/3305
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.3.6-beta...3.3.7-beta
