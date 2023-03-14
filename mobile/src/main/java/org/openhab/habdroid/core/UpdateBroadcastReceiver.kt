@@ -149,7 +149,8 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                         prefs.getStringOrNull("default_openhab_sslclientcert"),
                         defaultSitemap,
                         null,
-                        false
+                        false,
+                        null
                     )
                     config.saveToPrefs(prefs, secretPrefs)
                     prefs.edit {

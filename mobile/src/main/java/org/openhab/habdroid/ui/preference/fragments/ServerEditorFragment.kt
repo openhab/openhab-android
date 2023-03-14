@@ -166,7 +166,8 @@ class ServerEditorFragment :
                 config.sslClientCert,
                 config.defaultSitemap,
                 config.wifiSsids,
-                config.restrictToWifiSsids
+                config.restrictToWifiSsids,
+                config.frontailUrl
             )
             parentActivity.invalidateOptionsMenu()
             true
@@ -212,7 +213,8 @@ class ServerEditorFragment :
                 newValue as String?,
                 config.defaultSitemap,
                 config.wifiSsids,
-                config.restrictToWifiSsids
+                config.restrictToWifiSsids,
+                config.frontailUrl
             )
             true
         }
@@ -272,10 +274,35 @@ class ServerEditorFragment :
                     config.sslClientCert,
                     config.defaultSitemap,
                     ssids,
-                    restrictToSsids
+                    restrictToSsids,
+                    config.frontailUrl
                 )
                 true
             }
+        }
+
+        val frontailUrlPref = getPreference("frontail_url") as EditTextPreference
+        val summaryGenerator = { value: String? ->
+            val actualValue = if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set)
+            getString(R.string.frontail_url_summary, actualValue)
+        }
+        frontailUrlPref.summary = summaryGenerator(config.frontailUrl)
+        frontailUrlPref.text = config.frontailUrl
+        frontailUrlPref.setOnPreferenceChangeListener { _, newValue ->
+            val newUrl = newValue as String?
+            frontailUrlPref.summary = summaryGenerator(newUrl)
+            config = ServerConfiguration(
+                config.id,
+                config.name,
+                config.localPath,
+                config.remotePath,
+                config.sslClientCert,
+                config.defaultSitemap,
+                config.wifiSsids,
+                config.restrictToWifiSsids,
+                newUrl
+            )
+            true
         }
 
         val advancedPrefs = getPreference("advanced_prefs")
@@ -283,6 +310,7 @@ class ServerEditorFragment :
             advancedPrefs.isVisible = false
             clientCertPref.isVisible = true
             wifiSsidPref.isVisible = true
+            frontailUrlPref.isVisible = true
             false
         }
     }
@@ -311,7 +339,8 @@ class ServerEditorFragment :
                 config.sslClientCert,
                 config.defaultSitemap,
                 config.wifiSsids,
-                config.restrictToWifiSsids
+                config.restrictToWifiSsids,
+                config.frontailUrl
             )
         } else {
             ServerConfiguration(
@@ -322,7 +351,8 @@ class ServerEditorFragment :
                 config.sslClientCert,
                 config.defaultSitemap,
                 config.wifiSsids,
-                config.restrictToWifiSsids
+                config.restrictToWifiSsids,
+                config.frontailUrl
             )
         }
         parentActivity.invalidateOptionsMenu()

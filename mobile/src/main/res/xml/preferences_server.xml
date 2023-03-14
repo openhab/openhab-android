@@ -44,4 +44,11 @@
         app:whitespaceBehavior="trim"
         android:inputType="text"
         android:title="@string/settings_wifi_ssid" />
+    <org.openhab.habdroid.ui.preference.widgets.UrlInputPreference
+        android:key="frontail_url"
+        android:defaultValue="@string/empty_string"
+        android:persistent="false"
+        app:isPreferenceVisible="false"
+        android:title="@string/frontail_url_title"
+        app:isForRemoteServer="false" />
 </PreferenceScreen>
