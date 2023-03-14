@@ -20,7 +20,7 @@ class HabpanelWebViewFragment : AbstractWebViewFragment() {
     override val titleRes = R.string.mainmenu_openhab_habpanel
     override val errorMessageRes = R.string.habpanel_error
     override val urlToLoad = "/habpanel/index.html"
-    override val urlForError = "/rest/events"
+    override val pathForError = "/rest/events"
     override val lockDrawer = true
     override val shortcutIcon = R.mipmap.ic_shortcut_habpanel
     override val shortcutAction = MainActivity.ACTION_HABPANEL_SELECTED

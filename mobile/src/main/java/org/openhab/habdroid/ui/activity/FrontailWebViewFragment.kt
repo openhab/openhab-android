@@ -21,7 +21,7 @@ class FrontailWebViewFragment : AbstractWebViewFragment() {
     override val titleRes = R.string.mainmenu_openhab_frontail
     override val errorMessageRes = R.string.frontail_error
     override val urlToLoad = "/"
-    override val urlForError = "/"
+    override val pathForError = "/"
     override val avoidAuthentication = true
     override val lockDrawer = false
     override val shortcutIcon = R.mipmap.ic_shortcut_frontail

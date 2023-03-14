@@ -16,6 +16,8 @@ package org.openhab.habdroid.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
+import android.net.http.SslError
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -26,9 +28,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.JavascriptInterface
 import android.webkit.PermissionRequest
+import android.webkit.SslErrorHandler
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.widget.Button
 import android.widget.EditText
@@ -98,7 +102,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
     abstract val titleRes: Int
     abstract val errorMessageRes: Int
     abstract val urlToLoad: String
-    abstract val urlForError: String
+    abstract val pathForError: String
     open val avoidAuthentication = false
     abstract val lockDrawer: Boolean
     abstract val shortcutIcon: Int
@@ -332,18 +336,31 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         webView.addJavascriptInterface(jsInterface, "OHApp")
 
         webView.webViewClient = object : ConnectionWebViewClient(conn) {
-            override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
-                val errorUrl = request.url.toString()
-                Log.e(TAG, "onReceivedError() on URL: $errorUrl")
-                if (errorUrl.endsWith(urlForError)) {
+            private fun handleError(url: Uri) {
+                if (url.path == pathForError) {
                     updateViewVisibility(true, null)
                 }
+            }
+
+            override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
+                Log.e(TAG, "onReceivedError() on URL: ${request.url}")
+                handleError(request.url)
             }
 
             @Deprecated(message = "Function is called on older Android versions")
             override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
                 Log.e(TAG, "onReceivedError() (deprecated) on URL: $failingUrl")
+                // This deprecated version is only called for the main resource, so no need to check for 'pathForError' here
                 updateViewVisibility(true, null)
+            }
+
+            override fun onReceivedHttpError(
+                view: WebView,
+                request: WebResourceRequest,
+                errorResponse: WebResourceResponse
+            ) {
+                Log.e(TAG, "onReceivedHttpError() on URL: ${request.url}")
+                handleError(request.url)
             }
         }
         webView.loadUrl(url.toString())
