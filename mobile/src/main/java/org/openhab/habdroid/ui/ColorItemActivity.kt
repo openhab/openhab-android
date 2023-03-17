@@ -127,7 +127,7 @@ class ColorItemActivity :
         Color.RGBToHSV(Color.red(msg.arg1), Color.green(msg.arg1), Color.blue(msg.arg1), hsv)
         hsv[2] = msg.arg2.toFloat()
         Log.d(WidgetAdapter.TAG, "New color HSV = ${hsv[0]}, ${hsv[1]}, ${hsv[2]}")
-        val newColorValue = String.format(Locale.US, "%f,%f,%f", hsv[0], hsv[1] * 100, hsv[2])
+        val newColorValue = String.format(Locale.US, "%.0f,%.0f,%.0f", hsv[0], hsv[1] * 100, hsv[2])
         lastUpdate?.cancel()
         val connection = ConnectionFactory.primaryUsableConnection?.connection ?: return false
         lastUpdate = connection.httpClient.sendItemCommand(boundItem, newColorValue)
