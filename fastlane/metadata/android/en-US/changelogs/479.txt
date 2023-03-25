@@ -1,0 +1,2 @@
+• Fix issues with fullscreen mode
+• Support icon sets
