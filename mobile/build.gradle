@@ -114,6 +114,10 @@ android {
     }
 }
 
+aboutLibraries {
+    duplicationMode = com.mikepenz.aboutlibraries.plugin.DuplicateMode.MERGE
+}
+
 unMock {
     keepStartingWith "libcore."
     keepStartingWith "android.net.Uri"
