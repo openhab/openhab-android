@@ -56,9 +56,7 @@ abstract class AbstractTileService : TileService() {
             handleLifecycleEvent(Lifecycle.Event.ON_START)
         }
 
-        override fun getLifecycle(): Lifecycle {
-            return lifecycleRegistry
-        }
+        override val lifecycle = lifecycleRegistry
 
         fun startListening() {
             lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
