@@ -50,10 +50,12 @@ import org.openhab.habdroid.ui.duplicate
 import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.IconBackground
 import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.dpToPixel
+import org.openhab.habdroid.util.getIconFallbackColor
 import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.isSvg
@@ -220,7 +222,13 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 val sizeInDp = min(height, width)
                 @Px val size = context.resources.dpToPixel(sizeInDp).toInt()
                 Log.d(TAG, "Icon size: $size")
-                iconData.svgToBitmap(size, null, ImageConversionPolicy.PreferTargetSize)
+                val widgetBackground = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    IconBackground.OS_THEME
+                } else {
+                    IconBackground.LIGHT
+                }
+                val fallbackColor = context.getIconFallbackColor(widgetBackground)
+                iconData.svgToBitmap(size, fallbackColor, ImageConversionPolicy.PreferTargetSize)
             }
 
             val setIcon = { iconData: InputStream, isSvg: Boolean ->
