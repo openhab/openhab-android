@@ -21,7 +21,7 @@ class Oh3UiWebViewFragment : AbstractWebViewFragment() {
     override val titleRes = R.string.mainmenu_openhab_oh3_ui
     override val errorMessageRes = R.string.oh3_ui_error
     override val urlToLoad = "/"
-    override val urlForError = "/"
+    override val pathForError = "/"
     override val lockDrawer = true
     override val shortcutIcon = R.mipmap.ic_shortcut_oh3_ui
     override val shortcutAction = MainActivity.ACTION_OH3_UI_SELECTED
