@@ -22,7 +22,6 @@
     <string name="habpanel_error">Det oppstod en feil under innlasting av HABPanel</string>
     <string name="oh3_ui_error">En feil oppstod under lasting av Main UI</string>
     <string name="frontail_error">Det oppstod en feil under lasting av Frontail. Vær oppmerksom på at det ikke er tilgjengelig via openHAB Cloud.</string>
-    <string name="frontail_pref_summary">Frontail må kjøre på dets standardport 9001. Det følger med openHABian eller kan installeres manuelt.</string>
     <string name="mainmenu_openhab_selectsitemap">Velg standard Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Tøm bildebuffer</string>
     <!-- App settings strings -->

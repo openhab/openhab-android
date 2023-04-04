@@ -16,7 +16,6 @@
     <string name="app_notifications">Уведомления</string>
     <string name="habpanel_error">Произошла ошибка при загрузке HABPanel</string>
     <string name="frontail_error">Произошла ошибка при загрузке Frontail. Пожалуйста, обратите внимание, что она недоступна через облако openHAB.</string>
-    <string name="frontail_pref_summary">Frontail должен запускаться на порту по умолчанию 9001. Он поставляется с openHABian или может быть установлен вручную.</string>
     <string name="mainmenu_openhab_selectsitemap">Выбрать Sitemap по умолчанию</string>
     <string name="mainmenu_openhab_clearcache">Очистить кэш изображений</string>
     <!-- App settings strings -->

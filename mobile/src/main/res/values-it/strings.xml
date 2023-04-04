@@ -22,7 +22,6 @@
     <string name="habpanel_error">Si è verificato un errore caricando HABPanel</string>
     <string name="oh3_ui_error">Si è verificato un errore durante il caricamento dell\'interfaccia utente principale Main UI</string>
     <string name="frontail_error">Si è verificato un errore durante il caricamento di Frontail. Nota che non è disponibile tramite openHAB Cloud.</string>
-    <string name="frontail_pref_summary">Frontail deve funzionare sulla sua porta predefinita 9001. È in bundle con openHABian o può essere installato manualmente.</string>
     <string name="mainmenu_openhab_selectsitemap">Seleziona Sitemap predefinito</string>
     <string name="mainmenu_openhab_clearcache">Pulisci cache immagini</string>
     <!-- App settings strings -->

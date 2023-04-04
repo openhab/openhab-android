@@ -16,7 +16,6 @@
     <string name="app_notifications">Powiadomienia</string>
     <string name="habpanel_error">Wystąpił błąd podczas wczytywania HABPanel</string>
     <string name="frontail_error">Wystąpił błąd podczas ładowania Frontail. Pamiętaj, że nie jest on dostępny przez openHAB Cloud.</string>
-    <string name="frontail_pref_summary">Frontail musi działać na swoim domyślnym porcie 9001. Jest zawarty w openHABian lub może być zainstalowany ręcznie.</string>
     <string name="mainmenu_openhab_selectsitemap">Wybierz domyślną Sitemapę</string>
     <string name="mainmenu_openhab_clearcache">Wyczyść obrazy pamięci podręcznej</string>
     <!-- App settings strings -->
