@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="100"
         android:layout_gravity="center"
-        android:indeterminateTint="@color/openhab_orange"
+        android:indeterminateTint="?colorPrimary"
         android:indeterminateTintMode="src_in"
         tools:visibility="gone" />
 </merge>
