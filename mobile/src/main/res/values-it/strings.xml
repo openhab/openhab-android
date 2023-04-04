@@ -41,6 +41,8 @@
     <string name="settings_openhab_sslclientcert">Certificato SSL client</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Tocca qui per suggerimenti e spiegazioni su come configurare l\'autenticazione con certificato SSL client</string>
     <string name="settings_openhab_sslclientcert_not_supported">I certificati del client SSL non sono supportati dal tuo dispositivo</string>
+    <string name="frontail_url_title">Frontail URL</string>
+    <string name="frontail_url_summary">L\'URL di Frontail. È incluso in openHABian o può essere installato manualmente. Lasciare vuoto per usare le impostazioni predefinite. Impostazione corrente: %s</string>
     <string name="settings_openhab_screentimeroff">Disabilita Tempo Spegnimento Schermo</string>
     <string name="settings_openhab_screentimeroff_summary">Lo schermo non si spegne quando openHAB è in esecuzione</string>
     <string name="settings_openhab_demomode">Modalità demo</string>
