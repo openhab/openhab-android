@@ -486,6 +486,11 @@ fun Context.getIconFallbackColor(iconBackground: IconBackground) = when (iconBac
     IconBackground.DARK -> ContextCompat.getColor(this, R.color.on_background_default_theme_dark)
 }
 
+fun Context.loadActiveServerConfig(): ServerConfiguration? {
+    val activeServerId = getPrefs().getActiveServerId()
+    return ServerConfiguration.load(getPrefs(), getSecretPrefs(), activeServerId)
+}
+
 fun Activity.shouldUseDynamicColors(): Boolean {
     val colorScheme = getPrefs().getStringOrEmpty(PrefKeys.COLOR_SCHEME)
     return DynamicColors.isDynamicColorAvailable() && colorScheme == getString(R.string.color_scheme_value_dynamic)
@@ -567,7 +572,8 @@ fun ServiceInfo.addToPrefs(context: Context) {
         null,
         null,
         null,
-        false
+        false,
+        null
     )
     config.saveToPrefs(context.getPrefs(), context.getSecretPrefs())
 }

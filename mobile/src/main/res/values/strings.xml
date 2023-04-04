@@ -26,7 +26,6 @@
     <string name="habpanel_error">An error occurred while loading HABPanel</string>
     <string name="oh3_ui_error">An error occurred while loading Main UI</string>
     <string name="frontail_error">An error occurred while loading Frontail. Please note that it\'s not available via openHAB Cloud.</string>
-    <string name="frontail_pref_summary">Frontail must run on its default port 9001. It\'s bundled with openHABian or can be installed manually.</string>
     <string name="mainmenu_openhab_selectsitemap">Select default Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Clear images cache</string>
 
@@ -48,6 +47,8 @@
     <string name="settings_openhab_sslclientcert_howto_summary">Tap here to get some hints and explanations on how to set up SSL client certificate authentication</string>
     <string name="settings_openhab_sslclientcert_howto_url" translatable="false">https://community.openhab.org/t/using-nginx-reverse-proxy-for-client-certificate-authentication-start-discussion/43064</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL client certificates are not supported by your device</string>
+    <string name="frontail_url_title">Frontail URL</string>
+    <string name="frontail_url_summary">The URL of Frontail. It\'s bundled with openHABian or can be installed manually. Leave empty to use the default settings. Current setting: %s</string>
     <string name="settings_openhab_screentimeroff">Disable screen timeout</string>
     <string name="settings_openhab_screentimeroff_summary">The screen doesn\'t turn off when openHAB is running</string>
     <string name="settings_openhab_demomode">Demo mode</string>

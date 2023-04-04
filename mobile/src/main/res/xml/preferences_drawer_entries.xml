@@ -21,7 +21,6 @@
         android:defaultValue="false"
         android:key="show_frontail"
         android:icon="@drawable/ic_outline_format_align_left_grey_24dp"
-        app:summary="@string/frontail_pref_summary"
         android:title="@string/mainmenu_openhab_frontail" />
     <SwitchPreferenceCompat
         android:defaultValue="true"
