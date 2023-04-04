@@ -17,7 +17,6 @@
     <string name="app_notifications">Ilmoitukset</string>
     <string name="habpanel_error">Virhe ladattaessa HABPanel:ia</string>
     <string name="frontail_error">Tapahtui virhe ladattaessa Frontailia. Huomaa, että se ei ole käytettävissä openHAB Cloudin kautta.</string>
-    <string name="frontail_pref_summary">Frontailille on käytettävä oletusporttia 9001. Se on niputettu openHABianiin tai se voidaan asentaa manuaalisesti.</string>
     <string name="mainmenu_openhab_selectsitemap">Valitse oletus Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Tyhjennä kuvien välimuisti</string>
     <!-- App settings strings -->
