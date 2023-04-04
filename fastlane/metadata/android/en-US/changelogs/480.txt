@@ -1,0 +1,6 @@
+## What's Changed
+* Fix error detection for Main UI by @mueller-ma in https://github.com/openhab/openhab-android/pull/3312
+* Color SVG icons in home screen widget by @mueller-ma in https://github.com/openhab/openhab-android/pull/3322
+* Allow custom Frontail URL by @mueller-ma in https://github.com/openhab/openhab-android/pull/3311
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.4.0-release...3.4.1-beta
