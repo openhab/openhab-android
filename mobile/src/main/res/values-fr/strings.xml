@@ -19,7 +19,6 @@
     <string name="app_notifications">Notifications</string>
     <string name="habpanel_error">Une erreur s’est produite lors du chargement de HABPanel</string>
     <string name="frontail_error">Une erreur s\'est produite lors du chargement de Frontail. Veuillez noter qu\'il n\'est pas disponible via openHAB Cloud.</string>
-    <string name="frontail_pref_summary">Frontail doit fonctionner sur son port par défaut 9001. Il est fourni avec openHABian ou peut être installé manuellement.</string>
     <string name="mainmenu_openhab_selectsitemap">Sélectionner la Sitemap par défaut</string>
     <string name="mainmenu_openhab_clearcache">Effacer le cache image</string>
     <!-- App settings strings -->
