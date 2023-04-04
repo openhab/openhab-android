@@ -26,8 +26,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.work.WorkInfo
-import java.util.ArrayList
-import java.util.HashMap
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.ui.MainActivity
@@ -40,10 +38,10 @@ import org.openhab.habdroid.util.getPrefs
 internal class NotificationUpdateObserver(context: Context) : Observer<List<WorkInfo>> {
     private val context: Context = context.applicationContext
 
-    override fun onChanged(workInfos: List<WorkInfo>) {
+    override fun onChanged(value: List<WorkInfo>) {
         // Find latest state for each tag
         val latestInfoByTag = HashMap<String, WorkInfo>()
-        for (info in workInfos) {
+        for (info in value) {
             for (tag in info.tags) {
                 if (tag in BackgroundTasksManager.KNOWN_KEYS ||
                     tag == BackgroundTasksManager.WORKER_TAG_VOICE_COMMAND ||
@@ -95,7 +93,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 val data = info.outputData
                 val itemName = data.getString(ItemUpdateWorker.OUTPUT_DATA_ITEM_NAME)
                 val label = data.getString(ItemUpdateWorker.OUTPUT_DATA_LABEL)
-                val value = data.getValueWithInfo(ItemUpdateWorker.OUTPUT_DATA_VALUE)
+                val workerValue = data.getValueWithInfo(ItemUpdateWorker.OUTPUT_DATA_VALUE)
                 val isImportant = data.getBoolean(ItemUpdateWorker.OUTPUT_DATA_IS_IMPORTANT, false)
                 val primaryServer = data.getBoolean(ItemUpdateWorker.OUTPUT_DATA_PRIMARY_SERVER, false)
                 val showToast = data.getBoolean(ItemUpdateWorker.OUTPUT_DATA_SHOW_TOAST, false)
@@ -104,13 +102,13 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 val hadConnection = data.getBoolean(ItemUpdateWorker.OUTPUT_DATA_HAS_CONNECTION, false)
                 val httpStatus = data.getInt(ItemUpdateWorker.OUTPUT_DATA_HTTP_STATUS, 0)
 
-                if (itemName != null && value != null) {
+                if (itemName != null && workerValue != null) {
                     retryInfoList.add(
                         BackgroundTasksManager.RetryInfo(
                             tag,
                             itemName,
                             label,
-                            value,
+                            workerValue,
                             isImportant,
                             showToast,
                             taskerIntent,
