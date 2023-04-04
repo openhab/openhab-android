@@ -19,7 +19,6 @@
     <string name="app_notifications">Notifikatiounen</string>
     <string name="habpanel_error">Beim Lueden vum HABPanel ass e Feeler opgetrueden</string>
     <string name="frontail_error">Beim Luede vu Frontail ass e Feeler geschitt. Beuecht wgl. dass Frontail net via openHAB Cloud verfügbar ass.</string>
-    <string name="frontail_pref_summary">Frontail muss um Standard Port 9001 lafen. Et ass bei openHABian dobäi oder kann manuell installéiert ginn.</string>
     <string name="mainmenu_openhab_selectsitemap">Standard Sitemap auswielen</string>
     <string name="mainmenu_openhab_clearcache">Biller Cache eidel maachen</string>
     <!-- App settings strings -->
