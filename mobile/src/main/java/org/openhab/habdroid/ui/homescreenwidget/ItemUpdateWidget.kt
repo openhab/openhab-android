@@ -335,10 +335,10 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             data: ItemUpdateWidgetData,
             itemState: String
         ): RemoteViews {
-            val layout = when {
-                data.widgetLabel.isNullOrEmpty() -> R.layout.widget_item_update_no_text
-                smallWidget -> R.layout.widget_item_update_text_small
-                else -> R.layout.widget_item_update_text
+            val layout = if (smallWidget) {
+                R.layout.widget_item_update_small
+            } else {
+                R.layout.widget_item_update
             }
             val label = if (data.showState) {
                 "${data.widgetLabel.orEmpty()} $itemState"
@@ -357,6 +357,8 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             views.setViewVisibility(R.id.edit, editButtonVisibility)
 
             views.setTextViewText(R.id.text, label)
+            val alpha = if (label.isNotEmpty() && smallWidget) 0.3F else 1F
+            views.setFloat(R.id.item_icon, "setAlpha", alpha)
             hideLoadingIndicator(views)
             return views
         }
