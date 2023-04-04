@@ -16,7 +16,6 @@
     <string name="app_notifications">Notificaties</string>
     <string name="habpanel_error">Er is een fout opgetreden tijdens het laden van HABPanel</string>
     <string name="frontail_error">Er is een fout opgetreden tijdens het laden van Frontail. Houd er rekening mee dat het niet beschikbaar is via openHAB Cloud.</string>
-    <string name="frontail_pref_summary">Frontail moet via standaard poort 9001 beschikbaar zijn. Het is gebundeld met openHABian of kan handmatig geïnstalleerd worden.</string>
     <string name="mainmenu_openhab_selectsitemap">Selecteer standaard Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Verwijder afbeeldingscache</string>
     <!-- App settings strings -->
