@@ -334,6 +334,7 @@
     <string name="data_saver_on">Елементи от сайткартата, които могат да изискват много данни, няма да се зареждат</string>
     <string name="data_saver_off_pre_n">Всички елементи от сайткартата се зареждат, независимо от употребата на данни</string>
     <string name="data_saver_load">Зареди въпреки това</string>
+    <string name="data_saver_snackbar">Картинките не се основават на състоянието на елементите, за да се пестят данни</string>
     <string name="widget_type_image">Картинка</string>
     <string name="widget_type_video">Видео</string>
     <string name="widget_type_mapview">Карта</string>
