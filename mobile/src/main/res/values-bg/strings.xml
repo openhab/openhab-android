@@ -318,6 +318,7 @@
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <!-- Used in the widget preview -->
     <string name="item_update_widget_preview_text">Отвори гаража</string>
+    <string name="widget_no_command">Не изпращай команда</string>
     <string name="error_getting_state">Грешка при зареждане на състоянието</string>
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_move">%s започва да се движи</string>
@@ -329,6 +330,9 @@
     <string name="item_update_short_success_message_rewind">Превърта</string>
     <string name="item_update_error_no_connection">Няма връзка</string>
     <!-- Data saver -->
+    <string name="data_saver_title">Пестене на данни</string>
+    <string name="data_saver_on">Елементи от сайткартата, които могат да изискват много данни, няма да се зареждат</string>
+    <string name="data_saver_off_pre_n">Всички елементи от сайткартата се зареждат, независимо от употребата на данни</string>
     <string name="data_saver_load">Зареди въпреки това</string>
     <string name="widget_type_image">Картинка</string>
     <string name="widget_type_video">Видео</string>
