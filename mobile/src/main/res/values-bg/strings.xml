@@ -5,14 +5,18 @@
     <!-- General app strings -->
     <string name="app_preferences_name">Настройки</string>
     <string name="save">Съхрани</string>
+    <string name="discard">Отхвърли</string>
     <string name="delete">Изтрий</string>
+    <string name="attribution_tag_discover_server">Открий openHAB сървър</string>
+    <string name="attribution_tag_select_server_wifi">Избери сървър въз основа на Wi-Fi</string>
+    <string name="attribution_tag_suggest_turn_on_wifi">Предлагам да вкличиш Wi-Fi</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Сайткарти</string>
     <string name="mainmenu_openhab_preferences">Настройки</string>
     <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="app_notifications">Известия</string>
     <string name="habpanel_error">Възникна грешка, зареждайки HABPanel</string>
-    <string name="mainmenu_openhab_selectsitemap">Изберете сайта по подразбиране</string>
+    <string name="mainmenu_openhab_selectsitemap">Избери сайткарта по подразбиране</string>
     <string name="mainmenu_openhab_clearcache">Изчисти кеша на изображенията</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Връзка</string>
@@ -35,6 +39,9 @@
     <string name="start_page_title">Начална страница</string>
     <string name="settings_openhab_theme">Тема</string>
     <string name="settings_openhab_fullscreen">Пълен екран</string>
+    <string name="settings_sitemap_compact_mode_title">Компактен изглед</string>
+    <string name="settings_sitemap_compact_mode_off">Използвай два реда за да покажеш Sitemap джаджи. Това прави елементите по-големи и по-лесни за употреба, но използва повече място при по-дълги списъци</string>
+    <string name="settings_sitemap_compact_mode_on">Използвай един ред за показване на Sitemap елементи. Това поставя възможно най-много елементи на екрана, но намалява размера на отделните елементи</string>
     <string name="settings_openhab_icon_format">Формат на иконите</string>
     <string name="settings_openhab_icon_format_png">Растерна графика</string>
     <string name="settings_openhab_icon_format_svg">Вектор</string>
@@ -44,10 +51,10 @@
     <string name="settings_chart_scaling_value_s">Малък</string>
     <string name="settings_chart_scaling_value_m">По подразбиране</string>
     <string name="settings_chart_scaling_value_l">Голям</string>
-    <string name="settings_clear_default_sitemap">Изчисти сайтмара по подразбиране</string>
-    <string name="settings_no_default_sitemap">Няма селектиран сайтмап по подразбиране</string>
+    <string name="settings_clear_default_sitemap">Изчисти сайткарта по подразбиране</string>
+    <string name="settings_no_default_sitemap">Няма избрана сайткарта по подразбиране</string>
     <!-- %1$s: Default Sitemap label -->
-    <string name="settings_current_default_sitemap">Текущия сайтмап по подразбиране: %1$s</string>
+    <string name="settings_current_default_sitemap">Текущa сайткарта по подразбиране: %1$s</string>
     <string name="settings_openhab_alt_connection">Дистанционно</string>
     <string name="settings_openhab_connection">Локално</string>
     <string name="settings_ringtone_none">Няма</string>
@@ -58,6 +65,7 @@
     <string name="settings_notification_vibration_twice">Двойна</string>
     <string name="settings_connection_summary">Свързан към %s</string>
     <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
+    <string name="settings_insecure_connection_summary">Несигурно свърдано с %1$s: %2$s</string>
     <string name="settings_insecure_connection_no_https">Адресът не започва с „https“</string>
     <string name="settings_insecure_connection_no_auth">Няма зададени потребителско име и парола</string>
     <string name="settings_screen_lock">Заключване на екрана</string>
@@ -78,9 +86,14 @@
     <string name="settings_server_primary_title">Основен сървър</string>
     <string name="settings_server_primary_summary_is_primary">Това е основният сървър.\nПо настоящем приложението поддържа всички функции само за основния сървър. Натисни копчето Помощ за повече информация.</string>
     <string name="settings_server_primary_summary_is_not_primary">„%s“ е основният сървър. Натисни, за да направиш този сървър основен.\nПо настоящем само основният сървър разгръща всички възможности на това приложение. Натисни помощния бутон за повече информация.</string>
+    <string name="settings_advanced">За напреднали</string>
     <string name="click_here_for_more_information">Натисни тук за повече информация</string>
+    <string name="settings_multi_server_wifi_ssid_summary_hint">Приложението ще избере този сървър, когато се свърже към някое от тези Wi-Fi имена. Няколко Wi-Fi имена могат да бъдат зададени, като се разделят с нови редове.</string>
     <string name="settings_multi_server_wifi_ssid_switched">Преминах към сървър „%s“ въз основа на Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Не мога да прочета името на Wi-Fi мрежата: Липсват ми права</string>
+    <string name="settings_multi_server_wifi_ssid_location_off">Не мога да прочета името на Wi-Fi мрежата: Услугата за намиране на място е изключена</string>
+    <string name="setting_crash_reporting_title">Докладване на сривове</string>
+    <string name="setting_crash_reporting_summary">Изпрати доклади за сривове за да подкрепиш разработката на приложението</string>
     <string name="device_control_subtitle_location">Местоположение</string>
     <string name="device_control_subtitle_equipment">Оборудване</string>
     <string name="device_control_subtitle_location_equipment">Местоположение и оборудване</string>
@@ -130,6 +143,7 @@
     <string name="error_short_certificate_wrong_host">Сертификатът не е валиден за %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_short_http_code_404" tools:keep="@string/error_short_http_code_404">Не беше намерено (HTTP код %d)</string>
+    <string name="error_short_http_code_503" tools:keep="@string/error_short_http_code_503">openHAB е временно недостъпен (HTTP код %d)</string>
     <string name="error_short_http_code_507" tools:keep="@string/error_short_http_code_507">Няма достатъчно свободно място на сървъра (HTTP грешка %d)</string>
     <string name="error_no_speech_to_text_app_found">Не е намерено приложение за разпознаване на глас</string>
     <string name="error_video_player">%s не може да бъде заредено</string>
@@ -146,6 +160,7 @@
     <string name="send_device_info_to_server">Изпращай информация за устройството до сървъра</string>
     <string name="send_device_info_to_server_short">Изпрати информация за устройството</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <string name="item_update_summary_success">Последно обновен на ”%1$s” (%2$s)</string>
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_battery_level">Ниво на батерията</string>
@@ -193,6 +208,8 @@
     <!-- Themes -->
     <string name="theme_name_light">Светло</string>
     <string name="theme_name_dark">Тъмно</string>
+    <string name="theme_name_system">Според системата</string>
+    <string name="theme_name_battery_saver">Тъмен режим при пестене на батерия</string>
     <string name="theme_name_black">Черно</string>
     <string name="color_scheme_name_default">По подразбиране</string>
     <!-- Chart -->
@@ -218,6 +235,7 @@
     <string name="nfc_action_off">Изключено</string>
     <string name="nfc_action_down">Надолу</string>
     <string name="nfc_action_toggle">Превключи</string>
+    <string name="nfc_action_toggled">Превключено</string>
     <string name="nfc_action_undefined">Недефинирано</string>
     <string name="nfc_action_empty_string">Празен запис</string>
     <string name="nfc_action_increase">Повишено</string>
@@ -248,18 +266,28 @@
     <string name="about_community">openHAB Общност</string>
     <string name="about_translation">Помогнете ни в превеждането на openHAB</string>
     <string name="about_privacy_policy">Декларация за поверителност</string>
+    <string name="about_rate_this_app">Оцени това приложение</string>
     <string name="settings_debug_messages_title">Покажи информация за отстраняване на неизправности</string>
     <string name="try_again_button">Повтори отново</string>
     <string name="enable_wifi_button">Включи въздушната мрежа</string>
+    <string name="switch_wifi_button">Свържи се към други Wi-Fi</string>
     <string name="go_to_settings_button">Отворете приложението Настройки</string>
     <string name="enable_demo_mode_button">Включване на демо режим</string>
     <string name="configuration_missing">Не откриваме openHAB сървър във вашата мрежа. Ако вече имате сървър, моля конфигурирайте неговия IP адрес или host име в сървърните настройки. Ако все още нямате сървър, започнете демо режим за да видите openHAB с неговите възможности.</string>
     <string name="no_remote_server">Връзката към местния сървър се провали и отдалечен сървър не е настроен</string>
+    <string name="resolving_openhab">Опитвам се да намеря openHAB сървър\u2026</string>
+    <string name="waiting_for_wifi">Чакам Wi-Fi да се свърже\u2026</string>
     <string name="visit_status_openhab_org">Посети status.openhab.org</string>
     <!-- Log -->
+    <string name="log">Протокол</string>
+    <string name="view_log">Покажи протокола</string>
+    <string name="log_activity_action_clear_log">Изчисти протокола</string>
     <string name="log_activity_action_show_errors">Покажи само грешки</string>
     <string name="log_activity_action_show_all">Покажи всички съобщения</string>
     <string name="log_activity_action_reload">Презареди</string>
+    <string name="log_activity_content_description_share">Сподели протокола</string>
+    <string name="empty_log">Протоколът е празен</string>
+    <string name="log_too_large_to_share">Протоколът е много дълг, за да бъде споделен. Моля изчисти протокола, възпроизведи грешката и отново сподели протокола.</string>
     <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <string name="content_description_color_up">Включи или задръж за да увеличиш осветеността</string>
@@ -289,6 +317,7 @@
     <!-- Item update widget -->
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <!-- Used in the widget preview -->
+    <string name="item_update_widget_preview_text">Отвори гаража</string>
     <string name="error_getting_state">Грешка при зареждане на състоянието</string>
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_move">%s започва да се движи</string>
