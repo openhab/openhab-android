@@ -26,6 +26,11 @@
             app:singleLineTitle="false"
             android:summaryOff="@string/settings_sitemap_compact_mode_off"
             android:summaryOn="@string/settings_sitemap_compact_mode_on" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="show_icons"
+            android:title="@string/settings_show_icons"
+            app:singleLineTitle="false" />
         <ListPreference
             android:title="@string/settings_openhab_icon_format"
             android:key="iconFormatType"
