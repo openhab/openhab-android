@@ -7,14 +7,20 @@
     <string name="save">Сохранить</string>
     <string name="discard">Отменить</string>
     <string name="delete">Удалить</string>
+    <string name="attribution_tag_discover_server">Определение openHAB сервера</string>
+    <string name="attribution_tag_select_server_wifi">Выбор сервера по Wi-Fi сети</string>
+    <string name="attribution_tag_suggest_turn_on_wifi">Включить Wi-Fi</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Настройки</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_oh3_ui">Main UI</string>
     <string name="mainmenu_openhab_frontail">Frontail</string>
     <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
+    <string name="ui_on_server">%1$s (%2$s)</string>
     <string name="app_notifications">Уведомления</string>
     <string name="habpanel_error">Произошла ошибка при загрузке HABPanel</string>
+    <string name="oh3_ui_error">Произошла ошибка при загрузке Main UI</string>
     <string name="frontail_error">Произошла ошибка при загрузке Frontail. Пожалуйста, обратите внимание, что она недоступна через облако openHAB.</string>
     <string name="mainmenu_openhab_selectsitemap">Выбрать Sitemap по умолчанию</string>
     <string name="mainmenu_openhab_clearcache">Очистить кэш изображений</string>
@@ -35,12 +41,18 @@
     <string name="settings_openhab_sslclientcert">SSL сертификат клиента</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Коснитесь здесь, чтобы получить подсказки по настройке SSL-сертификата клиента</string>
     <string name="settings_openhab_sslclientcert_not_supported">Клиентские SSL-сертификаты не поддерживаются вашим устройством</string>
+    <string name="frontail_url_title">Frontail URL</string>
+    <string name="frontail_url_summary">URL для Frontail. Он доступен с openHABian или может быть установлен вручную. Оставьте пустым, чтобы использовать настройки по умолчанию. Текущие настройки: %s</string>
+    <string name="settings_openhab_screentimeroff">Отключить тайм-аут экрана</string>
+    <string name="settings_openhab_screentimeroff_summary">Не отключать экран когда openHAB запущен</string>
     <string name="settings_openhab_demomode">Демо режим</string>
     <string name="settings_openhab_demomode_summary">Если у вас нет сервера openHAB - включите режим Демо, чтобы понять на что способен openHAB.</string>
     <string name="start_page_title">Начальная страница</string>
     <string name="drawer_entries">Боковое меню</string>
     <string name="settings_openhab_theme">Тема</string>
     <string name="settings_openhab_fullscreen">Во весь экран</string>
+    <string name="settings_set_as_launcher_title">Зарегистрировать как лаунчер</string>
+    <string name="settings_sitemap_compact_mode_title">Компактный режим</string>
     <string name="settings_openhab_icon_format">Формат иконок</string>
     <string name="settings_openhab_icon_format_png">Точечный рисунок</string>
     <string name="settings_openhab_icon_format_svg">Векторный</string>
@@ -103,6 +115,9 @@
     <string name="settings_multi_server_wifi_ssid_switched">Переключено на сервер \"%s\" на основе Wi-Fi</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Не удалось прочитать имя Wi-Fi: Отсутствуют разрешения</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Не удается прочитать имя Wi-Fi: Местоположение отключено</string>
+    <string name="device_control_subtitle_location">Местоположение</string>
+    <string name="device_control_subtitle_equipment">Оборудование</string>
+    <string name="device_control_subtitle_location_equipment">Местоположение и оборудование</string>
     <string name="device_control_subtitle_item_name">Имя Item</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Голосовые команды</string>
@@ -222,6 +237,7 @@
     <string name="settings_alarm_clock">Время будильника</string>
     <string name="settings_alarm_clock_summary_on">Посылать время будильника в Item \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">Не отправлять время будильника</string>
+    <string name="copy_debug_info">Копировать</string>
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_phone_state">Состояние вызова</string>
@@ -330,6 +346,7 @@
     <string name="theme_name_battery_saver">Темная тема в режиме экономии батареи</string>
     <string name="theme_name_black">Черный</string>
     <string name="color_scheme_name_default">По умолчанию</string>
+    <string name="color_scheme_name_basicui">Basic UI</string>
     <!-- Chart -->
     <string name="chart_activity_title">График</string>
     <string name="chart_activity_hide_legend">Скрыть легенду</string>
@@ -520,6 +537,7 @@
     <string name="widget_type_video">Видео</string>
     <string name="widget_type_mapview">Карта</string>
     <string name="widget_type_chart">График</string>
+    <string name="widget_type_color">Цвет</string>
     <!-- Tiles -->
     <string name="tile">Плитка</string>
     <string name="tiles_for_quick_settings">Плитки для быстрых настроек</string>
@@ -600,10 +618,54 @@
     <string name="tile_icon_lamp_outdoor">Уличный фонарь</string>
     <!-- Tile icon values -->
     <!-- Item tag type labels -->
+    <string name="item_tag_location_apartment">Апартаменты</string>
+    <string name="item_tag_location_attic">Чердак</string>
+    <string name="item_tag_location_basement">Подвал</string>
+    <string name="item_tag_location_bathroom">Ванная</string>
+    <string name="item_tag_location_bedroom">Спальня</string>
+    <string name="item_tag_location_boilerroom">Котельная</string>
+    <string name="item_tag_location_building">Здание</string>
+    <string name="item_tag_location_carport">Стоянка</string>
+    <string name="item_tag_location_cellar">Погреб</string>
+    <string name="item_tag_location_corridor">Коридор</string>
+    <string name="item_tag_location_diningroom">Столовая</string>
+    <string name="item_tag_location_driveway">Въезд</string>
+    <string name="item_tag_location_entry">Вход</string>
+    <string name="item_tag_location_familyroom">Гостиная</string>
+    <string name="item_tag_location_firstfloor">Первый этаж</string>
+    <string name="item_tag_location_floor">Этаж</string>
     <string name="item_tag_location_garage">Гараж</string>
+    <string name="item_tag_location_garden">Сад</string>
+    <string name="item_tag_location_groundfloor">Цокольный этаж</string>
     <string name="item_tag_location_house">Дом</string>
+    <string name="item_tag_location_patio">Патио</string>
+    <string name="item_tag_location_porch">Крыльцо</string>
+    <string name="item_tag_location_secondfloor">Второй этаж</string>
+    <string name="item_tag_location_shed">Сарай</string>
+    <string name="item_tag_location_summerhouse">Летний дом</string>
+    <string name="item_tag_location_terrace">Терраса</string>
+    <string name="item_tag_location_thirdfloor">Третий этаж</string>
+    <string name="item_tag_location_veranda">Веранда</string>
+    <string name="item_tag_equipment_alarmsystem">Сигнализация</string>
     <string name="item_tag_equipment_battery">Батарея</string>
+    <string name="item_tag_equipment_blinds">Шторы</string>
     <string name="item_tag_equipment_camera">Камера</string>
+    <string name="item_tag_equipment_door">Дверь</string>
+    <string name="item_tag_equipment_dryer">Сушилка</string>
     <string name="item_tag_equipment_fan">Вентилятор</string>
+    <string name="item_tag_equipment_freezer">Холодильник</string>
+    <string name="item_tag_equipment_gate">Ворота</string>
+    <string name="item_tag_equipment_hvac">Климатическое устройство</string>
     <string name="item_tag_equipment_lock">Замок</string>
+    <string name="item_tag_equipment_pump">Насос</string>
+    <string name="item_tag_equipment_smartphone">Смартфон</string>
+    <string name="item_tag_equipment_smokedetector">Детектор дыма</string>
+    <string name="item_tag_equipment_speaker">Колонка</string>
+    <string name="item_tag_equipment_television">Телевизор</string>
+    <string name="item_tag_equipment_valve">Кран</string>
+    <string name="item_tag_equipment_voiceassistant">Голосовой ассистент</string>
+    <string name="item_tag_equipment_wallswitch">Настенный выключатель</string>
+    <string name="item_tag_equipment_washingmachine">Стиральная машина</string>
+    <string name="item_tag_equipment_weatherservice">Служба погоды</string>
+    <string name="item_tag_equipment_webservice">Веб сервис</string>
 </resources>
