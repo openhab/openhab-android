@@ -181,7 +181,7 @@ dependencies {
     fossImplementation "ch.acra:acra-mail:$acra_version"
     fossImplementation "ch.acra:acra-notification:$acra_version"
 
-    testImplementation "org.mockito:mockito-core:5.2.0"
+    testImplementation "org.mockito:mockito-core:5.3.0"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
     testImplementation "junit:junit:4.13.2"
     testImplementation "org.json:json:20230227"
