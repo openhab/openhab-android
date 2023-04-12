@@ -636,29 +636,32 @@ class WidgetAdapter(
             val item = widget.item
 
             inputText.inputType = when (widget.inputHint) {
-                "number" -> (TYPE_CLASS_NUMBER or TYPE_NUMBER_FLAG_DECIMAL or TYPE_NUMBER_FLAG_SIGNED)
-                "date" -> (TYPE_CLASS_DATETIME or TYPE_DATETIME_VARIATION_DATE)
-                "time" -> (TYPE_CLASS_DATETIME or TYPE_DATETIME_VARIATION_TIME)
-                "datetime" -> (TYPE_CLASS_DATETIME or TYPE_DATETIME_VARIATION_NORMAL)
+                Widget.Hint.Number -> (TYPE_CLASS_NUMBER or TYPE_NUMBER_FLAG_DECIMAL or TYPE_NUMBER_FLAG_SIGNED)
+                Widget.Hint.Date -> (TYPE_CLASS_DATETIME or TYPE_DATETIME_VARIATION_DATE)
+                Widget.Hint.Time -> (TYPE_CLASS_DATETIME or TYPE_DATETIME_VARIATION_TIME)
+                Widget.Hint.Datetime -> (TYPE_CLASS_DATETIME or TYPE_DATETIME_VARIATION_NORMAL)
                 else -> TYPE_CLASS_TEXT
             }
 
             val displayState = widget.stateFromLabel?.replace("\n", "") ?: ""
 
             inputTextLayout.placeholderText = if (widget.state == null) {
-                if ((widget.inputHint == "text") && (item?.isOfTypeOrGroupType(Item.Type.DateTime) == true)) {
+                if (
+                    (widget.inputHint == Widget.Hint.Text) and
+                    (item?.isOfTypeOrGroupType(Item.Type.DateTime) == true)
+                ) {
                     "YYYY-MM-DD hh:mm:ss"
                 } else displayState
             } else ""
 
             val dataState = if (widget.state != null) {
-                if (widget.inputHint == "number")
+                if (widget.inputHint == Widget.Hint.Number)
                     widget.state.asNumber?.formatValue()
                 else if (displayState.isNotEmpty()) displayState
                 else if (widget.item?.isOfTypeOrGroupType(Item.Type.DateTime) == true)
                     when (widget.inputHint) {
-                        "date" -> widget.state.asDateTime?.toISOLocalDate()
-                        "time" -> widget.state.asDateTime?.toISOLocalTime()
+                        Widget.Hint.Date -> widget.state.asDateTime?.toISOLocalDate()
+                        Widget.Hint.Time -> widget.state.asDateTime?.toISOLocalTime()
                         else -> widget.state.asDateTime?.toString()
                     }
                 else widget.state.toString()
@@ -666,20 +669,28 @@ class WidgetAdapter(
             inputText.setText(dataState)
             oldValue = dataState
 
-            inputTextLayout.suffixText = if (widget.inputHint == "number") widget.state?.asNumber?.unit else null
+            inputTextLayout.suffixText = if (widget.inputHint == Widget.Hint.Number) {
+                widget.state?.asNumber?.unit
+            } else null
 
             // Don't directly edit field for date/time when inputHint set, but open popup when clicked
-            if ((widget.inputHint == "date") or (widget.inputHint == "time") or (widget.inputHint == "datetime")) {
+            if (
+                (widget.inputHint == Widget.Hint.Date) or
+                (widget.inputHint == Widget.Hint.Time) or
+                (widget.inputHint == Widget.Hint.Datetime)
+            ) {
                 inputText.isClickable = false
                 inputText.isCursorVisible = false
                 inputText.isFocusable = false
 
                 val dt = widget.state?.asDateTime?.getActualValue() ?: LocalDateTime.now()
                 inputText.setOnClickListener {
-                    when (widget.inputHint) {
-                        "date" -> showDatePicker(dt, widget, false)
-                        "datetime" -> showDatePicker(dt, widget, true)
-                        "time" -> showTimePicker(dt, widget, false)
+                    if (widget.inputHint == Widget.Hint.Date) {
+                        showDatePicker(dt, widget, false)
+                    } else if (widget.inputHint == Widget.Hint.Datetime) {
+                        showDatePicker(dt, widget, true)
+                    } else if (widget.inputHint == Widget.Hint.Time) {
+                        showTimePicker(dt, widget, false)
                     }
                 }
             }
@@ -727,8 +738,8 @@ class WidgetAdapter(
         private fun dateTimeUpdater(dateTime: LocalDateTime, widget: Widget) {
             inputText.setText(
                 when (widget.inputHint) {
-                    "date" -> widget.state?.asDateTime?.toISOLocalDate()
-                    "time" -> widget.state?.asDateTime?.toISOLocalTime()
+                    Widget.Hint.Date -> widget.state?.asDateTime?.toISOLocalDate()
+                    Widget.Hint.Time -> widget.state?.asDateTime?.toISOLocalTime()
                     else -> widget.state?.asDateTime?.toString()
                 }
             )

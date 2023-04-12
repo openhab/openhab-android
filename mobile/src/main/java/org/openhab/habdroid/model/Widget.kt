@@ -61,7 +61,7 @@ data class Widget(
     val switchSupport: Boolean,
     val height: Int,
     val visibility: Boolean,
-    val inputHint: String
+    val inputHint: Hint?
 ) : Parcelable {
     val label get() = rawLabel.split("[", "]")[0].trim()
     val stateFromLabel: String? get() = rawLabel.split("[", "]").getOrNull(1)?.trim()
@@ -106,6 +106,14 @@ data class Widget(
         Webview,
         Input,
         Unknown
+    }
+
+    enum class Hint {
+        Text,
+        Number,
+        Date,
+        Time,
+        Datetime
     }
 
     fun toChartUrl(
@@ -210,6 +218,17 @@ fun String?.toWidgetType(): Widget.Type {
     return Widget.Type.Unknown
 }
 
+fun String?.toInputHint(): Widget.Hint? {
+    if (this != null) {
+        try {
+            return Widget.Hint.valueOf(this.toString().lowercase().replaceFirstChar { c -> c.uppercase() })
+        } catch (e: IllegalArgumentException) {
+            // fall through
+        }
+    }
+    return null
+}
+
 fun Node.collectWidgets(parent: Widget?): List<Widget> {
     var item: Item? = null
     var linkedPage: LinkedPage? = null
@@ -230,7 +249,6 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
     var step = 1f
     var refresh = 0
     var height = 0
-    var inputHint = "text"
     val mappings = ArrayList<LabeledValue>()
     val childWidgetNodes = ArrayList<Node>()
 
@@ -256,7 +274,6 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
             "labelcolor" -> labelColor = node.textContent
             "encoding" -> encoding = node.textContent
             "switchSupport" -> switchSupport = node.textContent?.toBoolean() == true
-            "inputHint" -> inputHint = node.textContent
             "mapping" -> {
                 var mappingCommand = ""
                 var mappingLabel = ""
@@ -300,7 +317,7 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
         yAxisDecimalPattern = null,
         switchSupport = switchSupport,
         height = height,
-        inputHint = inputHint,
+        inputHint = null, // inputHint was added in openHAB 4, so no support for openHAB 1 required.
         visibility = true
     )
     val childWidgets = childWidgetNodes.map { node -> node.collectWidgets(widget) }.flatten()
@@ -319,6 +336,7 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
     val item = optJSONObject("item")?.toItem()
     val type = getString("type").toWidgetType()
     val icon = optStringOrNull("icon")
+    val inputHint = optStringOrNull("inputHint").toInputHint()
 
     val widget = Widget(
         id = getString("widgetId"),
@@ -346,7 +364,7 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         yAxisDecimalPattern = optString("yAxisDecimalPattern"),
         switchSupport = optBoolean("switchSupport", false),
         height = optInt("height"),
-        inputHint = optString("inputHint", "text"),
+        inputHint = inputHint,
         visibility = optBoolean("visibility", true)
     )
 
