@@ -243,7 +243,15 @@ class WidgetAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val wasStarted = holder.stop()
-        holder.vhc = ViewHolderContext(connection, bottomSheetPresenter, datePickerPresenter, timePickerPresenter, colorMapper, serverFlags, chartTheme)
+        holder.vhc = ViewHolderContext(
+            connection,
+            bottomSheetPresenter,
+            datePickerPresenter,
+            timePickerPresenter,
+            colorMapper,
+            serverFlags,
+            chartTheme
+        )
         holder.bind(items[position])
         if (holder is FrameViewHolder) {
             holder.setShownAsFirst(position == firstVisibleWidgetPosition)
