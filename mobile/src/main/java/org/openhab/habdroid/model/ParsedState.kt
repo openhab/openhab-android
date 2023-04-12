@@ -16,6 +16,10 @@ package org.openhab.habdroid.model
 import android.graphics.Color
 import android.location.Location
 import android.os.Parcelable
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.util.IllegalFormatException
 import java.util.Locale
 import java.util.regex.Pattern
@@ -36,7 +40,8 @@ data class ParsedState internal constructor(
     val asNumber: NumberState?,
     val asHsv: HsvState?,
     val asBrightness: Int?,
-    val asLocation: Location?
+    val asLocation: Location?,
+    val asDateTime: DateTimeState?
 ) : Parcelable {
     override fun equals(other: Any?): Boolean {
         return other is ParsedState && asString == other.asString
@@ -138,6 +143,31 @@ data class ParsedState internal constructor(
         }
 
         private val HSB_PATTERN = Pattern.compile("^([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+)$")
+
+        internal fun parseAsDateTime(state: String, format: String?) : DateTimeState? {
+            return try {
+                var st = state.trim().split(".")[0]
+                val formatter = if (format != null) {
+                    DateTimeFormatter.ofPattern(format)
+                } else {
+                    st = st.replace(" ","T")
+                     if (TIME_PATTERN.matcher(st).find()) {
+                         val refDate = LocalDateTime
+                             .ofEpochSecond(0, 0, ZoneOffset.UTC)
+                             .format(DateTimeFormatter.ISO_LOCAL_DATE)
+                         st = "${refDate}T${st}"
+                    }
+                    if (!st.contains("T"))  st = "${st}T00:00:00"
+                    DateTimeFormatter.ISO_LOCAL_DATE_TIME
+                }
+                val dt = LocalDateTime.parse(st, formatter)
+                DateTimeState(dt, format)
+            } catch (e: DateTimeParseException) {
+                null
+            }
+        }
+
+        private val TIME_PATTERN = Pattern.compile("^\\d{2}:\\d{2}")
     }
 
     @Parcelize
@@ -174,6 +204,47 @@ data class ParsedState internal constructor(
             return if (format != null && format.contains("%d")) value.roundToInt() else value
         }
     }
+
+    @Parcelize
+    class DateTimeState internal constructor(
+        val value: LocalDateTime,
+        val format: String? = null
+    ) : Parcelable {
+        override fun toString(): String {
+            return toString(Locale.getDefault())
+        }
+
+        /**
+         * Like [toString][.toString], but using a specific locale for formatting.
+         */
+        fun toString(locale: Locale): String {
+            if (!format.isNullOrEmpty()) {
+                try {
+                    return value.format(DateTimeFormatter.ofPattern(format, locale))
+                } catch (e: IllegalFormatException) {
+                    // State format pattern doesn't match the actual data type
+                    // -> ignore and fall back to our own formatting
+                }
+            }
+            return value.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace("T", " ")
+        }
+
+        fun toISOLocalDateTime(): String {
+            return value.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        }
+
+        fun toISOLocalDate(): String {
+            return value.format(DateTimeFormatter.ISO_LOCAL_DATE)
+        }
+
+        fun toISOLocalTime(): String {
+            return value.format(DateTimeFormatter.ISO_LOCAL_TIME)
+        }
+
+        fun getActualValue(): LocalDateTime {
+            return value
+        }
+    }
 }
 
 fun ParsedState.NumberState?.withValue(value: Float): ParsedState.NumberState {
@@ -183,17 +254,18 @@ fun ParsedState.NumberState?.withValue(value: Float): ParsedState.NumberState {
 /**
  * Parses a state string into the parsed representation.
  *
- * @param numberPattern Format to use when parsing the input as number
+ * @param formatPattern Format to use when parsing the input as number or date
  * @return null if state string is null, parsed representation otherwise
  */
-fun String?.toParsedState(numberPattern: String? = null): ParsedState? {
+fun String?.toParsedState(formatPattern: String? = null): ParsedState? {
     if (this == null) {
         return null
     }
     return ParsedState(this,
         ParsedState.parseAsBoolean(this),
-        ParsedState.parseAsNumber(this, numberPattern),
+        ParsedState.parseAsNumber(this, formatPattern),
         ParsedState.parseAsHsv(this),
         ParsedState.parseAsBrightness(this),
-        ParsedState.parseAsLocation(this))
+        ParsedState.parseAsLocation(this),
+        ParsedState.parseAsDateTime(this, formatPattern))
 }

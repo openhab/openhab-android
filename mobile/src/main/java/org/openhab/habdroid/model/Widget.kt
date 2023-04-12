@@ -60,7 +60,8 @@ data class Widget(
     val yAxisDecimalPattern: String?,
     val switchSupport: Boolean,
     val height: Int,
-    val visibility: Boolean
+    val visibility: Boolean,
+    val inputHint: String
 ) : Parcelable {
     val label get() = rawLabel.split("[", "]")[0].trim()
     val stateFromLabel: String? get() = rawLabel.split("[", "]").getOrNull(1)?.trim()
@@ -103,6 +104,7 @@ data class Widget(
         Text,
         Video,
         Webview,
+        Input,
         Unknown
     }
 
@@ -173,7 +175,8 @@ data class Widget(
                 switchSupport = source.switchSupport,
                 yAxisDecimalPattern = source.yAxisDecimalPattern,
                 height = source.height,
-                visibility = eventPayload.optBoolean("visibility", source.visibility)
+                visibility = eventPayload.optBoolean("visibility", source.visibility),
+                inputHint = source.inputHint
             )
         }
 
@@ -181,7 +184,15 @@ data class Widget(
         internal fun sanitizePeriod(period: String?) = if (period.isNullOrEmpty()) "D" else period
 
         internal fun determineWidgetState(state: String?, item: Item?): ParsedState? {
-            return state.toParsedState(item?.state?.asNumber?.format) ?: item?.state
+            val parsedState = if (state != null) {
+                if (item?.isOfTypeOrGroupType(Item.Type.DateTime) == true) {
+                    state.toParsedState(item.state?.asDateTime?.format)
+                } else if ((item?.isOfTypeOrGroupType(Item.Type.Number) == true) or
+                    (item?.isOfTypeOrGroupType(Item.Type.NumberWithDimension) == true)) {
+                    state.toParsedState(item?.state?.asNumber?.format)
+                } else state.toParsedState()
+            } else item?.state
+            return  parsedState
         }
     }
 }
@@ -217,6 +228,7 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
     var step = 1f
     var refresh = 0
     var height = 0
+    var inputHint = "text"
     val mappings = ArrayList<LabeledValue>()
     val childWidgetNodes = ArrayList<Node>()
 
@@ -242,6 +254,7 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
             "labelcolor" -> labelColor = node.textContent
             "encoding" -> encoding = node.textContent
             "switchSupport" -> switchSupport = node.textContent?.toBoolean() == true
+            "inputHint" -> inputHint = node.textContent
             "mapping" -> {
                 var mappingCommand = ""
                 var mappingLabel = ""
@@ -285,6 +298,7 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
         yAxisDecimalPattern = null,
         switchSupport = switchSupport,
         height = height,
+        inputHint = inputHint,
         visibility = true
     )
     val childWidgets = childWidgetNodes.map { node -> node.collectWidgets(widget) }.flatten()
@@ -330,6 +344,7 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         yAxisDecimalPattern = optString("yAxisDecimalPattern"),
         switchSupport = optBoolean("switchSupport", false),
         height = optInt("height"),
+        inputHint = optString("inputHint", "text"),
         visibility = optBoolean("visibility", true)
     )
 

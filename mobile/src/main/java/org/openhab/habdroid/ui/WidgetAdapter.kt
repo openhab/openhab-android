@@ -19,6 +19,14 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.text.InputType.TYPE_CLASS_DATETIME
+import android.text.InputType.TYPE_CLASS_NUMBER
+import android.text.InputType.TYPE_CLASS_TEXT
+import android.text.InputType.TYPE_DATETIME_VARIATION_DATE
+import android.text.InputType.TYPE_DATETIME_VARIATION_NORMAL
+import android.text.InputType.TYPE_DATETIME_VARIATION_TIME
+import android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
+import android.text.InputType.TYPE_NUMBER_FLAG_SIGNED
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -39,6 +47,7 @@ import androidx.core.view.get
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.ContentLoadingProgressBar
+import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
@@ -52,7 +61,17 @@ import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.slider.LabelFormatter
+import com.google.android.material.slider.Slider
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.timepicker.MaterialTimePicker
 import java.io.IOException
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -96,7 +115,9 @@ class WidgetAdapter(
     val serverFlags: Int,
     val connection: Connection,
     private val itemClickListener: ItemClickListener,
-    private val bottomSheetPresenter: DetailBottomSheetPresenter
+    private val bottomSheetPresenter: DetailBottomSheetPresenter,
+    private val datePickerPresenter: DatePickerPresenter,
+    private val timePickerPresenter: TimePickerPresenter,
 ) : RecyclerView.Adapter<WidgetAdapter.ViewHolder>(), View.OnClickListener {
     private val items = mutableListOf<Widget>()
     val itemList: List<Widget> get() = items
@@ -116,6 +137,20 @@ class WidgetAdapter(
     }
     interface DetailBottomSheetPresenter {
         fun showBottomSheet(sheet: AbstractWidgetBottomSheet, widget: Widget)
+    }
+
+    interface DatePickerPresenter {
+        fun showDatePicker(
+            dateTime: LocalDateTime,
+            widget: Widget
+        ): MaterialDatePicker<Long>
+    }
+
+    interface TimePickerPresenter {
+        fun showTimePicker(
+            dateTime: LocalDateTime,
+            widget: Widget
+        ): MaterialTimePicker
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -196,6 +231,7 @@ class WidgetAdapter(
             TYPE_COLOR -> ColorViewHolder(initData)
             TYPE_VIDEO_MJPEG -> MjpegVideoViewHolder(initData)
             TYPE_LOCATION -> MapViewHelper.createViewHolder(initData)
+            TYPE_INPUT -> InputViewHolder(initData)
             TYPE_INVISIBLE -> InvisibleWidgetViewHolder(initData)
             else -> throw IllegalArgumentException("View type $viewType is not known")
         }
@@ -207,7 +243,7 @@ class WidgetAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val wasStarted = holder.stop()
-        holder.vhc = ViewHolderContext(connection, bottomSheetPresenter, colorMapper, serverFlags, chartTheme)
+        holder.vhc = ViewHolderContext(connection, bottomSheetPresenter, datePickerPresenter, timePickerPresenter, colorMapper, serverFlags, chartTheme)
         holder.bind(items[position])
         if (holder is FrameViewHolder) {
             holder.setShownAsFirst(position == firstVisibleWidgetPosition)
@@ -319,6 +355,7 @@ class WidgetAdapter(
             Widget.Type.Webview -> TYPE_WEB
             Widget.Type.Colorpicker -> TYPE_COLOR
             Widget.Type.Mapview -> TYPE_LOCATION
+            Widget.Type.Input -> TYPE_INPUT
             else -> TYPE_GENERICITEM
         }
         return toInternalViewType(actualViewType, compactMode)
@@ -333,6 +370,8 @@ class WidgetAdapter(
     data class ViewHolderContext(
         val connection: Connection,
         val bottomSheetPresenter: DetailBottomSheetPresenter,
+        val datePickerPresenter: DatePickerPresenter,
+        val timePickerPresenter: TimePickerPresenter,
         val colorMapper: ColorMapper,
         val serverFlags: Int,
         val chartTheme: CharSequence?
@@ -351,6 +390,8 @@ class WidgetAdapter(
         protected val connection get() = requireHolderContext().connection
         protected val colorMapper get() = requireHolderContext().colorMapper
         protected val bottomSheetPresenter get() = requireHolderContext().bottomSheetPresenter
+        protected val datePickerPresenter get() = requireHolderContext().datePickerPresenter
+        protected val timePickerPresenter get() = requireHolderContext().timePickerPresenter
 
         abstract fun bind(widget: Widget)
         fun start() {
@@ -558,6 +599,165 @@ class WidgetAdapter(
 
         override fun handleRowClick() {
             switch.toggle()
+        }
+    }
+
+    class InputViewHolder internal constructor(initData: ViewHolderInitData) :
+        LabeledItemBaseViewHolder(initData, R.layout.widgetlist_inputitem, R.layout.widgetlist_inputitem_compact) {
+        private val inputTextLayout: TextInputLayout = itemView.findViewById(R.id.widgetinput)
+        private val inputText: TextInputEditText = itemView.findViewById(R.id.widgetinputvalue)
+        private var isBinding = false
+        private var hasChanged = false
+        private var showingDatePicker = false
+        private var showingTimePicker = false
+
+        private var updateJob: Job? = null
+        private var oldValue: String? = null
+
+        init {
+            inputText.doAfterTextChanged {
+                if (!isBinding) {
+                    hasChanged = true
+                }
+            }
+            inputText.setOnFocusChangeListener { _, hasFocus ->
+                if (!hasFocus && hasChanged) {
+                    updateValue()
+                }
+            }
+        }
+
+        override fun bind(widget: Widget) {
+            isBinding = true
+            updateJob?.cancel()
+
+            super.bind(widget)
+
+            val item = widget.item
+
+            inputText.inputType = when (widget.inputHint) {
+                "number" -> (TYPE_CLASS_NUMBER or TYPE_NUMBER_FLAG_DECIMAL or TYPE_NUMBER_FLAG_SIGNED)
+                "date" -> (TYPE_CLASS_DATETIME or TYPE_DATETIME_VARIATION_DATE)
+                "time" -> (TYPE_CLASS_DATETIME or TYPE_DATETIME_VARIATION_TIME)
+                "datetime" -> (TYPE_CLASS_DATETIME or TYPE_DATETIME_VARIATION_NORMAL)
+                else -> TYPE_CLASS_TEXT
+            }
+
+            val displayState = widget.stateFromLabel?.replace("\n", "") ?: ""
+
+            inputTextLayout.placeholderText = if (widget.state == null) {
+                if ((widget.inputHint == "text") && (item?.isOfTypeOrGroupType(Item.Type.DateTime) == true)) {
+                    "YYYY-MM-DD hh:mm:ss"
+                } else  displayState
+            } else ""
+
+            val dataState = if (widget.state != null) {
+                if (widget.inputHint == "number")
+                    widget.state.asNumber?.formatValue()
+                else if (displayState.isNotEmpty()) displayState
+                else if (widget.item?.isOfTypeOrGroupType(Item.Type.DateTime) == true)
+                    when (widget.inputHint) {
+                        "date" -> widget.state.asDateTime?.toISOLocalDate()
+                        "time" -> widget.state.asDateTime?.toISOLocalTime()
+                        else -> widget.state.asDateTime?.toString()
+                    }
+                else widget.state.toString()
+            } else ""
+            inputText.setText(dataState)
+            oldValue = dataState
+
+            inputTextLayout.suffixText = if (widget.inputHint == "number") widget.state?.asNumber?.unit else null
+
+            // Don't directly edit field for date/time when inputHint set, but open popup when clicked
+            if ((widget.inputHint == "date") or (widget.inputHint == "time") or (widget.inputHint == "datetime")) {
+                inputText.isClickable = false
+                inputText.isCursorVisible = false
+                inputText.isFocusable = false
+
+                val dt = widget.state?.asDateTime?.getActualValue() ?: LocalDateTime.now()
+                inputText.setOnClickListener {
+                    when (widget.inputHint) {
+                        "date" -> showDatePicker(dt, widget, false)
+                        "datetime" -> showDatePicker(dt, widget, true)
+                        "time" -> showTimePicker(dt, widget, false)
+                    }
+                }
+            }
+
+            inputText.applyWidgetColor(widget.valueColor, colorMapper)
+            inputTextLayout.suffixTextView.applyWidgetColor(widget.valueColor, colorMapper)
+            isBinding = false
+        }
+
+        private fun showDatePicker(dt: LocalDateTime, widget: Widget, showTime: Boolean) {
+            if (showingDatePicker) return
+            showingDatePicker = true
+            val datePicker = datePickerPresenter.showDatePicker(dt, widget)
+            datePicker.addOnPositiveButtonClickListener {
+                val date = LocalDateTime.ofInstant(Instant.ofEpochMilli(datePicker.selection ?: 0), ZoneOffset.UTC)
+                if (showTime) {
+                    showTimePicker(date, widget, true)
+                } else {
+                    dateTimeUpdater(date, widget)
+                    showingDatePicker = false
+                }
+            }
+            datePicker.addOnNegativeButtonClickListener {
+                showingDatePicker = false
+            }
+        }
+
+        private fun showTimePicker(dt: LocalDateTime, widget: Widget, keepDate: Boolean) {
+            if (showingTimePicker) return
+            showingDatePicker = true
+            showingTimePicker = true
+            val timePicker = timePickerPresenter.showTimePicker(dt, widget)
+            timePicker.addOnPositiveButtonClickListener {
+                val date = if (keepDate) dt else LocalDateTime.ofInstant(Instant.ofEpochMilli(0), ZoneOffset.UTC)
+                dateTimeUpdater(date.withHour(timePicker.hour).withMinute(timePicker.minute), widget)
+                showingDatePicker = false
+                showingTimePicker = false
+            }
+            timePicker.addOnNegativeButtonClickListener {
+                showingDatePicker = false
+                showingTimePicker = false
+            }
+         }
+
+        private fun dateTimeUpdater(dateTime: LocalDateTime, widget: Widget) {
+            inputText.setText(when (widget.inputHint) {
+                "date" -> widget.state?.asDateTime?.toISOLocalDate()
+                "time" -> widget.state?.asDateTime?.toISOLocalTime()
+                else -> widget.state?.asDateTime?.toString()
+            })
+            updateValue(dateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+        }
+
+        private fun updateValue() {
+            updateValue(inputText.text.toString())
+        }
+        private fun updateValue(newValue: String?) {
+            // We don't have a guarantee that the command to be sent is valid,
+            // therefore reset to the old value if no update is received within 1s
+            updateJob?.cancel()
+            updateJob = scope?.launch {
+                delay(1000)
+                inputText.setText(oldValue)
+            }
+
+            val item = boundWidget?.item
+            if ((item?.isOfTypeOrGroupType(Item.Type.Number) == true) or
+                (item?.isOfTypeOrGroupType(Item.Type.NumberWithDimension) == true)) {
+                val state = newValue?.let { ParsedState.parseAsNumber(it, item?.state?.asNumber?.format) }
+                connection.httpClient.sendItemUpdate(item, state)
+            } else if (item?.isOfTypeOrGroupType(Item.Type.DateTime) == true) {
+                val state = newValue?.let { ParsedState.parseAsDateTime(it, item.state?.asDateTime?.format) }
+                connection.httpClient.sendItemUpdate(item, state)
+            } else if (newValue != null) {
+                    connection.httpClient.sendItemCommand(item, newValue)
+            }
+
+            hasChanged = false
         }
     }
 
@@ -1368,7 +1568,8 @@ class WidgetAdapter(
         private const val TYPE_COLOR = 16
         private const val TYPE_VIDEO_MJPEG = 17
         private const val TYPE_LOCATION = 18
-        private const val TYPE_INVISIBLE = 19
+        private const val TYPE_INPUT = 19
+        private const val TYPE_INVISIBLE = 20
 
         private fun toInternalViewType(viewType: Int, compactMode: Boolean): Int {
             return viewType or (if (compactMode) 0x100 else 0)
@@ -1458,6 +1659,15 @@ fun HttpClient.sendItemUpdate(item: Item?, state: ParsedState.NumberState?) {
     } else {
         // For all other items, send the plain value
         sendItemCommand(item, state.formatValue())
+    }
+}
+
+fun HttpClient.sendItemUpdate(item: Item?, state: ParsedState.DateTimeState?) {
+    if (item == null || state == null) {
+        return
+    }
+    if (item.isOfTypeOrGroupType(Item.Type.DateTime)) {
+        sendItemCommand(item, state.toISOLocalDateTime())
     }
 }
 

@@ -49,7 +49,11 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.timepicker.MaterialTimePicker
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -87,6 +91,8 @@ class WidgetListFragment :
     Fragment(),
     WidgetAdapter.ItemClickListener,
     WidgetAdapter.DetailBottomSheetPresenter,
+    WidgetAdapter.DatePickerPresenter,
+    WidgetAdapter.TimePickerPresenter,
     AbstractWidgetBottomSheet.ConnectionGetter,
     OpenHabApplication.OnDataUsagePolicyChangedListener,
     SharedPreferences.OnSharedPreferenceChangeListener {
@@ -130,7 +136,7 @@ class WidgetListFragment :
 
         val activity = activity as MainActivity
         adapter = activity.connection?.let { conn ->
-            WidgetAdapter(activity, activity.serverProperties!!.flags, conn, this, this)
+            WidgetAdapter(activity, activity.serverProperties!!.flags, conn, this, this, this, this)
         }
 
         layoutManager = LinearLayoutManager(activity)
@@ -216,6 +222,23 @@ class WidgetListFragment :
     override fun showBottomSheet(sheet: AbstractWidgetBottomSheet, widget: Widget) {
         sheet.arguments = AbstractWidgetBottomSheet.createArguments(widget)
         sheet.show(childFragmentManager, "${sheet.javaClass.simpleName}-${widget.id}")
+    }
+
+    override fun showDatePicker(dateTime: LocalDateTime, widget: Widget): MaterialDatePicker<Long> {
+        val dateTimeMilli = dateTime.atOffset(ZoneOffset.UTC) .toInstant().toEpochMilli()
+        val datePicker = MaterialDatePicker.Builder.datePicker().setSelection(dateTimeMilli).build()
+
+        datePicker.show(childFragmentManager, "DatePicker-${widget.id}")
+
+        return datePicker
+    }
+
+    override fun showTimePicker(dateTime: LocalDateTime, widget: Widget): MaterialTimePicker {
+        val timePicker = MaterialTimePicker.Builder().setHour(dateTime.hour).setMinute(dateTime.minute).build()
+
+        timePicker.show(childFragmentManager, "TimePicker-${widget.id}")
+
+        return timePicker
     }
 
     override fun onSharedPreferenceChanged(prefs: SharedPreferences?, key: String?) {

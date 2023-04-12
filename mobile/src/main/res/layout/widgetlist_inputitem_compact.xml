@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/WidgetListItemContainerCompact"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <include layout="@layout/widgetlist_icontext_compact" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/widgetinput"
+        android:layout_width="245dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+        app:hintEnabled="false"
+        app:expandedHintEnabled="false"
+        app:boxCornerRadiusTopEnd="16dp"
+        app:boxCornerRadiusTopStart="16dp"
+        app:boxCornerRadiusBottomStart="16dp"
+        app:boxCornerRadiusBottomEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/widgeticon"
+        app:layout_constraintTop_toBottomOf="@id/labelbarrier" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/widgetinputvalue"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="end" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>
