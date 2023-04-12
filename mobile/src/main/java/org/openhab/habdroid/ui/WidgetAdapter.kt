@@ -648,7 +648,7 @@ class WidgetAdapter(
             inputTextLayout.placeholderText = if (widget.state == null) {
                 if ((widget.inputHint == "text") && (item?.isOfTypeOrGroupType(Item.Type.DateTime) == true)) {
                     "YYYY-MM-DD hh:mm:ss"
-                } else  displayState
+                } else displayState
             } else ""
 
             val dataState = if (widget.state != null) {
@@ -722,14 +722,16 @@ class WidgetAdapter(
                 showingDatePicker = false
                 showingTimePicker = false
             }
-         }
+        }
 
         private fun dateTimeUpdater(dateTime: LocalDateTime, widget: Widget) {
-            inputText.setText(when (widget.inputHint) {
-                "date" -> widget.state?.asDateTime?.toISOLocalDate()
-                "time" -> widget.state?.asDateTime?.toISOLocalTime()
-                else -> widget.state?.asDateTime?.toString()
-            })
+            inputText.setText(
+                when (widget.inputHint) {
+                    "date" -> widget.state?.asDateTime?.toISOLocalDate()
+                    "time" -> widget.state?.asDateTime?.toISOLocalTime()
+                    else -> widget.state?.asDateTime?.toString()
+                }
+            )
             updateValue(dateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
         }
 
@@ -746,15 +748,17 @@ class WidgetAdapter(
             }
 
             val item = boundWidget?.item
-            if ((item?.isOfTypeOrGroupType(Item.Type.Number) == true) or
-                (item?.isOfTypeOrGroupType(Item.Type.NumberWithDimension) == true)) {
+            if (
+                (item?.isOfTypeOrGroupType(Item.Type.Number) == true) or
+                (item?.isOfTypeOrGroupType(Item.Type.NumberWithDimension) == true)
+            ) {
                 val state = newValue?.let { ParsedState.parseAsNumber(it, item?.state?.asNumber?.format) }
                 connection.httpClient.sendItemUpdate(item, state)
             } else if (item?.isOfTypeOrGroupType(Item.Type.DateTime) == true) {
                 val state = newValue?.let { ParsedState.parseAsDateTime(it, item.state?.asDateTime?.format) }
                 connection.httpClient.sendItemUpdate(item, state)
             } else if (newValue != null) {
-                    connection.httpClient.sendItemCommand(item, newValue)
+                connection.httpClient.sendItemCommand(item, newValue)
             }
 
             hasChanged = false

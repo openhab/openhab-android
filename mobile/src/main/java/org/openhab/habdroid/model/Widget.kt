@@ -187,12 +187,14 @@ data class Widget(
             val parsedState = if (state != null) {
                 if (item?.isOfTypeOrGroupType(Item.Type.DateTime) == true) {
                     state.toParsedState(item.state?.asDateTime?.format)
-                } else if ((item?.isOfTypeOrGroupType(Item.Type.Number) == true) or
-                    (item?.isOfTypeOrGroupType(Item.Type.NumberWithDimension) == true)) {
+                } else if (
+                    (item?.isOfTypeOrGroupType(Item.Type.Number) == true) or
+                    (item?.isOfTypeOrGroupType(Item.Type.NumberWithDimension) == true)
+                ) {
                     state.toParsedState(item?.state?.asNumber?.format)
                 } else state.toParsedState()
             } else item?.state
-            return  parsedState
+            return parsedState
         }
     }
 }

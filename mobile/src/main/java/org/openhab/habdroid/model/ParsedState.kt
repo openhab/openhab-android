@@ -144,20 +144,20 @@ data class ParsedState internal constructor(
 
         private val HSB_PATTERN = Pattern.compile("^([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+)$")
 
-        internal fun parseAsDateTime(state: String, format: String?) : DateTimeState? {
+        internal fun parseAsDateTime(state: String, format: String?): DateTimeState? {
             return try {
                 var st = state.trim().split(".")[0]
                 val formatter = if (format != null) {
                     DateTimeFormatter.ofPattern(format)
                 } else {
-                    st = st.replace(" ","T")
-                     if (TIME_PATTERN.matcher(st).find()) {
-                         val refDate = LocalDateTime
-                             .ofEpochSecond(0, 0, ZoneOffset.UTC)
-                             .format(DateTimeFormatter.ISO_LOCAL_DATE)
-                         st = "${refDate}T${st}"
+                    st = st.replace(" ", "T")
+                    if (TIME_PATTERN.matcher(st).find()) {
+                        val refDate = LocalDateTime
+                            .ofEpochSecond(0, 0, ZoneOffset.UTC)
+                            .format(DateTimeFormatter.ISO_LOCAL_DATE)
+                        st = "${refDate}T$st"
                     }
-                    if (!st.contains("T"))  st = "${st}T00:00:00"
+                    if (!st.contains("T")) st = "${st}T00:00:00"
                     DateTimeFormatter.ISO_LOCAL_DATE_TIME
                 }
                 val dt = LocalDateTime.parse(st, formatter)
@@ -267,5 +267,6 @@ fun String?.toParsedState(formatPattern: String? = null): ParsedState? {
         ParsedState.parseAsHsv(this),
         ParsedState.parseAsBrightness(this),
         ParsedState.parseAsLocation(this),
-        ParsedState.parseAsDateTime(this, formatPattern))
+        ParsedState.parseAsDateTime(this, formatPattern)
+    )
 }

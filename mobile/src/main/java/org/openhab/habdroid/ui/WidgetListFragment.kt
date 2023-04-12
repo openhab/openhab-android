@@ -225,7 +225,7 @@ class WidgetListFragment :
     }
 
     override fun showDatePicker(dateTime: LocalDateTime, widget: Widget): MaterialDatePicker<Long> {
-        val dateTimeMilli = dateTime.atOffset(ZoneOffset.UTC) .toInstant().toEpochMilli()
+        val dateTimeMilli = dateTime.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli()
         val datePicker = MaterialDatePicker.Builder.datePicker().setSelection(dateTimeMilli).build()
 
         datePicker.show(childFragmentManager, "DatePicker-${widget.id}")
