@@ -613,6 +613,17 @@ class WidgetAdapter(
                     updateValue()
                 }
             }
+            inputText.setOnClickListener {
+                val widget = boundWidget ?: return
+                val dt = widget.state?.asDateTime?.getActualValue() ?: LocalDateTime.now()
+                if (widget.inputHint == Widget.InputTypeHint.Date) {
+                    showDatePicker(dt, widget, false)
+                } else if (widget.inputHint == Widget.InputTypeHint.Datetime) {
+                    showDatePicker(dt, widget, true)
+                } else if (widget.inputHint == Widget.InputTypeHint.Time) {
+                    showTimePicker(dt, widget, false)
+                }
+            }
         }
 
         override fun bind(widget: Widget) {
@@ -660,26 +671,12 @@ class WidgetAdapter(
             }
 
             // Don't directly edit field for date/time when inputHint set, but open popup when clicked
-            if (
-                widget.inputHint == Widget.InputTypeHint.Date ||
-                widget.inputHint == Widget.InputTypeHint.Time ||
-                widget.inputHint == Widget.InputTypeHint.Datetime
-            ) {
-                inputText.isClickable = false
-                inputText.isCursorVisible = false
-                inputText.isFocusable = false
-
-                val dt = widget.state?.asDateTime?.getActualValue() ?: LocalDateTime.now()
-                inputText.setOnClickListener {
-                    if (widget.inputHint == Widget.InputTypeHint.Date) {
-                        showDatePicker(dt, widget, false)
-                    } else if (widget.inputHint == Widget.InputTypeHint.Datetime) {
-                        showDatePicker(dt, widget, true)
-                    } else if (widget.inputHint == Widget.InputTypeHint.Time) {
-                        showTimePicker(dt, widget, false)
-                    }
-                }
-            }
+            val isEditable =
+                widget.inputHint == Widget.InputTypeHint.Text ||
+                widget.inputHint == Widget.InputTypeHint.Number
+            inputText.isCursorVisible = isEditable
+            inputText.isFocusable = isEditable
+            inputText.isClickable = !isEditable
 
             inputText.applyWidgetColor(widget.valueColor, colorMapper)
             inputTextLayout.suffixTextView.applyWidgetColor(widget.valueColor, colorMapper)
