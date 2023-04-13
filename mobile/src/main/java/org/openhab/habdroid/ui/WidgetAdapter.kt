@@ -32,6 +32,8 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.Button
@@ -603,29 +605,26 @@ class WidgetAdapter(
         private var oldValue: String? = null
 
         init {
-            inputText.doAfterTextChanged {
-                if (!isBinding) {
-                    hasChanged = true
+            inputText.doAfterTextChanged { if (!isBinding) hasChanged = true }
+            inputText.setOnFocusChangeListener { view, hasFocus ->
+                if (!hasFocus) {
+                    hideKeyboard(view)
+                    if (hasChanged) updateValue()
                 }
             }
-            inputText.setOnFocusChangeListener { _, hasFocus ->
-                if (!hasFocus && hasChanged) {
-                    updateValue()
-                }
+            inputText.setOnEditorActionListener { view, action, _ ->
+                if (action == EditorInfo.IME_ACTION_DONE) {
+                    hideKeyboard(view)
+                    true
+                } else false
             }
-            inputText.setOnClickListener {
-                val widget = boundWidget ?: return@setOnClickListener
-                val dt = widget.state?.asDateTime?.getActualValue() ?: LocalDateTime.now()
-                if (widget.inputHint == Widget.InputTypeHint.Date) {
-                    showDatePicker(dt, widget, false)
-                } else if (widget.inputHint == Widget.InputTypeHint.Datetime) {
-                    showDatePicker(dt, widget, true)
-                } else if (widget.inputHint == Widget.InputTypeHint.Time) {
-                    showTimePicker(dt, widget, false)
-                }
-            }
+            inputText.setOnClickListener { handleRowClick() }
         }
 
+        private fun hideKeyboard(view: View) {
+            val keyboard = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            keyboard.hideSoftInputFromWindow(inputText.windowToken, 0)
+        }
         override fun bind(widget: Widget) {
             isBinding = true
             updateJob?.cancel()
@@ -663,6 +662,7 @@ class WidgetAdapter(
                 else -> widget.state.toString()
             }
             inputText.setText(dataState)
+            inputText.text?.let { inputText.setSelection(it.length) }
             oldValue = dataState
 
             inputTextLayout.suffixText = when (widget.inputHint) {
@@ -671,18 +671,31 @@ class WidgetAdapter(
             }
 
             // Don't directly edit field for date/time when inputHint set, but open popup when clicked
-            val isEditable = !(
-                widget.inputHint == Widget.InputTypeHint.Date ||
-                    widget.inputHint == Widget.InputTypeHint.Time ||
-                    widget.inputHint == Widget.InputTypeHint.Datetime
+            val isEditable = (
+                widget.inputHint != Widget.InputTypeHint.Date &&
+                    widget.inputHint != Widget.InputTypeHint.Time &&
+                    widget.inputHint != Widget.InputTypeHint.Datetime
                 )
             inputText.isCursorVisible = isEditable
             inputText.isFocusable = isEditable
             inputText.isClickable = isEditable
+            if (isEditable) inputText.requestFocus()
 
             inputText.applyWidgetColor(widget.valueColor, colorMapper)
             inputTextLayout.suffixTextView.applyWidgetColor(widget.valueColor, colorMapper)
             isBinding = false
+        }
+
+        override fun handleRowClick() {
+            val widget = boundWidget ?: return
+            val dt = widget.state?.asDateTime?.getActualValue() ?: LocalDateTime.now()
+            if (widget.inputHint == Widget.InputTypeHint.Date) {
+                showDatePicker(dt, widget, false)
+            } else if (widget.inputHint == Widget.InputTypeHint.Datetime) {
+                showDatePicker(dt, widget, true)
+            } else if (widget.inputHint == Widget.InputTypeHint.Time) {
+                showTimePicker(dt, widget, false)
+            }
         }
 
         private fun showDatePicker(dt: LocalDateTime, widget: Widget, showTime: Boolean) {
@@ -730,11 +743,12 @@ class WidgetAdapter(
 
         private fun dateTimeUpdater(dateTime: LocalDateTime, widget: Widget) {
             inputText.setText(
-                when (widget.inputHint) {
-                    Widget.InputTypeHint.Date -> widget.state?.asDateTime?.toISOLocalDate()
-                    Widget.InputTypeHint.Time -> widget.state?.asDateTime?.toISOLocalTime()
-                    else -> widget.state?.asDateTime?.toString()
-                }
+                widget.state?.asDateTime?.withValue(dateTime)?.toString()
+                    ?: when (widget.inputHint) {
+                        Widget.InputTypeHint.Date -> ParsedState.DateTimeState(dateTime).toISOLocalDate()
+                        Widget.InputTypeHint.Time -> ParsedState.DateTimeState(dateTime).toISOLocalTime()
+                        else -> ParsedState.DateTimeState(dateTime).toString()
+                    }
             )
             updateValue(dateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
         }

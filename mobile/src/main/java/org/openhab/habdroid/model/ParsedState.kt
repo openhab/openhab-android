@@ -251,6 +251,10 @@ fun ParsedState.NumberState?.withValue(value: Float): ParsedState.NumberState {
     return ParsedState.NumberState(value, this?.unit, this?.format)
 }
 
+fun ParsedState.DateTimeState?.withValue(value: LocalDateTime): ParsedState.DateTimeState {
+    return ParsedState.DateTimeState(value, this?.format)
+}
+
 /**
  * Parses a state string into the parsed representation.
  *
