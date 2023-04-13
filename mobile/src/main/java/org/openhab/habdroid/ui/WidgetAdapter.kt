@@ -672,7 +672,7 @@ class WidgetAdapter(
 
             // Don't directly edit field for date/time when inputHint set, but open popup when clicked
             val isEditable = !(
-                    widget.inputHint == Widget.InputTypeHint.Date ||
+                widget.inputHint == Widget.InputTypeHint.Date ||
                     widget.inputHint == Widget.InputTypeHint.Time ||
                     widget.inputHint == Widget.InputTypeHint.Datetime
                 )

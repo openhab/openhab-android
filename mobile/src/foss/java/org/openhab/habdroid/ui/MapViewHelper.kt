@@ -104,7 +104,7 @@ object MapViewHelper {
 
         override fun openPopup() {
             val widget = boundWidget ?: return
-            bottomSheetPresenter.showBottomSheet(MapBottomSheet(), widget)
+            fragmentPresenter.showBottomSheet(MapBottomSheet(), widget)
         }
     }
 }
