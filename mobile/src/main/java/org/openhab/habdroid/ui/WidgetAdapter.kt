@@ -614,7 +614,7 @@ class WidgetAdapter(
                 }
             }
             inputText.setOnClickListener {
-                val widget = boundWidget ?: return
+                val widget = boundWidget ?: return@setOnClickListener
                 val dt = widget.state?.asDateTime?.getActualValue() ?: LocalDateTime.now()
                 if (widget.inputHint == Widget.InputTypeHint.Date) {
                     showDatePicker(dt, widget, false)
@@ -671,12 +671,14 @@ class WidgetAdapter(
             }
 
             // Don't directly edit field for date/time when inputHint set, but open popup when clicked
-            val isEditable =
-                widget.inputHint == Widget.InputTypeHint.Text ||
-                widget.inputHint == Widget.InputTypeHint.Number
+            val isEditable = !(
+                widget.inputHint == Widget.InputTypeHint.Date ||
+                widget.inputHint == Widget.InputTypeHint.Time ||
+                widget.inputHint == Widget.InputTypeHint.Datetime
+            )
             inputText.isCursorVisible = isEditable
             inputText.isFocusable = isEditable
-            inputText.isClickable = !isEditable
+            inputText.isClickable = isEditable
 
             inputText.applyWidgetColor(widget.valueColor, colorMapper)
             inputTextLayout.suffixTextView.applyWidgetColor(widget.valueColor, colorMapper)
