@@ -655,8 +655,9 @@ class WidgetAdapter(
                 widget.inputHint == Widget.InputTypeHint.Number -> widget.state.asNumber?.formatValue()
                 displayState.isNotEmpty() -> displayState
                 widget.item?.isOfTypeOrGroupType(Item.Type.DateTime) == true -> when (widget.inputHint) {
-                    Widget.InputTypeHint.Date -> widget.state.asDateTime?.toISOLocalDate()
-                    Widget.InputTypeHint.Time -> widget.state.asDateTime?.toISOLocalTime()
+                    Widget.InputTypeHint.Date -> widget.state.asDateTime?.toLocalDate()
+                    Widget.InputTypeHint.Time -> widget.state.asDateTime?.toLocalTime()
+                    Widget.InputTypeHint.Datetime -> widget.state.asDateTime?.toLocalDateTime()
                     else -> widget.state.asDateTime?.toString()
                 }
                 else -> widget.state.toString()
@@ -679,7 +680,6 @@ class WidgetAdapter(
             inputText.isCursorVisible = isEditable
             inputText.isFocusable = isEditable
             inputText.isClickable = isEditable
-            if (isEditable) inputText.requestFocus()
 
             inputText.applyWidgetColor(widget.valueColor, colorMapper)
             inputTextLayout.suffixTextView.applyWidgetColor(widget.valueColor, colorMapper)
@@ -695,6 +695,8 @@ class WidgetAdapter(
                 showDatePicker(dt, widget, true)
             } else if (widget.inputHint == Widget.InputTypeHint.Time) {
                 showTimePicker(dt, widget, false)
+            } else {
+                inputText.requestFocus()
             }
         }
 
@@ -745,8 +747,8 @@ class WidgetAdapter(
             inputText.setText(
                 widget.state?.asDateTime?.withValue(dateTime)?.toString()
                     ?: when (widget.inputHint) {
-                        Widget.InputTypeHint.Date -> ParsedState.DateTimeState(dateTime).toISOLocalDate()
-                        Widget.InputTypeHint.Time -> ParsedState.DateTimeState(dateTime).toISOLocalTime()
+                        Widget.InputTypeHint.Date -> ParsedState.DateTimeState(dateTime).toLocalDate()
+                        Widget.InputTypeHint.Time -> ParsedState.DateTimeState(dateTime).toLocalTime()
                         else -> ParsedState.DateTimeState(dateTime).toString()
                     }
             )

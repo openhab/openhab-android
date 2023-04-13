@@ -20,6 +20,7 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+import java.time.format.FormatStyle
 import java.util.IllegalFormatException
 import java.util.Locale
 import java.util.regex.Pattern
@@ -233,12 +234,16 @@ data class ParsedState internal constructor(
             return value.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
         }
 
-        fun toISOLocalDate(): String {
-            return value.format(DateTimeFormatter.ISO_LOCAL_DATE)
+        fun toLocalDate(): String {
+            return value.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
         }
 
-        fun toISOLocalTime(): String {
-            return value.format(DateTimeFormatter.ISO_LOCAL_TIME)
+        fun toLocalTime(): String {
+            return value.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+        }
+
+        fun toLocalDateTime(): String {
+            return value.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
         }
 
         fun getActualValue(): LocalDateTime {
