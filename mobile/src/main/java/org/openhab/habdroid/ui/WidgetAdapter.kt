@@ -644,48 +644,46 @@ class WidgetAdapter(
             val item = widget.item
 
             inputText.inputType = when (widget.inputHint) {
-                Widget.InputTypeHint.Number -> (TYPE_CLASS_NUMBER or TYPE_NUMBER_FLAG_DECIMAL or TYPE_NUMBER_FLAG_SIGNED)
-                Widget.InputTypeHint.Date -> (TYPE_CLASS_DATETIME or TYPE_DATETIME_VARIATION_DATE)
-                Widget.InputTypeHint.Time -> (TYPE_CLASS_DATETIME or TYPE_DATETIME_VARIATION_TIME)
-                Widget.InputTypeHint.Datetime -> (TYPE_CLASS_DATETIME or TYPE_DATETIME_VARIATION_NORMAL)
+                Widget.InputTypeHint.Number -> TYPE_CLASS_NUMBER or TYPE_NUMBER_FLAG_DECIMAL or TYPE_NUMBER_FLAG_SIGNED
+                Widget.InputTypeHint.Date -> TYPE_CLASS_DATETIME or TYPE_DATETIME_VARIATION_DATE
+                Widget.InputTypeHint.Time -> TYPE_CLASS_DATETIME or TYPE_DATETIME_VARIATION_TIME
+                Widget.InputTypeHint.Datetime -> TYPE_CLASS_DATETIME or TYPE_DATETIME_VARIATION_NORMAL
                 else -> TYPE_CLASS_TEXT
             }
 
             val displayState = widget.stateFromLabel?.replace("\n", "") ?: ""
 
-            inputTextLayout.placeholderText = if (widget.state == null) {
-                if (
-                    (widget.inputHint == Widget.InputTypeHint.Text) and
-                    (item?.isOfTypeOrGroupType(Item.Type.DateTime) == true)
-                ) {
+            inputTextLayout.placeholderText = when {
+                widget.state != null -> ""
+                widget.inputHint == Widget.InputTypeHint.Text && item?.isOfTypeOrGroupType(Item.Type.DateTime) == true ->
                     "YYYY-MM-DD hh:mm:ss"
-                } else displayState
-            } else ""
+                else -> displayState
+            }
 
-            val dataState = if (widget.state != null) {
-                if (widget.inputHint == Widget.InputTypeHint.Number)
-                    widget.state.asNumber?.formatValue()
-                else if (displayState.isNotEmpty()) displayState
-                else if (widget.item?.isOfTypeOrGroupType(Item.Type.DateTime) == true)
-                    when (widget.inputHint) {
-                        Widget.InputTypeHint.Date -> widget.state.asDateTime?.toISOLocalDate()
-                        Widget.InputTypeHint.Time -> widget.state.asDateTime?.toISOLocalTime()
-                        else -> widget.state.asDateTime?.toString()
-                    }
-                else widget.state.toString()
-            } else ""
+            val dataState = when {
+                widget.state == null -> ""
+                widget.inputHint == Widget.InputTypeHint.Number -> widget.state.asNumber?.formatValue()
+                displayState.isNotEmpty() -> displayState
+                widget.item?.isOfTypeOrGroupType(Item.Type.DateTime) == true -> when (widget.inputHint) {
+                    Widget.InputTypeHint.Date -> widget.state.asDateTime?.toISOLocalDate()
+                    Widget.InputTypeHint.Time -> widget.state.asDateTime?.toISOLocalTime()
+                    else -> widget.state.asDateTime?.toString()
+                }
+                else -> widget.state.toString()
+            }
             inputText.setText(dataState)
             oldValue = dataState
 
-            inputTextLayout.suffixText = if (widget.inputHint == Widget.InputTypeHint.Number) {
-                widget.state?.asNumber?.unit
-            } else null
+            inputTextLayout.suffixText = when (widget.inputHint) {
+                Widget.InputTypeHint.Number -> widget.state?.asNumber?.unit
+                else -> null
+            }
 
             // Don't directly edit field for date/time when inputHint set, but open popup when clicked
             if (
-                (widget.inputHint == Widget.InputTypeHint.Date) or
-                (widget.inputHint == Widget.InputTypeHint.Time) or
-                (widget.inputHint == Widget.InputTypeHint.Datetime)
+                widget.inputHint == Widget.InputTypeHint.Date ||
+                widget.inputHint == Widget.InputTypeHint.Time ||
+                widget.inputHint == Widget.InputTypeHint.Datetime
             ) {
                 inputText.isClickable = false
                 inputText.isCursorVisible = false
@@ -767,17 +765,17 @@ class WidgetAdapter(
             }
 
             val item = boundWidget?.item
-            if (
-                (item?.isOfTypeOrGroupType(Item.Type.Number) == true) or
-                (item?.isOfTypeOrGroupType(Item.Type.NumberWithDimension) == true)
-            ) {
-                val state = newValue?.let { ParsedState.parseAsNumber(it, item?.state?.asNumber?.format) }
-                connection.httpClient.sendItemUpdate(item, state)
-            } else if (item?.isOfTypeOrGroupType(Item.Type.DateTime) == true) {
-                val state = newValue?.let { ParsedState.parseAsDateTime(it, item.state?.asDateTime?.format) }
-                connection.httpClient.sendItemUpdate(item, state)
-            } else if (newValue != null) {
-                connection.httpClient.sendItemCommand(item, newValue)
+            when {
+                item?.isOfTypeOrGroupType(Item.Type.Number) == true ||
+                    item?.isOfTypeOrGroupType(Item.Type.NumberWithDimension) == true -> {
+                    val state = newValue?.let { ParsedState.parseAsNumber(it, item.state?.asNumber?.format) }
+                    connection.httpClient.sendItemUpdate(item, state)
+                }
+                item?.isOfTypeOrGroupType(Item.Type.DateTime) == true -> {
+                    val state = newValue?.let { ParsedState.parseAsDateTime(it, item.state?.asDateTime?.format) }
+                    connection.httpClient.sendItemUpdate(item, state)
+                }
+                newValue != null -> connection.httpClient.sendItemCommand(item, newValue)
             }
 
             hasChanged = false

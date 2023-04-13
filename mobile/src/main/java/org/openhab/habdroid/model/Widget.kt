@@ -191,18 +191,14 @@ data class Widget(
         internal fun sanitizeRefreshRate(refresh: Int) = if (refresh in 1..99) 100 else refresh
         internal fun sanitizePeriod(period: String?) = if (period.isNullOrEmpty()) "D" else period
 
-        internal fun determineWidgetState(state: String?, item: Item?): ParsedState? {
-            val parsedState = if (state != null) {
-                if (item?.isOfTypeOrGroupType(Item.Type.DateTime) == true) {
-                    state.toParsedState(item.state?.asDateTime?.format)
-                } else if (
-                    (item?.isOfTypeOrGroupType(Item.Type.Number) == true) or
-                    (item?.isOfTypeOrGroupType(Item.Type.NumberWithDimension) == true)
-                ) {
-                    state.toParsedState(item?.state?.asNumber?.format)
-                } else state.toParsedState()
-            } else item?.state
-            return parsedState
+        internal fun determineWidgetState(state: String?, item: Item?): ParsedState? = when {
+            state == null -> item?.state
+            item?.isOfTypeOrGroupType(Item.Type.DateTime) == true ->
+                state.toParsedState(item.state?.asDateTime?.format)
+            item?.isOfTypeOrGroupType(Item.Type.Number) == true ||
+                item?.isOfTypeOrGroupType(Item.Type.NumberWithDimension) == true ->
+                state.toParsedState(item.state?.asNumber?.format)
+            else -> state.toParsedState()
         }
     }
 }
