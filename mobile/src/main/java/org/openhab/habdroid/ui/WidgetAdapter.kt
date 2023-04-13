@@ -48,6 +48,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
@@ -115,9 +116,7 @@ class WidgetAdapter(
     val serverFlags: Int,
     val connection: Connection,
     private val itemClickListener: ItemClickListener,
-    private val bottomSheetPresenter: DetailBottomSheetPresenter,
-    private val datePickerPresenter: DatePickerPresenter,
-    private val timePickerPresenter: TimePickerPresenter,
+    private val fragmentPresenter: FragmentPresenter
 ) : RecyclerView.Adapter<WidgetAdapter.ViewHolder>(), View.OnClickListener {
     private val items = mutableListOf<Widget>()
     val itemList: List<Widget> get() = items
@@ -135,22 +134,9 @@ class WidgetAdapter(
     interface ItemClickListener {
         fun onItemClicked(widget: Widget): Boolean // returns whether click was handled
     }
-    interface DetailBottomSheetPresenter {
+    interface FragmentPresenter {
         fun showBottomSheet(sheet: AbstractWidgetBottomSheet, widget: Widget)
-    }
-
-    interface DatePickerPresenter {
-        fun showDatePicker(
-            dateTime: LocalDateTime,
-            widget: Widget
-        ): MaterialDatePicker<Long>
-    }
-
-    interface TimePickerPresenter {
-        fun showTimePicker(
-            dateTime: LocalDateTime,
-            widget: Widget
-        ): MaterialTimePicker
+        fun showSelectionFragment(fragment: DialogFragment, widget: Widget)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -245,9 +231,7 @@ class WidgetAdapter(
         val wasStarted = holder.stop()
         holder.vhc = ViewHolderContext(
             connection,
-            bottomSheetPresenter,
-            datePickerPresenter,
-            timePickerPresenter,
+            fragmentPresenter,
             colorMapper,
             serverFlags,
             chartTheme
@@ -377,9 +361,7 @@ class WidgetAdapter(
 
     data class ViewHolderContext(
         val connection: Connection,
-        val bottomSheetPresenter: DetailBottomSheetPresenter,
-        val datePickerPresenter: DatePickerPresenter,
-        val timePickerPresenter: TimePickerPresenter,
+        val fragmentPresenter: FragmentPresenter,
         val colorMapper: ColorMapper,
         val serverFlags: Int,
         val chartTheme: CharSequence?
@@ -397,9 +379,7 @@ class WidgetAdapter(
 
         protected val connection get() = requireHolderContext().connection
         protected val colorMapper get() = requireHolderContext().colorMapper
-        protected val bottomSheetPresenter get() = requireHolderContext().bottomSheetPresenter
-        protected val datePickerPresenter get() = requireHolderContext().datePickerPresenter
-        protected val timePickerPresenter get() = requireHolderContext().timePickerPresenter
+        protected val fragmentPresenter get() = requireHolderContext().fragmentPresenter
 
         abstract fun bind(widget: Widget)
         fun start() {
@@ -709,7 +689,10 @@ class WidgetAdapter(
         private fun showDatePicker(dt: LocalDateTime, widget: Widget, showTime: Boolean) {
             if (showingDatePicker) return
             showingDatePicker = true
-            val datePicker = datePickerPresenter.showDatePicker(dt, widget)
+            val datePicker = MaterialDatePicker.Builder
+                .datePicker()
+                .setSelection(dt.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli())
+                .build()
             datePicker.addOnPositiveButtonClickListener {
                 val date = LocalDateTime.ofInstant(Instant.ofEpochMilli(datePicker.selection ?: 0), ZoneOffset.UTC)
                 if (showTime) {
@@ -722,13 +705,17 @@ class WidgetAdapter(
             datePicker.addOnNegativeButtonClickListener {
                 showingDatePicker = false
             }
+            fragmentPresenter.showSelectionFragment(datePicker, widget)
         }
 
         private fun showTimePicker(dt: LocalDateTime, widget: Widget, keepDate: Boolean) {
             if (showingTimePicker) return
             showingDatePicker = true
             showingTimePicker = true
-            val timePicker = timePickerPresenter.showTimePicker(dt, widget)
+            val timePicker = MaterialTimePicker.Builder()
+                .setHour(dt.hour)
+                .setMinute(dt.minute)
+                .build()
             timePicker.addOnPositiveButtonClickListener {
                 val date = if (keepDate) dt else LocalDateTime.ofInstant(Instant.ofEpochMilli(0), ZoneOffset.UTC)
                 dateTimeUpdater(date.withHour(timePicker.hour).withMinute(timePicker.minute), widget)
@@ -739,6 +726,7 @@ class WidgetAdapter(
                 showingDatePicker = false
                 showingTimePicker = false
             }
+            fragmentPresenter.showSelectionFragment(timePicker, widget)
         }
 
         private fun dateTimeUpdater(dateTime: LocalDateTime, widget: Widget) {
@@ -916,7 +904,7 @@ class WidgetAdapter(
 
         override fun handleRowClick() {
             val widget = boundWidget ?: return
-            bottomSheetPresenter.showBottomSheet(SelectionBottomSheet(), widget)
+            fragmentPresenter.showBottomSheet(SelectionBottomSheet(), widget)
         }
     }
 
@@ -935,7 +923,7 @@ class WidgetAdapter(
         init {
             overflowButton.setOnClickListener {
                 val widget = boundWidget ?: return@setOnClickListener
-                bottomSheetPresenter.showBottomSheet(SelectionBottomSheet(), widget)
+                fragmentPresenter.showBottomSheet(SelectionBottomSheet(), widget)
             }
         }
 
@@ -1116,7 +1104,7 @@ class WidgetAdapter(
 
         override fun handleRowClick() {
             val widget = boundWidget ?: return
-            bottomSheetPresenter.showBottomSheet(SliderBottomSheet(), widget)
+            fragmentPresenter.showBottomSheet(SliderBottomSheet(), widget)
         }
     }
 
@@ -1173,7 +1161,7 @@ class WidgetAdapter(
 
         private fun openSelection() {
             val widget = boundWidget ?: return
-            bottomSheetPresenter.showBottomSheet(SliderBottomSheet(), widget)
+            fragmentPresenter.showBottomSheet(SliderBottomSheet(), widget)
         }
 
         private fun handleUpDown(down: Boolean) {
@@ -1452,7 +1440,7 @@ class WidgetAdapter(
 
         override fun handleRowClick() {
             val widget = boundWidget ?: return
-            bottomSheetPresenter.showBottomSheet(ColorChooserBottomSheet(), widget)
+            fragmentPresenter.showBottomSheet(ColorChooserBottomSheet(), widget)
         }
     }
 
