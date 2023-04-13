@@ -62,7 +62,6 @@ import androidx.core.view.isVisible
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import de.duenndns.ssl.MemorizingTrustManager
@@ -107,6 +106,7 @@ import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.preference.widgets.toItemUpdatePrefValue
 import org.openhab.habdroid.ui.widget.LockableDrawerLayout
 import org.openhab.habdroid.util.AsyncServiceResolver
+import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.IconBackground
@@ -289,10 +289,16 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         drawerToggle.syncState()
     }
 
+    /**
+     * Icons may be colored based on the dark mode. When it changes, all caches have to be cleared.
+     * Recreate the activity afterwards to apply the new theme.
+     */
     override fun onConfigurationChanged(newConfig: Configuration) {
         CrashReportingHelper.d(TAG, "onConfigurationChanged()")
         super.onConfigurationChanged(newConfig)
         drawerToggle.onConfigurationChanged(newConfig)
+        CacheManager.getInstance(this).clearCache(true)
+        recreate()
     }
 
     override fun onStart() {

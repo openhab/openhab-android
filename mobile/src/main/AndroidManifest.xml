@@ -113,6 +113,7 @@
         <activity
             android:name=".ui.MainActivity"
             android:launchMode="singleTop"
+            android:configChanges="uiMode"
             android:exported="true">
 
             <!-- for Nougat -->
