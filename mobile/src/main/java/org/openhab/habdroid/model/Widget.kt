@@ -61,7 +61,7 @@ data class Widget(
     val switchSupport: Boolean,
     val height: Int,
     val visibility: Boolean,
-    val inputHint: Hint?
+    val inputHint: InputTypeHint?
 ) : Parcelable {
     val label get() = rawLabel.split("[", "]")[0].trim()
     val stateFromLabel: String? get() = rawLabel.split("[", "]").getOrNull(1)?.trim()
@@ -108,7 +108,7 @@ data class Widget(
         Unknown
     }
 
-    enum class Hint {
+    enum class InputTypeHint {
         Text,
         Number,
         Date,
@@ -218,10 +218,10 @@ fun String?.toWidgetType(): Widget.Type {
     return Widget.Type.Unknown
 }
 
-fun String?.toInputHint(): Widget.Hint? {
+fun String?.toInputHint(): Widget.InputTypeHint? {
     if (this != null) {
         try {
-            return Widget.Hint.valueOf(this.toString().lowercase().replaceFirstChar { c -> c.uppercase() })
+            return Widget.InputTypeHint.valueOf(this.toString().lowercase().replaceFirstChar { c -> c.uppercase() })
         } catch (e: IllegalArgumentException) {
             // fall through
         }
