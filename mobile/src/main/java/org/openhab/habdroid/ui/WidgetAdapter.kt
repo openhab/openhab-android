@@ -689,14 +689,11 @@ class WidgetAdapter(
         override fun handleRowClick() {
             val widget = boundWidget ?: return
             val dt = widget.state?.asDateTime?.getActualValue() ?: LocalDateTime.now()
-            if (widget.inputHint == Widget.InputTypeHint.Date) {
-                showDatePicker(dt, widget, false)
-            } else if (widget.inputHint == Widget.InputTypeHint.Datetime) {
-                showDatePicker(dt, widget, true)
-            } else if (widget.inputHint == Widget.InputTypeHint.Time) {
-                showTimePicker(dt, widget, false)
-            } else {
-                inputText.requestFocus()
+            when (widget.inputHint) {
+                Widget.InputTypeHint.Date -> showDatePicker(dt, widget, false)
+                Widget.InputTypeHint.Datetime -> showDatePicker(dt, widget, true)
+                Widget.InputTypeHint.Time -> showTimePicker(dt, widget, false)
+                else -> inputText.requestFocus()
             }
         }
 
