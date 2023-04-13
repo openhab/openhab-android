@@ -646,8 +646,8 @@ class WidgetAdapter(
 
             inputTextLayout.placeholderText = when {
                 widget.state != null -> ""
-                widget.inputHint == Widget.InputTypeHint.Text && item?.isOfTypeOrGroupType(Item.Type.DateTime) == true ->
-                    "YYYY-MM-DD hh:mm:ss"
+                widget.inputHint == Widget.InputTypeHint.Text &&
+                    item?.isOfTypeOrGroupType(Item.Type.DateTime) == true -> "YYYY-MM-DD hh:mm:ss"
                 else -> displayState
             }
 
@@ -671,11 +671,9 @@ class WidgetAdapter(
             }
 
             // Don't directly edit field for date/time when inputHint set, but open popup when clicked
-            val isEditable = !(
-                widget.inputHint == Widget.InputTypeHint.Date ||
+            val isEditable = !(widget.inputHint == Widget.InputTypeHint.Date ||
                 widget.inputHint == Widget.InputTypeHint.Time ||
-                widget.inputHint == Widget.InputTypeHint.Datetime
-            )
+                widget.inputHint == Widget.InputTypeHint.Datetime)
             inputText.isCursorVisible = isEditable
             inputText.isFocusable = isEditable
             inputText.isClickable = isEditable

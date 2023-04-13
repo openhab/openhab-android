@@ -214,7 +214,7 @@ fun String?.toWidgetType(): Widget.Type {
     return Widget.Type.Unknown
 }
 
-fun String?.toInputHint(): Widget.InputTypeHint? {
+fun String?.toInputHint(): Widget.InputTypeHint {
     if (this != null) {
         try {
             return Widget.InputTypeHint.valueOf(this.toString().lowercase().replaceFirstChar { c -> c.uppercase() })
@@ -222,7 +222,7 @@ fun String?.toInputHint(): Widget.InputTypeHint? {
             // fall through
         }
     }
-    return null
+    return Widget.InputTypeHint.Text
 }
 
 fun Node.collectWidgets(parent: Widget?): List<Widget> {
