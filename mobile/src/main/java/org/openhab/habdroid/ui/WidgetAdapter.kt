@@ -78,6 +78,7 @@ import org.openhab.habdroid.ui.widget.WidgetSlider
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.MjpegStreamer
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.beautify
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getChartTheme
@@ -415,7 +416,11 @@ class WidgetAdapter(
                 valueView.isVisible = !widget.stateFromLabel.isNullOrEmpty()
                 valueView.applyWidgetColor(widget.valueColor, colorMapper)
             }
-            iconView.loadWidgetIcon(connection, widget, colorMapper)
+            val showIcon = !iconView.context.getPrefs().getBoolean(PrefKeys.SHOW_ICONS, true)
+            iconView.isGone = !showIcon
+            if (showIcon) {
+                iconView.loadWidgetIcon(connection, widget, colorMapper)
+            }
         }
     }
 
