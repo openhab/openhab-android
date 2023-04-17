@@ -1,0 +1,6 @@
+## What's Changed
+* Fine tune widget value slider value update behavior by @maniac103 in https://github.com/openhab/openhab-android/pull/3244
+* Add setting to hide icons by @mueller-ma in https://github.com/openhab/openhab-android/pull/3333
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.4.1-beta...3.4.2-beta
