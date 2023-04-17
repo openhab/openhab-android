@@ -10,7 +10,7 @@
         style="@style/BottomSheetHeaderTitle"
         android:id="@+id/title" />
 
-    <com.google.android.material.slider.Slider
+    <org.openhab.habdroid.ui.widget.WidgetSlider
         android:id="@+id/slider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

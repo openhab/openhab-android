@@ -15,9 +15,6 @@ package org.openhab.habdroid.ui
 
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -28,30 +25,26 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import com.flask.colorpicker.ColorPickerView
-import com.flask.colorpicker.OnColorChangedListener
-import com.flask.colorpicker.OnColorSelectedListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.Slider
-import java.util.Locale
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
+import org.openhab.habdroid.ui.widget.WidgetSlider
+import org.openhab.habdroid.util.ColorPickerHelper
 import org.openhab.habdroid.util.parcelable
 
 open class AbstractWidgetBottomSheet : BottomSheetDialogFragment() {
     protected val widget get() = requireArguments().parcelable<Widget>("widget")!!
     protected val connection get() = (parentFragment as ConnectionGetter).getConnection()
-    internal var scope: CoroutineScope? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         dialog?.setOnShowListener { dialog ->
@@ -63,17 +56,6 @@ open class AbstractWidgetBottomSheet : BottomSheetDialogFragment() {
         }
         super.onViewCreated(view, savedInstanceState)
     }
-    override fun onResume() {
-        scope = CoroutineScope(Dispatchers.Main + Job())
-        super.onResume()
-    }
-
-    override fun onPause() {
-        scope?.cancel()
-        scope = null
-        super.onPause()
-    }
-
     companion object {
         fun createArguments(widget: Widget): Bundle {
             return bundleOf("widget" to widget)
@@ -85,22 +67,15 @@ open class AbstractWidgetBottomSheet : BottomSheetDialogFragment() {
     }
 }
 
-class SliderBottomSheet : AbstractWidgetBottomSheet(), Slider.OnChangeListener {
+class SliderBottomSheet : AbstractWidgetBottomSheet(), WidgetSlider.UpdateListener {
     private var updateJob: Job? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.bottom_sheet_setpoint, container, false)
-        val state = widget.state?.asNumber
 
-        view.findViewById<Slider>(R.id.slider).apply {
-            setup(
-                from = widget.minValue,
-                to = widget.maxValue,
-                step = widget.step,
-                widgetValue = state?.value ?: widget.minValue
-            )
+        view.findViewById<WidgetSlider>(R.id.slider).apply {
             labelBehavior = LabelFormatter.LABEL_VISIBLE
-            setLabelFormatter { value -> state.withValue(value).toString() }
-            addOnChangeListener(this@SliderBottomSheet)
+            updateListener = this@SliderBottomSheet
+            bindToWidget(widget, false)
         }
 
         view.findViewById<TextView>(R.id.title).apply {
@@ -110,19 +85,11 @@ class SliderBottomSheet : AbstractWidgetBottomSheet(), Slider.OnChangeListener {
         return view
     }
 
-    override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
-        Log.d(TAG, "onValueChange value = $value, from user = $fromUser")
-        if (fromUser) {
-            updateJob?.cancel()
-            updateJob = widget.item?.let { item ->
-                scope?.launch {
-                    delay(200)
-                    val state = widget.state?.asNumber.withValue(value)
-                    Log.d(TAG, "Send state $state for ${item.name}")
-                    connection?.httpClient?.sendItemUpdate(item, state)
-                }
-            }
-        }
+    override suspend fun onValueUpdate(value: Float) {
+        val item = widget.item ?: return
+        val state = widget.state?.asNumber.withValue(value)
+        Log.d(TAG, "Send state $state for ${item.name}")
+        connection?.httpClient?.sendItemUpdate(item, state)
     }
 
     companion object {
@@ -159,39 +126,16 @@ class SelectionBottomSheet : AbstractWidgetBottomSheet(), RadioGroup.OnCheckedCh
     }
 }
 
-class ColorChooserBottomSheet :
-    AbstractWidgetBottomSheet(),
-    Handler.Callback,
-    OnColorChangedListener,
-    OnColorSelectedListener,
-    Slider.OnChangeListener,
-    Slider.OnSliderTouchListener {
-    companion object {
-        private val TAG = "ColorChooserBottomSheet"
-    }
-
-    private lateinit var colorPicker: ColorPickerView
-    private lateinit var slider: Slider
-    private val handler = Handler(Looper.getMainLooper(), this)
-    private var lastUpdate: Job? = null
+class ColorChooserBottomSheet : AbstractWidgetBottomSheet() {
+    private lateinit var pickerHelper: ColorPickerHelper
+    private var scope: CoroutineScope? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.bottom_sheet_color_picker, container, false)
 
-        colorPicker = view.findViewById<ColorPickerView>(R.id.picker).apply {
-            widget.item?.state?.asHsv?.toColor(false)?.let { setColor(it, true) }
-
-            addOnColorChangedListener(this@ColorChooserBottomSheet)
-            addOnColorSelectedListener(this@ColorChooserBottomSheet)
-        }
-
-        slider = view.findViewById<Slider>(R.id.brightness_slider).apply {
-            widget.item?.state?.asBrightness?.let { value = it.toFloat() }
-            setLabelFormatter { value -> "${value.toInt()} %" }
-
-            addOnChangeListener(this@ColorChooserBottomSheet)
-            addOnSliderTouchListener(this@ColorChooserBottomSheet)
-        }
+        val colorPicker = view.findViewById<ColorPickerView>(R.id.picker)
+        val slider = view.findViewById<Slider>(R.id.brightness_slider)
+        pickerHelper = ColorPickerHelper(colorPicker, slider)
 
         view.findViewById<TextView>(R.id.title).apply {
             text = widget.label
@@ -200,51 +144,17 @@ class ColorChooserBottomSheet :
         return view
     }
 
-    override fun onColorSelected(selectedColor: Int) {
-        Log.d(TAG, "onColorSelected($selectedColor)")
-        handleChange(true, 0)
+    override fun onResume() {
+        super.onResume()
+        val scope = CoroutineScope(Dispatchers.Main + Job())
+        pickerHelper.attach(widget.item, scope, connection)
+        this.scope = scope
     }
 
-    override fun onColorChanged(selectedColor: Int) {
-        Log.d(TAG, "onColorChanged($selectedColor)")
-        handleChange(true)
-    }
-
-    // Brightness slider
-    override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
-        if (fromUser) {
-            handleChange(false)
-        }
-    }
-
-    override fun onStartTrackingTouch(slider: Slider) {
-        // no-op
-    }
-
-    override fun onStopTrackingTouch(slider: Slider) {
-        handleChange(false, 0)
-    }
-
-    private fun handleChange(colorChanged: Boolean, delay: Long = 100) {
-        val newColor = colorPicker.selectedColor
-        var brightness = slider.value.toInt()
-        Log.d(TAG, "handleChange(newColor = $newColor, brightness = $brightness, delay = $delay)")
-        if (colorChanged && brightness == 0) {
-            brightness = 100
-            slider.value = 100F
-        }
-        handler.removeMessages(0)
-        handler.sendMessageDelayed(handler.obtainMessage(0, newColor, brightness), delay)
-    }
-
-    override fun handleMessage(msg: Message): Boolean {
-        val hsv = FloatArray(3)
-        Color.RGBToHSV(Color.red(msg.arg1), Color.green(msg.arg1), Color.blue(msg.arg1), hsv)
-        hsv[2] = msg.arg2.toFloat()
-        Log.d(WidgetAdapter.TAG, "New color HSV = ${hsv[0]}, ${hsv[1]}, ${hsv[2]}")
-        val newColorValue = String.format(Locale.US, "%.0f,%.0f,%.0f", hsv[0], hsv[1] * 100, hsv[2])
-        lastUpdate?.cancel()
-        lastUpdate = connection?.httpClient?.sendItemCommand(widget.item, newColorValue)
-        return true
+    override fun onPause() {
+        super.onPause()
+        pickerHelper.detach()
+        scope?.cancel()
+        scope = null
     }
 }

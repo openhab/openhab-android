@@ -15,7 +15,6 @@ package org.openhab.habdroid.ui
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
@@ -27,8 +26,6 @@ import androidx.appcompat.widget.TooltipCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.net.toUri
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.slider.Slider
-import kotlin.math.abs
 import okhttp3.HttpUrl
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
@@ -106,34 +103,4 @@ fun RemoteViews.duplicate(): RemoteViews {
         @Suppress("DEPRECATION")
         clone()
     }
-}
-
-fun Slider.setup(from: Float, to: Float, step: Float, widgetValue: Float) {
-    // Fix "The stepSize must be 0, or a factor of the valueFrom-valueTo range" exception
-    valueTo = to - (to - from).rem(step)
-    valueFrom = from
-    stepSize = step
-
-    // Fix "Value must be equal to valueFrom plus a multiple of stepSize when using stepSize"
-    val stepCount = (abs(valueTo - valueFrom) / stepSize).toInt()
-    var closestValue = valueFrom
-    var closestDelta = Float.MAX_VALUE
-    (0..stepCount).map { index ->
-        val stepValue = valueFrom + index * stepSize
-        if (abs(widgetValue - stepValue) < closestDelta) {
-            closestValue = stepValue
-            closestDelta = abs(widgetValue - stepValue)
-        }
-    }
-
-    isTickVisible = stepCount <= 12
-
-    Log.d(
-        WidgetAdapter.TAG,
-        "Slider: valueFrom = $valueFrom, valueTo = $valueTo, " +
-            "stepSize = $stepSize, stepCount = $stepCount, widgetValue = $widgetValue, " +
-            "closestValue = $closestValue, closestDelta = $closestDelta"
-    )
-
-    value = closestValue
 }
