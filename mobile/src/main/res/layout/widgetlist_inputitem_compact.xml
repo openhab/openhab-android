@@ -9,7 +9,6 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/widgetinput"
-        android:imeOptions="actionDone"
         android:layout_width="245dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -27,6 +26,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/widgetinputvalue"
+            android:imeOptions="actionDone"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="end" />

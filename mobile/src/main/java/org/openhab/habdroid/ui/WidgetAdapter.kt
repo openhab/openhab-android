@@ -615,10 +615,11 @@ class WidgetAdapter(
             inputText.setOnEditorActionListener { view, action, _ ->
                 if (action == EditorInfo.IME_ACTION_DONE) {
                     hideKeyboard(view)
+                    if (hasChanged) updateValue()
                     true
                 } else false
             }
-            inputText.setOnClickListener { handleRowClick() }
+            inputText.setOnClickListener { setFocus() }
         }
 
         private fun hideKeyboard(view: View) {
@@ -687,6 +688,11 @@ class WidgetAdapter(
         }
 
         override fun handleRowClick() {
+            setFocus()
+            inputText.setSelection(inputText.length())
+        }
+
+        private fun setFocus() {
             val widget = boundWidget ?: return
             val dt = widget.state?.asDateTime?.getActualValue() ?: LocalDateTime.now()
             when (widget.inputHint) {
