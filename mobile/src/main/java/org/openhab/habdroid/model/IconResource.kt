@@ -51,8 +51,10 @@ data class IconResource internal constructor(
         when (segments.size) {
             1 -> iconName = segments[0]
             2 -> {
-                iconSet = segments[0]
-                iconName = segments[1]
+                // Keep iconName=none for unsupported icon sources
+                if (segments[0] == "oh") {
+                    iconName = segments[1]
+                }
             }
             3 -> {
                 // Keep iconName=none for unsupported icon sources
