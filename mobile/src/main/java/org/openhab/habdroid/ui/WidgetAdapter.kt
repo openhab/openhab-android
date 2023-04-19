@@ -19,12 +19,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.text.InputType.TYPE_CLASS_DATETIME
 import android.text.InputType.TYPE_CLASS_NUMBER
 import android.text.InputType.TYPE_CLASS_TEXT
-import android.text.InputType.TYPE_DATETIME_VARIATION_DATE
-import android.text.InputType.TYPE_DATETIME_VARIATION_NORMAL
-import android.text.InputType.TYPE_DATETIME_VARIATION_TIME
 import android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
 import android.text.InputType.TYPE_NUMBER_FLAG_SIGNED
 import android.util.Log
@@ -74,7 +70,6 @@ import java.io.IOException
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -593,8 +588,11 @@ class WidgetAdapter(
         }
     }
 
-    class InputViewHolder internal constructor(initData: ViewHolderInitData) :
-        LabeledItemBaseViewHolder(initData, R.layout.widgetlist_inputitem, R.layout.widgetlist_inputitem_compact) {
+    class InputViewHolder internal constructor(initData: ViewHolderInitData) : LabeledItemBaseViewHolder(
+        initData,
+        R.layout.widgetlist_inputitem,
+        R.layout.widgetlist_inputitem_compact
+    ) {
         private val inputTextLayout: TextInputLayout = itemView.findViewById(R.id.widgetinput)
         private val inputText: TextInputEditText = itemView.findViewById(R.id.widgetinputvalue)
         private var isBinding = false
@@ -632,13 +630,8 @@ class WidgetAdapter(
 
             super.bind(widget)
 
-            val item = widget.item
-
             inputText.inputType = when (widget.inputHint) {
                 Widget.InputTypeHint.Number -> TYPE_CLASS_NUMBER or TYPE_NUMBER_FLAG_DECIMAL or TYPE_NUMBER_FLAG_SIGNED
-                Widget.InputTypeHint.Date -> TYPE_CLASS_DATETIME or TYPE_DATETIME_VARIATION_DATE
-                Widget.InputTypeHint.Time -> TYPE_CLASS_DATETIME or TYPE_DATETIME_VARIATION_TIME
-                Widget.InputTypeHint.Datetime -> TYPE_CLASS_DATETIME or TYPE_DATETIME_VARIATION_NORMAL
                 else -> TYPE_CLASS_TEXT
             }
 
@@ -646,8 +639,6 @@ class WidgetAdapter(
 
             inputTextLayout.placeholderText = when {
                 widget.state != null -> ""
-                widget.inputHint == Widget.InputTypeHint.Text &&
-                    item?.isOfTypeOrGroupType(Item.Type.DateTime) == true -> "YYYY-MM-DD hh:mm:ss"
                 else -> displayState
             }
 
@@ -655,12 +646,6 @@ class WidgetAdapter(
                 widget.state == null -> ""
                 widget.inputHint == Widget.InputTypeHint.Number -> widget.state.asNumber?.formatValue()
                 displayState.isNotEmpty() -> displayState
-                widget.item?.isOfTypeOrGroupType(Item.Type.DateTime) == true -> when (widget.inputHint) {
-                    Widget.InputTypeHint.Date -> widget.state.asDateTime?.toLocalDate()
-                    Widget.InputTypeHint.Time -> widget.state.asDateTime?.toLocalTime()
-                    Widget.InputTypeHint.Datetime -> widget.state.asDateTime?.toLocalDateTime()
-                    else -> widget.state.asDateTime?.toString()
-                }
                 else -> widget.state.asString
             }
             inputText.setText(dataState)
@@ -697,10 +682,6 @@ class WidgetAdapter(
                 item?.isOfTypeOrGroupType(Item.Type.Number) == true ||
                     item?.isOfTypeOrGroupType(Item.Type.NumberWithDimension) == true -> {
                     val state = newValue.let { ParsedState.parseAsNumber(it, item.state?.asNumber?.format) }
-                    connection.httpClient.sendItemUpdate(item, state)
-                }
-                item?.isOfTypeOrGroupType(Item.Type.DateTime) == true -> {
-                    val state = newValue.let { ParsedState.parseAsDateTime(it, item.state?.asDateTime?.format) }
                     connection.httpClient.sendItemUpdate(item, state)
                 }
                 else -> connection.httpClient.sendItemCommand(item, newValue)

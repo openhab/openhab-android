@@ -214,13 +214,15 @@ fun String?.toWidgetType(): Widget.Type {
     return Widget.Type.Unknown
 }
 
-fun String?.toInputHint(): Widget.InputTypeHint {
+fun String?.toInputHint(item: Item?): Widget.InputTypeHint {
     if (this != null) {
         try {
             return Widget.InputTypeHint.valueOf(this.toString().lowercase().replaceFirstChar { c -> c.uppercase() })
         } catch (e: IllegalArgumentException) {
             // fall through
         }
+    } else {
+        if (item?.isOfTypeOrGroupType(Item.Type.DateTime) == true) return Widget.InputTypeHint.Datetime
     }
     return Widget.InputTypeHint.Text
 }
@@ -332,7 +334,7 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
     val item = optJSONObject("item")?.toItem()
     val type = getString("type").toWidgetType()
     val icon = optStringOrNull("icon")
-    val inputHint = optStringOrNull("inputHint").toInputHint()
+    val inputHint = optStringOrNull("inputHint").toInputHint(item)
 
     val widget = Widget(
         id = getString("widgetId"),
