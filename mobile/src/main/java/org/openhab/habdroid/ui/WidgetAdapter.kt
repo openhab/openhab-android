@@ -618,6 +618,8 @@ class WidgetAdapter(
                     true
                 } else false
             }
+            // Indicate the UoM unit not being editable
+            inputTextLayout.suffixTextView.alpha = 0.5F
         }
 
         private fun hideKeyboard(view: View) {
