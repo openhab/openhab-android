@@ -29,7 +29,8 @@
             android:imeOptions="actionDone"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:gravity="end" />
+            android:gravity="end"
+            android:selectAllOnFocus="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
