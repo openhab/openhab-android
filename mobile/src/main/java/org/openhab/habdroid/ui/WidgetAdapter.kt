@@ -659,7 +659,7 @@ class WidgetAdapter(
                     Widget.InputTypeHint.Datetime -> widget.state.asDateTime?.toLocalDateTime()
                     else -> widget.state.asDateTime?.toString()
                 }
-                else -> widget.state.toString()
+                else -> widget.state.asString
             }
             inputText.setText(dataState)
             inputText.text?.let { inputText.setSelection(it.length) }
