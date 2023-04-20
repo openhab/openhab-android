@@ -81,7 +81,7 @@ class WidgetTest {
         )
         assertEquals(
             "Iconset must be extracted from icon name",
-            "icon/frame?format=SVG&anyFormat=true&iconset=mdi",
+            "icon/frame?format=SVG&anyFormat=true&iconset=classic",
             sut3[0].icon?.toUrl(false, IconFormat.Svg)
         )
         assertEquals(
@@ -367,7 +367,7 @@ class WidgetTest {
                   'widgetId': '0202_0',
                   'type': 'Frame',
                   'label': 'Percent-based Widgets',
-                  'icon': 'mdi:frame',
+                  'icon': 'oh:frame',
                   'mappings': [],
                   'widgets': [ {
                     'widgetId': '0202_0_0',
