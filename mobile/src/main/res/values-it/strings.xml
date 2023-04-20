@@ -57,6 +57,7 @@
     <string name="settings_sitemap_compact_mode_off">Usa un layout a due righe per i widget Sitemap, che rende i controlli più grandi e quindi più facili da usare, ma richiede più scorrimento per liste più lunghe</string>
     <string name="settings_sitemap_compact_mode_on">Usa un layout a una linea per i widget Sitemap, che mette il maggior numero possibile di widget sullo schermo, ma riduce la dimensione dei controlli</string>
     <string name="settings_color_scheme_title">Schema colori</string>
+    <string name="settings_show_icons">Mostra icone</string>
     <string name="settings_openhab_icon_format">Formato icona</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vettoriale</string>
