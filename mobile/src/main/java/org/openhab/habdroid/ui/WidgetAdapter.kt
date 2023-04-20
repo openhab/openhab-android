@@ -68,8 +68,10 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.timepicker.MaterialTimePicker
 import java.io.IOException
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
+import java.time.temporal.ChronoUnit
 import java.util.Locale
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -714,38 +716,39 @@ class WidgetAdapter(
 
         override fun handleRowClick() {
             val widget = boundWidget ?: return
-            val dt = widget.state?.asDateTime?.getActualValue() ?: LocalDateTime.now()
+            val dt = widget.state?.asDateTime?.getActualValue()
             when (widget.inputHint) {
                 Widget.InputTypeHint.Date -> showDatePicker(widget, dt, false)
                 Widget.InputTypeHint.Datetime -> showDatePicker(widget, dt, true)
-                Widget.InputTypeHint.Time -> showTimePicker(widget, dt, false)
+                Widget.InputTypeHint.Time -> showTimePicker(widget, dt)
                 else -> assert(false) // shouldn't happen, selected at view holder construction time
             }
         }
 
-        private fun showDatePicker(widget: Widget, dt: LocalDateTime, showTime: Boolean) {
+        private fun showDatePicker(widget: Widget, dt: LocalDateTime?, showTime: Boolean) {
+            val date = dt?.truncatedTo(ChronoUnit.MINUTES) ?: LocalDate.now().atStartOfDay()
             val datePicker = MaterialDatePicker.Builder
                 .datePicker()
-                .setSelection(dt.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli())
+                .setSelection(date.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli())
                 .build()
             datePicker.addOnPositiveButtonClickListener {
-                val date = LocalDateTime.ofInstant(Instant.ofEpochMilli(datePicker.selection ?: 0), ZoneOffset.UTC)
-                if (showTime) {
-                    showTimePicker(widget, date, true)
-                } else {
-                    sendUpdate(widget, date)
-                }
+                val newDate = LocalDateTime
+                    .ofInstant(Instant.ofEpochMilli(datePicker.selection ?: 0), ZoneOffset.UTC)
+                    .withHour(date.hour)
+                    .withMinute(date.minute)
+                if (showTime) showTimePicker(widget, newDate)
+                else sendUpdate(widget, newDate)
             }
             fragmentPresenter.showSelectionFragment(datePicker, widget)
         }
 
-        private fun showTimePicker(widget: Widget, dt: LocalDateTime, keepDate: Boolean) {
+        private fun showTimePicker(widget: Widget, dt: LocalDateTime?) {
+            val date = dt?.truncatedTo(ChronoUnit.MINUTES) ?: LocalDateTime.ofInstant(Instant.ofEpochMilli(0), ZoneOffset.UTC)
             val timePicker = MaterialTimePicker.Builder()
-                .setHour(dt.hour)
-                .setMinute(dt.minute)
+                .setHour(date.hour)
+                .setMinute(date.minute)
                 .build()
             timePicker.addOnPositiveButtonClickListener {
-                val date = if (keepDate) dt else LocalDateTime.ofInstant(Instant.ofEpochMilli(0), ZoneOffset.UTC)
                 sendUpdate(widget, date.withHour(timePicker.hour).withMinute(timePicker.minute))
             }
             fragmentPresenter.showSelectionFragment(timePicker, widget)
