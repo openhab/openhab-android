@@ -143,7 +143,14 @@ class ItemsControlsProviderService : ControlsProviderService() {
             return ControlAction.RESPONSE_FAIL
         }
         val state = when (action) {
-            is BooleanAction -> if (action.newState) "ON" else "OFF"
+            is BooleanAction -> {
+                val item = ItemClient.loadItem(connection, itemName) ?: return ControlAction.RESPONSE_FAIL
+                if (item.isOfTypeOrGroupType(Item.Type.Player)) {
+                    if (action.newState) "PLAY" else "PAUSE"
+                } else {
+                    if (action.newState) "ON" else "OFF"
+                }
+            }
             is FloatAction -> action.newValue.roundToInt().toString()
             else -> {
                 Log.e(TAG, "Unsupported action $action")
@@ -301,6 +308,10 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 item.type == Item.Type.Number -> createRangeTemplate(
                     item,
                     item.state?.asNumber?.unit?.let { "%.0f $it" } ?: "%.0f"
+                )
+                item.type == Item.Type.Player -> ToggleTemplate(
+                    item.name,
+                    ControlButton(item.state?.asString == "PLAY", context.getString(R.string.nfc_action_toggle))
                 )
                 else -> ControlTemplate.getNoTemplateObject()
             }
