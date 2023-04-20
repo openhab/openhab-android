@@ -227,13 +227,7 @@ class WidgetAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val wasStarted = holder.stop()
-        holder.vhc = ViewHolderContext(
-            connection,
-            fragmentPresenter,
-            colorMapper,
-            serverFlags,
-            chartTheme
-        )
+        holder.vhc = ViewHolderContext(connection, fragmentPresenter, colorMapper, serverFlags, chartTheme)
         holder.bind(items[position])
         if (holder is FrameViewHolder) {
             holder.setShownAsFirst(position == firstVisibleWidgetPosition)
@@ -604,26 +598,40 @@ class WidgetAdapter(
         init {
             inputText.doAfterTextChanged { if (!isBinding) hasChanged = true }
             inputText.setOnFocusChangeListener { view, hasFocus ->
-                if (!hasFocus) {
+                if (hasFocus) {
+                    showKeyboard(view)
+                } else {
                     hideKeyboard(view)
-                    if (hasChanged) updateValue()
+                    if (hasChanged) {
+                        inputText.setText(oldValue ?: "")
+                    }
                 }
             }
             inputText.setOnEditorActionListener { view, action, _ ->
                 if (action == EditorInfo.IME_ACTION_DONE) {
                     hideKeyboard(view)
-                    if (hasChanged) updateValue()
+                    if (hasChanged) {
+                        updateValue()
+                    }
                     true
-                } else false
+                } else {
+                    false
+                }
             }
             // Indicate the UoM unit not being editable
             inputTextLayout.suffixTextView.alpha = 0.5F
+        }
+
+        private fun showKeyboard(view: View) {
+            val keyboard = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            keyboard.showSoftInput(inputText, InputMethodManager.SHOW_IMPLICIT)
         }
 
         private fun hideKeyboard(view: View) {
             val keyboard = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             keyboard.hideSoftInputFromWindow(inputText.windowToken, 0)
         }
+
         override fun bind(widget: Widget) {
             isBinding = true
             updateJob?.cancel()
@@ -734,15 +742,17 @@ class WidgetAdapter(
                     .ofInstant(Instant.ofEpochMilli(datePicker.selection ?: 0), ZoneOffset.UTC)
                     .withHour(date.hour)
                     .withMinute(date.minute)
-                if (showTime) showTimePicker(widget, newDate)
+                if (showTime) {
+                    showTimePicker(widget, newDate)
+                }
                 else sendUpdate(widget, newDate)
             }
             fragmentPresenter.showSelectionFragment(datePicker, widget)
         }
 
         private fun showTimePicker(widget: Widget, dt: LocalDateTime?) {
-            val date = dt?.truncatedTo(ChronoUnit.MINUTES) ?:
-                LocalDateTime.ofInstant(Instant.ofEpochMilli(0), ZoneOffset.UTC)
+            val date = dt?.truncatedTo(ChronoUnit.MINUTES)
+                ?: LocalDateTime.ofInstant(Instant.ofEpochMilli(0), ZoneOffset.UTC)
             val timePicker = MaterialTimePicker.Builder()
                 .setHour(date.hour)
                 .setMinute(date.minute)
