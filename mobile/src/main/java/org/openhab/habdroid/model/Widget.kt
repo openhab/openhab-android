@@ -61,7 +61,7 @@ data class Widget(
     val switchSupport: Boolean,
     val height: Int,
     val visibility: Boolean,
-    val rawInputHint: String?
+    val rawInputHint: InputTypeHint?
 ) : Parcelable {
     val label get() = rawLabel.split("[", "]")[0].trim()
     val stateFromLabel: String? get() = rawLabel.split("[", "]").getOrNull(1)?.trim()
@@ -74,11 +74,7 @@ data class Widget(
 
     val inputHint: InputTypeHint get() {
         if (rawInputHint != null) {
-            try {
-                return InputTypeHint.valueOf(rawInputHint.lowercase().replaceFirstChar { c -> c.uppercase() })
-            } catch (e: IllegalArgumentException) {
-                // fall through
-            }
+            return rawInputHint
         }
         if (item?.isOfTypeOrGroupType(Item.Type.DateTime) == true) {
             return InputTypeHint.Datetime
@@ -228,6 +224,13 @@ fun String?.toWidgetType(): Widget.Type {
     return Widget.Type.Unknown
 }
 
+fun String?.toInputHint(): Widget.InputTypeHint? = this?.let { value ->
+    try {
+        return Widget.InputTypeHint.valueOf(value.lowercase().replaceFirstChar { c -> c.uppercase() })
+    } catch (e: IllegalArgumentException) {
+        return null
+    }
+}
 fun Node.collectWidgets(parent: Widget?): List<Widget> {
     var item: Item? = null
     var linkedPage: LinkedPage? = null
@@ -362,7 +365,7 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         yAxisDecimalPattern = optString("yAxisDecimalPattern"),
         switchSupport = optBoolean("switchSupport", false),
         height = optInt("height"),
-        rawInputHint = optStringOrNull("inputHint"),
+        rawInputHint = optStringOrNull("inputHint").toInputHint(),
         visibility = optBoolean("visibility", true)
     )
 
