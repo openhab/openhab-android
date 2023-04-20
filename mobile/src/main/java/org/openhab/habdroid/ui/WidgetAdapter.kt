@@ -744,8 +744,9 @@ class WidgetAdapter(
                     .withMinute(date.minute)
                 if (showTime) {
                     showTimePicker(widget, newDate)
+                } else {
+                    sendUpdate(widget, newDate)
                 }
-                else sendUpdate(widget, newDate)
             }
             fragmentPresenter.showSelectionFragment(datePicker, widget)
         }
