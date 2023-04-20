@@ -664,6 +664,7 @@ class WidgetAdapter(
                 else -> widget.state.asString
             }
             inputText.setText(dataState)
+            inputText.text?.let { inputText.setSelection(it.length) }
             oldValue = dataState
 
             inputTextLayout.suffixText = when (widget.inputHint) {
@@ -678,6 +679,7 @@ class WidgetAdapter(
 
         override fun handleRowClick() {
             inputText.requestFocus()
+            inputText.setSelection(inputText.length())
         }
 
         private fun updateValue() {
