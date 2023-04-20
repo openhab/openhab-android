@@ -144,7 +144,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
         }
         val state = when (action) {
             is BooleanAction -> {
-                val item = loadItems(connection)?.get(itemName) ?: return ControlAction.RESPONSE_FAIL
+                val item = ItemClient.loadItem(connection, itemName) ?: return ControlAction.RESPONSE_FAIL
                 if (item.isOfTypeOrGroupType(Item.Type.Player)) {
                     if (action.newState) "PLAY" else "PAUSE"
                 } else {
