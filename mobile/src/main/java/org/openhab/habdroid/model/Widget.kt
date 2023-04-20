@@ -61,7 +61,7 @@ data class Widget(
     val switchSupport: Boolean,
     val height: Int,
     val visibility: Boolean,
-    val inputHint: InputTypeHint?
+    val rawInputHint: String?
 ) : Parcelable {
     val label get() = rawLabel.split("[", "]")[0].trim()
     val stateFromLabel: String? get() = rawLabel.split("[", "]").getOrNull(1)?.trim()
@@ -71,6 +71,20 @@ data class Widget(
     val minValue get() = min(configuredMinValue, configuredMaxValue)
     val maxValue get() = max(configuredMinValue, configuredMaxValue)
     val step get() = abs(configuredStep)
+
+    val inputHint: InputTypeHint get() {
+        if (rawInputHint != null) {
+            try {
+                return InputTypeHint.valueOf(rawInputHint.lowercase().replaceFirstChar { c -> c.uppercase() })
+            } catch (e: IllegalArgumentException) {
+                // fall through
+            }
+        }
+        if (item?.isOfTypeOrGroupType(Item.Type.DateTime) == true) {
+            return InputTypeHint.Datetime
+        }
+        return InputTypeHint.Text
+    }
 
     private val configuredMinValue get() = when {
         rawMinValue != null -> rawMinValue
@@ -184,7 +198,7 @@ data class Widget(
                 yAxisDecimalPattern = source.yAxisDecimalPattern,
                 height = source.height,
                 visibility = eventPayload.optBoolean("visibility", source.visibility),
-                inputHint = source.inputHint
+                rawInputHint = source.rawInputHint
             )
         }
 
@@ -212,19 +226,6 @@ fun String?.toWidgetType(): Widget.Type {
         }
     }
     return Widget.Type.Unknown
-}
-
-fun String?.toInputHint(item: Item?): Widget.InputTypeHint {
-    if (this != null) {
-        try {
-            return Widget.InputTypeHint.valueOf(this.toString().lowercase().replaceFirstChar { c -> c.uppercase() })
-        } catch (e: IllegalArgumentException) {
-            // fall through
-        }
-    } else {
-        if (item?.isOfTypeOrGroupType(Item.Type.DateTime) == true) return Widget.InputTypeHint.Datetime
-    }
-    return Widget.InputTypeHint.Text
 }
 
 fun Node.collectWidgets(parent: Widget?): List<Widget> {
@@ -315,7 +316,7 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
         yAxisDecimalPattern = null,
         switchSupport = switchSupport,
         height = height,
-        inputHint = null, // inputHint was added in openHAB 4, so no support for openHAB 1 required.
+        rawInputHint = null, // inputHint was added in openHAB 4, so no support for openHAB 1 required.
         visibility = true
     )
     val childWidgets = childWidgetNodes.map { node -> node.collectWidgets(widget) }.flatten()
@@ -334,7 +335,6 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
     val item = optJSONObject("item")?.toItem()
     val type = getString("type").toWidgetType()
     val icon = optStringOrNull("icon")
-    val inputHint = optStringOrNull("inputHint").toInputHint(item)
 
     val widget = Widget(
         id = getString("widgetId"),
@@ -362,7 +362,7 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         yAxisDecimalPattern = optString("yAxisDecimalPattern"),
         switchSupport = optBoolean("switchSupport", false),
         height = optInt("height"),
-        inputHint = inputHint,
+        rawInputHint = optStringOrNull("inputHint"),
         visibility = optBoolean("visibility", true)
     )
 
