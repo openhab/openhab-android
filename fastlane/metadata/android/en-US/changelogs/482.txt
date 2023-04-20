@@ -1,0 +1,6 @@
+## What's Changed
+* Fix icon name parsing by @mueller-ma in https://github.com/openhab/openhab-android/pull/3346
+* Fix monochrome beta icon by @mueller-ma in https://github.com/openhab/openhab-android/pull/3347
+* Improve Player items in device control by @mueller-ma in https://github.com/openhab/openhab-android/pull/3345
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.4.2-beta...3.4.3-beta
