@@ -78,10 +78,12 @@ import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.IconBackground
 import org.openhab.habdroid.util.MjpegStreamer
 import org.openhab.habdroid.util.beautify
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getChartTheme
+import org.openhab.habdroid.util.getIconFallbackColor
 import org.openhab.habdroid.util.getImageWidgetScalingType
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.orDefaultIfEmpty
@@ -658,7 +660,10 @@ class WidgetAdapter(
 
         override fun canBindWithoutDataTransfer(widget: Widget): Boolean {
             return widget.url == null ||
-                CacheManager.getInstance(itemView.context).isBitmapCached(connection.httpClient.buildUrl(widget.url))
+                CacheManager.getInstance(itemView.context).isBitmapCached(
+                    connection.httpClient.buildUrl(widget.url),
+                    imageView.context.getIconFallbackColor(IconBackground.APP_THEME)
+                )
         }
 
         override fun bindAfterDataSaverCheck(widget: Widget) {

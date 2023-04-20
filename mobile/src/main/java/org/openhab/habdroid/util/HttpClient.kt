@@ -14,6 +14,7 @@
 package org.openhab.habdroid.util
 
 import android.graphics.Bitmap
+import androidx.annotation.ColorInt
 import androidx.annotation.VisibleForTesting
 import java.io.IOException
 import java.nio.charset.StandardCharsets
@@ -218,7 +219,7 @@ class HttpClient constructor(client: OkHttpClient, baseUrl: String?, username: S
         @Throws(HttpException::class)
         suspend fun asBitmap(
             sizeInPixels: Int,
-            fallbackColor: Int,
+            @ColorInt fallbackColor: Int,
             conversionPolicy: ImageConversionPolicy
         ): HttpBitmapResult = try {
             val bitmap = withContext(Dispatchers.IO) {

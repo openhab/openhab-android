@@ -24,7 +24,6 @@ import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.content.res.ColorStateList
-import android.content.res.Configuration
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.location.LocationManager
@@ -106,7 +105,6 @@ import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.preference.widgets.toItemUpdatePrefValue
 import org.openhab.habdroid.ui.widget.LockableDrawerLayout
 import org.openhab.habdroid.util.AsyncServiceResolver
-import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.IconBackground
@@ -287,18 +285,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         super.onPostCreate(savedInstanceState)
         // Sync the toggle state after onRestoreInstanceState has occurred.
         drawerToggle.syncState()
-    }
-
-    /**
-     * Icons may be colored based on the dark mode. When it changes, all caches have to be cleared.
-     * Recreate the activity afterwards to apply the new theme.
-     */
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        CrashReportingHelper.d(TAG, "onConfigurationChanged()")
-        super.onConfigurationChanged(newConfig)
-        drawerToggle.onConfigurationChanged(newConfig)
-        CacheManager.getInstance(this).clearCache(true)
-        recreate()
     }
 
     override fun onStart() {

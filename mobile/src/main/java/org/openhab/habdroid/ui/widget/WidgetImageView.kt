@@ -246,7 +246,10 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
     private fun doLoad(client: HttpClient, url: HttpUrl, timeoutMillis: Long, forceLoad: Boolean) {
         cancelCurrentLoad()
 
-        val cached = CacheManager.getInstance(context).getCachedBitmap(url)
+        val cached = CacheManager.getInstance(context).getCachedBitmap(
+            url,
+            context.getIconFallbackColor(IconBackground.APP_THEME)
+        )
         val request = HttpImageRequest(client, url, targetImageSize, timeoutMillis)
 
         if (cached != null) {
@@ -361,15 +364,16 @@ class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppC
                         ScaleType.FIT_END, ScaleType.FIT_XY -> ImageConversionPolicy.PreferTargetSize
                         else -> ImageConversionPolicy.PreferSourceSize
                     }
+                    val fallbackColor = context.getIconFallbackColor(IconBackground.APP_THEME)
                     val bitmap = client.get(actualUrl.toString(),
                         timeoutMillis = timeoutMillis, caching = cachingMode)
                         .asBitmap(
                             size,
-                            context.getIconFallbackColor(IconBackground.APP_THEME),
+                            fallbackColor,
                             conversionPolicy
                         )
                         .response
-                    CacheManager.getInstance(context).cacheBitmap(url, bitmap)
+                    CacheManager.getInstance(context).cacheBitmap(url, bitmap, fallbackColor)
                     applyLoadedBitmap(bitmap)
                     lastRefreshTimestamp = SystemClock.uptimeMillis()
                     scheduleNextRefreshIfNeeded()
