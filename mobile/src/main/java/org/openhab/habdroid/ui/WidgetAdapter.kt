@@ -61,8 +61,6 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.slider.LabelFormatter
-import com.google.android.material.slider.Slider
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -743,7 +741,8 @@ class WidgetAdapter(
         }
 
         private fun showTimePicker(widget: Widget, dt: LocalDateTime?) {
-            val date = dt?.truncatedTo(ChronoUnit.MINUTES) ?: LocalDateTime.ofInstant(Instant.ofEpochMilli(0), ZoneOffset.UTC)
+            val date = dt?.truncatedTo(ChronoUnit.MINUTES) ?:
+                LocalDateTime.ofInstant(Instant.ofEpochMilli(0), ZoneOffset.UTC)
             val timePicker = MaterialTimePicker.Builder()
                 .setHour(date.hour)
                 .setMinute(date.minute)
