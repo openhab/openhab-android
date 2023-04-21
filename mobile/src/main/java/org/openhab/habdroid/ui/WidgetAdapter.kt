@@ -714,12 +714,12 @@ class WidgetAdapter(
 
             valueView?.text = when {
                 !displayState.isNullOrEmpty() -> displayState
-                widget.inputHint == Widget.InputTypeHint.Date
-                    -> dateTimeState?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
-                widget.inputHint == Widget.InputTypeHint.Time
-                    -> dateTimeState?.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                widget.inputHint == Widget.InputTypeHint.Datetime
-                    -> dateTimeState?.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
+                widget.inputHint == Widget.InputTypeHint.Date ->
+                    dateTimeState?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+                widget.inputHint == Widget.InputTypeHint.Time ->
+                    dateTimeState?.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                widget.inputHint == Widget.InputTypeHint.Datetime ->
+                    dateTimeState?.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
                 else -> dateTimeState?.toString()
             }
             valueView?.isVisible = !valueView?.text.isNullOrEmpty()
