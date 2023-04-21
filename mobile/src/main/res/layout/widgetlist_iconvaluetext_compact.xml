@@ -30,7 +30,6 @@
         android:id="@+id/widgetvalue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_gravity="center_vertical"
         android:textDirection="anyRtl"
         android:maxLines="1"
