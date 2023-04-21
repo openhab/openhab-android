@@ -69,6 +69,8 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.time.temporal.ChronoUnit
 import java.util.Locale
 import kotlin.math.min
@@ -712,9 +714,12 @@ class WidgetAdapter(
 
             valueView?.text = when {
                 !displayState.isNullOrEmpty() -> displayState
-                widget.inputHint == Widget.InputTypeHint.Date -> dateTimeState?.toLocalDate()
-                widget.inputHint == Widget.InputTypeHint.Time -> dateTimeState?.toLocalTime()
-                widget.inputHint == Widget.InputTypeHint.Datetime -> dateTimeState?.toLocalDateTime()
+                widget.inputHint == Widget.InputTypeHint.Date
+                    -> dateTimeState?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+                widget.inputHint == Widget.InputTypeHint.Time
+                    -> dateTimeState?.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                widget.inputHint == Widget.InputTypeHint.Datetime
+                    -> dateTimeState?.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
                 else -> dateTimeState?.toString()
             }
             valueView?.isVisible = !valueView?.text.isNullOrEmpty()
@@ -722,7 +727,7 @@ class WidgetAdapter(
 
         override fun handleRowClick() {
             val widget = boundWidget ?: return
-            val dt = widget.state?.asDateTime?.getActualValue()
+            val dt = widget.state?.asDateTime
             when (widget.inputHint) {
                 Widget.InputTypeHint.Date -> showDatePicker(widget, dt, false)
                 Widget.InputTypeHint.Datetime -> showDatePicker(widget, dt, true)
@@ -765,8 +770,7 @@ class WidgetAdapter(
         }
 
         private fun sendUpdate(widget: Widget, dateTime: LocalDateTime) {
-            val state = widget.state?.asDateTime.withValue(dateTime)
-            connection.httpClient.sendItemUpdate(widget.item, state)
+            connection.httpClient.sendItemUpdate(widget.item, dateTime)
         }
     }
 
@@ -1681,12 +1685,12 @@ fun HttpClient.sendItemUpdate(item: Item?, state: ParsedState.NumberState?) {
     }
 }
 
-fun HttpClient.sendItemUpdate(item: Item?, state: ParsedState.DateTimeState?) {
+fun HttpClient.sendItemUpdate(item: Item?, state: LocalDateTime?) {
     if (item == null || state == null) {
         return
     }
     if (item.isOfTypeOrGroupType(Item.Type.DateTime)) {
-        sendItemCommand(item, state.toISOLocalDateTime())
+        sendItemCommand(item, state.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
     }
 }
 

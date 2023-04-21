@@ -203,8 +203,6 @@ data class Widget(
 
         internal fun determineWidgetState(state: String?, item: Item?): ParsedState? = when {
             state == null -> item?.state
-            item?.isOfTypeOrGroupType(Item.Type.DateTime) == true ->
-                state.toParsedState(item.state?.asDateTime?.format)
             item?.isOfTypeOrGroupType(Item.Type.Number) == true ||
                 item?.isOfTypeOrGroupType(Item.Type.NumberWithDimension) == true ->
                 state.toParsedState(item.state?.asNumber?.format)
