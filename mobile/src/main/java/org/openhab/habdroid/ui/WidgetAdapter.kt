@@ -416,7 +416,7 @@ class WidgetAdapter(
                 valueView.isVisible = !widget.stateFromLabel.isNullOrEmpty()
                 valueView.applyWidgetColor(widget.valueColor, colorMapper)
             }
-            val showIcon = !iconView.context.getPrefs().getBoolean(PrefKeys.SHOW_ICONS, true)
+            val showIcon = iconView.context.getPrefs().getBoolean(PrefKeys.SHOW_ICONS, true)
             iconView.isGone = !showIcon
             if (showIcon) {
                 iconView.loadWidgetIcon(connection, widget, colorMapper)
