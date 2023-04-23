@@ -42,6 +42,8 @@
     <string name="settings_sitemap_compact_mode_title">Компактен изглед</string>
     <string name="settings_sitemap_compact_mode_off">Използвай два реда за да покажеш Sitemap джаджи. Това прави елементите по-големи и по-лесни за употреба, но използва повече място при по-дълги списъци</string>
     <string name="settings_sitemap_compact_mode_on">Използвай един ред за показване на Sitemap елементи. Това поставя възможно най-много елементи на екрана, но намалява размера на отделните елементи</string>
+    <string name="settings_color_scheme_title">Цветова палитра</string>
+    <string name="settings_show_icons">Покажи иконките</string>
     <string name="settings_openhab_icon_format">Формат на иконите</string>
     <string name="settings_openhab_icon_format_png">Растерна графика</string>
     <string name="settings_openhab_icon_format_svg">Вектор</string>
@@ -206,11 +208,11 @@
     <string name="mtm_notification">Проверка на сертификата</string>
     <string name="settings_openhab_none">Няма</string>
     <!-- Themes -->
-    <string name="theme_name_light">Светло</string>
-    <string name="theme_name_dark">Тъмно</string>
+    <string name="theme_name_light">Светла</string>
+    <string name="theme_name_dark">Тъмна</string>
     <string name="theme_name_system">Според системата</string>
     <string name="theme_name_battery_saver">Тъмен режим при пестене на батерия</string>
-    <string name="theme_name_black">Черно</string>
+    <string name="theme_name_black">Черна</string>
     <string name="color_scheme_name_default">По подразбиране</string>
     <!-- Chart -->
     <string name="chart_activity_hide_legend">Скрий легендата</string>
@@ -332,6 +334,7 @@
     <!-- Data saver -->
     <string name="data_saver_title">Пестене на данни</string>
     <string name="data_saver_on">Елементи от сайткартата, които могат да изискват много данни, няма да се зареждат</string>
+    <string name="data_saver_off">При зареждане на сайткарти се вземат пред вид настройките на устройството за пестене на данни</string>
     <string name="data_saver_off_pre_n">Всички елементи от сайткартата се зареждат, независимо от употребата на данни</string>
     <string name="data_saver_load">Зареди въпреки това</string>
     <string name="data_saver_snackbar">Картинките не се основават на състоянието на елементите, за да се пестят данни</string>
