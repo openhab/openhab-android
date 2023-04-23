@@ -11,7 +11,7 @@
         app:useSimpleSummaryProvider="true"
         android:entries="@array/device_control_subtitle"
         android:entryValues="@array/device_control_subtitle_values"/>
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:key="device_control_auth_required"
         android:title="@string/tile_require_unlock"
         android:defaultValue="true" />
