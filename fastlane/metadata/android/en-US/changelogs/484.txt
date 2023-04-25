@@ -1,0 +1,5 @@
+## What's Changed
+* SVGs in MainActivity follow DayNight mode changes by @mueller-ma in https://github.com/openhab/openhab-android/pull/3338
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.4.4-beta...3.4.5-beta
