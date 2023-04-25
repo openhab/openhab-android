@@ -16,6 +16,7 @@ package org.openhab.habdroid.util
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.LruCache
+import androidx.annotation.ColorInt
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -41,12 +42,14 @@ class CacheManager private constructor(appContext: Context) {
         temporaryBitmapCache = BitmapCache(maxMemory / 8)
     }
 
-    fun getCachedBitmap(url: HttpUrl): Bitmap? {
-        return targetCache(url).get(url)
+    fun getCachedBitmap(url: HttpUrl, @ColorInt fallbackColor: Int): Bitmap? {
+        val key = CacheKey(url, fallbackColor)
+        return targetCache(url).get(key)
     }
 
-    fun cacheBitmap(url: HttpUrl, bitmap: Bitmap) {
-        targetCache(url).put(url, bitmap)
+    fun cacheBitmap(url: HttpUrl, bitmap: Bitmap, @ColorInt fallbackColor: Int) {
+        val key = CacheKey(url, fallbackColor)
+        targetCache(url).put(key, bitmap)
     }
 
     private fun targetCache(url: HttpUrl): BitmapCache {
@@ -57,8 +60,8 @@ class CacheManager private constructor(appContext: Context) {
         }
     }
 
-    fun isBitmapCached(url: HttpUrl): Boolean {
-        return getCachedBitmap(url) != null
+    fun isBitmapCached(url: HttpUrl, @ColorInt fallbackColor: Int): Boolean {
+        return getCachedBitmap(url, fallbackColor) != null
     }
 
     fun saveWidgetIcon(widgetId: Int, iconData: InputStream, format: IconFormat) {
@@ -103,11 +106,16 @@ class CacheManager private constructor(appContext: Context) {
         return File(widgetIconDirectory, widgetId.toString() + suffix)
     }
 
-    class BitmapCache(maxSize: Int) : LruCache<HttpUrl, Bitmap>(maxSize) {
-        override fun sizeOf(key: HttpUrl, value: Bitmap): Int {
+    class BitmapCache(maxSize: Int) : LruCache<CacheKey, Bitmap>(maxSize) {
+        override fun sizeOf(key: CacheKey, value: Bitmap): Int {
             return value.byteCount / 1024
         }
     }
+
+    data class CacheKey(
+        val url: HttpUrl,
+        @ColorInt val fallbackColor: Int
+    )
 
     companion object {
         private var instance: CacheManager? = null

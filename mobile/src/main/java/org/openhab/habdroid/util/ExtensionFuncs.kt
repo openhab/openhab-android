@@ -166,7 +166,11 @@ enum class ImageConversionPolicy {
 }
 
 @Throws(IOException::class)
-fun ResponseBody.toBitmap(targetSize: Int, fallbackColor: Int, conversionPolicy: ImageConversionPolicy): Bitmap {
+fun ResponseBody.toBitmap(
+    targetSize: Int,
+    @ColorInt fallbackColor: Int,
+    conversionPolicy: ImageConversionPolicy
+): Bitmap {
     if (!contentType().isSvg()) {
         val bitmap = BitmapFactory.decodeStream(byteStream())
             ?: throw IOException(
@@ -194,7 +198,11 @@ fun MediaType?.isSvg(): Boolean {
 }
 
 @Throws(IOException::class)
-fun InputStream.svgToBitmap(targetSize: Int, fallbackColor: Int, conversionPolicy: ImageConversionPolicy): Bitmap {
+fun InputStream.svgToBitmap(
+    targetSize: Int,
+    @ColorInt fallbackColor: Int,
+    conversionPolicy: ImageConversionPolicy
+): Bitmap {
     return try {
         val svg = SVG.getFromInputStream(this)
         val displayMetrics = Resources.getSystem().displayMetrics
