@@ -29,7 +29,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.Button
@@ -600,18 +599,14 @@ class WidgetAdapter(
         init {
             inputText.doAfterTextChanged { if (!isBinding) hasChanged = true }
             inputText.setOnFocusChangeListener { view, hasFocus ->
-                if (hasFocus) {
-                    showKeyboard(view)
-                } else {
-                    hideKeyboard(view)
-                    if (hasChanged) {
-                        inputText.setText(oldValue ?: "")
-                    }
+                inputText.setKeyboardVisible(hasFocus)
+                if (!hasFocus && hasChanged) {
+                    inputText.setText(oldValue)
                 }
             }
             inputText.setOnEditorActionListener { view, action, _ ->
                 if (action == EditorInfo.IME_ACTION_DONE) {
-                    hideKeyboard(view)
+                    inputText.setKeyboardVisible(false)
                     if (hasChanged) {
                         updateValue()
                     }
@@ -622,16 +617,6 @@ class WidgetAdapter(
             }
             // Indicate the UoM unit not being editable
             inputTextLayout.suffixTextView.alpha = 0.5F
-        }
-
-        private fun showKeyboard(view: View) {
-            val keyboard = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            keyboard.showSoftInput(inputText, InputMethodManager.SHOW_IMPLICIT)
-        }
-
-        private fun hideKeyboard(view: View) {
-            val keyboard = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            keyboard.hideSoftInputFromWindow(inputText.windowToken, 0)
         }
 
         override fun bind(widget: Widget) {
@@ -647,11 +632,6 @@ class WidgetAdapter(
 
             val displayState = widget.stateFromLabel?.replace("\n", "") ?: ""
 
-            inputTextLayout.placeholderText = when {
-                widget.state != null -> ""
-                else -> displayState
-            }
-
             val dataState = when {
                 widget.state == null -> ""
                 widget.inputHint == Widget.InputTypeHint.Number -> widget.state.asNumber?.formatValue()
@@ -660,15 +640,18 @@ class WidgetAdapter(
             }
             inputText.setText(dataState)
             inputText.text?.let { inputText.setSelection(it.length) }
-            oldValue = dataState
 
+            inputTextLayout.placeholderText = if (widget.state != null) "" else displayState
             inputTextLayout.suffixText = when (widget.inputHint) {
                 Widget.InputTypeHint.Number -> widget.state?.asNumber?.unit
                 else -> null
             }
 
+            oldValue = dataState
+
             inputText.applyWidgetColor(widget.valueColor, colorMapper)
             inputTextLayout.suffixTextView.applyWidgetColor(widget.valueColor, colorMapper)
+
             isBinding = false
         }
 
@@ -712,15 +695,10 @@ class WidgetAdapter(
             val displayState = widget.stateFromLabel?.replace("\n", "")
             val dateTimeState = widget.state?.asDateTime
 
-            valueView?.text = when {
-                !displayState.isNullOrEmpty() -> displayState
-                widget.inputHint == Widget.InputTypeHint.Date ->
-                    dateTimeState?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
-                widget.inputHint == Widget.InputTypeHint.Time ->
-                    dateTimeState?.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                widget.inputHint == Widget.InputTypeHint.Datetime ->
-                    dateTimeState?.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
-                else -> dateTimeState?.toString()
+            valueView?.text = if (displayState.isNullOrEmpty()) {
+                dateTimeState?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+            } else {
+                displayState
             }
             valueView?.isVisible = !valueView?.text.isNullOrEmpty()
         }

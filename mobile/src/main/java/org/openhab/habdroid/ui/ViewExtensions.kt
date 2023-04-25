@@ -14,12 +14,15 @@
 package org.openhab.habdroid.ui
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Build
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
 import android.webkit.WebView
 import android.webkit.WebViewDatabase
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RemoteViews
 import androidx.appcompat.widget.TooltipCompat
@@ -81,6 +84,15 @@ fun ImageView.setupHelpIcon(url: String, contentDescriptionRes: Int) {
 
 fun ImageView.updateHelpIconAlpha(isEnabled: Boolean) {
     alpha = if (isEnabled) 1.0f else 0.5f
+}
+
+fun EditText.setKeyboardVisible(visible: Boolean) {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    if (visible) {
+        imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+    } else {
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
 }
 
 fun View.playPressAnimationAndCallBack(postAnimationCallback: () -> Unit) {
