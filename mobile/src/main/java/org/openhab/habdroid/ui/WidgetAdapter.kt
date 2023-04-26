@@ -598,13 +598,13 @@ class WidgetAdapter(
 
         init {
             inputText.doAfterTextChanged { if (!isBinding) hasChanged = true }
-            inputText.setOnFocusChangeListener { view, hasFocus ->
+            inputText.setOnFocusChangeListener { _, hasFocus ->
                 inputText.setKeyboardVisible(hasFocus)
                 if (!hasFocus && hasChanged) {
                     inputText.setText(oldValue)
                 }
             }
-            inputText.setOnEditorActionListener { view, action, _ ->
+            inputText.setOnEditorActionListener { _, action, _ ->
                 if (action == EditorInfo.IME_ACTION_DONE) {
                     inputText.setKeyboardVisible(false)
                     if (hasChanged) {
@@ -695,10 +695,15 @@ class WidgetAdapter(
             val displayState = widget.stateFromLabel?.replace("\n", "")
             val dateTimeState = widget.state?.asDateTime
 
-            valueView?.text = if (displayState.isNullOrEmpty()) {
-                dateTimeState?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
-            } else {
-                displayState
+            valueView?.text = when {
+                !displayState.isNullOrEmpty() -> displayState
+                widget.inputHint == Widget.InputTypeHint.Date ->
+                    dateTimeState?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+                widget.inputHint == Widget.InputTypeHint.Time ->
+                    dateTimeState?.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                widget.inputHint == Widget.InputTypeHint.Datetime ->
+                    dateTimeState?.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
+                else -> dateTimeState?.toString()
             }
             valueView?.isVisible = !valueView?.text.isNullOrEmpty()
         }
