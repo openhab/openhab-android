@@ -1,0 +1,7 @@
+## What's Changed
+* Support for Input widget by @mherwege in https://github.com/openhab/openhab-android/pull/3337
+
+## New Contributors
+* @mherwege made their first contribution in https://github.com/openhab/openhab-android/pull/3337
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.4.5-beta...3.4.6-beta
