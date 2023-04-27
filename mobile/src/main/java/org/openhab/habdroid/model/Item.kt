@@ -316,7 +316,7 @@ fun JSONObject.toItem(): Item {
         emptyList()
     }
 
-    val numberPattern = stateDescription?.optString("pattern")?.let { pattern ->
+    val formatPattern = stateDescription?.optString("pattern")?.let { pattern ->
         // Remove transformation instructions (e.g. for 'MAP(foo.map):%s' keep only '%s')
         val matchResult = """^[A-Z]+(\(.*\))?:(.*)$""".toRegex().find(pattern)
         if (matchResult != null) {
@@ -348,7 +348,7 @@ fun JSONObject.toItem(): Item {
         readOnly = readOnly,
         members = members,
         options = if (options.isNullOrEmpty()) null else options,
-        state = state.toParsedState(numberPattern),
+        state = state.toParsedState(formatPattern),
         tags = tags,
         groupNames = groupNames,
         minimum = stateDescription?.optFloatOrNull("minimum"),

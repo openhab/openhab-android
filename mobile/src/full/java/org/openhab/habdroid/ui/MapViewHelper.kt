@@ -13,7 +13,6 @@
 
 package org.openhab.habdroid.ui
 
-import android.content.DialogInterface
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -80,7 +79,7 @@ object MapViewHelper {
 
         override fun openPopup() {
             val widget = boundWidget ?: return
-            bottomSheetPresenter.showBottomSheet(MapBottomSheet(), widget)
+            fragmentPresenter.showBottomSheet(MapBottomSheet(), widget)
         }
     }
 }

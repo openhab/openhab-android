@@ -60,7 +60,8 @@ data class Widget(
     val yAxisDecimalPattern: String?,
     val switchSupport: Boolean,
     val height: Int,
-    val visibility: Boolean
+    val visibility: Boolean,
+    val rawInputHint: InputTypeHint?
 ) : Parcelable {
     val label get() = rawLabel.split("[", "]")[0].trim()
     val stateFromLabel: String? get() = rawLabel.split("[", "]").getOrNull(1)?.trim()
@@ -70,6 +71,16 @@ data class Widget(
     val minValue get() = min(configuredMinValue, configuredMaxValue)
     val maxValue get() = max(configuredMinValue, configuredMaxValue)
     val step get() = abs(configuredStep)
+
+    val inputHint: InputTypeHint get() {
+        if (rawInputHint != null) {
+            return rawInputHint
+        }
+        if (item?.isOfTypeOrGroupType(Item.Type.DateTime) == true) {
+            return InputTypeHint.Datetime
+        }
+        return InputTypeHint.Text
+    }
 
     private val configuredMinValue get() = when {
         rawMinValue != null -> rawMinValue
@@ -103,7 +114,16 @@ data class Widget(
         Text,
         Video,
         Webview,
+        Input,
         Unknown
+    }
+
+    enum class InputTypeHint {
+        Text,
+        Number,
+        Date,
+        Time,
+        Datetime
     }
 
     fun toChartUrl(
@@ -173,15 +193,20 @@ data class Widget(
                 switchSupport = source.switchSupport,
                 yAxisDecimalPattern = source.yAxisDecimalPattern,
                 height = source.height,
-                visibility = eventPayload.optBoolean("visibility", source.visibility)
+                visibility = eventPayload.optBoolean("visibility", source.visibility),
+                rawInputHint = source.rawInputHint
             )
         }
 
         internal fun sanitizeRefreshRate(refresh: Int) = if (refresh in 1..99) 100 else refresh
         internal fun sanitizePeriod(period: String?) = if (period.isNullOrEmpty()) "D" else period
 
-        internal fun determineWidgetState(state: String?, item: Item?): ParsedState? {
-            return state.toParsedState(item?.state?.asNumber?.format) ?: item?.state
+        internal fun determineWidgetState(state: String?, item: Item?): ParsedState? = when {
+            state == null -> item?.state
+            item?.isOfTypeOrGroupType(Item.Type.Number) == true ||
+                item?.isOfTypeOrGroupType(Item.Type.NumberWithDimension) == true ->
+                state.toParsedState(item.state?.asNumber?.format)
+            else -> state.toParsedState()
         }
     }
 }
@@ -197,6 +222,13 @@ fun String?.toWidgetType(): Widget.Type {
     return Widget.Type.Unknown
 }
 
+fun String?.toInputHint(): Widget.InputTypeHint? = this?.let { value ->
+    try {
+        return Widget.InputTypeHint.valueOf(value.lowercase().replaceFirstChar { c -> c.uppercase() })
+    } catch (e: IllegalArgumentException) {
+        return null
+    }
+}
 fun Node.collectWidgets(parent: Widget?): List<Widget> {
     var item: Item? = null
     var linkedPage: LinkedPage? = null
@@ -285,6 +317,7 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
         yAxisDecimalPattern = null,
         switchSupport = switchSupport,
         height = height,
+        rawInputHint = null, // inputHint was added in openHAB 4, so no support for openHAB 1 required.
         visibility = true
     )
     val childWidgets = childWidgetNodes.map { node -> node.collectWidgets(widget) }.flatten()
@@ -330,6 +363,7 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         yAxisDecimalPattern = optString("yAxisDecimalPattern"),
         switchSupport = optBoolean("switchSupport", false),
         height = optInt("height"),
+        rawInputHint = optStringOrNull("inputHint").toInputHint(),
         visibility = optBoolean("visibility", true)
     )
 

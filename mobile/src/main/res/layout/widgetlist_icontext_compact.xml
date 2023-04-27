@@ -8,6 +8,7 @@
         android:id="@+id/widgeticon"
         android:layout_width="@dimen/widgetlist_icon_size"
         android:layout_height="@dimen/widgetlist_icon_size"
+        android:layout_marginEnd="8dp"
         android:layout_gravity="center_vertical"
         app:imageScalingType="scaleToFit"
         tools:src="@drawable/ic_openhab_appicon_24dp" />
@@ -17,7 +18,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="8dp"
         android:layout_weight="1"
         android:ellipsize="end"
         android:maxLines="1"

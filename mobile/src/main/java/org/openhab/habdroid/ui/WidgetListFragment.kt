@@ -45,6 +45,7 @@ import androidx.core.graphics.drawable.IconCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -86,7 +87,7 @@ import org.openhab.habdroid.util.useCompactSitemapLayout
 class WidgetListFragment :
     Fragment(),
     WidgetAdapter.ItemClickListener,
-    WidgetAdapter.DetailBottomSheetPresenter,
+    WidgetAdapter.FragmentPresenter,
     AbstractWidgetBottomSheet.ConnectionGetter,
     OpenHabApplication.OnDataUsagePolicyChangedListener,
     SharedPreferences.OnSharedPreferenceChangeListener {
@@ -216,6 +217,10 @@ class WidgetListFragment :
     override fun showBottomSheet(sheet: AbstractWidgetBottomSheet, widget: Widget) {
         sheet.arguments = AbstractWidgetBottomSheet.createArguments(widget)
         sheet.show(childFragmentManager, "${sheet.javaClass.simpleName}-${widget.id}")
+    }
+
+    override fun showSelectionFragment(fragment: DialogFragment, widget: Widget) {
+        fragment.show(childFragmentManager, "Selection-${widget.id}")
     }
 
     override fun onSharedPreferenceChanged(prefs: SharedPreferences?, key: String?) {

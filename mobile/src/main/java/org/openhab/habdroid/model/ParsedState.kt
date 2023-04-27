@@ -16,6 +16,9 @@ package org.openhab.habdroid.model
 import android.graphics.Color
 import android.location.Location
 import android.os.Parcelable
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.util.IllegalFormatException
 import java.util.Locale
 import java.util.regex.Pattern
@@ -36,7 +39,8 @@ data class ParsedState internal constructor(
     val asNumber: NumberState?,
     val asHsv: HsvState?,
     val asBrightness: Int?,
-    val asLocation: Location?
+    val asLocation: Location?,
+    val asDateTime: LocalDateTime?
 ) : Parcelable {
     override fun equals(other: Any?): Boolean {
         return other is ParsedState && asString == other.asString
@@ -91,9 +95,11 @@ data class ParsedState internal constructor(
             val stateSplit = state.split(",")
             if (stateSplit.size == 3) { // We need exactly 3 numbers to operate this
                 try {
-                    return HsvState(stateSplit[0].toFloat(),
+                    return HsvState(
+                        stateSplit[0].toFloat(),
                         stateSplit[1].toFloat() / 100,
-                        stateSplit[2].toFloat() / 100)
+                        stateSplit[2].toFloat() / 100
+                    )
                 } catch (e: NumberFormatException) {
                     // fall through
                 }
@@ -138,6 +144,14 @@ data class ParsedState internal constructor(
         }
 
         private val HSB_PATTERN = Pattern.compile("^([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+)$")
+
+        internal fun parseAsDateTime(state: String): LocalDateTime? {
+            return try {
+                LocalDateTime.parse(state.split(".")[0], DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            } catch (e: DateTimeParseException) {
+                null
+            }
+        }
     }
 
     @Parcelize
@@ -183,17 +197,19 @@ fun ParsedState.NumberState?.withValue(value: Float): ParsedState.NumberState {
 /**
  * Parses a state string into the parsed representation.
  *
- * @param numberPattern Format to use when parsing the input as number
+ * @param formatPattern Format to use when parsing the input as number or date
  * @return null if state string is null, parsed representation otherwise
  */
-fun String?.toParsedState(numberPattern: String? = null): ParsedState? {
+fun String?.toParsedState(formatPattern: String? = null): ParsedState? {
     if (this == null) {
         return null
     }
     return ParsedState(this,
         ParsedState.parseAsBoolean(this),
-        ParsedState.parseAsNumber(this, numberPattern),
+        ParsedState.parseAsNumber(this, formatPattern),
         ParsedState.parseAsHsv(this),
         ParsedState.parseAsBrightness(this),
-        ParsedState.parseAsLocation(this))
+        ParsedState.parseAsLocation(this),
+        ParsedState.parseAsDateTime(this)
+    )
 }
