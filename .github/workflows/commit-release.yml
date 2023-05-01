@@ -72,7 +72,7 @@ jobs:
           echo "========================"
 
       - name: Commit changes
-        uses: EndBug/add-and-commit@v9.1.1
+        uses: EndBug/add-and-commit@v9.1.2
         with:
           add: '.'
           author_name: openhab-bot
