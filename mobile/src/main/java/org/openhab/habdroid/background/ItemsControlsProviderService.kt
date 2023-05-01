@@ -352,7 +352,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
 }
 
 @RequiresApi(Build.VERSION_CODES.R)
-fun Item.getDeviceType() = when (category?.lowercase()) {
+fun Item.getDeviceType() = when (category?.lowercase()?.substringAfterLast(':')) {
     "screen", "soundvolume", "receiver" -> DeviceTypes.TYPE_TV
     "lightbulb", "light", "slider" -> DeviceTypes.TYPE_LIGHT
     "lock" -> DeviceTypes.TYPE_LOCK
@@ -387,7 +387,6 @@ fun Item.getDeviceType() = when (category?.lowercase()) {
         Item.Tag.CeilingFan in tags -> DeviceTypes.TYPE_FAN
         Item.Tag.CellarDoor in tags -> DeviceTypes.TYPE_DOOR
         Item.Tag.CleaningRobot in tags -> DeviceTypes.TYPE_VACUUM
-        Item.Tag.Control in tags -> DeviceTypes.TYPE_REMOTE_CONTROL
         Item.Tag.Dishwasher in tags -> DeviceTypes.TYPE_DISHWASHER
         Item.Tag.Door in tags -> DeviceTypes.TYPE_DOOR
         Item.Tag.Doorbell in tags -> DeviceTypes.TYPE_DOORBELL
@@ -411,6 +410,7 @@ fun Item.getDeviceType() = when (category?.lowercase()) {
         Item.Tag.Oven in tags -> DeviceTypes.TYPE_MULTICOOKER
         Item.Tag.PowerOutlet in tags -> DeviceTypes.TYPE_OUTLET
         Item.Tag.Projector in tags -> DeviceTypes.TYPE_TV
+        Item.Tag.RadiatorControl in tags -> DeviceTypes.TYPE_RADIATOR
         Item.Tag.Receiver in tags -> DeviceTypes.TYPE_TV
         Item.Tag.Refrigerator in tags -> DeviceTypes.TYPE_REFRIGERATOR
         Item.Tag.RemoteControl in tags -> DeviceTypes.TYPE_REMOTE_CONTROL
@@ -426,6 +426,9 @@ fun Item.getDeviceType() = when (category?.lowercase()) {
         Item.Tag.WashingMachine in tags -> DeviceTypes.TYPE_WASHER
         Item.Tag.WhiteGood in tags -> DeviceTypes.TYPE_WASHER
         Item.Tag.Window in tags -> DeviceTypes.TYPE_WINDOW
+
+        // Items tagged with 'Control' might have a second more suitable tag, e.g. 'Light'
+        Item.Tag.Control in tags -> DeviceTypes.TYPE_REMOTE_CONTROL
 
         // Fallback mappings of Item type or tag to device type
         Item.Tag.Bathroom in tags -> DeviceTypes.TYPE_SHOWER
