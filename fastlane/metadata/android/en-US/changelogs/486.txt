@@ -1,0 +1,3 @@
+• Support new Sitemap widget Input (requires openHAB server 4)
+• Add setting to hide icons in Sitemap
+• Fine tune widget value slider value update behavior
