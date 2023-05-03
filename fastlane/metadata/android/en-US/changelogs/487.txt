@@ -1,0 +1,6 @@
+## What's Changed
+* Improve icons in device control tiles by @mueller-ma in https://github.com/openhab/openhab-android/pull/3366
+* Show activities launched by device control on lock screen by @mueller-ma in https://github.com/openhab/openhab-android/pull/3362
+* Fix sending ACRA mail by @mueller-ma in https://github.com/openhab/openhab-android/pull/3367
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.4.6-beta...3.5.1-beta
