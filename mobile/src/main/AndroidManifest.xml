@@ -105,10 +105,15 @@
         <activity
             android:name=".ui.ColorItemActivity"
             android:label="@string/widget_type_color"
-            android:exported="false" />
+            android:showWhenLocked="true"
+            android:exported="false"
+            tools:targetApi="o_mr1" />
         <activity
             android:name=".ui.SelectionItemActivity"
-            android:exported="false" />
+            android:showWhenLocked="true"
+            android:exported="false"
+            tools:targetApi="o_mr1" />
+
         <activity
             android:name=".ui.MainActivity"
             android:launchMode="singleTop"
