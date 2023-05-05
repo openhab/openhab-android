@@ -32,13 +32,13 @@ import android.view.inputmethod.EditorInfo
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.Button
-import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.isGone
@@ -60,6 +60,7 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -562,7 +563,7 @@ class WidgetAdapter(
 
     class SwitchViewHolder internal constructor(initData: ViewHolderInitData) :
         LabeledItemBaseViewHolder(initData, R.layout.widgetlist_switchitem, R.layout.widgetlist_switchitem_compact) {
-        private val switch: CompoundButton = itemView.findViewById(R.id.toggle)
+        private val switch: MaterialSwitch = itemView.findViewById(R.id.toggle)
         private var isBinding = false
 
         init {
@@ -577,6 +578,12 @@ class WidgetAdapter(
             isBinding = true
             super.bind(widget)
             switch.isChecked = boundWidget?.item?.state?.asBoolean == true
+            switch.thumbIconDrawable = if (boundWidget?.item?.state == null) {
+                ContextCompat.getDrawable(switch.context, R.drawable.baseline_question_mark_24)
+            } else {
+                null
+            }
+
             isBinding = false
         }
 
