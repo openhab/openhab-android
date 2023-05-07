@@ -107,11 +107,13 @@
             android:label="@string/widget_type_color"
             android:showWhenLocked="true"
             android:exported="false"
+            android:taskAffinity=".ui.ColorItemActivity"
             tools:targetApi="o_mr1" />
         <activity
             android:name=".ui.SelectionItemActivity"
             android:showWhenLocked="true"
             android:exported="false"
+            android:taskAffinity=".ui.SelectionItemActivity"
             tools:targetApi="o_mr1" />
 
         <activity
