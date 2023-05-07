@@ -6,25 +6,30 @@
         android:defaultValue="false"
         android:key="show_sitemaps"
         android:title="@string/settings_show_sitemaps_in_drawer"
-        app:singleLineTitle="false" />
+        app:singleLineTitle="false"
+        android:widgetLayout="@layout/preference_material_switch" />
     <SwitchPreferenceCompat
         android:defaultValue="true"
         android:key="show_oh3_ui"
         android:icon="@drawable/ic_outline_looks_3_grey_24dp"
-        android:title="@string/mainmenu_openhab_oh3_ui" />
+        android:title="@string/mainmenu_openhab_oh3_ui"
+        android:widgetLayout="@layout/preference_material_switch" />
     <SwitchPreferenceCompat
         android:defaultValue="true"
         android:key="show_habpanel"
         android:icon="@drawable/ic_view_dashboard_outline_grey_24dp"
-        android:title="@string/mainmenu_openhab_habpanel" />
+        android:title="@string/mainmenu_openhab_habpanel"
+        android:widgetLayout="@layout/preference_material_switch" />
     <SwitchPreferenceCompat
         android:defaultValue="false"
         android:key="show_frontail"
         android:icon="@drawable/ic_outline_format_align_left_grey_24dp"
-        android:title="@string/mainmenu_openhab_frontail" />
+        android:title="@string/mainmenu_openhab_frontail"
+        android:widgetLayout="@layout/preference_material_switch" />
     <SwitchPreferenceCompat
         android:defaultValue="true"
         android:key="show_nfc"
         android:icon="@drawable/ic_nfc_grey_24dp"
-        android:title="@string/intro_nfc" />
+        android:title="@string/intro_nfc"
+        android:widgetLayout="@layout/preference_material_switch" />
 </androidx.preference.PreferenceScreen>

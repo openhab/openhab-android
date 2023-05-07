@@ -14,5 +14,6 @@
     <SwitchPreferenceCompat
         android:key="device_control_auth_required"
         android:title="@string/tile_require_unlock"
-        android:defaultValue="true" />
+        android:defaultValue="true"
+        android:widgetLayout="@layout/preference_material_switch" />
 </androidx.preference.PreferenceScreen>

@@ -36,6 +36,7 @@ import androidx.preference.DialogPreference
 import androidx.preference.PreferenceDialogFragmentCompat
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.textfield.TextInputLayout
 import java.text.DateFormat
 import org.openhab.habdroid.R
@@ -150,7 +151,7 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
 
     class PrefDialogFragment : PreferenceDialogFragmentCompat(), CompoundButton.OnCheckedChangeListener, TextWatcher {
         private lateinit var helpIcon: ImageView
-        private lateinit var switch: SwitchCompat
+        private lateinit var switch: MaterialSwitch
         private lateinit var editorWrapper: TextInputLayout
         private lateinit var editor: EditText
         private lateinit var permissionHint: TextView

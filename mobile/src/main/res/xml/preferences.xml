@@ -11,6 +11,7 @@
             android:key="default_openhab_demomode"
             android:summary="@string/settings_openhab_demomode_summary"
             android:title="@string/settings_openhab_demomode"
+            android:widgetLayout="@layout/preference_material_switch"
             android:order="0" />
         <Preference
             android:key="add_server"
@@ -23,6 +24,7 @@
             android:defaultValue="false"
             android:key="sitemap_compact_mode"
             android:title="@string/settings_sitemap_compact_mode_title"
+            android:widgetLayout="@layout/preference_material_switch"
             app:singleLineTitle="false"
             android:summaryOff="@string/settings_sitemap_compact_mode_off"
             android:summaryOn="@string/settings_sitemap_compact_mode_on" />
@@ -30,6 +32,7 @@
             android:defaultValue="true"
             android:key="show_icons"
             android:title="@string/settings_show_icons"
+            android:widgetLayout="@layout/preference_material_switch"
             app:singleLineTitle="false" />
         <ListPreference
             android:title="@string/settings_openhab_icon_format"
@@ -47,6 +50,7 @@
             android:defaultValue="true"
             android:key="imageWidgetScaleToFit"
             android:title="@string/settings_image_widget_scaling"
+            android:widgetLayout="@layout/preference_material_switch"
             app:singleLineTitle="false"
             android:summaryOff="@string/settings_image_widget_scaling_summary_off"
             android:summaryOn="@string/settings_image_widget_scaling_summary_on" />
@@ -61,7 +65,8 @@
             android:key="default_openhab_chart_hq"
             android:summary="@string/settings_openhab_chart_hq_summary"
             android:title="@string/settings_openhab_chart_hq"
-            app:singleLineTitle="false" />
+            app:singleLineTitle="false"
+            android:widgetLayout="@layout/preference_material_switch" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_display_title">
         <ListPreference
@@ -95,17 +100,20 @@
             android:key="default_openhab_screentimeroff"
             android:summary="@string/settings_openhab_screentimeroff_summary"
             android:title="@string/settings_openhab_screentimeroff"
-            app:singleLineTitle="false" />
+            app:singleLineTitle="false"
+            android:widgetLayout="@layout/preference_material_switch" />
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="default_openhab_fullscreen"
-            android:title="@string/settings_openhab_fullscreen" />
+            android:title="@string/settings_openhab_fullscreen"
+            android:widgetLayout="@layout/preference_material_switch" />
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="launcher"
             android:title="@string/settings_set_as_launcher_title"
             android:summary="@string/settings_set_as_launcher_summary"
-            app:singleLineTitle="false" />
+            app:singleLineTitle="false"
+            android:widgetLayout="@layout/preference_material_switch" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/app_notifications">
         <Preference
@@ -166,10 +174,12 @@
             android:defaultValue="false"
             android:key="taskerPlugin"
             android:title="@string/settings_tasker_plugin"
-            android:summary="@string/settings_tasker_plugin_summary" />
+            android:summary="@string/settings_tasker_plugin_summary"
+            android:widgetLayout="@layout/preference_material_switch" />
         <SwitchPreferenceCompat
             android:key="data_saver"
             android:defaultValue="false"
+            android:widgetLayout="@layout/preference_material_switch"
             android:title="@string/data_saver_title"
             android:summaryOn="@string/data_saver_on"
             android:summaryOff="@string/data_saver_off" />
@@ -179,7 +189,8 @@
             android:defaultValue="false"
             android:key="default_openhab_debug_messages"
             android:title="@string/settings_debug_messages_title"
-            app:singleLineTitle="false" />
+            app:singleLineTitle="false"
+            android:widgetLayout="@layout/preference_material_switch" />
         <Preference
             android:clickable="true"
             android:key="default_openhab_log"
@@ -188,6 +199,7 @@
             android:key="crash_reporting"
             android:defaultValue="true"
             android:title="@string/setting_crash_reporting_title"
-            android:summary="@string/setting_crash_reporting_summary" />
+            android:summary="@string/setting_crash_reporting_summary"
+            android:widgetLayout="@layout/preference_material_switch" />
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>
