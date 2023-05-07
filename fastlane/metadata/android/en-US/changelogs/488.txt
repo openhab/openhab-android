@@ -1,0 +1,5 @@
+## What's Changed
+* Display a question mark on switches with 'null' state by @mueller-ma in https://github.com/openhab/openhab-android/pull/3370
+* Catch exception in AbstractTileService by @mueller-ma in https://github.com/openhab/openhab-android/pull/3371
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.5.1-beta...3.5.2-beta
