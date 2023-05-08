@@ -15,12 +15,14 @@
     <string name="mainmenu_openhab_preferences">Настройки</string>
     <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="app_notifications">Известия</string>
-    <string name="habpanel_error">Възникна грешка, зареждайки HABPanel</string>
+    <string name="habpanel_error">Грешка при зареждане на HABPanel</string>
+    <string name="oh3_ui_error">Грешка при зареждане на Main UI</string>
     <string name="mainmenu_openhab_selectsitemap">Избери сайткарта по подразбиране</string>
     <string name="mainmenu_openhab_clearcache">Изчисти кеша на изображенията</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Връзка</string>
     <string name="settings_display_title">Изглед</string>
+    <string name="settings_sitemap_title">Сайткарта</string>
     <string name="settings_misc_title">Други</string>
     <string name="settings_openhab_url">Адрес на локален сървър</string>
     <string name="settings_openhab_url_summary">URL на openHAB (базиран хост или IP). Ако e ръчно конфигуриран, автоматичното откриване е изключено. Текущата настройка: %s</string>
@@ -54,6 +56,7 @@
     <string name="settings_chart_scaling_value_s">Малък</string>
     <string name="settings_chart_scaling_value_m">По подразбиране</string>
     <string name="settings_chart_scaling_value_l">Голям</string>
+    <string name="settings_openhab_chart_hq">Графики с висока разделителна способност</string>
     <string name="settings_clear_default_sitemap">Изчисти сайткарта по подразбиране</string>
     <string name="settings_no_default_sitemap">Няма избрана сайткарта по подразбиране</string>
     <!-- %1$s: Default Sitemap label -->
@@ -118,6 +121,7 @@
     <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB връща празен сайнмап списък</string>
+    <string name="error_sitemap_generic_load_error">Сайткартата не беше заредена. Възникна грешка: %1$s</string>
     <string name="error_network_not_available">Не е налична мрежа</string>
     <string name="error_wifi_not_available">Въздушната мрежа е изключена</string>
     <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
@@ -278,6 +282,7 @@
     <string name="go_to_settings_button">Отворете приложението Настройки</string>
     <string name="enable_demo_mode_button">Включване на демо режим</string>
     <string name="configuration_missing">Не откриваме openHAB сървър във вашата мрежа. Ако вече имате сървър, моля конфигурирайте неговия IP адрес или host име в сървърните настройки. Ако все още нямате сървър, започнете демо режим за да видите openHAB с неговите възможности.</string>
+    <string name="no_remote_server">Връзката към местния сървър се провали и отдалечен сървър не е настроен</string>
     <string name="resolving_openhab">Опитвам се да намеря openHAB сървър\u2026</string>
     <string name="waiting_for_wifi">Чакам Wi-Fi да се свърже\u2026</string>
     <string name="visit_status_openhab_org">Посети status.openhab.org</string>
@@ -302,6 +307,7 @@
     <string name="got_it">Разбрах!</string>
     <!-- Intro strings -->
     <string name="app_intro">Въведение</string>
+    <string name="intro_whatis">Независим от определен доставчик и технология софтуер с отворен код за автоматизация твоята къща</string>
     <string name="intro_voice_description">Управлявайте гласово вашия дом</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">Пропусни</string>
@@ -338,6 +344,7 @@
     <string name="data_saver_off">При зареждане на сайткарти се вземат пред вид настройките на устройството за пестене на данни</string>
     <string name="data_saver_off_pre_n">Всички елементи от сайткартата се зареждат, независимо от употребата на данни</string>
     <string name="data_saver_load">Зареди въпреки това</string>
+    <string name="data_saver_hint">%s не беше зареден, за да се пестят данни</string>
     <string name="data_saver_snackbar">Картинките не се основават на състоянието на елементите, за да се пестят данни</string>
     <string name="widget_type_image">Картинка</string>
     <string name="widget_type_video">Видео</string>
