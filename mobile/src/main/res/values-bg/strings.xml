@@ -37,6 +37,7 @@
     <string name="settings_openhab_demomode">Демонстрационен режим</string>
     <string name="settings_openhab_demomode_summary">Ако нямаш openHAB сървър избери този режим за да добиеш предтава на какво openHAB е способен.</string>
     <string name="start_page_title">Начална страница</string>
+    <string name="drawer_entries">Елементи в ☰ менюто</string>
     <string name="settings_openhab_theme">Тема</string>
     <string name="settings_openhab_fullscreen">Пълен екран</string>
     <string name="settings_sitemap_compact_mode_title">Компактен изглед</string>
@@ -77,6 +78,7 @@
     <string name="settings_screen_lock_off">Изключено</string>
     <string name="settings_screen_lock_kiosk">Павилионен режим</string>
     <string name="settings_screen_lock_on">Включено</string>
+    <string name="settings_show_sitemaps_in_drawer">Покажи всички сайткарти в ☰ менюто</string>
     <string name="settings_server_name">Име на сървър</string>
     <string name="settings_add_server">Добави сървър</string>
     <string name="settings_edit_server">Редактиране сървър</string>
@@ -276,7 +278,6 @@
     <string name="go_to_settings_button">Отворете приложението Настройки</string>
     <string name="enable_demo_mode_button">Включване на демо режим</string>
     <string name="configuration_missing">Не откриваме openHAB сървър във вашата мрежа. Ако вече имате сървър, моля конфигурирайте неговия IP адрес или host име в сървърните настройки. Ако все още нямате сървър, започнете демо режим за да видите openHAB с неговите възможности.</string>
-    <string name="no_remote_server">Връзката към местния сървър се провали и отдалечен сървър не е настроен</string>
     <string name="resolving_openhab">Опитвам се да намеря openHAB сървър\u2026</string>
     <string name="waiting_for_wifi">Чакам Wi-Fi да се свърже\u2026</string>
     <string name="visit_status_openhab_org">Посети status.openhab.org</string>
