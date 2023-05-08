@@ -16,9 +16,9 @@
     <about_foundation> </about_foundation>
     <important_note>Важна бележка</important_note>
     <oh_server>Трябва ти openHAB сървър за тази програма.</oh_server>
-    <short_description/>
+    <short_description>Независима от определен доставчик и технология система за автоматизация на къщи</short_description>
     <fdroid> </fdroid>
-    <fdroid_beta><![CDATA[]]></fdroid_beta>
+    <fdroid_beta><![CDATA[Може да инсталираш бета версията паралелно със <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабилната версия</a>.]]></fdroid_beta>
     <fdroid_privacy_policy/>
     <beta>Опитайте нови функции и дайте ранна обратна връзка!</beta>
     <play_beta>Може да инсталираш бета версията паралелно със стабилната версия.</play_beta>
