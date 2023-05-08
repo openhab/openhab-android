@@ -69,6 +69,7 @@
     <string name="settings_notification_vibration_short">Кратка</string>
     <string name="settings_notification_vibration_long">Продължителна</string>
     <string name="settings_notification_vibration_twice">Двойна</string>
+    <string name="settings_notification_ringtone_vibration">Звънене &amp; вибрации</string>
     <string name="settings_connection_summary">Свързан към %s</string>
     <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">Несигурно свърдано с %1$s: %2$s</string>
@@ -176,6 +177,7 @@
     <string name="settings_wifi_ssid">Име на Wi-Fi мрежа</string>
     <string name="settings_bluetooth_devices">Свързани Bluetooth устройства</string>
     <string name="settings_bluetooth_devices_summary_off">Не изпращай свързаните Bluetooth устройства</string>
+    <string name="settings_background_tasks_permission_hint_pre_r">Тази функция изисква допълнителни права за да работи. След като я включиш, ще бъдеш помолен да одобриш необходимите права.</string>
     <string name="settings_background_tasks_permission_allow">Разреши</string>
     <string name="notification_channel_messages_default_severity">По подразбиране</string>
     <string name="notification_channel_group_messages">Съобщения</string>
@@ -276,6 +278,7 @@
     <string name="about_privacy_policy">Декларация за поверителност</string>
     <string name="about_rate_this_app">Оцени това приложение</string>
     <string name="settings_debug_messages_title">Покажи информация за отстраняване на неизправности</string>
+    <string name="settings_troubleshooting_title">Отстраняване на неизправности</string>
     <string name="try_again_button">Повтори отново</string>
     <string name="enable_wifi_button">Включи въздушната мрежа</string>
     <string name="switch_wifi_button">Свържи се към други Wi-Fi</string>
