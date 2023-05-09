@@ -15,6 +15,7 @@ permissions:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         flavor: [FullBeta, FullStable, FossBeta, FossStable]
     runs-on: ubuntu-latest
