@@ -1,0 +1,5 @@
+## What's Changed
+* Don't add ColorItemActivity and SelectionItemActivity to back stack by @mueller-ma in https://github.com/openhab/openhab-android/pull/3384
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.5.2-beta...3.5.3-beta
