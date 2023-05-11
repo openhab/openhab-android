@@ -1,1 +1,1 @@
-Vendor and technology agnostic open source home automation
+Независима от определен доставчик и технология система за автоматизация на къщи
