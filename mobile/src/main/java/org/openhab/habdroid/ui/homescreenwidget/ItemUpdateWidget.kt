@@ -357,8 +357,8 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             views.setViewVisibility(R.id.edit, editButtonVisibility)
 
             views.setTextViewText(R.id.text, label)
-            val alpha = if (label.isNotEmpty() && smallWidget) 0.3F else 1F
-            views.setFloat(R.id.item_icon, "setAlpha", alpha)
+            val alpha = if (label.isNotEmpty() && smallWidget) 76 else 255
+            views.setInt(R.id.item_icon, "setImageAlpha", alpha)
             hideLoadingIndicator(views)
             return views
         }
