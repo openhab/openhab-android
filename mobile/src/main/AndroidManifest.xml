@@ -46,6 +46,11 @@
     <queries>
         <package android:name="net.dinglisch.android.taskerm" />
         <package android:name="com.twofortyfouram.locale" />
+        <package android:name="com.android.providers.calendar" />
+        <package android:name="com.android.calendar" />
+        <package android:name="com.samsung.android.calendar" />
+        <package android:name="com.miui.securitycenter" />
+        <package android:name="org.thoughtcrime.securesms" />
         <package android:name="nodomain.freeyourgadget.gadgetbridge" />
         <intent>
             <action android:name="android.speech.RecognitionService" />

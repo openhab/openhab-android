@@ -305,6 +305,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             PrefKeys.SEND_WIFI_SSID,
             PrefKeys.SEND_DND_MODE
         )
+        // These package names must be added to the manifest as well
         private val IGNORED_PACKAGES_FOR_ALARM = listOf(
             "net.dinglisch.android.taskerm",
             "com.android.providers.calendar",
