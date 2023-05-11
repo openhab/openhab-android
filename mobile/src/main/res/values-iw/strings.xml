@@ -52,6 +52,7 @@
     <string name="settings_sitemap_compact_mode_off">השתמש בפריסה של שתי שורות עבור ווידג\'טים של Sitemap, מה שהופך את הפקדים לגדולים יותר ולפיכך קל יותר לשימוש, אך דורש יותר גלילה עבור רשימות ארוכות יותר</string>
     <string name="settings_sitemap_compact_mode_on">השתמש בפריסה של שורה אחת עבור ווידג\'טים של Sitemap, שמציבה כמה שיותר ווידג\'טים על המסך, אך מקטינה את גודל הפקדים</string>
     <string name="settings_color_scheme_title">סכמת צבעים</string>
+    <string name="settings_show_icons">הצג סמלים</string>
     <string name="settings_openhab_icon_format">סוג קובץ צלמית</string>
     <string name="settings_openhab_icon_format_png">מפת סיביות PNG</string>
     <string name="settings_openhab_icon_format_svg">וקטורי SVG</string>
@@ -168,6 +169,7 @@
     <string name="error_certificate_wrong_host">תעודת SSL אינה חוקית עבור %s</string>
     <string name="error_http_to_https_port">החיבור הסתיים באופן בלתי-צפוי. האם אתה מנסה להתחבר לפִּתְחָה HTTPS דרך HTTP?</string>
     <string name="webview_ssl">כרגע יישום זה אינו תומך בחתימת SSL עצמית עבור יישומוני Web</string>
+    <string name="webview_snackbar_permissions_missing">הדף דורש הרשאות נוספות כדי לעבוד כראוי</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_http_code_401" tools:keep="@string/error_http_code_401">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP %d).</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">לא נמצא (קוד שגיאת HTTP %d)</string>
