@@ -171,6 +171,7 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Изпращай информация за устройството до сървъра</string>
     <string name="send_device_info_to_server_short">Изпрати информация за устройството</string>
+    <string name="settings_item_update_pref_howto_summary">Натисни тук за насоки как да настроиш тази функция на сървъра</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">Последно обновен на ”%1$s” (%2$s)</string>
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
@@ -315,6 +316,7 @@
     <string name="app_intro">Въведение</string>
     <string name="intro_whatis">Независим от определен доставчик и технология софтуер с отворен код за автоматизация твоята къща</string>
     <string name="intro_voice_description">Управлявайте гласово вашия дом</string>
+    <string name="intro_send_device_info">Изпращай информация за това устройство до твоя сървър</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">Пропусни</string>
     <!-- Intro "DONE" button -->
