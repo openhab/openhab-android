@@ -5,7 +5,8 @@
     <SwitchPreferenceCompat
         android:persistent="false"
         android:key="tile_show"
-        android:title="@string/tile_enable" />
+        android:title="@string/tile_enable"
+        android:widgetLayout="@layout/preference_material_switch" />
     <org.openhab.habdroid.ui.preference.widgets.ItemAndStatePreference
         android:persistent="false"
         android:dependency="tile_show"
@@ -33,5 +34,6 @@
         android:key="tile_require_unlock"
         android:title="@string/tile_require_unlock"
         android:summaryOn="@string/tile_require_unlock_summary_on"
-        android:summaryOff="@string/tile_require_unlock_summary_off" />
+        android:summaryOff="@string/tile_require_unlock_summary_off"
+        android:widgetLayout="@layout/preference_material_switch" />
 </androidx.preference.PreferenceScreen>

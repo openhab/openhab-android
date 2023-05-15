@@ -24,12 +24,12 @@ import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatSpinner
-import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.DialogPreference
 import androidx.preference.PreferenceDialogFragmentCompat
+import com.google.android.material.materialswitch.MaterialSwitch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.ui.preference.CustomDialogPreference
@@ -78,7 +78,7 @@ class NotificationPollingPreference constructor(context: Context, attrs: Attribu
 
     class PrefDialogFragment : PreferenceDialogFragmentCompat(), CompoundButton.OnCheckedChangeListener {
         private lateinit var helpIcon: ImageView
-        private lateinit var switch: SwitchCompat
+        private lateinit var switch: MaterialSwitch
         private lateinit var spinner: AppCompatSpinner
         private lateinit var spinnerValues: Array<String>
         private lateinit var prefs: SharedPreferences

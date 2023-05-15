@@ -6,7 +6,7 @@
     android:clipToPadding="false"
     android:padding="?attr/dialogPreferredPadding">
 
-    <androidx.appcompat.widget.SwitchCompat
+    <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/enabled"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

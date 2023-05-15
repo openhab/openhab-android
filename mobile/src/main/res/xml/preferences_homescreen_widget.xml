@@ -16,5 +16,6 @@
         android:persistent="false"
         android:key="show_state"
         android:title="@string/widget_show_state"
-        android:summary="@string/widget_show_state_summary" />
+        android:summary="@string/widget_show_state_summary"
+        android:widgetLayout="@layout/preference_material_switch" />
 </androidx.preference.PreferenceScreen>
