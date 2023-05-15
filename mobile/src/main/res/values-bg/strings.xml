@@ -146,7 +146,7 @@
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Не беше намерено (HTTP код %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">Адресът е прекалено дълъг. Използвай IP адрес или по-късо URL (HTTP код %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">OpenHAB сървърът няма достатъчно свободно място (HTTP грешка %d)</string>
+    <string name="error_http_code_507" tools:keep="@string/error_http_code_507">openHAB сървърът няма достатъчно свободно място (HTTP грешка %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_http_connection_failed">HTTP код %d</string>
     <string name="error_short_unknown">Непозната грешка: %s</string>
