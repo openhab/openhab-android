@@ -1,0 +1,6 @@
+## What's Changed
+* Filter alarm clock on Android 12+ by @mueller-ma in https://github.com/openhab/openhab-android/pull/3391
+* Use new MaterialSwitch everywhere by @mueller-ma in https://github.com/openhab/openhab-android/pull/3382
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.6.0-release...3.6.1-beta
