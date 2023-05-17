@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
-    <whatis/>
+    <intro>openHAB – „овластяване на интелигентния дом“ – домашна автоматизация с отворен код, агностик на доставчика и технологията</intro>
+    <whatis>openHAB е базирана на Java платформа за домашна автоматизация с отворен код, която интегрира и комбинира широк набор от различни интелигентни домашни системи и технологии в едно единствено решение.</whatis>
     <rules/>
     <supported>Поддържани продукти</supported>
-    <bindings> Примери са Z-Wave, Philips Hue, Amazon Echo, Chromecast и Sonos. </bindings>
-    <automation_apps/>
+    <bindings>Над 200 специфични добавки осигуряват поддръжка за марки, устройства, технологии и комуникационни протоколи. Примери са Z-Wave, Philips Hue, Amazon Echo, Chromecast и Sonos. Открийте всички налични добавки и поддържани устройства и функции на: https://www.openhab.org/addons/</bindings>
+    <automation_apps>Приложението има интеграция с Tasker и Locale.</automation_apps>
 
-    <oss_community/>
-    <forum>  </forum>
+    <oss_community>Общност с отворен код</oss_community>
+    <forum>Инициативата с отворен код openHAB силно подкрепя своята жизнена общност. Форумът с над 13 000 регистрирани потребители е място за намиране на насоки, помощ и вдъхновение. Присъединете се към форума на общността openHAB на https://community.openhab.org</forum>
 
     <report_issues>Когато намерите проблем съобщете за това във форума или в https://github.com/openhab/openhab-android/issues</report_issues>
     <translation>Ако искаш да преведеш програмата на своя език, посети https://crowdin.com/project/openhab-android</translation>
     <foundation>openHAB фондация</foundation>
-    <about_foundation> </about_foundation>
+    <about_foundation>OpenHAB Foundation e.V. е организация с нестопанска цел с мисията да образова обществеността за възможностите и предимствата на безплатните и отворени решения за интелигентен дом. Научете за мисията и услугите на фондацията на https://www.openhabfoundation.org</about_foundation>
     <important_note>Важна бележка</important_note>
     <oh_server>Трябва ти openHAB сървър за тази програма.</oh_server>
-    <short_description>Независима от определен доставчик и технология система за автоматизация на къщи</short_description>
-    <fdroid> </fdroid>
+    <short_description>Независима от определен доставчик и технология система за автоматизация на домове</short_description>
+    <fdroid> Вместо това известията се издърпват редовно в тези компилации.</fdroid>
     <fdroid_beta><![CDATA[Може да инсталираш бета версията паралелно със <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабилната версия</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy/>
+    <fdroid_privacy_policy>Политика за поверителност: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Опитайте нови функции и дайте ранна обратна връзка!</beta>
     <play_beta>Може да инсталираш бета версията паралелно със стабилната версия.</play_beta>
     <changelog_play_beta>Оправя грешки и подобрява стабилността. Посети https://github.com/openhab/openhab-android/releases за подробно описание на промените.</changelog_play_beta>
