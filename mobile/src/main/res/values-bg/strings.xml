@@ -314,7 +314,7 @@
     <string name="got_it">Разбрах!</string>
     <!-- Intro strings -->
     <string name="app_intro">Въведение</string>
-    <string name="intro_whatis">Независим от определен доставчик и технология софтуер с отворен код за автоматизация твоята къща</string>
+    <string name="intro_whatis">Независим от определен доставчик и технология софтуер с отворен код за автоматизация твоят дом</string>
     <string name="intro_voice_description">Управлявайте гласово вашия дом</string>
     <string name="intro_send_device_info">Изпращай информация за това устройство до твоя сървър</string>
     <!-- Intro "SKIP" button -->
