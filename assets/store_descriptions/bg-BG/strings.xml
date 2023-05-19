@@ -16,7 +16,7 @@
     <about_foundation>openHAB Foundation e.V. е организация с нестопанска цел с мисията да образова обществеността за възможностите и предимствата на безплатните и отворени решения за интелигентен дом. Научете за мисията и услугите на фондацията на https://www.openhabfoundation.org</about_foundation>
     <important_note>Важна бележка</important_note>
     <oh_server>Трябва ти openHAB сървър за тази програма.</oh_server>
-    <short_description>Независима от определен доставчик и технология система за автоматизация на домове</short_description>
+    <short_description/>
     <fdroid> Вместо това известията се издърпват редовно в тези компилации.</fdroid>
     <fdroid_beta><![CDATA[Може да инсталираш бета версията паралелно със <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабилната версия</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Политика за поверителност: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
