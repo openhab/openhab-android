@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_activated="true">
-        <color android:color="?attr/selectedWidgetBackgroundColor" />
+        <color android:color="?colorSecondaryContainer" />
     </item>
     <item>
         <ripple android:color="?attr/colorControlHighlight" />

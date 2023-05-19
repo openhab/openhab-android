@@ -6,7 +6,6 @@
         <item name="switchStyle">@style/Widget.Material3.CompoundButton.MaterialSwitch</item>
         <item name="materialButtonOutlinedStyle">@style/openHAB.OutlineButton</item>
         <item name="floatingActionButtonStyle">@style/Widget.Material3.FloatingActionButton.Primary</item>
-        <item name="selectedWidgetBackgroundColor">#5cff5722</item>
     </style>
 
     <style name="openHAB.DayNight.Base" parent="openHAB.Base">

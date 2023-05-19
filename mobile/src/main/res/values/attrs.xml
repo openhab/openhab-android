@@ -29,7 +29,6 @@
         <attr name="chartTheme" format="string" />
         <attr name="transparentChartTheme" format="string" />
         <attr name="valueColors" format="reference" />
-        <attr name="selectedWidgetBackgroundColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="CustomInputTypePreference">
