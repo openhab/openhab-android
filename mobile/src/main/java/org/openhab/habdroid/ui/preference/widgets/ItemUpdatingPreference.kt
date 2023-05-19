@@ -27,7 +27,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.SwitchCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
@@ -44,7 +43,6 @@ import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.ItemUpdateWorker
 import org.openhab.habdroid.ui.preference.CustomDialogPreference
 import org.openhab.habdroid.ui.setupHelpIcon
-import org.openhab.habdroid.ui.updateHelpIconAlpha
 import org.openhab.habdroid.util.getPrefixForBgTasks
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.hasPermissions
@@ -209,7 +207,6 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
 
         override fun onCheckedChanged(button: CompoundButton, checked: Boolean) {
             editorWrapper.isEnabled = checked
-            helpIcon.updateHelpIconAlpha(checked)
             updateOkButtonState()
         }
 
