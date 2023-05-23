@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro>openHAB – „овластяване на интелигентния дом“ – домашна автоматизация с отворен код, агностик на доставчика и технологията</intro>
+    <intro>openHAB – „овластяване на интелигентния дом“ – домашна автоматизация с отворен код, независим от определен доставчик и технология</intro>
     <whatis>openHAB е базирана на Java платформа за домашна автоматизация с отворен код, която интегрира и комбинира широк набор от различни интелигентни домашни системи и технологии в едно единствено решение.</whatis>
     <rules/>
     <supported>Поддържани продукти</supported>
@@ -16,8 +16,8 @@
     <about_foundation>openHAB Foundation e.V. е организация с нестопанска цел с мисията да образова обществеността за възможностите и предимствата на безплатните и отворени решения за интелигентен дом. Научете за мисията и услугите на фондацията на https://www.openhabfoundation.org</about_foundation>
     <important_note>Важна бележка</important_note>
     <oh_server>Трябва ти openHAB сървър за тази програма.</oh_server>
-    <short_description/>
-    <fdroid> Вместо това известията се издърпват редовно в тези компилации.</fdroid>
+    <short_description>Cистема за автоматизация на домове обединяваща различни технологии</short_description>
+    <fdroid> Вместо това известията се анкетират редовно в тези компилации.</fdroid>
     <fdroid_beta><![CDATA[Може да инсталираш бета версията паралелно със <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабилната версия</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Политика за поверителност: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <beta>Опитайте нови функции и дайте ранна обратна връзка!</beta>
