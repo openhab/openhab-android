@@ -21,7 +21,6 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.setupHelpIcon
-import org.openhab.habdroid.ui.updateHelpIconAlpha
 
 class InfoPreference constructor(context: Context, attrs: AttributeSet) :
     Preference(context, attrs) {
@@ -49,7 +48,6 @@ class InfoPreference constructor(context: Context, attrs: AttributeSet) :
         infoUrl?.let {
             helpIcon?.setupHelpIcon(it, R.string.click_here_for_more_information)
         }
-        helpIcon?.updateHelpIconAlpha(isEnabled)
         helpIcon?.isVisible = infoUrl != null
     }
 }

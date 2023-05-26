@@ -34,7 +34,6 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.ui.preference.CustomDialogPreference
 import org.openhab.habdroid.ui.setupHelpIcon
-import org.openhab.habdroid.ui.updateHelpIconAlpha
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
@@ -135,7 +134,6 @@ class NotificationPollingPreference constructor(context: Context, attrs: Attribu
         }
 
         override fun onCheckedChanged(button: CompoundButton, checked: Boolean) {
-            helpIcon.updateHelpIconAlpha(checked)
             spinner.isEnabled = checked
         }
 

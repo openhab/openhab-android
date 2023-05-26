@@ -18,7 +18,6 @@ import android.content.Context
 import android.os.Build
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.webkit.WebChromeClient
 import android.webkit.WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
 import android.webkit.WebView
 import android.webkit.WebViewDatabase
@@ -80,10 +79,6 @@ fun ImageView.setupHelpIcon(url: String, contentDescriptionRes: Int) {
     setOnClickListener {
         url.toUri().openInBrowser(context)
     }
-}
-
-fun ImageView.updateHelpIconAlpha(isEnabled: Boolean) {
-    alpha = if (isEnabled) 1.0f else 0.5f
 }
 
 fun EditText.setKeyboardVisible(visible: Boolean) {

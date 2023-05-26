@@ -36,7 +36,6 @@ import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.setupHelpIcon
-import org.openhab.habdroid.ui.updateHelpIconAlpha
 
 class SslClientCertificatePreference constructor(context: Context, attrs: AttributeSet) :
     Preference(context, attrs), CoroutineScope by CoroutineScope(Dispatchers.Main) {
@@ -54,7 +53,6 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
             context.getString(R.string.settings_openhab_sslclientcert_howto_url),
             R.string.settings_openhab_sslclientcert_howto_summary
         )
-        helpIcon?.updateHelpIconAlpha(isEnabled)
     }
 
     override fun onSetInitialValue(defaultValue: Any?) {
@@ -84,11 +82,6 @@ class SslClientCertificatePreference constructor(context: Context, attrs: Attrib
                 Snackbar.LENGTH_LONG
             )
         }
-    }
-
-    override fun onDependencyChanged(dependency: Preference, disableDependent: Boolean) {
-        super.onDependencyChanged(dependency, disableDependent)
-        helpIcon?.updateHelpIconAlpha(isEnabled)
     }
 
     private fun getActivity(): Activity {
