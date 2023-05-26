@@ -30,8 +30,8 @@
     <string name="settings_openhab_alturl_summary">URL на openHAB табло се използва, когато локалният адрес е недостъпна. Текущата настройка: %s</string>
     <string name="settings_openhab_username">Потребителско име</string>
     <string name="settings_openhab_password">Парола</string>
-    <string name="settings_openhab_password_summary_weak">Настроена слаба парола</string>
-    <string name="settings_openhab_password_summary_strong">Настроена силна парола</string>
+    <string name="settings_openhab_password_summary_weak">Настроена проста парола</string>
+    <string name="settings_openhab_password_summary_strong">Настроена сложна парола</string>
     <string name="settings_openhab_sslclientcert">SSL сертификат на клиент</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Натиснете тук, за да получите някои съвети и обяснения за това как да настроите сертификат за удостоверяване на SSL клиент</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL клиентски сертификати не са съвместими с вашето устройство</string>
@@ -92,7 +92,7 @@
     <string name="settings_server_confirm_leave_title">Несъхранени промени</string>
     <string name="settings_server_confirm_leave_message">Направил си промени. Искаш ли да ги запазиш или отхвърлиш?</string>
     <string name="settings_server_primary_title">Основен сървър</string>
-    <string name="settings_server_primary_summary_is_primary">Това е основният сървър.\nПо настоящем приложението поддържа всички функции само за основния сървър. Натисни копчето Помощ за повече информация.</string>
+    <string name="settings_server_primary_summary_is_primary">Това е основният сървър.\nПо настоящем приложението поддържа всички функции само за основния сървър. Натисни въпросителния знак за повече информация.</string>
     <string name="settings_server_primary_summary_is_not_primary">„%s“ е основният сървър. Натисни, за да направиш този сървър основен.\nПо настоящем само основният сървър разгръща всички възможности на това приложение. Натисни помощния бутон за повече информация.</string>
     <string name="settings_advanced">За напреднали</string>
     <string name="click_here_for_more_information">Натисни тук за повече информация</string>
@@ -143,6 +143,7 @@
     <string name="error_certificate_revoked">SSL сертификатът е анулиран. Моля вземете нов сертификат или приемете сертификат по време на SSL ръкостискане.</string>
     <string name="error_certificate_wrong_host">SSL сертификат не е валиден за %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Удостоверяването се провали. Провери настроеното потребителско име и парола, съответно предоставения TLS клиентски сертификат (HTTP код %d).</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Не беше намерено (HTTP код %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">Адресът е прекалено дълъг. Използвай IP адрес или по-късо URL (HTTP код %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
@@ -179,6 +180,7 @@
     <string name="settings_battery_level">Ниво на батерията</string>
     <string name="settings_battery_level_summary_off">Не изпращай нивото на батерията</string>
     <string name="settings_wifi_ssid">Име на Wi-Fi мрежа</string>
+    <string name="settings_wifi_ssid_restrict">Ограничи локалните връзки до мрежи с тези имена</string>
     <string name="settings_bluetooth_devices">Свързани Bluetooth устройства</string>
     <string name="settings_bluetooth_devices_summary_off">Не изпращай свързаните Bluetooth устройства</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Тази функция изисква допълнителни права за да работи. След като я включиш, ще бъдеш помолен да одобриш необходимите права.</string>
@@ -314,7 +316,7 @@
     <string name="got_it">Разбрах!</string>
     <!-- Intro strings -->
     <string name="app_intro">Въведение</string>
-    <string name="intro_whatis">Независим от определен доставчик и технология софтуер с отворен код за автоматизация твоята къща</string>
+    <string name="intro_whatis">Независим от определен доставчик и технология софтуер с отворен код за автоматизация на твоя дом</string>
     <string name="intro_voice_description">Управлявайте гласово вашия дом</string>
     <string name="intro_send_device_info">Изпращай информация за това устройство до твоя сървър</string>
     <!-- Intro "SKIP" button -->
