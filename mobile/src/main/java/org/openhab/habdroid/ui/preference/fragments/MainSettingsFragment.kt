@@ -190,6 +190,11 @@ class MainSettingsFragment : AbstractSettingsFragment(), ConnectionFactory.Updat
             true
         }
 
+        getPreference(PrefKeys.SHOW_ICONS).setOnPreferenceChangeListener { _, _ ->
+            parentActivity.addResultFlag(PreferencesActivity.RESULT_EXTRA_SHOW_ICONS_CHANGED)
+            true
+        }
+
         clearCachePref.setOnPreferenceClickListener { pref ->
             clearImageCache(pref.context)
             true

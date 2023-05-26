@@ -183,7 +183,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_DRAWER_CHANGED, false)) {
                 updateSitemapDrawerEntries()
             }
-            if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_THEME_CHANGED, false)) {
+            if (
+                data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_THEME_CHANGED, false) ||
+                data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SHOW_ICONS_CHANGED, false)
+            ) {
                 recreate()
             }
         }

@@ -178,6 +178,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         const val RESULT_EXTRA_THEME_CHANGED = "theme_changed"
         const val RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared"
         const val RESULT_EXTRA_SITEMAP_DRAWER_CHANGED = "sitemap_drawer_changed"
+        const val RESULT_EXTRA_SHOW_ICONS_CHANGED = "show_icons_changed"
         const val START_EXTRA_SERVER_PROPERTIES = "server_properties"
         const val ITEM_UPDATE_WIDGET_ITEM = "item"
         const val ITEM_UPDATE_WIDGET_COMMAND = "state"
