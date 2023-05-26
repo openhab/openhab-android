@@ -1,0 +1,5 @@
+## What's Changed
+* Theme list selector by @mueller-ma in https://github.com/openhab/openhab-android/pull/3399
+* Don't require reload for 'Show icons' change to take effect by @mueller-ma in https://github.com/openhab/openhab-android/pull/3406
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.6.1-beta...3.6.2-beta

@@ -1,29 +1,29 @@
-openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
+openHAB – „овластяване на интелигентния дом“ – домашна автоматизация с отворен код, независим от определен доставчик и технология
 
-The builds on F-Droid have FCM removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
+ Вместо това известията се анкетират редовно в тези компилации.
 Опитайте нови функции и дайте ранна обратна връзка!
 Може да инсталираш бета версията паралелно със <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабилната версия</a>.
 
-openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.
+openHAB е базирана на Java платформа за домашна автоматизация с отворен код, която интегрира и комбинира широк набор от различни интелигентни домашни системи и технологии в едно единствено решение.
 On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.
 
 <b>Поддържани продукти</b>
 
- Примери са Z-Wave, Philips Hue, Amazon Echo, Chromecast и Sonos. 
-The app has an action plugin for Tasker and Locale included.
+Над 200 специфични добавки осигуряват поддръжка за марки, устройства, технологии и комуникационни протоколи. Примери са Z-Wave, Philips Hue, Amazon Echo, Chromecast и Sonos. Открийте всички налични добавки и поддържани устройства и функции на: https://www.openhab.org/addons/
+Приложението има интеграция с Tasker и Locale.
 
-<b>Open Source Community</b>
+<b>Общност с отворен код</b>
 
-The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
+Инициативата с отворен код openHAB силно подкрепя своята жизнена общност. Форумът с над 13 000 регистрирани потребители е място за намиране на насоки, помощ и вдъхновение. Присъединете се към форума на общността openHAB на https://community.openhab.org
 Когато намерите проблем съобщете за това във форума или в https://github.com/openhab/openhab-android/issues
 Ако искаш да преведеш програмата на своя език, посети https://crowdin.com/project/openhab-android
 
 <b>openHAB фондация</b>
 
-The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
+openHAB Foundation e.V. е организация с нестопанска цел с мисията да образова обществеността за възможностите и предимствата на безплатните и отворени решения за интелигентен дом. Научете за мисията и услугите на фондацията на https://www.openhabfoundation.org
 
 <b>Важна бележка</b>
 
 Трябва ти openHAB сървър за тази програма.
 
-Privacy policy: https://www.openhabfoundation.org/privacy.html
+Политика за поверителност: https://www.openhabfoundation.org/privacy.html
