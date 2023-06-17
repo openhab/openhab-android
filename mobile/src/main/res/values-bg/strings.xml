@@ -134,7 +134,7 @@
     <string name="error_first_char_is_whitespace">Първият символ е интервал, което вероятно не е желано</string>
     <string name="error_last_char_is_whitespace">Последният символ е интервал, което вероятно не е желано</string>
     <string name="error_connection_failed">Връзката с хоста е неуспешна</string>
-    <string name="error_unable_to_resolve_hostname">Не може да се свърже с домейна</string>
+    <string name="error_unable_to_resolve_hostname">Не мога да се преобразувам домейна в IP адрес</string>
     <string name="error_unknown">Появи се непозната грешка: %s</string>
     <string name="error_connection_sslhandshake_failed">SSL handshake е неуспешно</string>
     <string name="error_certificate_not_trusted">SSL сертификатът не е надежден. Моля внесете главен сертификат или приемете сертификат по време на SSL хендшейк.</string>
