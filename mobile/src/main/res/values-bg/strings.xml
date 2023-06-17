@@ -120,6 +120,7 @@
     <string name="app_shortcut_disabled_voice_recognition">Устройството ти няма инсталирана програма за разпознаване на говор</string>
     <string name="no_position_set">Не е настроена позиция</string>
     <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
+    <string name="copied_item_name">Копирах „%s“</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB връща празен сайнмап списък</string>
     <string name="error_sitemap_generic_load_error">Сайткартата не беше заредена. Възникна грешка: %1$s</string>
@@ -134,7 +135,7 @@
     <string name="error_first_char_is_whitespace">Първият символ е интервал, което вероятно не е желано</string>
     <string name="error_last_char_is_whitespace">Последният символ е интервал, което вероятно не е желано</string>
     <string name="error_connection_failed">Връзката с хоста е неуспешна</string>
-    <string name="error_unable_to_resolve_hostname">Не мога да се преобразувам домейна в IP адрес</string>
+    <string name="error_unable_to_resolve_hostname">Не мога да преобразувам домейна в IP адрес</string>
     <string name="error_unknown">Появи се непозната грешка: %s</string>
     <string name="error_connection_sslhandshake_failed">SSL handshake е неуспешно</string>
     <string name="error_certificate_not_trusted">SSL сертификатът не е надежден. Моля внесете главен сертификат или приемете сертификат по време на SSL хендшейк.</string>
@@ -175,6 +176,7 @@
     <string name="settings_item_update_pref_howto_summary">Натисни тук за насоки как да настроиш тази функция на сървъра</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">Последно обновен на ”%1$s” (%2$s)</string>
+    <string name="copy_debug_info">Копирай</string>
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_battery_level">Ниво на батерията</string>
@@ -285,6 +287,7 @@
     <string name="about_rate_this_app">Оцени това приложение</string>
     <string name="settings_debug_messages_title">Покажи информация за отстраняване на неизправности</string>
     <string name="settings_troubleshooting_title">Отстраняване на неизправности</string>
+    <string name="undo">Върни</string>
     <string name="try_again_button">Повтори отново</string>
     <string name="enable_wifi_button">Включи въздушната мрежа</string>
     <string name="switch_wifi_button">Свържи се към други Wi-Fi</string>
@@ -348,6 +351,7 @@
     <string name="item_update_short_success_message_decrease">Намалено</string>
     <string name="item_update_short_success_message_rewind">Превърта</string>
     <string name="item_update_error_no_connection">Няма връзка</string>
+    <string name="create_home_screen_widget_no_command">Покажи текущото състояние</string>
     <!-- Data saver -->
     <string name="data_saver_title">Пестене на данни</string>
     <string name="data_saver_on">Елементи от сайткартата, които могат да изискват много данни, няма да се зареждат</string>
@@ -384,6 +388,7 @@
     <string name="tile_icon_battery">Батерия</string>
     <string name="tile_icon_star">Звезда</string>
     <string name="tile_icon_tree">Дърво</string>
+    <string name="tile_icon_shield">Щит</string>
     <string name="tile_icon_fan">Вентилатор</string>
     <string name="tile_icon_man">Мъж</string>
     <string name="tile_icon_bed">Легло</string>
@@ -409,8 +414,10 @@
     <string name="item_tag_location_garden">Градина</string>
     <string name="item_tag_location_groundfloor">Приземен етаж</string>
     <string name="item_tag_location_house">Къща</string>
+    <string name="item_tag_location_indoor">Вътре</string>
     <string name="item_tag_location_kitchen">Кухня</string>
     <string name="item_tag_location_office">Офис</string>
+    <string name="item_tag_location_outdoor">Вън</string>
     <string name="item_tag_location_room">Стая</string>
     <string name="item_tag_location_secondfloor">Втори етаж</string>
     <string name="item_tag_location_terrace">Тераса</string>
@@ -433,6 +440,7 @@
     <string name="item_tag_equipment_motiondetector">Сензор за движение</string>
     <string name="item_tag_equipment_oven">Фурна</string>
     <string name="item_tag_equipment_pump">Помпа</string>
+    <string name="item_tag_equipment_receiver">Приемник</string>
     <string name="item_tag_equipment_refrigerator">Хладилник</string>
     <string name="item_tag_equipment_remotecontrol">Дистанционно управление</string>
     <string name="item_tag_equipment_sensor">Сензор</string>
