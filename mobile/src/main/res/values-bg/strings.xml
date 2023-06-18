@@ -206,6 +206,8 @@
     <string name="item_update_short_status_waiting">Чакам…</string>
     <string name="item_update_short_status_sending">Изпращам…</string>
     <string name="retry">Опитай отново</string>
+    <string name="send_device_info_schedule">Честота на изпращане</string>
+    <string name="send_device_info_schedule_summary">През 15 минути при зареждане, иначе всеки %s</string>
     <string name="send_device_info_schedule_15_minutes">15 минути</string>
     <string name="send_device_info_schedule_1_hour">1 час</string>
     <string name="send_device_info_schedule_3_hours">3 ча̀са</string>
