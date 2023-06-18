@@ -179,9 +179,15 @@
     <string name="copy_debug_info">Копирай</string>
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <string name="settings_phone_state">Състояние на обаждането</string>
+    <string name="settings_phone_state_summary_off">Не изпращай състоянието на обажданията</string>
+    <string name="settings_phone_state_permission_denied">Изпращането на състоянието на обажданията беше изключено поради липса на права</string>
     <string name="settings_battery_level">Ниво на батерията</string>
     <string name="settings_battery_level_summary_off">Не изпращай нивото на батерията</string>
+    <string name="settings_charging_state">Състояние на зареждане</string>
+    <string name="settings_charging_state_summary_off">Не изпращай състоянието на зареждане</string>
     <string name="settings_wifi_ssid">Име на Wi-Fi мрежа</string>
+    <string name="settings_wifi_ssid_summary_off">Не изпращай името на Wi-Fi мрежата (SSID)</string>
     <string name="settings_wifi_ssid_restrict">Ограничи локалните връзки до мрежи с тези имена</string>
     <string name="settings_bluetooth_devices">Свързани Bluetooth устройства</string>
     <string name="settings_bluetooth_devices_summary_off">Не изпращай свързаните Bluetooth устройства</string>
