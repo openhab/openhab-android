@@ -35,6 +35,7 @@
     <string name="settings_openhab_sslclientcert">SSL сертификат на клиент</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Натиснете тук, за да получите някои съвети и обяснения за това как да настроите сертификат за удостоверяване на SSL клиент</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL клиентски сертификати не са съвместими с вашето устройство</string>
+    <string name="settings_openhab_screentimeroff">Екранът е постоянно включен</string>
     <string name="settings_openhab_screentimeroff_summary">Екранът не се изключва, докато openHAB работи</string>
     <string name="settings_openhab_demomode">Демонстрационен режим</string>
     <string name="settings_openhab_demomode_summary">Ако нямаш openHAB сървър избери този режим за да добиеш представа на какво openHAB е способен.</string>
@@ -50,13 +51,14 @@
     <string name="settings_openhab_icon_format">Формат на иконите</string>
     <string name="settings_openhab_icon_format_png">Растерна графика</string>
     <string name="settings_openhab_icon_format_svg">Вектор</string>
-    <string name="settings_chart_scaling">Мащабиране на диаграмата</string>
+    <string name="settings_chart_scaling">Мащабиране на графиката</string>
     <string name="settings_chart_scaling_summary">Забележка: Малките мащаби свиват шрифтовете и ширината на линиите, така че има повече пространство за графиката, но четливостта на шрифта може да пострада.</string>
-    <string name="settings_chart_scaling_value_xs">Много малък</string>
-    <string name="settings_chart_scaling_value_s">Малък</string>
+    <string name="settings_chart_scaling_value_xs">Много малка</string>
+    <string name="settings_chart_scaling_value_s">Малка</string>
     <string name="settings_chart_scaling_value_m">По подразбиране</string>
-    <string name="settings_chart_scaling_value_l">Голям</string>
-    <string name="settings_openhab_chart_hq">Графики с висока разделителна способност</string>
+    <string name="settings_chart_scaling_value_l">Голяма</string>
+    <string name="settings_openhab_chart_hq">Графика с висока разделителна способност</string>
+    <string name="settings_openhab_chart_hq_summary">Подготвянето на графики може да натовари сървъра. Ако графиките се зареждат бавно и твоят сървър е маломощен, изключи тази опция, за да ускориш зареждането.</string>
     <string name="settings_clear_default_sitemap">Изчисти сайткарта по подразбиране</string>
     <string name="settings_no_default_sitemap">Няма избрана сайткарта по подразбиране</string>
     <!-- %1$s: Default Sitemap label -->
@@ -151,6 +153,7 @@
     <string name="error_http_code_507" tools:keep="@string/error_http_code_507">openHAB сървърът няма достатъчно свободно място (HTTP грешка %d)</string>
     <!-- Short error strings without hints how to fix it, e.g. for notification -->
     <string name="error_short_http_connection_failed">HTTP код %d</string>
+    <string name="error_short_unable_to_resolve_hostname">Грешка при преобразуването на домейна в IP адрес</string>
     <string name="error_short_unknown">Непозната грешка: %s</string>
     <string name="error_short_certificate_expired">Сертификатът не е изтекъл</string>
     <string name="error_short_certificate_revoked">Сертификатът е анулиран</string>
@@ -239,6 +242,7 @@
     <string name="theme_name_black">Черна</string>
     <string name="color_scheme_name_default">По подразбиране</string>
     <!-- Chart -->
+    <string name="chart_activity_title">Графика</string>
     <string name="chart_activity_hide_legend">Скрий легендата</string>
     <string name="chart_activity_show_legend">Покажи легендата</string>
     <string name="chart_activity_period">Период</string>
@@ -366,11 +370,12 @@
     <string name="data_saver_off">При зареждане на сайткарти се вземат предвид настройките на устройството за пестене на данни</string>
     <string name="data_saver_off_pre_n">Всички елементи от сайткартата се зареждат, независимо от употребата на данни</string>
     <string name="data_saver_load">Зареди въпреки това</string>
-    <string name="data_saver_hint">%s не беше зареден, за да се пестят данни</string>
+    <string name="data_saver_hint">Графиката за „%s“ не беше зареденa, за да се пестят данни</string>
     <string name="data_saver_snackbar">Картинките не се основават на състоянието на елементите, за да се пестят данни</string>
     <string name="widget_type_image">Картинка</string>
     <string name="widget_type_video">Видео</string>
     <string name="widget_type_mapview">Карта</string>
+    <string name="widget_type_chart">Графика</string>
     <string name="widget_type_color">Цвят</string>
     <!-- Tiles -->
     <string name="tile_disabled">Изключено</string>
