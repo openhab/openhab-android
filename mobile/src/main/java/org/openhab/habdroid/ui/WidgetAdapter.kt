@@ -810,11 +810,11 @@ class WidgetAdapter(
         }
 
         override suspend fun onValueUpdate(value: Float) {
-            val item = boundWidget?.item ?: return
-            if (item.isOfTypeOrGroupType(Item.Type.Color)) {
-                connection.httpClient.sendItemCommand(item, value.beautify())
+            val widget = boundWidget ?: return
+            if (widget.item?.isOfTypeOrGroupType(Item.Type.Color) == true) {
+                connection.httpClient.sendItemCommand(widget.item, value.beautify())
             } else {
-                connection.httpClient.sendItemUpdate(item, item.state?.asNumber.withValue(value))
+                connection.httpClient.sendItemUpdate(widget.item, widget.state?.asNumber.withValue(value))
             }
         }
     }
@@ -895,7 +895,7 @@ class WidgetAdapter(
         override fun bind(widget: Widget) {
             super.bind(widget)
 
-            val stateString = widget.item?.state?.asString
+            val stateString = widget.state?.asString
             val selectedLabel = widget.mappingsOrItemOptions.firstOrNull { mapping -> mapping.value == stateString }
             valueView?.text = selectedLabel?.label ?: stateString
             valueView?.isVisible = valueView?.text.isNullOrEmpty() != true
@@ -975,7 +975,7 @@ class WidgetAdapter(
             }
 
             // check selected view
-            val state = widget.item?.state?.asString
+            val state = widget.state?.asString
             val checkedId = group.children
                 .filter { it.id != R.id.overflow_button }
                 .filter { it.tag == state }
@@ -1003,7 +1003,7 @@ class WidgetAdapter(
             if (visibleChildCount == 1) {
                 onClick(group[0])
             } else if (visibleChildCount == 2) {
-                val state = boundWidget?.item?.state?.asString
+                val state = boundWidget?.state?.asString
                 if (state == group[0].tag.toString()) {
                     onClick(group[1])
                 } else if (state == group[1].tag.toString()) {
@@ -1035,7 +1035,7 @@ class WidgetAdapter(
                 button.isGone = mapping == null
                 if (mapping != null) {
                     button.text = mapping.label
-                    button.isChecked = widget.item?.state?.asString == mapping.value
+                    button.isChecked = widget.state?.asString == mapping.value
                     button.tag = mapping.value
                 }
             }

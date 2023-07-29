@@ -26,6 +26,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.model.Item
+import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.util.beautify
@@ -44,7 +45,7 @@ class WidgetSlider constructor(context: Context, attrs: AttributeSet?) :
     private var scope: CoroutineScope? = null
     private var updateJob: Job? = null
     private var updateOnMove = true
-    private var boundItem: Item? = null
+    private var boundWidget: Widget? = null
 
     init {
         addOnChangeListener(this)
@@ -57,12 +58,12 @@ class WidgetSlider constructor(context: Context, attrs: AttributeSet?) :
         val from = if (isColor) 0F else widget.minValue
         val to = if (isColor) 100F else widget.maxValue
         val step = if (isColor) 1F else widget.step
-        val state = widget.item?.state
-        val widgetValue = (if (isColor) state?.asBrightness?.toFloat() else state?.asNumber?.value) ?: from
+        val widgetValue = (if (isColor) widget.state?.asBrightness?.toFloat() else widget.state?.asNumber?.value)
+            ?: from
 
         updateJob?.cancel()
         this.updateOnMove = updateOnMove
-        this.boundItem = widget.item
+        this.boundWidget = widget
 
         // Fix "The stepSize must be 0, or a factor of the valueFrom-valueTo range" exception
         valueTo = to - (to - from).rem(step)
@@ -127,11 +128,11 @@ class WidgetSlider constructor(context: Context, attrs: AttributeSet?) :
     }
 
     override fun getFormattedValue(value: Float): String {
-        val item = boundItem ?: return ""
-        return if (item.isOfTypeOrGroupType(Item.Type.Color)) {
+        val widget = boundWidget
+        return if (widget?.item?.isOfTypeOrGroupType(Item.Type.Color) == true) {
             "${value.beautify()} %"
         } else {
-            item.state?.asNumber.withValue(value).toString()
+            widget?.state?.asNumber.withValue(value).toString()
         }
     }
 

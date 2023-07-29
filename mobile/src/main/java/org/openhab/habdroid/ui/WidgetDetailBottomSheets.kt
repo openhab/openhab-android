@@ -101,7 +101,7 @@ class SelectionBottomSheet : AbstractWidgetBottomSheet(), RadioGroup.OnCheckedCh
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.bottom_sheet_selection, container, false)
         val group = view.findViewById<RadioGroup>(R.id.group)
-        val stateString = widget.item?.state?.asString
+        val stateString = widget.state?.asString
         for (mapping in widget.mappingsOrItemOptions) {
             val radio = inflater.inflate(R.layout.bottom_sheet_selection_item_radio_button, group, false) as RadioButton
             radio.id = mapping.hashCode()
