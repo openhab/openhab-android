@@ -164,7 +164,7 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp-sse:$ok_http_version"
     implementation "com.github.QuadFlask:colorpicker:0.0.15"
     implementation "com.caverock:androidsvg-aar:1.4"
-    implementation "com.github.AppIntro:AppIntro:6.2.0"
+    implementation "com.github.AppIntro:AppIntro:6.3.1"
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     // MapView support
     fullImplementation "com.google.android.gms:play-services-maps:18.1.0"
