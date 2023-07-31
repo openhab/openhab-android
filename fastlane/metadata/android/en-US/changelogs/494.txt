@@ -1,0 +1,5 @@
+## What's Changed
+* Prefer widget state over item state when dealing with numbers in sitemap by @maniac103 in https://github.com/openhab/openhab-android/pull/3445
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.7.0-release...3.7.1-beta
