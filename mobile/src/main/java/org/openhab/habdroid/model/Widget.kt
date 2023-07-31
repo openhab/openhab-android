@@ -165,14 +165,15 @@ data class Widget(
         @Throws(JSONException::class)
         fun updateFromEvent(source: Widget, eventPayload: JSONObject): Widget {
             val item = Item.updateFromEvent(source.item, eventPayload.optJSONObject("item"))
+            val state = determineWidgetState(eventPayload.optStringOrNull("state"), item)
             val iconName = eventPayload.optStringOrFallback("icon", source.icon?.icon)
-            val icon = iconName.toOH2WidgetIconResource(item, source.type, source.mappings.isNotEmpty())
+            val icon = iconName.toOH2WidgetIconResource(state, item, source.type, source.mappings.isNotEmpty())
             return Widget(
                 id = source.id,
                 parentId = source.parentId,
                 rawLabel = eventPayload.optString("label", source.label),
                 icon = icon,
-                state = determineWidgetState(eventPayload.optStringOrNull("state"), item),
+                state = state,
                 type = source.type,
                 url = source.url,
                 item = item,
@@ -336,13 +337,14 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
     val item = optJSONObject("item")?.toItem()
     val type = getString("type").toWidgetType()
     val icon = optStringOrNull("icon")
+    val state = Widget.determineWidgetState(optStringOrNull("state"), item)
 
     val widget = Widget(
         id = getString("widgetId"),
         parentId = parent?.id,
         rawLabel = optString("label", ""),
-        icon = icon.toOH2WidgetIconResource(item, type, mappings.isNotEmpty()),
-        state = Widget.determineWidgetState(optStringOrNull("state"), item),
+        icon = icon.toOH2WidgetIconResource(state, item, type, mappings.isNotEmpty()),
+        state = state,
         type = type,
         url = optStringOrNull("url"),
         item = item,
