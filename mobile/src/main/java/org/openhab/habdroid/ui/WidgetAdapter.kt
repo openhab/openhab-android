@@ -35,6 +35,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
@@ -426,7 +427,7 @@ class WidgetAdapter(
     ) : ViewHolder(initData, layoutResId, compactModeLayoutResId) {
         protected val labelView: TextView = itemView.findViewById(R.id.widgetlabel)
         protected val valueView: TextView? = itemView.findViewById(R.id.widgetvalue)
-        private val iconView: WidgetImageView = itemView.findViewById(R.id.widgeticon)
+        protected val iconView: WidgetImageView = itemView.findViewById(R.id.widgeticon)
         protected var boundWidget: Widget? = null
             private set
 
@@ -453,16 +454,17 @@ class WidgetAdapter(
         initData: ViewHolderInitData,
         @LayoutRes layoutResId: Int,
         @LayoutRes compactModeLayoutResId: Int = layoutResId
-    ) : ViewHolder(initData, layoutResId, compactModeLayoutResId) {
-        protected var boundWidget: Widget? = null
-            private set
+    ) : LabeledItemBaseViewHolder(initData, layoutResId, compactModeLayoutResId) {
         protected val widgetContentView: View = itemView.findViewById(R.id.widget_content)
         private val dataSaverView: View = itemView.findViewById(R.id.data_saver)
         private val dataSaverButton: Button = itemView.findViewById(R.id.data_saver_button)
         private val dataSaverHint: TextView = itemView.findViewById(R.id.data_saver_hint)
 
         override fun bind(widget: Widget) {
-            boundWidget = widget
+            super.bind(widget)
+            val showLabelAndIcon = widget.label.isNotEmpty()
+            labelView.isVisible = showLabelAndIcon
+            iconView.isVisible = showLabelAndIcon
             if (!showDataSaverPlaceholderIfNeeded(widget, canBindWithoutDataTransfer(widget))) {
                 bindAfterDataSaverCheck(widget)
             }
@@ -486,6 +488,7 @@ class WidgetAdapter(
                     Widget.Type.Webview -> R.string.widget_type_webview
                     Widget.Type.Video -> R.string.widget_type_video
                     Widget.Type.Chart -> R.string.widget_type_chart
+                    Widget.Type.Mapview -> R.string.widget_type_mapview
                     else -> throw IllegalArgumentException("Cannot show data saver hint for ${widget.type}")
                 }
 
@@ -1462,48 +1465,23 @@ class WidgetAdapter(
     }
 
     abstract class AbstractMapViewHolder(initData: ViewHolderInitData) :
-        LabeledItemBaseViewHolder(initData, R.layout.widgetlist_mapitem) {
+        HeavyDataViewHolder(initData, R.layout.widgetlist_mapitem) {
         private val hasPositions
             get() = boundWidget?.item?.state?.asLocation != null || boundWidget?.item?.members?.isNotEmpty() == true
 
-        protected val baseMapView: View = itemView.findViewById(R.id.mapview)
+        protected val baseMapView: View = itemView.findViewById(R.id.widget_content)
         private val emptyView: LinearLayout = itemView.findViewById(android.R.id.empty)
-        private val dataSaverView: View = itemView.findViewById(R.id.data_saver)
-        private val dataSaverButton: Button = itemView.findViewById(R.id.data_saver_button)
-        private val dataSaverHint: TextView = itemView.findViewById(R.id.data_saver_hint)
 
         override fun bind(widget: Widget) {
             super.bind(widget)
             baseMapView.adjustForWidgetHeight(widget, 5)
-            handleDataSaver(false)
+            emptyView.isVisible = !hasPositions
         }
 
-        private fun handleDataSaver(overrideDataSaver: Boolean) {
-            val widget = boundWidget ?: return
-            val dataSaverActive = !itemView.context.determineDataUsagePolicy(connection).canDoLargeTransfers &&
-                !overrideDataSaver
-
-            dataSaverView.isVisible = dataSaverActive && hasPositions
-            baseMapView.isVisible = !dataSaverView.isVisible && hasPositions
-            emptyView.isVisible = !dataSaverView.isVisible && !hasPositions
-
-            if (dataSaverActive) {
-                dataSaverButton.setOnClickListener {
-                    handleDataSaver(true)
-                }
-
-                dataSaverHint.text = itemView.context.getString(
-                    R.string.data_saver_hint,
-                    widget.label.orDefaultIfEmpty(itemView.context.getString(R.string.widget_type_mapview))
-                )
-            } else {
-                dataSaverButton.setOnClickListener(null)
-                bindAfterDataSaverCheck(widget)
-            }
-        }
-
-        fun handleDataUsagePolicyChange() {
-            boundWidget?.let { bind(it) }
+        @CallSuper
+        override fun bindAfterDataSaverCheck(widget: Widget) {
+            emptyView.isVisible = !hasPositions
+            baseMapView.isVisible = hasPositions
         }
 
         override fun handleRowClick() {
@@ -1511,8 +1489,6 @@ class WidgetAdapter(
                 openPopup()
             }
         }
-
-        protected abstract fun bindAfterDataSaverCheck(widget: Widget)
         protected abstract fun openPopup()
     }
 

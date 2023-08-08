@@ -61,6 +61,7 @@ object MapViewHelper {
         }
 
         override fun bindAfterDataSaverCheck(widget: Widget) {
+            super.bindAfterDataSaverCheck(widget)
             map?.clear()
             map?.applyPositionAndLabel(widget, 15.0f, false)
         }

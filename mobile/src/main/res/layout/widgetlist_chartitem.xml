@@ -1,20 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     style="@style/WidgetListItemContainer">
 
-    <org.openhab.habdroid.ui.widget.WidgetImageView
-        android:id="@+id/widget_content"
+    <include layout="@layout/widgetlist_icontext_for_heavy_data" />
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:imageScalingType="scaleToFitWithViewAdjustment"
-        app:emptyHeightToWidthRatio="50%"
-        app:progressIndicator="@drawable/ic_image_loading_themed"
-        app:addRandomnessToUrl="true" />
+        android:descendantFocusability="blocksDescendants">
 
-    <include layout="@layout/widgetlist_data_saver" />
+        <org.openhab.habdroid.ui.widget.WidgetImageView
+            android:id="@+id/widget_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:imageScalingType="scaleToFitWithViewAdjustment"
+            app:emptyHeightToWidthRatio="50%"
+            app:progressIndicator="@drawable/ic_image_loading_themed"
+            app:addRandomnessToUrl="true" />
 
-</FrameLayout>
+        <include layout="@layout/widgetlist_data_saver" />
+    </FrameLayout>
+
+
+
+</LinearLayout>
