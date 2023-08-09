@@ -114,6 +114,10 @@ android {
         abortOnError false
         lintConfig file('lint.xml')
     }
+    androidResources {
+        generateLocaleConfig true
+    }
+
 }
 
 aboutLibraries {

@@ -70,7 +70,6 @@
         android:resizeableActivity="true"
         android:supportsPictureInPicture="false"
         android:supportsRtl="true"
-        android:localeConfig="@xml/locales_config"
         android:enableOnBackInvokedCallback="true"
         android:theme="@style/openHAB.Launch">
 
