@@ -16,13 +16,13 @@ package org.openhab.habdroid.ui.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.ui.StyledPlayerView
-import com.google.android.exoplayer2.video.VideoSize
+import androidx.media3.common.Player
+import androidx.media3.common.VideoSize
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.PlayerView
 
 class AutoHeightPlayerView constructor(context: Context, attrs: AttributeSet) :
-    StyledPlayerView(context, attrs),
+    PlayerView(context, attrs),
     Player.Listener {
     private var currentPlayer: ExoPlayer? = null
 

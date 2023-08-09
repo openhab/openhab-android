@@ -8,7 +8,7 @@ buildscript {
     ext.about_libraries_version = '10.6.3'
     ext.powermock_version = '2.0.9'
     ext.espresso_version = '3.5.1'
-    ext.exoplayer_version = '2.19.0'
+    ext.media3_version = '1.1.0'
     ext.acra_version = '5.11.1'
 
     repositories {
@@ -161,7 +161,9 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$work_manager_version"
     fullImplementation "androidx.work:work-gcm:$work_manager_version"
     implementation "androidx.security:security-crypto:1.0.0"
-    implementation "com.google.android.exoplayer:exoplayer:$exoplayer_version"
+    implementation "androidx.media3:media3-exoplayer:$media3_version"
+    implementation "androidx.media3:media3-ui:$media3_version"
+    implementation "androidx.media3:media3-exoplayer-hls:$media3_version"
     implementation "org.jmdns:jmdns:3.5.8"
     implementation "com.squareup.okhttp3:okhttp:$ok_http_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$ok_http_version"
