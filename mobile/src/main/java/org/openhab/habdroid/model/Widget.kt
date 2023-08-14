@@ -167,7 +167,9 @@ data class Widget(
             val item = Item.updateFromEvent(source.item, eventPayload.optJSONObject("item"))
             val state = determineWidgetState(eventPayload.optStringOrNull("state"), item)
             val iconName = eventPayload.optStringOrFallback("icon", source.icon?.icon)
-            val icon = iconName.toOH2WidgetIconResource(state, item, source.type, source.mappings.isNotEmpty())
+            val staticIcon = source.icon?.customState?.isEmpty() == true
+            val hasMappings = source.mappings.isNotEmpty()
+            val icon = iconName.toOH2WidgetIconResource(state, item, source.type, hasMappings, !staticIcon)
             return Widget(
                 id = source.id,
                 parentId = source.parentId,
@@ -338,12 +340,13 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
     val type = getString("type").toWidgetType()
     val icon = optStringOrNull("icon")
     val state = Widget.determineWidgetState(optStringOrNull("state"), item)
+    val staticIcon = optBoolean("staticIcon", false)
 
     val widget = Widget(
         id = getString("widgetId"),
         parentId = parent?.id,
         rawLabel = optString("label", ""),
-        icon = icon.toOH2WidgetIconResource(state, item, type, mappings.isNotEmpty()),
+        icon = icon.toOH2WidgetIconResource(state, item, type, mappings.isNotEmpty(), !staticIcon),
         state = state,
         type = type,
         url = optStringOrNull("url"),

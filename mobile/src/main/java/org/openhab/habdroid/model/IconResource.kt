@@ -128,7 +128,8 @@ internal fun String?.toOH2WidgetIconResource(
     state: ParsedState?,
     item: Item?,
     type: Widget.Type,
-    hasMappings: Boolean
+    hasMappings: Boolean,
+    useState: Boolean
 ): IconResource? {
     if (isNullOrEmpty() || this == "none") {
         return null
@@ -136,7 +137,7 @@ internal fun String?.toOH2WidgetIconResource(
 
     val itemState = item?.state
     var iconState = state?.asString.orEmpty()
-    if (itemState != null) {
+    if (itemState != null && useState) {
         if (item.isOfTypeOrGroupType(Item.Type.Color)) {
             // For items that control a color item fetch the correct icon
             if (type == Widget.Type.Slider || type == Widget.Type.Switch && !hasMappings) {
