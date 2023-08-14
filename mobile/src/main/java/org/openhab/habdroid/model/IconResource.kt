@@ -136,7 +136,7 @@ internal fun String?.toOH2WidgetIconResource(
     }
 
     val itemState = item?.state
-    var iconState = state?.asString.orEmpty()
+    var iconState = if (state?.asNumber != null) state.asNumber.toString() else state?.asString.orEmpty()
     if (itemState != null && useState) {
         if (item.isOfTypeOrGroupType(Item.Type.Color)) {
             // For items that control a color item fetch the correct icon
