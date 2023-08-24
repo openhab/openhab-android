@@ -1,0 +1,4 @@
+## What's Changed
+* Show label and icon for all Widgets by @mueller-ma in https://github.com/openhab/openhab-android/pull/3441
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.7.1-beta...3.7.2-beta
