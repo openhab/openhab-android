@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     style="@style/WidgetListItemContainer">
+
+    <include layout="@layout/widgetlist_icontext_for_heavy_data" />
 
     <org.openhab.habdroid.ui.widget.WidgetImageView
         android:id="@+id/widget_content"
@@ -14,4 +17,4 @@
 
     <include layout="@layout/widgetlist_data_saver" />
 
-</FrameLayout>
+</LinearLayout>

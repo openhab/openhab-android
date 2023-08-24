@@ -13,7 +13,6 @@
 
 package org.openhab.habdroid.ui
 
-import android.content.DialogInterface
 import android.location.Location
 import android.os.Bundle
 import android.os.Handler
@@ -83,6 +82,7 @@ object MapViewHelper {
         }
 
         override fun bindAfterDataSaverCheck(widget: Widget) {
+            super.bindAfterDataSaverCheck(widget)
             handler.post {
                 mapView.applyPositionAndLabel(
                     boundWidget?.item,

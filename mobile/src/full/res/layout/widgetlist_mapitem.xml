@@ -2,39 +2,15 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     style="@style/WidgetListItemContainer">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:orientation="horizontal">
-
-        <org.openhab.habdroid.ui.widget.WidgetImageView
-            android:id="@+id/widgeticon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            tools:src="@drawable/ic_openhab_appicon_24dp" />
-
-        <TextView
-            android:id="@+id/widgetlabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="8dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            tools:text="Widget title" />
-
-    </LinearLayout>
+    <include layout="@layout/widgetlist_icontext_for_heavy_data" />
 
     <com.google.android.gms.maps.MapView
-        android:id="@+id/mapview"
+        android:id="@+id/widget_content"
         android:layout_width="match_parent"
         android:layout_height="180dp"
         app:liteMode="true" />
