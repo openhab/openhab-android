@@ -1,0 +1,5 @@
+## What's Changed
+* Improve state generation logic when fetching icons by @maniac103 in https://github.com/openhab/openhab-android/pull/3456
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.7.2-beta...3.7.3-beta
