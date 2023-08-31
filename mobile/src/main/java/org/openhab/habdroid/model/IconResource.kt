@@ -128,42 +128,43 @@ internal fun String?.toOH2WidgetIconResource(
     state: ParsedState?,
     item: Item?,
     type: Widget.Type,
-    hasMappings: Boolean
+    hasMappings: Boolean,
+    useState: Boolean
 ): IconResource? {
     if (isNullOrEmpty() || this == "none") {
         return null
     }
 
-    val itemState = item?.state
-    var iconState = state?.asString.orEmpty()
-    if (itemState != null) {
-        if (item.isOfTypeOrGroupType(Item.Type.Color)) {
-            // For items that control a color item fetch the correct icon
-            if (type == Widget.Type.Slider || type == Widget.Type.Switch && !hasMappings) {
-                try {
-                    iconState = itemState.asBrightness.toString()
-                    if (type == Widget.Type.Switch) {
-                        iconState = if (iconState == "0") "OFF" else "ON"
-                    }
-                } catch (e: Exception) {
-                    iconState = "OFF"
-                }
-            } else if (itemState.asHsv != null) {
-                val color = itemState.asHsv.toColor()
-                iconState = String.format(
-                    Locale.US, "#%02x%02x%02x",
-                    Color.red(color), Color.green(color), Color.blue(color)
-                )
+    val stateToUse = state ?: item?.state
+    val iconState = when {
+        !useState || item == null -> null
+        // For NULL states, we send 'null' as state when fetching the icon (BasicUI set a predecent for doing so)
+        stateToUse == null -> "null"
+        // Number items need to use state formatted as per their state description
+        item.isOfTypeOrGroupType(Item.Type.Number) || item.isOfTypeOrGroupType(Item.Type.NumberWithDimension)-> {
+            stateToUse.asNumber.toString()
+        }
+        item.isOfTypeOrGroupType(Item.Type.Color) -> when {
+            // Color sliders just use the brightness part of the color
+            type == Widget.Type.Slider -> stateToUse.asBrightness.toString()
+            // Color toggles should behave similarly to the logic below (but using the brightness value)
+            type == Widget.Type.Switch && !hasMappings -> if (stateToUse.asBrightness == 0) "OFF" else "ON"
+            stateToUse.asHsv != null -> {
+                val color = stateToUse.asHsv.toColor()
+                String.format(Locale.US, "#%02x%02x%02x", Color.red(color), Color.green(color), Color.blue(color))
             }
-        } else if (type == Widget.Type.Switch && !hasMappings && !item.isOfTypeOrGroupType(Item.Type.Rollershutter)) {
+            else -> stateToUse.asString
+        }
+        type == Widget.Type.Switch && !hasMappings && !item.isOfTypeOrGroupType(Item.Type.Rollershutter) -> {
             // For switch items without mappings (just ON and OFF) that control a dimmer item
             // and which are not ON or OFF already, set the state to "OFF" instead of 0
             // or to "ON" to fetch the correct icon
-            iconState = if (itemState.asString == "0" || itemState.asString == "OFF") "OFF" else "ON"
+            if (stateToUse.asString == "0" || stateToUse.asString == "OFF") "OFF" else "ON"
         }
+        else -> stateToUse.asString
     }
 
-    return IconResource(this, true, iconState)
+    return IconResource(this, true, iconState.orEmpty())
 }
 
 enum class IconFormat {
