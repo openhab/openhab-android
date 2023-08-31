@@ -137,7 +137,9 @@ internal fun String?.toOH2WidgetIconResource(
 
     val stateToUse = state ?: item?.state
     val iconState = when {
-        stateToUse == null || !useState || item == null -> null
+        !useState || item == null -> null
+        // For NULL states, we send 'null' as state when fetching the icon (BasicUI set a predecent for doing so)
+        stateToUse == null -> "null"
         // Number items need to use state formatted as per their state description
         item.isOfTypeOrGroupType(Item.Type.Number) || item.isOfTypeOrGroupType(Item.Type.NumberWithDimension)-> {
             stateToUse.asNumber.toString()
