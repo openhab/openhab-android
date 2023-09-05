@@ -182,7 +182,7 @@ data class Widget(
                 linkedPage = source.linkedPage,
                 mappings = source.mappings,
                 encoding = source.encoding,
-                iconColor = source.iconColor,
+                iconColor = eventPayload.optStringOrNull("iconcolor"),
                 labelColor = eventPayload.optStringOrNull("labelcolor"),
                 valueColor = eventPayload.optStringOrNull("valuecolor"),
                 refresh = source.refresh,
