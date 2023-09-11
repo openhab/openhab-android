@@ -98,23 +98,18 @@ object MapViewHelper {
 }
 
 fun GoogleMap.applyPositionAndLabel(widget: Widget, zoomLevel: Float, allowDrag: Boolean) {
-    if (widget.item == null) {
-        return
-    }
-    val canDragMarker = allowDrag && !widget.item.readOnly
-    if (widget.item.members.isNotEmpty()) {
-        val positions = ArrayList<LatLng>()
-        for (member in widget.item.members) {
-            val position = member.state?.asLocation?.toLatLng()
-            if (position != null) {
-                setMarker(position, member, member.label, canDragMarker)
-                positions.add(position)
-            }
-        }
-        if (positions.isNotEmpty()) {
+    val item = widget.item ?: return
+    val canDragMarker = allowDrag && !item.readOnly
+    if (item.members.isNotEmpty()) {
+        val positionMap = item.members
+            .map { m -> m.state?.asLocation?.toLatLng()?.let { m to it } }
+            .filterNotNull()
+            .toMap()
+        if (positionMap.isNotEmpty()) {
             val boundsBuilder = LatLngBounds.Builder()
-            for (position in positions) {
-                boundsBuilder.include(position)
+            positionMap.forEach { member, pos ->
+                setMarker(pos, member, member.label, canDragMarker)
+                boundsBuilder.include(pos)
             }
             moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 0))
             if (cameraPosition.zoom > zoomLevel) {
@@ -122,10 +117,9 @@ fun GoogleMap.applyPositionAndLabel(widget: Widget, zoomLevel: Float, allowDrag:
             }
         }
     } else {
-        val position = widget.item.state?.asLocation?.toLatLng()
-        if (position != null) {
-            setMarker(position, widget.item, widget.label, canDragMarker)
-            moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoomLevel))
+        item.state?.asLocation?.toLatLng()?.let { pos ->
+            setMarker(pos, item, widget.label, canDragMarker)
+            moveCamera(CameraUpdateFactory.newLatLngZoom(pos, zoomLevel))
         }
     }
 }
