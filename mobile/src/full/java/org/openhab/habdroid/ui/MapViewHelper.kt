@@ -46,24 +46,14 @@ object MapViewHelper {
 
         init {
             mapView.onCreate(null)
-            mapView.getMapAsync { map ->
-                this.map = map
-                with(map.uiSettings) {
-                    setAllGesturesEnabled(false)
-                    isMapToolbarEnabled = false
-                }
-                map.setOnMarkerClickListener {
-                    openPopup()
-                    true
-                }
-                map.setOnMapClickListener { openPopup() }
-            }
         }
 
         override fun bindAfterDataSaverCheck(widget: Widget) {
             super.bindAfterDataSaverCheck(widget)
-            map?.clear()
-            map?.applyPositionAndLabel(widget, 15.0f, false)
+            withLoadedMap { map ->
+                map.clear()
+                map.applyPositionAndLabel(widget, 15.0f, false)
+            }
         }
 
         override fun onStart() {
@@ -81,6 +71,28 @@ object MapViewHelper {
         override fun openPopup() {
             val widget = boundWidget ?: return
             fragmentPresenter.showBottomSheet(MapBottomSheet(), widget)
+        }
+
+        private fun withLoadedMap(callback: (map: GoogleMap) -> Unit) {
+            val loadedMap = this.map
+            if (loadedMap != null) {
+                callback(loadedMap)
+                return
+            }
+
+            mapView.getMapAsync { map ->
+                this.map = map
+                with(map.uiSettings) {
+                    setAllGesturesEnabled(false)
+                    isMapToolbarEnabled = false
+                }
+                map.setOnMarkerClickListener {
+                    openPopup()
+                    true
+                }
+                map.setOnMapClickListener { openPopup() }
+                callback(map)
+            }
         }
     }
 }
