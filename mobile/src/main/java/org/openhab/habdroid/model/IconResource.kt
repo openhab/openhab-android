@@ -142,7 +142,7 @@ internal fun String?.toOH2WidgetIconResource(
         stateToUse == null -> "null"
         // Number items need to use state formatted as per their state description
         item.isOfTypeOrGroupType(Item.Type.Number) || item.isOfTypeOrGroupType(Item.Type.NumberWithDimension)-> {
-            stateToUse.asNumber.toString()
+            stateToUse.asNumber?.toString(Locale.US)
         }
         item.isOfTypeOrGroupType(Item.Type.Color) -> when {
             // Color sliders just use the brightness part of the color
