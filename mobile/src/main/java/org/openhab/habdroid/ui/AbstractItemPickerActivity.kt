@@ -92,8 +92,6 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         setContentView(R.layout.activity_item_picker)
         setResult(RESULT_CANCELED)
 
-        enableDrawingBehindStatusBar()
-
         swipeLayout = findViewById(R.id.activity_content)
         swipeLayout.setOnRefreshListener(this)
         swipeLayout.applyColors()

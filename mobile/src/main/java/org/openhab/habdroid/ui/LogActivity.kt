@@ -59,8 +59,6 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
 
         setContentView(R.layout.activity_log)
 
-        enableDrawingBehindStatusBar()
-
         fab = findViewById(R.id.shareFab)
         logTextView = findViewById(R.id.log)
         scrollView = findViewById(R.id.scrollview)

@@ -104,6 +104,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         toolbar = findViewById(R.id.openhab_toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        enableDrawingBehindStatusBar()
 
         coordinator = findViewById(R.id.coordinator)
         content = findViewById(R.id.activity_content)
@@ -134,7 +135,16 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         setFullscreen()
     }
 
-    fun enableDrawingBehindStatusBar() {
+    fun setFullscreen(isEnabled: Boolean = isFullscreenEnabled) {
+        if (isEnabled) {
+            insetsController.hide(WindowInsetsCompat.Type.systemBars())
+            insetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        } else {
+            insetsController.show(WindowInsetsCompat.Type.systemBars())
+        }
+    }
+
+    private fun enableDrawingBehindStatusBar() {
         EdgeToEdgeUtils.applyEdgeToEdge(window, true)
         // Set up a listener to get the window insets so we can apply it to our views. It's important this listener
         // is applied to the toolbar for a combination of reasons:
@@ -150,15 +160,6 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
             lastInsets = insets
             applyPaddingsForWindowInsets()
             WindowInsetsCompat.CONSUMED
-        }
-    }
-
-    fun setFullscreen(isEnabled: Boolean = isFullscreenEnabled) {
-        if (isEnabled) {
-            insetsController.hide(WindowInsetsCompat.Type.systemBars())
-            insetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        } else {
-            insetsController.show(WindowInsetsCompat.Type.systemBars())
         }
     }
 
