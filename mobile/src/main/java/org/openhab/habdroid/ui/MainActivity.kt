@@ -224,7 +224,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         setProgressIndicatorVisible(false)
 
         setupDrawer()
-        enableDrawingBehindStatusBar()
 
         viewPool = RecyclerView.RecycledViewPool()
 

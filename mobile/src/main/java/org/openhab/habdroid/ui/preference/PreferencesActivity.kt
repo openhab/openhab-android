@@ -48,7 +48,6 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         setContentView(R.layout.activity_prefs)
 
-        enableDrawingBehindStatusBar()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (savedInstanceState == null) {
