@@ -1,0 +1,7 @@
+## What's Changed
+* Don't use device locale when formatting state for icons by @maniac103 in https://github.com/openhab/openhab-android/pull/3474
+* Adjust image/chart/map/video header line by @maniac103 in https://github.com/openhab/openhab-android/pull/3475
+* Fix status bar being invisible in chart and image activities by @maniac103 in https://github.com/openhab/openhab-android/pull/3476
+* Fix applying first map location by @maniac103 in https://github.com/openhab/openhab-android/pull/3471
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.7.4-beta...3.7.5-beta
