@@ -1,0 +1,4 @@
+## What's Changed
+* Item controls: Handle groups like regular items by @mueller-ma in https://github.com/openhab/openhab-android/pull/3484
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.7.5-beta...3.7.6-beta
