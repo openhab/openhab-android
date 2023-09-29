@@ -358,7 +358,7 @@ fun Item.getDeviceType() = when (category?.lowercase()?.substringAfterLast(':'))
     "lock" -> DeviceTypes.TYPE_LOCK
     "fan", "fan_box", "fan_ceiling" -> DeviceTypes.TYPE_FAN
     "blinds" -> DeviceTypes.TYPE_BLINDS
-    "rollershutter" -> DeviceTypes.TYPE_SHUTTER
+    "rollershutter" -> DeviceTypes.TYPE_BLINDS
     "window" -> DeviceTypes.TYPE_WINDOW
     "dryer" -> DeviceTypes.TYPE_DRYER
     "washingmachine" -> DeviceTypes.TYPE_WASHER
