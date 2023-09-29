@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="notification_channel_crash_reports">Kraschrapporter</string>
+    <string name="crash_report_notification_title">openHAB kraschade</string>
+    <string name="crash_report_notification_send_mail">Skicka e-post</string>
     <string name="open_in_maps">Öppna i OpenStreetMap</string>
 </resources>
