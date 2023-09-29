@@ -295,21 +295,21 @@ class ItemsControlsProviderService : ControlsProviderService() {
                     // Open app when clicking on tile
                     ControlTemplate.getNoTemplateObject()
                 }
-                item.type == Item.Type.Switch -> ToggleTemplate(
+                item.isOfTypeOrGroupType(Item.Type.Switch) -> ToggleTemplate(
                     item.name,
                     ControlButton(item.state?.asBoolean ?: false, context.getString(R.string.nfc_action_toggle))
                 )
-                item.type == Item.Type.Dimmer || item.type == Item.Type.Color -> ToggleRangeTemplate(
+                item.isOfTypeOrGroupType(Item.Type.Dimmer) || item.isOfTypeOrGroupType(Item.Type.Color) -> ToggleRangeTemplate(
                     "${item.name}_toggle",
                     ControlButton(item.state?.asBoolean ?: false, context.getString(R.string.nfc_action_toggle)),
                     createRangeTemplate(item, "%.0f%%")
                 )
-                item.type == Item.Type.Rollershutter -> createRangeTemplate(item, "%.0f%%")
-                item.type == Item.Type.Number -> createRangeTemplate(
+                item.isOfTypeOrGroupType(Item.Type.Rollershutter) -> createRangeTemplate(item, "%.0f%%")
+                item.isOfTypeOrGroupType(Item.Type.Number) -> createRangeTemplate(
                     item,
                     item.state?.asNumber?.unit?.let { "%.0f $it" } ?: "%.0f"
                 )
-                item.type == Item.Type.Player -> ToggleTemplate(
+                item.isOfTypeOrGroupType(Item.Type.Player) -> ToggleTemplate(
                     item.name,
                     ControlButton(item.state?.asString == "PLAY", context.getString(R.string.nfc_action_toggle))
                 )
