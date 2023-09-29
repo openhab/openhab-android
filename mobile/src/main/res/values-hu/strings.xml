@@ -14,10 +14,13 @@
     <string name="mainmenu_openhab_sitemaps">Felületek</string>
     <string name="mainmenu_openhab_preferences">Beállítások</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_oh3_ui">Főképernyő</string>
     <string name="mainmenu_openhab_frontail">Frontail</string>
     <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
+    <string name="ui_on_server">%1$s (%2$s)</string>
     <string name="app_notifications">Értesítések</string>
     <string name="habpanel_error">Hiba történt a HABPanel betöltése során</string>
+    <string name="oh3_ui_error">Hiba lépett fel az főképernyő (Main UI) beöltésekor</string>
     <string name="frontail_error">Hiba történt a Frontail betöltése közben. Vegye figyelembe, hogy openHAB Cloud-n keresztül nem elérhető.</string>
     <string name="mainmenu_openhab_selectsitemap">Válassza ki az alapértelmezett felületet</string>
     <string name="mainmenu_openhab_clearcache">Gyorsítótári képek törlése</string>
@@ -38,6 +41,8 @@
     <string name="settings_openhab_sslclientcert">SSL ügyfél-tanúsítvány</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Koppintson ide, hogy többet tudhasson meg a SSL ügyféltanúsítvány-hitelesítés beállításáról</string>
     <string name="settings_openhab_sslclientcert_not_supported">Hungarian</string>
+    <string name="frontail_url_title">Frontail URL</string>
+    <string name="frontail_url_summary">A Frontail felület elérési útvonala. Az openHABian rendszer részeként vagy külön telepíthető. Az alapértelmezett beállításhoz hagyja üresen. Az aktuális útvonal: %s</string>
     <string name="settings_openhab_screentimeroff">Képernyő időtúllépésének kikapcsolása</string>
     <string name="settings_openhab_screentimeroff_summary">A képernyő nem kapcsol ki, amikor az openHAB fut</string>
     <string name="settings_openhab_demomode">Bemutató mód</string>
@@ -48,6 +53,11 @@
     <string name="settings_openhab_fullscreen">Teljes képernyő</string>
     <string name="settings_set_as_launcher_title">Beállítája kezdőképernyőnek</string>
     <string name="settings_set_as_launcher_summary">Az alkalmazást kezdőképernyőként használhatja. Miután engedélyezte, az alkalmazást az első indításnál ki kell választani.</string>
+    <string name="settings_sitemap_compact_mode_title">Kompakt mód</string>
+    <string name="settings_sitemap_compact_mode_off">Kétsoros elrendezés használata a Felület kütyük megjelenítésekor. A vezérlők nagyobban és könnyebben használhatók lesznek, de hosszabban kell görgetni a hosszabb listák esetén</string>
+    <string name="settings_sitemap_compact_mode_on">Egysoros elrendezés használata a Felület kütyük megjelenítésekor. A vezérlőkből több kerül a képernyőre de a méretük kisebb lesz</string>
+    <string name="settings_color_scheme_title">Színséma</string>
+    <string name="settings_show_icons">Ikonok megjelenítése</string>
     <string name="settings_openhab_icon_format">Ikon formátum</string>
     <string name="settings_openhab_icon_format_png">Bitkép</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
@@ -164,6 +174,7 @@
     <string name="error_certificate_wrong_host">SSL-tanúsítvány érvénytelen %s</string>
     <string name="error_http_to_https_port">Váratlanul leállt a kapcsolat. Lehetséges hogy HTTPS-portot használ HTTP kapcsolathoz?</string>
     <string name="webview_ssl">Jelenleg ez alkalmazás nem támogatja az önaláírt SSL-tanúsítványokat a \"WebView\" megjelenítőkhöz</string>
+    <string name="webview_snackbar_permissions_missing">Az oldal megfelelő működéséhez további engedélyek szükségesek</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_http_code_401" tools:keep="@string/error_http_code_401">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód: %d).</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Nem található (HTTP code %d)</string>
@@ -354,6 +365,8 @@
     <string name="theme_name_battery_saver">Sötét mód energiatakarékos módban</string>
     <string name="theme_name_black">Fekete</string>
     <string name="color_scheme_name_default">Alapértelmezett</string>
+    <string name="color_scheme_name_basicui">Egyszerű felhasználói felületet</string>
+    <string name="color_scheme_name_dynamic">Dinamikus</string>
     <!-- Chart -->
     <string name="chart_activity_title">Grafikon</string>
     <string name="chart_activity_hide_legend">Jelmagyarázat elrejtése</string>
@@ -447,6 +460,10 @@
     <string name="content_description_open_roller_shutter">Redőny nyitása</string>
     <string name="content_description_stop_roller_shutter">Redőny megállítása</string>
     <string name="content_description_close_roller_shutter">Redőny lezárása</string>
+    <string name="content_description_player_previous">Ugrás az előző elemre</string>
+    <string name="content_description_player_next">Ugrás a következő elemre</string>
+    <string name="content_description_player_pause">Lejátszás szüneteltetése</string>
+    <string name="content_description_player_play">Lejátszás indítása</string>
     <string name="content_description_open_color_wheel">Színválasztás megnyitása</string>
     <string name="content_description_color_up">Fényerő növeléséhez tartsa nyomva</string>
     <string name="content_description_color_down">Fényerő csökkentéséhez tartsa nyomva</string>
@@ -544,6 +561,7 @@
     <string name="item_update_error_no_connection">Nincs kapcsolat</string>
     <string name="item_update_error_couldnt_get_item_type">Nem megállapítható az elem típusa</string>
     <string name="create_home_screen_widget_title">Widget létrehozása</string>
+    <string name="create_home_screen_widget_no_command">Jelenlegi állapot mutatása</string>
     <string name="create_home_screen_widget_not_supported">Kérem nyissa meg a Widget menüt a főképernyőről és hozza létre onnan</string>
     <!-- Data saver -->
     <string name="data_saver_title">Adatforgalom-csökkentő</string>

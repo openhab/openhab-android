@@ -4,6 +4,8 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/main/README.md#localization -->
     <!-- General app strings -->
     <string name="app_preferences_name">Inställningar</string>
+    <string name="save">Spara</string>
+    <string name="delete">Radera</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Inställningar</string>
     <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
@@ -29,8 +31,11 @@
     <string name="settings_openhab_sslclientcert_not_supported">SSL-klientcertifikat stöds inte av din enhet</string>
     <string name="settings_openhab_demomode">Demoläge</string>
     <string name="settings_openhab_demomode_summary">Om du inte har en openHAB-server, aktivera demoläget för att få en bild av vad OpanHAB kan göra.</string>
+    <string name="start_page_title">Startsida</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Fullskärm</string>
+    <string name="settings_sitemap_compact_mode_title">Kompakt läge</string>
+    <string name="settings_color_scheme_title">Färgschema</string>
     <string name="settings_openhab_icon_format">Ikonformat</string>
     <string name="settings_openhab_icon_format_png">Bitmapp</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
@@ -48,6 +53,7 @@
     <string name="settings_current_default_sitemap">Nuvarande standard-Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Fjärr</string>
     <string name="settings_openhab_connection">Lokal</string>
+    <string name="settings_ringtone">Ringsignal</string>
     <string name="settings_ringtone_none">Inget</string>
     <string name="settings_ringtone_on_external">Okänd ringsignal på externt lagringsutrymme</string>
     <string name="settings_notification_vibration_off">Av</string>
@@ -67,9 +73,17 @@
     <string name="settings_screen_lock_kiosk">Fullskärmsläge</string>
     <string name="settings_screen_lock_on">På</string>
     <string name="settings_show_sitemaps_in_drawer">Visa alla Sitemaps i sidomenyn</string>
+    <string name="settings_server_name">Servernamn</string>
+    <string name="settings_add_server">Lägg till server</string>
+    <string name="settings_edit_server">Redigera server</string>
+    <string name="settings_server_confirm_leave_title">Osparade ändringar</string>
+    <string name="settings_server_primary_title">Primär server</string>
+    <string name="settings_advanced">Avancerat</string>
+    <string name="device_control_subtitle_location">Plats</string>
     <string name="device_control_subtitle_item_name">Item-namn</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Röstkommandon</string>
+    <string name="voice_command">Röstkommando</string>
     <string name="title_voice_widget_icon">Röstkommandon och appgenväg</string>
     <string name="info_voice_input">openHAB, på ditt kommando!</string>
     <string name="info_voice_recognized_text">Igenkänt kommando: %1$s</string>
@@ -83,6 +97,7 @@
     <string name="app_shortcut_disabled_voice_recognition">Din enhet har ingen app för röstigenkänning installerad</string>
     <string name="no_position_set">Ingen position angiven</string>
     <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
+    <string name="copied_item_name">Kopierade \"%s\"</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB returnerade en tom Sitemap-lista</string>
     <string name="error_sitemap_generic_load_error">Sitemap kunde inte laddas. Följande fel inträffade: %1$s</string>
@@ -160,14 +175,18 @@
     <string name="empty_page">Denna sida innehåller inte några synliga widgets</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Skicka enhetsinformation till servern</string>
+    <string name="send_device_info_to_server_short">Skicka enhetsinformation</string>
     <string name="settings_item_update_pref_howto_summary">Tryck här för att få tips om hur du ställer in den här funktionens serversida</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <string name="copy_debug_info">Kopiera</string>
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_phone_state_permission_denied">Att skicka samtalsstatus har inaktiverats på grund av saknade behörigheter</string>
+    <string name="settings_battery_level">Batterinivå</string>
     <string name="settings_charging_state">Laddningstillstånd</string>
     <string name="settings_wifi_ssid">WiFi-namn</string>
     <string name="settings_wifi_ssid_permission_denied">Att skicka WiFi-namn har inaktiverats på grund av saknade behörigheter</string>
+    <string name="settings_bluetooth_devices">Anslutna Bluetooth-enheter</string>
     <string name="settings_background_tasks_permission_allow">Tillåt</string>
     <string name="settings_item_pref_item_name">Item-namn</string>
     <string name="waiting_for_item_upload">Väntar på nätverksanslutning för att skicka Item-uppdateringar</string>
@@ -179,6 +198,7 @@
     <string name="notification_channel_messages_default_severity">Standard</string>
     <string name="notification_channel_messages_default_severity_description">Meddelanden som skickas av servern utan någon definierad allvarlighetsgrad</string>
     <string name="notification_channel_group_messages">Medelande</string>
+    <string name="push_notification_status">Status</string>
     <plurals name="item_update_error_title">
         <item quantity="one">Item %d kunde inte uppdateras</item>
         <item quantity="other">Items %d kunde inte uppdateras</item>
@@ -189,8 +209,17 @@
     <string name="item_update_http_error_label">%1$s misslyckades med uppdatering: %2$s</string>
     <string name="item_update_connection_error">Uppdatering av Item \'%1$s\' misslyckades (ingen anslutning)</string>
     <string name="item_update_connection_error_label">%1$s uppdateringen misslyckades (ingen anslutning)</string>
+    <string name="item_update_short_status_waiting">Väntar…</string>
+    <string name="item_update_short_status_sending">Skickar…</string>
+    <string name="item_update_short_status_failed">Misslyckades</string>
     <string name="retry">Försök igen</string>
     <string name="ignore">Ignorera</string>
+    <string name="send_device_info_schedule">Schema</string>
+    <string name="send_device_info_schedule_15_minutes">15 minuter</string>
+    <string name="send_device_info_schedule_1_hour">1 timme</string>
+    <string name="send_device_info_schedule_3_hours">3 timmar</string>
+    <string name="send_device_info_schedule_6_hours">6 timmar</string>
+    <string name="send_device_info_schedule_12_hours">12 timmar</string>
     <!-- Device identifier -->
     <!-- Please translate "Device identifier" in this string -->
     <!-- Notification list strings -->
@@ -214,7 +243,9 @@
     <string name="theme_name_dark">Mörkt</string>
     <string name="theme_name_system">Följ systemet</string>
     <string name="theme_name_battery_saver">Mörkt läge i batterisparläge</string>
+    <string name="theme_name_black">Svart</string>
     <string name="color_scheme_name_default">Standard</string>
+    <string name="color_scheme_name_dynamic">Dynamisk</string>
     <!-- Chart -->
     <string name="chart_activity_title">Diagram</string>
     <string name="chart_activity_hide_legend">Dölj teckenförklaring</string>
@@ -258,6 +289,8 @@
     <string name="nfc_action_to_sitemap_page">Skriv Sitemap NFC-tagg</string>
     <string name="nfc_action_write_command_tag">Skriv Item NFC-tagg</string>
     <!-- Drawer -->
+    <string name="drawer_open">Öppna sidomeny</string>
+    <string name="drawer_close">Stäng sidomeny</string>
     <string name="mainmenu_openhab_voice_recognition">Röstigenkänning</string>
     <!-- About -->
     <string name="about_title">Om</string>
@@ -271,8 +304,11 @@
     <string name="about_translation">Hjälp oss att översätta openHAB</string>
     <string name="about_privacy_policy">Integritetspolicy</string>
     <string name="about_rate_this_app">Betygsätt appen</string>
+    <string name="settings_troubleshooting_title">Felsökning</string>
+    <string name="undo">Ångra</string>
     <string name="try_again_button">Försök igen</string>
     <string name="enable_wifi_button">Slå på Wi-Fi</string>
+    <string name="switch_wifi_button">Anslut till annat Wi-Fi</string>
     <string name="go_to_settings_button">Gå till inställningar</string>
     <string name="enable_demo_mode_button">Aktivera demoläge</string>
     <string name="configuration_missing">Ingen openHAB-server hittades i nätverket. Om du har en server, vänligen konfigurera dess IP-adress eller namn i serverinställningarna. Om du inte har en server kan du aktivera demoläge för att se vad openHAB kan göra.</string>
@@ -284,6 +320,8 @@
     <string name="view_log">Visa logg</string>
     <string name="log_activity_action_clear_log">Rensa logg</string>
     <string name="log_activity_action_show_errors">Visa endast fel</string>
+    <string name="log_activity_action_show_all">Visa alla meddelanden</string>
+    <string name="log_activity_action_reload">Ladda om</string>
     <string name="empty_log">Loggen är tom</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Fäst på hemskärmen</string>
@@ -291,43 +329,163 @@
     <string name="content_description_open_roller_shutter">Öppna jalusi</string>
     <string name="content_description_stop_roller_shutter">Stoppa jalusi</string>
     <string name="content_description_close_roller_shutter">Stäng jalusi</string>
+    <string name="content_description_player_pause">Pausa uppspelning</string>
+    <string name="content_description_player_play">Starta uppspelning</string>
     <string name="content_description_open_color_wheel">Öppna färgväljare</string>
     <string name="content_description_color_up">På eller håll för att öka ljusstyrkan</string>
     <string name="content_description_color_down">Av eller håll för att minska ljusstyrkan</string>
     <string name="content_description_open_number_picker">Öppna nummerväljare</string>
+    <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Öppna openHAB</string>
     <string name="swipe_to_refresh_description">Denna app uppdaterar sig även automatiskt, du behöver normalt sett inte göra det manuellt</string>
+    <string name="got_it">Uppfattat!</string>
     <!-- Intro strings -->
     <string name="app_intro">Introduktion</string>
     <string name="intro_welcome">Välkommen till openHAB</string>
     <string name="intro_whatis">En mjukvara för att automatisera ditt hem med öppen källkod, helt oberoende av tillverkare eller teknologi</string>
     <string name="intro_voice_description">Kontrollera ditt hem med din röst</string>
+    <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Långtryck på en en Item för att knyta den till NFS-taggar</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">HOPPA ÖVER</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">FÄRDIGT</string>
     <!-- Item picker -->
+    <string name="item_picker_custom">Anpassad</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_item_update">Uppdatera</string>
+    <string name="item_picker_item_command">Kommando</string>
     <string name="search">Sök</string>
+    <string name="settings_tasker_plugin">Tasker-integration</string>
     <string name="turn_on">Sätt på</string>
     <string name="press_back_to_exit">Tryck tillbaka för att avsluta</string>
     <!-- Item update widget -->
+    <string name="item_update_widget_content_description_edit">Redigera widget</string>
+    <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <!-- Used in the widget preview -->
+    <string name="item_update_widget_preview_text">Öppna garage</string>
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_rewind">%s spolar tillbaka</string>
     <string name="item_update_success_message_fastforward">%s snabbspolar</string>
+    <string name="item_update_short_success_message_off">Avstängd</string>
+    <string name="item_update_short_success_message_stop">Stoppad</string>
+    <string name="item_update_short_success_message_play">Spelar</string>
+    <string name="item_update_short_success_message_pause">Pausad</string>
     <string name="item_update_error_no_connection_retry">Fel vid sändning av Item-uppdatering, försöker igen\u2026</string>
     <string name="item_update_error_no_connection">Ingen anslutning</string>
     <string name="item_update_error_couldnt_get_item_type">Kunde inte hämta Item-typ</string>
     <string name="create_home_screen_widget_title">Skapa widget</string>
     <!-- Data saver -->
+    <string name="data_saver_load">Ladda ändå</string>
+    <string name="widget_type_image">Bild</string>
+    <string name="widget_type_webview">WebView</string>
+    <string name="widget_type_video">Video</string>
+    <string name="widget_type_mapview">Karta</string>
     <string name="widget_type_chart">Diagram</string>
+    <string name="widget_type_color">Färg</string>
     <!-- Tiles -->
+    <string name="tile_disabled">Avstängd</string>
     <string name="tile_enable">Sätt på</string>
+    <string name="tile_name">Namn</string>
+    <string name="tile_icon">Ikon</string>
     <!-- Tile icon names -->
+    <string name="tile_icon_openhab">openHAB-ikon</string>
+    <string name="tile_icon_tv">TV</string>
+    <string name="tile_icon_radio">Radio</string>
+    <string name="tile_icon_clock">Klocka</string>
+    <string name="tile_icon_alarm_clock">Väckarklocka</string>
+    <string name="tile_icon_cloud_upload">Molnuppladdning</string>
+    <string name="tile_icon_house">Hus</string>
+    <string name="tile_icon_lock">Lås</string>
+    <string name="tile_icon_microphone">Mikrofon</string>
+    <string name="tile_icon_color_palette">Färgpalett</string>
+    <string name="tile_icon_people">Personer</string>
+    <string name="tile_icon_person">Person</string>
+    <string name="tile_icon_phone">Telefon</string>
+    <string name="tile_icon_battery">Batteri</string>
+    <string name="tile_icon_star">Stjärna</string>
+    <string name="tile_icon_tree">Träd</string>
+    <string name="tile_icon_wifi">Wi-Fi</string>
+    <string name="tile_icon_fan">Fläkt</string>
+    <string name="tile_icon_bed">Säng</string>
+    <string name="tile_icon_child">Barn</string>
+    <string name="tile_icon_bath">Bad</string>
+    <string name="tile_icon_woman">Kvinna</string>
+    <string name="tile_icon_camera">Kamera</string>
+    <string name="tile_icon_garage">Garage</string>
+    <string name="tile_icon_text">Text</string>
+    <string name="tile_icon_sofa">Soffa</string>
+    <string name="tile_icon_lamp_ceiling">Taklampa</string>
+    <string name="tile_icon_lamp_floor">Golvlampa</string>
+    <string name="tile_icon_lamp_bedside">Sänglampa</string>
+    <string name="tile_icon_lamp_outdoor">Utomhuslampa</string>
     <!-- Tile icon values -->
     <!-- Item tag type labels -->
+    <string name="item_tag_location_apartment">Lägenhet</string>
+    <string name="item_tag_location_attic">Vind</string>
+    <string name="item_tag_location_basement">Källare</string>
+    <string name="item_tag_location_bathroom">Badrum</string>
+    <string name="item_tag_location_bedroom">Sovrum</string>
+    <string name="item_tag_location_building">Byggnad</string>
+    <string name="item_tag_location_carport">Carport</string>
+    <string name="item_tag_location_cellar">Källare</string>
+    <string name="item_tag_location_corridor">Korridor</string>
+    <string name="item_tag_location_diningroom">Matsal</string>
+    <string name="item_tag_location_driveway">Uppfart</string>
+    <string name="item_tag_location_familyroom">Familjerum</string>
+    <string name="item_tag_location_garage">Garage</string>
+    <string name="item_tag_location_garden">Trädgård</string>
+    <string name="item_tag_location_groundfloor">Bottenvåning</string>
+    <string name="item_tag_location_guestroom">Gästrum</string>
+    <string name="item_tag_location_house">Hus</string>
+    <string name="item_tag_location_indoor">Inomhus</string>
+    <string name="item_tag_location_kitchen">Kök</string>
+    <string name="item_tag_location_laundryroom">Tvättstuga</string>
+    <string name="item_tag_location_livingroom">Vardagsrum</string>
+    <string name="item_tag_location_office">Kontor</string>
+    <string name="item_tag_location_outdoor">Utomhus</string>
+    <string name="item_tag_location_patio">Uteplats</string>
+    <string name="item_tag_location_porch">Veranda</string>
+    <string name="item_tag_location_room">Rum</string>
+    <string name="item_tag_location_summerhouse">Sommarhus</string>
+    <string name="item_tag_location_terrace">Terrass</string>
+    <string name="item_tag_location_veranda">Veranda</string>
+    <string name="item_tag_equipment_battery">Batteri</string>
+    <string name="item_tag_equipment_blinds">Persienner</string>
+    <string name="item_tag_equipment_camera">Kamera</string>
+    <string name="item_tag_equipment_car">Bil</string>
+    <string name="item_tag_equipment_ceilingfan">Takfläkt</string>
+    <string name="item_tag_equipment_cellardoor">Källardörr</string>
+    <string name="item_tag_equipment_dishwasher">Diskmaskin</string>
+    <string name="item_tag_equipment_door">Dörr</string>
+    <string name="item_tag_equipment_doorbell">Dörrklocka</string>
+    <string name="item_tag_equipment_dryer">Torktumlare</string>
+    <string name="item_tag_equipment_fan">Fläkt</string>
+    <string name="item_tag_equipment_freezer">Frys</string>
+    <string name="item_tag_equipment_frontdoor">Ytterdörr</string>
+    <string name="item_tag_equipment_garagedoor">Garagedörr</string>
+    <string name="item_tag_equipment_gate">Grind</string>
+    <string name="item_tag_equipment_innerdoor">Innerdörr</string>
+    <string name="item_tag_equipment_lawnmower">Gräsklippare</string>
+    <string name="item_tag_equipment_lightbulb">Glödlampa</string>
+    <string name="item_tag_equipment_lock">Lås</string>
+    <string name="item_tag_equipment_motiondetector">Rörelsedetektor</string>
+    <string name="item_tag_equipment_oven">Ugn</string>
+    <string name="item_tag_equipment_poweroutlet">Eluttag</string>
+    <string name="item_tag_equipment_projector">Projektor</string>
+    <string name="item_tag_equipment_pump">Pump</string>
+    <string name="item_tag_equipment_refrigerator">Kylskåp</string>
+    <string name="item_tag_equipment_remotecontrol">Fjärrkontroll</string>
+    <string name="item_tag_equipment_sensor">Sensor</string>
+    <string name="item_tag_equipment_siren">Siren</string>
+    <string name="item_tag_equipment_smokedetector">Brandvarnare</string>
+    <string name="item_tag_equipment_speaker">Högtalare</string>
+    <string name="item_tag_equipment_television">TV</string>
+    <string name="item_tag_equipment_voiceassistant">Röstassistent</string>
+    <string name="item_tag_equipment_washingmachine">Tvättmaskin</string>
+    <string name="item_tag_equipment_weatherservice">Vädertjänst</string>
+    <string name="item_tag_equipment_webservice">Webbtjänst</string>
+    <string name="item_tag_equipment_window">Fönster</string>
 </resources>
