@@ -40,7 +40,7 @@ if (!isFoss) {
 }
 
 android {
-    buildToolsVersion "33.0.0"
+    buildToolsVersion '33.0.2'
     compileSdkVersion 33
     useLibrary "org.apache.http.legacy"
     namespace 'org.openhab.habdroid'
