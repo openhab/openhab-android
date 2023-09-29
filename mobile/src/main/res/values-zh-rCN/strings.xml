@@ -7,14 +7,20 @@
     <string name="save">保存</string>
     <string name="discard">放弃</string>
     <string name="delete">删除</string>
+    <string name="attribution_tag_discover_server">发现 openHAB 服务器</string>
+    <string name="attribution_tag_select_server_wifi">基于 Wi-Fi 选择服务器</string>
+    <string name="attribution_tag_suggest_turn_on_wifi">建议打开 Wi-Fi</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">系统布局</string>
     <string name="mainmenu_openhab_preferences">设置</string>
     <string name="mainmenu_openhab_habpanel">HAB 面板</string>
+    <string name="mainmenu_openhab_oh3_ui">主界面</string>
     <string name="mainmenu_openhab_frontail">Frontail</string>
     <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
+    <string name="ui_on_server">%1$s (%2$s)</string>
     <string name="app_notifications">通知</string>
     <string name="habpanel_error">载入 HAB 面板时出错</string>
+    <string name="oh3_ui_error">加载主界面时发生错误</string>
     <string name="frontail_error">加载正面时发生错误。请注意它无法通过 openHAB云访问。</string>
     <string name="mainmenu_openhab_selectsitemap">选择默认系统布局</string>
     <string name="mainmenu_openhab_clearcache">清除图像缓存</string>
@@ -35,12 +41,23 @@
     <string name="settings_openhab_sslclientcert">SSL 客户端证书</string>
     <string name="settings_openhab_sslclientcert_howto_summary">点击此处获取设置 SSL 客户端证书认证的信息</string>
     <string name="settings_openhab_sslclientcert_not_supported">您的设备不支持 SSL 客户端证书</string>
+    <string name="frontail_url_title">Frontail URL</string>
+    <string name="frontail_url_summary">Frontail 的 URL。它与 openHABian 捆绑在一起，也可以手动安装。留空以使用默认设置。当前设置：%s</string>
+    <string name="settings_openhab_screentimeroff">禁用屏幕超时</string>
+    <string name="settings_openhab_screentimeroff_summary">当 openHAB 运行时，屏幕不会关闭</string>
     <string name="settings_openhab_demomode">演示模式</string>
     <string name="settings_openhab_demomode_summary">若您没有 openHAB 服务器，请启用演示模式来一览 openHAB 的功能。</string>
     <string name="start_page_title">首页</string>
     <string name="drawer_entries">侧边菜单项</string>
     <string name="settings_openhab_theme">主题</string>
     <string name="settings_openhab_fullscreen">全屏</string>
+    <string name="settings_set_as_launcher_title">注册为启动器</string>
+    <string name="settings_set_as_launcher_summary">允许应用程序被用作启动器。启用后，应用程序仍然需要被选择为默认启动器才能生效。</string>
+    <string name="settings_sitemap_compact_mode_title">紧凑模式</string>
+    <string name="settings_sitemap_compact_mode_off">使用两行布局的 Sitemap 小部件，这使得控件更大，因此更容易使用，但需要更多的滚动较长的列表</string>
+    <string name="settings_sitemap_compact_mode_on">为 Sitemap 小部件使用单行布局，这样可以在屏幕上放置尽可能多的小部件，但减少控件的大小</string>
+    <string name="settings_color_scheme_title">配色方案</string>
+    <string name="settings_show_icons">显示图标</string>
     <string name="settings_openhab_icon_format">图标格式</string>
     <string name="settings_openhab_icon_format_png">位图</string>
     <string name="settings_openhab_icon_format_svg">矢量图</string>
@@ -100,10 +117,19 @@
     <string name="settings_server_default_name">openHAB %d</string>
     <string name="settings_advanced">高级选项</string>
     <string name="click_here_for_more_information">点击这里获得更多信息</string>
+    <string name="settings_multi_server_wifi_ssid_summary_hint">当连接到这些 Wi-Fi 名称之一时，应用程序将选择此服务器。可以输入多个 Wi-Fi 名称，用新行分隔它们。</string>
     <string name="settings_multi_server_wifi_ssid_switched">通过Wi-Fi切换到服务器 \"%s\"</string>
     <string name="settings_multi_server_wifi_ssid_missing_permissions">无法读取Wi-Fi名称：缺少权限</string>
     <string name="settings_multi_server_wifi_ssid_location_off">无法读取Wi-Fi名称：定位已关闭</string>
+    <string name="setting_crash_reporting_title">崩溃报告</string>
+    <string name="setting_crash_reporting_summary">发送崩溃报告以支持应用程序的开发</string>
+    <string name="device_control_subtitle_location">位置</string>
+    <string name="device_control_subtitle_equipment">设备</string>
+    <string name="device_control_subtitle_location_equipment">位置和设备</string>
     <string name="device_control_subtitle_item_name">项目名</string>
+    <string name="device_control">Android 设备控制</string>
+    <string name="device_control_subtitle">磁铁描述</string>
+    <string name="device_control_hint">根据您的 Android 版本，这些磁铁位于电源按钮的长按菜单或快捷栏旁边。</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">语音命令</string>
     <string name="voice_command">语音命令</string>
@@ -128,6 +154,7 @@
     <string name="error_network_not_available">网络不可用</string>
     <string name="error_wifi_not_available">Wi-Fi 被关闭</string>
     <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
+    <string name="error_wifi_restricted">服务器 %1$s 的本地连接仅限于以下Wi-Fi名称：%2$s</string>
     <string name="error_http_connection_failed">连接失败。尝试连接到已配置的 openHAB服务器 (HTTP 代码 %d) 时发生错误。</string>
     <string name="error_invalid_url">请以 \'http(s)://主机(:端口)/\' 格式输入有效网址</string>
     <string name="error_invalid_https_url">请输入类如 “http(s)://主机(:端口)/” 格式的网址</string>
@@ -147,6 +174,7 @@
     <string name="error_certificate_wrong_host">%s 的 SSL 证书无效</string>
     <string name="error_http_to_https_port">数据流意外终止。您是否正尝试通过 HTTP 连接 HTTPS 端口？</string>
     <string name="webview_ssl">此应用程序当前不支持对 Webview 小挂件使用自签名 SSL 证书。</string>
+    <string name="webview_snackbar_permissions_missing">页面需要额外的权限才能正常工作</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_http_code_401" tools:keep="@string/error_http_code_401">认证失败，请检查用户名和密码及提供的 SSL 客户端证书 (HTTP %d)。</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">未找到 (HTTP 代码 %d)</string>
@@ -188,6 +216,7 @@
     <string name="error_openhab_offline">您的 openHAB 服务器将在云端实例运行时离线</string>
     <string name="error_no_browser_found">未在您的设备上找到浏览器</string>
     <string name="error_no_speech_to_text_app_found">未找到语音识别程序</string>
+    <string name="error_sse_failed">事件订阅失败，小部件刷新可能发生故障</string>
     <string name="error_video_player">无法加载 %s</string>
     <string name="install">安装</string>
     <string name="title_activity_openhabwritetag">写入 NFC 标签</string>
@@ -199,6 +228,7 @@
     <string name="info_write_tag_unsupported">此设备不支持 NFC</string>
     <string name="info_write_tag_disabled">NFC 已禁用</string>
     <string name="action_settings">设置</string>
+    <string name="nfc_info_hint">Item 更新可以写入NFC标签。你可以在这里选择一个项目，也可以长按Sitemap上的部件。</string>
     <string name="info_not_set">未设置</string>
     <string name="empty_page">此页不含有可见的小挂件</string>
     <!-- Background tasks -->
@@ -222,8 +252,11 @@
     <string name="settings_alarm_clock">提醒时间</string>
     <string name="settings_alarm_clock_summary_on">向项目%1$s 发送提醒时间</string>
     <string name="settings_alarm_clock_summary_off">不发送提醒时间</string>
+    <string name="copy_debug_info">复制</string>
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <string name="settings_alarm_clock_debug_ignored">被忽略的提醒时间更新到 %1$s，它是由 %2$s 发送的</string>
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <string name="settings_alarm_clock_debug">收到 %1$s 的闹钟时间更新，由 %2$s 发送</string>
     <string name="settings_phone_state">通话状态</string>
     <string name="settings_phone_state_summary_on">向项目%1$s 发送通话状态</string>
     <string name="settings_phone_state_summary_off">不发送通话状态</string>
@@ -239,6 +272,11 @@
     <string name="settings_wifi_ssid_summary_on_location_on">向项目%1$s发送Wi-Fi 名称 (SSID) 。\"定位\" 必须开启，否则 openHAB 不允许获取Wi-Fi 名称。</string>
     <string name="settings_wifi_ssid_summary_off">不要发送 Wi-Fi 名称 (SSID)</string>
     <string name="settings_wifi_ssid_permission_denied">由于缺少权限，发送Wi-Fi名称已被禁用</string>
+    <string name="settings_wifi_ssid_restrict">限制本地连接到这些 Wi-Fi 名称</string>
+    <string name="settings_bluetooth_devices">已连接蓝牙设备</string>
+    <string name="settings_bluetooth_devices_summary_on">将连接的蓝牙设备的 MAC 地址的管道分隔列表发送到Item \'%1$s\'</string>
+    <string name="settings_bluetooth_devices_summary_off">不要发送已连接的蓝牙设备</string>
+    <string name="settings_bluetooth_devices_permission_denied">由于缺少权限，发送蓝牙设备已被禁用</string>
     <string name="settings_dnd_mode">DND 模式</string>
     <string name="settings_dnd_mode_summary_on">发送DND模式到项目%1$s</string>
     <string name="settings_dnd_mode_summary_off">不要发送 DND 模式</string>
@@ -247,6 +285,7 @@
     <string name="settings_gadgetbridge_summary_off">不要发送 Gadgetbridge 设备信息</string>
     <string name="settings_background_tasks_permission_hint_pre_r">此功能需要额外的权限才能工作。启用后，将要求您批准权限。</string>
     <string name="settings_background_tasks_permission_hint">此功能需要额外的权限才能工作。启用后，将要求您批准权限。 请确保批准后台使用权限，因为当应用程序处于后台时项目也会更新。</string>
+    <string name="settings_permission_denied">由于缺少权限，某些功能已被禁用</string>
     <string name="settings_background_tasks_permission_denied_background_location">某些后台任务需要在安卓设置中设置位置访问权限为“%s”</string>
     <string name="settings_background_tasks_permission_allow">允许</string>
     <string name="settings_location_permissions_required">此应用收集位置数据以启用\"发送Wi-Fi名称到服务器\"和\"选择基于Wi-Fi的服务器\"，即使应用程序已关闭或未使用。 请注意，此数据仅发送到您配置的服务器。</string>
@@ -324,6 +363,8 @@
     <string name="theme_name_battery_saver">省电模式下的暗色模式</string>
     <string name="theme_name_black">黑色</string>
     <string name="color_scheme_name_default">默认</string>
+    <string name="color_scheme_name_basicui">基本界面</string>
+    <string name="color_scheme_name_dynamic">动态</string>
     <!-- Chart -->
     <string name="chart_activity_title">图表</string>
     <string name="chart_activity_hide_legend">隐藏图例</string>
@@ -368,6 +409,8 @@
     <string name="nfc_action_to_sitemap_page">写入NFC标签</string>
     <string name="nfc_action_write_command_tag">写入项目 NFC 标签</string>
     <!-- Drawer -->
+    <string name="drawer_open">打开侧边菜单</string>
+    <string name="drawer_close">关闭侧边菜单</string>
     <string name="mainmenu_openhab_voice_recognition">语音识别</string>
     <!-- About -->
     <string name="about_title">关于</string>
@@ -382,10 +425,12 @@
     <string name="about_translation">帮助我们翻译 openHAB</string>
     <string name="about_privacy_policy">隐私条款</string>
     <string name="about_rate_this_app">为此应用评分</string>
+    <string name="settings_debug_messages_title">显示故障排除信息</string>
     <string name="settings_troubleshooting_title">疑难解答</string>
     <string name="undo">撤销</string>
     <string name="try_again_button">重试</string>
     <string name="enable_wifi_button">打开 Wi-Fi</string>
+    <string name="switch_wifi_button">连接其他 Wi-Fi</string>
     <string name="go_to_settings_button">转到设置</string>
     <string name="enable_demo_mode_button">打开演示模式</string>
     <string name="configuration_missing">我们未在您的网络上找到 openHAB 服务器。若您确认有服务器存在，请在服务器设置中配置其 IP 地址或主机名。若您没有服务器，则您可启用演示模式一览 openHAB 的功能。</string>
@@ -413,12 +458,18 @@
     <string name="content_description_open_roller_shutter">打开卷帘</string>
     <string name="content_description_stop_roller_shutter">停止卷帘</string>
     <string name="content_description_close_roller_shutter">关闭卷帘</string>
+    <string name="content_description_player_previous">转到上一曲目</string>
+    <string name="content_description_player_next">跳到下一曲</string>
+    <string name="content_description_player_pause">暂停播放</string>
+    <string name="content_description_player_play">开始播放</string>
     <string name="content_description_open_color_wheel">打开色轮</string>
     <string name="content_description_color_up">开启或长按以增加亮度</string>
     <string name="content_description_color_down">关闭或长按以降低亮度</string>
     <string name="content_description_open_number_picker">打开数字选取器</string>
     <string name="content_description_video">视频</string>
     <string name="content_description_open_openhab">打开 openHAB</string>
+    <string name="content_description_increase_item_value">增加 Item 值</string>
+    <string name="content_description_decrease_item_value">减少 Item 值</string>
     <string name="swipe_to_refresh_description">此应用程序将自动刷新，您通常无需手动操作</string>
     <string name="got_it">明白！</string>
     <!-- Intro strings -->
@@ -458,11 +509,17 @@
     <string name="press_back_to_exit">再次按返回键退出</string>
     <!-- Item update widget -->
     <string name="item_update_widget_title">项目控制</string>
+    <string name="item_update_widget_content_description">更改或读取 Item 的状态</string>
     <string name="item_update_widget_content_description_edit">编辑小部件</string>
     <string name="item_update_widget">小部件</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <!-- Used in the widget preview -->
+    <string name="item_update_widget_preview_text">开放停车场</string>
+    <string name="widget_show_state">添加当前状态到名称</string>
+    <string name="widget_show_state_summary">状态更新的时间表可以在“发送设备信息到服务器”下的设置中设置。</string>
+    <string name="widget_no_command">不发送命令</string>
+    <string name="error_getting_state">加载状态错误</string>
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s 已被导出至 %2$s</string>
     <string name="item_update_success_message_on">%s 已开启</string>
@@ -502,10 +559,13 @@
     <string name="item_update_error_no_connection">无连接</string>
     <string name="item_update_error_couldnt_get_item_type">无法获取项目类型</string>
     <string name="create_home_screen_widget_title">创建小部件</string>
+    <string name="create_home_screen_widget_no_command">显示当前状态</string>
     <string name="create_home_screen_widget_not_supported">请前往主页上的小部件菜单并从那里创建一个小部件</string>
     <!-- Data saver -->
     <string name="data_saver_title">节省流量模式</string>
     <string name="data_saver_on">可能需要更大数据传输的站点地图元素未加载</string>
+    <string name="data_saver_off">在使用 Sitemap 把元素加载数据时，遵循系统范围的数据保存程序设置</string>
+    <string name="data_saver_off_pre_n">所有Sitemap元素都已加载，无视使用了多少数据</string>
     <string name="data_saver_load">仍然添加</string>
     <string name="data_saver_hint">%s 未加载以保存数据</string>
     <string name="data_saver_snackbar">图标不是基于项目实时状态，因为数据保护程序已开启</string>
@@ -514,6 +574,7 @@
     <string name="widget_type_video">视频</string>
     <string name="widget_type_mapview">地图</string>
     <string name="widget_type_chart">图表</string>
+    <string name="widget_type_color">颜色</string>
     <!-- Tiles -->
     <string name="tile">Tile</string>
     <string name="tiles_for_quick_settings">快速设置 Tiles</string>
@@ -591,10 +652,91 @@
     <string name="tile_icon_lamp_outdoor">户外灯</string>
     <!-- Tile icon values -->
     <!-- Item tag type labels -->
+    <string name="item_tag_location_apartment">住宅</string>
+    <string name="item_tag_location_attic">阁楼</string>
+    <string name="item_tag_location_basement">地下室</string>
+    <string name="item_tag_location_bathroom">浴室</string>
+    <string name="item_tag_location_bedroom">卧室</string>
+    <string name="item_tag_location_boilerroom">锅炉房</string>
+    <string name="item_tag_location_building">建筑</string>
+    <string name="item_tag_location_carport">车库</string>
+    <string name="item_tag_location_cellar">地下室</string>
+    <string name="item_tag_location_corridor">走廊</string>
+    <string name="item_tag_location_diningroom">餐厅</string>
+    <string name="item_tag_location_driveway">车道</string>
+    <string name="item_tag_location_entry">入口</string>
+    <string name="item_tag_location_familyroom">家庭娱乐室</string>
+    <string name="item_tag_location_firstfloor">二楼</string>
+    <string name="item_tag_location_floor">楼层</string>
     <string name="item_tag_location_garage">车库</string>
+    <string name="item_tag_location_garden">花园</string>
+    <string name="item_tag_location_groundfloor">一楼</string>
+    <string name="item_tag_location_guestroom">客房</string>
     <string name="item_tag_location_house">房屋</string>
+    <string name="item_tag_location_indoor">室内</string>
+    <string name="item_tag_location_kitchen">厨房</string>
+    <string name="item_tag_location_laundryroom">洗衣房</string>
+    <string name="item_tag_location_livingroom">客厅</string>
+    <string name="item_tag_location_office">办公室</string>
+    <string name="item_tag_location_outdoor">户外</string>
+    <string name="item_tag_location_patio">露台</string>
+    <string name="item_tag_location_porch">门廊</string>
+    <string name="item_tag_location_room">房间</string>
+    <string name="item_tag_location_secondfloor">三楼</string>
+    <string name="item_tag_location_shed">棚屋</string>
+    <string name="item_tag_location_summerhouse">避暑小屋</string>
+    <string name="item_tag_location_terrace">阳台</string>
+    <string name="item_tag_location_thirdfloor">四楼</string>
+    <string name="item_tag_location_veranda">阳台</string>
+    <string name="item_tag_equipment_alarmsystem">警报系统</string>
+    <string name="item_tag_equipment_backdoor">后门</string>
     <string name="item_tag_equipment_battery">电池</string>
+    <string name="item_tag_equipment_blinds">百叶窗</string>
+    <string name="item_tag_equipment_boiler">热水器</string>
     <string name="item_tag_equipment_camera">照相机</string>
+    <string name="item_tag_equipment_car">汽车</string>
+    <string name="item_tag_equipment_ceilingfan">吊扇</string>
+    <string name="item_tag_equipment_cellardoor">地下室门</string>
+    <string name="item_tag_equipment_cleaningrobot">扫地机器人</string>
+    <string name="item_tag_equipment_dishwasher">洗碗机</string>
+    <string name="item_tag_equipment_door">门</string>
+    <string name="item_tag_equipment_doorbell">门铃</string>
+    <string name="item_tag_equipment_dryer">烘干机</string>
     <string name="item_tag_equipment_fan">风扇</string>
+    <string name="item_tag_equipment_freezer">冰箱</string>
+    <string name="item_tag_equipment_frontdoor">前门</string>
+    <string name="item_tag_equipment_garagedoor">车库门</string>
+    <string name="item_tag_equipment_gate">大门</string>
+    <string name="item_tag_equipment_hvac">空调</string>
+    <string name="item_tag_equipment_innerdoor">室内门</string>
+    <string name="item_tag_equipment_inverter">换流器</string>
+    <string name="item_tag_equipment_kitchenhood">厨房抽油烟机</string>
+    <string name="item_tag_equipment_lawnmower">割草机</string>
+    <string name="item_tag_equipment_lightbulb">灯泡</string>
     <string name="item_tag_equipment_lock">锁</string>
+    <string name="item_tag_equipment_motiondetector">运动感应器</string>
+    <string name="item_tag_equipment_networkappliance">网络设备</string>
+    <string name="item_tag_equipment_oven">烤箱</string>
+    <string name="item_tag_equipment_poweroutlet">插座</string>
+    <string name="item_tag_equipment_projector">投影仪</string>
+    <string name="item_tag_equipment_pump">泵</string>
+    <string name="item_tag_equipment_radiatorcontrol">散热器</string>
+    <string name="item_tag_equipment_receiver">接收器</string>
+    <string name="item_tag_equipment_refrigerator">冰箱</string>
+    <string name="item_tag_equipment_remotecontrol">遥控器</string>
+    <string name="item_tag_equipment_screen">屏幕</string>
+    <string name="item_tag_equipment_sensor">传感器</string>
+    <string name="item_tag_equipment_sidedoor">侧门</string>
+    <string name="item_tag_equipment_siren">警报器</string>
+    <string name="item_tag_equipment_smartphone">手机</string>
+    <string name="item_tag_equipment_smokedetector">烟雾传感器</string>
+    <string name="item_tag_equipment_speaker">扬声器</string>
+    <string name="item_tag_equipment_television">电视</string>
+    <string name="item_tag_equipment_valve">阀门</string>
+    <string name="item_tag_equipment_voiceassistant">语音助手</string>
+    <string name="item_tag_equipment_wallswitch">墙壁开关</string>
+    <string name="item_tag_equipment_washingmachine">洗衣机</string>
+    <string name="item_tag_equipment_weatherservice">天气服务</string>
+    <string name="item_tag_equipment_webservice">网络服务</string>
+    <string name="item_tag_equipment_window">窗户</string>
 </resources>
