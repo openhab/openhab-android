@@ -125,6 +125,7 @@
         <activity
             android:name=".ui.MainActivity"
             android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true">
 
             <!-- for Nougat -->
