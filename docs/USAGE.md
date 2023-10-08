@@ -375,8 +375,9 @@ This has a few disadvantages:
 
 ### I have issues with Main UI or HABPanel
 
-The app uses Android WebViews to render all UIs except Sitemaps.
-Please make sure you're running the latest WebView version: https://play.google.com/store/apps/details?id=com.google.android.webview
+The app uses the WebView component of the Android system to render all UIs except Sitemaps.
+If something is rendered different than in the browser on your mobile device, you can try to update the default WebView implementation (https://play.google.com/store/apps/details?id=com.google.android.webview) or switch to a different implementation.
+To do so, enable [developer settings options](https://developer.android.com/studio/debug/dev-options) then go to the developer settings and select "WebView implementation".
 
 ### Chart loading is too slow
 
