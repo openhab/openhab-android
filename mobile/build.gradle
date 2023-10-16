@@ -193,7 +193,7 @@ dependencies {
     testImplementation "org.mockito:mockito-core:5.6.0"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
     testImplementation "junit:junit:4.13.2"
-    testImplementation "org.json:json:20230618"
+    testImplementation "org.json:json:20231013"
     testImplementation "com.squareup.okhttp3:mockwebserver:$ok_http_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines_version"
     // PowerMock
