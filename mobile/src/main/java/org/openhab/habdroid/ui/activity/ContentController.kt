@@ -270,7 +270,7 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     fun showWebViewUi(ui: WebViewUi, isStackRoot: Boolean, subpage: String?) {
-        val webViewFragment = ui.fragment.newInstance()
+        val webViewFragment = ui.fragment.getDeclaredConstructor().newInstance()
         webViewFragment.arguments = bundleOf(
             KEY_IS_STACK_ROOT to isStackRoot,
             KEY_SUBPAGE to subpage

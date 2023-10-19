@@ -297,6 +297,7 @@
 
         <service
             android:name=".background.EventListenerService"
+            android:foregroundServiceType="dataSync"
             android:enabled="true"
             android:exported="false" />
 

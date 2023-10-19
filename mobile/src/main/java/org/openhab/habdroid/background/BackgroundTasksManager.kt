@@ -236,8 +236,9 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
     private class PrefsListener constructor(private val context: Context) :
         SharedPreferences.OnSharedPreferenceChangeListener {
-        override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
+        override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String?) {
             when {
+                key == null -> return
                 key == PrefKeys.DEMO_MODE && prefs.isDemoModeEnabled() -> {
                     // Demo mode was enabled -> cancel all uploads and clear DB
                     // to clear out notifications
