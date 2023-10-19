@@ -61,7 +61,7 @@ class TileServicesTests {
     fun checkTileServicesImplementCorrectId() {
         GlobalScope.launch(Dispatchers.Main) {
             for (tileService in tileServices) {
-                val id = (tileService.newInstance() as AbstractTileService).ID
+                val id = (tileService.getDeclaredConstructor().newInstance() as AbstractTileService).ID
                 Assert.assertEquals(
                     "Name of the tile service doesn't match its id",
                     id,
@@ -75,7 +75,7 @@ class TileServicesTests {
     fun checkClassName() {
         GlobalScope.launch(Dispatchers.Main) {
             for (tileService in tileServices) {
-                val id = (tileService.newInstance() as AbstractTileService).ID
+                val id = (tileService.getDeclaredConstructor().newInstance() as AbstractTileService).ID
                 Assert.assertEquals(
                     AbstractTileService.getClassNameForId(id),
                     tileService.canonicalName
