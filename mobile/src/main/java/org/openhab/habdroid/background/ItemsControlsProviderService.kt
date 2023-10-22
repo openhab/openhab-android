@@ -97,13 +97,12 @@ class ItemsControlsProviderService : ControlsProviderService() {
                     }
                     val topic = event.getString("topic")
                     val topicPath = topic.split('/')
-                    /* Possible formats:
-                    * - openhab/items/<item>/statechanged
-                    * - openhab/items/<group item>/<item>/statechanged
-                    * When an update for a group is sent, there's also one for the individual item.
-                    * Therefore always take the element on index two.
-                    */
-                    if (topicPath.size !in intArrayOf(4, 5)) {
+                    // Possible formats:
+                    // - openhab/items/<item>/statechanged
+                    // - openhab/items/<group item>/<item>/statechanged
+                    // When an update for a group is sent, there's also one for the individual item.
+                    // Therefore always take the element on index two.
+                    if (topicPath.size !in 4..5) {
                         throw JSONException("Unexpected topic path $topic")
                     }
                     val item = allItems[topicPath[2]]
