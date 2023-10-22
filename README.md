@@ -1,7 +1,8 @@
 <p align="center">
     <a href="https://github.com/openhab/openhab-android/actions?query=workflow%3A%22Build+App%22"><img alt="GitHub Action" src="https://github.com/openhab/openhab-android/workflows/Build%20App/badge.svg"></a>
     <a href="https://crowdin.com/project/openhab-android"><img alt="Crowdin" src="https://d322cqt584bo4o.cloudfront.net/openhab-android/localized.svg"></a>
-    <br>    <img alt="Logo" src="fastlane/metadata/android/en-US/images/icon.png" width="100">
+    <br>
+    <img alt="Logo" src="fastlane/metadata/android/en-US/images/icon.png" width="100">
     <br>
     <b>openHAB client for Android</b>
 </p>
