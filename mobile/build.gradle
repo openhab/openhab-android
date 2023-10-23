@@ -173,7 +173,7 @@ dependencies {
     implementation "com.github.AppIntro:AppIntro:6.3.1"
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     // MapView support
-    fullImplementation "com.google.android.gms:play-services-maps:18.1.0"
+    fullImplementation "com.google.android.gms:play-services-maps:18.2.0"
     fossImplementation "org.osmdroid:osmdroid-android:6.1.17"
     // About screen
     implementation "com.github.daniel-stoneuk:material-about-library:3.1.2"
