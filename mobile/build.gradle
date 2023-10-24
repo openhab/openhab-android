@@ -181,6 +181,9 @@ dependencies {
     implementation "com.mikepenz:aboutlibraries-core:$about_libraries_version"
     implementation "com.mikepenz:aboutlibraries:$about_libraries_version"
 
+    // splash screeen deplay improvment
+    implementation "androidx.core:core-splashscreen:1.0.1"
+    
     // Firebase
     implementation platform("com.google.firebase:firebase-bom:25.11.0")
     fullImplementation "com.google.firebase:firebase-messaging-ktx"
