@@ -1,0 +1,5 @@
+## What's Changed
+* Fix parsing of SSE topic for groups by @mueller-ma in https://github.com/openhab/openhab-android/pull/3503
+* Prepare for Android 14 by @mueller-ma in https://github.com/openhab/openhab-android/pull/3504 and https://github.com/openhab/openhab-android/pull/3506
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.7.7-beta...3.7.8-beta
