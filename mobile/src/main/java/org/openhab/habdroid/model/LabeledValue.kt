@@ -18,12 +18,15 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
+import org.openhab.habdroid.util.optStringOrNull
 
 @Parcelize
-data class LabeledValue internal constructor(val value: String, val label: String) : Parcelable
+data class LabeledValue internal constructor(val value: String, val label: String, val icon: IconResource?) : Parcelable
 
 @Throws(JSONException::class)
-fun JSONObject.toLabeledValue(keyName: String, valueName: String): LabeledValue {
-    val value = getString(keyName)
-    return LabeledValue(value, optString(valueName, value))
+fun JSONObject.toLabeledValue(valueKey: String, labelKey: String): LabeledValue {
+    val value = getString(valueKey)
+    val label = optString(labelKey, value)
+    val icon = optStringOrNull("icon")?.toOH2IconResource()
+    return LabeledValue(value, label, icon)
 }

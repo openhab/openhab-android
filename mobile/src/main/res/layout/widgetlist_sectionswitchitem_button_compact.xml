@@ -12,4 +12,6 @@
     android:paddingBottom="2dp"
     android:textAppearance="?attr/textAppearanceLabelMedium"
     app:toggleCheckedStateOnClick="false"
+    app:iconGravity="textStart"
+    app:iconPadding="0dp"
     tools:text="Action 1" />
