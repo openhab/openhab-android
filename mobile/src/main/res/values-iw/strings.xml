@@ -14,10 +14,13 @@
     <string name="mainmenu_openhab_sitemaps">תצורות מערכת</string>
     <string name="mainmenu_openhab_preferences">הגדרות</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_oh3_ui">ממשק משתמש ראשי</string>
     <string name="mainmenu_openhab_frontail">Frontail</string>
     <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
+    <string name="ui_on_server">%1$s (%2$s)</string>
     <string name="app_notifications">התראות</string>
     <string name="habpanel_error">אירעה שגיאה בעת טעינת HABPanel</string>
+    <string name="oh3_ui_error">אירעה שגיאה בעת טעינת ממשק המשתמש הראשי</string>
     <string name="frontail_error">אירעה שגיאה בעת טעינת Frontail. שים לב שהוא אינו זמין דרך openHAB Cloud.</string>
     <string name="mainmenu_openhab_selectsitemap">בחר את ברירת המחדל של תצורת המערכת</string>
     <string name="mainmenu_openhab_clearcache">נקה מטמון תמונות</string>
@@ -38,6 +41,8 @@
     <string name="settings_openhab_sslclientcert">תעודת לקוח SSL</string>
     <string name="settings_openhab_sslclientcert_howto_summary">הקש כאן כדי לקבל כמה רמזים והסברים על איך להגדיר אימות תעודת לקוח SSL</string>
     <string name="settings_openhab_sslclientcert_not_supported">אישורי לקוח SSL אינם נתמכים על ידי המכשיר שלך</string>
+    <string name="frontail_url_title">כתובת אתר Frontail</string>
+    <string name="frontail_url_summary">כתובת האתר של Frontail. מגיע עם openHABian או ניתן להתקנה באופן ידני. השאר ריק כדי להשתמש בהגדרות ברירת המחדל. הגדרות נוכחיות: %s</string>
     <string name="settings_openhab_screentimeroff">השבת פסק זמן מסך</string>
     <string name="settings_openhab_screentimeroff_summary">המסך לא יכבה כאשר openHAB פועל</string>
     <string name="settings_openhab_demomode">מצב הדגמה</string>
