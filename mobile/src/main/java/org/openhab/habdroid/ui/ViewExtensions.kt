@@ -130,10 +130,11 @@ fun MaterialButton.setTextAndIcon(connection: Connection, mapping: LabeledValue)
         text = mapping.label
         return
     }
+    val iconSize = context.resources.getDimensionPixelSize(R.dimen.section_switch_icon)
     CoroutineScope(Dispatchers.IO + Job()).launch {
         val drawable = try {
             connection.httpClient.get(iconUrl, caching = HttpClient.CachingMode.DEFAULT)
-                .asBitmap(100, 0, ImageConversionPolicy.ForceTargetSize).response
+                .asBitmap(iconSize, 0, ImageConversionPolicy.ForceTargetSize).response
                 .toDrawable(resources)
         } catch (e: HttpClient.HttpException) {
             Log.d(WidgetAdapter.TAG, "Error getting icon for button", e)
