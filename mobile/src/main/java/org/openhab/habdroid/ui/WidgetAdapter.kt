@@ -967,8 +967,8 @@ class WidgetAdapter(
             // bind views
             mappings.slice(0 until buttonCount).forEachIndexed { index, mapping ->
                 with(group[index] as MaterialButton) {
-                    text = mapping.label
                     tag = mapping.value
+                    setTextAndIcon(connection, mapping)
                 }
             }
 
@@ -1037,8 +1037,8 @@ class WidgetAdapter(
             val applyMapping = { button: MaterialButton, mapping: LabeledValue? ->
                 button.isGone = mapping == null
                 if (mapping != null) {
-                    button.text = mapping.label
                     button.isChecked = widget.state?.asString == mapping.value
+                    button.setTextAndIcon(connection, mapping)
                     button.tag = mapping.value
                 }
             }
