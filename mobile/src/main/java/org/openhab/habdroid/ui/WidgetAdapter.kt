@@ -463,6 +463,7 @@ class WidgetAdapter(
         override fun bind(widget: Widget) {
             super.bind(widget)
             val showLabelAndIcon = widget.label.isNotEmpty()
+                && widget.labelSource == Widget.LabelSource.SitemapDefinition
             labelView.isVisible = showLabelAndIcon
             iconView.isVisible = showLabelAndIcon
             if (!showDataSaverPlaceholderIfNeeded(widget, canBindWithoutDataTransfer(widget))) {
