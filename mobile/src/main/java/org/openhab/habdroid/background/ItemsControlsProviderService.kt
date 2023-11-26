@@ -30,6 +30,7 @@ import android.service.controls.templates.ToggleRangeTemplate
 import android.service.controls.templates.ToggleTemplate
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.core.net.toUri
 import java.util.concurrent.Flow
 import java.util.function.Consumer
 import kotlin.math.max
@@ -59,6 +60,7 @@ import org.openhab.habdroid.util.getDeviceControlSubtitle
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getSecretPrefs
+import org.openhab.habdroid.util.openInBrowser
 import org.openhab.habdroid.util.orDefaultIfEmpty
 
 @RequiresApi(Build.VERSION_CODES.R)
@@ -279,6 +281,10 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 val intent = Intent(context, ColorItemActivity::class.java).apply {
                     putExtra(ColorItemActivity.EXTRA_ITEM, item)
                 }
+                Pair(intent, item.hashCode())
+            }
+            item.linkToMore != null -> {
+                val intent = Intent(Intent.ACTION_VIEW, item.linkToMore)
                 Pair(intent, item.hashCode())
             }
             else -> {

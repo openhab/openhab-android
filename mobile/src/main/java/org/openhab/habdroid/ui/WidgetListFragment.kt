@@ -250,13 +250,21 @@ class WidgetListFragment :
         if (widget != null && context != null) {
             when (item.itemId) {
                 CONTEXT_MENU_ID_WRITE_SITEMAP_TAG -> {
-                    widget.linkedPage?.link?.let {
+                    widget.linkedPage?.createLink()?.let {
                         startActivity(WriteTagActivity.createSitemapNavigationIntent(context, it))
                     }
                     return true
                 }
                 CONTEXT_MENU_ID_OPEN_IN_MAPS -> {
                     widget.item?.state?.asLocation?.toMapsUrl()?.toUri().openInBrowser(context)
+                    return true
+                }
+                CONTEXT_MENU_ID_COPY_SITEMAP_LINK -> {
+                    Log.d(TAG, "Copy sitemap link for ${widget.linkedPage}")
+                    val link = widget.linkedPage?.createLink()?.toString() ?: return true
+                    val clipboardManager = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                    val clipData = ClipData.newPlainText(context.getString(R.string.app_name), link)
+                    clipboardManager.setPrimaryClip(clipData)
                     return true
                 }
             }
@@ -357,6 +365,9 @@ class WidgetListFragment :
 
         if (widget.linkedPage != null && nfcSupported) {
             menu.add(Menu.NONE, CONTEXT_MENU_ID_WRITE_SITEMAP_TAG, Menu.NONE, R.string.nfc_action_to_sitemap_page)
+        }
+        if (widget.linkedPage != null) {
+            menu.add(Menu.NONE, CONTEXT_MENU_ID_COPY_SITEMAP_LINK, Menu.NONE, R.string.copy_sitemap_link)
         }
 
         widget.item?.let {
@@ -648,6 +659,7 @@ class WidgetListFragment :
         private const val CONTEXT_MENU_ID_PIN_HOME_BLACK = 1005
         private const val CONTEXT_MENU_ID_OPEN_IN_MAPS = 1006
         private const val CONTEXT_MENU_ID_COPY_ITEM_NAME = 1007
+        private const val CONTEXT_MENU_ID_COPY_SITEMAP_LINK = 1008
         private const val CONTEXT_MENU_ID_WRITE_CUSTOM_TAG = 10000
         private const val CONTEXT_MENU_ID_WRITE_DEVICE_ID = 10001
 

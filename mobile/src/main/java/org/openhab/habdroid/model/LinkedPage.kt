@@ -13,7 +13,9 @@
 
 package org.openhab.habdroid.model
 
+import android.net.Uri
 import android.os.Parcelable
+import androidx.core.net.toUri
 
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
@@ -32,6 +34,19 @@ data class LinkedPage(
     val icon: IconResource?,
     val link: String
 ) : Parcelable {
+    fun createLink(): Uri {
+        val sitemapUri = link.toUri()
+        val path = sitemapUri.path.orEmpty()
+        if (!path.startsWith("/rest/sitemaps")) {
+            throw IllegalArgumentException("Expected a sitemap URL")
+        }
+        return Uri.Builder()
+            .scheme(NfcTag.SCHEME)
+            .authority("")
+            .appendEncodedPath(path.substring(15))
+            .build()
+    }
+
     companion object {
         internal fun build(
             id: String,

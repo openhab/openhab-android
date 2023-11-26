@@ -169,6 +169,7 @@
     <string name="show_and_copy_item_name">Show and copy Item name</string>
     <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">Copied \"%s\"</string>
+    <string name="copy_sitemap_link">Copy link to this subpage</string>
 
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB returned empty Sitemap list</string>

@@ -13,7 +13,9 @@
 
 package org.openhab.habdroid.model
 
+import android.net.Uri
 import android.os.Parcelable
+import androidx.core.net.toUri
 import java.util.Locale
 import kotlinx.parcelize.Parcelize
 import org.json.JSONException
@@ -43,6 +45,7 @@ data class Item internal constructor(
     val minimum: Float?,
     val maximum: Float?,
     val step: Float?,
+    val linkToMore: Uri?
 ) : Parcelable {
     val label get() = rawLabel?.split("[", "]")?.getOrNull(0)?.trim()
 
@@ -280,7 +283,8 @@ fun Node.toItem(): Item? {
         groupNames = emptyList(),
         minimum = null,
         maximum = null,
-        step = null
+        step = null,
+        linkToMore = null
     )
 }
 
@@ -338,6 +342,12 @@ fun JSONObject.toItem(): Item {
         emptyList()
     }
 
+    val linkToMore = try {
+        optJSONObject("metadata")?.optJSONObject("link_to_more")?.optStringOrNull("value")?.toUri()
+    } catch (e: Exception) { // TODO: Lower exception
+        null
+    }
+
     return Item(
         name = name,
         rawLabel = optStringOrNull("label"),
@@ -353,7 +363,8 @@ fun JSONObject.toItem(): Item {
         groupNames = groupNames,
         minimum = stateDescription?.optFloatOrNull("minimum"),
         maximum = stateDescription?.optFloatOrNull("maximum"),
-        step = stateDescription?.optFloatOrNull("step")
+        step = stateDescription?.optFloatOrNull("step"),
+        linkToMore = linkToMore
     )
 }
 

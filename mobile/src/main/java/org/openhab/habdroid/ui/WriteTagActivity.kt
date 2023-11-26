@@ -38,7 +38,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.DrawableRes
-import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -312,19 +311,9 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
             }
         }
 
-        fun createSitemapNavigationIntent(context: Context, sitemapUrl: String): Intent {
-            val sitemapUri = sitemapUrl.toUri()
-            val path = sitemapUri.path.orEmpty()
-            if (!path.startsWith("/rest/sitemaps")) {
-                throw IllegalArgumentException("Expected a sitemap URL")
-            }
-            val longUri = Uri.Builder()
-                .scheme(NfcTag.SCHEME)
-                .authority("")
-                .appendEncodedPath(path.substring(15))
-                .build()
+        fun createSitemapNavigationIntent(context: Context, sitemapLink: Uri): Intent {
             return Intent(context, WriteTagActivity::class.java)
-                .putExtra(EXTRA_LONG_URI, longUri)
+                .putExtra(EXTRA_LONG_URI, sitemapLink)
         }
     }
 
