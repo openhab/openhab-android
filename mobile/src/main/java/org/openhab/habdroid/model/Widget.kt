@@ -38,6 +38,7 @@ data class Widget(
     val id: String,
     val parentId: String?,
     private val rawLabel: String,
+    val labelSource: LabelSource,
     val icon: IconResource?,
     val state: ParsedState?,
     val type: Type,
@@ -126,6 +127,13 @@ data class Widget(
         Datetime
     }
 
+    enum class LabelSource {
+        Unknown,
+        ItemLabel,
+        ItemName,
+        SitemapDefinition
+    }
+
     fun toChartUrl(
         prefs: SharedPreferences,
         width: Int,
@@ -174,6 +182,7 @@ data class Widget(
                 id = source.id,
                 parentId = source.parentId,
                 rawLabel = eventPayload.optString("label", source.label),
+                labelSource = eventPayload.optStringOrNull("labelSource").toLabelSource(),
                 icon = icon,
                 state = state,
                 type = source.type,
@@ -232,6 +241,14 @@ fun String?.toInputHint(): Widget.InputTypeHint? = this?.let { value ->
         return null
     }
 }
+
+fun String?.toLabelSource(): Widget.LabelSource = when (this) {
+    "SITEMAP_WIDGET" -> Widget.LabelSource.SitemapDefinition
+    "ITEM_LABEL" -> Widget.LabelSource.ItemLabel
+    "ITEM_NAME" -> Widget.LabelSource.ItemName
+    else -> Widget.LabelSource.Unknown
+}
+
 fun Node.collectWidgets(parent: Widget?): List<Widget> {
     var item: Item? = null
     var linkedPage: LinkedPage? = null
@@ -298,6 +315,7 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
         id = finalId,
         parentId = parent?.id,
         rawLabel = label.orEmpty(),
+        labelSource = Widget.LabelSource.Unknown,
         icon = icon.toOH1IconResource(),
         state = item?.state,
         type = type,
@@ -346,6 +364,7 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         id = getString("widgetId"),
         parentId = parent?.id,
         rawLabel = optString("label", ""),
+        labelSource = optStringOrNull("labelSource").toLabelSource(),
         icon = icon.toOH2WidgetIconResource(state, item, type, mappings.isNotEmpty(), !staticIcon),
         state = state,
         type = type,
