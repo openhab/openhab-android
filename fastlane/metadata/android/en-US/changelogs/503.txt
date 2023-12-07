@@ -1,0 +1,4 @@
+## What's Changed
+* Only show chart/image/video label if specified in sitemap by @maniac103 in https://github.com/openhab/openhab-android/pull/3528
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.7.9-beta...3.7.10-beta
