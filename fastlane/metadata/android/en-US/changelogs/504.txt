@@ -1,0 +1,2 @@
+* Show icon and labels for all Sitemap elements
+* Support icons in button mappings
