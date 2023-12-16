@@ -140,9 +140,9 @@ data class ParsedState internal constructor(
                     // fall through
                 }
             }
-            val stateAsInt = state.toIntOrNull()
-            if (stateAsInt in 0..100) {
-                return stateAsInt
+            val stateAsFloat = state.toFloatOrNull() ?: return null
+            if (stateAsFloat in 0f .. 100f) {
+                return stateAsFloat.toInt()
             }
             return null
         }
