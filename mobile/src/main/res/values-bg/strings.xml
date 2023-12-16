@@ -156,6 +156,7 @@
     <string name="error_short_unable_to_resolve_hostname">Грешка при преобразуването на домейна в IP адрес</string>
     <string name="error_short_unknown">Непозната грешка: %s</string>
     <string name="error_short_certificate_expired">Сертификатът не е изтекъл</string>
+    <string name="error_short_certificate_not_valid_yet">Сертификатът още не е валиден</string>
     <string name="error_short_certificate_revoked">Сертификатът е анулиран</string>
     <string name="error_short_certificate_wrong_host">Сертификатът не е валиден за %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
@@ -436,22 +437,26 @@
     <string name="item_tag_location_terrace">Тераса</string>
     <string name="item_tag_location_thirdfloor">Трети етаж</string>
     <string name="item_tag_location_veranda">Веранда</string>
+    <string name="item_tag_equipment_backdoor">Задна врата</string>
     <string name="item_tag_equipment_battery">Батерия</string>
     <string name="item_tag_equipment_boiler">Бойлер</string>
     <string name="item_tag_equipment_camera">Камера</string>
     <string name="item_tag_equipment_car">Автомобил</string>
+    <string name="item_tag_equipment_cleaningrobot">Почистващ робот</string>
     <string name="item_tag_equipment_dishwasher">Миялна</string>
     <string name="item_tag_equipment_door">Врата</string>
     <string name="item_tag_equipment_doorbell">Звънец</string>
     <string name="item_tag_equipment_dryer">Сушилня</string>
     <string name="item_tag_equipment_fan">Вентилатор</string>
     <string name="item_tag_equipment_freezer">Фризер</string>
+    <string name="item_tag_equipment_frontdoor">Предна врата</string>
     <string name="item_tag_equipment_garagedoor">Гаражна врата</string>
     <string name="item_tag_equipment_inverter">Инвертор</string>
     <string name="item_tag_equipment_lightbulb">Електрическа крушка</string>
     <string name="item_tag_equipment_lock">Катинар</string>
     <string name="item_tag_equipment_motiondetector">Сензор за движение</string>
     <string name="item_tag_equipment_oven">Фурна</string>
+    <string name="item_tag_equipment_poweroutlet">Контакт</string>
     <string name="item_tag_equipment_pump">Помпа</string>
     <string name="item_tag_equipment_receiver">Приемник</string>
     <string name="item_tag_equipment_refrigerator">Хладилник</string>
