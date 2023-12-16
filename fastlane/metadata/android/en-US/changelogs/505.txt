@@ -1,0 +1,6 @@
+## What's Changed
+* Parse float as brightness by @mueller-ma in https://github.com/openhab/openhab-android/pull/3539
+* Update Gradle and AS by @mueller-ma in https://github.com/openhab/openhab-android/pull/3538
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.7.10-beta...3.8.1-beta
