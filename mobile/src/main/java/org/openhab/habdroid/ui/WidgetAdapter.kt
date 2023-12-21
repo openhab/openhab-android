@@ -32,6 +32,7 @@ import android.view.inputmethod.EditorInfo
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.Button
+import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -40,9 +41,11 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.ContextCompat
+import androidx.core.view.allViews
 import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.core.widget.doAfterTextChanged
@@ -221,6 +224,7 @@ class WidgetAdapter(
             TYPE_LOCATION -> MapViewHelper.createViewHolder(initData)
             TYPE_INPUT -> InputViewHolder(initData)
             TYPE_DATETIMEINPUT -> DateTimeInputViewHolder(initData)
+            TYPE_BUTTONGRID -> ButtongridViewHolder(initData)
             TYPE_INVISIBLE -> InvisibleWidgetViewHolder(initData)
             else -> throw IllegalArgumentException("View type $viewType is not known")
         }
@@ -345,6 +349,7 @@ class WidgetAdapter(
             Widget.Type.Colorpicker -> TYPE_COLOR
             Widget.Type.Mapview -> TYPE_LOCATION
             Widget.Type.Input -> if (widget.shouldUseDateTimePickerForInput()) TYPE_DATETIMEINPUT else TYPE_INPUT
+            Widget.Type.Buttongrid -> TYPE_BUTTONGRID
             else -> TYPE_GENERICITEM
         }
         return toInternalViewType(actualViewType, compactMode)
@@ -777,6 +782,45 @@ class WidgetAdapter(
         override fun bind(widget: Widget) {
             super.bind(widget)
             rightArrow.isGone = widget.linkedPage == null
+        }
+    }
+
+    class ButtongridViewHolder internal constructor(private val initData: ViewHolderInitData) :
+        LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem), View.OnClickListener {
+        private val table: GridLayout = itemView.findViewById(R.id.widget_content)
+
+        override fun bind(widget: Widget) {
+            super.bind(widget)
+            val mappings = widget.mappings.filter { it.column != 0 && it.row != 0 }
+            table.rowCount = mappings.maxOfOrNull { it.row } ?: 0
+            table.columnCount = mappings.maxOfOrNull { it.column } ?: 0
+            (0..<table.rowCount).forEach { row ->
+                (0..<table.columnCount).forEach { column ->
+                    val buttonView = initData.inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, null) as MaterialButton
+                    // Rows and columns start with 1 in Sitemap definition, thus decrement them here
+                    val mapping = mappings.firstOrNull { it.row - 1 == row && it.column - 1 == column }
+                    if (mapping == null) {
+                        buttonView.visibility = View.INVISIBLE
+                    } else {
+                        buttonView.setOnClickListener(this)
+                        buttonView.setTextAndIcon(connection, mapping)
+                        buttonView.tag = mapping.value
+                        buttonView.visibility = View.VISIBLE
+                    }
+
+                    table.addView(
+                        buttonView,
+                        GridLayout.LayoutParams(
+                            GridLayout.spec(row, GridLayout.FILL, 1f),
+                            GridLayout.spec(column, GridLayout.FILL, 1f)
+                        )
+                    )
+                }
+            }
+        }
+
+        override fun onClick(view: View) {
+            connection.httpClient.sendItemCommand(boundWidget?.item, view.tag as String)
         }
     }
 
@@ -1555,7 +1599,8 @@ class WidgetAdapter(
         private const val TYPE_LOCATION = 18
         private const val TYPE_INPUT = 19
         private const val TYPE_DATETIMEINPUT = 20
-        private const val TYPE_INVISIBLE = 21
+        private const val TYPE_BUTTONGRID = 21
+        private const val TYPE_INVISIBLE = 22
 
         private fun toInternalViewType(viewType: Int, compactMode: Boolean): Int {
             return viewType or (if (compactMode) 0x100 else 0)
