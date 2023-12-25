@@ -1,0 +1,5 @@
+## What's Changed
+* Bump dependencies
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.8.1-beta...3.8.2-beta
