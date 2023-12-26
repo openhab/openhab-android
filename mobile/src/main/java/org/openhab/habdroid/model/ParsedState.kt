@@ -57,16 +57,17 @@ data class ParsedState internal constructor(
                 return true
             }
 
+            val floatValue = state.toFloatOrNull()
+            if (floatValue != null) {
+                return floatValue > 0
+            }
+
             val brightness = parseAsBrightness(state)
             if (brightness != null) {
                 return brightness != 0
             }
-            return try {
-                val decimalValue = Integer.valueOf(state)
-                decimalValue > 0
-            } catch (e: NumberFormatException) {
-                false
-            }
+
+            return false
         }
 
         internal fun parseAsNumber(state: String, format: String?): NumberState? {
@@ -74,19 +75,21 @@ data class ParsedState internal constructor(
                 "ON" -> NumberState(100F)
                 "OFF" -> NumberState(0F)
                 else -> {
+                    val spacePos = state.indexOf(' ')
+                    val number = if (spacePos >= 0) state.substring(0, spacePos) else state
+                    val unit = if (spacePos >= 0) state.substring(spacePos + 1) else null
+                    try {
+                        return NumberState(number.toFloat(), unit, format)
+                    } catch (e: NumberFormatException) {
+                        // fall through
+                    }
+
                     val brightness = parseAsBrightness(state)
                     if (brightness != null) {
-                        NumberState(brightness.toFloat())
-                    } else {
-                        val spacePos = state.indexOf(' ')
-                        val number = if (spacePos >= 0) state.substring(0, spacePos) else state
-                        val unit = if (spacePos >= 0) state.substring(spacePos + 1) else null
-                        return try {
-                            NumberState(number.toFloat(), unit, format)
-                        } catch (e: NumberFormatException) {
-                            null
-                        }
+                        return NumberState(brightness.toFloat())
                     }
+
+                    return null
                 }
             }
         }
@@ -159,7 +162,7 @@ data class ParsedState internal constructor(
     }
 
     @Parcelize
-    class NumberState internal constructor(
+    data class NumberState internal constructor(
         val value: Float,
         val unit: String? = null,
         val format: String? = null
