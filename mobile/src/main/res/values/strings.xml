@@ -99,6 +99,7 @@
     <string name="settings_notification_vibration_value_long" translatable="false">long</string>
     <string name="settings_notification_vibration_value_twice" translatable="false">twice</string>
     <string name="settings_notification_ringtone_vibration">Ringtone &amp; Vibration</string>
+    <string name="settings_notification_reset_settings">Reset \"Messages\" notification settings</string>
     <string name="settings_connection_summary">Connected to %s</string>
     <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">Insecurely connected to %1$s: %2$s</string>

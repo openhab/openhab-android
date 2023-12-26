@@ -14,6 +14,7 @@
 package org.openhab.habdroid.ui.preference.fragments
 
 import android.app.KeyguardManager
+import android.app.NotificationManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -118,7 +119,6 @@ class MainSettingsFragment : AbstractSettingsFragment(), ConnectionFactory.Updat
         val iconFormatPref = getPreference(PrefKeys.ICON_FORMAT)
         val ringtonePref = getPreference(PrefKeys.NOTIFICATION_TONE)
         val vibrationPref = getPreference(PrefKeys.NOTIFICATION_VIBRATION)
-        val ringtoneVibrationPref = getPreference(PrefKeys.NOTIFICATION_TONE_VIBRATION)
         val viewLogPref = getPreference(PrefKeys.LOG)
         val screenLockPref = getPreference(PrefKeys.SCREEN_LOCK)
         val tilePref = getPreference(PrefKeys.SUBSCREEN_TILE)
@@ -240,7 +240,7 @@ class MainSettingsFragment : AbstractSettingsFragment(), ConnectionFactory.Updat
             preferenceScreen.removePreferenceRecursively(PrefKeys.NOTIFICATION_TONE)
             preferenceScreen.removePreferenceRecursively(PrefKeys.NOTIFICATION_VIBRATION)
 
-            ringtoneVibrationPref.setOnPreferenceClickListener { pref ->
+            getPreference(PrefKeys.NOTIFICATION_TONE_VIBRATION).setOnPreferenceClickListener { pref ->
                 val i = Intent(Settings.ACTION_SETTINGS).apply {
                     action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
                     putExtra(Settings.EXTRA_APP_PACKAGE, pref.context.packageName)
@@ -248,9 +248,18 @@ class MainSettingsFragment : AbstractSettingsFragment(), ConnectionFactory.Updat
                 startActivity(i)
                 true
             }
+
+            getPreference(PrefKeys.NOTIFICATION_DELETE_CHANNELS).setOnPreferenceClickListener { pref ->
+                val nm = pref.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                nm.notificationChannels
+                    .filter { it.id.startsWith("severity-") }
+                    .forEach { nm.deleteNotificationChannel(it.id) }
+                true
+            }
         } else {
             Log.d(TAG, "Removing notification prefs for >= 25")
             preferenceScreen.removePreferenceRecursively(PrefKeys.NOTIFICATION_TONE_VIBRATION)
+            preferenceScreen.removePreferenceRecursively(PrefKeys.NOTIFICATION_DELETE_CHANNELS)
 
             ringtonePref.setOnPreferenceClickListener { pref ->
                 val currentTone = prefs.getNotificationTone()

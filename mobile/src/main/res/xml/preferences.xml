@@ -142,6 +142,10 @@
             android:key="default_openhab_alertringtone_vibration"
             android:title="@string/settings_notification_ringtone_vibration"
             android:icon="@drawable/ic_bell_outline_grey_24dp" />
+        <Preference
+            android:clickable="true"
+            android:key="delete_notification_channels"
+            android:title="@string/settings_notification_reset_settings" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_misc_title">
         <org.openhab.habdroid.ui.preference.widgets.DeviceIdentifierPreference
