@@ -794,12 +794,13 @@ class WidgetAdapter(
             val mappings = widget.mappings.filter { it.column != 0 && it.row != 0 }
             table.rowCount = mappings.maxOfOrNull { it.row } ?: 0
             table.columnCount = mappings.maxOfOrNull { it.column } ?: 0
-            (0..<table.rowCount).forEach { row ->
-                (0..<table.columnCount).forEach { column ->
+            (0 until table.rowCount).forEach { row ->
+                (0 until table.columnCount).forEach { column ->
                     val buttonView = initData.inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, null) as MaterialButton
                     // Rows and columns start with 1 in Sitemap definition, thus decrement them here
                     val mapping = mappings.firstOrNull { it.row - 1 == row && it.column - 1 == column }
                     if (mapping == null) {
+                        // Create invisible buttons so each cell has an equal size
                         buttonView.visibility = View.INVISIBLE
                     } else {
                         buttonView.setOnClickListener(this)
