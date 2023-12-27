@@ -41,16 +41,13 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.ContextCompat
-import androidx.core.view.allViews
 import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.isGone
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
-import androidx.recyclerview.widget.RecyclerView
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.datasource.DataSource
@@ -61,6 +58,7 @@ import androidx.media3.exoplayer.hls.HlsMediaSource
 import androidx.media3.exoplayer.source.LoadEventInfo
 import androidx.media3.exoplayer.source.MediaLoadData
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -788,15 +786,24 @@ class WidgetAdapter(
     class ButtongridViewHolder internal constructor(private val initData: ViewHolderInitData) :
         LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem), View.OnClickListener {
         private val table: GridLayout = itemView.findViewById(R.id.widget_content)
+        private val spareViews = mutableListOf<View>()
 
         override fun bind(widget: Widget) {
             super.bind(widget)
             val mappings = widget.mappings.filter { it.column != 0 && it.row != 0 }
+            spareViews.addAll(table.children.filter { it is MaterialButton })
+            table.removeAllViews()
             table.rowCount = mappings.maxOfOrNull { it.row } ?: 0
             table.columnCount = mappings.maxOfOrNull { it.column } ?: 0
             (0 until table.rowCount).forEach { row ->
                 (0 until table.columnCount).forEach { column ->
-                    val buttonView = initData.inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, null) as MaterialButton
+                    var buttonView = spareViews.removeFirstOrNull() as MaterialButton?
+                    if (buttonView == null) {
+                        buttonView = initData.inflater.inflate(
+                            R.layout.widgetlist_sectionswitchitem_button,
+                            null
+                        ) as MaterialButton
+                    }
                     // Rows and columns start with 1 in Sitemap definition, thus decrement them here
                     val mapping = mappings.firstOrNull { it.row - 1 == row && it.column - 1 == column }
                     if (mapping == null) {
