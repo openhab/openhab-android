@@ -790,6 +790,12 @@ class WidgetAdapter(
 
         override fun bind(widget: Widget) {
             super.bind(widget)
+
+            val showLabelAndIcon = widget.label.isNotEmpty()
+                && widget.labelSource == Widget.LabelSource.SitemapDefinition
+            labelView.isVisible = showLabelAndIcon
+            iconView.isVisible = showLabelAndIcon
+
             val mappings = widget.mappings.filter { it.column != 0 && it.row != 0 }
             spareViews.addAll(table.children.filter { it is MaterialButton })
             table.removeAllViews()
