@@ -75,6 +75,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.time.temporal.ChronoUnit
 import java.util.Locale
+import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlinx.coroutines.CoroutineScope
@@ -787,6 +788,7 @@ class WidgetAdapter(
         LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem), View.OnClickListener {
         private val table: GridLayout = itemView.findViewById(R.id.widget_content)
         private val spareViews = mutableListOf<View>()
+        private val maxColumns = itemView.resources.getInteger(R.integer.section_switch_max_buttons)
 
         override fun bind(widget: Widget) {
             super.bind(widget)
@@ -800,7 +802,7 @@ class WidgetAdapter(
             spareViews.addAll(table.children.filter { it is MaterialButton })
             table.removeAllViews()
             table.rowCount = mappings.maxOfOrNull { it.row } ?: 0
-            table.columnCount = mappings.maxOfOrNull { it.column } ?: 0
+            table.columnCount = min(mappings.maxOfOrNull { it.column } ?: 0, maxColumns)
             (0 until table.rowCount).forEach { row ->
                 (0 until table.columnCount).forEach { column ->
                     var buttonView = spareViews.removeFirstOrNull() as MaterialButton?
