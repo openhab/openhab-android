@@ -44,6 +44,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.core.widget.doAfterTextChanged
@@ -787,7 +788,7 @@ class WidgetAdapter(
     class ButtongridViewHolder internal constructor(private val initData: ViewHolderInitData) :
         LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem), View.OnClickListener {
         private val table: GridLayout = itemView.findViewById(R.id.widget_content)
-        private val spareViews = mutableListOf<View>()
+        private val spareViews = mutableListOf<MaterialButton>()
         private val maxColumns = itemView.resources.getInteger(R.integer.section_switch_max_buttons)
 
         override fun bind(widget: Widget) {
@@ -799,25 +800,21 @@ class WidgetAdapter(
             iconView.isVisible = showLabelAndIcon
 
             val mappings = widget.mappings.filter { it.column != 0 && it.row != 0 }
-            spareViews.addAll(table.children.filter { it is MaterialButton })
+            spareViews.addAll(table.children.map { it as? MaterialButton }.filterNotNull())
             table.removeAllViews()
+
             table.rowCount = mappings.maxOfOrNull { it.row } ?: 0
             table.columnCount = min(mappings.maxOfOrNull { it.column } ?: 0, maxColumns)
             (0 until table.rowCount).forEach { row ->
                 (0 until table.columnCount).forEach { column ->
-                    var buttonView = spareViews.removeFirstOrNull() as MaterialButton?
-                    if (buttonView == null) {
-                        buttonView = initData.inflater.inflate(
-                            R.layout.widgetlist_sectionswitchitem_button,
-                            null
-                        ) as MaterialButton
-                    }
+                    val buttonView = spareViews.removeFirstOrNull() ?:
+                        initData.inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, table, false)
+                            as MaterialButton
                     // Rows and columns start with 1 in Sitemap definition, thus decrement them here
                     val mapping = mappings.firstOrNull { it.row - 1 == row && it.column - 1 == column }
-                    if (mapping == null) {
-                        // Create invisible buttons so each cell has an equal size
-                        buttonView.visibility = View.INVISIBLE
-                    } else {
+                    // Create invisible buttons if there's no mapping so each cell has an equal size
+                    buttonView.isInvisible = mapping == null
+                    if (mapping != null) {
                         buttonView.setOnClickListener(this)
                         buttonView.setTextAndIcon(connection, mapping)
                         buttonView.tag = mapping.value
