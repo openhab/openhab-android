@@ -49,8 +49,8 @@ android {
         minSdkVersion 21
         compileSdk 34
         targetSdkVersion 33
-        versionCode 506
-        versionName "3.8.2-beta"
+        versionCode 507
+        versionName "3.8.3-beta"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "long", "TIMESTAMP", System.currentTimeMillis() + "L"
