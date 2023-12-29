@@ -21,12 +21,18 @@ import org.json.JSONObject
 import org.openhab.habdroid.util.optStringOrNull
 
 @Parcelize
-data class LabeledValue internal constructor(val value: String, val label: String, val icon: IconResource?) : Parcelable
+data class LabeledValue internal constructor(
+    val value: String,
+    val label: String,
+    val icon: IconResource?,
+    val row: Int,
+    val column: Int
+) : Parcelable
 
 @Throws(JSONException::class)
 fun JSONObject.toLabeledValue(valueKey: String, labelKey: String): LabeledValue {
     val value = getString(valueKey)
     val label = optString(labelKey, value)
     val icon = optStringOrNull("icon")?.toOH2IconResource()
-    return LabeledValue(value, label, icon)
+    return LabeledValue(value, label, icon, optInt("row"), optInt("column"))
 }

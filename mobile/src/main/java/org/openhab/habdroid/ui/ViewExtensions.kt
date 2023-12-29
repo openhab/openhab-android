@@ -124,6 +124,7 @@ fun RemoteViews.duplicate(): RemoteViews {
 }
 
 fun MaterialButton.setTextAndIcon(connection: Connection, mapping: LabeledValue) {
+    contentDescription = mapping.label
     val iconUrl = mapping.icon?.toUrl(context, true)
     if (iconUrl == null) {
         icon = null

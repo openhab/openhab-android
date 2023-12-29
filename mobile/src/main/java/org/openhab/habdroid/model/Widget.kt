@@ -116,6 +116,7 @@ data class Widget(
         Video,
         Webview,
         Input,
+        Buttongrid,
         Unknown
     }
 
@@ -303,7 +304,7 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
                         "label" -> mappingLabel = childNode.textContent
                     }
                 }
-                mappings.add(LabeledValue(mappingCommand, mappingLabel, null))
+                mappings.add(LabeledValue(mappingCommand, mappingLabel, null, 0, 0))
             }
             else -> {}
         }
