@@ -144,10 +144,15 @@ data class ParsedState internal constructor(
                 }
             }
             val stateAsFloat = state.toFloatOrNull() ?: return null
-            if (stateAsFloat in 0f .. 100f) {
-                return stateAsFloat.toInt()
+            return when (stateAsFloat) {
+                in 1f .. 100f, 0f -> {
+                    stateAsFloat.toInt()
+                }
+                in 0f .. 1f -> {
+                    1
+                }
+                else -> null
             }
-            return null
         }
 
         private val HSB_PATTERN = Pattern.compile("^([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+)$")

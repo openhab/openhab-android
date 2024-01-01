@@ -49,7 +49,7 @@ class ParsedStateTest {
         mapOf(
             "100" to 100,
             "0" to 0,
-            "0.1" to 0, // TODO
+            "0.1" to 1,
             "10,20,30" to 30
         ).forEach {
             assertEquals("${it.key} should be parsed as ${it.value}", it.value, ParsedState.parseAsBrightness(it.key))
