@@ -54,12 +54,13 @@ class HttpClient constructor(client: OkHttpClient, baseUrl: String?, username: S
         if (authHeader != null) {
             // Forcibly put authorization info into request, as redirect/retry interceptor might have removed it
             clientBuilder.addNetworkInterceptor { chain ->
-                var request = chain.request()
-                // Don't add auth header to requests to external icons
-                if (baseUrl != null && request.url.toString().startsWith(baseUrl)) {
-                    request = request.newBuilder().addHeader("Authorization", authHeader).build()
-                }
-                chain.proceed(request)
+                val request = chain.request()
+                // Make sure not to send authentication credentials to external servers
+                chain.proceed(if (this.baseUrl?.host == request.url.host) {
+                    request.newBuilder().addHeader("Authorization", authHeader).build()
+                } else {
+                    request
+                })
             }
         }
         this.client = clientBuilder.build()

@@ -23,6 +23,7 @@ import java.util.Locale
 import kotlinx.parcelize.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
+import org.openhab.habdroid.R
 import org.openhab.habdroid.util.appendQueryParameter
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
@@ -35,11 +36,12 @@ data class IconResource internal constructor(
     internal val customState: String
 ) : Parcelable {
     fun toUrl(context: Context, includeState: Boolean): String {
-        return toUrl(includeState, context.getPrefs().getIconFormat())
+        val iconSize = context.resources.getDimensionPixelSize(R.dimen.widgetlist_icon_size)
+        return toUrl(includeState, context.getPrefs().getIconFormat(), iconSize)
     }
 
     @VisibleForTesting
-    fun toUrl(includeState: Boolean, iconFormat: IconFormat): String {
+    fun toUrl(includeState: Boolean, iconFormat: IconFormat, desiredSizePixels: Int): String {
         if (!isOh2) {
             return "images/$icon.png"
         }
@@ -88,8 +90,8 @@ data class IconResource internal constructor(
                 builder.scheme("https")
                        .authority("api.iconify.design")
                        .path(iconSet)
-                       .appendPath(iconName + ".svg")
-                       .appendQueryParameter("height", "64")
+                       .appendPath("$iconName.svg")
+                       .appendQueryParameter("height", desiredSizePixels.toString())
             }
             else -> builder.path("icon/")
         }

@@ -60,11 +60,11 @@ class SitemapTest {
         assertNull(demoSitemapWithLabel.icon)
         assertEquals(
             "icon/home?format=SVG&anyFormat=true&iconset=classic",
-            homeSitemapWithoutLabel.icon?.toUrl(false, IconFormat.Svg)
+            homeSitemapWithoutLabel.icon?.toUrl(false, IconFormat.Svg, 64)
         )
         assertEquals(
             "icon/home?format=SVG&anyFormat=true&iconset=classic",
-            homeSitemapWithoutLabel.icon?.toUrl(true, IconFormat.Svg)
+            homeSitemapWithoutLabel.icon?.toUrl(true, IconFormat.Svg, 64)
         )
     }
 
