@@ -44,41 +44,54 @@ data class IconResource internal constructor(
             return "images/$icon.png"
         }
 
-        var iconName = "none"
+        var iconSource = "oh"
         var iconSet = "classic"
+        var iconName = "none"
 
         val segments = icon.split(":", limit = 3)
         when (segments.size) {
             1 -> iconName = segments[0]
             2 -> {
-                // Keep iconName=none for unsupported icon sources
-                if (segments[0] == "oh") {
-                    iconName = segments[1]
-                }
+                iconSource = segments[0]
+                iconName = segments[1]
             }
             3 -> {
-                // Keep iconName=none for unsupported icon sources
-                if (segments[0] == "oh") {
-                    iconSet = segments[1]
-                    iconName = segments[2]
-                }
+                iconSource = segments[0]
+                iconSet = segments[1]
+                iconName = segments[2]
             }
-        }
-
-        val suffix = when (iconFormat) {
-            IconFormat.Png -> "PNG"
-            IconFormat.Svg -> "SVG"
         }
 
         val builder = Uri.Builder()
-            .path("icon/")
-            .appendPath(iconName)
-            .appendQueryParameter("format", suffix)
-            .appendQueryParameter("anyFormat", true)
-            .appendQueryParameter("iconset", iconSet)
 
-        if (customState.isNotEmpty() && includeState) {
-            builder.appendQueryParameter("state", customState)
+        when (iconSource) {
+            "oh" -> {
+                val suffix = when (iconFormat) {
+                    IconFormat.Png -> "PNG"
+                    IconFormat.Svg -> "SVG"
+                }
+
+                builder.path("icon")
+                       .appendPath(iconName)
+                       .appendQueryParameter("format", suffix)
+                       .appendQueryParameter("anyFormat", true)
+                       .appendQueryParameter("iconset", iconSet)
+
+                if (customState.isNotEmpty() && includeState) {
+                    builder.appendQueryParameter("state", customState)
+                }
+            }
+            "if", "iconify", "material" -> {
+                if (iconSource == "material") {
+                    iconSet = "mdi"
+                }
+                builder.scheme("https")
+                       .authority("api.iconify.design")
+                       .path(iconSet)
+                       .appendPath(iconName + ".svg")
+                       .appendQueryParameter("height", "64")
+            }
+            else -> builder.path("icon/")
         }
 
         return builder.build().toString()
