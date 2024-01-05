@@ -70,7 +70,6 @@ object PrefKeys {
     const val NOTIFICATION_TONE = "default_openhab_alertringtone"
     const val NOTIFICATION_VIBRATION = "default_openhab_notification_vibration"
     const val NOTIFICATION_TONE_VIBRATION = "default_openhab_alertringtone_vibration"
-    const val NOTIFICATION_DELETE_CHANNELS = "delete_notification_channels"
 
     const val DEV_ID = "sendDeviceInfoPrefix"
     const val DEV_ID_PREFIX_VOICE = "device_identifier_prefix_voice"

@@ -185,7 +185,6 @@ class PreferencesActivity : AbstractBaseActivity() {
         const val ITEM_UPDATE_WIDGET_WIDGET_LABEL = "widgetLabel"
         const val ITEM_UPDATE_WIDGET_MAPPED_STATE = "mappedState"
         const val ITEM_UPDATE_WIDGET_ICON = "icon"
-        const val ITEM_UPDATE_WIDGET_THEME = "theme"
         const val ITEM_UPDATE_WIDGET_SHOW_STATE = "show_state"
         private const val STATE_KEY_RESULT = "result"
 

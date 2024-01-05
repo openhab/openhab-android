@@ -14,7 +14,6 @@
 package org.openhab.habdroid.ui.preference.fragments
 
 import android.app.KeyguardManager
-import android.app.NotificationManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -248,18 +247,9 @@ class MainSettingsFragment : AbstractSettingsFragment(), ConnectionFactory.Updat
                 startActivity(i)
                 true
             }
-
-            getPreference(PrefKeys.NOTIFICATION_DELETE_CHANNELS).setOnPreferenceClickListener { pref ->
-                val nm = pref.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                nm.notificationChannels
-                    .filter { it.id.startsWith("severity-") }
-                    .forEach { nm.deleteNotificationChannel(it.id) }
-                true
-            }
         } else {
             Log.d(TAG, "Removing notification prefs for >= 25")
             preferenceScreen.removePreferenceRecursively(PrefKeys.NOTIFICATION_TONE_VIBRATION)
-            preferenceScreen.removePreferenceRecursively(PrefKeys.NOTIFICATION_DELETE_CHANNELS)
 
             ringtonePref.setOnPreferenceClickListener { pref ->
                 val currentTone = prefs.getNotificationTone()

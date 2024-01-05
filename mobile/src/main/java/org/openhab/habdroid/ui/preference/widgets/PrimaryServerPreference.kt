@@ -21,7 +21,7 @@ import androidx.preference.PreferenceViewHolder
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.setupHelpIcon
 
-class PrimaryServerPreference constructor(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
+class PrimaryServerPreference(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
     private var helpIcon: ImageView? = null
 
     init {
