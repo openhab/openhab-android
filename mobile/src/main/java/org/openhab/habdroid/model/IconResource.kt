@@ -56,11 +56,26 @@ data class IconResource internal constructor(
             2 -> {
                 iconSource = segments[0]
                 iconName = segments[1]
+                if (iconSource == "material") {
+                    iconSet = "baseline"
+                }
             }
             3 -> {
                 iconSource = segments[0]
                 iconSet = segments[1]
                 iconName = segments[2]
+            }
+        }
+
+        when (iconSource) {
+            "material" -> {
+                iconSource = "iconify"
+                iconName = "$iconSet-$iconName"
+                iconSet = "ic"
+            }
+            "f7" -> {
+                iconSource = "iconify"
+                iconSet = "f7"
             }
         }
 
@@ -83,10 +98,7 @@ data class IconResource internal constructor(
                     builder.appendQueryParameter("state", customState)
                 }
             }
-            "if", "iconify", "material" -> {
-                if (iconSource == "material") {
-                    iconSet = "mdi"
-                }
+            "if", "iconify" -> {
                 builder.scheme("https")
                        .authority("api.iconify.design")
                        .path(iconSet)
