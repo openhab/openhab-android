@@ -70,8 +70,8 @@ data class IconResource internal constructor(
         when (iconSource) {
             "material" -> {
                 iconSource = "iconify"
-                iconName = "$iconSet-$iconName"
                 iconSet = "ic"
+                iconName = "$iconSet-$iconName"
             }
             "f7" -> {
                 iconSource = "iconify"
@@ -97,8 +97,8 @@ data class IconResource internal constructor(
 
                 // set unknown iconSource to oh:classic:none icon
                 if (iconSource != "oh") {
-                    iconName = "none"
                     iconSet = "classic"
+                    iconName = "none"
                 }
 
                 builder.path("icon")
