@@ -60,9 +60,20 @@ class IconResourceTest {
     fun testIconifyIcons() {
         mapOf(
             "if:codicon:lightbulb" to "https://api.iconify.design/codicon/lightbulb.svg?height=64",
-            "iconify:codicon:lightbulb" to "https://api.iconify.design/codicon/lightbulb.svg?height=64",
+            "iconify:codicon:lightbulb" to "https://api.iconify.design/codicon/lightbulb.svg?height=64"
         ).forEach {
             testIconToUrl(it.key, it.value)
+        }
+    }
+
+    @Test
+    fun testUnknownIconSources() {
+        listOf(
+            "unknown:ignored",
+            "unknown:ignored:ignored"
+        ).forEach {
+            val urlForUnknownIcons = "icon/none?format=PNG&anyFormat=true&iconset=classic"
+            testIconToUrl(it, urlForUnknownIcons)
         }
     }
 
