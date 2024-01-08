@@ -70,8 +70,8 @@ data class IconResource internal constructor(
         when (iconSource) {
             "material" -> {
                 iconSource = "iconify"
-                iconSet = "ic"
                 iconName = "$iconSet-$iconName"
+                iconSet = "ic"
             }
             "f7" -> {
                 iconSource = "iconify"
