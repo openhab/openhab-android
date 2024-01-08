@@ -82,10 +82,23 @@ data class IconResource internal constructor(
         val builder = Uri.Builder()
 
         when (iconSource) {
-            "oh" -> {
+            "if", "iconify" -> {
+                builder.scheme("https")
+                    .authority("api.iconify.design")
+                    .path(iconSet)
+                    .appendPath("$iconName.svg")
+                    .appendQueryParameter("height", desiredSizePixels.toString())
+            }
+            else -> {
                 val suffix = when (iconFormat) {
                     IconFormat.Png -> "PNG"
                     IconFormat.Svg -> "SVG"
+                }
+
+                // set unknown iconSource to oh:classic:none icon
+                if (iconSource != "oh") {
+                    iconName = "none"
+                    iconSet = "classic"
                 }
 
                 builder.path("icon")
@@ -98,14 +111,6 @@ data class IconResource internal constructor(
                     builder.appendQueryParameter("state", customState)
                 }
             }
-            "if", "iconify" -> {
-                builder.scheme("https")
-                       .authority("api.iconify.design")
-                       .path(iconSet)
-                       .appendPath("$iconName.svg")
-                       .appendQueryParameter("height", desiredSizePixels.toString())
-            }
-            else -> builder.path("icon/")
         }
 
         return builder.build().toString()
