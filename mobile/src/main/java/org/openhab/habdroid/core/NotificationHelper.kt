@@ -240,18 +240,15 @@ class NotificationHelper constructor(private val context: Context) {
     private fun makeNotificationBuilder(
         channelId: String,
         timestamp: Long
-    ): NotificationCompat.Builder {
-        return NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.ic_openhab_appicon_white_24dp)
-            .setContentTitle(context.getString(R.string.app_name))
-            .setWhen(timestamp)
-            .setShowWhen(timestamp != 0L)
-            .setColor(ContextCompat.getColor(context, R.color.openhab_orange))
-            .setAutoCancel(true)
-            .setLights(ContextCompat.getColor(context, R.color.openhab_orange), 3000, 3000)
-            .setVibrate(context.getPrefs().getNotificationVibrationPattern(context))
-            .setGroup("gcm")
-    }
+    ) = NotificationCompat.Builder(context, channelId)
+        .setSmallIcon(R.drawable.ic_openhab_appicon_white_24dp)
+        .setWhen(timestamp)
+        .setShowWhen(timestamp != 0L)
+        .setColor(ContextCompat.getColor(context, R.color.openhab_orange))
+        .setAutoCancel(true)
+        .setLights(ContextCompat.getColor(context, R.color.openhab_orange), 3000, 3000)
+        .setVibrate(context.getPrefs().getNotificationVibrationPattern(context))
+        .setGroup("gcm")
 
     companion object {
         private val TAG = NotificationHelper::class.java.simpleName
