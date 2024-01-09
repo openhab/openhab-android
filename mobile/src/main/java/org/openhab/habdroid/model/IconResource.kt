@@ -23,6 +23,7 @@ import java.util.Locale
 import kotlinx.parcelize.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
+import org.openhab.habdroid.R
 import org.openhab.habdroid.util.appendQueryParameter
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
@@ -35,50 +36,81 @@ data class IconResource internal constructor(
     internal val customState: String
 ) : Parcelable {
     fun toUrl(context: Context, includeState: Boolean): String {
-        return toUrl(includeState, context.getPrefs().getIconFormat())
+        val iconSize = context.resources.getDimensionPixelSize(R.dimen.widgetlist_icon_size)
+        return toUrl(includeState, context.getPrefs().getIconFormat(), iconSize)
     }
 
     @VisibleForTesting
-    fun toUrl(includeState: Boolean, iconFormat: IconFormat): String {
+    fun toUrl(includeState: Boolean, iconFormat: IconFormat, desiredSizePixels: Int): String {
         if (!isOh2) {
             return "images/$icon.png"
         }
 
-        var iconName = "none"
+        var iconSource = "oh"
         var iconSet = "classic"
+        var iconName = "none"
 
         val segments = icon.split(":", limit = 3)
         when (segments.size) {
             1 -> iconName = segments[0]
             2 -> {
-                // Keep iconName=none for unsupported icon sources
-                if (segments[0] == "oh") {
-                    iconName = segments[1]
+                iconSource = segments[0]
+                iconName = segments[1]
+                if (iconSource == "material") {
+                    iconSet = "baseline"
                 }
             }
             3 -> {
-                // Keep iconName=none for unsupported icon sources
-                if (segments[0] == "oh") {
-                    iconSet = segments[1]
-                    iconName = segments[2]
-                }
+                iconSource = segments[0]
+                iconSet = segments[1]
+                iconName = segments[2]
             }
         }
 
-        val suffix = when (iconFormat) {
-            IconFormat.Png -> "PNG"
-            IconFormat.Svg -> "SVG"
+        when (iconSource) {
+            "material" -> {
+                iconSource = "iconify"
+                iconName = "$iconSet-$iconName"
+                iconSet = "ic"
+            }
+            "f7" -> {
+                iconSource = "iconify"
+                iconSet = "f7"
+            }
         }
 
         val builder = Uri.Builder()
-            .path("icon/")
-            .appendPath(iconName)
-            .appendQueryParameter("format", suffix)
-            .appendQueryParameter("anyFormat", true)
-            .appendQueryParameter("iconset", iconSet)
 
-        if (customState.isNotEmpty() && includeState) {
-            builder.appendQueryParameter("state", customState)
+        when (iconSource) {
+            "if", "iconify" -> {
+                builder.scheme("https")
+                    .authority("api.iconify.design")
+                    .path(iconSet)
+                    .appendPath("$iconName.svg")
+                    .appendQueryParameter("height", desiredSizePixels.toString())
+            }
+            else -> {
+                val suffix = when (iconFormat) {
+                    IconFormat.Png -> "PNG"
+                    IconFormat.Svg -> "SVG"
+                }
+
+                // set unknown iconSource to oh:classic:none icon
+                if (iconSource != "oh") {
+                    iconSet = "classic"
+                    iconName = "none"
+                }
+
+                builder.path("icon")
+                       .appendPath(iconName)
+                       .appendQueryParameter("format", suffix)
+                       .appendQueryParameter("anyFormat", true)
+                       .appendQueryParameter("iconset", iconSet)
+
+                if (customState.isNotEmpty() && includeState) {
+                    builder.appendQueryParameter("state", customState)
+                }
+            }
         }
 
         return builder.build().toString()
