@@ -1,0 +1,10 @@
+## What's Changed
+* Support f7, material, and iconify icons by @jimtng in https://github.com/openhab/openhab-android/pull/3554
+* Add option to remove all custom notification channels by @mueller-ma in https://github.com/openhab/openhab-android/pull/3549
+* Increase precision when using slider with float by @mueller-ma in https://github.com/openhab/openhab-android/pull/3550
+* Fix parsing numbers below 1 by @mueller-ma in https://github.com/openhab/openhab-android/pull/3551
+
+## New Contributors
+* @jimtng made their first contribution in https://github.com/openhab/openhab-android/pull/3554
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.8.3-beta...3.8.4-beta
