@@ -99,7 +99,7 @@
     <string name="settings_notification_vibration_value_long" translatable="false">long</string>
     <string name="settings_notification_vibration_value_twice" translatable="false">twice</string>
     <string name="settings_notification_ringtone_vibration">Ringtone &amp; Vibration</string>
-    <string name="settings_notification_reset_settings">Reset channels</string>
+    <string name="settings_notification_reset_settings">Reset categories</string>
     <string name="settings_notification_reset_settings_confirm">Do you want to remove all notification categories? They will be re-created when a new notification arrives for this category.</string>
     <string name="settings_notification_hint">The severity of notifications via myopenHAB.org is set as notification category. You can configure different notification settings for each category.</string>
     <string name="settings_connection_summary">Connected to %s</string>
