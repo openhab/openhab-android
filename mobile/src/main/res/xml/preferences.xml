@@ -137,7 +137,7 @@
             android:entries="@array/notificationVibration"
             android:entryValues="@array/notificationVibrationValues"
             android:icon="@drawable/ic_vibration_grey_24dp" />
-        <Preference
+        <org.openhab.habdroid.ui.preference.widgets.NotificationChannelPreference
             android:clickable="true"
             android:key="default_openhab_alertringtone_vibration"
             android:title="@string/settings_notification_ringtone_vibration"
