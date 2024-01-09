@@ -26,7 +26,6 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.util.beautify
@@ -55,10 +54,10 @@ class WidgetSlider constructor(context: Context, attrs: AttributeSet?) :
 
     fun bindToWidget(widget: Widget, updateOnMove: Boolean) {
         val isColor = widget.item?.isOfTypeOrGroupType(Item.Type.Color) == true
-        val from = if (isColor) 0F else widget.minValue
-        val to = if (isColor) 100F else widget.maxValue
-        val step = if (isColor) 1F else widget.step
-        val widgetValue = (if (isColor) widget.state?.asBrightness?.toFloat() else widget.state?.asNumber?.value)
+        val from = (if (isColor) 0F else widget.minValue).toBigDecimal()
+        val to = (if (isColor) 100F else widget.maxValue).toBigDecimal()
+        val step = (if (isColor) 1F else widget.step).toBigDecimal()
+        val widgetValue = (if (isColor) widget.state?.asBrightness?.toBigDecimal() else widget.state?.asNumber?.value?.toBigDecimal())
             ?: from
 
         updateJob?.cancel()
@@ -66,19 +65,19 @@ class WidgetSlider constructor(context: Context, attrs: AttributeSet?) :
         this.boundWidget = widget
 
         // Fix "The stepSize must be 0, or a factor of the valueFrom-valueTo range" exception
-        valueTo = to - (to - from).rem(step)
-        valueFrom = from
-        stepSize = step
+        valueTo = (to - (to - from).rem(step)).toFloat()
+        valueFrom = from.toFloat()
+        stepSize = step.toFloat()
 
         // Fix "Value must be equal to valueFrom plus a multiple of stepSize when using stepSize"
         val stepCount = (abs(valueTo - valueFrom) / stepSize).toInt()
-        var closestValue = valueFrom
-        var closestDelta = Float.MAX_VALUE
+        var closestValue = valueFrom.toBigDecimal()
+        var closestDelta = Float.MAX_VALUE.toBigDecimal()
         (0..stepCount).map { index ->
-            val stepValue = valueFrom + index * stepSize
-            if (abs(widgetValue - stepValue) < closestDelta) {
+            val stepValue = valueFrom.toBigDecimal() + index.toBigDecimal() * stepSize.toBigDecimal()
+            if ((widgetValue - stepValue).abs() < closestDelta) {
                 closestValue = stepValue
-                closestDelta = abs(widgetValue - stepValue)
+                closestDelta = (widgetValue - stepValue).abs()
             }
         }
 
@@ -90,7 +89,7 @@ class WidgetSlider constructor(context: Context, attrs: AttributeSet?) :
         )
 
         isTickVisible = stepCount <= 12
-        value = closestValue
+        value = closestValue.toFloat()
     }
 
     override fun onAttachedToWindow() {
