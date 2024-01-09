@@ -87,6 +87,9 @@
     <string name="settings_notification_vibration_long">Lungo</string>
     <string name="settings_notification_vibration_twice">Due volte</string>
     <string name="settings_notification_ringtone_vibration">Suoneria &amp; Vibrazione</string>
+    <string name="settings_notification_reset_settings">Reimposta canali</string>
+    <string name="settings_notification_reset_settings_confirm">Vuoi rimuovere tutte le categorie di notifiche? Verranno ricreate quando arriverà una nuova notifica per questa categoria.</string>
+    <string name="settings_notification_hint">La gravità delle notifiche tramite myopenHAB.org è impostata come categoria di notifica. È possibile configurare diverse impostazioni di notifica per ogni categoria.</string>
     <string name="settings_connection_summary">Connesso a %s</string>
     <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">Connessione non sicura a %1$s: %2$s</string>
