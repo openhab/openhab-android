@@ -84,6 +84,9 @@
     <string name="settings_notification_vibration_long">Larga</string>
     <string name="settings_notification_vibration_twice">Dos veces</string>
     <string name="settings_notification_ringtone_vibration">Tono de llamada &amp; Vibración</string>
+    <string name="settings_notification_reset_settings">Reiniciar canales</string>
+    <string name="settings_notification_reset_settings_confirm">¿Desea eliminar todas las categorías de notificaciones? Se volverán a crear cuando llegue una nueva notificación para esta categoría.</string>
+    <string name="settings_notification_hint">La importancia de las notificaciones recibidas de myopenHAB.org está definida mediante la categoría de la notificación. Puede configurar diferentes notificaciones por cada categoría.</string>
     <string name="settings_connection_summary">Conectado a %s</string>
     <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">Conectado a %1$s: %2$s de forma no segura</string>
