@@ -585,7 +585,6 @@
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <!-- Used in the widget preview -->
     <string name="item_update_widget_preview_text">Open garage</string>
-    <string name="widget_show_state">Append current state to name</string>
     <string name="widget_show_state_summary">The state is updated on the schedule that can be set in the settings under \"Send device information to server\"</string>
     <string name="widget_no_command">Don\'t send a command</string>
     <string name="error_getting_state">Error loading state</string>
