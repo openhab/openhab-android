@@ -482,7 +482,6 @@
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <!-- Used in the widget preview -->
-    <string name="widget_show_state">Додати поточний стан до назви</string>
     <string name="widget_show_state_summary">Стан оновлюється за розкладом, який можна вказати в налаштуваннях «Надсилати дані про пристрій на сервер»</string>
     <string name="widget_no_command">Не надсилати команду</string>
     <string name="error_getting_state">Помилка завантаження стану</string>
