@@ -1,0 +1,4 @@
+## What's Changed
+* Don't set app name in notifications by @mueller-ma in https://github.com/openhab/openhab-android/pull/3558
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.8.4-beta...3.8.5-beta
