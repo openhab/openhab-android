@@ -515,7 +515,6 @@
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <!-- Used in the widget preview -->
     <string name="item_update_widget_preview_text">Åpne garasje</string>
-    <string name="widget_show_state">Tilføy gjeldende tilstand til navnet</string>
     <string name="widget_show_state_summary">Tilstanden blir oppdatert i henhold til tidsplanen, som kan konfigureres under \"Send enhetsinformasjon til server\"</string>
     <string name="widget_no_command">Ikke send en kommando</string>
     <string name="error_getting_state">Feil ved lasting av tilstand</string>
