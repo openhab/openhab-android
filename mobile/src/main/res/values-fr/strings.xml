@@ -504,7 +504,6 @@
     <string name="item_update_widget_text">%1$s : %2$s</string>
     <!-- Used in the widget preview -->
     <string name="item_update_widget_preview_text">Ouvrir le garage</string>
-    <string name="widget_show_state">Ajouter l\'état actuel au nom</string>
     <string name="widget_show_state_summary">L\'état est mis à jour en fonction de la planification pouvant être définie dans les paramètres sous \"Envoyer les informations de l\'appareil au serveur\"</string>
     <string name="widget_no_command">Ne pas envoyer la commande</string>
     <string name="error_getting_state">Erreur de chargement de l\'état</string>
