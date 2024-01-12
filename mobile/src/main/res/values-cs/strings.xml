@@ -516,7 +516,6 @@
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <!-- Used in the widget preview -->
     <string name="item_update_widget_preview_text">Otevřít garáž</string>
-    <string name="widget_show_state">Připojit aktuální stav k názvu</string>
     <string name="widget_show_state_summary">Stav je aktualizován podle plánu, který lze nastavit v nastavení v části \"Odeslat informace o zařízení na server\"</string>
     <string name="widget_no_command">Neposílat příkaz</string>
     <string name="error_getting_state">Chyba při načítání stavu</string>
