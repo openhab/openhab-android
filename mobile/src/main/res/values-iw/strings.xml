@@ -523,7 +523,6 @@
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <!-- Used in the widget preview -->
     <string name="item_update_widget_preview_text">פתח חנייה</string>
-    <string name="widget_show_state">הוסף את המצב הנוכחי לשם</string>
     <string name="widget_show_state_summary">המצב מתעדכן בלוח הזמנים שניתן להגדיר בהגדרות תחת \"שלח מידע מכשיר לשרת\"</string>
     <string name="widget_no_command">אל תשלח פקודה</string>
     <string name="error_getting_state">שגיאה בטעינת מצב</string>

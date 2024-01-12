@@ -87,6 +87,9 @@
     <string name="settings_notification_vibration_long">Lang</string>
     <string name="settings_notification_vibration_twice">Zweimal</string>
     <string name="settings_notification_ringtone_vibration">Klingelton &amp; Vibration</string>
+    <string name="settings_notification_reset_settings">Kategorien zurücksetzen</string>
+    <string name="settings_notification_reset_settings_confirm">Möchten Sie alle Benachrichtigungskategorien entfernen? Sie werden erneut erzeugt, wenn eine neue Benachrichtigung für diese Kategorie eintrifft.</string>
+    <string name="settings_notification_hint">Die Priorität der Benachrichtigungen über myopenHAB.org ist als Benachrichtigungskategorie festgelegt. Sie können für jede Kategorie unterschiedliche Benachrichtigungseinstellungen konfigurieren.</string>
     <string name="settings_connection_summary">Verbunden mit %s</string>
     <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">Unsicher verbunden mit %1$s: %2$s</string>
@@ -518,7 +521,6 @@
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <!-- Used in the widget preview -->
     <string name="item_update_widget_preview_text">Garage öffnen</string>
-    <string name="widget_show_state">Aktuellen Status an Name anhängen</string>
     <string name="widget_show_state_summary">Der Status wird mit dem Zeitplan aktualisiert, der in den Einstellungen unter \"Geräteinformationen an Server senden\" eingestellt werden kann</string>
     <string name="widget_no_command">Keinen Befehl senden</string>
     <string name="error_getting_state">Fehler beim Laden des Status</string>

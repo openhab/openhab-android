@@ -84,6 +84,9 @@
     <string name="settings_notification_vibration_long">Larga</string>
     <string name="settings_notification_vibration_twice">Dos veces</string>
     <string name="settings_notification_ringtone_vibration">Tono de llamada &amp; Vibración</string>
+    <string name="settings_notification_reset_settings">Restablecer categorías</string>
+    <string name="settings_notification_reset_settings_confirm">¿Desea eliminar todas las categorías de notificaciones? Se volverán a crear cuando llegue una nueva notificación para esta categoría.</string>
+    <string name="settings_notification_hint">La importancia de las notificaciones recibidas de myopenHAB.org está definida mediante la categoría de la notificación. Puede configurar diferentes notificaciones por cada categoría.</string>
     <string name="settings_connection_summary">Conectado a %s</string>
     <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">Conectado a %1$s: %2$s de forma no segura</string>
@@ -515,7 +518,6 @@
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <!-- Used in the widget preview -->
     <string name="item_update_widget_preview_text">Garaje abierto</string>
-    <string name="widget_show_state">Añadir estado actual al nombre</string>
     <string name="widget_show_state_summary">El estado se actualiza en el calendario, el cual se puede ajustar en la configuración de \"Enviar información del dispositivo al servidor\"</string>
     <string name="widget_no_command">No enviar un comando</string>
     <string name="error_getting_state">Error al cargar el estado</string>

@@ -518,7 +518,6 @@
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <!-- Used in the widget preview -->
     <string name="item_update_widget_preview_text">Garázs kinyitása</string>
-    <string name="widget_show_state">Az aktuális állapot hozzáfűzése a névhez</string>
     <string name="widget_show_state_summary">Az állapot a megadott ütemezés szerint frissül, mely az \"Eszközadatok küldése a kiszolgálónak\" alatt módosítható</string>
     <string name="widget_no_command">Ne küldjön parancsot</string>
     <string name="error_getting_state">Hiba az állapot betöltése közben</string>

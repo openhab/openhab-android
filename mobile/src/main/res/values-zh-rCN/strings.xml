@@ -516,7 +516,6 @@
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <!-- Used in the widget preview -->
     <string name="item_update_widget_preview_text">开放停车场</string>
-    <string name="widget_show_state">添加当前状态到名称</string>
     <string name="widget_show_state_summary">状态更新的时间表可以在“发送设备信息到服务器”下的设置中设置。</string>
     <string name="widget_no_command">不发送命令</string>
     <string name="error_getting_state">加载状态错误</string>
