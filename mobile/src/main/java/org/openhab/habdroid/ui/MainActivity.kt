@@ -696,13 +696,13 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             val hasLocalAndRemote =
                 ConnectionFactory.hasActiveLocalConnection && ConnectionFactory.hasActiveRemoteConnection
             val type = connection?.connectionType
-            if (hasLocalAndRemote && type == Connection.TYPE_LOCAL) {
+            if (hasLocalAndRemote && type == Connection.TYPE_LOCAL && prefs.isDebugModeEnabled()) {
                 showSnackbar(
                     SNACKBAR_TAG_CONNECTION_ESTABLISHED,
                     R.string.info_conn_url,
                     Snackbar.LENGTH_SHORT
                 )
-            } else if (hasLocalAndRemote && type == Connection.TYPE_REMOTE) {
+            } else if (hasLocalAndRemote && type == Connection.TYPE_REMOTE && prefs.isDebugModeEnabled()) {
                 showSnackbar(
                     SNACKBAR_TAG_CONNECTION_ESTABLISHED,
                     R.string.info_conn_rem_url,
