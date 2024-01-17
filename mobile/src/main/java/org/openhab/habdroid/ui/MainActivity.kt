@@ -1384,10 +1384,13 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             .filter { !hasPermissions(arrayOf(it)) }
             .toMutableList()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+        val length = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             !hasPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS))
         ) {
             missingPermissions.add(Manifest.permission.POST_NOTIFICATIONS)
+            Snackbar.LENGTH_LONG
+        } else {
+            Snackbar.LENGTH_INDEFINITE
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
@@ -1420,7 +1423,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             showSnackbar(
                 SNACKBAR_TAG_MISSING_PERMISSIONS,
                 R.string.settings_permission_denied,
-                Snackbar.LENGTH_INDEFINITE,
+                length,
                 R.string.settings_background_tasks_permission_allow
             ) {
                 requestPermissionsIfRequired(missingPermissions.toTypedArray(), permissionRequestNoActionCallback)
