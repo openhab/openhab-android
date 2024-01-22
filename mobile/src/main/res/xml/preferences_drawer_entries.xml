@@ -12,7 +12,7 @@
         android:defaultValue="true"
         android:key="show_oh3_ui"
         android:icon="@drawable/ic_outline_looks_3_grey_24dp"
-        android:title="@string/mainmenu_openhab_oh3_ui"
+        android:title="@string/mainmenu_openhab_main_ui"
         android:widgetLayout="@layout/preference_material_switch" />
     <SwitchPreferenceCompat
         android:defaultValue="true"

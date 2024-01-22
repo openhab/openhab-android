@@ -17,9 +17,9 @@
         android:id="@+id/options"
         android:checkableBehavior="none">
         <item
-            android:id="@+id/oh3_ui"
+            android:id="@+id/main_ui"
             android:icon="@drawable/ic_outline_looks_3_grey_24dp"
-            android:title="@string/mainmenu_openhab_oh3_ui"
+            android:title="@string/mainmenu_openhab_main_ui"
             android:menuCategory="system" />
         <item
             android:id="@+id/habpanel"

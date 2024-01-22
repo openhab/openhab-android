@@ -57,7 +57,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
         const val SERVER_FLAG_HABPANEL_INSTALLED = 1 shl 4
         const val SERVER_FLAG_SITEMAP_HAS_INVISIBLE_WIDGETS = 1 shl 5
         const val SERVER_FLAG_SUPPORTS_ANY_FORMAT_ICON = 1 shl 6
-        const val SERVER_FLAG_OH3_UI = 1 shl 7
+        const val SERVER_FLAG_MAIN_UI = 1 shl 7
         const val SERVER_FLAG_TRANSPARENT_CHARTS = 1 shl 8
 
         private sealed interface FlagsResult
@@ -101,7 +101,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
                         flags = flags or SERVER_FLAG_SUPPORTS_ANY_FORMAT_ICON
                     }
                     if (version >= 4) {
-                        flags = flags or SERVER_FLAG_OH3_UI
+                        flags = flags or SERVER_FLAG_MAIN_UI
                     }
                     if (version >= 5) {
                         flags = flags or SERVER_FLAG_TRANSPARENT_CHARTS
