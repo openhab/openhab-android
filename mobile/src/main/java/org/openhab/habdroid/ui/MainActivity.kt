@@ -74,6 +74,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
@@ -798,6 +799,27 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             intent.action = prefs.getStringOrNull(PrefKeys.START_PAGE)
         }
 
+        if (!intent.getStringExtra(EXTRA_LINK).isNullOrEmpty()) {
+            var link = intent.getStringExtra(EXTRA_LINK) ?: return
+            if (!link.startsWith("/")) {
+                link = "/$link"
+            }
+            if (link.startsWith("/basicui/app")) {
+                intent.action = ACTION_SITEMAP_SELECTED
+                // Add a host here to be able to parse as HttpUrl
+                val httpLink = "https://openhab.org$link".toHttpUrlOrNull() ?: return
+                val serverId = intent.getIntExtra(EXTRA_SERVER_ID, prefs.getPrimaryServerId())
+                val sitemap = httpLink.queryParameter("sitemap")
+                    ?: prefs.getDefaultSitemap(connection, serverId)?.name
+                val subpage = httpLink.queryParameter("w")
+                intent.putExtra(EXTRA_SITEMAP_URL, "/$sitemap/$subpage")
+                intent.putExtra(EXTRA_SERVER_ID, serverId)
+            } else {
+                intent.action = ACTION_MAIN_UI_SELECTED
+                intent.putExtra(EXTRA_SUBPAGE, link)
+            }
+        }
+
         when (intent.action) {
             NfcAdapter.ACTION_NDEF_DISCOVERED, Intent.ACTION_VIEW -> {
                 val tag = intent.data?.toTagData()
@@ -1497,6 +1519,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     companion object {
+        const val ACTION_LINK_OPENED = "org.openhab.habdroid.action.LINK_OPENED"
         const val ACTION_NOTIFICATION_SELECTED = "org.openhab.habdroid.action.NOTIFICATION_SELECTED"
         const val ACTION_HABPANEL_SELECTED = "org.openhab.habdroid.action.HABPANEL_SELECTED"
         const val ACTION_MAIN_UI_SELECTED = "org.openhab.habdroid.action.OH3_UI_SELECTED"
@@ -1506,6 +1529,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         const val EXTRA_SITEMAP_URL = "sitemapUrl"
         const val EXTRA_SERVER_ID = "serverId"
         const val EXTRA_SUBPAGE = "subpage"
+        const val EXTRA_LINK = "link"
         const val EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId"
 
         const val SNACKBAR_TAG_DEMO_MODE_ACTIVE = "demoModeActive"

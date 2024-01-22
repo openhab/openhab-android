@@ -43,6 +43,7 @@ data class Item internal constructor(
     val minimum: Float?,
     val maximum: Float?,
     val step: Float?,
+    val linkToMore: String?
 ) : Parcelable {
     val label get() = rawLabel?.split("[", "]")?.getOrNull(0)?.trim()
 
@@ -280,7 +281,8 @@ fun Node.toItem(): Item? {
         groupNames = emptyList(),
         minimum = null,
         maximum = null,
-        step = null
+        step = null,
+        linkToMore = null
     )
 }
 
@@ -338,11 +340,17 @@ fun JSONObject.toItem(): Item {
         emptyList()
     }
 
+    val type = getString("type").toItemType()
+    var linkToMore = optJSONObject("metadata")?.optJSONObject("link_to_more")?.optStringOrNull("value")
+    if (linkToMore == null && type == Item.Type.Group) {
+        linkToMore = "/basicui/app?w=$name"
+    }
+
     return Item(
         name = name,
         rawLabel = optStringOrNull("label"),
         category = optStringOrNull("category")?.lowercase(Locale.US),
-        type = getString("type").toItemType(),
+        type = type,
         groupType = optString("groupType").toItemType(),
         link = optStringOrNull("link"),
         readOnly = readOnly,
@@ -353,7 +361,8 @@ fun JSONObject.toItem(): Item {
         groupNames = groupNames,
         minimum = stateDescription?.optFloatOrNull("minimum"),
         maximum = stateDescription?.optFloatOrNull("maximum"),
-        step = stateDescription?.optFloatOrNull("step")
+        step = stateDescription?.optFloatOrNull("step"),
+        linkToMore = linkToMore
     )
 }
 
