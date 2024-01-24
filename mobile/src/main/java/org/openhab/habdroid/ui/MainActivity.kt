@@ -813,12 +813,12 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 val notificationId = intent.getStringExtra(EXTRA_PERSISTED_NOTIFICATION_ID).orEmpty()
                 executeActionIfPossible(PendingAction.OpenNotification(notificationId, true))
             }
-            ACTION_HABPANEL_SELECTED, ACTION_OH3_UI_SELECTED, ACTION_FRONTAIL_SELECTED -> {
+            ACTION_HABPANEL_SELECTED, ACTION_MAIN_UI_SELECTED, ACTION_FRONTAIL_SELECTED -> {
                 val serverId = intent.getIntExtra(EXTRA_SERVER_ID, prefs.getActiveServerId())
                 val ui = when (intent.action) {
                     ACTION_HABPANEL_SELECTED -> WebViewUi.HABPANEL
                     ACTION_FRONTAIL_SELECTED -> WebViewUi.FRONTAIL
-                    else -> WebViewUi.OH3_UI
+                    else -> WebViewUi.MAIN_UI
                 }
                 val subpage = intent.getStringExtra(EXTRA_SUBPAGE)
                 executeOrStoreAction(PendingAction.OpenWebViewUi(ui, serverId, subpage))
@@ -901,8 +901,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     openWebViewUi(WebViewUi.HABPANEL, false, null)
                     handled = true
                 }
-                R.id.oh3_ui -> {
-                    openWebViewUi(WebViewUi.OH3_UI, false, null)
+                R.id.main_ui -> {
+                    openWebViewUi(WebViewUi.MAIN_UI, false, null)
                     handled = true
                 }
                 R.id.frontail -> {
@@ -1054,9 +1054,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 prefs.getBoolean(PrefKeys.DRAWER_ENTRY_HABPANEL, true)
             manageHabPanelShortcut(serverProperties?.hasWebViewUiInstalled(WebViewUi.HABPANEL) == true)
 
-            val oh3UiItem = drawerMenu.findItem(R.id.oh3_ui)
-            oh3UiItem.isVisible = serverProperties?.hasWebViewUiInstalled(WebViewUi.OH3_UI) == true &&
-                prefs.getBoolean(PrefKeys.DRAWER_ENTRY_OH3_UI, true)
+            val mainUiItem = drawerMenu.findItem(R.id.main_ui)
+            mainUiItem.isVisible = serverProperties?.hasWebViewUiInstalled(WebViewUi.MAIN_UI) == true &&
+                prefs.getBoolean(PrefKeys.DRAWER_ENTRY_MAIN_UI, true)
 
             val frontailItem = drawerMenu.findItem(R.id.frontail)
             frontailItem.isVisible = serverProperties != null &&
@@ -1499,7 +1499,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     companion object {
         const val ACTION_NOTIFICATION_SELECTED = "org.openhab.habdroid.action.NOTIFICATION_SELECTED"
         const val ACTION_HABPANEL_SELECTED = "org.openhab.habdroid.action.HABPANEL_SELECTED"
-        const val ACTION_OH3_UI_SELECTED = "org.openhab.habdroid.action.OH3_UI_SELECTED"
+        const val ACTION_MAIN_UI_SELECTED = "org.openhab.habdroid.action.OH3_UI_SELECTED"
         const val ACTION_FRONTAIL_SELECTED = "org.openhab.habdroid.action.FRONTAIL"
         const val ACTION_VOICE_RECOGNITION_SELECTED = "org.openhab.habdroid.action.VOICE_SELECTED"
         const val ACTION_SITEMAP_SELECTED = "org.openhab.habdroid.action.SITEMAP_SELECTED"

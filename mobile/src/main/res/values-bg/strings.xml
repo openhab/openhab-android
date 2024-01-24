@@ -16,7 +16,7 @@
     <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="app_notifications">Известия</string>
     <string name="habpanel_error">Грешка при зареждане на HABPanel</string>
-    <string name="oh3_ui_error">Грешка при зареждане на Main UI</string>
+    <string name="main_ui_error">Грешка при зареждане на Main UI</string>
     <string name="mainmenu_openhab_selectsitemap">Избери сайткарта по подразбиране</string>
     <string name="mainmenu_openhab_clearcache">Изчисти кеша на изображенията</string>
     <!-- App settings strings -->

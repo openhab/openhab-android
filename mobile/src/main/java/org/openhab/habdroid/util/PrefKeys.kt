@@ -83,7 +83,7 @@ object PrefKeys {
     const val DEBUG_MESSAGES = "default_openhab_debug_messages"
     const val LOG = "default_openhab_log"
 
-    const val DRAWER_ENTRY_OH3_UI = "show_oh3_ui"
+    const val DRAWER_ENTRY_MAIN_UI = "show_oh3_ui"
     const val DRAWER_ENTRY_HABPANEL = "show_habpanel"
     const val DRAWER_ENTRY_NFC = "show_nfc"
     const val DRAWER_ENTRY_FRONTAIL = "show_frontail"

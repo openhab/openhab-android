@@ -192,7 +192,7 @@
     <string-array name="start_page">
         <item>@string/mainmenu_openhab_sitemaps</item>
         <item>@string/mainmenu_openhab_habpanel</item>
-        <item>@string/mainmenu_openhab_oh3_ui</item>
+        <item>@string/mainmenu_openhab_main_ui</item>
         <item>@string/mainmenu_openhab_frontail</item>
     </string-array>
 
