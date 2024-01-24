@@ -1,0 +1,8 @@
+## What's Changed
+* Reduce duration of missing notification permissions snackbar by @mueller-ma in https://github.com/openhab/openhab-android/pull/3568
+* Fix vertical alignment and value spacing of compact-mode switch buttons by @jimtng in https://github.com/openhab/openhab-android/pull/3574
+* Only use item state when fetching icons by @maniac103 in https://github.com/openhab/openhab-android/pull/3565
+* Limit button width in Buttongrid by @mueller-ma in https://github.com/openhab/openhab-android/pull/3577
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.8.6-beta...3.9.1-beta
