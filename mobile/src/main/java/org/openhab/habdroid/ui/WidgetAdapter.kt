@@ -820,6 +820,7 @@ class WidgetAdapter(
                         buttonView.tag = mapping.value
                         buttonView.visibility = View.VISIBLE
                     }
+                    buttonView.maxWidth = table.width / table.columnCount
 
                     table.addView(
                         buttonView,
