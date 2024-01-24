@@ -14,13 +14,11 @@
     <string name="mainmenu_openhab_sitemaps">系统布局</string>
     <string name="mainmenu_openhab_preferences">设置</string>
     <string name="mainmenu_openhab_habpanel">HAB 面板</string>
-    <string name="mainmenu_openhab_oh3_ui">主界面</string>
     <string name="mainmenu_openhab_frontail">Frontail</string>
     <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="ui_on_server">%1$s (%2$s)</string>
     <string name="app_notifications">通知</string>
     <string name="habpanel_error">载入 HAB 面板时出错</string>
-    <string name="oh3_ui_error">加载主界面时发生错误</string>
     <string name="frontail_error">加载正面时发生错误。请注意它无法通过 openHAB云访问。</string>
     <string name="mainmenu_openhab_selectsitemap">选择默认系统布局</string>
     <string name="mainmenu_openhab_clearcache">清除图像缓存</string>
