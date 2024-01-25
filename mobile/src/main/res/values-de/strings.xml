@@ -14,11 +14,13 @@
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Einstellungen</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_main_ui">Main UI</string>
     <string name="mainmenu_openhab_frontail">Frontail</string>
     <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="ui_on_server">%1$s (%2$s)</string>
     <string name="app_notifications">Benachrichtigungen</string>
     <string name="habpanel_error">Beim Laden von HABPanel ist ein Fehler aufgetreten</string>
+    <string name="main_ui_error">Beim Laden der Main UI ist ein Fehler aufgetreten</string>
     <string name="frontail_error">Beim Laden von Frontail ist ein Fehler aufgetreten. Bitte beachten Sie, dass Frontail nicht über openHAB Cloud verfügbar ist.</string>
     <string name="mainmenu_openhab_selectsitemap">Standard-Sitemap auswählen</string>
     <string name="mainmenu_openhab_clearcache">Bilder-Cache leeren</string>
