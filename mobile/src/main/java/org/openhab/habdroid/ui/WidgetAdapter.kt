@@ -23,6 +23,7 @@ import android.text.InputType.TYPE_CLASS_NUMBER
 import android.text.InputType.TYPE_CLASS_TEXT
 import android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
 import android.text.InputType.TYPE_NUMBER_FLAG_SIGNED
+import android.text.format.DateFormat
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -67,6 +68,7 @@ import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import java.io.IOException
 import java.time.Instant
 import java.time.LocalDate
@@ -760,7 +762,13 @@ class WidgetAdapter(
         private fun showTimePicker(widget: Widget, dt: LocalDateTime?) {
             val date = dt?.truncatedTo(ChronoUnit.MINUTES)
                 ?: LocalDateTime.ofInstant(Instant.ofEpochMilli(0), ZoneOffset.UTC)
+            val timeFormat = if (DateFormat.is24HourFormat(itemView.context)) {
+                TimeFormat.CLOCK_24H
+            } else {
+                TimeFormat.CLOCK_12H
+            }
             val timePicker = MaterialTimePicker.Builder()
+                .setTimeFormat(timeFormat)
                 .setHour(date.hour)
                 .setMinute(date.minute)
                 .build()
