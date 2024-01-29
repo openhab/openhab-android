@@ -1,0 +1,6 @@
+## What's Changed
+* Use 24h mode for time picker if appropriate by @maniac103 in https://github.com/openhab/openhab-android/pull/3582
+* Save input mode of TimePicker by @mueller-ma in https://github.com/openhab/openhab-android/pull/3583
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.9.1-beta...3.9.2-beta
