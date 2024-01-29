@@ -18,7 +18,7 @@
         android:checkableBehavior="none">
         <item
             android:id="@+id/main_ui"
-            android:icon="@drawable/ic_outline_looks_3_grey_24dp"
+            android:icon="@drawable/ic_card_multiple_outline"
             android:title="@string/mainmenu_openhab_main_ui"
             android:menuCategory="system" />
         <item
