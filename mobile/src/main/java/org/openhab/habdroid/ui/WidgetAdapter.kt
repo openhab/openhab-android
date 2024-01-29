@@ -42,6 +42,7 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.isGone
@@ -78,7 +79,6 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.time.temporal.ChronoUnit
 import java.util.Locale
-import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlinx.coroutines.CoroutineScope
@@ -767,13 +767,22 @@ class WidgetAdapter(
             } else {
                 TimeFormat.CLOCK_12H
             }
+            val prefs = itemView.context.getPrefs()
+            val inputMode = prefs.getInt(PrefKeys.TIME_PICKER_INPUT_MODE, MaterialTimePicker.INPUT_MODE_CLOCK)
             val timePicker = MaterialTimePicker.Builder()
                 .setTimeFormat(timeFormat)
                 .setHour(date.hour)
                 .setMinute(date.minute)
+                .setInputMode(inputMode)
                 .build()
+
             timePicker.addOnPositiveButtonClickListener {
                 sendUpdate(widget, date.withHour(timePicker.hour).withMinute(timePicker.minute))
+            }
+            timePicker.addOnDismissListener {
+                prefs.edit {
+                    putInt(PrefKeys.TIME_PICKER_INPUT_MODE, timePicker.inputMode)
+                }
             }
             fragmentPresenter.showSelectionFragment(timePicker, widget)
         }

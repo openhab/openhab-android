@@ -96,6 +96,7 @@ object PrefKeys {
     const val RECENTLY_RESTORED = "recentlyRestored"
     const val ALARM_CLOCK_LAST_VALUE_WAS_UNDEF = "alarmClockLastWasZero"
     const val PREV_SERVER_FLAGS = "prevServerFlags"
+    const val TIME_PICKER_INPUT_MODE = "timePickerInputMode"
 
     /**
      * "Tooltip shown" flags
