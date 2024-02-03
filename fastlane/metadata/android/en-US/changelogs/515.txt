@@ -1,0 +1,6 @@
+## What's Changed
+* Update icon for Main UI by @mueller-ma in https://github.com/openhab/openhab-android/pull/3590
+* Custom targets for device control by @mueller-ma in https://github.com/openhab/openhab-android/pull/3576
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.10.0-release...3.9.3-beta
