@@ -281,6 +281,13 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 }
                 Pair(intent, item.hashCode())
             }
+            item.linkToMore != null -> {
+                val intent = Intent(context, MainActivity::class.java).apply {
+                    putExtra(MainActivity.EXTRA_LINK, item.linkToMore)
+                    putExtra(MainActivity.EXTRA_SERVER_ID, primaryServerId)
+                }
+                Pair(intent, item.hashCode())
+            }
             else -> {
                 val intent = Intent(context, MainActivity::class.java).apply {
                     putExtra(MainActivity.EXTRA_SERVER_ID, primaryServerId)
