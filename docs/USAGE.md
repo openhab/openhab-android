@@ -328,6 +328,9 @@ In case of an error the plugin returns an error code.
 openHAB supports the device controls introduced in Android 11: https://www.android.com/intl/en_US/android-11/#a11-device-controls-article
 When using a [semantic model](https://www.openhab.org/docs/tutorial/model.html#semantic-model) the location and/or equipment name can be shown in the tiles.
 
+You can configure the page that is opened when you long-press a tile.
+Create a new "custom namespace" metadata on an Item with the name `link_to_more` and as `value` the link without the host to a Sitemap (e.g. `/basicui/app?w=0202&sitemap=demo`) or MainUI (e.g. `/locations`).
+
 ## Multi server support
 
 When adding multiple servers to the app, there's always a primary and an active one.
