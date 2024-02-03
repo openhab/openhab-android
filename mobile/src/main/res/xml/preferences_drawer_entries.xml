@@ -11,7 +11,7 @@
     <SwitchPreferenceCompat
         android:defaultValue="true"
         android:key="show_oh3_ui"
-        android:icon="@drawable/ic_outline_looks_3_grey_24dp"
+        android:icon="@drawable/ic_card_multiple_outline"
         android:title="@string/mainmenu_openhab_main_ui"
         android:widgetLayout="@layout/preference_material_switch" />
     <SwitchPreferenceCompat
