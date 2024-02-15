@@ -19,7 +19,7 @@
     <short_description>Ανεξάρτητο τεχνολογίας &amp; κατασκευαστή ανοικτό λογισμικό αυτοματοποίησης σπιτιού</short_description>
     <fdroid> </fdroid>
     <fdroid_beta><![CDATA[Μπορείτε να εγκαταστήσετε την έκδοση beta παράλληλα με την <a href="https://f-droid.org/packages/org.openhab.habdroid/">σταθερή έκδοση</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>Πολιτική προστασίας προσωπικών δεδομένων: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_privacy_policy/>
     <beta>Δοκιμάστε νέες δυνατότητες και να δώστε έγκαιρη ανατροφοδότηση!</beta>
     <play_beta>Μπορείτε να εγκαταστήσετε την έκδοση beta παράλληλα με την σταθερή έκδοση.</play_beta>
     <changelog_play_beta> </changelog_play_beta>
