@@ -19,7 +19,7 @@
     <short_description>Hemautomatisering med öppen källkod oberoende av tillverkare eller teknologi</short_description>
     <fdroid> </fdroid>
     <fdroid_beta><![CDATA[Beta-versionen kan installeras parallellt med den <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabila versionen</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>Integritetspolicy: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_privacy_policy/>
     <beta>Testa nya funktioner och ge tidig feedback!</beta>
     <play_beta>Beta-versionen kan installeras parallellt med den stabila versionen.</play_beta>
     <changelog_play_beta> </changelog_play_beta>
