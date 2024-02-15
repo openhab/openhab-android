@@ -19,7 +19,7 @@
     <short_description>Hišna avtomatika neodvisna od proizvajalcev in tehnologije</short_description>
     <fdroid> Namesto tega te verzije pridobivajo obvestila z rednim poizvedovanjem.</fdroid>
     <fdroid_beta><![CDATA[Beta verzijo lahko namestite poleg <a href="https://f-droid.org/packages/org.openhab.habdroid/">redne verzije</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>Politika zasebnosti: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_privacy_policy/>
     <beta>Preizkusite nove funkcionalnosti in nam posredujte povratne informacije!</beta>
     <play_beta>Beta verzijo lahko namestite poleg redne verzije.</play_beta>
     <changelog_play_beta>Popravki žužkov in izboljšanje stabilnosti. Obiščite nas na https://github.com/openhab/openhab-android/releases za podrobni seznam sprememb.</changelog_play_beta>
