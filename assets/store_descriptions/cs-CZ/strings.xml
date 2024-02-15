@@ -19,7 +19,7 @@
     <short_description>Domácí automatizace pro IoT různých výrobců a technologií</short_description>
     <fdroid>Sestavení F-Droid má FCM odstraněno, a proto nebude moci přijímat push oznámení z openHAB Cloudu. Namísto toho jsou oznámení získávána v pravidelných intervalech.</fdroid>
     <fdroid_beta><![CDATA[Můžete nainstalovat beta verzi vedle <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabilní verze</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>Ochrana osobních údajů: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_privacy_policy/>
     <beta>Vyzkoušejte nové funkce a dejte nám zpětnou vazbu!</beta>
     <play_beta>Vedle stabilní verze můžete nainstalovat i beta verzi.</play_beta>
     <changelog_play_beta>Opravy chyb a vylepšení stability. Prosím navštivte https://github.com/openhab/openhab-android/releases pro detailní informace o změnách.</changelog_play_beta>
