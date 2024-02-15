@@ -151,7 +151,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
             appCard.addItem(MaterialAboutActionItem.Builder()
                 .text(R.string.about_privacy_policy)
                 .icon(R.drawable.ic_security_grey_24dp)
-                .setOnClickAction(makeClickRedirect(context, "https://www.openhabfoundation.org/privacy.html"))
+                .setOnClickAction(makeClickRedirect(context, "https://www.openhabfoundation.org/privacy.html#android-app"))
                 .build())
 
             val ohCommunityCard = MaterialAboutCard.Builder()

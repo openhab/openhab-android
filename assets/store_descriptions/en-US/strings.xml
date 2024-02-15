@@ -19,7 +19,7 @@
     <short_description>Vendor and technology agnostic open source home automation</short_description>
     <fdroid>The builds on F-Droid have FCM removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.</fdroid>
     <fdroid_beta><![CDATA[You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>Privacy policy: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_privacy_policy>Privacy policy: https://www.openhabfoundation.org/privacy.html#android-app</fdroid_privacy_policy>
     <beta>Try out new features and give early feedback!</beta>
     <play_beta>You can install the beta version alongside the stable version.</play_beta>
     <changelog_play_beta>Bug fixes and stability improvements. Please visit https://github.com/openhab/openhab-android/releases for a detailed changelog.</changelog_play_beta>
