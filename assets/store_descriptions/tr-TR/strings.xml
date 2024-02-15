@@ -19,7 +19,7 @@
     <short_description>Satıcı ve teknoloji agnostik açık kaynaklı ev otomasyonu</short_description>
     <fdroid>F-Droid'deki yapılarda FCM kaldırılmıştır ve bu nedenle openHAB Cloud'dan anında iletme bildirimleri alamaz. Bunun yerine, bu yapılarda bildirimler düzenli olarak yoklanır.</fdroid>
     <fdroid_beta><![CDATA[Beta sürümünü <a href="https://f-droid.org/packages/org.openhab.habdroid/">kararlı sürüm</a> ile birlikte kurabilirsiniz.]]></fdroid_beta>
-    <fdroid_privacy_policy>Gizlilik Politikası: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_privacy_policy/>
     <beta>Yeni özellikleri deneyin ve erken geri bildirimde bulunun!</beta>
     <play_beta>Beta sürümünü, kararlı sürümün yanında da yükleyebilirsiniz.</play_beta>
     <changelog_play_beta>Hata düzeltmeleri ve kararlılık iyileştirmeleri. Ayrıntılı bir değişiklik günlüğü için lütfen https://github.com/openhab/openhab-android/releases adresini ziyaret edin.</changelog_play_beta>
