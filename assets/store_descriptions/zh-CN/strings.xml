@@ -19,7 +19,7 @@
     <short_description>开源家居自动化供应商与技术</short_description>
     <fdroid>在 F-Droid 上的版本已删除 FCM ，因此无法从 openHAB Cloud 接收推送通知。 替代，在这些 builds 中进行定期轮询通知。</fdroid>
     <fdroid_beta><![CDATA[<a href="https://f-droid.org/packages/org.openhab.habdroid/">稳定版</a>可与测试版共存。]]></fdroid_beta>
-    <fdroid_privacy_policy>隐私政策：https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_privacy_policy/>
     <beta>尝试新功能并提供早期反馈！</beta>
     <play_beta>您可以在安装稳定版的情况下安装测试版。</play_beta>
     <changelog_play_beta>修复了漏洞并提升了稳定性。 请访问 https://github.com/openhab/openhab-android/releases 以获取详细更新日志。</changelog_play_beta>
