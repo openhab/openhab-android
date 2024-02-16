@@ -19,7 +19,7 @@
     <short_description>Leverandør- og teknologiuavhengig åpen kildekode for hjemmeautomasjon</short_description>
     <fdroid>Utgavene hos F-Droid er uten FCM og vil derfor ikke kunne motta push varsler fra openHAB Cloud. I stedet blir det sjekket for varsler regelmessig i disse utgavene.</fdroid>
     <fdroid_beta><![CDATA[Du kan installere betaversjonen sammen med den <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabile versjonen</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy/>
+    <fdroid_privacy_policy>Personvernerklæring: https://www.openhabfoundation.org/privacy.html#android-app</fdroid_privacy_policy>
     <beta>Prøv ut nye funksjoner og gi tidlig tilbakemelding!</beta>
     <play_beta>Du kan installere betaversjonen sammen med den stabile versjonen.</play_beta>
     <changelog_play_beta>Feilrettinger og stabilitetsforbedringer. Vennligst besøk https://github.com/openhab/openhab-android/releases for en detaljert endringslogg.</changelog_play_beta>
