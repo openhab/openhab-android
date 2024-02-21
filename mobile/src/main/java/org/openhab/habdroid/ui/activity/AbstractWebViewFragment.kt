@@ -25,6 +25,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.ConsoleMessage
 import android.webkit.JavascriptInterface
 import android.webkit.PermissionRequest
 import android.webkit.WebChromeClient
@@ -178,6 +179,11 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
                         permissionRequester.launch(requestedPerms)
                     }
                 }
+            }
+
+            override fun onConsoleMessage(message: ConsoleMessage): Boolean {
+                Log.d(TAG, "${message.message()} -- From line ${message.lineNumber()} of ${message.sourceId()}")
+                return true
             }
         }
 
