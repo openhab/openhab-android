@@ -1,0 +1,7 @@
+## What's Changed
+* Translate f7 underscores into iconify style dashes by @jimtng in https://github.com/openhab/openhab-android/pull/3603
+* Save WebView logs in adb by @mueller-ma in https://github.com/openhab/openhab-android/pull/3602
+* Update link to privacy policy by @mueller-ma in https://github.com/openhab/openhab-android/pull/3599
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.10.1-beta...3.10.2-beta
