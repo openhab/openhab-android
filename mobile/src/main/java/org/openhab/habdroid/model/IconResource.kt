@@ -28,6 +28,7 @@ import org.openhab.habdroid.util.appendQueryParameter
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrNull
+import kotlin.text.replace
 
 @Parcelize
 data class IconResource internal constructor(
@@ -76,6 +77,7 @@ data class IconResource internal constructor(
             "f7" -> {
                 iconSource = "iconify"
                 iconSet = "f7"
+                iconName = iconName.replace("_", "-")
             }
         }
 
