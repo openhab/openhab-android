@@ -42,10 +42,6 @@
             android:entries="@array/iconTypeNames"
             android:entryValues="@array/iconTypeValues"
             android:icon="@drawable/ic_image_outline_grey_24dp" />
-        <Preference
-            android:clickable="true"
-            android:key="default_openhab_cleacache"
-            android:title="@string/mainmenu_openhab_clearcache" />
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="imageWidgetScaleToFit"
@@ -185,6 +181,10 @@
             android:summaryOff="@string/data_saver_off" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_troubleshooting_title">
+        <Preference
+            android:clickable="true"
+            android:key="default_openhab_clear_cache"
+            android:title="@string/settings_clear_caches" />
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="default_openhab_debug_messages"

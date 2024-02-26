@@ -24,6 +24,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.webkit.WebView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
@@ -112,7 +113,6 @@ class MainSettingsFragment : AbstractSettingsFragment(), ConnectionFactory.Updat
         val drawerEntriesPrefs = getPreference(PrefKeys.DRAWER_ENTRIES)
         val themePref = getPreference(PrefKeys.THEME)
         val colorSchemePref = getPreference(PrefKeys.COLOR_SCHEME) as ListPreference
-        val clearCachePref = getPreference(PrefKeys.CLEAR_CACHE)
         val fullscreenPref = getPreference(PrefKeys.FULLSCREEN)
         val launcherPref = getPreference(PrefKeys.LAUNCHER)
         val iconFormatPref = getPreference(PrefKeys.ICON_FORMAT)
@@ -194,8 +194,8 @@ class MainSettingsFragment : AbstractSettingsFragment(), ConnectionFactory.Updat
             true
         }
 
-        clearCachePref.setOnPreferenceClickListener { pref ->
-            clearImageCache(pref.context)
+        getPreference(PrefKeys.CLEAR_CACHE).setOnPreferenceClickListener { pref ->
+            clearCaches(pref.context)
             true
         }
 
@@ -308,7 +308,7 @@ class MainSettingsFragment : AbstractSettingsFragment(), ConnectionFactory.Updat
         } else {
             iconFormatPref.setOnPreferenceChangeListener { pref, _ ->
                 val context = pref.context
-                clearImageCache(context)
+                clearCaches(context)
                 ItemUpdateWidget.updateAllWidgets(context)
                 true
             }
@@ -349,7 +349,8 @@ class MainSettingsFragment : AbstractSettingsFragment(), ConnectionFactory.Updat
         }
     }
 
-    private fun clearImageCache(context: Context) {
+    private fun clearCaches(context: Context) {
+        WebView(context).clearCache(true)
         // Get launch intent for application
         val restartIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
         restartIntent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
