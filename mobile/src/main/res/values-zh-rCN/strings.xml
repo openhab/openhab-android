@@ -21,7 +21,6 @@
     <string name="habpanel_error">载入 HAB 面板时出错</string>
     <string name="frontail_error">加载正面时发生错误。请注意它无法通过 openHAB云访问。</string>
     <string name="mainmenu_openhab_selectsitemap">选择默认系统布局</string>
-    <string name="mainmenu_openhab_clearcache">清除图像缓存</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">连接</string>
     <string name="settings_display_title">显示</string>
