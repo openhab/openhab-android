@@ -20,7 +20,6 @@
     <string name="habpanel_error">Beim Lueden vum HABPanel ass e Feeler opgetrueden</string>
     <string name="frontail_error">Beim Luede vu Frontail ass e Feeler geschitt. Beuecht wgl. dass Frontail net via openHAB Cloud verfügbar ass.</string>
     <string name="mainmenu_openhab_selectsitemap">Standard Sitemap auswielen</string>
-    <string name="mainmenu_openhab_clearcache">Biller Cache eidel maachen</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Connectioun</string>
     <string name="settings_display_title">Display</string>
