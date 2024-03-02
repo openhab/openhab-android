@@ -19,7 +19,7 @@
     <short_description>Automatizare de locuințe open source, independentă de producători și tehnologii</short_description>
     <fdroid>Build-urile de pe F-Droid au eliminat FCM, raportarea erorilor nu vor putea primi notificări push de la openHAB Cloud. În schimb, notificările sunt interogate regulat în aceste versiuni.</fdroid>
     <fdroid_beta><![CDATA[Puteți instala versiunea beta alături de <a href="https://f-droid.org/packages/org.openhab.habdroid/">versiunea stabilă</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>Politica de confidențialitate: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_privacy_policy/>
     <beta>Încercați funcții noi și lăsați primele impresii!</beta>
     <play_beta>Poți instala versiunea beta alături de versiunea stabilă.</play_beta>
     <changelog_play_beta>Diferite îmbunătăţiri de stabilitate şi bug-uri rezolvate. Vă rugăm să vizitați https://github.com/openhab/openhab-android/releases pentru a vedea istoricul schimbarilor.</changelog_play_beta>

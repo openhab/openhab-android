@@ -19,7 +19,7 @@
     <short_description>Domótica de código abierto independiente del proveedor y de la tecnología</short_description>
     <fdroid>Las compilaciones en F-Droid han eliminado FCM y por lo tanto no podrán recibir notificaciones push de openHAB Cloud. En su lugar, las notificaciones se comprueban en estas compilaciones de forma regular.</fdroid>
     <fdroid_beta><![CDATA[Puede instalar la versión beta junto a la <a href="https://f-droid.org/packages/org.openhab.habdroid/">versión estable</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>Política de privacidad: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_privacy_policy/>
     <beta>¡Pruebe las nuevas características y repórtenos su experiencia!</beta>
     <play_beta>Puede instalar la versión beta junto a la versión estable.</play_beta>
     <changelog_play_beta>Corrección de errores y mejoras de estabilidad. Por favor visite https://github.com/openhab/openhab-android/releases para un registro de cambios detallado.</changelog_play_beta>

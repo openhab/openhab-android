@@ -20,7 +20,7 @@ https://www.openhab.org/addons/</bindings>
     <short_description>Hiersteller an Technologie neutral Open-Source Heem-Automatisatioun</short_description>
     <fdroid>An der F-Droid Versioun sinn FCM an Crash-Rapporten erausgeholl ginn. Dofir ass et net méiglech fir Push-Notifikatiounen vun der openHAB Cloud ze kréien. Am platz heivunner, ginn d‘ Notifikatiounen an dëse Builds reegelméisseg ofgefrot.</fdroid>
     <fdroid_beta><![CDATA[Du kann s d´ Beta Versioun parallel zu der <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabiler Versioun</a> installéieren.]]></fdroid_beta>
-    <fdroid_privacy_policy>Dateschutzerklärung: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_privacy_policy/>
     <beta>Probéier nei Features aus a gëff eis Feedback!</beta>
     <play_beta>Du kann s d´ Beta Versioun parallel zu der stabeler Versioun installéieren.</play_beta>
     <changelog_play_beta>Feeler an Stabilitéits Verbesserungen. Fir den Log vun den Ännerungen kuck ënnert https://github.com/openhab/openhab-android/releases.</changelog_play_beta>

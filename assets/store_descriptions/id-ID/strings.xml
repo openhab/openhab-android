@@ -19,7 +19,7 @@
     <short_description>Vendor dan teknologi agnostik otomatisasi rumah open source</short_description>
     <fdroid> </fdroid>
     <fdroid_beta><![CDATA[Anda dapat memasang versi beta bersama <a href="https://f-droid.org/packages/org.openhab.habdroid/">versi stabil</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>Kebijakan privasi: https://www.oprnhabfiundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_privacy_policy/>
     <beta>Coba fitur-fitur baru dan berikan tanggapan lebih awal!</beta>
     <play_beta>Anda dapat memasang versi beta bersama versi stabil.</play_beta>
     <changelog_play_beta> </changelog_play_beta>

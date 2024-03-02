@@ -19,7 +19,7 @@
     <short_description>Nutika kodu automatiseerimise avatud lähtekoodiga tehnoloogia pakkuja</short_description>
     <fdroid> </fdroid>
     <fdroid_beta><![CDATA[Võite installida beta versiooni paralleelselt <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabiilse versiooniga</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>Privaatsuseeskirjad: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_privacy_policy/>
     <beta>Proovige uusi funktsioone ja andke tagasisidet!</beta>
     <play_beta>Võite installida beetaversiooni asemel stabiilse versiooni.</play_beta>
     <changelog_play_beta> </changelog_play_beta>

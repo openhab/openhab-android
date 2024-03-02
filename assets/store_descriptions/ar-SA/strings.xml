@@ -20,7 +20,7 @@ https://www.openhab.org/addons/</bindings>
     <short_description>تكنولوجيا أتمتة المنزل المفتوحة المصدر والغير مرتبطة بتقنية أو مصنع محدد</short_description>
     <fdroid> </fdroid>
     <fdroid_beta><![CDATA[يمكنك تثبيت الإصدار التجريبي مع <a href="https://f-droid.org/packages/org.openhab.habdroid/">الإصدار المستقر</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>سياسة الخصوصية: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_privacy_policy/>
     <beta>جرب الميزات الجديدة واعطنا ملاحظاتك!</beta>
     <play_beta>يمكنك تثبيت الإصدار التجريبي بجانب الإصدار المستقر.</play_beta>
     <changelog_play_beta>إصلاح الأخطاء وتحسينات. يرجى زيارة https://github.com/openhab/openhab-android/releases للحصول على سجل تفصيلي.</changelog_play_beta>

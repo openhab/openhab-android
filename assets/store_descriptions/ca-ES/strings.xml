@@ -19,7 +19,7 @@
     <short_description>Domòtica de codi obert independent de la tecnologia i el fabricant</short_description>
     <fdroid>Les compilacions de F-Droid no tenen FCM ni informes d'error i per tant no poden rebre notificacions instantànies (push) d'openHAB Cloud. En comptes d'això, les notificacions es consulten regularment en aquestes compilacions.</fdroid>
     <fdroid_beta><![CDATA[Podeu instal·lar la versió beta juntament amb la <a href="https://f-droid.org/packages/org.openhab.habdroid/">versió estable</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>Política de privadesa: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_privacy_policy/>
     <beta>Proveu funcions noves i feu-ne comentaris abans!</beta>
     <play_beta>Podeu instal·lar la versió beta juntament amb la versió estable.</play_beta>
     <changelog_play_beta>Correccions i millores. Visiteu https://github.com/openhab/openhab-android/releases per obtenir un registre de canvis detallat.</changelog_play_beta>

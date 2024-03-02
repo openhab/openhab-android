@@ -19,7 +19,7 @@
     <short_description>Cистема за автоматизация на домове обединяваща различни технологии</short_description>
     <fdroid> Вместо това известията се анкетират редовно в тези компилации.</fdroid>
     <fdroid_beta><![CDATA[Може да инсталираш бета версията паралелно със <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабилната версия</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>Политика за поверителност: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_privacy_policy/>
     <beta>Опитайте нови функции и дайте ранна обратна връзка!</beta>
     <play_beta>Може да инсталираш бета версията паралелно със стабилната версия.</play_beta>
     <changelog_play_beta>Оправя грешки и подобрява стабилността. Посети https://github.com/openhab/openhab-android/releases за подробно описание на промените.</changelog_play_beta>

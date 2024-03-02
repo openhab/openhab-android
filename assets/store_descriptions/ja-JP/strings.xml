@@ -19,7 +19,7 @@
     <short_description>ベンダーや技術に依存しないオープンソースのホーム・オートメーション</short_description>
     <fdroid> 代わりに、これらのビルドでは通知が定期的にポーリングされます。</fdroid>
     <fdroid_beta><![CDATA[<a href="https://f-droid.org/packages/org.openhab.habdroid/">安定版</a> の他、ベータ版をインストールすることができます。]]></fdroid_beta>
-    <fdroid_privacy_policy>プライバシー ポリシー: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_privacy_policy/>
     <beta>新しい機能をお試しの上、フィードバックしてください!</beta>
     <play_beta>安定版の他にベータ版をインストールできます.</play_beta>
     <changelog_play_beta>バグ修正と安定性の改善。 変更履歴は https://github.com/openhab/openhab-android/releases をご覧ください。</changelog_play_beta>

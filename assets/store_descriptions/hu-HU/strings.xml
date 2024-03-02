@@ -19,7 +19,7 @@
     <short_description>Szabadgondolkozású technológia, nyílt forráskódú otthonautomatizálás</short_description>
     <fdroid>Az F-Droid-ra készült változat nem tartalmazza az FCM-et és hibajelentő modult, így nem tud értesítési üzenetet fogadni az openHAB felhőből. Ehelyett az értesítések rendszeresen lekérdezésre kerülnek ezekből az összeállításokból.</fdroid>
     <fdroid_beta><![CDATA[A béta változatot a <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabil verzió</a> mellé is telepítheted.]]></fdroid_beta>
-    <fdroid_privacy_policy>Adatvédelemi tájékoztató: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_privacy_policy/>
     <beta>Próbáld ki az új funkciókat és adj korai visszajelzést!</beta>
     <play_beta>Telepíthetsz béta verziót is a stabil mellé.</play_beta>
     <changelog_play_beta>Hibajavítások és kisebb fejlesztések. Kérem látogassa meg a https://github.com/openhab/openhab-android/releases hogy többet tudjon meg a változásokról.</changelog_play_beta>

@@ -14,11 +14,13 @@
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Innstillinger</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_main_ui">Main UI</string>
     <string name="mainmenu_openhab_frontail">Frontail</string>
     <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="ui_on_server">%1$s (%2$s)</string>
     <string name="app_notifications">Varslinger</string>
     <string name="habpanel_error">Det oppstod en feil under innlasting av HABPanel</string>
+    <string name="main_ui_error">En feil oppstod under lasting av Main UI</string>
     <string name="frontail_error">Det oppstod en feil under lasting av Frontail. Vær oppmerksom på at det ikke er tilgjengelig via openHAB Cloud.</string>
     <string name="mainmenu_openhab_selectsitemap">Velg standard Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Tøm bildebuffer</string>
@@ -39,6 +41,8 @@
     <string name="settings_openhab_sslclientcert">SSL klientsertifikat</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Trykk her for å få hint og forklaring på hvordan å sette opp SSL klientsertifikat autentisering</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL klientsertifikater er ikke støttet av din enhet</string>
+    <string name="frontail_url_title">Frontail URL</string>
+    <string name="frontail_url_summary">URL\'en til Frontail. Frontail kommer med openHABian eller kan installered manuelt. La stå tom for å bruke standardinnstillingen. Nåværende innstilling: %s</string>
     <string name="settings_openhab_screentimeroff">Deaktiver skjermtidsavbrudd</string>
     <string name="settings_openhab_screentimeroff_summary">Skjermen slår seg ikke av mens openHAB kjører</string>
     <string name="settings_openhab_demomode">Demomodus</string>
@@ -53,6 +57,7 @@
     <string name="settings_sitemap_compact_mode_off">Bruk et to-linjers oppsett for Sitemap widgeter, hvilket gjør kontrollene større og derav lettere å bruke, men krever mer rulling for lengre lister</string>
     <string name="settings_sitemap_compact_mode_on">Bruk et en-linjes oppsett for Sitemap widgeter, hvilket plasserer så mange widgeter som mulig på skjermen, men reduserer størrelsen på kontrollene</string>
     <string name="settings_color_scheme_title">Fargepalett</string>
+    <string name="settings_show_icons">Vis ikoner</string>
     <string name="settings_openhab_icon_format">Ikonformatering</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vektor</string>
@@ -82,6 +87,9 @@
     <string name="settings_notification_vibration_long">Lang</string>
     <string name="settings_notification_vibration_twice">Dobbel</string>
     <string name="settings_notification_ringtone_vibration">Ringetone &amp; Vibrering</string>
+    <string name="settings_notification_reset_settings">Tilbakestill kategorier</string>
+    <string name="settings_notification_reset_settings_confirm">Vil du fjerne alle varslingskategoriene? De vil bli gjenopprettet når en ny varsling ankommer for denne kategorien.</string>
+    <string name="settings_notification_hint">Alvorlighetsgraden for varsler via myopenHAB.org er satt som varselkategori. Du kan konfigurere forskjellige varslingsinnstillinger for hver kategori.</string>
     <string name="settings_connection_summary">Koblet til %s</string>
     <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">Usikkert tilkoblet %1$s: %2$s</string>

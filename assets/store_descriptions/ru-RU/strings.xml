@@ -19,7 +19,7 @@
     <short_description>Поставщик технологий с открытым исходным кодом для автоматизации "умного дома"</short_description>
     <fdroid>В сборках F-Droid были удалены FCM и отчеты о сбоях и нет возможности получать push-уведомления от openHAB Cloud. Вместо этого в этих сборках проверка уведомлений происходит на основе опроса сервера.</fdroid>
     <fdroid_beta><![CDATA[Вы можете установить бета версию параллельно со <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабильной версией</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>Политика конфиденциальности: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_privacy_policy/>
     <beta>Попробуйте новые функции и оставьте о них отзыв!</beta>
     <play_beta>Вы можете установить бета-версию вместе со стабильной версией.</play_beta>
     <changelog_play_beta>Исправлены ошибки и улучшена стабильность. Пожалуйста, посетите https://github.com/openhab/openhab-android/releases для подробного списка изменений.</changelog_play_beta>
