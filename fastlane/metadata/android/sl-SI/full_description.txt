@@ -26,4 +26,4 @@ openHAB fundacija e.V. je neprofitna organizacija s ciljem učenja javnosti o mo
 
 Za to aplikacijo potrebujete openHAB strežnik.
 
-Politika zasebnosti: https://www.openhabfoundation.org/privacy.html
+Privacy policy: https://www.openhabfoundation.org/privacy.html#android-app

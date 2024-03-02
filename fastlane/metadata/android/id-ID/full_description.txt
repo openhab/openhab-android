@@ -26,4 +26,4 @@ The openHAB Foundation e.V. is a nonprofit organization with the mission to educ
 
 You need an openHAB server for this app.
 
-Kebijakan privasi: https://www.oprnhabfiundation.org/privacy.html
+Privacy policy: https://www.openhabfoundation.org/privacy.html#android-app

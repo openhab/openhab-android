@@ -27,4 +27,4 @@ D´ openHAB Foundation e.V. ass eng a.s.b.l. déi als Missioun huet fir den Publ
 
 Du brauchs en openHAB Server fir des App kennen ze notzen.
 
-Dateschutzerklärung: https://www.openhabfoundation.org/privacy.html
+Privacy policy: https://www.openhabfoundation.org/privacy.html#android-app

@@ -26,4 +26,4 @@ openHAB היא פלטפורמת אוטומציה ביתית מבוססת קוד 
 
 יש צורך בשרת openHAB עבור יישום זה.
 
-מדיניות פרטיות: https://www.openhabfoundation.org/privacy.html
+Privacy policy: https://www.openhabfoundation.org/privacy.html#android-app

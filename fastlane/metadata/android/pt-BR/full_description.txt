@@ -26,4 +26,4 @@ A Fundação openHAB e.V. é uma organização sem fins lucrativos com a missão
 
 Você precisa de um servidor openHAB para este app.
 
-Política de privacidade: https://www.openhabfoundation.org/privacy.html
+Privacy policy: https://www.openhabfoundation.org/privacy.html#android-app

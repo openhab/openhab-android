@@ -26,4 +26,4 @@ Die openHAB Foundation e.V. ist ein gemeinnütziger Verein mit dem Ziel, die Öf
 
 Um diese App zu nutzen, benötigen Sie einen openHAB-Server.
 
-Datenschutzerklärung: https://www.openhabfoundation.org/privacy.html
+Datenschutzerklärung: https://www.openhabfoundation.org/privacy.html#android-app

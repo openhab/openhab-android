@@ -26,4 +26,4 @@ Az openHAB Alapítvány e.V. egy nonprofit szervezet, azzal a küldetéssel, hog
 
 openHAB szerverre van szükség az alkalmazás használatához.
 
-Adatvédelemi tájékoztató: https://www.openhabfoundation.org/privacy.html
+Privacy policy: https://www.openhabfoundation.org/privacy.html#android-app

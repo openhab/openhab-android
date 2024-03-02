@@ -26,4 +26,4 @@ openHAB Vakfı e.V. kamuoyunu serbest ve açık akıllı ev çözümlerinin olan
 
 Bu uygulama için bir openHAB sunucusuna ihtiyacınız var.
 
-Gizlilik Politikası: https://www.openhabfoundation.org/privacy.html
+Privacy policy: https://www.openhabfoundation.org/privacy.html#android-app

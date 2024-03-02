@@ -26,4 +26,4 @@ openHAB Foundation e.V. je nezisková organizace s posláním vzdělávat veřej
 
 Pro tuto aplikaci potřebujete openHAB server.
 
-Ochrana osobních údajů: https://www.openhabfoundation.org/privacy.html
+Privacy policy: https://www.openhabfoundation.org/privacy.html#android-app

@@ -26,4 +26,4 @@ La fundació openHAB (openHAB Foundation e.V.) és una organització sense afany
 
 Us cal un servidor openHAB per a aquesta aplicació.
 
-Política de privadesa: https://www.openhabfoundation.org/privacy.html
+Privacy policy: https://www.openhabfoundation.org/privacy.html#android-app

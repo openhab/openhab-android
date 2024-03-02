@@ -26,4 +26,4 @@ openHAB Foundation e.V. er en ideell organisasjon med målsetning om å opplyse 
 
 Du trenger en openHAB server for å bruke dette programmet.
 
-Personvern: https://www.openhabfoundation.org/privacy.html
+Personvernerklæring: https://www.openhabfoundation.org/privacy.html#android-app

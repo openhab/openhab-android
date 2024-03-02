@@ -26,4 +26,4 @@ openHAB Foundation - це неприбуткова організація, як�
 
 Для цього застосунку Вам необхідний сервер openHAB.
 
-Політика конфіденційності: https://www.openhabfoundation.org/privacy.html
+Privacy policy: https://www.openhabfoundation.org/privacy.html#android-app

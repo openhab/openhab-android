@@ -26,4 +26,4 @@ La fondation openHAB est une organisation à but non lucratif qui a pour mission
 
 Un serveur openHAB est nécessaire pour que cette application fonctionne.
 
-Politique de Confidentialité : https://www.openhabfoundation.org/privacy.html
+Privacy policy: https://www.openhabfoundation.org/privacy.html#android-app

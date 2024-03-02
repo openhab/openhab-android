@@ -26,4 +26,4 @@ openHAB Foundation является некоммерческой организ�
 
 Для этого приложения необходим сервер openHAB.
 
-Политика конфиденциальности: https://www.openhabfoundation.org/privacy.html
+Privacy policy: https://www.openhabfoundation.org/privacy.html#android-app

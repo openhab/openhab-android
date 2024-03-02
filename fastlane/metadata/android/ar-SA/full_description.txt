@@ -27,4 +27,4 @@ openHAB مبادرة المصدر المفتوح مدعومة بقوة من مج
 
 أنت بحاجة إلى خادم openHAB لهذا التطبيق.
 
-سياسة الخصوصية: https://www.openhabfoundation.org/privacy.html
+Privacy policy: https://www.openhabfoundation.org/privacy.html#android-app

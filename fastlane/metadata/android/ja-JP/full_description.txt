@@ -26,4 +26,4 @@ openHAB 財団は、フリーでオープンなスマートホームソリュー
 
 このアプリは openHAB サーバーが必要です.
 
-プライバシー ポリシー: https://www.openhabfoundation.org/privacy.html
+Privacy policy: https://www.openhabfoundation.org/privacy.html#android-app

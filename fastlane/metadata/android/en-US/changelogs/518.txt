@@ -1,0 +1,5 @@
+## What's Changed
+* "Clear cache" setting now also clears WebView cache by @mueller-ma in https://github.com/openhab/openhab-android/pull/3605
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.10.2-beta...3.10.3-beta

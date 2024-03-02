@@ -26,4 +26,4 @@ De openHAB Foundation e.V. is een non-profit organisatie met als doel het publie
 
 Deze app vereist een eigen openHAB server.
 
-Privacybeleid: https://www.openhabfoundation.org/privacy.html
+Privacy policy: https://www.openhabfoundation.org/privacy.html#android-app

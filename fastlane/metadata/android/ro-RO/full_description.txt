@@ -26,4 +26,4 @@ Fundația openHAB e.V. este o organizație nonprofit cu misiunea de a educa publ
 
 Ai nevoie de un server openHAB pentru această aplicație.
 
-Politica de confidențialitate: https://www.openhabfoundation.org/privacy.html
+Privacy policy: https://www.openhabfoundation.org/privacy.html#android-app
