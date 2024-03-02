@@ -15,7 +15,6 @@
     <string name="app_notifications">Obvestila</string>
     <string name="habpanel_error">Napaka pri nalaganju HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Izberi privzetega Sitemap</string>
-    <string name="mainmenu_openhab_clearcache">Izbrišite predpomnilnik slik</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Povezava</string>
     <string name="settings_display_title">Prikaz</string>
