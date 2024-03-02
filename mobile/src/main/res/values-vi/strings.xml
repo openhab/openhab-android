@@ -15,7 +15,6 @@
     <string name="app_notifications">Thông báo</string>
     <string name="habpanel_error">Đã xảy ra lỗi trong khi tải HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Chọn mặc định sơ đồ trang web</string>
-    <string name="mainmenu_openhab_clearcache">Xóa ảnh lưu tạm</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Kết nối</string>
     <string name="settings_display_title">Hiển thị</string>
