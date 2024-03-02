@@ -12,7 +12,6 @@
     <string name="app_notifications">Pemberitahuan</string>
     <string name="habpanel_error">Terjadi kesalahan saat memuat PanelHAB</string>
     <string name="mainmenu_openhab_selectsitemap">Pilih peta situs default</string>
-    <string name="mainmenu_openhab_clearcache">Hapus cache gambar</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Pengaturan Koneksi</string>
     <string name="settings_display_title">Pengaturan tampilan</string>
