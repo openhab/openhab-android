@@ -23,6 +23,7 @@
     <string name="main_ui_error">En feil oppstod under lasting av Main UI</string>
     <string name="frontail_error">Det oppstod en feil under lasting av Frontail. Vær oppmerksom på at det ikke er tilgjengelig via openHAB Cloud.</string>
     <string name="mainmenu_openhab_selectsitemap">Velg standard Sitemap</string>
+    <string name="settings_clear_caches">Tøm hurtigbuffer</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Tilkobling</string>
     <string name="settings_display_title">Skjerm</string>
