@@ -21,6 +21,7 @@
     <string name="habpanel_error">Si è verificato un errore caricando HABPanel</string>
     <string name="frontail_error">Si è verificato un errore durante il caricamento di Frontail. Nota che non è disponibile tramite openHAB Cloud.</string>
     <string name="mainmenu_openhab_selectsitemap">Seleziona Sitemap predefinito</string>
+    <string name="settings_clear_caches">Svuota cache</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Connessione</string>
     <string name="settings_display_title">Schermo</string>
