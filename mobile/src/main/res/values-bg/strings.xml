@@ -17,7 +17,6 @@
     <string name="app_notifications">Известия</string>
     <string name="habpanel_error">Грешка при зареждане на HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Избери сайткарта по подразбиране</string>
-    <string name="mainmenu_openhab_clearcache">Изчисти кеша на изображенията</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Връзка</string>
     <string name="settings_display_title">Изглед</string>
