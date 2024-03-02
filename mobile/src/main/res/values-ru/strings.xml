@@ -21,7 +21,6 @@
     <string name="habpanel_error">Произошла ошибка при загрузке HABPanel</string>
     <string name="frontail_error">Произошла ошибка при загрузке Frontail. Пожалуйста, обратите внимание, что она недоступна через облако openHAB.</string>
     <string name="mainmenu_openhab_selectsitemap">Выбрать Sitemap по умолчанию</string>
-    <string name="mainmenu_openhab_clearcache">Очистить кэш изображений</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Параметры подключения</string>
     <string name="settings_display_title">Параметры дисплея</string>
