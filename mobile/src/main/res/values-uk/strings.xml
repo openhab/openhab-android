@@ -17,7 +17,6 @@
     <string name="habpanel_error">Сталася помилка під час завантаження HABPanel</string>
     <string name="frontail_error">Сталася помилка при завантаженні Frontail. Зверніть увагу, що він недоступний через openHAB Cloud.</string>
     <string name="mainmenu_openhab_selectsitemap">Оберіть сторінку інтерфейсу за замовчанням</string>
-    <string name="mainmenu_openhab_clearcache">Очистити кеш зображень</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">З\'єднання</string>
     <string name="settings_display_title">Вигляд</string>
