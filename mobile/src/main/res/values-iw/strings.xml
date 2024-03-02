@@ -21,7 +21,6 @@
     <string name="habpanel_error">אירעה שגיאה בעת טעינת HABPanel</string>
     <string name="frontail_error">אירעה שגיאה בעת טעינת Frontail. שים לב שהוא אינו זמין דרך openHAB Cloud.</string>
     <string name="mainmenu_openhab_selectsitemap">בחר את ברירת המחדל של תצורת המערכת</string>
-    <string name="mainmenu_openhab_clearcache">נקה מטמון תמונות</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">חיבור</string>
     <string name="settings_display_title">תצוגה</string>
