@@ -17,7 +17,6 @@
     <string name="habpanel_error">S\'ha produït un error durant la càrrega d\'HABPanel</string>
     <string name="frontail_error">S\'ha produït un error en carregar el Frontail. Tingueu en compte que no està disponible mitjançant openHAB Cloud.</string>
     <string name="mainmenu_openhab_selectsitemap">Seleccioneu el mapa del lloc predeterminat</string>
-    <string name="mainmenu_openhab_clearcache">Buida la memòria cau de les imatges</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Connexió</string>
     <string name="settings_display_title">Pantalla</string>
