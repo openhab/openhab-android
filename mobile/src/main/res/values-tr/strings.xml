@@ -17,7 +17,6 @@
     <string name="habpanel_error">HABPanel yüklenirken bir hata oluştu</string>
     <string name="frontail_error">Kayıt Defteri yüklenirken bir hata oluştu. Lütfen bunun openHAB Cloud aracılığıyla mevcut olmadığını unutmayın.</string>
     <string name="mainmenu_openhab_selectsitemap">Varsayılan Sitemap \'i seç</string>
-    <string name="mainmenu_openhab_clearcache">Resim önbelleğini temizle</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Bağlantı</string>
     <string name="settings_display_title">Görüntüle</string>
