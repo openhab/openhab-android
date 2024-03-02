@@ -10,7 +10,6 @@
     <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="app_notifications">Teavitused</string>
     <string name="habpanel_error">HABPaneli laadimisel ilmnes viga</string>
-    <string name="mainmenu_openhab_clearcache">Tühjendage piltide vahemälu</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Ühendus</string>
     <string name="settings_display_title">Ekraan</string>
