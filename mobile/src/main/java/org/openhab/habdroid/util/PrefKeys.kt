@@ -43,7 +43,7 @@ object PrefKeys {
     const val SITEMAP_COMPACT_MODE = "sitemap_compact_mode"
     const val SHOW_ICONS = "show_icons"
     const val ICON_FORMAT = "iconFormatType"
-    const val CLEAR_CACHE = "default_openhab_cleacache"
+    const val CLEAR_CACHE = "default_openhab_clear_cache"
     const val CHART_SCALING = "chartScalingFactor"
     const val CHART_HQ = "default_openhab_chart_hq"
     const val IMAGE_WIDGET_SCALE_TO_FIT = "imageWidgetScaleToFit"
