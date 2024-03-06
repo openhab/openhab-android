@@ -1467,17 +1467,19 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun setupUiCommandItem () {
         uiCommandItemJob?.cancel()
-        uiCommandItemJob = launch {
-            listenUiCommandItem()
+        val setting = prefs.getStringOrNull(PrefKeys.UI_COMMAND_ITEM).toItemUpdatePrefValue()
+        if (setting.first) {
+            uiCommandItemJob = launch {
+                listenUiCommandItem(setting.second)
+            }
         }
     }
 
-    private suspend fun listenUiCommandItem() {
+    private suspend fun listenUiCommandItem(item: String) {
         val connection = connection ?: return
         val eventSubscription = connection.httpClient.makeSse(
             // Support for both the "openhab" and the older "smarthome" root topic by using a wildcard
-            // TODO: Limit to item
-            connection.httpClient.buildUrl("rest/events?topics=*/items/Command/command")
+            connection.httpClient.buildUrl("rest/events?topics=*/items/$item/command")
         )
 
         try {
