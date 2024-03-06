@@ -1501,7 +1501,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                         throw JSONException("Unexpected topic path $topic")
                     }
                     val state = JSONObject(event.getString("payload")).getString("value")
-                    Log.e(TAG, "Got state by event: $state")
+                    Log.d(TAG, "Got state by event: $state")
                     handleUiCommand(state)
                 } catch (e: JSONException) {
                     Log.e(TAG, "Failed parsing JSON of state change event", e)
