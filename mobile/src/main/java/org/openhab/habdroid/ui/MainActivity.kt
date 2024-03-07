@@ -747,7 +747,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             when (result) {
                 is ServerProperties.Companion.PropsSuccess -> {
                     serverProperties = result.props
-                    updateSitemapDrawerEntries()
+                    updateDrawerServerEntries()
                     if (result.props.sitemaps.isEmpty()) {
                         Log.e(TAG, "openHAB returned empty Sitemap list")
                         controller.indicateServerCommunicationFailure(getString(R.string.error_empty_sitemap_list))
