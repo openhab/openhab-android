@@ -24,7 +24,6 @@ import org.openhab.habdroid.ui.preference.CustomDialogPreference
 import org.openhab.habdroid.util.getPrefixForBgTasks
 import org.openhab.habdroid.util.getPrefs
 
-
 class ItemUpdatingPreference(context: Context, attrs: AttributeSet?) : ItemAndTogglePreference(context, attrs),
     CustomDialogPreference {
     fun startObserving(lifecycleOwner: LifecycleOwner) {
