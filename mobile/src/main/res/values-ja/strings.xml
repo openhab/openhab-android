@@ -15,7 +15,6 @@
     <string name="app_notifications">通知</string>
     <string name="habpanel_error">HAPPanel の読み込み中にエラーが発生しました</string>
     <string name="mainmenu_openhab_selectsitemap">デフォルトのサイトマップを選択</string>
-    <string name="mainmenu_openhab_clearcache">画像キャッシュをクリア</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">接続設定</string>
     <string name="settings_display_title">表示設定</string>

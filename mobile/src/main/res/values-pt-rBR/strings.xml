@@ -17,7 +17,6 @@
     <string name="habpanel_error">Ocorreu um erro ao carregar o HABPanel</string>
     <string name="frontail_error">Ocorreu um erro ao carregar o Frontail. Por favor, note que não está disponível via openHAB Cloud.</string>
     <string name="mainmenu_openhab_selectsitemap">Selecione o sitemap padrão</string>
-    <string name="mainmenu_openhab_clearcache">Limpar cache das imagens</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Conexão</string>
     <string name="settings_display_title">Configurações de visualização</string>

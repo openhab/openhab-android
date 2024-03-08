@@ -18,7 +18,6 @@
     <string name="habpanel_error">Virhe ladattaessa HABPanel:ia</string>
     <string name="frontail_error">Tapahtui virhe ladattaessa Frontailia. Huomaa, että se ei ole käytettävissä openHAB Cloudin kautta.</string>
     <string name="mainmenu_openhab_selectsitemap">Valitse oletus Sitemap</string>
-    <string name="mainmenu_openhab_clearcache">Tyhjennä kuvien välimuisti</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Yhteys</string>
     <string name="settings_display_title">Näyttö</string>

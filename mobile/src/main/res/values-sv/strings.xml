@@ -12,7 +12,6 @@
     <string name="app_notifications">Aviseringar</string>
     <string name="habpanel_error">Ett fel inträffade vid inläsning av HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Välj standard-Sitemap</string>
-    <string name="mainmenu_openhab_clearcache">Töm bildcache</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Anslutning</string>
     <string name="settings_display_title">Visning</string>

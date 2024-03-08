@@ -20,7 +20,6 @@
     <string name="habpanel_error">O eroare a avut loc la încărcarea HABPanel</string>
     <string name="frontail_error">A apărut o eroare în timpul încărcării Frontail. Rețineți că nu este disponibil prin openHAB Cloud.</string>
     <string name="mainmenu_openhab_selectsitemap">Selecteaza fisierul Sitemap implicit</string>
-    <string name="mainmenu_openhab_clearcache">Șterge imaginile din cache</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Conexiune</string>
     <string name="settings_display_title">Afișaj</string>

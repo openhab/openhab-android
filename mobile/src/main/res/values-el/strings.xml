@@ -10,7 +10,6 @@
     <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="app_notifications">Ειδοποιήσεις</string>
     <string name="mainmenu_openhab_selectsitemap">Επιλέξτε προεπιλεγμένο Sitemap</string>
-    <string name="mainmenu_openhab_clearcache">Καθάρισμα κρυφής μνήμης</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Σύνδεση</string>
     <string name="settings_display_title">Εμφάνιση</string>

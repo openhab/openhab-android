@@ -10,7 +10,6 @@
     <string name="app_notifications">إشعارات</string>
     <string name="habpanel_error">حدث خطأ أثناء تحميل HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">حدد Sitemap الافتراضي</string>
-    <string name="mainmenu_openhab_clearcache">إزالة الصور المؤقته</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">اتصال</string>
     <string name="settings_display_title">عرض</string>

@@ -21,7 +21,6 @@
     <string name="habpanel_error">Hiba történt a HABPanel betöltése során</string>
     <string name="frontail_error">Hiba történt a Frontail betöltése közben. Vegye figyelembe, hogy openHAB Cloud-n keresztül nem elérhető.</string>
     <string name="mainmenu_openhab_selectsitemap">Válassza ki az alapértelmezett felületet</string>
-    <string name="mainmenu_openhab_clearcache">Gyorsítótári képek törlése</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Kapcsolat</string>
     <string name="settings_display_title">Kijelző</string>

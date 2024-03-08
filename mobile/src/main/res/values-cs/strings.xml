@@ -20,7 +20,6 @@
     <string name="habpanel_error">Při načítání HABPanel došlo k chybě</string>
     <string name="frontail_error">Při načítání Frontail došlo k chybě. Vezměte prosím na vědomí, že Frontail není k dispozici přes openHAB Cloud.</string>
     <string name="mainmenu_openhab_selectsitemap">Vyberte výchozí Sitemap</string>
-    <string name="mainmenu_openhab_clearcache">Vyčistit vyrovnávací paměť obrázků</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Připojení</string>
     <string name="settings_display_title">Zobrazení</string>

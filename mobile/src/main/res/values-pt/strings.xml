@@ -17,7 +17,6 @@
     <string name="app_notifications">Notificações</string>
     <string name="habpanel_error">Ocorreu um erro ao carregar o HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Selecione o mapa do site padrão</string>
-    <string name="mainmenu_openhab_clearcache">Limpar cache das imagens</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Ligação</string>
     <string name="settings_display_title">Definições de Visualização</string>

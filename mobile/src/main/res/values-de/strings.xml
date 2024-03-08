@@ -23,7 +23,7 @@
     <string name="main_ui_error">Beim Laden der Main UI ist ein Fehler aufgetreten</string>
     <string name="frontail_error">Beim Laden von Frontail ist ein Fehler aufgetreten. Bitte beachten Sie, dass Frontail nicht über openHAB Cloud verfügbar ist.</string>
     <string name="mainmenu_openhab_selectsitemap">Standard-Sitemap auswählen</string>
-    <string name="mainmenu_openhab_clearcache">Bilder-Cache leeren</string>
+    <string name="settings_clear_caches">Cache leeren</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Verbindung</string>
     <string name="settings_display_title">Anzeige</string>
