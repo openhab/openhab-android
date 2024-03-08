@@ -34,7 +34,7 @@ import org.openhab.habdroid.model.toWifiSsids
 import org.openhab.habdroid.ui.preference.CustomDialogPreference
 import org.openhab.habdroid.util.getCurrentWifiSsid
 
-class WifiSsidInputPreference constructor(context: Context, attrs: AttributeSet) :
+class WifiSsidInputPreference(context: Context, attrs: AttributeSet) :
     DialogPreference(context, attrs), CustomDialogPreference {
     private var value: Pair<String, Boolean>? = null
 

@@ -29,7 +29,7 @@ import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.ui.sendItemCommand
 
-class ColorPickerHelper constructor(private val colorPicker: ColorPickerView, private val slider: Slider) :
+class ColorPickerHelper(private val colorPicker: ColorPickerView, private val slider: Slider) :
     Slider.OnChangeListener,
     OnColorChangedListener,
     OnColorSelectedListener,

@@ -30,7 +30,7 @@ import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.util.beautify
 
-class WidgetSlider constructor(context: Context, attrs: AttributeSet?) :
+class WidgetSlider(context: Context, attrs: AttributeSet?) :
     Slider(context, attrs),
     LabelFormatter,
     Slider.OnChangeListener,

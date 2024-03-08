@@ -85,19 +85,19 @@ class ConnectionFactory internal constructor(
     private var activeCloudCheck: Job? = null
     private var primaryCloudCheck: Job? = null
 
-    private data class ServerConnections constructor(
+    private data class ServerConnections(
         val local: Connection?,
         val remote: AbstractConnection?
     )
-    data class ConnectionResult constructor(
+    data class ConnectionResult(
         val connection: Connection?,
         val failureReason: ConnectionException?
     )
-    data class CloudConnectionResult constructor(
+    data class CloudConnectionResult(
         val connection: CloudConnection?,
         val failureReason: Exception?
     )
-    private data class StateHolder constructor(
+    private data class StateHolder(
         val primary: ConnectionResult?,
         val active: ConnectionResult?,
         val primaryCloud: CloudConnectionResult?,

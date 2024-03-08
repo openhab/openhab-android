@@ -31,7 +31,7 @@ import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import org.openhab.habdroid.R
 
-class UrlInputPreference constructor(context: Context, attrs: AttributeSet) :
+class UrlInputPreference(context: Context, attrs: AttributeSet) :
     CustomInputTypePreference(context, attrs) {
 
     private val isForRemoteServer: Boolean

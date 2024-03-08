@@ -38,7 +38,7 @@ import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 
-class NotificationPollingPreference constructor(context: Context, attrs: AttributeSet?) :
+class NotificationPollingPreference(context: Context, attrs: AttributeSet?) :
     DialogPreference(context, attrs), CustomDialogPreference {
     private var value: Boolean? = null
 

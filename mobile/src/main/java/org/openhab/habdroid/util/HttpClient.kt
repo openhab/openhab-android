@@ -43,7 +43,7 @@ import okhttp3.sse.EventSource
 import okhttp3.sse.EventSourceListener
 import okhttp3.sse.EventSources
 
-class HttpClient constructor(client: OkHttpClient, baseUrl: String?, username: String?, password: String?) {
+class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, password: String?) {
     private val client: OkHttpClient
     private val baseUrl: HttpUrl? = baseUrl?.toHttpUrlOrNull()
     @VisibleForTesting val authHeader: String? = if (!username.isNullOrEmpty())
@@ -257,7 +257,7 @@ class HttpClient constructor(client: OkHttpClient, baseUrl: String?, username: S
         }
     }
 
-    class SseFailureException constructor(val response: Response?, cause: Throwable?) : Exception(cause)
+    class SseFailureException(val response: Response?, cause: Throwable?) : Exception(cause)
 
     internal class SseListener : EventSourceListener() {
         val channel = Channel<String>()

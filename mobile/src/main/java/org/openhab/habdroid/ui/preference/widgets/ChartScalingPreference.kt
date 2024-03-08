@@ -24,7 +24,7 @@ import kotlin.math.max
 
 import org.openhab.habdroid.R
 
-class ChartScalingPreference constructor(context: Context, attrs: AttributeSet) :
+class ChartScalingPreference(context: Context, attrs: AttributeSet) :
     Preference(context, attrs), Slider.OnChangeListener {
     private val entries: Array<String>
     private val values: Array<Float>

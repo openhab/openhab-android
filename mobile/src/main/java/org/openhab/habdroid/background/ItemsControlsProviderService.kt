@@ -177,7 +177,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
         private val TAG = ItemsControlsProviderService::class.java.simpleName
     }
 
-    private class ItemControlFactory constructor(
+    private class ItemControlFactory(
         private val context: Context,
         private val allItems: Map<String, Item>,
         private val stateful: Boolean
