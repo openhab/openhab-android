@@ -1518,16 +1518,21 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         when (prefix) {
             "notification" -> {
                 val split = commandContent.split(":")
+                val closeAfter = split.getOrNull(4)?.toIntOrNull()
+                uiCommandItemNotification?.dismiss()
+                val dialog = MaterialAlertDialogBuilder(this)
+                    .setTitle(split.getOrNull(1).orEmpty())
+                    .setPositiveButton(android.R.string.ok, null)
+
                 val message = "${split.getOrNull(0).orEmpty()}\n" +
                     "${split.getOrNull(2).orEmpty()}\n" +
                     split.getOrNull(3).orEmpty()
-                val closeAfter = split.getOrNull(4)?.toIntOrNull()
-                uiCommandItemNotification?.dismiss()
-                uiCommandItemNotification = MaterialAlertDialogBuilder(this)
-                    .setTitle(split.getOrNull(1).orEmpty())
-                    .setMessage(message)
-                    .setPositiveButton(android.R.string.ok, null)
-                    .show()
+                val trimmedMessage = message.trimEnd('\n')
+                if (trimmedMessage.isNotEmpty()) {
+                    dialog.setMessage(trimmedMessage)
+                }
+
+                uiCommandItemNotification = dialog.show()
                 closeAfter?.let {
                     launch {
                         delay(closeAfter.milliseconds)
