@@ -47,7 +47,7 @@ import org.openhab.habdroid.util.getPrefixForBgTasks
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.hasPermissions
 
-class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?) : DialogPreference(context, attrs),
+class ItemUpdatingPreference(context: Context, attrs: AttributeSet?) : DialogPreference(context, attrs),
     CustomDialogPreference {
     private val howtoUrl: String?
     private var summaryOn: String?

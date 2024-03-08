@@ -17,7 +17,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.preference.Preference
 
-class ItemAndStatePreference constructor(context: Context, attrs: AttributeSet?) : Preference(context, attrs) {
+class ItemAndStatePreference(context: Context, attrs: AttributeSet?) : Preference(context, attrs) {
     var item: String? = null
     var label: String? = null
     var state: String? = null

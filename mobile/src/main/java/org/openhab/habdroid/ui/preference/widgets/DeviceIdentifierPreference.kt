@@ -34,7 +34,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.preference.CustomDialogPreference
 import org.openhab.habdroid.util.PrefKeys
 
-class DeviceIdentifierPreference constructor(context: Context, attrs: AttributeSet) : DialogPreference(context, attrs),
+class DeviceIdentifierPreference(context: Context, attrs: AttributeSet) : DialogPreference(context, attrs),
     CustomDialogPreference {
     private var value: String? = null
 

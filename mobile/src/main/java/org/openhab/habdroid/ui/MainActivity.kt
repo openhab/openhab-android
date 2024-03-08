@@ -1512,10 +1512,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private sealed class PendingAction {
         class ChooseSitemap : PendingAction()
-        class OpenSitemapUrl constructor(val url: String, val serverId: Int) : PendingAction()
-        class OpenWebViewUi constructor(val ui: WebViewUi, val serverId: Int, val subpage: String?) : PendingAction()
+        class OpenSitemapUrl(val url: String, val serverId: Int) : PendingAction()
+        class OpenWebViewUi(val ui: WebViewUi, val serverId: Int, val subpage: String?) : PendingAction()
         class LaunchVoiceRecognition : PendingAction()
-        class OpenNotification constructor(val notificationId: String, val primary: Boolean) : PendingAction()
+        class OpenNotification(val notificationId: String, val primary: Boolean) : PendingAction()
     }
 
     companion object {

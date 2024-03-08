@@ -234,7 +234,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         val primaryServer: Boolean
     ) : Parcelable
 
-    private class PrefsListener constructor(private val context: Context) :
+    private class PrefsListener(private val context: Context) :
         SharedPreferences.OnSharedPreferenceChangeListener {
         override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String?) {
             when {

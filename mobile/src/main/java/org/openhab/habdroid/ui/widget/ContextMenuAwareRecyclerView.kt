@@ -19,7 +19,7 @@ import android.view.ContextMenu
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class ContextMenuAwareRecyclerView constructor(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
+class ContextMenuAwareRecyclerView(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
     private var contextMenuInfo: RecyclerContextMenuInfo? = null
 
     override fun getContextMenuInfo(): ContextMenu.ContextMenuInfo? {

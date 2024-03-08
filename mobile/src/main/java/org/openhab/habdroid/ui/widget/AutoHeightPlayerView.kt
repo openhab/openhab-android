@@ -21,7 +21,7 @@ import androidx.media3.common.VideoSize
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 
-class AutoHeightPlayerView constructor(context: Context, attrs: AttributeSet) :
+class AutoHeightPlayerView(context: Context, attrs: AttributeSet) :
     PlayerView(context, attrs),
     Player.Listener {
     private var currentPlayer: ExoPlayer? = null

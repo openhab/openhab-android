@@ -19,7 +19,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.drawerlayout.widget.DrawerLayout
 
-class LockableDrawerLayout constructor(context: Context, attrs: AttributeSet?) : DrawerLayout(context, attrs) {
+class LockableDrawerLayout(context: Context, attrs: AttributeSet?) : DrawerLayout(context, attrs) {
     var isSwipeDisabled = false
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
