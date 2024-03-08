@@ -1,0 +1,5 @@
+## What's Changed
+* Support UI control via Item by @mueller-ma in https://github.com/openhab/openhab-android/pull/3579
+* Fix empty drawer when no Sitemaps are configured by @mueller-ma in https://github.com/openhab/openhab-android/pull/3614
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.10.3-beta...3.10.4-beta
