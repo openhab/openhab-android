@@ -63,6 +63,13 @@
             android:title="@string/settings_openhab_chart_hq"
             app:singleLineTitle="false"
             android:widgetLayout="@layout/preference_material_switch" />
+        <org.openhab.habdroid.ui.preference.widgets.ItemAndTogglePreference
+            android:defaultValue="false|UiCommand"
+            android:key="ui_command_item"
+            app:helpUrl="@string/settings_ui_command_item_howto_url"
+            android:title="@string/settings_ui_command_item"
+            app:summaryEnabled="@string/settings_ui_command_item_summary_on"
+            app:summaryDisabled="@string/settings_ui_command_item_summary_off" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_display_title">
         <ListPreference

@@ -46,6 +46,7 @@ object PrefKeys {
     const val CLEAR_CACHE = "default_openhab_clear_cache"
     const val CHART_SCALING = "chartScalingFactor"
     const val CHART_HQ = "default_openhab_chart_hq"
+    const val UI_COMMAND_ITEM = "ui_command_item"
     const val IMAGE_WIDGET_SCALE_TO_FIT = "imageWidgetScaleToFit"
 
     const val DRAWER_ENTRIES = "drawer_entries"

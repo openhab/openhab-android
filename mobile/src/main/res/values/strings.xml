@@ -84,6 +84,10 @@
     <string name="settings_no_default_sitemap">No default Sitemap selected</string>
     <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Current default Sitemap: %1$s</string>
+    <string name="settings_ui_command_item_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#ui-command-item</string>
+    <string name="settings_ui_command_item">UI command Item</string>
+    <string name="settings_ui_command_item_summary_on">Sitemap can be controlled via Item \"%s\"</string>
+    <string name="settings_ui_command_item_summary_off">Sitemap can\'t be controlled by an Item</string>
     <string name="settings_openhab_alt_connection">Remote</string>
     <string name="settings_openhab_connection">Local</string>
     <string name="settings_ringtone">Ringtone</string>
