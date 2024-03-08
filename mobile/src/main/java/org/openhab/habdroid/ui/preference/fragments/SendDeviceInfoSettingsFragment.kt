@@ -58,7 +58,7 @@ class SendDeviceInfoSettingsFragment :
         )
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            wifiSsidPref.setSummaryOn(getString(R.string.settings_wifi_ssid_summary_on_location_on))
+            wifiSsidPref.setSummaryOnAndUpdate(getString(R.string.settings_wifi_ssid_summary_on_location_on))
         }
 
         if (activity?.packageManager?.isInstalled("nodomain.freeyourgadget.gadgetbridge") == false) {

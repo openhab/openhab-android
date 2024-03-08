@@ -331,6 +331,11 @@ When using a [semantic model](https://www.openhab.org/docs/tutorial/model.html#s
 You can configure the page that is opened when you long-press a tile.
 Create a new "custom namespace" metadata on an Item with the name `link_to_more` and as `value` the link without the host to a Sitemap (e.g. `/basicui/app?w=0202&sitemap=demo`) or MainUI (e.g. `/locations`).
 
+### UI command Item
+
+Similar to the [UI command Item in Main UI](https://next.openhab.org/docs/mainui/about.html#ui-command-item) you can use an Item to control the Sitemaps.
+All commands except `popup:` are supported by the app.
+
 ## Multi server support
 
 When adding multiple servers to the app, there's always a primary and an active one.

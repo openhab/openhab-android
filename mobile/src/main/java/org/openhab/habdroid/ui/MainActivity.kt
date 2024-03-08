@@ -14,6 +14,7 @@
 package org.openhab.habdroid.ui
 
 import android.Manifest
+import android.app.Dialog
 import android.app.PendingIntent
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
@@ -61,20 +62,25 @@ import androidx.core.view.isVisible
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import de.duenndns.ssl.MemorizingTrustManager
 import java.nio.charset.Charset
 import java.util.concurrent.CancellationException
 import javax.jmdns.ServiceInfo
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import org.json.JSONException
+import org.json.JSONObject
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
@@ -169,6 +175,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private val backgroundTasksManager = BackgroundTasksManager()
     private var inServerSelectionMode = false
     private var wifiSsidDuringLastOnStart: String? = null
+
+    private var uiCommandItemJob: Job? = null
+    private var uiCommandItemNotification: Dialog? = null
 
     private val permissionRequestNoActionCallback =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {}
@@ -792,6 +801,23 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
     }
 
+    private fun handleLink(rawLink: String, serverId: Int) {
+        var link = rawLink
+        if (!link.startsWith("/")) {
+            link = "/$link"
+        }
+        if (link.startsWith("/basicui/app")) {
+            // Add a host here to be able to parse as HttpUrl
+            val httpLink = "https://openhab.org$link".toHttpUrlOrNull() ?: return
+            val sitemap = httpLink.queryParameter("sitemap")
+                ?: prefs.getDefaultSitemap(connection, serverId)?.name
+            val subpage = httpLink.queryParameter("w")
+            executeOrStoreAction(PendingAction.OpenSitemapUrl("/$sitemap/$subpage", serverId))
+        } else {
+            executeOrStoreAction(PendingAction.OpenWebViewUi(WebViewUi.MAIN_UI, serverId, link))
+        }
+    }
+
     private fun processIntent(intent: Intent) {
         Log.d(TAG, "Got intent: $intent")
 
@@ -800,24 +826,9 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
 
         if (!intent.getStringExtra(EXTRA_LINK).isNullOrEmpty()) {
-            var link = intent.getStringExtra(EXTRA_LINK) ?: return
-            if (!link.startsWith("/")) {
-                link = "/$link"
-            }
-            if (link.startsWith("/basicui/app")) {
-                intent.action = ACTION_SITEMAP_SELECTED
-                // Add a host here to be able to parse as HttpUrl
-                val httpLink = "https://openhab.org$link".toHttpUrlOrNull() ?: return
-                val serverId = intent.getIntExtra(EXTRA_SERVER_ID, prefs.getPrimaryServerId())
-                val sitemap = httpLink.queryParameter("sitemap")
-                    ?: prefs.getDefaultSitemap(connection, serverId)?.name
-                val subpage = httpLink.queryParameter("w")
-                intent.putExtra(EXTRA_SITEMAP_URL, "/$sitemap/$subpage")
-                intent.putExtra(EXTRA_SERVER_ID, serverId)
-            } else {
-                intent.action = ACTION_MAIN_UI_SELECTED
-                intent.putExtra(EXTRA_SUBPAGE, link)
-            }
+            val link = intent.getStringExtra(EXTRA_LINK) ?: return
+            val serverId = intent.getIntExtra(EXTRA_SERVER_ID, prefs.getPrimaryServerId())
+            handleLink(link, serverId)
         }
 
         when (intent.action) {
@@ -1151,6 +1162,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         if (action != null && executeActionIfPossible(action)) {
             pendingAction = null
         }
+        setupUiCommandItem()
     }
 
     private fun executeActionIfPossible(action: PendingAction): Boolean = when {
@@ -1449,6 +1461,91 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 R.string.settings_background_tasks_permission_allow
             ) {
                 requestPermissionsIfRequired(missingPermissions.toTypedArray(), permissionRequestNoActionCallback)
+            }
+        }
+    }
+
+    private fun setupUiCommandItem () {
+        uiCommandItemJob?.cancel()
+        val setting = prefs.getStringOrNull(PrefKeys.UI_COMMAND_ITEM).toItemUpdatePrefValue()
+        if (setting.first) {
+            uiCommandItemJob = launch {
+                listenUiCommandItem(setting.second)
+            }
+        }
+    }
+
+    private suspend fun listenUiCommandItem(item: String) {
+        val connection = connection ?: return
+        val eventSubscription = connection.httpClient.makeSse(
+            // Support for both the "openhab" and the older "smarthome" root topic by using a wildcard
+            connection.httpClient.buildUrl("rest/events?topics=*/items/$item/command")
+        )
+
+        try {
+            while (isActive) {
+                try {
+                    val event = JSONObject(eventSubscription.getNextEvent())
+                    if (event.optString("type") == "ALIVE") {
+                        Log.d(TAG, "Got ALIVE event")
+                        continue
+                    }
+                    val topic = event.getString("topic")
+                    val topicPath = topic.split('/')
+                    // Possible formats:
+                    // - openhab/items/<item>/statechanged
+                    // - openhab/items/<group item>/<item>/statechanged
+                    // When an update for a group is sent, there's also one for the individual item.
+                    // Therefore always take the element on index two.
+                    if (topicPath.size !in 4..5) {
+                        throw JSONException("Unexpected topic path $topic")
+                    }
+                    val state = JSONObject(event.getString("payload")).getString("value")
+                    Log.d(TAG, "Got state by event: $state")
+                    handleUiCommand(state)
+                } catch (e: JSONException) {
+                    Log.e(TAG, "Failed parsing JSON of state change event", e)
+                }
+            }
+        } finally {
+            eventSubscription.cancel()
+        }
+    }
+
+    private fun handleUiCommand(command: String) {
+        val prefix = command.substringBefore(":")
+        val commandContent = command.removePrefix("$prefix:")
+        when (prefix) {
+            "notification" -> {
+                val split = commandContent.split(":")
+                val closeAfter = split.getOrNull(4)?.toIntOrNull()
+                uiCommandItemNotification?.dismiss()
+                val dialog = MaterialAlertDialogBuilder(this)
+                    .setTitle(split.getOrNull(1).orEmpty())
+                    .setPositiveButton(android.R.string.ok, null)
+
+                val message = "${split.getOrNull(0).orEmpty()}\n" +
+                    "${split.getOrNull(2).orEmpty()}\n" +
+                    split.getOrNull(3).orEmpty()
+                val trimmedMessage = message.trimEnd('\n')
+                if (trimmedMessage.isNotEmpty()) {
+                    dialog.setMessage(trimmedMessage)
+                }
+
+                uiCommandItemNotification = dialog.show()
+                closeAfter?.let {
+                    launch {
+                        delay(closeAfter.milliseconds)
+                        uiCommandItemNotification?.dismiss()
+                    }
+                }
+            }
+            "navigate" -> handleLink(commandContent, prefs.getActiveServerId())
+            "close" -> uiCommandItemNotification?.dismiss()
+            "back" -> onBackPressedCallback.handleOnBackPressed()
+            "reload" -> recreate()
+            else -> {
+                Log.d(TAG, "Command not implemented: $command")
             }
         }
     }
