@@ -69,6 +69,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
     protected open val forceNonFullscreen = false
     private var authPrompt: AuthPrompt? = null
     private lateinit var coordinator: CoordinatorLayout
+    protected lateinit var layoutForSnackbar: View
     private lateinit var toolbar: MaterialToolbar
     private lateinit var content: View
     lateinit var appBarLayout: AppBarLayout
@@ -107,6 +108,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         enableDrawingBehindStatusBar()
 
         coordinator = findViewById(R.id.coordinator)
+        layoutForSnackbar = coordinator
         content = findViewById(R.id.activity_content)
         insetsController = WindowInsetsControllerCompat(window, coordinator)
 
@@ -235,7 +237,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
             throw IllegalArgumentException("Tag is empty")
         }
 
-        val snackbar = Snackbar.make(coordinator, message, duration)
+        val snackbar = Snackbar.make(layoutForSnackbar, message, duration)
         if (actionResId != 0 && onClickListener != null) {
             snackbar.setAction(actionResId) { onClickListener() }
         }
