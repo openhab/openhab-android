@@ -1,8 +1,6 @@
 openHAB - "empowering the smart home" - open source program pro domácí automatizaci IoT zařízení od různých výrobců s různou technologií
 
 Sestavení F-Droid má FCM odstraněno, a proto nebude moci přijímat push oznámení z openHAB Cloudu. Namísto toho jsou oznámení získávána v pravidelných intervalech.
-Vyzkoušejte nové funkce a dejte nám zpětnou vazbu!
-Můžete nainstalovat beta verzi vedle <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabilní verze</a>.
 
 openHAB je open source platforma pro automatizaci domácnosti, založená na Java, která integruje a kombinuje širokou škálu různých systémů a technologií pro automatizaci domácnosti do jediného řešení.
 Všechna připojená zařízení je možné spravovat, ovládat a automatizovat pomocí vlastních pravidel a různých uživatelských rozhraní.
