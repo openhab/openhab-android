@@ -23,6 +23,7 @@
     <string name="main_ui_error">Se ha producido un error al cargar la interfaz principal de usuario</string>
     <string name="frontail_error">Se ha producido un error al cargar Frontail. Tenga en cuenta que no está disponible a través de openHAB Cloud.</string>
     <string name="mainmenu_openhab_selectsitemap">Seleccionar el Sitemap por defecto</string>
+    <string name="settings_clear_caches">Limpiar caché</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Conexión</string>
     <string name="settings_display_title">Pantalla</string>
@@ -73,6 +74,9 @@
     <string name="settings_no_default_sitemap">No se ha seleccionado ningún Sitemap por defecto</string>
     <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Sitemap predeterminado actual: %1$s</string>
+    <string name="settings_ui_command_item">Item del comando de interfaz de usuario</string>
+    <string name="settings_ui_command_item_summary_on">El Sitemap puede ser controlado mediante el Item \"%s\"</string>
+    <string name="settings_ui_command_item_summary_off">El Sitemap no puede ser controlado mediante un Item</string>
     <string name="settings_openhab_alt_connection">Remota</string>
     <string name="settings_openhab_connection">Local</string>
     <string name="settings_ringtone">Tono de llamada</string>
