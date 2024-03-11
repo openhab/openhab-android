@@ -76,6 +76,9 @@
     <string name="settings_no_default_sitemap">Intet standard Sitemap er valgt</string>
     <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Nåværende standard Sitemap: %1$s</string>
+    <string name="settings_ui_command_item">UI kommando Item</string>
+    <string name="settings_ui_command_item_summary_on">Sitemap kan kontrolleres via Item \"%s\"</string>
+    <string name="settings_ui_command_item_summary_off">SItemap kan ikke kontrolleres av et Item</string>
     <string name="settings_openhab_alt_connection">Ekstern</string>
     <string name="settings_openhab_connection">Lokal</string>
     <string name="settings_ringtone">Ringetone</string>
