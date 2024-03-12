@@ -1,0 +1,7 @@
+## What's Changed
+* Remove any state description dependencies when fetching icon state by @maniac103 in https://github.com/openhab/openhab-android/pull/3624
+* Consider mappings or options for displayed state by @maniac103 in https://github.com/openhab/openhab-android/pull/3623
+* Fix flickering snackbar by @mueller-ma in https://github.com/openhab/openhab-android/pull/3619
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.11.0-release...3.11.1-beta

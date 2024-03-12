@@ -1,6 +1,8 @@
 openHAB - "empowering the smart home" - eng Hiersteller an Technologie onofhängeg Open Source Automatisatioun s Léisung fir Doheem
 
 An der F-Droid Versioun sinn FCM an Crash-Rapporten erausgeholl ginn. Dofir ass et net méiglech fir Push-Notifikatiounen vun der openHAB Cloud ze kréien. Am platz heivunner, ginn d‘ Notifikatiounen an dëse Builds reegelméisseg ofgefrot.
+Probéier nei Features aus a gëff eis Feedback!
+Du kann s d´ Beta Versioun parallel zu der <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabiler Versioun</a> installéieren.
 
 openHAB ass eng Java baséiert Open-Source Platform fir Heem-Automatisatioun, déi eng grouss Bandbreet un verschiddene Smart-Home Systemer an Technologien an enger Solutioun integréiert an kombinéiert.
 Opbauend op enger eenheetlecher Abstraktioun s Couche sinn all verbonnen Geräter fir déi iwwergräifend Automatiséierung s bzw. Regelméiglechkeeten an déi verschidden Benotzer Interfacen disponibel.
