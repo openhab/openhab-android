@@ -65,7 +65,11 @@ data class Widget(
     val rawInputHint: InputTypeHint?
 ) : Parcelable {
     val label get() = rawLabel.split("[", "]")[0].trim()
-    val stateFromLabel: String? get() = rawLabel.split("[", "]").getOrNull(1)?.trim()
+    val stateFromLabel: String? get() {
+        val value = rawLabel.split("[", "]").getOrNull(1)?.trim()
+        val optionLabel = mappingsOrItemOptions.find { it.value == value }?.label
+        return optionLabel ?: value
+    }
 
     val mappingsOrItemOptions get() = if (mappings.isEmpty() && item?.options != null) item.options else mappings
 
