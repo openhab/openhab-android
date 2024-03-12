@@ -871,6 +871,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun setupDrawer() {
         drawerLayout = findViewById(R.id.drawer_container)
+        layoutForSnackbar = drawerLayout
         drawerToggle = ActionBarDrawerToggle(this, drawerLayout,
             R.string.drawer_open, R.string.drawer_close)
         drawerLayout.addDrawerListener(drawerToggle)
