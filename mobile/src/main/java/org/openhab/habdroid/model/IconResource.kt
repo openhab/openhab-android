@@ -172,9 +172,12 @@ internal fun String?.toOH2WidgetIconResource(
         !useState || item == null -> null
         // For NULL states, we send 'null' as state when fetching the icon (BasicUI set a predecent for doing so)
         item.state == null -> "null"
-        // Number items need to use state formatted as per their state description
+        // Number items need to follow the format "<value>" or "<value> <unit>"
         item.isOfTypeOrGroupType(Item.Type.Number) || item.isOfTypeOrGroupType(Item.Type.NumberWithDimension)-> {
-            item.state.asNumber?.toString(Locale.US)
+            item.state.asNumber?.let { numberState ->
+                val unitSuffix = numberState.unit?.let { " $it" } ?: ""
+                "${numberState.formatValue()}$unitSuffix"
+            }
         }
         item.isOfTypeOrGroupType(Item.Type.Color) -> when {
             // Color sliders just use the brightness part of the color
