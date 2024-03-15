@@ -206,7 +206,7 @@
     <string name="webview_snackbar_permissions_missing">The page requires additional permissions to work properly</string>
 
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP code %d).</string>
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP code %d). Make sure the server has Basic Authentication enabled.</string>
     <string name="error_http_code_403" translatable="false" tools:keep="@string/error_http_code_403">@string/error_http_code_401</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Not found (HTTP code %d)</string>
     <string name="error_http_code_407" translatable="false" tools:keep="@string/error_http_code_407">@string/error_http_code_401</string>
