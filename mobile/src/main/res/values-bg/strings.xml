@@ -145,7 +145,6 @@
     <string name="error_certificate_revoked">SSL сертификатът е анулиран. Моля вземете нов сертификат или приемете сертификат по време на SSL ръкостискане.</string>
     <string name="error_certificate_wrong_host">SSL сертификат не е валиден за %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Удостоверяването се провали. Провери настроеното потребителско име и парола, съответно предоставения TLS клиентски сертификат (HTTP код %d).</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Не беше намерено (HTTP код %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">Адресът е прекалено дълъг. Използвай IP адрес или по-късо URL (HTTP код %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
