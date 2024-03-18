@@ -182,7 +182,6 @@
     <string name="webview_ssl">Derzeit unterstützt diese App keine selbstsignierten SSL-Zertifikate für Webview-Widgets</string>
     <string name="webview_snackbar_permissions_missing">Die Seite benötigt zusätzliche Berechtigungen, um korrekt zu funktionieren</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den konfigurierten Benutzernamen und das Passwort bzw. das angegebene SSL-Client-Zertifikat (HTTP-Code %d).</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Nicht gefunden (HTTP-Code %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL ist zu lang. Bitte verwenden Sie die IP-Adresse oder eine kürzere URL (HTTP-Code %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS ist erforderlich. Bitte ändern Sie die URL (HTTP-Code %d).</string>
