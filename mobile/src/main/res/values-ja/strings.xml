@@ -139,7 +139,6 @@
     <string name="error_http_to_https_port">予期しないストリームの終わり。HTTP 経由で HTTPS ポートに接続しようとしていませんか?</string>
     <string name="webview_ssl">現在このアプリは、Webview ウィジェットにおいて自己署名証明書をサポートしていません</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">ユーザー認証に失敗しました。ユーザー名、パスワード、SSL クライアント証明書を確認してください (HTTP コード %d).</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">見つかりません (HTTP コード %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL が長すぎます。IP アドレスまたは短縮 URL を使用してください (HTTP コード %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS が必要です。URL を変更してください (HTTP コード %d).</string>
