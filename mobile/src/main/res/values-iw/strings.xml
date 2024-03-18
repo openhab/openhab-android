@@ -173,7 +173,6 @@
     <string name="webview_ssl">כרגע יישום זה אינו תומך בחתימת SSL עצמית עבור יישומוני Web</string>
     <string name="webview_snackbar_permissions_missing">הדף דורש הרשאות נוספות כדי לעבוד כראוי</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP %d).</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">לא נמצא (קוד שגיאת HTTP %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">שורת הכתובת ארוכה מדי. נא השתמש בכתובת IP או בכתובת קצרה יותר (קוד תגובה HTTP %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS נדרש. יש לשנות את כתובת ה-URL (קוד תגובה HTTP %d).</string>
