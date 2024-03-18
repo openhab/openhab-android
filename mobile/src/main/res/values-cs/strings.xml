@@ -169,7 +169,6 @@
     <string name="webview_ssl">V současné době tato aplikace nepodporuje vlastnoručně podepsané SSL certifikáty pro Webview widgety</string>
     <string name="webview_snackbar_permissions_missing">Stránka vyžaduje další oprávnění, aby správně fungovala</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Ověření se nezdařilo. Zkontrolujte prosím uživatelské jméno a heslo, případně klientský certifikát SSL (kód odpovědi HTTP %d).</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Nenalezeno (HTTP kód %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL je příliš dlouhá. Použijte prosím IP adresu nebo kratší URL (kód HTTP %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">Je vyžadován protokol HTTPS. Změňte prosím URL (kód HTTP %d).</string>
