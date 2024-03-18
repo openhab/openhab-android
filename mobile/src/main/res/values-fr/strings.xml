@@ -163,7 +163,6 @@
     <string name="error_http_to_https_port">Fin de flux inattendue. Essayez-vous de vous connecter à un port HTTPS via HTTP ?</string>
     <string name="webview_ssl">Actuellement cette application ne supporte pas les certificats SSL auto-signés pour les widgets Webview</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Échec de l\'authentification. Veuillez vérifier le nom d\'utilisateur et le mot de passe configurés, relatifs au certificat client SSL fourni (code HTTP %d).</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Non trouvé (code HTTP %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">L\'URL est trop longue. Veuillez utiliser l\'adresse IP ou une URL plus courte (code HTTP %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS requis. Veuillez modifier l\'URL (code HTTP %d).</string>
