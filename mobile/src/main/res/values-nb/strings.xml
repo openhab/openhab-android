@@ -182,7 +182,6 @@
     <string name="webview_ssl">For tiden støtter dette programmet ikke selvsignert SSL-sertifikater for Webview widgets</string>
     <string name="webview_snackbar_permissions_missing">Siden krever ytterligere tillatelser for å fungere ordentlig</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Autentifikasjon mislyktes. Kontroller konfigurert brukernavn og passord i henhold til det angitte SSL klientsertifikatet (HTTP kode %d).</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Ikke funnet (HTTP kode %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL\'en er for lang. Bruk IP-adresse eller en kortere URL (HTTP kode %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS er påkrevd. Vennligst endre URL\'en (HTTP kode %d).</string>
