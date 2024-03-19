@@ -180,7 +180,7 @@
     <string name="webview_ssl">Esta aplicación no soporta actualmente certificados SSL auto-firmados para widgets de Webview</string>
     <string name="webview_snackbar_permissions_missing">La página requiere permisos adicionales para funcionar correctamente</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Autenticación fallida. Por favor, compruebe el nombre de usuario y la contraseña configurados respectivamente al certificado de cliente SSL proporcionado (código HTTP %d).</string>
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Error de autenticación. Por favor, compruebe el nombre de usuario y contraseña configurados, respectivamente, el certificado de cliente SSL proporcionado (código HTTP %d). Asegúrese de que el servidor tiene habilitada la autenticación básica.</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">No encontrado (código HTTP %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">La URL es demasiado larga. Por favor, use la dirección IP o una URL más corta (código HTTP %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">Se requiere HTTPS. Por favor, cambie la URL (código HTTP %d).</string>

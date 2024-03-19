@@ -144,7 +144,6 @@
     <string name="error_http_to_https_port">Onerwaarten Enn vum Stream. Probéiers du dech op en HTTPS Port via HTTP ze verbannen?</string>
     <string name="webview_ssl">Momentan ënnerstëtzt des App keng selwer-signéiert SSL Zertifikater fir Webview Widgets</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Authentifizéierung feelgeschloe. Iwwerpréif w.e.g. de konfiguréierten Benotzernumm an Passwuert bezéiungsweis d‘ SSL Client-Zertifikat (HTTP Äntwert Code %d).</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Net fonnt (HTTP Code %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL ass ze laang. Benotz w.e.g. d‘ IP oder eng méi kuerz URL (HTTP Äntwert Code %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS ass verlaangt. Änner w.e.g. d‘ URL (HTTP Äntwert Code %d).</string>

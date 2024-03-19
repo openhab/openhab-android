@@ -173,7 +173,6 @@
     <string name="webview_ssl">此应用程序当前不支持对 Webview 小挂件使用自签名 SSL 证书。</string>
     <string name="webview_snackbar_permissions_missing">页面需要额外的权限才能正常工作</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">认证失败，请检查用户名和密码及提供的 SSL 客户端证书 (HTTP %d)。</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">未找到 (HTTP 代码 %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL 过长，请使用 IP 地址或更为简短的 URL 访问 (HTTP %d)。</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">服务器强制使用 HTTPS，请修改 URL (HTTP %d)。</string>

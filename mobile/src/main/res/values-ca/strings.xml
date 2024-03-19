@@ -157,7 +157,6 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="error_http_to_https_port">Final inesperat. Esteu provant de connectar-vos a un port HTTPS mitjançant HTTP?</string>
     <string name="webview_ssl">Actualment, aquesta aplicació no admet certificats SSL autofirmats per als widgets de Webview</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
-    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">L\'autenticació ha fallat. Comproveu el nom d\'usuari i la contrasenya configurats, respectivament, el certificat de client SSL proporcionat (codi HTTP %d).</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">No s\'ha trobat (codi HTTP %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">L\'URL és massa llarga. Utilitzeu l\'adreça IP o una URL més curta (codi HTTP %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS és obligatori. Canvieu l\'URL (codi HTTP %d).</string>
