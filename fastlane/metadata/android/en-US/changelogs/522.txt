@@ -1,0 +1,4 @@
+## What's Changed
+* Hint for basic auth when 401 occurs by @mueller-ma in https://github.com/openhab/openhab-android/pull/3626
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.11.0-release...3.11.2-beta
