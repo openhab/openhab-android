@@ -14,13 +14,16 @@
     <string name="mainmenu_openhab_sitemaps">תצורות מערכת</string>
     <string name="mainmenu_openhab_preferences">הגדרות</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_main_ui">ממשק משתמש ראשי</string>
     <string name="mainmenu_openhab_frontail">Frontail</string>
     <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="ui_on_server">%1$s (%2$s)</string>
     <string name="app_notifications">התראות</string>
     <string name="habpanel_error">אירעה שגיאה בעת טעינת HABPanel</string>
+    <string name="main_ui_error">אירעה שגיאה בעת טעינת ממשק המשתמש הראשי</string>
     <string name="frontail_error">אירעה שגיאה בעת טעינת Frontail. שים לב שהוא אינו זמין דרך openHAB Cloud.</string>
     <string name="mainmenu_openhab_selectsitemap">בחר את ברירת המחדל של תצורת המערכת</string>
+    <string name="settings_clear_caches">נקה זיכרון מטמון</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">חיבור</string>
     <string name="settings_display_title">תצוגה</string>
@@ -73,6 +76,9 @@
     <string name="settings_no_default_sitemap">לא נבחרה תצורת מערכת ברירת מחדל</string>
     <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">ברירת המחדל הנוכחית של תצורת המערכת: %1$s</string>
+    <string name="settings_ui_command_item">פריט פקודת ממשק משתמש</string>
+    <string name="settings_ui_command_item_summary_on">ניתן לשלוט ב-Sitemap באמצעות פריט \"%s\"</string>
+    <string name="settings_ui_command_item_summary_off">לא ניתן לשלוט על Sitemap על ידי פריט</string>
     <string name="settings_openhab_alt_connection">מרוחק</string>
     <string name="settings_openhab_connection">מקומי</string>
     <string name="settings_ringtone">צלצול</string>
@@ -84,6 +90,9 @@
     <string name="settings_notification_vibration_long">ארוך</string>
     <string name="settings_notification_vibration_twice">כפול</string>
     <string name="settings_notification_ringtone_vibration">צלצול &amp; רטט</string>
+    <string name="settings_notification_reset_settings">אפס קטגוריות</string>
+    <string name="settings_notification_reset_settings_confirm">האם ברצונך להסיר את כל קטגוריות ההתראות? הם ייווצרו מחדש כאשר תגיע הודעה חדשה עבור קטגוריה זו.</string>
+    <string name="settings_notification_hint">חומרת ההתראות דרך myopenHAB.org מוגדרת כקטגוריית התראות. אתה יכול להגדיר הגדרות התראות שונות עבור כל קטגוריה.</string>
     <string name="settings_connection_summary">מחובר ל- %s</string>
     <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">מחובר בצורה לא מאובטחת אל %1$s: %2$s</string>
@@ -173,6 +182,7 @@
     <string name="webview_ssl">כרגע יישום זה אינו תומך בחתימת SSL עצמית עבור יישומוני Web</string>
     <string name="webview_snackbar_permissions_missing">הדף דורש הרשאות נוספות כדי לעבוד כראוי</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">אימות נכשל. אנא בדוק את שם המשתמש והסיסמה המוגדרים בהתאמה את אישור לקוח SSL שסופק (קוד HTTP %d). ודא שבשרת מופעל אימות בסיסי.</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">לא נמצא (קוד שגיאת HTTP %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">שורת הכתובת ארוכה מדי. נא השתמש בכתובת IP או בכתובת קצרה יותר (קוד תגובה HTTP %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS נדרש. יש לשנות את כתובת ה-URL (קוד תגובה HTTP %d).</string>
