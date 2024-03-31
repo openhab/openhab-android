@@ -277,8 +277,24 @@ class WidgetListFragment :
 
         // Offer widget for all Items. For read-only Items the "Show state" widget is useful.
         if (widget.item != null) {
+            menu.add(
+                Menu.NONE,
+                CONTEXT_MENU_ID_SHOW_CHART,
+                Menu.NONE,
+                R.string.analyse
+            ).setOnMenuItemClickListener {
+                val mainActivity = activity as MainActivity
+                val intent = Intent(mainActivity, ChartWidgetActivity::class.java)
+                intent.putExtra(ChartWidgetActivity.EXTRA_WIDGET, widget)
+                intent.putExtra(ChartWidgetActivity.EXTRA_SERVER_FLAGS, mainActivity.serverProperties?.flags)
+                mainActivity.startActivity(intent)
+                return@setOnMenuItemClickListener true
+            }
+
+
             val widgetMenu = menu.addSubMenu(
-                Menu.NONE, CONTEXT_MENU_ID_CREATE_HOME_SCREEN_WIDGET,
+                Menu.NONE,
+                CONTEXT_MENU_ID_CREATE_HOME_SCREEN_WIDGET,
                 Menu.NONE,
                 R.string.create_home_screen_widget_title
             )
@@ -648,6 +664,7 @@ class WidgetListFragment :
         private const val CONTEXT_MENU_ID_PIN_HOME_BLACK = 1005
         private const val CONTEXT_MENU_ID_OPEN_IN_MAPS = 1006
         private const val CONTEXT_MENU_ID_COPY_ITEM_NAME = 1007
+        private const val CONTEXT_MENU_ID_SHOW_CHART = 1008
         private const val CONTEXT_MENU_ID_WRITE_CUSTOM_TAG = 10000
         private const val CONTEXT_MENU_ID_WRITE_DEVICE_ID = 10001
 

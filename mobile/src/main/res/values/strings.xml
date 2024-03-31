@@ -633,6 +633,7 @@
     <string name="create_home_screen_widget_title">Create widget</string>
     <string name="create_home_screen_widget_no_command">Show current state</string>
     <string name="create_home_screen_widget_not_supported">Please go to the widget menu on your home screen and create a widget from there</string>
+    <string name="analyse">Analyze</string>
 
     <!-- Data saver -->
     <string name="data_saver_title">Data saver</string>
