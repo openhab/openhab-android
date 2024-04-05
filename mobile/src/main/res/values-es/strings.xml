@@ -566,6 +566,7 @@
     <string name="create_home_screen_widget_title">Crear widget</string>
     <string name="create_home_screen_widget_no_command">Mostrar estado actual</string>
     <string name="create_home_screen_widget_not_supported">Por favor, vaya al menú de widgets en su pantalla de inicio y cree un widget desde allí</string>
+    <string name="analyse">Analizar</string>
     <!-- Data saver -->
     <string name="data_saver_title">Economizador de datos</string>
     <string name="data_saver_on">Los elementos del Sitemap que puedan requerir un gran consumo de datos no se han cargado</string>
