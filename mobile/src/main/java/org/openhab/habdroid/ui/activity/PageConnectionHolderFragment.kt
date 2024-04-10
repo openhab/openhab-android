@@ -425,10 +425,15 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                     }
                 }
 
-                // Either we didn't find the widget (possibly because the server didn't give us invisible widgets),
-                // or we couldn't update it because we couldn't trust the data, so reload the page
-                cancel()
-                load()
+                if(lastWidgetList == null) {
+                    Log.d(TAG, "Ignoring update event as lastWidgetList is null - sitemap not fully loaded?");
+                    return;
+                } else {
+                    // Either we didn't find the widget (possibly because the server didn't give us invisible widgets),
+                    // or we couldn't update it because we couldn't trust the data, so reload the page
+                    cancel()
+                    load()
+                }
             } catch (e: JSONException) {
                 Log.w(TAG, "Could not parse SSE event ('$payload')", e)
             }
