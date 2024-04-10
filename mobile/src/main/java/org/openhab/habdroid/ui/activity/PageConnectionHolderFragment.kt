@@ -423,14 +423,11 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                         callback.onWidgetUpdated(url, updatedWidget)
                         return
                     }
-                }
-
-                if(lastWidgetList == null) {
-                    Log.d(TAG, "Ignoring update event as lastWidgetList is null - sitemap not fully loaded?");
-                    return;
-                } else {
+                } else if(lastWidgetList != null) {
                     // Either we didn't find the widget (possibly because the server didn't give us invisible widgets),
                     // or we couldn't update it because we couldn't trust the data, so reload the page
+                    // If we didn't have a widget list yet, simply ignore the event - we probably got it while loading the list,
+                    // and if we have no list it's expected to be unable to find
                     cancel()
                     load()
                 }
