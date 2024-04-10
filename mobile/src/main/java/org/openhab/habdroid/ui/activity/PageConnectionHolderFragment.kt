@@ -423,7 +423,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                         callback.onWidgetUpdated(url, updatedWidget)
                         return
                     }
-                } else if(lastWidgetList != null) {
+                } else if (lastWidgetList != null) {
                     // Either we didn't find the widget (possibly because the server didn't give us invisible widgets),
                     // or we couldn't update it because we couldn't trust the data, so reload the page.
                     // If we didn't have a widget list yet, simply ignore the event - we probably got it while loading the list,
