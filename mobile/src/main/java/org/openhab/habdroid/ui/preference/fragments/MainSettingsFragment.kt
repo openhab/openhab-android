@@ -350,7 +350,7 @@ class MainSettingsFragment : PreferencesActivity.AbstractSettingsFragment(), Con
         activity?.finish()
         CacheManager.getInstance(context).clearCache(true)
         // Start launch activity
-        startActivity(restartIntent)
+        restartIntent?.let { startActivity(it) }
     }
 
     private fun updateNotificationStatusSummaries() {

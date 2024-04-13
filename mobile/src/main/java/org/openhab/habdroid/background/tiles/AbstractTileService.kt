@@ -56,10 +56,6 @@ abstract class AbstractTileService : TileService() {
             handleLifecycleEvent(Lifecycle.Event.ON_START)
         }
 
-        override fun getLifecycle(): Lifecycle {
-            return lifecycleRegistry
-        }
-
         fun startListening() {
             lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
         }
@@ -71,6 +67,9 @@ abstract class AbstractTileService : TileService() {
         fun destroy() {
             lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         }
+
+        override val lifecycle: Lifecycle
+            get() = lifecycleRegistry
     }
 
     override fun onStartListening() {
