@@ -30,7 +30,6 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import androidx.work.WorkerParameters
-import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.RemoteMessage
 import java.io.IOException
@@ -119,8 +118,7 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
     // HttpException is thrown by our HTTP code, IOException can be thrown by FCM
     @Throws(HttpClient.HttpException::class, IOException::class)
     private suspend fun registerFcm(connection: CloudConnection) {
-        val token = FirebaseInstanceId.getInstance().getToken(connection.messagingSenderId,
-                FirebaseMessaging.INSTANCE_ID_SCOPE)
+        val token = FirebaseMessaging.getInstance().token
         val deviceName = deviceName + if (Util.isFlavorBeta) " (${context.getString(R.string.beta)})" else ""
         val deviceId = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID) +
                 if (Util.isFlavorBeta) "-beta" else ""

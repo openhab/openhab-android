@@ -163,7 +163,7 @@ fun SharedPreferences.getPrefixForBgTasks(): String {
     return if (enabled) getStringOrEmpty(PrefKeys.DEV_ID) else ""
 }
 
-fun SharedPreferences.getStringOrNull(key: String): String? {
+fun SharedPreferences.getStringOrNull(key: String?): String? {
     return getString(key, null)
 }
 

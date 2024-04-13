@@ -1511,11 +1511,11 @@ class WidgetAdapter(
                 if (newhost != null && newhost.contains(":")) {
                     val toks = newhost.split(":")
 
-                    // Log.d(TAG, "replaceHost: toks[0]=" + toks[0] + ", toks[1]=" + toks[1])
+                    Log.d(TAG, "replaceHost: toks[0]=" + toks[0] + ", toks[1]=" + toks[1])
 
                     newhost = newhost.replace(toks[0], rtspHost)
 
-                    // Log.d(TAG, "replaceHost: toks[0]=" + toks[0] + ", toks[1]=" + toks[1] + ", newhost=" + newhost)
+                    Log.d(TAG, "replaceHost: toks[0]=" + toks[0] + ", toks[1]=" + toks[1] + ", newhost=" + newhost)
                 }
 
                 Log.d(TAG, "replaceHost: newhost=$newhost")

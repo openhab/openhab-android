@@ -175,7 +175,7 @@ class ConnectionFactory internal constructor(
         }
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
         if (key == PrefKeys.DEBUG_MESSAGES) {
             updateHttpLoggerSettings()
         }

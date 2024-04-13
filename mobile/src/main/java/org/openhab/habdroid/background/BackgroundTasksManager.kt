@@ -236,7 +236,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
     private class PrefsListener constructor(private val context: Context) :
         SharedPreferences.OnSharedPreferenceChangeListener {
-        override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
+        override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String?) {
             when {
                 key == PrefKeys.DEMO_MODE && prefs.isDemoModeEnabled() -> {
                     // Demo mode was enabled -> cancel all uploads and clear DB
@@ -254,11 +254,19 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     key == PrefKeys.PRIMARY_SERVER_ID -> {
                     KNOWN_KEYS.forEach { knowKey -> scheduleWorker(context, knowKey, true) }
                 }
-                key in KNOWN_KEYS -> scheduleWorker(context, key, true)
+                key in KNOWN_KEYS -> scheduleWorker(context, key.toString(), true)
                 key == PrefKeys.SEND_DEVICE_INFO_SCHEDULE -> schedulePeriodicTrigger(context, true)
                 key == PrefKeys.FOSS_NOTIFICATIONS_ENABLED -> schedulePeriodicTrigger(context, false)
             }
         }
+
+        // override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
+        //     TODO("Not yet implemented")
+        // }
+
+        // override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
+        //     TODO("Not yet implemented")
+        // }
     }
 
     companion object {

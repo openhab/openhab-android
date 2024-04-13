@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="org.openhab.habdroid"
     android:installLocation="internalOnly">
 
     <attribution android:label="@string/send_device_info_to_server" android:tag="SEND_DEV_INFO" />

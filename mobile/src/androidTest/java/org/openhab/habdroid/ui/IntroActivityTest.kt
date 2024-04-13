@@ -69,7 +69,7 @@ class IntroActivityTest : TestWithIntro() {
                 withId(R.id.skip),
                 withText("SKIP"),
                 childAtPosition(allOf(
-                        withId(R.id.bottomContainer),
+                        withId(R.id.container),
                         childAtPosition(withId(R.id.bottom), 1)),
                         1),
                 isDisplayed()))
@@ -96,7 +96,7 @@ class IntroActivityTest : TestWithIntro() {
             appCompatImageButton = onView(allOf(
                     withId(R.id.next),
                     childAtPosition(allOf(
-                            withId(R.id.bottomContainer),
+                            withId(R.id.container),
                             childAtPosition(withId(R.id.bottom), 1)),
                             3),
                     isDisplayed()))
@@ -108,7 +108,7 @@ class IntroActivityTest : TestWithIntro() {
                 withId(R.id.done),
                 withText("DONE"),
                 childAtPosition(allOf(
-                        withId(R.id.bottomContainer),
+                        withId(R.id.container),
                         childAtPosition(withId(R.id.bottom), 1)),
                         4),
                 isDisplayed()))

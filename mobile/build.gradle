@@ -8,7 +8,7 @@ buildscript {
     ext.about_libraries_version = '10.4.0'
     ext.powermock_version = '2.0.9'
     ext.espresso_version = '3.4.0'
-    ext.exoplayer_version = '2.18.1'
+    ext.exoplayer_version = '2.19.1'
     ext.acra_version = '5.9.6'
 
     repositories {
@@ -20,7 +20,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.google.gms:google-services:4.3.14"
+        classpath "com.google.gms:google-services:4.4.1"
         classpath "com.google.firebase:firebase-crashlytics-gradle:2.9.2"
         classpath 'com.github.bjoernq:unmockplugin:0.7.9'
         classpath "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:$about_libraries_version"
@@ -41,15 +41,15 @@ if (!isFoss) {
 
 android {
     buildToolsVersion "33.0.0"
-    compileSdkVersion 33
+    compileSdk 34
     useLibrary "org.apache.http.legacy"
 
     defaultConfig {
         applicationId "org.openhab.habdroid"
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 440
-        versionName "2.22.3-mcsoft"
+        versionName "2.22.4-mcsoft"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "long", "TIMESTAMP", System.currentTimeMillis() + "L"
@@ -109,6 +109,7 @@ android {
         abortOnError false
         lintConfig file('lint.xml')
     }
+    namespace 'org.openhab.habdroid'
 }
 
 unMock {
@@ -133,7 +134,7 @@ repositories {
 
 dependencies {
 //    implementation fileTree(dir: 'libs', include: ['*player*debug.jar'])
-    implementation 'org.videolan.android:libvlc-all:3.5.1'
+    implementation 'org.videolan.android:libvlc-all:3.6.0-eap12'
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-jdk9:$kotlin_coroutines_version"
@@ -166,7 +167,7 @@ dependencies {
     implementation "com.github.AppIntro:AppIntro:6.2.0"
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     // MapView support
-    fullImplementation "com.google.android.gms:play-services-maps:18.1.0"
+    fullImplementation "com.google.android.gms:play-services-maps:18.2.0"
     fossImplementation "org.osmdroid:osmdroid-android:6.1.14"
     // About screen
     implementation "com.github.daniel-stoneuk:material-about-library:3.1.2"
@@ -175,7 +176,7 @@ dependencies {
     implementation "com.mikepenz:aboutlibraries:$about_libraries_version"
 
     // Firebase
-    implementation platform("com.google.firebase:firebase-bom:25.11.0")
+    implementation platform("com.google.firebase:firebase-bom:32.8.1")
     fullImplementation "com.google.firebase:firebase-messaging-ktx"
     fullImplementation "com.google.firebase:firebase-crashlytics-ktx"
 

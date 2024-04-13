@@ -22,7 +22,8 @@ import org.openhab.habdroid.util.getPrefs
 abstract class TestWithIntro : ProgressbarAwareTest() {
     override fun setup() {
         ApplicationProvider.getApplicationContext<Context>().getPrefs().edit {
-            putString(PrefKeys.SITEMAP_NAME, "")
+            putString(PrefKeys.DEFAULT_SITEMAP_LABEL_PREFIX, "")
+            putString(PrefKeys.DEFAULT_SITEMAP_NAME_PREFIX, "")
             putBoolean(PrefKeys.DEMO_MODE, true)
             putBoolean(PrefKeys.FIRST_START, true)
         }

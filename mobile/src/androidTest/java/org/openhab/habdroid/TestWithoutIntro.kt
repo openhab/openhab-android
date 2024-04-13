@@ -24,10 +24,11 @@ abstract class TestWithoutIntro : ProgressbarAwareTest() {
     @Before
     override fun setup() {
         ApplicationProvider.getApplicationContext<Context>().getPrefs().edit {
-            putString(PrefKeys.SITEMAP_NAME, "")
+            putString(PrefKeys.DEFAULT_SITEMAP_LABEL_PREFIX, "")
+            putString(PrefKeys.DEFAULT_SITEMAP_NAME_PREFIX, "")
             if (preselectSitemap()) {
-                putString(PrefKeys.SITEMAP_NAME, "demo")
-                putString(PrefKeys.SITEMAP_LABEL, "Main Menu")
+                putString(PrefKeys.DEFAULT_SITEMAP_NAME_PREFIX, "demo")
+                putString(PrefKeys.DEFAULT_SITEMAP_LABEL_PREFIX, "Main Menu")
             }
 
             putBoolean(PrefKeys.DEMO_MODE, true)
