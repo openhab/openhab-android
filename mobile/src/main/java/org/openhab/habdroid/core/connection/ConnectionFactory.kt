@@ -35,6 +35,7 @@ import javax.net.ssl.X509KeyManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.ClosedSendChannelException
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.onClosed
@@ -64,6 +65,7 @@ import org.openhab.habdroid.util.isDemoModeEnabled
  * data from the openHAB server or another supported source
  * (see the constants in [Connection]).
  */
+@OptIn(ObsoleteCoroutinesApi::class)
 class ConnectionFactory internal constructor(
     private val context: Context,
     private val prefs: SharedPreferences,
