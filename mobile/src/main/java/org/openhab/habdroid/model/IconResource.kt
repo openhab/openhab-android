@@ -20,6 +20,7 @@ import android.net.Uri
 import android.os.Parcelable
 import androidx.annotation.VisibleForTesting
 import java.util.Locale
+import kotlin.text.replace
 import kotlinx.parcelize.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
@@ -28,7 +29,6 @@ import org.openhab.habdroid.util.appendQueryParameter
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrNull
-import kotlin.text.replace
 
 @Parcelize
 data class IconResource internal constructor(
@@ -104,10 +104,10 @@ data class IconResource internal constructor(
                 }
 
                 builder.path("icon")
-                       .appendPath(iconName)
-                       .appendQueryParameter("format", suffix)
-                       .appendQueryParameter("anyFormat", true)
-                       .appendQueryParameter("iconset", iconSet)
+                    .appendPath(iconName)
+                    .appendQueryParameter("format", suffix)
+                    .appendQueryParameter("anyFormat", true)
+                    .appendQueryParameter("iconset", iconSet)
 
                 if (customState.isNotEmpty() && includeState) {
                     builder.appendQueryParameter("state", customState)
@@ -173,7 +173,7 @@ internal fun String?.toOH2WidgetIconResource(
         // For NULL states, we send 'null' as state when fetching the icon (BasicUI set a predecent for doing so)
         item.state == null -> "null"
         // Number items need to follow the format "<value>" or "<value> <unit>"
-        item.isOfTypeOrGroupType(Item.Type.Number) || item.isOfTypeOrGroupType(Item.Type.NumberWithDimension)-> {
+        item.isOfTypeOrGroupType(Item.Type.Number) || item.isOfTypeOrGroupType(Item.Type.NumberWithDimension) -> {
             item.state.asNumber?.let { numberState ->
                 val unitSuffix = numberState.unit?.let { " $it" } ?: ""
                 "${numberState.formatValue()}$unitSuffix"

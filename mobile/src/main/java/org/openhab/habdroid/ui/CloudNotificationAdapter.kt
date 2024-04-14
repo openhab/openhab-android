@@ -102,9 +102,11 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
         private val severityView: TextView = itemView.findViewById(R.id.notificationSeverity)
 
         fun bind(notification: CloudNotification) {
-            createdView.text = DateUtils.getRelativeDateTimeString(itemView.context,
+            createdView.text = DateUtils.getRelativeDateTimeString(
+                itemView.context,
                 notification.createdTimestamp,
-                DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0)
+                DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0
+            )
             messageView.text = notification.message
 
             val conn = ConnectionFactory.activeCloudConnection?.connection

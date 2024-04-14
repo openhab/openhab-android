@@ -122,7 +122,8 @@ class TaskerItemPickerActivity(
         }
 
         if (TaskerPlugin.Setting.hostSupportsOnFireVariableReplacement(this)) {
-            TaskerPlugin.Setting.setVariableReplaceKeys(resultBundle,
+            TaskerPlugin.Setting.setVariableReplaceKeys(
+                resultBundle,
                 arrayOf(EXTRA_ITEM_STATE, EXTRA_ITEM_MAPPED_STATE)
             )
         }
@@ -132,8 +133,10 @@ class TaskerItemPickerActivity(
         }
 
         if (TaskerPlugin.hostSupportsRelevantVariables(intent.extras)) {
-            TaskerPlugin.addRelevantVariableList(resultIntent,
-                arrayOf("$VAR_HTTP_CODE\nHTTP code\nHTTP code returned by the server"))
+            TaskerPlugin.addRelevantVariableList(
+                resultIntent,
+                arrayOf("$VAR_HTTP_CODE\nHTTP code\nHTTP code returned by the server")
+            )
         }
 
         setResult(RESULT_OK, resultIntent)

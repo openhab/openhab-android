@@ -55,11 +55,13 @@ class NfcItemPickerActivity(
     ) {
         val deviceId = getPrefs().getStringOrEmpty(PrefKeys.DEV_ID)
         if (deviceId.isNotEmpty() && suggestedCommands.shouldShowCustom) {
-            entries.add(CommandEntry(
-                deviceId,
-                getString(R.string.device_identifier_suggested_command_nfc_tag, deviceId),
-                "isDeviceId"
-            ))
+            entries.add(
+                CommandEntry(
+                    deviceId,
+                    getString(R.string.device_identifier_suggested_command_nfc_tag, deviceId),
+                    "isDeviceId"
+                )
+            )
         }
     }
 
@@ -68,7 +70,15 @@ class NfcItemPickerActivity(
             return
         }
         val deviceId = tag == "isDeviceId"
-        startActivity(WriteTagActivity.createItemUpdateIntent(
-            this, item.name, state, mappedState, item.label, deviceId))
+        startActivity(
+            WriteTagActivity.createItemUpdateIntent(
+                this,
+                item.name,
+                state,
+                mappedState,
+                item.label,
+                deviceId
+            )
+        )
     }
 }

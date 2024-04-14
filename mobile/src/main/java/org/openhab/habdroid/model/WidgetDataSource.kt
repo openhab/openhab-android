@@ -67,7 +67,8 @@ class WidgetDataSource() {
         }
         try {
             jsonObject.getJSONArray("widgets").forEach {
-                    obj -> allWidgets.addAll(obj.collectWidgets(null))
+                    obj ->
+                allWidgets.addAll(obj.collectWidgets(null))
             }
             id = jsonObject.optStringOrNull("id")
             title = jsonObject.optString("title", id.orEmpty())

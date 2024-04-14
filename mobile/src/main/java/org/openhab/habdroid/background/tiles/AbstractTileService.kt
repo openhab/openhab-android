@@ -50,7 +50,9 @@ import org.openhab.habdroid.util.getPrefs
 
 @RequiresApi(Build.VERSION_CODES.N)
 abstract class AbstractTileService : TileService() {
-    @Suppress("PropertyName") @VisibleForTesting abstract val ID: Int
+    @Suppress("PropertyName")
+    @VisibleForTesting
+    abstract val ID: Int
     private var subtitleUpdateJob: Job? = null
     private val lifeCycleOwner = object : LifecycleOwner {
         private val lifecycleRegistry = LifecycleRegistry(this).apply {
@@ -244,8 +246,11 @@ abstract class AbstractTileService : TileService() {
                 context,
                 getClassNameForId(id)
             )
-            val tileServiceState = if (data != null) PackageManager.COMPONENT_ENABLED_STATE_ENABLED
-            else PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+            val tileServiceState = if (data != null) {
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+            } else {
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+            }
             context.packageManager.setComponentEnabledSetting(
                 tileService,
                 tileServiceState,

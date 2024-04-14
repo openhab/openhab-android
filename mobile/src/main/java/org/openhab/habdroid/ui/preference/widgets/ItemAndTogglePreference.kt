@@ -41,7 +41,8 @@ import org.openhab.habdroid.ui.preference.CustomDialogPreference
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.util.hasPermissions
 
-open class ItemAndTogglePreference(context: Context, attrs: AttributeSet?) : DialogPreference(context, attrs),
+open class ItemAndTogglePreference(context: Context, attrs: AttributeSet?) :
+    DialogPreference(context, attrs),
     CustomDialogPreference {
     private val howtoUrl: String?
     protected var summaryOn: String?

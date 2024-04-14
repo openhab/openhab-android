@@ -50,5 +50,6 @@ fun JSONObject.toCloudNotification(): CloudNotification {
         getString("message"),
         created,
         optStringOrNull("icon").toOH2IconResource(),
-        optStringOrNull("severity"))
+        optStringOrNull("severity")
+    )
 }

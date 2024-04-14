@@ -117,10 +117,7 @@ class WifiSsidInputPreference(context: Context, attrs: AttributeSet) :
         companion object {
             private const val KEY_TITLE = "title"
 
-            fun newInstance(
-                key: String,
-                title: CharSequence?
-            ): PrefFragment {
+            fun newInstance(key: String, title: CharSequence?): PrefFragment {
                 val f = PrefFragment()
                 f.arguments = bundleOf(
                     ARG_KEY to key,
@@ -131,4 +128,3 @@ class WifiSsidInputPreference(context: Context, attrs: AttributeSet) :
         }
     }
 }
-

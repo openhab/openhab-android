@@ -53,8 +53,11 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
         val manufacturer = Build.MANUFACTURER
         val model = Build.MODEL
 
-        val actualModel = if (model.lowercase(Locale.ROOT).startsWith(manufacturer.lowercase(Locale.ROOT)))
-            model else "$manufacturer $model"
+        val actualModel = if (model.lowercase(Locale.ROOT).startsWith(manufacturer.lowercase(Locale.ROOT))) {
+            model
+        } else {
+            "$manufacturer $model"
+        }
 
         // Capitalize returned value
         val first = actualModel.elementAtOrNull(0)
@@ -103,7 +106,6 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
                     sendHideNotificationRequest(id, connection.messagingSenderId)
                     return Result.success()
                 }
-
             }
             else -> Log.e(TAG, "Invalid action '$action'")
         }
@@ -119,15 +121,21 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
     // HttpException is thrown by our HTTP code, IOException can be thrown by FCM
     @Throws(HttpClient.HttpException::class, IOException::class)
     private suspend fun registerFcm(connection: CloudConnection) {
-        val token = FirebaseInstanceId.getInstance().getToken(connection.messagingSenderId,
-                FirebaseMessaging.INSTANCE_ID_SCOPE)
+        val token = FirebaseInstanceId.getInstance().getToken(
+            connection.messagingSenderId,
+            FirebaseMessaging.INSTANCE_ID_SCOPE
+        )
         val deviceName = deviceName + if (Util.isFlavorBeta) " (${context.getString(R.string.beta)})" else ""
         val deviceId = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID) +
-                if (Util.isFlavorBeta) "-beta" else ""
+            if (Util.isFlavorBeta) "-beta" else ""
 
-        val regUrl = String.format(Locale.US,
-                "addAndroidRegistration?deviceId=%s&deviceModel=%s&regId=%s",
-                deviceId, URLEncoder.encode(deviceName, "UTF-8"), token)
+        val regUrl = String.format(
+            Locale.US,
+            "addAndroidRegistration?deviceId=%s&deviceModel=%s&regId=%s",
+            deviceId,
+            URLEncoder.encode(deviceName, "UTF-8"),
+            token
+        )
 
         Log.d(TAG, "Register device at openHAB-cloud with URL: $regUrl")
         connection.httpClient.get(regUrl).close()
@@ -137,9 +145,9 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
     private fun sendHideNotificationRequest(notificationId: Int, senderId: String) {
         val fcm = FirebaseMessaging.getInstance()
         val message = RemoteMessage.Builder("$senderId@gcm.googleapis.com")
-                .addData("type", "hideNotification")
-                .addData("notificationId", notificationId.toString())
-                .build()
+            .addData("type", "hideNotification")
+            .addData("notificationId", notificationId.toString())
+            .build()
         fcm.send(message)
     }
 
@@ -158,7 +166,7 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
         companion object {
             internal fun wrap(context: Context, intent: Intent, id: Int): PendingIntent {
                 val wrapped = Intent(context, ProxyReceiver::class.java)
-                        .putExtra("intent", intent)
+                    .putExtra("intent", intent)
                 return PendingIntent.getBroadcast(
                     context,
                     id,
@@ -209,8 +217,11 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
 
             val workRequest = OneTimeWorkRequest.Builder(FcmRegistrationWorker::class.java)
                 .setConstraints(constraints)
-                .setBackoffCriteria(BackoffPolicy.LINEAR,
-                    WorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
+                .setBackoffCriteria(
+                    BackoffPolicy.LINEAR,
+                    WorkRequest.MIN_BACKOFF_MILLIS,
+                    TimeUnit.MILLISECONDS
+                )
                 .setInputData(data)
                 .build()
 

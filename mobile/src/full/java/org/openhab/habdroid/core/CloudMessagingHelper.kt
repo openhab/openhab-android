@@ -42,7 +42,9 @@ object CloudMessagingHelper {
 
     fun onNotificationSelected(context: Context, intent: Intent) {
         val notificationId = intent.getIntExtra(
-                NotificationHelper.EXTRA_NOTIFICATION_ID, -1)
+            NotificationHelper.EXTRA_NOTIFICATION_ID,
+            -1
+        )
         if (notificationId >= 0) {
             FcmRegistrationWorker.scheduleHideNotification(context, notificationId)
         }
@@ -72,7 +74,8 @@ object CloudMessagingHelper {
                 )
             // Cloud connection failed
             cloudFailure != null && cloudFailure !is NotACloudServerException -> {
-                val message = context.getString(R.string.push_notification_status_http_error,
+                val message = context.getString(
+                    R.string.push_notification_status_http_error,
                     context.getHumanReadableErrorMessage(
                         if (cloudFailure is HttpClient.HttpException) cloudFailure.originalUrl else "",
                         if (cloudFailure is HttpClient.HttpException) cloudFailure.statusCode else 0,

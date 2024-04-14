@@ -14,7 +14,6 @@
 package org.openhab.habdroid.model
 
 import android.os.Parcelable
-
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import org.openhab.habdroid.util.forEach
@@ -33,14 +32,12 @@ data class LinkedPage(
     val link: String
 ) : Parcelable {
     companion object {
-        internal fun build(
-            id: String,
-            title: String?,
-            icon: IconResource?,
-            link: String
-        ): LinkedPage {
-            val actualTitle = if (title != null && title.indexOf('[') > 0)
-                title.substring(0, title.indexOf('[')) else title
+        internal fun build(id: String, title: String?, icon: IconResource?, link: String): LinkedPage {
+            val actualTitle = if (title != null && title.indexOf('[') > 0) {
+                title.substring(0, title.indexOf('['))
+            } else {
+                title
+            }
             return LinkedPage(id, actualTitle.orEmpty(), icon, link)
         }
     }
@@ -75,5 +72,6 @@ fun JSONObject?.toLinkedPage(): LinkedPage? {
         getString("id"),
         optStringOrNull("title"),
         icon.toOH2IconResource(),
-        getString("link"))
+        getString("link")
+    )
 }

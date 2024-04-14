@@ -46,8 +46,12 @@ import okhttp3.sse.EventSources
 class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, password: String?) {
     private val client: OkHttpClient
     private val baseUrl: HttpUrl? = baseUrl?.toHttpUrlOrNull()
-    @VisibleForTesting val authHeader: String? = if (!username.isNullOrEmpty())
-        Credentials.basic(username, password.orEmpty(), StandardCharsets.UTF_8) else null
+
+    @VisibleForTesting val authHeader: String? = if (!username.isNullOrEmpty()) {
+        Credentials.basic(username, password.orEmpty(), StandardCharsets.UTF_8)
+    } else {
+        null
+    }
 
     init {
         val clientBuilder = client.newBuilder()
@@ -56,11 +60,13 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
             clientBuilder.addNetworkInterceptor { chain ->
                 val request = chain.request()
                 // Make sure not to send authentication credentials to external servers
-                chain.proceed(if (this.baseUrl?.host == request.url.host) {
-                    request.newBuilder().addHeader("Authorization", authHeader).build()
-                } else {
-                    request
-                })
+                chain.proceed(
+                    if (this.baseUrl?.host == request.url.host) {
+                        request.newBuilder().addHeader("Authorization", authHeader).build()
+                    } else {
+                        request
+                    }
+                )
             }
         }
         this.client = clientBuilder.build()
@@ -113,8 +119,15 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
         mediaType: String = "text/plain;charset=UTF-8",
         headers: Map<String, String>? = null
     ): HttpResult {
-        return method(url, "POST", headers, requestBody,
-            mediaType, DEFAULT_TIMEOUT_MS, CachingMode.AVOID_CACHE)
+        return method(
+            url,
+            "POST",
+            headers,
+            requestBody,
+            mediaType,
+            DEFAULT_TIMEOUT_MS,
+            CachingMode.AVOID_CACHE
+        )
     }
 
     @Throws(HttpException::class)
@@ -124,8 +137,15 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
         mediaType: String = "text/plain;charset=UTF-8",
         headers: Map<String, String>? = null
     ): HttpResult {
-        return method(url, "PUT", headers, requestBody,
-            mediaType, DEFAULT_TIMEOUT_MS, CachingMode.AVOID_CACHE)
+        return method(
+            url,
+            "PUT",
+            headers,
+            requestBody,
+            mediaType,
+            DEFAULT_TIMEOUT_MS,
+            CachingMode.AVOID_CACHE
+        )
     }
 
     private suspend fun method(
@@ -154,16 +174,18 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
             CachingMode.FORCE_CACHE_IF_POSSIBLE -> {
                 requestBuilder.cacheControl(
                     CacheControl.Builder()
-                    .maxStale(Integer.MAX_VALUE, TimeUnit.SECONDS)
-                    .build())
+                        .maxStale(Integer.MAX_VALUE, TimeUnit.SECONDS)
+                        .build()
+                )
             }
             else -> {}
         }
         val request = requestBuilder.build()
-        val call = if (timeoutMillis > 0)
+        val call = if (timeoutMillis > 0) {
             client.newBuilder().readTimeout(timeoutMillis, TimeUnit.MILLISECONDS).build().newCall(request)
-        else
+        } else {
             client.newCall(request)
+        }
 
         cont.invokeOnCancellation { call.cancel() }
 
@@ -179,7 +201,8 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
                     !response.isSuccessful -> {
                         body?.close()
                         cont.resumeWithException(
-                            HttpException(call.request(), url, response.message, response.code))
+                            HttpException(call.request(), url, response.message, response.code)
+                        )
                     }
                     body == null -> {
                         cont.resumeWithException(HttpException(call.request(), url, "Empty body", 500))

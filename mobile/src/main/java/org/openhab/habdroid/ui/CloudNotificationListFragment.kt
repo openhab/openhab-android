@@ -174,9 +174,11 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
         emptyView.isVisible = showEmpty
         swipeLayout.isRefreshing = loading
         emptyMessage.setText(
-            if (loadError) R.string.notification_list_error else R.string.notification_list_empty)
+            if (loadError) R.string.notification_list_error else R.string.notification_list_empty
+        )
         emptyWatermark.setImageResource(
-            if (loadError) R.drawable.ic_connection_error else R.drawable.ic_no_notifications)
+            if (loadError) R.drawable.ic_connection_error else R.drawable.ic_no_notifications
+        )
         retryButton.isVisible = loadError
     }
 

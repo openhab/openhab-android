@@ -40,7 +40,6 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Job
@@ -58,8 +57,11 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.parcelableArrayList
 
-abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener,
-    ItemPickerAdapter.ItemClickListener, SearchView.OnQueryTextListener {
+abstract class AbstractItemPickerActivity :
+    AbstractBaseActivity(),
+    SwipeRefreshLayout.OnRefreshListener,
+    ItemPickerAdapter.ItemClickListener,
+    SearchView.OnQueryTextListener {
     override val forceNonFullscreen = true
 
     private var requestJob: Job? = null
@@ -285,11 +287,13 @@ abstract class AbstractItemPickerActivity : AbstractBaseActivity(), SwipeRefresh
         toolbarExtension?.isGone = showEmpty
         emptyView.isVisible = showEmpty
         swipeLayout.isRefreshing = loading
-        emptyMessage.setText(when {
-            loadError -> R.string.item_picker_list_error
-            showHint -> hintMessageId
-            else -> R.string.item_picker_list_empty
-        })
+        emptyMessage.setText(
+            when {
+                loadError -> R.string.item_picker_list_error
+                showHint -> hintMessageId
+                else -> R.string.item_picker_list_empty
+            }
+        )
         watermark.setImageResource(if (showHint) hintIconId else R.drawable.ic_connection_error)
         retryButton.setText(if (showHint) hintButtonMessageId else R.string.try_again_button)
         retryButton.isVisible = loadError || showHint

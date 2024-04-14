@@ -186,10 +186,12 @@ class ConnectionFactory internal constructor(
         }
         if (key in UPDATE_TRIGGERING_KEYS ||
             UPDATE_TRIGGERING_PREFIXES.any { prefix -> key == PrefKeys.buildServerKey(serverId, prefix) }
-        ) launch {
-            // if the active server changed, we need to invalidate the old connection immediately,
-            // as we don't want the user to see old server data while we're validating the new one
-            updateConnections(key == PrefKeys.ACTIVE_SERVER_ID)
+        ) {
+            launch {
+                // if the active server changed, we need to invalidate the old connection immediately,
+                // as we don't want the user to see old server data while we're validating the new one
+                updateConnections(key == PrefKeys.ACTIVE_SERVER_ID)
+            }
         }
     }
 
@@ -247,8 +249,11 @@ class ConnectionFactory internal constructor(
         } else {
             prefs.getStringOrNull(PrefKeys.buildServerKey(prefs.getActiveServerId(), PrefKeys.SSL_CLIENT_CERT_PREFIX))
         }
-        val keyManagers = if (clientCertAlias != null)
-            arrayOf<KeyManager>(ClientKeyManager(context, clientCertAlias)) else null
+        val keyManagers = if (clientCertAlias != null) {
+            arrayOf<KeyManager>(ClientKeyManager(context, clientCertAlias))
+        } else {
+            null
+        }
 
         // Updating the SSL socket factory is an expensive call;
         // make sure to only do this if really needed.
@@ -285,23 +290,25 @@ class ConnectionFactory internal constructor(
         val newState = StateHolder(primary, active, primaryCloud, activeCloud)
         stateChannel.trySend(newState)
             .onClosed { throw it ?: ClosedSendChannelException("Channel was closed normally") }
-        if (callListenersOnChange) launch {
-            if (newState.active?.failureReason != null ||
-                prevState.active?.connection !== newState.active?.connection
-            ) {
-                listeners.forEach { l -> l.onActiveConnectionChanged() }
-            }
-            if (newState.primary?.failureReason != null ||
-                prevState.primary?.connection !== newState.primary?.connection
-            ) {
-                listeners.forEach { l -> l.onPrimaryConnectionChanged() }
-            }
-            if (prevState.activeCloud !== newState.activeCloud) {
-                listeners.forEach { l -> l.onActiveCloudConnectionChanged(newState.activeCloud?.connection) }
-            }
-            if (prevState.primaryCloud !== newState.primaryCloud) {
-                CloudMessagingHelper.onConnectionUpdated(context, newState.primaryCloud?.connection)
-                listeners.forEach { l -> l.onPrimaryCloudConnectionChanged(newState.primaryCloud?.connection) }
+        if (callListenersOnChange) {
+            launch {
+                if (newState.active?.failureReason != null ||
+                    prevState.active?.connection !== newState.active?.connection
+                ) {
+                    listeners.forEach { l -> l.onActiveConnectionChanged() }
+                }
+                if (newState.primary?.failureReason != null ||
+                    prevState.primary?.connection !== newState.primary?.connection
+                ) {
+                    listeners.forEach { l -> l.onPrimaryConnectionChanged() }
+                }
+                if (prevState.activeCloud !== newState.activeCloud) {
+                    listeners.forEach { l -> l.onActiveCloudConnectionChanged(newState.activeCloud?.connection) }
+                }
+                if (prevState.primaryCloud !== newState.primaryCloud) {
+                    CloudMessagingHelper.onConnectionUpdated(context, newState.primaryCloud?.connection)
+                    listeners.forEach { l -> l.onPrimaryCloudConnectionChanged(newState.primaryCloud?.connection) }
+                }
             }
         }
     }
@@ -398,14 +405,16 @@ class ConnectionFactory internal constructor(
 
     private suspend fun checkAvailableConnection(local: Connection?, remote: Connection?): Connection {
         val available = connectionHelper.currentConnections
-            .sortedBy { type -> when (type) {
-                is ConnectionManagerHelper.ConnectionType.Vpn -> 1
-                is ConnectionManagerHelper.ConnectionType.Ethernet -> 2
-                is ConnectionManagerHelper.ConnectionType.Wifi -> 3
-                is ConnectionManagerHelper.ConnectionType.Bluetooth -> 4
-                is ConnectionManagerHelper.ConnectionType.Mobile -> 5
-                is ConnectionManagerHelper.ConnectionType.Unknown -> 6
-            } }
+            .sortedBy { type ->
+                when (type) {
+                    is ConnectionManagerHelper.ConnectionType.Vpn -> 1
+                    is ConnectionManagerHelper.ConnectionType.Ethernet -> 2
+                    is ConnectionManagerHelper.ConnectionType.Wifi -> 3
+                    is ConnectionManagerHelper.ConnectionType.Bluetooth -> 4
+                    is ConnectionManagerHelper.ConnectionType.Mobile -> 5
+                    is ConnectionManagerHelper.ConnectionType.Unknown -> 6
+                }
+            }
 
         Log.d(TAG, "checkAvailableConnection: found types $available")
         if (available.isEmpty()) {
@@ -537,7 +546,9 @@ class ConnectionFactory internal constructor(
     companion object {
         private val TAG = ConnectionFactory::class.java.simpleName
         private val UPDATE_TRIGGERING_KEYS = listOf(
-            PrefKeys.DEMO_MODE, PrefKeys.ACTIVE_SERVER_ID, PrefKeys.PRIMARY_SERVER_ID
+            PrefKeys.DEMO_MODE,
+            PrefKeys.ACTIVE_SERVER_ID,
+            PrefKeys.PRIMARY_SERVER_ID
         )
         private val UPDATE_TRIGGERING_PREFIXES = listOf(
             PrefKeys.LOCAL_URL_PREFIX,

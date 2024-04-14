@@ -220,6 +220,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                     height *= 0.5F
                 }
                 val sizeInDp = min(height, width)
+
                 @Px val size = context.resources.dpToPixel(sizeInDp).toInt()
                 Log.d(TAG, "Icon size: $size")
                 val widgetBackground = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -311,11 +312,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             return ItemUpdateWidgetData(item, command, label, widgetLabel, mappedState, icon, showState)
         }
 
-        fun saveInfoForWidget(
-            context: Context,
-            data: ItemUpdateWidgetData,
-            id: Int
-        ) {
+        fun saveInfoForWidget(context: Context, data: ItemUpdateWidgetData, id: Int) {
             getPrefsForWidget(context, id).edit {
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_ITEM, data.item)
                 putString(PreferencesActivity.ITEM_UPDATE_WIDGET_COMMAND, data.command)

@@ -15,7 +15,6 @@ package org.openhab.habdroid.model
 
 import android.os.Parcelable
 import android.util.Log
-
 import kotlinx.parcelize.Parcelize
 import org.json.JSONArray
 import org.json.JSONException
@@ -88,11 +87,13 @@ fun JSONArray.toSitemapList(): List<Sitemap> {
 
 fun List<Sitemap>.sortedWithDefaultName(defaultSitemapName: String): List<Sitemap> {
     // Sort by site name label, the default sitemap should be the first one
-    return sortedWith(Comparator { lhs, rhs ->
-        when (defaultSitemapName) {
-            lhs.name -> -1
-            rhs.name -> 1
-            else -> lhs.label.compareTo(rhs.label, true)
+    return sortedWith(
+        Comparator { lhs, rhs ->
+            when (defaultSitemapName) {
+                lhs.name -> -1
+                rhs.name -> 1
+                else -> lhs.label.compareTo(rhs.label, true)
+            }
         }
-    })
+    )
 }

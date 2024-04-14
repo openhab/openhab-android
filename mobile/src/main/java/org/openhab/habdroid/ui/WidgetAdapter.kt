@@ -469,8 +469,8 @@ class WidgetAdapter(
 
         override fun bind(widget: Widget) {
             super.bind(widget)
-            val showLabelAndIcon = widget.label.isNotEmpty()
-                && widget.labelSource == Widget.LabelSource.SitemapDefinition
+            val showLabelAndIcon = widget.label.isNotEmpty() &&
+                widget.labelSource == Widget.LabelSource.SitemapDefinition
             labelView.isVisible = showLabelAndIcon
             iconView.isVisible = showLabelAndIcon
             if (!showDataSaverPlaceholderIfNeeded(widget, canBindWithoutDataTransfer(widget))) {
@@ -811,8 +811,8 @@ class WidgetAdapter(
         override fun bind(widget: Widget) {
             super.bind(widget)
 
-            val showLabelAndIcon = widget.label.isNotEmpty()
-                && widget.labelSource == Widget.LabelSource.SitemapDefinition
+            val showLabelAndIcon = widget.label.isNotEmpty() &&
+                widget.labelSource == Widget.LabelSource.SitemapDefinition
             labelView.isVisible = showLabelAndIcon
             iconView.isVisible = showLabelAndIcon
 
@@ -824,8 +824,8 @@ class WidgetAdapter(
             table.columnCount = min(mappings.maxOfOrNull { it.column } ?: 0, maxColumns)
             (0 until table.rowCount).forEach { row ->
                 (0 until table.columnCount).forEach { column ->
-                    val buttonView = spareViews.removeFirstOrNull() ?:
-                        initData.inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, table, false)
+                    val buttonView = spareViews.removeFirstOrNull()
+                        ?: initData.inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, table, false)
                             as MaterialButton
                     // Rows and columns start with 1 in Sitemap definition, thus decrement them here
                     val mapping = mappings.firstOrNull { it.row - 1 == row && it.column - 1 == column }

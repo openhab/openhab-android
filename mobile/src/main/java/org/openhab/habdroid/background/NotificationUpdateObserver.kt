@@ -117,29 +117,40 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                         )
                     )
                 }
-                errors.add(if (hadConnection) {
-                    if (label.isNullOrEmpty()) {
-                        context.getString(R.string.item_update_http_error, itemName,
-                            context.getHumanReadableErrorMessage("", httpStatus, null, true))
+                errors.add(
+                    if (hadConnection) {
+                        if (label.isNullOrEmpty()) {
+                            context.getString(
+                                R.string.item_update_http_error,
+                                itemName,
+                                context.getHumanReadableErrorMessage("", httpStatus, null, true)
+                            )
+                        } else {
+                            context.getString(
+                                R.string.item_update_http_error_label,
+                                label,
+                                context.getHumanReadableErrorMessage("", httpStatus, null, true)
+                            )
+                        }
                     } else {
-                        context.getString(R.string.item_update_http_error_label, label,
-                            context.getHumanReadableErrorMessage("", httpStatus, null, true))
+                        if (label.isNullOrEmpty()) {
+                            context.getString(R.string.item_update_connection_error, itemName)
+                        } else {
+                            context.getString(R.string.item_update_connection_error_label, label)
+                        }
                     }
-                } else {
-                    if (label.isNullOrEmpty()) {
-                        context.getString(R.string.item_update_connection_error, itemName)
-                    } else {
-                        context.getString(R.string.item_update_connection_error_label, label)
-                    }
-                })
+                )
             }
             val n = createErrorNotification(context, errors, retryInfoList)
             createNotificationChannels(context)
             nm.notify(NOTIFICATION_ID_BACKGROUND_WORK, n)
         } else if (hasRunningWork || hasEnqueuedWork) {
             // show waiting notification
-            @StringRes val messageResId = if (hasRunningWork)
-                R.string.item_upload_in_progress else R.string.waiting_for_item_upload
+            @StringRes val messageResId = if (hasRunningWork) {
+                R.string.item_upload_in_progress
+            } else {
+                R.string.waiting_for_item_upload
+            }
             val n = createProgressNotification(context, messageResId)
             createNotificationChannels(context)
             nm.notify(NOTIFICATION_ID_BACKGROUND_WORK, n)
@@ -173,7 +184,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
 
             // Channel groups
             nm.createNotificationChannelGroup(
-                    NotificationChannelGroup(
+                NotificationChannelGroup(
                     CHANNEL_GROUP_MESSAGES,
                     context.getString(R.string.notification_channel_group_messages)
                 )
@@ -255,8 +266,11 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
             errors: ArrayList<CharSequence>,
             retryInfoList: ArrayList<BackgroundTasksManager.RetryInfo>
         ): Notification {
-            val text = context.resources.getQuantityString(R.plurals.item_update_error_title,
-                errors.size, errors.size)
+            val text = context.resources.getQuantityString(
+                R.plurals.item_update_error_title,
+                errors.size,
+                errors.size
+            )
             val prefs = context.getPrefs()
             val nb = createBaseBuilder(context, CHANNEL_ID_BACKGROUND_ERROR)
                 .setContentTitle(text)
@@ -273,9 +287,11 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 }
                 nb.setStyle(style)
             } else {
-                nb.setStyle(NotificationCompat.BigTextStyle()
-                    .bigText(errors[0])
-                    .setBigContentTitle(text))
+                nb.setStyle(
+                    NotificationCompat.BigTextStyle()
+                        .bigText(errors[0])
+                        .setBigContentTitle(text)
+                )
             }
 
             if (retryInfoList.isNotEmpty()) {
@@ -288,8 +304,13 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                     retryIntent,
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
                 )
-                nb.addAction(NotificationCompat.Action(R.drawable.ic_refresh_grey_24dp,
-                    context.getString(R.string.retry), retryPendingIntent))
+                nb.addAction(
+                    NotificationCompat.Action(
+                        R.drawable.ic_refresh_grey_24dp,
+                        context.getString(R.string.retry),
+                        retryPendingIntent
+                    )
+                )
 
                 val clearIntent = Intent(context, BackgroundTasksManager::class.java)
                     .setAction(BackgroundTasksManager.ACTION_CLEAR_UPLOAD)
@@ -299,8 +320,13 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                     clearIntent,
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
                 )
-                nb.addAction(NotificationCompat.Action(R.drawable.ic_clear_grey_24dp,
-                    context.getString(R.string.ignore), clearPendingIntent))
+                nb.addAction(
+                    NotificationCompat.Action(
+                        R.drawable.ic_clear_grey_24dp,
+                        context.getString(R.string.ignore),
+                        clearPendingIntent
+                    )
+                )
             }
 
             return nb.build()

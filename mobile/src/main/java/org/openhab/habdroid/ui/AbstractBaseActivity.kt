@@ -189,7 +189,9 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
 
     private fun setNavigationBarColor() {
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+
         @ColorInt val black = ContextCompat.getColor(this, R.color.black)
+
         @ColorInt val windowColor = if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
             resolveThemedColor(android.R.attr.windowBackground, black)
         } else {

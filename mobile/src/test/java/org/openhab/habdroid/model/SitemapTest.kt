@@ -27,32 +27,43 @@ class SitemapTest {
     @Before
     @Throws(JSONException::class)
     fun initSitemaps() {
-        demoSitemapWithLabel = JSONObject("""
+        demoSitemapWithLabel = JSONObject(
+            """
             { 'name': 'demo','label': 'Main Menu', 'link': 'http://demo.openhab.org:8080/rest/sitemaps/demo',
               'homepage': { 'link': 'http://demo.openhab.org:8080/rest/sitemaps/demo/demo', 'leaf': false,
               'timeout': false,'widgets': [] }}"
-             """.trimIndent()).toSitemap()!!
+            """.trimIndent()
+        ).toSitemap()!!
 
-        homeSitemapWithoutLabel = JSONObject("""
+        homeSitemapWithoutLabel = JSONObject(
+            """
             { 'name': 'home', 'icon': 'home', 'link': 'http://demo.openhab.org:8080/rest/sitemaps/home',
               'homepage': { 'link': 'http://demo.openhab.org:8080/rest/sitemaps/home/home', 'leaf': true,
               'timeout': false, 'widgets': [] }}"
-              """.trimIndent()).toSitemap()!!
+            """.trimIndent()
+        ).toSitemap()!!
     }
 
     @Test
     fun sitemapLabelNonNull() {
         assertEquals("Main Menu", demoSitemapWithLabel.label)
-        assertEquals("Sitemap without explicit label should return name for getLabel",
-                "home", homeSitemapWithoutLabel.label)
+        assertEquals(
+            "Sitemap without explicit label should return name for getLabel",
+            "home",
+            homeSitemapWithoutLabel.label
+        )
     }
 
     @Test
     fun testGetHomepageLink() {
-        assertEquals("http://demo.openhab.org:8080/rest/sitemaps/demo/demo",
-                demoSitemapWithLabel.homepageLink)
-        assertEquals("http://demo.openhab.org:8080/rest/sitemaps/home/home",
-                homeSitemapWithoutLabel.homepageLink)
+        assertEquals(
+            "http://demo.openhab.org:8080/rest/sitemaps/demo/demo",
+            demoSitemapWithLabel.homepageLink
+        )
+        assertEquals(
+            "http://demo.openhab.org:8080/rest/sitemaps/home/home",
+            homeSitemapWithoutLabel.homepageLink
+        )
     }
 
     @Test

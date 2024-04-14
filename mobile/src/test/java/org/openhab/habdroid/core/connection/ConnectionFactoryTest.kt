@@ -172,10 +172,16 @@ class ConnectionFactoryTest {
 
         assertNotNull("Should return a cloud connection if remote url is set.", conn)
         assertEquals(CloudConnection::class.java, conn!!.javaClass)
-        assertEquals("The connection type of a cloud connection should be TYPE_CLOUD.",
-            Connection.TYPE_CLOUD, conn.connectionType)
-        assertEquals("The sender ID of the cloud connection should be '12345'",
-            "12345", conn.messagingSenderId)
+        assertEquals(
+            "The connection type of a cloud connection should be TYPE_CLOUD.",
+            Connection.TYPE_CLOUD,
+            conn.connectionType
+        )
+        assertEquals(
+            "The sender ID of the cloud connection should be '12345'",
+            "12345",
+            conn.messagingSenderId
+        )
 
         server.shutdown()
     }

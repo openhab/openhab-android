@@ -139,4 +139,3 @@ class WidgetSlider(context: Context, attrs: AttributeSet?) :
         private val TAG = WidgetSlider::class.java.simpleName
     }
 }
-

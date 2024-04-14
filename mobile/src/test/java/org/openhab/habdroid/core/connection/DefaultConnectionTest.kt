@@ -122,7 +122,7 @@ class DefaultConnectionTest {
             Triple("user", "", true),
             Triple("", "", false),
             Triple("", "password", false),
-            Triple("user", "äöü", true),
+            Triple("user", "äöü", true)
         )
 
         credentials.forEach {

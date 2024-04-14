@@ -334,8 +334,11 @@ class ItemsControlsProviderService : ControlsProviderService() {
             val minimum = min(currentValue, item.minimum ?: 0F)
             val maximum = max(currentValue, item.maximum ?: 100F)
             return RangeTemplate(
-                item.name, minimum, maximum,
-                currentValue, item.step ?: 1F,
+                item.name,
+                minimum,
+                maximum,
+                currentValue,
+                item.step ?: 1F,
                 format
             )
         }
