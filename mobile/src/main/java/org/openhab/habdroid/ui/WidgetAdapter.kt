@@ -881,7 +881,7 @@ class WidgetAdapter(
             val hasValidValues = widget.minValue < widget.maxValue
             slider.isVisible = hasValidValues
             if (hasValidValues) {
-                slider.bindToWidget(widget, widget.item?.shouldUseSliderUpdatesDuringMove() == true)
+                slider.bindToWidget(widget, widget.shouldUseSliderUpdatesDuringMove())
             } else {
                 Log.e(TAG, "Slider has invalid values: from '${widget.minValue}' to '${widget.maxValue}'")
             }
@@ -1672,15 +1672,17 @@ fun Widget.shouldUseDateTimePickerForInput(): Boolean {
         inputHint == Widget.InputTypeHint.Datetime
 }
 
-fun Item.shouldUseSliderUpdatesDuringMove(): Boolean {
+fun Widget.shouldUseSliderUpdatesDuringMove(): Boolean {
+    releaseOnly?.let { return !releaseOnly }
+    item ?: return false
     if (
-        isOfTypeOrGroupType(Item.Type.Dimmer) ||
-        isOfTypeOrGroupType(Item.Type.Number) ||
-        isOfTypeOrGroupType(Item.Type.Color)
+        item.isOfTypeOrGroupType(Item.Type.Dimmer) ||
+        item.isOfTypeOrGroupType(Item.Type.Number) ||
+        item.isOfTypeOrGroupType(Item.Type.Color)
     ) {
         return true
     }
-    if (isOfTypeOrGroupType(Item.Type.NumberWithDimension)) {
+    if (item.isOfTypeOrGroupType(Item.Type.NumberWithDimension)) {
         // Allow live updates for percent values, but not for e.g. temperatures
         return state?.asNumber?.unit == "%"
     }
