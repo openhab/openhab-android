@@ -35,9 +35,7 @@ import javax.net.ssl.X509KeyManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.ClosedSendChannelException
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.channels.onClosed
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
@@ -103,7 +101,7 @@ class ConnectionFactory internal constructor(
         val primaryCloud: CloudConnectionResult?,
         val activeCloud: CloudConnectionResult?
     )
-    private val stateChannel = ConflatedBroadcastChannel(StateHolder(null, null, null, null))
+    private val stateChannel = MutableStateFlow(StateHolder(null, null, null, null))
 
     interface UpdateListener {
         fun onActiveConnectionChanged()
@@ -283,8 +281,7 @@ class ConnectionFactory internal constructor(
     ) {
         val prevState = stateChannel.value
         val newState = StateHolder(primary, active, primaryCloud, activeCloud)
-        stateChannel.trySend(newState)
-            .onClosed { throw it ?: ClosedSendChannelException("Channel was closed normally") }
+        stateChannel.tryEmit(newState)
         if (callListenersOnChange) launch {
             if (newState.active?.failureReason != null ||
                 prevState.active?.connection !== newState.active?.connection
@@ -579,10 +576,11 @@ class ConnectionFactory internal constructor(
          */
         suspend fun waitForInitialization() {
             instance.triggerConnectionUpdateIfNeededAndPending()
-            val sub = instance.stateChannel.openSubscription()
-            do {
-                val (primary, active, primaryCloud, activeCloud) = sub.receive()
-            } while (primary == null || active == null || primaryCloud == null || activeCloud == null)
+            instance.stateChannel.collect { (primary, active, primaryCloud, activeCloud) ->
+                if (primary != null && active != null && primaryCloud != null && activeCloud != null) {
+                    return@collect
+                }
+            }
         }
 
         fun addListener(l: UpdateListener) {
