@@ -70,7 +70,8 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                             else -> {}
                         }
                     }
-                } else if (tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_TILE_ID)) {
+                } else if (tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_TILE_ID) &&
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     val tileId = tag.substringAfter(BackgroundTasksManager.WORKER_TAG_PREFIX_TILE_ID).toInt()
                     AbstractTileService.requestTileUpdate(context, tileId)
                 }

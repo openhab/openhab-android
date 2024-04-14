@@ -32,7 +32,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import java.lang.IllegalArgumentException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -286,6 +285,7 @@ data class TileData(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.N)
 fun SharedPreferences.getTileData(id: Int): TileData? {
     val tileString = getString(getPrefKeyForId(id), null) ?: return null
     return try {
@@ -303,6 +303,7 @@ fun SharedPreferences.getTileData(id: Int): TileData? {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.N)
 fun SharedPreferences.Editor.putTileData(id: Int, data: TileData?): SharedPreferences.Editor {
     if (data == null) {
         putString(getPrefKeyForId(id), null)
