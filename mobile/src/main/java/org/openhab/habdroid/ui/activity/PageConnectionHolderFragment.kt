@@ -465,15 +465,20 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
 
                 subscribeJob = scope.launch {
                     try {
-                        val response = client.post("/rest/sitemaps/events/subscribe",
-                            "{}", "application/json").asText()
-                        val result = JSONObject(response.response)
-                        val status = result.getString("status")
-                        if (status != "CREATED") {
-                            throw JSONException("Unexpected status $status")
+                        val response = client.post("/rest/sitemaps/events/subscribe", "{}", "application/json")
+                        val url = if (response.statusCode == 201) {
+                            // OH 4: event stream URL is part of response headers
+                            response.headers.get("Location")?.toHttpUrlOrNull()
+                        } else {
+                            // OH 2/3: event stream URL is part of response JSON body
+                            val result = JSONObject(response.asText().response)
+                            val status = result.getString("status")
+                            if (status != "CREATED") {
+                                throw JSONException("Unexpected status $status")
+                            }
+                            val headerObject = result.getJSONObject("context").getJSONObject("headers")
+                            headerObject.getJSONArray("Location").getString(0).toHttpUrlOrNull()
                         }
-                        val headerObject = result.getJSONObject("context").getJSONObject("headers")
-                        val url = headerObject.getJSONArray("Location").getString(0).toHttpUrlOrNull()
                         if (url != null) {
                             val u = url.newBuilder()
                                 .addQueryParameter("sitemap", sitemap)
