@@ -42,6 +42,7 @@ class AsyncServiceResolver(
 ) : ServiceListener {
     // Multicast lock for mDNS
     private val multicastLock: MulticastLock
+
     // mDNS service
     private var jmDns: JmDNS? = null
     private val serviceInfoChannel = Channel<ServiceInfo>(0)

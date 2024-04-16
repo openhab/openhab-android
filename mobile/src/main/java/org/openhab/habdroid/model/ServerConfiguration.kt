@@ -136,7 +136,7 @@ data class ServerConfiguration(
             return ServerPath(
                 path.url,
                 if (path.userName.isNullOrEmpty()) "<none>" else "<redacted>",
-                if (path.password.isNullOrEmpty()) "<none>" else "<redacted>",
+                if (path.password.isNullOrEmpty()) "<none>" else "<redacted>"
             )
         }
 

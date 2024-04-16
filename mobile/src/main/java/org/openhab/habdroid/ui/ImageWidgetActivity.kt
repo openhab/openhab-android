@@ -123,7 +123,6 @@ class ImageWidgetActivity : AbstractBaseActivity() {
                 Log.d(TAG, "Failed to load image", e)
                 return finish()
             }
-
         } else {
             val link = intent.getStringExtra(WIDGET_LINK)!!
             val widgetState = JSONObject(

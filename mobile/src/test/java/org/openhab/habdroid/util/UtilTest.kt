@@ -37,7 +37,8 @@ class UtilTest {
     private val sitemapOH1Document: Document
         @Throws(ParserConfigurationException::class, IOException::class, SAXException::class)
         get() {
-            val xml = """
+            val xml =
+                """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <sitemaps>
                     <sitemap>
@@ -141,10 +142,16 @@ class UtilTest {
 
         assertEquals("Empty string should return null", null, "".toNormalizedUrl())
         assertEquals("Null should return null", null, null.toNormalizedUrl())
-        assertEquals("Url with one slash after the protocol should be fixed",
-            "http://localhost/", "http:/localhost/".toNormalizedUrl())
-        assertEquals("Url with invalid protocol should return null",
-            null, "http//localhost/".toNormalizedUrl())
+        assertEquals(
+            "Url with one slash after the protocol should be fixed",
+            "http://localhost/",
+            "http:/localhost/".toNormalizedUrl()
+        )
+        assertEquals(
+            "Url with invalid protocol should return null",
+            null,
+            "http//localhost/".toNormalizedUrl()
+        )
     }
 
     @Test
@@ -222,14 +229,22 @@ class UtilTest {
 
     @Test
     fun sitemapExists() {
-        assertTrue("Sitemap \"demo\" is a \"normal\" one and exists",
-                createJsonArray(1).toSitemapList().any { sitemap -> sitemap.name == "demo" })
-        assertFalse("Sitemap \"_default\" exists on the server, but isn't the only one => don't display it in the app.",
-                createJsonArray(1).toSitemapList().any { sitemap -> sitemap.name == "_default" })
-        assertFalse("Sitemap \"_default\" exists on the server, but isn't the only one => don't display it in the app.",
-                createJsonArray(2).toSitemapList().any { sitemap -> sitemap.name == "_default" })
-        assertTrue("Sitemap \"_default\" exists on the server and is the only one => display it in the app.",
-                createJsonArray(3).toSitemapList().any { sitemap -> sitemap.name == "_default" })
+        assertTrue(
+            "Sitemap \"demo\" is a \"normal\" one and exists",
+            createJsonArray(1).toSitemapList().any { sitemap -> sitemap.name == "demo" }
+        )
+        assertFalse(
+            "Sitemap \"_default\" exists on the server, but isn't the only one => don't display it in the app.",
+            createJsonArray(1).toSitemapList().any { sitemap -> sitemap.name == "_default" }
+        )
+        assertFalse(
+            "Sitemap \"_default\" exists on the server, but isn't the only one => don't display it in the app.",
+            createJsonArray(2).toSitemapList().any { sitemap -> sitemap.name == "_default" }
+        )
+        assertTrue(
+            "Sitemap \"_default\" exists on the server and is the only one => display it in the app.",
+            createJsonArray(3).toSitemapList().any { sitemap -> sitemap.name == "_default" }
+        )
     }
 
     /**
@@ -287,10 +302,12 @@ class UtilTest {
 
         assertTrue(
             "The exception is caused by CertPathValidatorException, so hasCause() should return true",
-            e.hasCause(CertPathValidatorException::class.java))
+            e.hasCause(CertPathValidatorException::class.java)
+        )
         assertFalse(
             "The exception is not caused by ArrayIndexOutOfBoundsException, so hasCause() should return false",
-            e.hasCause(ArrayIndexOutOfBoundsException::class.java))
+            e.hasCause(ArrayIndexOutOfBoundsException::class.java)
+        )
     }
 
     @Test
@@ -299,7 +316,9 @@ class UtilTest {
         assertEquals("abc", "abc".obfuscate())
         assertEquals(
             "The function should not throw an exception, when string length is shorter than clearTextCharCount",
-            "a", "a".obfuscate(10))
+            "a",
+            "a".obfuscate(10)
+        )
         assertEquals("a**", "abc".obfuscate(1))
         assertEquals("***", "abc".obfuscate(0))
     }

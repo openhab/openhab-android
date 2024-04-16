@@ -66,7 +66,10 @@ class ServerEditorFragment :
         val backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (initialConfig != config) {
-                    PreferencesActivity.ConfirmLeaveDialogFragment().show(childFragmentManager, "dialog_confirm_leave")
+                    PreferencesActivity.ConfirmLeaveDialogFragment().show(
+                        childFragmentManager,
+                        "dialog_confirm_leave"
+                    )
                 } else {
                     isEnabled = false
                     parentActivity.onBackPressedDispatcher.onBackPressed()
@@ -225,7 +228,8 @@ class ServerEditorFragment :
             handleNoDefaultSitemap(clearDefaultSitemapPref)
         } else {
             clearDefaultSitemapPref.summary = getString(
-                R.string.settings_current_default_sitemap, config.defaultSitemap?.label.orEmpty()
+                R.string.settings_current_default_sitemap,
+                config.defaultSitemap?.label.orEmpty()
             )
         }
         clearDefaultSitemapPref.setOnPreferenceClickListener { preference ->

@@ -97,6 +97,7 @@ class WidgetListFragment :
     private lateinit var layoutManager: LinearLayoutManager
     private var adapter: WidgetAdapter? = null
     private var lastContextMenu: ContextMenu? = null
+
     // parent activity
     private var titleOverride: String? = null
     private var highlightedPageLink: String? = null
@@ -245,8 +246,11 @@ class WidgetListFragment :
     override fun onContextItemSelected(item: MenuItem): Boolean {
         val context = context
         val info = item.menuInfo
-        val widget = if (info is ContextMenuAwareRecyclerView.RecyclerContextMenuInfo)
-            adapter?.getItemForContextMenu(info) else null
+        val widget = if (info is ContextMenuAwareRecyclerView.RecyclerContextMenuInfo) {
+            adapter?.getItemForContextMenu(info)
+        } else {
+            null
+        }
         if (widget != null && context != null) {
             when (item.itemId) {
                 CONTEXT_MENU_ID_WRITE_SITEMAP_TAG -> {
@@ -291,7 +295,6 @@ class WidgetListFragment :
                 return@setOnMenuItemClickListener true
             }
 
-
             val widgetMenu = menu.addSubMenu(
                 Menu.NONE,
                 CONTEXT_MENU_ID_CREATE_HOME_SCREEN_WIDGET,
@@ -323,7 +326,8 @@ class WidgetListFragment :
 
         if (widget.linkedPage != null && ShortcutManagerCompat.isRequestPinShortcutSupported(activity)) {
             val shortcutMenu = menu.addSubMenu(
-                Menu.NONE, CONTEXT_MENU_ID_PIN_HOME_MENU,
+                Menu.NONE,
+                CONTEXT_MENU_ID_PIN_HOME_MENU,
                 Menu.NONE,
                 R.string.home_shortcut_pin_to_home
             )
@@ -351,7 +355,8 @@ class WidgetListFragment :
 
         if (hasCommandOptions && nfcSupported) {
             val nfcMenu = menu.addSubMenu(
-                Menu.NONE, CONTEXT_MENU_ID_WRITE_ITEM_TAG,
+                Menu.NONE,
+                CONTEXT_MENU_ID_WRITE_ITEM_TAG,
                 Menu.NONE,
                 R.string.nfc_action_write_command_tag
             )
@@ -419,10 +424,11 @@ class WidgetListFragment :
                             .setNegativeButton(android.R.string.cancel, null)
                             .show()
                         input.setOnFocusChangeListener { _, hasFocus ->
-                            val mode = if (hasFocus)
+                            val mode = if (hasFocus) {
                                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
-                            else
+                            } else {
                                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                            }
                             customDialog.window?.setSoftInputMode(mode)
                         }
                         return true
@@ -447,7 +453,10 @@ class WidgetListFragment :
 
         val deviceId = context.getPrefs().getStringOrEmpty(PrefKeys.DEV_ID)
         if (showDeviceId && deviceId.isNotEmpty()) {
-            menu.add(Menu.NONE, CONTEXT_MENU_ID_WRITE_DEVICE_ID, Menu.NONE,
+            menu.add(
+                Menu.NONE,
+                CONTEXT_MENU_ID_WRITE_DEVICE_ID,
+                Menu.NONE,
                 getString(R.string.device_identifier_suggested_command_nfc_tag, deviceId)
             ).setOnMenuItemClickListener(listener)
         }
@@ -570,85 +579,84 @@ class WidgetListFragment :
         }
     }
 
-    private fun createShortcut(
-        activity: AbstractBaseActivity,
-        linkedPage: LinkedPage,
-        whiteBackground: Boolean
-    ) = activity.launch {
-        val connection = ConnectionFactory.activeUsableConnection?.connection ?: return@launch
-        /**
-         *  Icon size is defined in {@link AdaptiveIconDrawable}. Foreground size of
-         *  46dp instead of 72dp adds enough border to the icon.
-         *  46dp foreground + 2 * 31dp border = 108dp
-         **/
-        val foregroundSize = activity.resources.dpToPixel(46F).toInt()
-        val iconBitmap = if (linkedPage.icon != null) {
-            try {
-                val iconFallbackColor = activity.getIconFallbackColor(
-                    if (whiteBackground) IconBackground.LIGHT else IconBackground.DARK
-                )
-                connection.httpClient
-                    .get(linkedPage.icon.toUrl(activity, true))
-                    .asBitmap(foregroundSize, iconFallbackColor, ImageConversionPolicy.ForceTargetSize)
-                    .response
-            } catch (e: HttpClient.HttpException) {
+    private fun createShortcut(activity: AbstractBaseActivity, linkedPage: LinkedPage, whiteBackground: Boolean) =
+        activity.launch {
+            val connection = ConnectionFactory.activeUsableConnection?.connection ?: return@launch
+
+            /**
+             *  Icon size is defined in {@link AdaptiveIconDrawable}. Foreground size of
+             *  46dp instead of 72dp adds enough border to the icon.
+             *  46dp foreground + 2 * 31dp border = 108dp
+             **/
+            val foregroundSize = activity.resources.dpToPixel(46F).toInt()
+            val iconBitmap = if (linkedPage.icon != null) {
+                try {
+                    val iconFallbackColor = activity.getIconFallbackColor(
+                        if (whiteBackground) IconBackground.LIGHT else IconBackground.DARK
+                    )
+                    connection.httpClient
+                        .get(linkedPage.icon.toUrl(activity, true))
+                        .asBitmap(foregroundSize, iconFallbackColor, ImageConversionPolicy.ForceTargetSize)
+                        .response
+                } catch (e: HttpClient.HttpException) {
+                    null
+                }
+            } else {
                 null
             }
-        } else {
-            null
-        }
 
-        val icon = if (iconBitmap != null) {
-            val borderSize = activity.resources.dpToPixel(31F)
-            val totalFrameWidth = (borderSize * 2).toInt()
-            val bitmapWithBackground = Bitmap.createBitmap(
-                iconBitmap.width + totalFrameWidth,
-                iconBitmap.height + totalFrameWidth,
-                iconBitmap.config)
-            with(Canvas(bitmapWithBackground)) {
-                drawColor(if (whiteBackground) Color.WHITE else Color.DKGRAY)
-                drawBitmap(iconBitmap, borderSize, borderSize, null)
-            }
-            IconCompat.createWithAdaptiveBitmap(bitmapWithBackground)
-        } else {
-            // Fall back to openHAB icon
-            IconCompat.createWithResource(activity, R.mipmap.icon)
-        }
-
-        val sitemapUri = linkedPage.link.toUri()
-        val shortSitemapUri = sitemapUri.path?.substring(14).orEmpty()
-
-        val startIntent = Intent(activity, MainActivity::class.java).apply {
-            action = MainActivity.ACTION_SITEMAP_SELECTED
-            putExtra(MainActivity.EXTRA_SITEMAP_URL, shortSitemapUri)
-            putExtra(MainActivity.EXTRA_SERVER_ID, activity.getPrefs().getActiveServerId())
-        }
-
-        val name = if (linkedPage.title.isEmpty()) activity.getString(R.string.app_name) else linkedPage.title
-        val shortcutInfo = ShortcutInfoCompat.Builder(activity, shortSitemapUri + '-' + System.currentTimeMillis())
-            .setShortLabel(name)
-            .setIcon(icon)
-            .setIntent(startIntent)
-            .setAlwaysBadged()
-            .build()
-
-        val success = ShortcutManagerCompat.requestPinShortcut(activity, shortcutInfo, null)
-        withContext(Dispatchers.Main) {
-            if (success) {
-                (activity as? MainActivity)?.showSnackbar(
-                    MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
-                    R.string.home_shortcut_success_pinning,
-                    Snackbar.LENGTH_SHORT
+            val icon = if (iconBitmap != null) {
+                val borderSize = activity.resources.dpToPixel(31F)
+                val totalFrameWidth = (borderSize * 2).toInt()
+                val bitmapWithBackground = Bitmap.createBitmap(
+                    iconBitmap.width + totalFrameWidth,
+                    iconBitmap.height + totalFrameWidth,
+                    iconBitmap.config
                 )
+                with(Canvas(bitmapWithBackground)) {
+                    drawColor(if (whiteBackground) Color.WHITE else Color.DKGRAY)
+                    drawBitmap(iconBitmap, borderSize, borderSize, null)
+                }
+                IconCompat.createWithAdaptiveBitmap(bitmapWithBackground)
             } else {
-                (activity as? MainActivity)?.showSnackbar(
-                    MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
-                    R.string.home_shortcut_error_pinning,
-                    Snackbar.LENGTH_LONG
-                )
+                // Fall back to openHAB icon
+                IconCompat.createWithResource(activity, R.mipmap.icon)
+            }
+
+            val sitemapUri = linkedPage.link.toUri()
+            val shortSitemapUri = sitemapUri.path?.substring(14).orEmpty()
+
+            val startIntent = Intent(activity, MainActivity::class.java).apply {
+                action = MainActivity.ACTION_SITEMAP_SELECTED
+                putExtra(MainActivity.EXTRA_SITEMAP_URL, shortSitemapUri)
+                putExtra(MainActivity.EXTRA_SERVER_ID, activity.getPrefs().getActiveServerId())
+            }
+
+            val name = if (linkedPage.title.isEmpty()) activity.getString(R.string.app_name) else linkedPage.title
+            val shortcutInfo = ShortcutInfoCompat.Builder(activity, shortSitemapUri + '-' + System.currentTimeMillis())
+                .setShortLabel(name)
+                .setIcon(icon)
+                .setIntent(startIntent)
+                .setAlwaysBadged()
+                .build()
+
+            val success = ShortcutManagerCompat.requestPinShortcut(activity, shortcutInfo, null)
+            withContext(Dispatchers.Main) {
+                if (success) {
+                    (activity as? MainActivity)?.showSnackbar(
+                        MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
+                        R.string.home_shortcut_success_pinning,
+                        Snackbar.LENGTH_SHORT
+                    )
+                } else {
+                    (activity as? MainActivity)?.showSnackbar(
+                        MainActivity.SNACKBAR_TAG_SHORTCUT_INFO,
+                        R.string.home_shortcut_error_pinning,
+                        Snackbar.LENGTH_LONG
+                    )
+                }
             }
         }
-    }
 
     override fun toString(): String {
         return "${super.toString()} [url=$displayPageUrl, title=$title]"

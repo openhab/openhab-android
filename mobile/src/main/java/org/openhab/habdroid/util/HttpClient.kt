@@ -46,8 +46,12 @@ import okhttp3.sse.EventSources
 class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, password: String?) {
     private val client: OkHttpClient
     private val baseUrl: HttpUrl? = baseUrl?.toHttpUrlOrNull()
-    @VisibleForTesting val authHeader: String? = if (!username.isNullOrEmpty())
-        Credentials.basic(username, password.orEmpty(), StandardCharsets.UTF_8) else null
+
+    @VisibleForTesting val authHeader: String? = if (!username.isNullOrEmpty()) {
+        Credentials.basic(username, password.orEmpty(), StandardCharsets.UTF_8)
+    } else {
+        null
+    }
 
     init {
         val clientBuilder = client.newBuilder()
@@ -56,15 +60,18 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
             clientBuilder.addNetworkInterceptor { chain ->
                 val request = chain.request()
                 // Make sure not to send authentication credentials to external servers
-                chain.proceed(if (this.baseUrl?.host == request.url.host) {
-                    request.newBuilder().addHeader("Authorization", authHeader).build()
-                } else {
-                    request
-                })
+                chain.proceed(
+                    if (this.baseUrl?.host == request.url.host) {
+                        request.newBuilder().addHeader("Authorization", authHeader).build()
+                    } else {
+                        request
+                    }
+                )
             }
         }
         this.client = clientBuilder.build()
     }
+
     enum class CachingMode {
         DEFAULT,
         AVOID_CACHE,
@@ -113,8 +120,15 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
         mediaType: String = "text/plain;charset=UTF-8",
         headers: Map<String, String>? = null
     ): HttpResult {
-        return method(url, "POST", headers, requestBody,
-            mediaType, DEFAULT_TIMEOUT_MS, CachingMode.AVOID_CACHE)
+        return method(
+            url,
+            "POST",
+            headers,
+            requestBody,
+            mediaType,
+            DEFAULT_TIMEOUT_MS,
+            CachingMode.AVOID_CACHE
+        )
     }
 
     @Throws(HttpException::class)
@@ -124,8 +138,15 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
         mediaType: String = "text/plain;charset=UTF-8",
         headers: Map<String, String>? = null
     ): HttpResult {
-        return method(url, "PUT", headers, requestBody,
-            mediaType, DEFAULT_TIMEOUT_MS, CachingMode.AVOID_CACHE)
+        return method(
+            url,
+            "PUT",
+            headers,
+            requestBody,
+            mediaType,
+            DEFAULT_TIMEOUT_MS,
+            CachingMode.AVOID_CACHE
+        )
     }
 
     private suspend fun method(
@@ -136,7 +157,7 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
         mediaType: String?,
         timeoutMillis: Long,
         caching: CachingMode
-    ) = suspendCancellableCoroutine<HttpResult> { cont ->
+    ) = suspendCancellableCoroutine { cont ->
         val requestBuilder = Request.Builder()
             .url(buildUrl(url))
             .addHeader("User-Agent", USER_AGENT)
@@ -154,42 +175,47 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
             CachingMode.FORCE_CACHE_IF_POSSIBLE -> {
                 requestBuilder.cacheControl(
                     CacheControl.Builder()
-                    .maxStale(Integer.MAX_VALUE, TimeUnit.SECONDS)
-                    .build())
+                        .maxStale(Integer.MAX_VALUE, TimeUnit.SECONDS)
+                        .build()
+                )
             }
             else -> {}
         }
         val request = requestBuilder.build()
-        val call = if (timeoutMillis > 0)
+        val call = if (timeoutMillis > 0) {
             client.newBuilder().readTimeout(timeoutMillis, TimeUnit.MILLISECONDS).build().newCall(request)
-        else
+        } else {
             client.newCall(request)
+        }
 
         cont.invokeOnCancellation { call.cancel() }
 
-        call.enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                cont.resumeWithException(HttpException(call.request(), url, e))
-            }
+        call.enqueue(
+            object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    cont.resumeWithException(HttpException(call.request(), url, e))
+                }
 
-            override fun onResponse(call: Call, response: Response) {
-                val body = response.body
+                override fun onResponse(call: Call, response: Response) {
+                    val body = response.body
 
-                when {
-                    !response.isSuccessful -> {
-                        body?.close()
-                        cont.resumeWithException(
-                            HttpException(call.request(), url, response.message, response.code))
-                    }
-                    body == null -> {
-                        cont.resumeWithException(HttpException(call.request(), url, "Empty body", 500))
-                    }
-                    else -> {
-                        cont.resume(HttpResult(call.request(), url, body, response.code, response.headers))
+                    when {
+                        !response.isSuccessful -> {
+                            body?.close()
+                            cont.resumeWithException(
+                                HttpException(call.request(), url, response.message, response.code)
+                            )
+                        }
+                        body == null -> {
+                            cont.resumeWithException(HttpException(call.request(), url, "Empty body", 500))
+                        }
+                        else -> {
+                            cont.resume(HttpResult(call.request(), url, body, response.code, response.headers))
+                        }
                     }
                 }
             }
-        })
+        )
     }
 
     class HttpResult internal constructor(
@@ -236,7 +262,9 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
     }
 
     class HttpStatusResult internal constructor(val request: Request, val statusCode: Int)
+
     class HttpTextResult internal constructor(val request: Request, val response: String, val headers: Headers)
+
     class HttpBitmapResult internal constructor(val request: Request, val response: Bitmap)
 
     class HttpException : Exception {
@@ -261,6 +289,7 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
 
     internal class SseListener : EventSourceListener() {
         val channel = Channel<String>()
+
         override fun onEvent(eventSource: EventSource, id: String?, type: String?, data: String) {
             super.onEvent(eventSource, id, type, data)
             runBlocking {
@@ -281,6 +310,7 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
         suspend fun getNextEvent(): String {
             return listener.channel.receive()
         }
+
         fun cancel() {
             listener.channel.close()
             source.cancel()
@@ -291,9 +321,10 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
         const val DEFAULT_TIMEOUT_MS: Long = 30000
 
         // Pretend to be Chrome on Android
-        const val USER_AGENT = "Mozilla/5.0 (Linux; Android 4.0.4; Galaxy Nexus Build/IMM76B) " +
-            "AppleWebKit/535.19 (KHTML, like Gecko) " +
-            "Chrome/18.0.1025.133 Mobile Safari/535.19"
+        const val USER_AGENT =
+            "Mozilla/5.0 (Linux; Android 4.0.4; Galaxy Nexus Build/IMM76B) " +
+                "AppleWebKit/535.19 (KHTML, like Gecko) " +
+                "Chrome/18.0.1025.133 Mobile Safari/535.19"
 
         fun isMyOpenhab(host: String) = host.matches("^(home.)?myopenhab.org$".toRegex())
     }

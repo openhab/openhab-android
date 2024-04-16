@@ -219,8 +219,14 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
                     val sitemap = segments[segments.size - 2]
                     val pageId = segments[segments.size - 1]
                     Log.d(TAG, "Creating new SSE helper for sitemap $sitemap, page $pageId")
-                    eventHelper = EventHelper(scope, httpClient, sitemap, pageId,
-                        this::handleUpdateEvent, this::handleSseSubscriptionFailure)
+                    eventHelper = EventHelper(
+                        scope,
+                        httpClient,
+                        sitemap,
+                        pageId,
+                        this::handleUpdateEvent,
+                        this::handleSseSubscriptionFailure
+                    )
                 }
             }
         }
@@ -311,8 +317,11 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             }
 
             val dataSource = WidgetDataSource()
-            val hasUpdate = if (callback.serverProperties?.hasJsonApi() == true)
-                parseResponseJson(dataSource, response) else parseResponseXml(dataSource, response)
+            val hasUpdate = if (callback.serverProperties?.hasJsonApi() == true) {
+                parseResponseJson(dataSource, response)
+            } else {
+                parseResponseXml(dataSource, response)
+            }
 
             if (hasUpdate) {
                 // Remove frame widgets with no label text
@@ -465,8 +474,11 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
 
                 subscribeJob = scope.launch {
                     try {
-                        val response = client.post("/rest/sitemaps/events/subscribe",
-                            "{}", "application/json").asText()
+                        val response = client.post(
+                            "/rest/sitemaps/events/subscribe",
+                            "{}",
+                            "application/json"
+                        ).asText()
                         val result = JSONObject(response.response)
                         val status = result.getString("status")
                         if (status != "CREATED") {

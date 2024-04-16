@@ -87,7 +87,7 @@ class WidgetTest {
         assertEquals(
             "If data saver is active, icon paths must not contain a state",
             "icon/rollershutter?format=SVG&anyFormat=true&iconset=mdi",
-            sut3[3].icon?.toUrl(false, IconFormat.Svg, 64 )
+            sut3[3].icon?.toUrl(false, IconFormat.Svg, 64)
         )
     }
 
@@ -113,8 +113,11 @@ class WidgetTest {
     @Test
     fun testGetRefresh() {
         assertEquals(1000, sut1[0].refresh)
-        assertEquals("Min refresh is 100, object has set refresh to 10",
-                100, sut2[0].refresh)
+        assertEquals(
+            "Min refresh is 100, object has set refresh to 10",
+            100,
+            sut2[0].refresh
+        )
         assertEquals("Missing refresh should equal 0", 0, sut3[0].refresh)
     }
 
@@ -236,7 +239,8 @@ class WidgetTest {
 
     @Throws(Exception::class)
     private fun createXmlNode(): Node {
-        val xml = """
+        val xml =
+            """
             <widget>
                 <widgetId>demo</widgetId>
                 <type>Group</type>
@@ -276,7 +280,7 @@ class WidgetTest {
                     <type>Switch</type>
                 </widget>"
              </widget>
-             """.trimIndent()
+            """.trimIndent()
         val dbf = DocumentBuilderFactory.newInstance()
         val builder = dbf.newDocumentBuilder()
         val document = builder.parse(InputSource(StringReader(xml)))
@@ -295,7 +299,8 @@ class WidgetTest {
     @Throws(Exception::class)
     private fun createJsonObject(id: Int): JSONObject {
         val json: String = when (id) {
-            1 -> """
+            1 ->
+                """
                 { 'widgetId': 'demo',
                   'type': 'Group',
                   'label': 'Group1',
@@ -333,7 +338,8 @@ class WidgetTest {
                   'widgets': [ { 'widgetId': 'demo11', 'type': 'Switch' } ]
                 }
                 """
-            2 -> """
+            2 ->
+                """
                 {
                   'widgetId': 'demo',
                   'type': 'Group',
@@ -362,7 +368,8 @@ class WidgetTest {
                   },
                 }
                 """
-            3 -> """
+            3 ->
+                """
                 {
                   'widgetId': '0202_0',
                   'type': 'Frame',

@@ -192,4 +192,3 @@ open class CustomInputTypePreference(context: Context, attrs: AttributeSet) :
         WARN
     }
 }
-

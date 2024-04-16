@@ -29,7 +29,6 @@ import org.openhab.habdroid.util.determineDataUsagePolicy
 
 class ItemPickerAdapter(context: Context, private val itemClickListener: ItemClickListener?) :
     RecyclerView.Adapter<ItemPickerAdapter.ItemViewHolder>(), View.OnClickListener {
-
     private val filteredItems = ArrayList<Item>()
     private val allItems = ArrayList<Item>()
     private val inflater = LayoutInflater.from(context)

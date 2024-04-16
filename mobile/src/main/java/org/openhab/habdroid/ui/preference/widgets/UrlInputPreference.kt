@@ -33,7 +33,6 @@ import org.openhab.habdroid.R
 
 class UrlInputPreference(context: Context, attrs: AttributeSet) :
     CustomInputTypePreference(context, attrs) {
-
     private val isForRemoteServer: Boolean
 
     init {

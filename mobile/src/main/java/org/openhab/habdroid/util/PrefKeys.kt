@@ -36,6 +36,7 @@ object PrefKeys {
     const val RESTRICT_TO_SSID_PREFIX = "restrict_to_ssid_"
     const val FRONTAIL_URL_PREFIX = "frontail_url_"
     const val CLEAR_DEFAULT_SITEMAP = "clear_default_sitemap"
+
     fun buildServerKey(id: Int, prefix: String) = "$prefix$id"
 
     const val START_PAGE = "start_page"

@@ -61,11 +61,15 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
         const val SERVER_FLAG_TRANSPARENT_CHARTS = 1 shl 8
 
         private sealed interface FlagsResult
+
         private class FlagsSuccess(val flags: Int) : FlagsResult
+
         private class FlagsFailure(val request: Request, val httpStatusCode: Int, val error: Throwable) : FlagsResult
 
         sealed interface PropsResult
+
         class PropsSuccess(val props: ServerProperties) : PropsResult
+
         class PropsFailure(val request: Request, val httpStatusCode: Int, val error: Throwable) : PropsResult
 
         suspend fun updateSitemaps(props: ServerProperties, connection: Connection): PropsResult {

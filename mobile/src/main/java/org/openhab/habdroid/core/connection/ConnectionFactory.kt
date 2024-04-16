@@ -89,26 +89,33 @@ class ConnectionFactory internal constructor(
         val local: Connection?,
         val remote: AbstractConnection?
     )
+
     data class ConnectionResult(
         val connection: Connection?,
         val failureReason: ConnectionException?
     )
+
     data class CloudConnectionResult(
         val connection: CloudConnection?,
         val failureReason: Exception?
     )
+
     private data class StateHolder(
         val primary: ConnectionResult?,
         val active: ConnectionResult?,
         val primaryCloud: CloudConnectionResult?,
         val activeCloud: CloudConnectionResult?
     )
+
     private val stateChannel = ConflatedBroadcastChannel(StateHolder(null, null, null, null))
 
     interface UpdateListener {
         fun onActiveConnectionChanged()
+
         fun onPrimaryConnectionChanged()
+
         fun onActiveCloudConnectionChanged(connection: CloudConnection?)
+
         fun onPrimaryCloudConnectionChanged(connection: CloudConnection?)
     }
 
@@ -163,10 +170,7 @@ class ConnectionFactory internal constructor(
                 // changed since we went to background
                 val (_, active, _, _) = stateChannel.value
                 val local = active?.connection === activeConn?.local ||
-                    (
-                        active?.failureReason is NoUrlInformationException &&
-                            active.failureReason.wouldHaveUsedLocalConnection()
-                        )
+                    (active?.failureReason as? NoUrlInformationException)?.wouldHaveUsedLocalConnection() == true
                 if (local) {
                     triggerConnectionUpdateIfNeeded()
                 }
@@ -186,10 +190,12 @@ class ConnectionFactory internal constructor(
         }
         if (key in UPDATE_TRIGGERING_KEYS ||
             UPDATE_TRIGGERING_PREFIXES.any { prefix -> key == PrefKeys.buildServerKey(serverId, prefix) }
-        ) launch {
-            // if the active server changed, we need to invalidate the old connection immediately,
-            // as we don't want the user to see old server data while we're validating the new one
-            updateConnections(key == PrefKeys.ACTIVE_SERVER_ID)
+        ) {
+            launch {
+                // if the active server changed, we need to invalidate the old connection immediately,
+                // as we don't want the user to see old server data while we're validating the new one
+                updateConnections(key == PrefKeys.ACTIVE_SERVER_ID)
+            }
         }
     }
 
@@ -247,8 +253,11 @@ class ConnectionFactory internal constructor(
         } else {
             prefs.getStringOrNull(PrefKeys.buildServerKey(prefs.getActiveServerId(), PrefKeys.SSL_CLIENT_CERT_PREFIX))
         }
-        val keyManagers = if (clientCertAlias != null)
-            arrayOf<KeyManager>(ClientKeyManager(context, clientCertAlias)) else null
+        val keyManagers = if (clientCertAlias != null) {
+            arrayOf<KeyManager>(ClientKeyManager(context, clientCertAlias))
+        } else {
+            null
+        }
 
         // Updating the SSL socket factory is an expensive call;
         // make sure to only do this if really needed.
@@ -285,7 +294,10 @@ class ConnectionFactory internal constructor(
         val newState = StateHolder(primary, active, primaryCloud, activeCloud)
         stateChannel.trySend(newState)
             .onClosed { throw it ?: ClosedSendChannelException("Channel was closed normally") }
-        if (callListenersOnChange) launch {
+        if (!callListenersOnChange) {
+            return
+        }
+        launch {
             if (newState.active?.failureReason != null ||
                 prevState.active?.connection !== newState.active?.connection
             ) {
@@ -397,15 +409,16 @@ class ConnectionFactory internal constructor(
     }
 
     private suspend fun checkAvailableConnection(local: Connection?, remote: Connection?): Connection {
-        val available = connectionHelper.currentConnections
-            .sortedBy { type -> when (type) {
+        val available = connectionHelper.currentConnections.sortedBy { type ->
+            when (type) {
                 is ConnectionManagerHelper.ConnectionType.Vpn -> 1
                 is ConnectionManagerHelper.ConnectionType.Ethernet -> 2
                 is ConnectionManagerHelper.ConnectionType.Wifi -> 3
                 is ConnectionManagerHelper.ConnectionType.Bluetooth -> 4
                 is ConnectionManagerHelper.ConnectionType.Mobile -> 5
                 is ConnectionManagerHelper.ConnectionType.Unknown -> 6
-            } }
+            }
+        }
 
         Log.d(TAG, "checkAvailableConnection: found types $available")
         if (available.isEmpty()) {
@@ -416,13 +429,12 @@ class ConnectionFactory internal constructor(
         var hasWrongWifi = false
 
         if (local != null && local is DefaultConnection) {
-            val localCandidates = available
-                .filter { type ->
-                    type is ConnectionManagerHelper.ConnectionType.Wifi ||
-                        type is ConnectionManagerHelper.ConnectionType.Bluetooth ||
-                        type is ConnectionManagerHelper.ConnectionType.Ethernet ||
-                        type is ConnectionManagerHelper.ConnectionType.Vpn
-                }
+            val localCandidates = available.filter { type ->
+                type is ConnectionManagerHelper.ConnectionType.Wifi ||
+                    type is ConnectionManagerHelper.ConnectionType.Bluetooth ||
+                    type is ConnectionManagerHelper.ConnectionType.Ethernet ||
+                    type is ConnectionManagerHelper.ConnectionType.Vpn
+            }
             for (type in localCandidates) {
                 if (type is ConnectionManagerHelper.ConnectionType.Wifi && !serverMayUseWifi()) {
                     Log.d(TAG, "Don't use current Wi-Fi because server is restricted to other Wi-Fis")
@@ -537,7 +549,9 @@ class ConnectionFactory internal constructor(
     companion object {
         private val TAG = ConnectionFactory::class.java.simpleName
         private val UPDATE_TRIGGERING_KEYS = listOf(
-            PrefKeys.DEMO_MODE, PrefKeys.ACTIVE_SERVER_ID, PrefKeys.PRIMARY_SERVER_ID
+            PrefKeys.DEMO_MODE,
+            PrefKeys.ACTIVE_SERVER_ID,
+            PrefKeys.PRIMARY_SERVER_ID
         )
         private val UPDATE_TRIGGERING_PREFIXES = listOf(
             PrefKeys.LOCAL_URL_PREFIX,

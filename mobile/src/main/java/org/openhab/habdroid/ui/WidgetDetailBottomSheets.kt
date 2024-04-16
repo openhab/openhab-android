@@ -13,7 +13,6 @@
 
 package org.openhab.habdroid.ui
 
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -56,6 +55,7 @@ open class AbstractWidgetBottomSheet : BottomSheetDialogFragment() {
         }
         super.onViewCreated(view, savedInstanceState)
     }
+
     companion object {
         fun createArguments(widget: Widget): Bundle {
             return bundleOf("widget" to widget)
@@ -69,6 +69,7 @@ open class AbstractWidgetBottomSheet : BottomSheetDialogFragment() {
 
 class SliderBottomSheet : AbstractWidgetBottomSheet(), WidgetSlider.UpdateListener {
     private var updateJob: Job? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.bottom_sheet_setpoint, container, false)
 

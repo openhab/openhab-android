@@ -34,7 +34,8 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.preference.CustomDialogPreference
 import org.openhab.habdroid.util.PrefKeys
 
-class DeviceIdentifierPreference(context: Context, attrs: AttributeSet) : DialogPreference(context, attrs),
+class DeviceIdentifierPreference(context: Context, attrs: AttributeSet) :
+    DialogPreference(context, attrs),
     CustomDialogPreference {
     private var value: String? = null
 
@@ -154,10 +155,7 @@ class DeviceIdentifierPreference(context: Context, attrs: AttributeSet) : Dialog
         companion object {
             private const val KEY_TITLE = "title"
 
-            fun newInstance(
-                key: String,
-                title: CharSequence?
-            ): PrefFragment {
+            fun newInstance(key: String, title: CharSequence?): PrefFragment {
                 val f = PrefFragment()
                 f.arguments = bundleOf(ARG_KEY to key, KEY_TITLE to title)
                 return f
@@ -165,4 +163,3 @@ class DeviceIdentifierPreference(context: Context, attrs: AttributeSet) : Dialog
         }
     }
 }
-

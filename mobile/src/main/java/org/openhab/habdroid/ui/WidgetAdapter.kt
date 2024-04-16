@@ -141,8 +141,10 @@ class WidgetAdapter(
     interface ItemClickListener {
         fun onItemClicked(widget: Widget): Boolean // returns whether click was handled
     }
+
     interface FragmentPresenter {
         fun showBottomSheet(sheet: AbstractWidgetBottomSheet, widget: Widget)
+
         fun showSelectionFragment(fragment: DialogFragment, widget: Widget)
     }
 
@@ -386,12 +388,14 @@ class WidgetAdapter(
         protected val fragmentPresenter get() = requireHolderContext().fragmentPresenter
 
         abstract fun bind(widget: Widget)
+
         fun start() {
             if (!started) {
                 onStart()
                 started = true
             }
         }
+
         fun stop(): Boolean {
             if (!started) {
                 return false
@@ -400,17 +404,22 @@ class WidgetAdapter(
             started = false
             return true
         }
+
         fun attach() {
             start()
             scope = CoroutineScope(Dispatchers.Main + Job())
         }
+
         fun detach() {
             stop()
             scope?.cancel()
             scope = null
         }
+
         open fun onStart() {}
+
         open fun onStop() {}
+
         open fun handleRowClick() {}
 
         protected fun requireHolderContext() = vhc ?: throw IllegalStateException("Holder not bound")
@@ -469,8 +478,8 @@ class WidgetAdapter(
 
         override fun bind(widget: Widget) {
             super.bind(widget)
-            val showLabelAndIcon = widget.label.isNotEmpty()
-                && widget.labelSource == Widget.LabelSource.SitemapDefinition
+            val showLabelAndIcon = widget.label.isNotEmpty() &&
+                widget.labelSource == Widget.LabelSource.SitemapDefinition
             labelView.isVisible = showLabelAndIcon
             iconView.isVisible = showLabelAndIcon
             if (!showDataSaverPlaceholderIfNeeded(widget, canBindWithoutDataTransfer(widget))) {
@@ -524,6 +533,7 @@ class WidgetAdapter(
         }
 
         internal abstract fun bindAfterDataSaverCheck(widget: Widget)
+
         internal open fun canBindWithoutDataTransfer(widget: Widget): Boolean = false
     }
 
@@ -541,7 +551,6 @@ class WidgetAdapter(
 
     class InvisibleWidgetViewHolder internal constructor(initData: ViewHolderInitData) :
         ViewHolder(initData, R.layout.widgetlist_invisibleitem) {
-
         override fun bind(widget: Widget) {
         }
     }
@@ -811,8 +820,8 @@ class WidgetAdapter(
         override fun bind(widget: Widget) {
             super.bind(widget)
 
-            val showLabelAndIcon = widget.label.isNotEmpty()
-                && widget.labelSource == Widget.LabelSource.SitemapDefinition
+            val showLabelAndIcon = widget.label.isNotEmpty() &&
+                widget.labelSource == Widget.LabelSource.SitemapDefinition
             labelView.isVisible = showLabelAndIcon
             iconView.isVisible = showLabelAndIcon
 
@@ -824,8 +833,8 @@ class WidgetAdapter(
             table.columnCount = min(mappings.maxOfOrNull { it.column } ?: 0, maxColumns)
             (0 until table.rowCount).forEach { row ->
                 (0 until table.columnCount).forEach { column ->
-                    val buttonView = spareViews.removeFirstOrNull() ?:
-                        initData.inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, table, false)
+                    val buttonView = spareViews.removeFirstOrNull()
+                        ?: initData.inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, table, false)
                             as MaterialButton
                     // Rows and columns start with 1 in Sitemap definition, thus decrement them here
                     val mapping = mappings.firstOrNull { it.row - 1 == row && it.column - 1 == column }
@@ -1144,6 +1153,7 @@ class WidgetAdapter(
         View.OnLongClickListener {
         private val upButton = itemView.findViewById<View>(R.id.up_button)
         private val downButton = itemView.findViewById<View>(R.id.down_button)
+
         data class UpDownButtonState(val item: Item?, val command: String, var inLongPress: Boolean = false)
 
         init {
@@ -1464,6 +1474,7 @@ class WidgetAdapter(
         View.OnLongClickListener {
         private val upButton = itemView.findViewById<View>(R.id.up_button)
         private val downButton = itemView.findViewById<View>(R.id.down_button)
+
         data class UpDownButtonState(
             val item: Item?,
             val shortCommand: String,
@@ -1565,6 +1576,7 @@ class WidgetAdapter(
                 openPopup()
             }
         }
+
         protected abstract fun openPopup()
     }
 
@@ -1636,6 +1648,7 @@ class WidgetAdapter(
         private fun toInternalViewType(viewType: Int, compactMode: Boolean): Int {
             return viewType or (if (compactMode) 0x100 else 0)
         }
+
         private fun fromInternalViewType(viewType: Int): Pair<Int, Boolean> {
             val compactMode = (viewType and 0x100) != 0
             return Pair(viewType and 0xff, compactMode)

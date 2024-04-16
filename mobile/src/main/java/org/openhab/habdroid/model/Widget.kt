@@ -155,7 +155,10 @@ data class Widget(
 
         val chartUrl = Uri.Builder()
             .path("chart")
-            .appendQueryParameter(if (item.type === Item.Type.Group && !forceAsItem) "groups" else "items", item.name)
+            .appendQueryParameter(
+                if (item.type === Item.Type.Group && !forceAsItem) "groups" else "items",
+                item.name
+            )
             .appendQueryParameter("dpi", actualDensity.toInt() / resDivider)
             .appendQueryParameter("period", forcedPeriod)
 
@@ -216,6 +219,7 @@ data class Widget(
         }
 
         internal fun sanitizeRefreshRate(refresh: Int) = if (refresh in 1..99) 100 else refresh
+
         internal fun sanitizePeriod(period: String?) = if (period.isNullOrEmpty()) "D" else period
 
         internal fun determineWidgetState(state: String?, item: Item?): ParsedState? = when {
@@ -339,11 +343,13 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
         period = Widget.sanitizePeriod(period),
         service = service,
         legend = null,
-        forceAsItem = false, // forceAsItem was added in openHAB 3, so no support for openHAB 1 required.
+        // forceAsItem was added in openHAB 3, so no support for openHAB 1 required.
+        forceAsItem = false,
         yAxisDecimalPattern = null,
         switchSupport = switchSupport,
         height = height,
-        rawInputHint = null, // inputHint was added in openHAB 4, so no support for openHAB 1 required.
+        // inputHint was added in openHAB 4, so no support for openHAB 1 required.
+        rawInputHint = null,
         visibility = true
     )
     val childWidgets = childWidgetNodes.map { node -> node.collectWidgets(widget) }.flatten()

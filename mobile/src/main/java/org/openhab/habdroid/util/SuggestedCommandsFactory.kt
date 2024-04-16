@@ -185,4 +185,3 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             INPUT_TYPE_DECIMAL_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
     }
 }
-

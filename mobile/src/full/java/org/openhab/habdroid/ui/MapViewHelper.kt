@@ -126,9 +126,9 @@ fun GoogleMap.applyPositionAndLabel(widget: Widget, zoomLevel: Float, allowDrag:
 
 fun GoogleMap.setMarker(position: LatLng, item: Item, label: CharSequence?, canDrag: Boolean) {
     val marker = MarkerOptions()
-            .draggable(canDrag)
-            .position(position)
-            .title(label?.toString())
+        .draggable(canDrag)
+        .position(position)
+        .title(label?.toString())
     addMarker(marker)?.tag = item
 }
 

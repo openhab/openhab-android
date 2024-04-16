@@ -40,6 +40,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 typealias ConnectionChangedCallback = () -> Unit
+
 interface ConnectionManagerHelper {
     val currentConnections: List<ConnectionType>
     var changeCallback: ConnectionChangedCallback?
@@ -48,10 +49,15 @@ interface ConnectionManagerHelper {
 
     sealed class ConnectionType(val network: Network, val caps: NetworkCapabilities) {
         class Bluetooth(network: Network, caps: NetworkCapabilities) : ConnectionType(network, caps)
+
         class Ethernet(network: Network, caps: NetworkCapabilities) : ConnectionType(network, caps)
+
         class Mobile(network: Network, caps: NetworkCapabilities) : ConnectionType(network, caps)
+
         class Unknown(network: Network, caps: NetworkCapabilities) : ConnectionType(network, caps)
+
         class Vpn(network: Network, caps: NetworkCapabilities) : ConnectionType(network, caps)
+
         class Wifi(network: Network, caps: NetworkCapabilities) : ConnectionType(network, caps)
 
         override fun toString(): String {

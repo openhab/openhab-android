@@ -55,18 +55,18 @@ class ConnectionFactoryTest {
     companion object {
         private val mainThread = newSingleThreadContext("UI thread")
 
-        @BeforeClass
-        @JvmStatic
-        @Throws(IOException::class)
-        fun setupMainThread() {
-            Dispatchers.setMain(mainThread)
-        }
-
         @AfterClass
         @JvmStatic
         fun tearDownMainThread() {
             Dispatchers.resetMain()
             mainThread.close()
+        }
+
+        @BeforeClass
+        @JvmStatic
+        @Throws(IOException::class)
+        fun setupMainThread() {
+            Dispatchers.setMain(mainThread)
         }
     }
 
@@ -172,10 +172,16 @@ class ConnectionFactoryTest {
 
         assertNotNull("Should return a cloud connection if remote url is set.", conn)
         assertEquals(CloudConnection::class.java, conn!!.javaClass)
-        assertEquals("The connection type of a cloud connection should be TYPE_CLOUD.",
-            Connection.TYPE_CLOUD, conn.connectionType)
-        assertEquals("The sender ID of the cloud connection should be '12345'",
-            "12345", conn.messagingSenderId)
+        assertEquals(
+            "The connection type of a cloud connection should be TYPE_CLOUD.",
+            Connection.TYPE_CLOUD,
+            conn.connectionType
+        )
+        assertEquals(
+            "The sender ID of the cloud connection should be '12345'",
+            "12345",
+            conn.messagingSenderId
+        )
 
         server.shutdown()
     }
@@ -271,6 +277,7 @@ class ConnectionFactoryTest {
             currentTypes = if (type != null) listOf(type) else emptyList()
             changeCallback?.invoke()
         }
+
         override fun shutdown() {}
     }
 

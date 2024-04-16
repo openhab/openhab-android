@@ -55,11 +55,7 @@ fun SwipeRefreshLayout.applyColors() {
     setColorSchemeColors(*colors)
 }
 
-fun WebView.setUpForConnection(
-    connection: Connection,
-    url: HttpUrl,
-    avoidAuthentication: Boolean = false
-) {
+fun WebView.setUpForConnection(connection: Connection, url: HttpUrl, avoidAuthentication: Boolean = false) {
     when {
         avoidAuthentication -> { /* Don't add authentication */ }
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {

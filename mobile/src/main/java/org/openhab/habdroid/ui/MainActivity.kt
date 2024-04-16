@@ -461,11 +461,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 drawerLayout.isDrawerOpen(findViewById<NavigationView>(R.id.left_drawer)) -> drawerLayout.closeDrawers()
                 controller.canGoBack() -> controller.goBack()
                 isFullscreenEnabled -> when {
-                    lastSnackbar?.isShown != true ->
-                        showSnackbar(
-                            SNACKBAR_TAG_PRESS_AGAIN_EXIT,
-                            R.string.press_back_to_exit
-                        )
+                    lastSnackbar?.isShown != true -> showSnackbar(
+                        SNACKBAR_TAG_PRESS_AGAIN_EXIT,
+                        R.string.press_back_to_exit
+                    )
                     lastSnackbar?.view?.tag?.toString() == SNACKBAR_TAG_PRESS_AGAIN_EXIT -> {
                         isEnabled = false
                         onBackPressedDispatcher.onBackPressed()
@@ -532,9 +531,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                             handleServiceResolveResult(resolver.resolve())
                             serviceResolveJob = null
                         }
-                        controller.updateConnection(null,
+                        controller.updateConnection(
+                            null,
                             getString(R.string.resolving_openhab),
-                            R.drawable.ic_home_search_outline_grey_340dp)
+                            R.drawable.ic_home_search_outline_grey_340dp
+                        )
                     }
                 } else {
                     val officialServer = !failureReason.wouldHaveUsedLocalConnection() &&
@@ -618,8 +619,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
                 }
             }
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ->
-                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
             else -> null
         }
 
@@ -633,7 +633,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 Log.d(TAG, "Cannot auto select server: Location off")
                 showSnackbar(
                     SNACKBAR_TAG_SWITCHED_SERVER,
-                    R.string.settings_multi_server_wifi_ssid_location_off,
+                    R.string.settings_multi_server_wifi_ssid_location_off
                 )
                 return -1
             }
@@ -731,8 +731,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             val wifiManager = getWifiManager(OpenHabApplication.DATA_ACCESS_TAG_SUGGEST_TURN_ON_WIFI)
             @Suppress("DEPRECATION")
             wifiManager.isWifiEnabled = true
-            controller.updateConnection(null, getString(R.string.waiting_for_wifi),
-                R.drawable.ic_wifi_strength_outline_grey_24dp)
+            controller.updateConnection(
+                null,
+                getString(R.string.waiting_for_wifi),
+                R.drawable.ic_wifi_strength_outline_grey_24dp
+            )
         }
     }
 
@@ -872,36 +875,43 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     private fun setupDrawer() {
         drawerLayout = findViewById(R.id.drawer_container)
         layoutForSnackbar = drawerLayout
-        drawerToggle = ActionBarDrawerToggle(this, drawerLayout,
-            R.string.drawer_open, R.string.drawer_close)
+        drawerToggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            R.string.drawer_open,
+            R.string.drawer_close
+        )
         drawerLayout.addDrawerListener(drawerToggle)
-        drawerLayout.addDrawerListener(object : DrawerLayout.SimpleDrawerListener() {
-            override fun onDrawerOpened(drawerView: View) {
-                val loadedProperties = serverProperties ?: return
-                val connection = connection ?: return
-                if (propsRequestJob?.isActive == true) {
-                    return
+        drawerLayout.addDrawerListener(
+            object : DrawerLayout.SimpleDrawerListener() {
+                override fun onDrawerOpened(drawerView: View) {
+                    val loadedProperties = serverProperties ?: return
+                    val connection = connection ?: return
+                    if (propsRequestJob?.isActive == true) {
+                        return
+                    }
+                    propsRequestJob = launch {
+                        val result = withContext(Dispatchers.IO) {
+                            ServerProperties.updateSitemaps(loadedProperties, connection)
+                        }
+                        when (result) {
+                            is ServerProperties.Companion.PropsSuccess -> {
+                                serverProperties = result.props
+                                updateSitemapDrawerEntries()
+                            }
+                            is ServerProperties.Companion.PropsFailure -> {
+                                handlePropertyFetchFailure(result)
+                            }
+                        }
+                    }
                 }
-                propsRequestJob = launch {
-                    val result = withContext(Dispatchers.IO) {
-                        ServerProperties.updateSitemaps(loadedProperties, connection)
-                    }
-                    when (result) {
-                        is ServerProperties.Companion.PropsSuccess -> {
-                            serverProperties = result.props
-                            updateSitemapDrawerEntries()
-                        }
-                        is ServerProperties.Companion.PropsFailure -> {
-                            handlePropertyFetchFailure(result)
-                        }
-                    }
+
+                override fun onDrawerClosed(drawerView: View) {
+                    super.onDrawerClosed(drawerView)
+                    updateDrawerMode(false)
                 }
             }
-            override fun onDrawerClosed(drawerView: View) {
-                super.onDrawerClosed(drawerView)
-                updateDrawerMode(false)
-            }
-        })
+        )
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START)
         // Ensure drawer layout uses the same background as the app bar layout,
         // even if the toolbar is currently hidden
@@ -1127,9 +1137,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         launch {
             val context = this@MainActivity
             try {
-                item.icon = conn.httpClient.get(
-                    sitemap.icon.toUrl(context, context.determineDataUsagePolicy(conn).loadIconsWithState)
-                )
+                item.icon = conn.httpClient
+                    .get(sitemap.icon.toUrl(context, context.determineDataUsagePolicy(conn).loadIconsWithState))
                     .asBitmap(
                         defaultIcon!!.intrinsicWidth,
                         getIconFallbackColor(IconBackground.APP_THEME),
@@ -1379,8 +1388,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     val authHeader = result.request.header("Authorization")
                     if (authHeader?.startsWith("Basic") == true) {
                         val base64Credentials = authHeader.substring("Basic".length).trim()
-                        val credentials = String(Base64.decode(base64Credentials, Base64.DEFAULT),
-                            Charset.forName("UTF-8"))
+                        val credentials = String(
+                            Base64.decode(base64Credentials, Base64.DEFAULT),
+                            Charset.forName("UTF-8")
+                        )
                         append("\nUsername: ")
                         append(credentials.substring(0, credentials.indexOf(":")))
                     }
@@ -1419,7 +1430,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             .filter { !hasPermissions(arrayOf(it)) }
             .toMutableList()
 
-        val length = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+        val length = if (
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             !hasPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS))
         ) {
             missingPermissions.add(Manifest.permission.POST_NOTIFICATIONS)
@@ -1466,7 +1478,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
     }
 
-    private fun setupUiCommandItem () {
+    private fun setupUiCommandItem() {
         uiCommandItemJob?.cancel()
         val setting = prefs.getStringOrNull(PrefKeys.UI_COMMAND_ITEM).toItemUpdatePrefValue()
         if (setting.first) {
@@ -1552,22 +1564,36 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private fun manageHabPanelShortcut(visible: Boolean) {
-        manageShortcut(visible, "habpanel", ACTION_HABPANEL_SELECTED,
-            R.string.mainmenu_openhab_habpanel, R.mipmap.ic_shortcut_habpanel,
-            R.string.app_shortcut_disabled_habpanel)
+        manageShortcut(
+            visible,
+            "habpanel",
+            ACTION_HABPANEL_SELECTED,
+            R.string.mainmenu_openhab_habpanel,
+            R.mipmap.ic_shortcut_habpanel,
+            R.string.app_shortcut_disabled_habpanel
+        )
     }
 
     private fun manageNotificationShortcut(visible: Boolean) {
-        manageShortcut(visible, "notification", ACTION_NOTIFICATION_SELECTED,
-            R.string.app_notifications, R.mipmap.ic_shortcut_notifications,
-            R.string.app_shortcut_disabled_notifications)
+        manageShortcut(
+            visible,
+            "notification",
+            ACTION_NOTIFICATION_SELECTED,
+            R.string.app_notifications,
+            R.mipmap.ic_shortcut_notifications,
+            R.string.app_shortcut_disabled_notifications
+        )
     }
 
     private fun manageVoiceRecognitionShortcut(visible: Boolean) {
-        manageShortcut(visible, "voice_recognition", ACTION_VOICE_RECOGNITION_SELECTED,
+        manageShortcut(
+            visible,
+            "voice_recognition",
+            ACTION_VOICE_RECOGNITION_SELECTED,
             R.string.mainmenu_openhab_voice_recognition,
             R.mipmap.ic_shortcut_voice_recognition,
-            R.string.app_shortcut_disabled_voice_recognition)
+            R.string.app_shortcut_disabled_voice_recognition
+        )
     }
 
     private fun manageShortcut(
@@ -1601,18 +1627,23 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
     private fun setVoiceWidgetComponentEnabledSetting(component: Class<*>, isSpeechRecognizerAvailable: Boolean) {
         val voiceWidget = ComponentName(this, component)
-        val newState = if (isSpeechRecognizerAvailable)
+        val newState = if (isSpeechRecognizerAvailable) {
             PackageManager.COMPONENT_ENABLED_STATE_ENABLED
-        else
+        } else {
             PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+        }
         packageManager.setComponentEnabledSetting(voiceWidget, newState, PackageManager.DONT_KILL_APP)
     }
 
     private sealed class PendingAction {
         class ChooseSitemap : PendingAction()
+
         class OpenSitemapUrl(val url: String, val serverId: Int) : PendingAction()
+
         class OpenWebViewUi(val ui: WebViewUi, val serverId: Int, val subpage: String?) : PendingAction()
+
         class LaunchVoiceRecognition : PendingAction()
+
         class OpenNotification(val notificationId: String, val primary: Boolean) : PendingAction()
     }
 

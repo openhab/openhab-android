@@ -145,10 +145,10 @@ data class ParsedState internal constructor(
             }
             val stateAsFloat = state.toFloatOrNull() ?: return null
             return when (stateAsFloat) {
-                in 1f .. 100f, 0f -> {
+                in 1f..100f, 0f -> {
                     stateAsFloat.toInt()
                 }
-                in 0f .. 1f -> {
+                in 0f..1f -> {
                     1
                 }
                 else -> null
@@ -216,7 +216,8 @@ fun String?.toParsedState(formatPattern: String? = null): ParsedState? {
     if (this == null) {
         return null
     }
-    return ParsedState(this,
+    return ParsedState(
+        this,
         ParsedState.parseAsBoolean(this),
         ParsedState.parseAsNumber(this, formatPattern),
         ParsedState.parseAsHsv(this),

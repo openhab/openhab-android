@@ -45,6 +45,7 @@ interface Connection {
          * connected to.
          */
         const val TYPE_LOCAL = 0
+
         /**
          * Represents a connection to an openHAB instance, which may or may not be available from the
          * public internet. This is most likely the instance configured in the "remote" settings of
@@ -52,6 +53,7 @@ interface Connection {
          * currently connected to.
          */
         const val TYPE_REMOTE = 1
+
         /**
          * Represents a connection that is guaranteed to provide functionality implemented in the
          * openHAB cloud product (like notifications).

@@ -50,7 +50,8 @@ import org.openhab.habdroid.util.getPrefs
 
 @RequiresApi(Build.VERSION_CODES.N)
 abstract class AbstractTileService : TileService() {
-    @Suppress("PropertyName") @VisibleForTesting abstract val ID: Int
+    @VisibleForTesting
+    abstract val id: Int
     private var subtitleUpdateJob: Job? = null
     private val lifeCycleOwner = object : LifecycleOwner {
         private val lifecycleRegistry = LifecycleRegistry(this).apply {
@@ -78,7 +79,7 @@ abstract class AbstractTileService : TileService() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val workManager = WorkManager.getInstance(applicationContext)
             val infoLiveData =
-                workManager.getWorkInfosByTagLiveData(BackgroundTasksManager.WORKER_TAG_PREFIX_TILE_ID + ID)
+                workManager.getWorkInfosByTagLiveData(BackgroundTasksManager.WORKER_TAG_PREFIX_TILE_ID + id)
             infoLiveData.observe(lifeCycleOwner) {
                 updateTileSubtitle()
             }
@@ -109,13 +110,13 @@ abstract class AbstractTileService : TileService() {
 
     override fun onClick() {
         Log.d(TAG, "onClick()")
-        val data = getPrefs().getTileData(ID)
+        val data = getPrefs().getTileData(id)
         if (data?.item?.isNotEmpty() == true && data.state.isNotEmpty()) {
             lifeCycleOwner.startListening()
             if (data.requireUnlock && isLocked) {
-                unlockAndRun { BackgroundTasksManager.enqueueTileUpdate(this, data, ID) }
+                unlockAndRun { BackgroundTasksManager.enqueueTileUpdate(this, data, id) }
             } else {
-                BackgroundTasksManager.enqueueTileUpdate(this, data, ID)
+                BackgroundTasksManager.enqueueTileUpdate(this, data, id)
             }
         } else {
             Intent(this, PreferencesActivity::class.java).apply {
@@ -128,11 +129,11 @@ abstract class AbstractTileService : TileService() {
 
     private fun updateTile(tile: Tile) {
         Log.d(TAG, "updateTile()")
-        val data = getPrefs().getTileData(ID)
+        val data = getPrefs().getTileData(id)
 
         tile.apply {
             state = Tile.STATE_INACTIVE
-            label = data?.tileLabel ?: getString(R.string.tile_number, ID)
+            label = data?.tileLabel ?: getString(R.string.tile_number, id)
             icon = Icon.createWithResource(this@AbstractTileService, getIconRes(applicationContext, data?.icon))
             updateTile()
         }
@@ -144,7 +145,7 @@ abstract class AbstractTileService : TileService() {
 
         val lastInfo = WorkManager
             .getInstance(applicationContext)
-            .getWorkInfosByTag(BackgroundTasksManager.WORKER_TAG_PREFIX_TILE_ID + ID)
+            .getWorkInfosByTag(BackgroundTasksManager.WORKER_TAG_PREFIX_TILE_ID + id)
             .get()
             .lastOrNull()
         var lastWorkInfoState = lastInfo?.state
@@ -240,12 +241,12 @@ abstract class AbstractTileService : TileService() {
 
         fun requestTileUpdate(context: Context, id: Int) {
             val data = context.getPrefs().getTileData(id)
-            val tileService = ComponentName(
-                context,
-                getClassNameForId(id)
-            )
-            val tileServiceState = if (data != null) PackageManager.COMPONENT_ENABLED_STATE_ENABLED
-            else PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+            val tileService = ComponentName(context, getClassNameForId(id))
+            val tileServiceState = if (data != null) {
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+            } else {
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+            }
             context.packageManager.setComponentEnabledSetting(
                 tileService,
                 tileServiceState,
@@ -262,6 +263,7 @@ abstract class AbstractTileService : TileService() {
         }
 
         @VisibleForTesting fun getClassNameForId(id: Int) = "org.openhab.habdroid.background.tiles.TileService$id"
+
         fun getIdFromClassName(className: String) =
             className.substringAfter("org.openhab.habdroid.background.tiles.TileService").toInt()
     }

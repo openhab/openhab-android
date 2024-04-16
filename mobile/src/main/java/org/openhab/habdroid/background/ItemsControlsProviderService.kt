@@ -311,11 +311,12 @@ class ItemsControlsProviderService : ControlsProviderService() {
                     item.name,
                     ControlButton(item.state?.asBoolean ?: false, context.getString(R.string.nfc_action_toggle))
                 )
-                item.isOfTypeOrGroupType(Item.Type.Dimmer) || item.isOfTypeOrGroupType(Item.Type.Color) -> ToggleRangeTemplate(
-                    "${item.name}_toggle",
-                    ControlButton(item.state?.asBoolean ?: false, context.getString(R.string.nfc_action_toggle)),
-                    createRangeTemplate(item, "%.0f%%")
-                )
+                item.isOfTypeOrGroupType(Item.Type.Dimmer) || item.isOfTypeOrGroupType(Item.Type.Color) ->
+                    ToggleRangeTemplate(
+                        "${item.name}_toggle",
+                        ControlButton(item.state?.asBoolean ?: false, context.getString(R.string.nfc_action_toggle)),
+                        createRangeTemplate(item, "%.0f%%")
+                    )
                 item.isOfTypeOrGroupType(Item.Type.Rollershutter) -> createRangeTemplate(item, "%.0f%%")
                 item.isOfTypeOrGroupType(Item.Type.Number) -> createRangeTemplate(
                     item,
@@ -333,11 +334,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
             val currentValue = item.state?.asNumber?.value ?: 0F
             val minimum = min(currentValue, item.minimum ?: 0F)
             val maximum = max(currentValue, item.maximum ?: 100F)
-            return RangeTemplate(
-                item.name, minimum, maximum,
-                currentValue, item.step ?: 1F,
-                format
-            )
+            return RangeTemplate(item.name, minimum, maximum, currentValue, item.step ?: 1F, format)
         }
 
         private fun getItemTagLabel(item: Item, type: Item.Tag): String? {

@@ -226,10 +226,11 @@ class MainSettingsFragment : AbstractSettingsFragment(), ConnectionFactory.Updat
         launcherPref.setOnPreferenceChangeListener { pref, newValue ->
             val context = pref.context
             val launcherAlias = ComponentName(context, "${context.packageName}.ui.LauncherActivityAlias")
-            val newState = if (newValue as Boolean)
+            val newState = if (newValue as Boolean) {
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED
-            else
+            } else {
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+            }
             context.packageManager.setComponentEnabledSetting(launcherAlias, newState, PackageManager.DONT_KILL_APP)
             true
         }

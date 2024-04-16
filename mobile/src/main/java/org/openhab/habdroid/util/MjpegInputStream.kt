@@ -15,7 +15,6 @@ package org.openhab.habdroid.util
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-
 import java.io.BufferedInputStream
 import java.io.ByteArrayInputStream
 import java.io.DataInputStream

@@ -31,9 +31,9 @@ class WidgetDataSource() {
         private set
     var id: String? = null
         private set
-    var icon: String? = null
-        private set
     var link: String? = null
+        private set
+    var icon: String? = null
         private set
 
     val widgets: List<Widget> get() {
@@ -66,8 +66,8 @@ class WidgetDataSource() {
             return
         }
         try {
-            jsonObject.getJSONArray("widgets").forEach {
-                    obj -> allWidgets.addAll(obj.collectWidgets(null))
+            jsonObject.getJSONArray("widgets").forEach { obj ->
+                allWidgets.addAll(obj.collectWidgets(null))
             }
             id = jsonObject.optStringOrNull("id")
             title = jsonObject.optString("title", id.orEmpty())

@@ -238,10 +238,10 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
             "Product: ${Build.PRODUCT}\n" +
             "OS: ${Build.VERSION.RELEASE}\n" +
             "Display: ${displayMetrics.widthPixels}x${displayMetrics.heightPixels}, " +
-                "${displayMetrics.density} density\n" +
+            "${displayMetrics.density} density\n" +
             "Data usage policy: ${determineDataUsagePolicy()}, " +
-                "data saver: ${(applicationContext as OpenHabApplication).systemDataSaverStatus}, " +
-                "battery saver: ${(applicationContext as OpenHabApplication).batterySaverActive}\n"
+            "data saver: ${(applicationContext as OpenHabApplication).systemDataSaverStatus}, " +
+            "battery saver: ${(applicationContext as OpenHabApplication).batterySaverActive}\n"
     }
 
     private fun redactHost(text: String, url: String?, replacement: String): String {

@@ -461,6 +461,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
                 android.Manifest.permission.CAMERA
             )
         )
+
         private fun permsToWebResources(androidPermissions: Array<String>) = PERMISSION_REQUEST_MAPPING
             .filter { (_, perms) -> perms.all { perm -> androidPermissions.contains(perm) } }
             .keys
@@ -473,6 +474,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
 
     interface ParentCallback {
         fun closeFragment()
+
         fun updateActionBarState()
     }
 

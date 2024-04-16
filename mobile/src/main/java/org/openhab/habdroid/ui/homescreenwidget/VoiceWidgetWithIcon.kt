@@ -18,7 +18,6 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import androidx.annotation.LayoutRes
-
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.PendingIntent_Immutable

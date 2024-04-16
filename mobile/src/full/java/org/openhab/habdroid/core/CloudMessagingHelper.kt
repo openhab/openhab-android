@@ -41,8 +41,7 @@ object CloudMessagingHelper {
     }
 
     fun onNotificationSelected(context: Context, intent: Intent) {
-        val notificationId = intent.getIntExtra(
-                NotificationHelper.EXTRA_NOTIFICATION_ID, -1)
+        val notificationId = intent.getIntExtra(NotificationHelper.EXTRA_NOTIFICATION_ID, -1)
         if (notificationId >= 0) {
             FcmRegistrationWorker.scheduleHideNotification(context, notificationId)
         }
@@ -64,15 +63,15 @@ object CloudMessagingHelper {
         val cloudFailure = cloudConnectionResult?.failureReason
         return when {
             // No remote server is configured
-            prefs.getRemoteUrl(prefs.getPrimaryServerId()).isEmpty() ->
-                PushNotificationStatus(
-                    context.getString(R.string.push_notification_status_no_remote_configured),
-                    R.drawable.ic_bell_off_outline_grey_24dp,
-                    false
-                )
+            prefs.getRemoteUrl(prefs.getPrimaryServerId()).isEmpty() -> PushNotificationStatus(
+                context.getString(R.string.push_notification_status_no_remote_configured),
+                R.drawable.ic_bell_off_outline_grey_24dp,
+                false
+            )
             // Cloud connection failed
             cloudFailure != null && cloudFailure !is NotACloudServerException -> {
-                val message = context.getString(R.string.push_notification_status_http_error,
+                val message = context.getString(
+                    R.string.push_notification_status_http_error,
                     context.getHumanReadableErrorMessage(
                         if (cloudFailure is HttpClient.HttpException) cloudFailure.originalUrl else "",
                         if (cloudFailure is HttpClient.HttpException) cloudFailure.statusCode else 0,
@@ -90,12 +89,11 @@ object CloudMessagingHelper {
                     false
                 )
             // Registration isn't done yet
-            !registrationDone ->
-                PushNotificationStatus(
-                    context.getString(R.string.info_openhab_gcm_in_progress),
-                    R.drawable.ic_bell_outline_grey_24dp,
-                    false
-                )
+            !registrationDone -> PushNotificationStatus(
+                context.getString(R.string.info_openhab_gcm_in_progress),
+                R.drawable.ic_bell_outline_grey_24dp,
+                false
+            )
             // Registration failed
             registrationFailureReason != null -> {
                 val gaa = GoogleApiAvailability.getInstance()
@@ -115,12 +113,11 @@ object CloudMessagingHelper {
                 }
             }
             // Push notifications are working
-            else ->
-                PushNotificationStatus(
-                    context.getString(R.string.info_openhab_gcm_connected),
-                    R.drawable.ic_bell_ring_outline_grey_24dp,
-                    false
-                )
+            else -> PushNotificationStatus(
+                context.getString(R.string.info_openhab_gcm_connected),
+                R.drawable.ic_bell_ring_outline_grey_24dp,
+                false
+            )
         }
     }
 }
