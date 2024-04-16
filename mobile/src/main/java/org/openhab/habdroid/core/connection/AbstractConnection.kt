@@ -28,21 +28,13 @@ abstract class AbstractConnection : Connection {
 
     protected val baseUrl: String
     private val socketFactory = object : SocketFactory() {
-        override fun createSocket(): Socket {
-            return prepareSocket(Socket())
-        }
-        override fun createSocket(host: String?, port: Int): Socket {
-            return prepareSocket(Socket(host, port))
-        }
-        override fun createSocket(host: String?, port: Int, clientAddress: InetAddress?, clientPort: Int): Socket {
-            return prepareSocket(Socket(host, port, clientAddress, clientPort))
-        }
-        override fun createSocket(host: InetAddress?, port: Int): Socket {
-            return prepareSocket(Socket(host, port))
-        }
-        override fun createSocket(host: InetAddress?, port: Int, clientAddress: InetAddress?, clientPort: Int): Socket {
-            return prepareSocket(Socket(host, port, clientAddress, clientPort))
-        }
+        override fun createSocket() = prepareSocket(Socket())
+        override fun createSocket(host: String?, port: Int) = prepareSocket(Socket(host, port))
+        override fun createSocket(host: String?, port: Int, clientAddress: InetAddress?, clientPort: Int) =
+            prepareSocket(Socket(host, port, clientAddress, clientPort))
+        override fun createSocket(host: InetAddress?, port: Int) = prepareSocket(Socket(host, port))
+        override fun createSocket(host: InetAddress?, port: Int, clientAddress: InetAddress?, clientPort: Int) =
+            prepareSocket(Socket(host, port, clientAddress, clientPort))
     }
 
     internal constructor(

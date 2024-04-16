@@ -64,12 +64,18 @@ class EventListenerService : Service() {
                 getString(R.string.send_device_info_foreground_service_running_summary_one, titlesOfItems[0])
             }
             titlesOfItems.size == 2 -> {
-                getString(R.string.send_device_info_foreground_service_running_summary_two,
-                    titlesOfItems[0], titlesOfItems[1])
+                getString(
+                    R.string.send_device_info_foreground_service_running_summary_two,
+                    titlesOfItems[0],
+                    titlesOfItems[1]
+                )
             }
             else -> {
-                getString(R.string.send_device_info_foreground_service_running_summary_more,
-                    titlesOfItems[0], titlesOfItems[1])
+                getString(
+                    R.string.send_device_info_foreground_service_running_summary_more,
+                    titlesOfItems[0],
+                    titlesOfItems[1]
+                )
             }
         }
         val title = getString(R.string.send_device_info_foreground_service_title)
@@ -105,6 +111,7 @@ class EventListenerService : Service() {
 
     companion object {
         private val TAG = EventListenerService::class.java.simpleName
+
         @VisibleForTesting val KNOWN_EVENT_LISTENER_KEYS = listOf(
             PrefKeys.SEND_BATTERY_LEVEL,
             PrefKeys.SEND_CHARGING_STATE,

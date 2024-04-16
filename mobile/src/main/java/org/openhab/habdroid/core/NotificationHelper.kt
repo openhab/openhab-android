@@ -53,11 +53,7 @@ class NotificationHelper(private val context: Context) {
     ) {
         createChannelForSeverity(message.severity)
 
-        val n = makeNotification(
-            message,
-            notificationId,
-            deleteIntent
-        )
+        val n = makeNotification(message, notificationId, deleteIntent)
 
         notificationManager.notify(notificationId, n)
 
@@ -127,9 +123,7 @@ class NotificationHelper(private val context: Context) {
         val contentIntent = makeNotificationClickIntent(message.id, notificationId)
         val channelId = getChannelId(message.severity)
 
-        val publicText = context.resources.getQuantityString(
-            R.plurals.summary_notification_text, 1, 1
-        )
+        val publicText = context.resources.getQuantityString(R.plurals.summary_notification_text, 1, 1)
         val publicVersion = makeNotificationBuilder(channelId, message.createdTimestamp)
             .setContentText(publicText)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -196,7 +190,8 @@ class NotificationHelper(private val context: Context) {
     ): Notification {
         val text = context.resources.getQuantityString(
             R.plurals.summary_notification_text,
-            subNotificationCount, subNotificationCount
+            subNotificationCount,
+            subNotificationCount
         )
         val clickIntent = makeNotificationClickIntent(null, SUMMARY_NOTIFICATION_ID)
         val publicVersion = makeNotificationBuilder(
@@ -219,10 +214,7 @@ class NotificationHelper(private val context: Context) {
             .build()
     }
 
-    private fun makeNotificationClickIntent(
-        persistedId: String?,
-        notificationId: Int
-    ): PendingIntent {
+    private fun makeNotificationClickIntent(persistedId: String?, notificationId: Int): PendingIntent {
         val contentIntent = Intent(context, MainActivity::class.java).apply {
             action = MainActivity.ACTION_NOTIFICATION_SELECTED
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -237,23 +229,25 @@ class NotificationHelper(private val context: Context) {
         )
     }
 
-    private fun makeNotificationBuilder(
-        channelId: String,
-        timestamp: Long
-    ) = NotificationCompat.Builder(context, channelId)
-        .setSmallIcon(R.drawable.ic_openhab_appicon_white_24dp)
-        .setWhen(timestamp)
-        .setShowWhen(timestamp != 0L)
-        .setColor(ContextCompat.getColor(context, R.color.openhab_orange))
-        .setAutoCancel(true)
-        .setLights(ContextCompat.getColor(context, R.color.openhab_orange), 3000, 3000)
-        .setVibrate(context.getPrefs().getNotificationVibrationPattern(context))
-        .setGroup("gcm")
+    private fun makeNotificationBuilder(channelId: String, timestamp: Long) =
+        NotificationCompat.Builder(context, channelId)
+            .setSmallIcon(R.drawable.ic_openhab_appicon_white_24dp)
+            .setWhen(timestamp)
+            .setShowWhen(timestamp != 0L)
+            .setColor(ContextCompat.getColor(context, R.color.openhab_orange))
+            .setAutoCancel(true)
+            .setLights(ContextCompat.getColor(context, R.color.openhab_orange), 3000, 3000)
+            .setVibrate(context.getPrefs().getNotificationVibrationPattern(context))
+            .setGroup("gcm")
 
     companion object {
         private val TAG = NotificationHelper::class.java.simpleName
-        private fun getChannelId(severity: String?) = if (severity.isNullOrEmpty())
-            NotificationUpdateObserver.CHANNEL_ID_MESSAGE_DEFAULT else "severity-$severity"
+
+        private fun getChannelId(severity: String?) = if (severity.isNullOrEmpty()) {
+            NotificationUpdateObserver.CHANNEL_ID_MESSAGE_DEFAULT
+        } else {
+            "severity-$severity"
+        }
 
         @Suppress("MemberVisibilityCanBePrivate") // Used in full flavor
         internal const val EXTRA_NOTIFICATION_ID = "notificationId"

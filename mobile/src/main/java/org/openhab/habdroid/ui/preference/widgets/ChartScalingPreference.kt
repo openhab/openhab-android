@@ -21,7 +21,6 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
 import com.google.android.material.slider.Slider
 import kotlin.math.max
-
 import org.openhab.habdroid.R
 
 class ChartScalingPreference(context: Context, attrs: AttributeSet) :

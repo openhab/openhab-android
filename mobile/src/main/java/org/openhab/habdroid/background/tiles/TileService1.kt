@@ -18,5 +18,5 @@ import androidx.annotation.RequiresApi
 
 @RequiresApi(Build.VERSION_CODES.N)
 class TileService1 : AbstractTileService() {
-    override val ID = 1
+    override val id = 1
 }

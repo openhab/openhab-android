@@ -46,7 +46,6 @@ import org.openhab.habdroid.util.openInBrowser
 open class ConnectionWebViewClient(
     private val connection: Connection
 ) : WebViewClient() {
-
     override fun onReceivedHttpAuthRequest(view: WebView, handler: HttpAuthHandler, host: String, realm: String) {
         handler.proceed(connection.username, connection.password)
     }

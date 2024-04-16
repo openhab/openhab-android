@@ -81,7 +81,7 @@ class ItemTest {
 
     @Test
     fun isReadOnly() {
-        val json = with(JSONObject()) {
+        val json = JSONObject().apply {
             put("name", "TestItem")
             put("type", "Dummy")
         }
@@ -174,52 +174,47 @@ class ItemTest {
         private val itemAsJsonObjectWithMembers = JSONObject(
             """
             { 'members': [
-            { 'state': '52.5200066,13.4029540', 'type': 'Location', 'name': 'GroupDemoLocation',
-              'label': 'Location 1', 'groupNames': [ 'LocationGroup' ] },
-            { 'state': '52.5200066,13.4029540', 'type': 'Location', 'name': 'GroupDemoLocation',
-              'label': 'Location 2 [foo]', 'groupNames': [ 'LocationGroup' ] },
-            ], 'state': 'NULL', 'type': 'Group', 'name': 'LocationGroup', 'label': 'Location Group',
-                'tags': [ "Lighting", "Switchable", "Timestamp", "foobar" ] }
+              { 'state': '52.5200066,13.4029540', 'type': 'Location', 'name': 'GroupDemoLocation',
+                'label': 'Location 1', 'groupNames': [ 'LocationGroup' ] },
+              { 'state': '52.5200066,13.4029540', 'type': 'Location', 'name': 'GroupDemoLocation',
+                'label': 'Location 2 [foo]', 'groupNames': [ 'LocationGroup' ] },
+              ],
+              'state': 'NULL', 'type': 'Group', 'name': 'LocationGroup', 'label': 'Location Group',
+              'tags': [ "Lighting", "Switchable", "Timestamp", "foobar" ]
+            }
             """.trimIndent()
         )
         private val itemAsJsonObject = JSONObject(
             """
-              { 'state': 'NULL',
-                'type': 'Group',
-                'name': 'LocationGroup',
-                'label': 'Location Group',
-                'tags': [ "Lighting", "Switchable", "Timestamp", "foobar" ],
-                'category': 'Switch' }
+            { 'state': 'NULL',
+              'type': 'Group',
+              'name': 'LocationGroup',
+              'label': 'Location Group',
+              'tags': [ "Lighting", "Switchable", "Timestamp", "foobar" ],
+              'category': 'Switch'
+            }
             """.trimIndent()
         )
         private val itemAsJsonObjectWithoutLabel = JSONObject(
             """
-              { 'state': 'NULL',
-                'type': 'Group',
-                'name': 'LocationGroup' }
+            { 'state': 'NULL',
+              'type': 'Group',
+              'name': 'LocationGroup'
+            }
             """.trimIndent()
         )
         private val itemWithCommandOptions = JSONObject(
             """
-              { 'state': 'NULL',
-                'type': 'Number',
-                'name': 'Foo',
-                'commandDescription': {
-                  'commandOptions': [
-                    {
-                      'command': '1',
-                      'label': 'One',
-                      'icon': 'switch',
-                      'row': 1,
-                      'column': 2
-                    },
-                    {
-                      'command': '2',
-                      'label': 'Two'
-                    },
-                  ]
-                }
+            { 'state': 'NULL',
+              'type': 'Number',
+              'name': 'Foo',
+              'commandDescription': {
+                'commandOptions': [
+                  { 'command': '1', 'label': 'One', 'icon': 'switch', 'row': 1, 'column': 2 },
+                  { 'command': '2', 'label': 'Two' },
+                ]
               }
+            }
             """.trimIndent()
         )
     }

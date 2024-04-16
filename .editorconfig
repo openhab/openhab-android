@@ -12,6 +12,7 @@ insert_final_newline = true
 
 [*.{java,kt,xml}]
 max_line_length = 120
+ktlint_code_style = android_studio
 
 [*.yml]
 indent_size = 2

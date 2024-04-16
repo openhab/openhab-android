@@ -136,7 +136,10 @@ class TileSettingsFragment :
         val backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (prefs.getTileData(tileId) != getCurrentPrefsAsTileData()) {
-                    PreferencesActivity.ConfirmLeaveDialogFragment().show(childFragmentManager, "dialog_confirm_leave")
+                    PreferencesActivity.ConfirmLeaveDialogFragment().show(
+                        childFragmentManager,
+                        "dialog_confirm_leave"
+                    )
                 } else {
                     isEnabled = false
                     parentActivity.onBackPressedDispatcher.onBackPressed()
@@ -193,11 +196,10 @@ class TileSettingsFragment :
 
     private fun updateIconPrefIcon(newIcon: String = iconPref.value) {
         val context = iconPref.context
-        iconPref.icon =
-            ContextCompat.getDrawable(context, AbstractTileService.getIconRes(context, newIcon))?.apply {
-                mutate()
-                setTint(context.getColor(R.color.pref_icon_grey))
-            }
+        iconPref.icon = ContextCompat.getDrawable(context, AbstractTileService.getIconRes(context, newIcon))?.apply {
+            mutate()
+            setTint(context.getColor(R.color.pref_icon_grey))
+        }
     }
 
     private fun getCurrentPrefsAsTileData(): TileData? {

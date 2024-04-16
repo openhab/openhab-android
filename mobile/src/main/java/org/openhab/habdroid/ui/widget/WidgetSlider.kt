@@ -35,7 +35,6 @@ class WidgetSlider(context: Context, attrs: AttributeSet?) :
     LabelFormatter,
     Slider.OnChangeListener,
     Slider.OnSliderTouchListener {
-
     interface UpdateListener {
         suspend fun onValueUpdate(value: Float)
     }
@@ -57,8 +56,11 @@ class WidgetSlider(context: Context, attrs: AttributeSet?) :
         val from = (if (isColor) 0F else widget.minValue).toBigDecimal()
         val to = (if (isColor) 100F else widget.maxValue).toBigDecimal()
         val step = (if (isColor) 1F else widget.step).toBigDecimal()
-        val widgetValue = (if (isColor) widget.state?.asBrightness?.toBigDecimal() else widget.state?.asNumber?.value?.toBigDecimal())
-            ?: from
+        val widgetValue = if (isColor) {
+            widget.state?.asBrightness?.toBigDecimal()
+        } else {
+            widget.state?.asNumber?.value?.toBigDecimal()
+        } ?: from
 
         updateJob?.cancel()
         this.updateOnMove = updateOnMove
@@ -139,4 +141,3 @@ class WidgetSlider(context: Context, attrs: AttributeSet?) :
         private val TAG = WidgetSlider::class.java.simpleName
     }
 }
-

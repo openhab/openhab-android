@@ -52,11 +52,7 @@ class ConnectionSettingsFragment : AbstractSettingsFragment() {
             getString(requireArguments().getInt("urlsummary"), actualValue)
         }
 
-        userNamePreference = initEditor(
-            "username",
-            path.userName,
-            R.drawable.ic_person_outline_grey_24dp
-        ) { value ->
+        userNamePreference = initEditor("username", path.userName, R.drawable.ic_person_outline_grey_24dp) { value ->
             if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set)
         }
         passwordPreference = initEditor(

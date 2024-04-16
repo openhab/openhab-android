@@ -172,9 +172,10 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         val insets = if (Build.VERSION.SDK_INT < 30 && isFullscreenEnabled) {
             Insets.NONE
         } else {
-            val insetsType = WindowInsetsCompat.Type.statusBars() or
-                WindowInsetsCompat.Type.navigationBars() or
-                WindowInsetsCompat.Type.displayCutout()
+            val insetsType =
+                WindowInsetsCompat.Type.statusBars() or
+                    WindowInsetsCompat.Type.navigationBars() or
+                    WindowInsetsCompat.Type.displayCutout()
             lastInsets?.getInsets(insetsType) ?: Insets.NONE
         }
         // AppBarLayout uses its own insets calculations, which doesn't factor in status bar visibility on API < 30
@@ -189,15 +190,15 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
 
     private fun setNavigationBarColor() {
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+
         @ColorInt val black = ContextCompat.getColor(this, R.color.black)
-        @ColorInt val windowColor = if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
-            resolveThemedColor(android.R.attr.windowBackground, black)
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+        @ColorInt val windowColor = when {
+            currentNightMode == Configuration.UI_MODE_NIGHT_YES ->
                 resolveThemedColor(android.R.attr.windowBackground, black)
-            } else {
-                black
-            }
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ->
+                resolveThemedColor(android.R.attr.windowBackground, black)
+            else -> black
         }
         window.navigationBarColor = windowColor
 
@@ -242,20 +243,22 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
             snackbar.setAction(actionResId) { onClickListener() }
         }
         snackbar.view.tag = tag
-        snackbar.addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
-            override fun onShown(transientBottomBar: Snackbar?) {
-                super.onShown(transientBottomBar)
-                Log.d(TAG, "Show snackbar with tag $tag")
-            }
-
-            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                super.onDismissed(transientBottomBar, event)
-                if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
-                    onDismissListener?.invoke()
+        snackbar.addCallback(
+            object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                override fun onShown(transientBottomBar: Snackbar?) {
+                    super.onShown(transientBottomBar)
+                    Log.d(TAG, "Show snackbar with tag $tag")
                 }
-                showNextSnackbar()
+
+                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                    super.onDismissed(transientBottomBar, event)
+                    if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
+                        onDismissListener?.invoke()
+                    }
+                    showNextSnackbar()
+                }
             }
-        })
+        )
         hideSnackbar(tag)
         Log.d(TAG, "Queue snackbar with tag $tag")
         snackbarQueue.add(snackbar)

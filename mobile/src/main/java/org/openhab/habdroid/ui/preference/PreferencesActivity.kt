@@ -150,6 +150,7 @@ class PreferencesActivity : AbstractBaseActivity() {
     class ConfirmLeaveDialogFragment : DialogFragment() {
         interface Callback {
             fun onLeaveAndSave()
+
             fun onLeaveAndDiscard()
         }
 

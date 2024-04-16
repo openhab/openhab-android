@@ -343,10 +343,11 @@ class WidgetImageView(context: Context, attrs: AttributeSet?) : AppCompatImageVi
             }
 
             Log.i(TAG, "Refreshing image at $url, avoidCache $avoidCache")
-            val cachingMode = if (avoidCache)
+            val cachingMode = if (avoidCache) {
                 HttpClient.CachingMode.AVOID_CACHE
-            else
+            } else {
                 HttpClient.CachingMode.FORCE_CACHE_IF_POSSIBLE
+            }
 
             val actualUrl = if (addRandomnessToUrl) {
                 if (avoidCache) {
@@ -365,13 +366,9 @@ class WidgetImageView(context: Context, attrs: AttributeSet?) : AppCompatImageVi
                         else -> ImageConversionPolicy.PreferSourceSize
                     }
                     val fallbackColor = context.getIconFallbackColor(IconBackground.APP_THEME)
-                    val bitmap = client.get(actualUrl.toString(),
-                        timeoutMillis = timeoutMillis, caching = cachingMode)
-                        .asBitmap(
-                            size,
-                            fallbackColor,
-                            conversionPolicy
-                        )
+                    val bitmap = client
+                        .get(actualUrl.toString(), timeoutMillis = timeoutMillis, caching = cachingMode)
+                        .asBitmap(size, fallbackColor, conversionPolicy)
                         .response
                     CacheManager.getInstance(context).cacheBitmap(url, bitmap, fallbackColor)
                     applyLoadedBitmap(bitmap)
@@ -406,12 +403,14 @@ class WidgetImageView(context: Context, attrs: AttributeSet?) : AppCompatImageVi
     }
 
     abstract class PendingRequest
+
     data class PendingHttpRequest(
         val client: HttpClient,
         val url: HttpUrl,
         val timeoutMillis: Long,
         val forceLoad: Boolean
     ) : PendingRequest()
+
     data class PendingBase64Request(val bitmap: Bitmap) : PendingRequest()
 
     enum class ImageScalingType {

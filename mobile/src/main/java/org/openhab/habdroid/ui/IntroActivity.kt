@@ -72,13 +72,11 @@ class IntroActivity : AppIntro(), CoroutineScope {
                 R.string.tiles_for_quick_settings,
                 R.string.intro_quick_tile_description,
                 R.drawable.ic_twotone_library_books_themed_340dp
-
             )
             addSlide(
                 R.string.intro_send_device_info,
                 R.string.intro_send_device_info_description,
                 R.drawable.ic_twotone_access_alarm_themed_340dp
-
             )
 
             if (getPrefs().getConfiguredServerIds().isEmpty()) {

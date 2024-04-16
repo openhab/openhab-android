@@ -67,16 +67,18 @@ object MapViewHelper {
                 setMultiTouchControls(false)
                 setDestroyMode(false)
                 overlays.add(CopyrightOverlay(itemView.context))
-                overlays.add(MapEventsOverlay(object : MapEventsReceiver {
-                    override fun singleTapConfirmedHelper(p: GeoPoint): Boolean {
-                        openPopup()
-                        return true
-                    }
+                overlays.add(
+                    MapEventsOverlay(object : MapEventsReceiver {
+                        override fun singleTapConfirmedHelper(p: GeoPoint): Boolean {
+                            openPopup()
+                            return true
+                        }
 
-                    override fun longPressHelper(p: GeoPoint): Boolean {
-                        return false
-                    }
-                }))
+                        override fun longPressHelper(p: GeoPoint): Boolean {
+                            return false
+                        }
+                    })
+                )
                 mapOverlay.setColorFilter(if (context.isDarkModeActive()) TilesOverlay.INVERT_COLORS else null)
             }
         }

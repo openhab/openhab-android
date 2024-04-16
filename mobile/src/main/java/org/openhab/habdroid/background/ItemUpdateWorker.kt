@@ -292,23 +292,23 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
         value: String,
         mappedValue: String
     ): String = when (value) {
-            "ON" -> context.getString(R.string.item_update_success_message_on, label)
-            "OFF" -> context.getString(R.string.item_update_success_message_off, label)
-            "UP" -> context.getString(R.string.item_update_success_message_up, label)
-            "DOWN" -> context.getString(R.string.item_update_success_message_down, label)
-            "MOVE" -> context.getString(R.string.item_update_success_message_move, label)
-            "STOP" -> context.getString(R.string.item_update_success_message_stop, label)
-            "INCREASE" -> context.getString(R.string.item_update_success_message_increase, label)
-            "DECREASE" -> context.getString(R.string.item_update_success_message_decrease, label)
-            "UNDEF" -> context.getString(R.string.item_update_success_message_undefined, label)
-            "" -> context.getString(R.string.item_update_success_message_empty_string, label)
-            "PLAY" -> context.getString(R.string.item_update_success_message_play, label)
-            "PAUSE" -> context.getString(R.string.item_update_success_message_pause, label)
-            "NEXT" -> context.getString(R.string.item_update_success_message_next, label)
-            "PREVIOUS" -> context.getString(R.string.item_update_success_message_previous, label)
-            "REWIND" -> context.getString(R.string.item_update_success_message_rewind, label)
-            "FASTFORWARD" -> context.getString(R.string.item_update_success_message_fastforward, label)
-            else -> context.getString(R.string.item_update_success_message_generic, label, mappedValue)
+        "ON" -> context.getString(R.string.item_update_success_message_on, label)
+        "OFF" -> context.getString(R.string.item_update_success_message_off, label)
+        "UP" -> context.getString(R.string.item_update_success_message_up, label)
+        "DOWN" -> context.getString(R.string.item_update_success_message_down, label)
+        "MOVE" -> context.getString(R.string.item_update_success_message_move, label)
+        "STOP" -> context.getString(R.string.item_update_success_message_stop, label)
+        "INCREASE" -> context.getString(R.string.item_update_success_message_increase, label)
+        "DECREASE" -> context.getString(R.string.item_update_success_message_decrease, label)
+        "UNDEF" -> context.getString(R.string.item_update_success_message_undefined, label)
+        "" -> context.getString(R.string.item_update_success_message_empty_string, label)
+        "PLAY" -> context.getString(R.string.item_update_success_message_play, label)
+        "PAUSE" -> context.getString(R.string.item_update_success_message_pause, label)
+        "NEXT" -> context.getString(R.string.item_update_success_message_next, label)
+        "PREVIOUS" -> context.getString(R.string.item_update_success_message_previous, label)
+        "REWIND" -> context.getString(R.string.item_update_success_message_rewind, label)
+        "FASTFORWARD" -> context.getString(R.string.item_update_success_message_fastforward, label)
+        else -> context.getString(R.string.item_update_success_message_generic, label, mappedValue)
     }
 
     companion object {
@@ -359,10 +359,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
                 .build()
         }
 
-        fun getShortItemUpdateSuccessMessage(
-            context: Context,
-            value: String
-        ): String = when (value) {
+        fun getShortItemUpdateSuccessMessage(context: Context, value: String): String = when (value) {
             "ON" -> context.getString(R.string.item_update_short_success_message_on)
             "OFF" -> context.getString(R.string.item_update_short_success_message_off)
             "UP" -> context.getString(R.string.item_update_short_success_message_up)

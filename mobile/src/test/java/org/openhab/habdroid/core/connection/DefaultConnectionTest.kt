@@ -122,7 +122,7 @@ class DefaultConnectionTest {
             Triple("user", "", true),
             Triple("", "", false),
             Triple("", "password", false),
-            Triple("user", "äöü", true),
+            Triple("user", "äöü", true)
         )
 
         credentials.forEach {
@@ -133,8 +133,11 @@ class DefaultConnectionTest {
             )
             val httpClient = connection.httpClient
 
-            val expectedCredentials =
-                if (it.third) Credentials.basic(it.first, it.second, StandardCharsets.UTF_8) else null
+            val expectedCredentials = if (it.third) {
+                Credentials.basic(it.first, it.second, StandardCharsets.UTF_8)
+            } else {
+                null
+            }
             assertEquals("User ${it.first}, password ${it.second}", expectedCredentials, httpClient.authHeader)
         }
     }

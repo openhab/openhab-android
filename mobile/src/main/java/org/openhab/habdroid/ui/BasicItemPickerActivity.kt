@@ -15,7 +15,6 @@ package org.openhab.habdroid.ui
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.annotation.LayoutRes
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.util.SuggestedCommandsFactory
