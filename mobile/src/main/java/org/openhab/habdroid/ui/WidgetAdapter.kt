@@ -1673,8 +1673,12 @@ fun Widget.shouldUseDateTimePickerForInput(): Boolean {
 }
 
 fun Widget.shouldUseSliderUpdatesDuringMove(): Boolean {
-    releaseOnly?.let { return !releaseOnly }
-    item ?: return false
+    if (releaseOnly != null) {
+        return !releaseOnly
+    }
+    if (item == null) {
+        return false
+    }
     if (
         item.isOfTypeOrGroupType(Item.Type.Dimmer) ||
         item.isOfTypeOrGroupType(Item.Type.Number) ||
