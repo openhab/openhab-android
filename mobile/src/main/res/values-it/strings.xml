@@ -565,6 +565,7 @@
     <string name="create_home_screen_widget_title">Crea widget</string>
     <string name="create_home_screen_widget_no_command">Mostra lo stato corrente</string>
     <string name="create_home_screen_widget_not_supported">Vai al menu widget nella schermata iniziale e crea un widget da lì</string>
+    <string name="analyse">Analizza</string>
     <!-- Data saver -->
     <string name="data_saver_title">Risparmio dati</string>
     <string name="data_saver_on">Gli elementi della Sitemap che richiedono grandi trasferimenti dati non vengono caricati</string>
