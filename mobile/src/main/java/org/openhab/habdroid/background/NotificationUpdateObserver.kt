@@ -43,7 +43,8 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
         val latestInfoByTag = HashMap<String, WorkInfo>()
         for (info in value) {
             for (tag in info.tags) {
-                if (tag in BackgroundTasksManager.KNOWN_KEYS ||
+                if (
+                    tag in BackgroundTasksManager.KNOWN_KEYS ||
                     tag == BackgroundTasksManager.WORKER_TAG_VOICE_COMMAND ||
                     tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_NFC) ||
                     tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_TASKER) ||
@@ -70,8 +71,10 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                             else -> {}
                         }
                     }
-                } else if (tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_TILE_ID) &&
-                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                } else if (
+                    tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_TILE_ID) &&
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                ) {
                     val tileId = tag.substringAfter(BackgroundTasksManager.WORKER_TAG_PREFIX_TILE_ID).toInt()
                     AbstractTileService.requestTileUpdate(context, tileId)
                 }
