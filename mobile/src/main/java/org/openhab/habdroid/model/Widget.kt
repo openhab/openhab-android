@@ -60,6 +60,7 @@ data class Widget(
     val forceAsItem: Boolean,
     val yAxisDecimalPattern: String?,
     val switchSupport: Boolean,
+    val releaseOnly: Boolean?,
     val height: Int,
     val visibility: Boolean,
     val rawInputHint: InputTypeHint?
@@ -211,6 +212,7 @@ data class Widget(
                 legend = source.legend,
                 forceAsItem = source.forceAsItem,
                 switchSupport = source.switchSupport,
+                releaseOnly = source.releaseOnly,
                 yAxisDecimalPattern = source.yAxisDecimalPattern,
                 height = source.height,
                 visibility = eventPayload.optBoolean("visibility", source.visibility),
@@ -347,6 +349,7 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
         forceAsItem = false,
         yAxisDecimalPattern = null,
         switchSupport = switchSupport,
+        releaseOnly = null,
         height = height,
         // inputHint was added in openHAB 4, so no support for openHAB 1 required.
         rawInputHint = null,
@@ -396,6 +399,7 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         forceAsItem = optBoolean("forceAsItem", false),
         yAxisDecimalPattern = optString("yAxisDecimalPattern"),
         switchSupport = optBoolean("switchSupport", false),
+        releaseOnly = optBooleanOrNull("releaseOnly"),
         height = optInt("height"),
         rawInputHint = optStringOrNull("inputHint").toInputHint(),
         visibility = optBoolean("visibility", true)
