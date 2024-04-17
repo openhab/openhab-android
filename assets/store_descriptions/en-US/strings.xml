@@ -4,7 +4,7 @@
     <whatis>openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.</whatis>
     <rules>On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.</rules>
     <supported>Supported Products</supported>
-    <bindings>Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://www.openhab.org/addons/.</bindings>
+    <bindings>Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://www.openhab.org/addons/</bindings>
     <automation_apps>The app has an action plugin for Tasker and Locale included.</automation_apps>
 
     <oss_community>Open Source Community</oss_community>
@@ -19,7 +19,7 @@
     <short_description>Vendor and technology agnostic open source home automation</short_description>
     <fdroid>The builds on F-Droid have FCM removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.</fdroid>
     <fdroid_beta><![CDATA[You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>Privacy policy: https://www.openhabfoundation.org/privacy.html#android-app.</fdroid_privacy_policy>
+    <fdroid_privacy_policy>Privacy policy: https://www.openhabfoundation.org/privacy.html#android-app</fdroid_privacy_policy>
     <beta>Try out new features and give early feedback!</beta>
     <play_beta>You can install the beta version alongside the stable version.</play_beta>
     <changelog_play_beta>Bug fixes and stability improvements. Please visit https://github.com/openhab/openhab-android/releases for a detailed changelog.</changelog_play_beta>
