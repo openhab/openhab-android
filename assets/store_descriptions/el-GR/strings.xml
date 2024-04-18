@@ -10,8 +10,8 @@
     <oss_community>Κοινότητα Ανοικτού Λογισμικού</oss_community>
     <forum>  </forum>
 
-    <report_issues>Όταν βρείτε ένα πρόβλημα παρακαλώ αναφέρετε το στο φόρουμ ή στο https://github.com/openhab/openhab-android/issues</report_issues>
-    <translation>Εάν θέλετε να μεταφράσετε την εφαρμογή στην γλώσσα σας δηλώστε συμμετοχή στο https://crowdin.com/project/openhab-android</translation>
+    <report_issues/>
+    <translation/>
     <foundation>Ίδρυμα openHAB</foundation>
     <about_foundation> </about_foundation>
     <important_note>Σημαντική Σημείωση</important_note>
