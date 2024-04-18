@@ -8,12 +8,12 @@
     <automation_apps>Uygulama, Tasker ve Locale için bir eylem eklentisine sahiptir.</automation_apps>
 
     <oss_community>Açık Kaynak Topluluğu</oss_community>
-    <forum>openHAB açık kaynak girişimi, canlı topluluğunu güçlü bir şekilde destekliyor. Forum 13,000 kayıtlı kullanıcı ile rehberlik, yardım ve ilham bulmak için bir yerdir. openHAB topluluk forumu' na katıl: https://community.openhab.org</forum>
+    <forum>openHAB açık kaynak girişimi, canlı topluluğunu güçlü bir şekilde destekliyor. Forum 13,000 kayıtlı kullanıcı ile rehberlik, yardım ve ilham bulmak için bir yerdir. </forum>
 
-    <report_issues>Bir sorun bulduğunuzda lütfen bunu forumda veya https://github.com/openhab/openhab-android/issues adresinde bildirin</report_issues>
-    <translation>Uygulamayı kendi dilinize çevirmek isterseniz https://crowdin.com/project/openhab-android adresinden bize katılın</translation>
+    <report_issues/>
+    <translation/>
     <foundation>openHAB Vakfı</foundation>
-    <about_foundation>openHAB Vakfı e.V. kamuoyunu serbest ve açık akıllı ev çözümlerinin olanakları ve faydaları hakkında eğitmek misyonu ile kar amacı gütmeyen bir organizasyondur. https://www.openhabfoundation.org adresinden vakfın misyonu ve hizmetleri hakkında bilgi edinin</about_foundation>
+    <about_foundation>openHAB Vakfı e.V. kamuoyunu serbest ve açık akıllı ev çözümlerinin olanakları ve faydaları hakkında eğitmek misyonu ile kar amacı gütmeyen bir organizasyondur. </about_foundation>
     <important_note>Önemli not</important_note>
     <oh_server>Bu uygulama için bir openHAB sunucusuna ihtiyacınız var.</oh_server>
     <short_description>Satıcı ve teknoloji agnostik açık kaynaklı ev otomasyonu</short_description>
