@@ -10,8 +10,8 @@
     <oss_community>Avatud lähtekoodiga ühendus</oss_community>
     <forum>  </forum>
 
-    <report_issues>Kui leiate vea, teatage sellest foorumis või aadressil https://github.com/openhab/openhab-android/issues</report_issues>
-    <translation>Kui soovite rakenduse oma keelde tõlkida, liituge meiega aadressil https://crowdin.com/project/openhab-android</translation>
+    <report_issues/>
+    <translation/>
     <foundation>openHAB sihtasutus</foundation>
     <about_foundation> </about_foundation>
     <important_note>Juhime tähelepanu</important_note>
