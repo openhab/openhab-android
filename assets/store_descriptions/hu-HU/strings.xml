@@ -8,12 +8,12 @@
     <automation_apps>Az alkalmazás rendelkezik eseménykezelő bővítménnyel a Tasker és a Locale számára.</automation_apps>
 
     <oss_community>Nyílt forráskódú közösség</oss_community>
-    <forum>Az openHAB egy nyílt forráskódú kezdeményezés, erős támogatottsággal és élénk, aktív közösséggel. Különböző leírásokat, segítséget és inspriációt nyerhet fórumunk több, mint 13,000 regisztrált felhasználójától. Az openHAB közösség fórumához a https://community.openhab.org oldalon lehet csatlakozni</forum>
+    <forum>Az openHAB egy nyílt forráskódú kezdeményezés, erős támogatottsággal és élénk, aktív közösséggel. Különböző leírásokat, segítséget és inspriációt nyerhet fórumunk több, mint 13,000 regisztrált felhasználójától. </forum>
 
-    <report_issues>Amikor találsz valamilyen hibát vagy hiányosságot, kérlek jelezd a fórumon vagy a https://github.com/openhab/openhab-android/issues internet oldalon</report_issues>
-    <translation>Ha szeretnéd az alkamazást lefordítani a saját nyelvedre, akkor csatlakozz hozzánk https://crowdin.com/project/openhab-android</translation>
+    <report_issues/>
+    <translation/>
     <foundation>openHAB alapítvány</foundation>
-    <about_foundation>Az openHAB Alapítvány e.V. egy nonprofit szervezet, azzal a küldetéssel, hogy megismertesse a közvéleményt a nyílt és okos otthon megoldások előnyeivel és lehetőségeivel. Tudj meg többet az alapítvány küldetéséről és szolgáltatásairól: https://www.openhabfoundation.org</about_foundation>
+    <about_foundation>Az openHAB Alapítvány e.V. egy nonprofit szervezet, azzal a küldetéssel, hogy megismertesse a közvéleményt a nyílt és okos otthon megoldások előnyeivel és lehetőségeivel. </about_foundation>
     <important_note>Fontos megjegyzés</important_note>
     <oh_server>openHAB szerverre van szükség az alkalmazás használatához.</oh_server>
     <short_description>Szabadgondolkozású technológia, nyílt forráskódú otthonautomatizálás</short_description>
