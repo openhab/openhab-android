@@ -8,12 +8,12 @@
     <automation_apps>The app has an action plugin for Tasker and Locale included.</automation_apps>
 
     <oss_community>Open Source Community</oss_community>
-    <forum>The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org</forum>
+    <forum>The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org.</forum>
 
-    <report_issues>When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues</report_issues>
-    <translation>If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android</translation>
+    <report_issues>When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues.</report_issues>
+    <translation>If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android.</translation>
     <foundation>openHAB Foundation</foundation>
-    <about_foundation>The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org</about_foundation>
+    <about_foundation>The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org.</about_foundation>
     <important_note>Important note</important_note>
     <oh_server>You need an openHAB server for this app.</oh_server>
     <short_description>Vendor and technology agnostic open source home automation</short_description>
