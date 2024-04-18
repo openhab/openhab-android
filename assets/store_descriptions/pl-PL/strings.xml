@@ -9,12 +9,12 @@
 
     <oss_community>Społeczność Open Source</oss_community>
     <forum>Inicjatywa open source openHAB mocno wspiera swoją żywą społeczność. Forum z ponad 13 000 zarejestrowanymi użytkownikami to miejsce, gdzie możesz
-znaleźć wskazówki, pomoc i inspirację. Dołącz do forum społeczności openHAB na https://community.openhab.org</forum>
+znaleźć wskazówki, pomoc i inspirację. </forum>
 
-    <report_issues>Po znalezieniu problemu złoś go na forum lub na https://github.com/openhab/openhab-android/issues</report_issues>
-    <translation>Jeśli chcesz przetłumaczyć tę aplikację na swój język dołącz do nas na https://crowdin.com/project/openhab-android</translation>
+    <report_issues/>
+    <translation/>
     <foundation>Fundacja openHAB</foundation>
-    <about_foundation>Fundacja openHAB jest organizacją non-profit z misją informowania o możliwościach i korzyściach z używania wolnych i otwartych rozwiązań dla inteligentnego domu. Dowiedz się więcej o misji i usługach fundacji na https://www.openhabfoundation.org</about_foundation>
+    <about_foundation>Fundacja openHAB jest organizacją non-profit z misją informowania o możliwościach i korzyściach z używania wolnych i otwartych rozwiązań dla inteligentnego domu. </about_foundation>
     <important_note>Istotne kwestie</important_note>
     <oh_server>Potrzebujesz serwera openHAB dla tej aplikacji.</oh_server>
     <short_description>Agnostyczna technologia automatyki domowej dla dostawców i technologii</short_description>
