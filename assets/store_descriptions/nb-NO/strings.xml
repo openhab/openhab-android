@@ -8,12 +8,12 @@
     <automation_apps>Programmet har et handlings-plugin for Tasker og Locale inkludert.</automation_apps>
 
     <oss_community>Åpen kildekode Community</oss_community>
-    <forum>openHAB åpen-kildekode initiativet støtter sitt levende samfunn. Forumet med over 13 000 registrerte brukere er et sted hvor man kan finne veiledning, hjelp og inspirasjon. Bli med i openHAB forumet på https://community.openhab.org</forum>
+    <forum>openHAB åpen-kildekode initiativet støtter sitt levende samfunn. Forumet med over 13 000 registrerte brukere er et sted hvor man kan finne veiledning, hjelp og inspirasjon. </forum>
 
-    <report_issues>Når du finner et problem kan du rapportere det i forumet eller på https://github.com/openhab/openhab-android/issues</report_issues>
-    <translation>Hvis du vil oversette app til ditt språk bli med oss på https://crowdin.com/project/openhab-android</translation>
+    <report_issues/>
+    <translation/>
     <foundation>openHAB Foundation</foundation>
-    <about_foundation>openHAB Foundation e.V. er en ideell organisasjon med målsetning om å opplyse offentligheten om mulighetene og fordelene av frie og åpne smarthjemløsninger. Lær om oppdraget og tjenestene til stiftelsen under https://www.openhabfoundation.org</about_foundation>
+    <about_foundation>openHAB Foundation e.V. er en ideell organisasjon med målsetning om å opplyse offentligheten om mulighetene og fordelene av frie og åpne smarthjemløsninger. </about_foundation>
     <important_note>Viktig merknad</important_note>
     <oh_server>Du trenger en openHAB server for å bruke dette programmet.</oh_server>
     <short_description>Leverandør- og teknologiuavhengig åpen kildekode for hjemmeautomasjon</short_description>
