@@ -8,12 +8,12 @@
     <automation_apps>Aplikace obsahuje action plugin pro Tasker a Locale.</automation_apps>
 
     <oss_community>Open Source komunita</oss_community>
-    <forum>openHAB open source iniciativa je silně podporována jeho živou komunitou. Fórum s více než 13 000 registrovaných uživatelů je místo, kde najdete návod, pomoc a inspiraci. Připojte se k diskuznímu fóru openHAB na https://community.openhab.org</forum>
+    <forum>openHAB open source iniciativa je silně podporována jeho živou komunitou. Fórum s více než 13 000 registrovaných uživatelů je místo, kde najdete návod, pomoc a inspiraci. </forum>
 
-    <report_issues>Případné nalezené chyby či problémy nahlaste prosím, ve fóru nebo v https://github.com/openhab/openhab-android/issues</report_issues>
-    <translation>Pokud chcete aplikaci přeložit do vašeho jazyka připojte se k nám na https://crowdin.com/project/openhab-android</translation>
+    <report_issues/>
+    <translation/>
     <foundation>openHAB Foundation</foundation>
-    <about_foundation>openHAB Foundation e.V. je nezisková organizace s posláním vzdělávat veřejnost o možnostech a výhodách svobodných a otevřených chytrých řešeních pro domácí automatizaci. Další informace o poslání a službách nadace naleznete na https://www.openhabfoundation.org</about_foundation>
+    <about_foundation>openHAB Foundation e.V. je nezisková organizace s posláním vzdělávat veřejnost o možnostech a výhodách svobodných a otevřených chytrých řešeních pro domácí automatizaci. </about_foundation>
     <important_note>Důležitá poznámka</important_note>
     <oh_server>Pro tuto aplikaci potřebujete openHAB server.</oh_server>
     <short_description>Domácí automatizace pro IoT různých výrobců a technologií</short_description>
