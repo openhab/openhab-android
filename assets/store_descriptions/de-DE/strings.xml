@@ -8,12 +8,12 @@
     <automation_apps>Diese App besitzt ein Action-Plugin für Tasker und Locale.</automation_apps>
 
     <oss_community>Open-Source-Community</oss_community>
-    <forum>Die quelloffene openHAB-Initiative unterstützt nachdrücklich ihre lebhafte Community. Das Forum (mit über 13.000 registrierten Mitgliedern) ist ein Ort an dem man Anleitung, Hilfe und Inspiration findet. Besuchen Sie das openHAB-Community-Forum auf https://community.openhab.org.</forum>
+    <forum>Die quelloffene openHAB-Initiative unterstützt nachdrücklich ihre lebhafte Community. Das Forum (mit über 13.000 registrierten Mitgliedern) ist ein Ort an dem man Anleitung, Hilfe und Inspiration findet. </forum>
 
-    <report_issues>Wenn Sie einen Fehler finden, melden Sie diesen bitte im Forum oder unter https://github.com/openhab/openhab-android/issues</report_issues>
-    <translation>Wenn Sie die App in Ihre Sprache übersetzen möchten, dann nehmen Sie unter https://crowdin.com/project/openhab-android teil.</translation>
+    <report_issues/>
+    <translation/>
     <foundation>openHAB Foundation e.V.</foundation>
-    <about_foundation>Die openHAB Foundation e.V. ist ein gemeinnütziger Verein mit dem Ziel, die Öffentlichkeit über die Möglichkeiten und den Nutzen von kostenlosen und offenen Smart Home Lösungen aufzuklären. Erfahren Sie mehr über die Ziele und Angebote der Foundation unter https://www.openhabfoundation.org</about_foundation>
+    <about_foundation>Die openHAB Foundation e.V. ist ein gemeinnütziger Verein mit dem Ziel, die Öffentlichkeit über die Möglichkeiten und den Nutzen von kostenlosen und offenen Smart Home Lösungen aufzuklären. </about_foundation>
     <important_note>Wichtiger Hinweis</important_note>
     <oh_server>Um diese App zu nutzen, benötigen Sie einen openHAB-Server.</oh_server>
     <short_description>Technologie- und herstellerunabhängige, quelloffene Automatisierungslösung</short_description>
