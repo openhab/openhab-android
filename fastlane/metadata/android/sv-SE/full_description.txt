@@ -14,13 +14,13 @@ Appen har en inbyggd åtgärdsplugin för Tasker och Locale.
 
 <b>Öppen källkods-gemenskapen</b>
 
-The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
+The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org.
 När du hittar ett problem vänligen rapportera det i forumet eller på https://github.com/openhab/openhab-android/issues
 Om du vill översätta appen till ditt språk gå med oss på https://crowdin.com/project/openhab-android
 
 <b>openHAB Foundation</b>
 
-The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
+The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org.
 
 <b>Viktigt meddelande</b>
 

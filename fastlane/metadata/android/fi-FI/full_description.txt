@@ -20,7 +20,7 @@ Jos haluat kääntää tämän sovelluksen omalle kielellesi niin liity mukaan o
 
 <b>openHAB Säätiö</b>
 
-The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
+The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org.
 
 <b>Tärkeä huomautus</b>
 

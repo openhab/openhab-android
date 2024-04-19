@@ -14,13 +14,13 @@ Rakendusel on sisseehitatud tegumi pistikprogrammid Taskeri ja Locale jaoks.
 
 <b>Avatud lähtekoodiga ühendus</b>
 
-The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
+The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org.
 Kui leiate vea, teatage sellest foorumis või aadressil https://github.com/openhab/openhab-android/issues
 Kui soovite rakenduse oma keelde tõlkida, liituge meiega aadressil https://crowdin.com/project/openhab-android
 
 <b>openHAB sihtasutus</b>
 
-The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
+The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org.
 
 <b>Juhime tähelepanu</b>
 

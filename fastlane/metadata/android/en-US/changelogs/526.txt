@@ -1,0 +1,8 @@
+## What's Changed
+* Support new Slider parameter: releaseOnly by @mueller-ma in https://github.com/openhab/openhab-android/pull/3641
+* Add fullstop at end of sentences by @dilyanpalauzov in https://github.com/openhab/openhab-android/pull/3645
+
+## New Contributors
+* @dilyanpalauzov made their first contribution in https://github.com/openhab/openhab-android/pull/3645
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.12.2-beta...3.12.3-beta
