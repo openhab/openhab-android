@@ -55,7 +55,7 @@ There are a number of strategies available to provide [secure remote access]({{b
 * [Send device information to openHAB](#send-device-information-to-openhab), like next alarm clock time or call state
 * [Supports wall mounted tablets](#permanent-deployment)
 * [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm) action plugin included
-* [Android Quick Access Device Controls](#quick-access-device-controls)
+* [Android Device Controls](#device-controls)
 
 ### Permanent Deployment
 
@@ -323,13 +323,16 @@ In case of an error the plugin returns an error code.
 | 11         | The app couldn't establish a connection                                                                                                                                                                    |
 | > 1000     | A connection was established, but an error occurred. The error code is 1000 + the HTTP code, e.g. 1401 means [Unauthenticated](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors). |
 
-### Quick Access Device Controls
+### Device Controls
 
-openHAB supports the device controls introduced in Android 11: https://www.android.com/intl/en_US/android-11/#a11-device-controls-article
+<img src="images/device-control.png" alt="Device Controls" width=200px>
+
+openHAB supports the device controls introduced in Android 11: https://developer.android.com/develop/ui/views/device-control
 When using a [semantic model](https://www.openhab.org/docs/tutorial/model.html#semantic-model) the location and/or equipment name can be shown in the tiles.
+The icon in the tiles is based on the semantic class of the Item.
 
 You can configure the page that is opened when you long-press a tile.
-Create a new "custom namespace" metadata on an Item with the name `link_to_more` and as `value` the link without the host to a Sitemap (e.g. `/basicui/app?w=0202&sitemap=demo`) or MainUI (e.g. `/locations`).
+Create an "Android App: Device Controls" metadata on an Item with a link without the host to a Sitemap (e.g. `/basicui/app?w=0202&sitemap=demo`) or MainUI (e.g. `/locations`).
 
 ### UI command Item
 
