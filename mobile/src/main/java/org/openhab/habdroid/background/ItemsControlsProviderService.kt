@@ -449,6 +449,9 @@ fun Item.getDeviceType() = when (category?.lowercase()?.substringAfterLast(':'))
         isOfTypeOrGroupType(Item.Type.Contact) -> DeviceTypes.TYPE_WINDOW
         isOfTypeOrGroupType(Item.Type.Player) -> DeviceTypes.TYPE_TV
         isOfTypeOrGroupType(Item.Type.Switch) -> DeviceTypes.TYPE_GENERIC_ON_OFF
+        isOfTypeOrGroupType(Item.Type.Dimmer) -> DeviceTypes.TYPE_LIGHT
+        isOfTypeOrGroupType(Item.Type.Color) -> DeviceTypes.TYPE_LIGHT
+        isOfTypeOrGroupType(Item.Type.Image) -> DeviceTypes.TYPE_CAMERA
 
         else -> DeviceTypes.TYPE_UNKNOWN
     }
