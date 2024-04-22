@@ -8,12 +8,12 @@
     <automation_apps>此应用程序自带 Tasker 及本地化插件。</automation_apps>
 
     <oss_community>开源社区</oss_community>
-    <forum>openHAB 的开源鼎力支持了其充满活力的社区。 社区共有超过 13000 位注册用户，是您寻求帮助与灵感的好地方。 在 https://community.openhab.org 处加入 openHAB 社区论坛</forum>
+    <forum>openHAB 的开源鼎力支持了其充满活力的社区。 社区共有超过 13000 位注册用户，是您寻求帮助与灵感的好地方。 </forum>
 
-    <report_issues>当您发现问题请在论坛或 https://github.com/openhab/openhab-android/issues 处汇报</report_issues>
-    <translation>若您想翻译应用程序至您的语言，请加入 https://crowdin.com/project/openhab-android</translation>
+    <report_issues/>
+    <translation/>
     <foundation>openHAB 基金会</foundation>
-    <about_foundation>openHAB 基金会是一个致力于向公共提出开源智能家居解决方案的无限可能与无限优点的非盈利组织。 请在 https://www.openhabfoundation.org 处了解本基金会的任务及服务</about_foundation>
+    <about_foundation>openHAB 基金会是一个致力于向公共提出开源智能家居解决方案的无限可能与无限优点的非盈利组织。 </about_foundation>
     <important_note>重要提示</important_note>
     <oh_server>您需要一台 openHAB 服务器以使用此应用程序.</oh_server>
     <short_description>开源家居自动化供应商与技术</short_description>

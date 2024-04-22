@@ -568,6 +568,7 @@
     <string name="create_home_screen_widget_title">Lag widget</string>
     <string name="create_home_screen_widget_no_command">Vis gjeldende tilstand</string>
     <string name="create_home_screen_widget_not_supported">Vennligst gå til widget-menyen på startskjermen og opprett en widget derfra</string>
+    <string name="analyse">Analyser</string>
     <!-- Data saver -->
     <string name="data_saver_title">Datasparing</string>
     <string name="data_saver_on">Sitemap-elementer som kan kreve større dataoverføringer blir ikke lastet</string>

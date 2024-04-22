@@ -8,12 +8,12 @@
     <automation_apps>L'app ha un plugin di azione per Tasker e Locale incluso.</automation_apps>
 
     <oss_community>Comunità Open Source</oss_community>
-    <forum>L’iniziativa openHAB open source è fortemente supportata dalla sua vivace community. Il forum con oltre 13.000 utenti registrati è un posto dove trovare la guida, l'aiuto e l'ispirazione. Partecipa al forum della comunità openHAB a https://community.openhab.org</forum>
+    <forum>L’iniziativa openHAB open source è fortemente supportata dalla sua vivace community. Il forum con oltre 13.000 utenti registrati è un posto dove trovare la guida, l'aiuto e l'ispirazione. Unisciti al forum della comunità openHAB su https://community.openhab.org.</forum>
 
-    <report_issues>Quando si verifica un problema, segnalalo nel forum o al https://github.com/openhab/openhab-android/issues</report_issues>
-    <translation>Se vuoi aiutare a tradurre l'applicazione nella tua lingua, visita https://crowdin.com/project/openhab-android</translation>
+    <report_issues>Quando trovi un problema per favore segnalalo nel forum o su https://github.com/openhab/openhab-android/issues.</report_issues>
+    <translation>Se vuoi tradurre l'app nella tua lingua unisciti a noi su https://crowdin.com/project/openhab-android.</translation>
     <foundation>openHAB Foundation</foundation>
-    <about_foundation>openHAB Foundation e.V. è una organizzazione nonprofit, con la missione di educare il pubblico sulle possibilità e benefici di una soluzione domotica libera e aperta. Approfondisci la missione e i servizi della fondazione a https://www.openhabfoundation.org</about_foundation>
+    <about_foundation>openHAB Foundation e.V. è una organizzazione nonprofit, con la missione di educare il pubblico sulle possibilità e benefici di una soluzione domotica libera e aperta. Scopri la missione e i servizi della fondazione sotto https://www.openhabfoundation.org.</about_foundation>
     <important_note>Nota importante</important_note>
     <oh_server>Hai bisogno di un server openHAB per questa app.</oh_server>
     <short_description>Soluzione domotica open source indipendente dalla tecnologia e dai produttori</short_description>

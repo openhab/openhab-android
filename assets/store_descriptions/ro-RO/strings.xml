@@ -8,12 +8,12 @@
     <automation_apps>Aplicația are un plugin de acțiune pentru Tasker și Locale inclus.</automation_apps>
 
     <oss_community>Comunitate Open Source</oss_community>
-    <forum>Inițiativa open source openHAB sprijină puternic comunitatea sa vibrantă. Forumul cu peste 13,000 de utilizatori înregistrați este un loc pentru îndrumare, ajutor și inspirație. Alătură-te comunității openHAB pe forum la https://community.openhab.org</forum>
+    <forum>Inițiativa open source openHAB sprijină puternic comunitatea sa vibrantă. Forumul cu peste 13,000 de utilizatori înregistrați este un loc pentru îndrumare, ajutor și inspirație. </forum>
 
-    <report_issues>Când aţi găsit o problemă, vă rugăm să o raportaţi pe forum sau la https://github.com/openhab/openhab-android/issues</report_issues>
-    <translation>Dacă vrei să traduci aplicația în limba ta, alătură-te nouă la https://crowdin.com/project/openhab-android</translation>
+    <report_issues/>
+    <translation/>
     <foundation>Fundația openHAB</foundation>
-    <about_foundation>Fundația openHAB e.V. este o organizație nonprofit cu misiunea de a educa publicul cu privire la posibilitățile și beneficiile soluțiilor libere și deschise pentru locuințe inteligente. Află mai multe despre misiunea și serviciile fundației la https://www.openhabfoundation.org</about_foundation>
+    <about_foundation>Fundația openHAB e.V. este o organizație nonprofit cu misiunea de a educa publicul cu privire la posibilitățile și beneficiile soluțiilor libere și deschise pentru locuințe inteligente. </about_foundation>
     <important_note>Notă importantă</important_note>
     <oh_server>Ai nevoie de un server openHAB pentru această aplicație.</oh_server>
     <short_description>Automatizare de locuințe open source, independentă de producători și tehnologii</short_description>

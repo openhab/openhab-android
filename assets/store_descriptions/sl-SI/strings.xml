@@ -8,12 +8,12 @@
     <automation_apps>Aplikacija ima vgrajen akcijski vtičnik za Tasker in Locale.</automation_apps>
 
     <oss_community>Odprtokodna skupnost</oss_community>
-    <forum>openHAB odprtokodna iniciativa močno podpira svojo živahno skupnost. Forum z več kot 13.000 registriranimi uporabniki je kraj kjer se lahko poišče smernice, pomoč in navdih. Pridruži se forumu openHAB skupnosti na https://community.openhab.org</forum>
+    <forum>openHAB odprtokodna iniciativa močno podpira svojo živahno skupnost. Forum z več kot 13.000 registriranimi uporabniki je kraj kjer se lahko poišče smernice, pomoč in navdih. </forum>
 
-    <report_issues>V kolikor najdete napako, jo prosim sporočite na forumu ali na https://github.com/openhab/openhab-android/issues</report_issues>
-    <translation>V kolikor želite prevesti aplikacijo v vaš jezik se nam pridružite na https://crowdin.com/project/openhab-android</translation>
+    <report_issues/>
+    <translation/>
     <foundation>openHAB fundacija</foundation>
-    <about_foundation>openHAB fundacija e.V. je neprofitna organizacija s ciljem učenja javnosti o možnostih in prednostih prostih in odprtih rešitev za domačo avtomatizacijo. Pozanimajte se o cilju in storitvah fundacije na https://www.openhabfoundation.org</about_foundation>
+    <about_foundation>openHAB fundacija e.V. je neprofitna organizacija s ciljem učenja javnosti o možnostih in prednostih prostih in odprtih rešitev za domačo avtomatizacijo. </about_foundation>
     <important_note>Pomembna opomba</important_note>
     <oh_server>Za to aplikacijo potrebujete openHAB strežnik.</oh_server>
     <short_description>Hišna avtomatika neodvisna od proizvajalcev in tehnologije</short_description>

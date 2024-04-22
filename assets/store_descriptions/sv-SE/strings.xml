@@ -10,8 +10,8 @@
     <oss_community>Öppen källkods-gemenskapen</oss_community>
     <forum>  </forum>
 
-    <report_issues>När du hittar ett problem vänligen rapportera det i forumet eller på https://github.com/openhab/openhab-android/issues</report_issues>
-    <translation>Om du vill översätta appen till ditt språk gå med oss på https://crowdin.com/project/openhab-android</translation>
+    <report_issues/>
+    <translation/>
     <foundation/>
     <about_foundation> </about_foundation>
     <important_note>Viktigt meddelande</important_note>

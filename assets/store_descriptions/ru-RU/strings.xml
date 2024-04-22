@@ -8,12 +8,12 @@
     <automation_apps>Приложение имеет встроенные плагины действий для Tasker и Locale.</automation_apps>
 
     <oss_community>Сообщество Open Source</oss_community>
-    <forum>Сообщество openHAB строго придерживается принципов Open Source. Форум с более чем 13 000 зарегистрированных пользователей - это место, где можно найти рекомендации, помощь и идеи для новых решений. Присоединяйтесь к сообществу openHAB на https://community.openhab.org</forum>
+    <forum>Сообщество openHAB строго придерживается принципов Open Source. Форум с более чем 13 000 зарегистрированных пользователей - это место, где можно найти рекомендации, помощь и идеи для новых решений. </forum>
 
-    <report_issues>Если вы найдете ошибку, пожалуйста, сообщите об этом на форуме или на https://github.com/openhab/openhab-android/issues</report_issues>
-    <translation>Если Вы хотите перевести приложение на свой язык - присоединяйтесь к нам на https://crowdin.com/project/openhab-android</translation>
+    <report_issues/>
+    <translation/>
     <foundation>Cообщество openHAB</foundation>
-    <about_foundation>openHAB Foundation является некоммерческой организацией, информирующей общественность о возможностях и преимущества свободных и открытых решениях "умного дома". Узнайте о задачах openHAB Foundation на https://www.openhabfoundation.org</about_foundation>
+    <about_foundation>openHAB Foundation является некоммерческой организацией, информирующей общественность о возможностях и преимущества свободных и открытых решениях "умного дома". </about_foundation>
     <important_note>Важное примечание</important_note>
     <oh_server>Для этого приложения необходим сервер openHAB.</oh_server>
     <short_description>Поставщик технологий с открытым исходным кодом для автоматизации "умного дома"</short_description>

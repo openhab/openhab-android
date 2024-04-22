@@ -9,12 +9,12 @@ https://www.openhab.org/addons/</bindings>
     <automation_apps>Dës App huet en Action-Plugin fir Tasker an Locale.</automation_apps>
 
     <oss_community>Open Source Communautéit</oss_community>
-    <forum>D´ Open-Source openHAB Initiativ gëtt hirer Communautéit eng staark Ënnerstëtzung. De Forum mat iwwer 13.000 registréierte Useren ass eng Plaz fir Hëllef an Inspiratioun ze fannen. Besich den Forum vun der openHAB Communautéit ënner https://community.openhab.org</forum>
+    <forum>D´ Open-Source openHAB Initiativ gëtt hirer Communautéit eng staark Ënnerstëtzung. De Forum mat iwwer 13.000 registréierte Useren ass eng Plaz fir Hëllef an Inspiratioun ze fannen. </forum>
 
-    <report_issues>Wann dir e Problem opfält, mell deen w.e.g. am Forum oder ënner https://github.com/openhab/openhab-android/issues</report_issues>
-    <translation>Wann s de des App op deng Sprooch iwwersetze wëlls dann hëllef eis ënner https://crowdin.com/project/openhab-android</translation>
+    <report_issues/>
+    <translation/>
     <foundation>openHAB Fondatioun</foundation>
-    <about_foundation>D´ openHAB Foundation e.V. ass eng a.s.b.l. déi als Missioun huet fir den Public iwwer d´ Méiglechkeeten an Notzen vun enger gratis an oppener Smart Home Léisung op ze klären. Gëff méi gewuer iwwer d´ Missioun an Servicer vun der Fondatioun ënner https://www.openhabfoundation.org</about_foundation>
+    <about_foundation>D´ openHAB Foundation e.V. ass eng a.s.b.l. déi als Missioun huet fir den Public iwwer d´ Méiglechkeeten an Notzen vun enger gratis an oppener Smart Home Léisung op ze klären. </about_foundation>
     <important_note>Wichtegen Hiweis</important_note>
     <oh_server>Du brauchs en openHAB Server fir des App kennen ze notzen.</oh_server>
     <short_description>Hiersteller an Technologie neutral Open-Source Heem-Automatisatioun</short_description>

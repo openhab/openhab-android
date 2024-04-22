@@ -8,12 +8,12 @@
     <automation_apps>Приложението има интеграция с Tasker и Locale.</automation_apps>
 
     <oss_community>Общност с отворен код</oss_community>
-    <forum>Софтуерът с отворен код openHAB се използва от много потребители, които си помагат взаимно в онлайн форум. Форумът с над 13 000 регистрирани потребители е място за намиране на насоки, помощ и вдъхновение. Присъедини се към форума на общността openHAB на https://community.openhab.org</forum>
+    <forum>Софтуерът с отворен код openHAB се използва от много потребители, които си помагат взаимно в онлайн форум. Форумът с над 13 000 регистрирани потребители е място за намиране на насоки, помощ и вдъхновение. </forum>
 
-    <report_issues>Когато намериш проблем съобщете за това във форума или в https://github.com/openhab/openhab-android/issues.</report_issues>
-    <translation>Ако искаш да преведеш програмата на своя език, посети https://crowdin.com/project/openhab-android</translation>
+    <report_issues/>
+    <translation/>
     <foundation>openHAB фондация</foundation>
-    <about_foundation>openHAB Foundation e.V. е организация с нестопанска цел с мисията да образова обществеността за възможностите и предимствата на безплатните и отворени решения за интелигентен дом. Научи за мисията и услугите на фондацията на https://www.openhabfoundation.org</about_foundation>
+    <about_foundation>openHAB Foundation e.V. е организация с нестопанска цел с мисията да образова обществеността за възможностите и предимствата на безплатните и отворени решения за интелигентен дом. </about_foundation>
     <important_note/>
     <oh_server>Трябва ти openHAB сървър за тази програма.</oh_server>
     <short_description>Cистема за автоматизация на домове обединяваща различни технологии</short_description>
