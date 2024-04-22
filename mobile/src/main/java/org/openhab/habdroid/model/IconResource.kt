@@ -20,7 +20,6 @@ import android.net.Uri
 import android.os.Parcelable
 import androidx.annotation.VisibleForTesting
 import java.util.Locale
-import kotlin.text.replace
 import kotlinx.parcelize.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
@@ -150,12 +149,15 @@ fun SharedPreferences.Editor.putIconResource(key: String, icon: IconResource?): 
     return this
 }
 
+@VisibleForTesting
+fun String.isNoneIcon() = "(oh:([a-z]+:)?)?none".toRegex().matches(this)
+
 fun String?.toOH1IconResource(): IconResource? {
-    return if (isNullOrEmpty() || this == "none") null else IconResource(this, false, "")
+    return if (isNullOrEmpty() || isNoneIcon()) null else IconResource(this, false, "")
 }
 
 fun String?.toOH2IconResource(): IconResource? {
-    return if (isNullOrEmpty() || this == "none") null else IconResource(this, true, "")
+    return if (isNullOrEmpty() || isNoneIcon()) null else IconResource(this, true, "")
 }
 
 internal fun String?.toOH2WidgetIconResource(
@@ -164,7 +166,7 @@ internal fun String?.toOH2WidgetIconResource(
     hasMappings: Boolean,
     useState: Boolean
 ): IconResource? {
-    if (isNullOrEmpty() || this == "none") {
+    if (isNullOrEmpty() || isNoneIcon()) {
         return null
     }
 
