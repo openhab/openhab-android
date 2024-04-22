@@ -441,17 +441,17 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         }
     }
 
-    public override fun onSaveInstanceState(savedInstanceState: Bundle) {
+    public override fun onSaveInstanceState(outState: Bundle) {
         CrashReportingHelper.d(TAG, "onSaveInstanceState()")
         isStarted = false
-        with(savedInstanceState) {
+        with(outState) {
             putParcelable(STATE_KEY_SERVER_PROPERTIES, serverProperties)
             putBoolean(STATE_KEY_SITEMAP_SELECTION_SHOWN, sitemapSelectionDialog?.isShowing == true)
             putString(STATE_KEY_CONTROLLER_NAME, controller.javaClass.canonicalName)
             putInt(STATE_KEY_CONNECTION_HASH, connection?.hashCode() ?: -1)
             controller.onSaveInstanceState(this)
         }
-        super.onSaveInstanceState(savedInstanceState)
+        super.onSaveInstanceState(outState)
     }
 
     private inner class MainOnBackPressedCallback : OnBackPressedCallback(true) {
