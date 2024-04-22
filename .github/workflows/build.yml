@@ -30,7 +30,7 @@ jobs:
           cache: gradle
 
       - name: Validate Gradle Wrapper
-        uses: gradle/actions/wrapper-validation@v3.3.0
+        uses: gradle/actions/wrapper-validation@v3.3.1
 
       - name: Configure Gradle
         run: |
