@@ -11,6 +11,8 @@
  * SPDX-License-Identifier: EPL-2.0
  */
 
+@file:Suppress("DEPRECATION")
+
 package org.openhab.habdroid.core.connection
 
 import android.app.Activity
