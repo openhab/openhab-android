@@ -16,5 +16,6 @@
     "labels": [
         "dependencies"
     ],
-    "configMigration": true
+    "configMigration": true,
+    "commitBody": "Signed-off-by: {{{gitAuthor}}}"
 }
