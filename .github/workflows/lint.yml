@@ -28,3 +28,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_KOTLIN: true
+          VALIDATE_RENOVATE: true
