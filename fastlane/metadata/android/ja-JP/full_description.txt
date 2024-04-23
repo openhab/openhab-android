@@ -14,13 +14,13 @@ openHAB は、Java ベースのオープンソース ホームオートメーシ
 
 <b>オープンソース コミュニティ</b>
 
-openHAB オープンソース イニシアチブは、その活気に満ちたコミュニティを強く支持します。 登録ユーザー数が13,000を超えるフォーラムは、ガイダンス、ヘルプ、インスピレーションが見つかる場所です。 openHAB コミュニティフォーラムにご参加ください https://community.openhab.org
-問題が見つかったときは、フォーラムまたは https://github.com/openhab/openhab-android/issues で報告してください
-アプリをあなたの言語に翻訳したい場合は https://crowdin.com/project/openhab-android に参加してください。
+openHAB オープンソース イニシアチブは、その活気に満ちたコミュニティを強く支持します。 登録ユーザー数が13,000を超えるフォーラムは、ガイダンス、ヘルプ、インスピレーションが見つかる場所です。 
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues.
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android.
 
 <b>openHAB 財団</b>
 
-openHAB 財団は、フリーでオープンなスマートホームソリューションの可能性と利点について一般の人々に教育することを使命とする非営利組織です。 財団の使命とサービスについて学んでください https://www.openhabfoundation.org
+openHAB 財団は、フリーでオープンなスマートホームソリューションの可能性と利点について一般の人々に教育することを使命とする非営利組織です。 
 
 <b>重要な注意事項</b>
 

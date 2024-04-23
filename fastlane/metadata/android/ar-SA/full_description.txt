@@ -15,13 +15,13 @@ The app has an action plugin for Tasker and Locale included.
 
 <b>مجتمع المصدر المفتوح</b>
 
-openHAB مبادرة المصدر المفتوح مدعومة بقوة من مجتمع نابض بالحياة. منتدى مكون من أكثر من 13,000 مستخدم مسجل، مكان مناسب للحصول على إرشادات، مساعدات، والإلهام. الانضمام إلى منتدى المجتمع أوبينهاب عبر https://community.openhab.org
-نرجو أن تقوم بالإبلاغ عند وجود أي مشكلة عبر المنتدى أو على https://github.com/openhab/openhab-android/issues
-إذا كنت ترغب في ترجمة التطبيق إلى لغتك انظم إلينا في https://crowdin.com/project/openhab-android
+openHAB مبادرة المصدر المفتوح مدعومة بقوة من مجتمع نابض بالحياة. منتدى مكون من أكثر من 13,000 مستخدم مسجل، مكان مناسب للحصول على إرشادات، مساعدات، والإلهام. 
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues.
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android.
 
 <b>مؤسسة openHAB</b>
 
-مؤسسة openHAB أ. ف. منظمة غير ربحية تحمل على عاتقها مهمة تثقيف الجمهور بخصوص إمكانيات ومزايا حلول المنازل الذكية الحرة والمفتوحة. معرفة المزيد عن المهمة وخدمات المؤسسة في https://www.openhabfoundation.org
+مؤسسة openHAB أ. ف. منظمة غير ربحية تحمل على عاتقها مهمة تثقيف الجمهور بخصوص إمكانيات ومزايا حلول المنازل الذكية الحرة والمفتوحة. 
 
 <b>ملاحظة هامة</b>
 

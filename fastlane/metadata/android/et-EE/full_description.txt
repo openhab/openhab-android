@@ -15,8 +15,8 @@ Rakendusel on sisseehitatud tegumi pistikprogrammid Taskeri ja Locale jaoks.
 <b>Avatud lähtekoodiga ühendus</b>
 
 The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org.
-Kui leiate vea, teatage sellest foorumis või aadressil https://github.com/openhab/openhab-android/issues
-Kui soovite rakenduse oma keelde tõlkida, liituge meiega aadressil https://crowdin.com/project/openhab-android
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues.
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android.
 
 <b>openHAB sihtasutus</b>
 

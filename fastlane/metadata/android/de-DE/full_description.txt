@@ -15,12 +15,12 @@ Diese App besitzt ein Action-Plugin für Tasker und Locale.
 <b>Open-Source-Community</b>
 
 Die quelloffene openHAB-Initiative unterstützt nachdrücklich ihre lebhafte Community. Das Forum (mit über 13.000 registrierten Mitgliedern) ist ein Ort an dem man Anleitung, Hilfe und Inspiration findet. Besuchen Sie das openHAB-Community-Forum auf https://community.openhab.org.
-Wenn Sie einen Fehler finden, melden Sie diesen bitte im Forum oder unter https://github.com/openhab/openhab-android/issues
-Wenn Sie die App in Ihre Sprache übersetzen möchten, dann nehmen Sie unter https://crowdin.com/project/openhab-android teil.
+Wenn Sie einen Fehler finden, melden Sie diesen bitte im Forum oder unter https://github.com/openhab/openhab-android/issues.
+Helfen Sie uns, diese App in Ihre Sprache zu übersetzen: https://crowdin.com/project/openhab-android
 
 <b>openHAB Foundation e.V.</b>
 
-Die openHAB Foundation e.V. ist ein gemeinnütziger Verein mit dem Ziel, die Öffentlichkeit über die Möglichkeiten und den Nutzen von kostenlosen und offenen Smart Home Lösungen aufzuklären. Erfahren Sie mehr über die Ziele und Angebote der Foundation unter https://www.openhabfoundation.org
+Die openHAB Foundation e.V. ist ein gemeinnütziger Verein mit dem Ziel, die Öffentlichkeit über die Möglichkeiten und den Nutzen von kostenlosen und offenen Smart Home Lösungen aufzuklären. Erfahren Sie mehr über die Ziele und Angebote der Foundation unter https://www.openhabfoundation.org.
 
 <b>Wichtiger Hinweis</b>
 

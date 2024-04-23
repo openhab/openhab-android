@@ -1,0 +1,7 @@
+## What's Changed
+* Map more Item types to Device Control types by @mueller-ma in https://github.com/openhab/openhab-android/pull/3656
+
+## New Contributors
+* @renovate made their first contribution in https://github.com/openhab/openhab-android/pull/3661
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.12.3-beta...3.12.4-beta

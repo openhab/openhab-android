@@ -14,13 +14,13 @@ Aplicația are un plugin de acțiune pentru Tasker și Locale inclus.
 
 <b>Comunitate Open Source</b>
 
-Inițiativa open source openHAB sprijină puternic comunitatea sa vibrantă. Forumul cu peste 13,000 de utilizatori înregistrați este un loc pentru îndrumare, ajutor și inspirație. Alătură-te comunității openHAB pe forum la https://community.openhab.org
-Când aţi găsit o problemă, vă rugăm să o raportaţi pe forum sau la https://github.com/openhab/openhab-android/issues
-Dacă vrei să traduci aplicația în limba ta, alătură-te nouă la https://crowdin.com/project/openhab-android
+Inițiativa open source openHAB sprijină puternic comunitatea sa vibrantă. Forumul cu peste 13,000 de utilizatori înregistrați este un loc pentru îndrumare, ajutor și inspirație. 
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues.
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android.
 
 <b>Fundația openHAB</b>
 
-Fundația openHAB e.V. este o organizație nonprofit cu misiunea de a educa publicul cu privire la posibilitățile și beneficiile soluțiilor libere și deschise pentru locuințe inteligente. Află mai multe despre misiunea și serviciile fundației la https://www.openhabfoundation.org
+Fundația openHAB e.V. este o organizație nonprofit cu misiunea de a educa publicul cu privire la posibilitățile și beneficiile soluțiilor libere și deschise pentru locuințe inteligente. 
 
 <b>Notă importantă</b>
 

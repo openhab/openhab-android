@@ -15,13 +15,13 @@ Dës App huet en Action-Plugin fir Tasker an Locale.
 
 <b>Open Source Communautéit</b>
 
-D´ Open-Source openHAB Initiativ gëtt hirer Communautéit eng staark Ënnerstëtzung. De Forum mat iwwer 13.000 registréierte Useren ass eng Plaz fir Hëllef an Inspiratioun ze fannen. Besich den Forum vun der openHAB Communautéit ënner https://community.openhab.org
-Wann dir e Problem opfält, mell deen w.e.g. am Forum oder ënner https://github.com/openhab/openhab-android/issues
-Wann s de des App op deng Sprooch iwwersetze wëlls dann hëllef eis ënner https://crowdin.com/project/openhab-android
+D´ Open-Source openHAB Initiativ gëtt hirer Communautéit eng staark Ënnerstëtzung. De Forum mat iwwer 13.000 registréierte Useren ass eng Plaz fir Hëllef an Inspiratioun ze fannen. 
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues.
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android.
 
 <b>openHAB Fondatioun</b>
 
-D´ openHAB Foundation e.V. ass eng a.s.b.l. déi als Missioun huet fir den Public iwwer d´ Méiglechkeeten an Notzen vun enger gratis an oppener Smart Home Léisung op ze klären. Gëff méi gewuer iwwer d´ Missioun an Servicer vun der Fondatioun ënner https://www.openhabfoundation.org
+D´ openHAB Foundation e.V. ass eng a.s.b.l. déi als Missioun huet fir den Public iwwer d´ Méiglechkeeten an Notzen vun enger gratis an oppener Smart Home Léisung op ze klären. 
 
 <b>Wichtegen Hiweis</b>
 

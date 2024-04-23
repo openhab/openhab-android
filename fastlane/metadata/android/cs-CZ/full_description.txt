@@ -14,13 +14,13 @@ Aplikace obsahuje action plugin pro Tasker a Locale.
 
 <b>Open Source komunita</b>
 
-openHAB open source iniciativa je silně podporována jeho živou komunitou. Fórum s více než 13 000 registrovaných uživatelů je místo, kde najdete návod, pomoc a inspiraci. Připojte se k diskuznímu fóru openHAB na https://community.openhab.org
-Případné nalezené chyby či problémy nahlaste prosím, ve fóru nebo v https://github.com/openhab/openhab-android/issues
-Pokud chcete aplikaci přeložit do vašeho jazyka připojte se k nám na https://crowdin.com/project/openhab-android
+openHAB open source iniciativa je silně podporována jeho živou komunitou. Fórum s více než 13 000 registrovaných uživatelů je místo, kde najdete návod, pomoc a inspiraci. 
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues.
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android.
 
 <b>openHAB Foundation</b>
 
-openHAB Foundation e.V. je nezisková organizace s posláním vzdělávat veřejnost o možnostech a výhodách svobodných a otevřených chytrých řešeních pro domácí automatizaci. Další informace o poslání a službách nadace naleznete na https://www.openhabfoundation.org
+openHAB Foundation e.V. je nezisková organizace s posláním vzdělávat veřejnost o možnostech a výhodách svobodných a otevřených chytrých řešeních pro domácí automatizaci. 
 
 <b>Důležitá poznámka</b>
 

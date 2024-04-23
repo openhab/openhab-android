@@ -14,13 +14,13 @@ openHAB 是一款基于 Java 的开源家居自动化平台，整合多种智能
 
 <b>开源社区</b>
 
-openHAB 的开源鼎力支持了其充满活力的社区。 社区共有超过 13000 位注册用户，是您寻求帮助与灵感的好地方。 在 https://community.openhab.org 处加入 openHAB 社区论坛
-当您发现问题请在论坛或 https://github.com/openhab/openhab-android/issues 处汇报
-若您想翻译应用程序至您的语言，请加入 https://crowdin.com/project/openhab-android
+openHAB 的开源鼎力支持了其充满活力的社区。 社区共有超过 13000 位注册用户，是您寻求帮助与灵感的好地方。 
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues.
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android.
 
 <b>openHAB 基金会</b>
 
-openHAB 基金会是一个致力于向公共提出开源智能家居解决方案的无限可能与无限优点的非盈利组织。 请在 https://www.openhabfoundation.org 处了解本基金会的任务及服务
+openHAB 基金会是一个致力于向公共提出开源智能家居解决方案的无限可能与无限优点的非盈利组织。 
 
 <b>重要提示</b>
 

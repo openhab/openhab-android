@@ -14,13 +14,13 @@ openHAB - платформа домашньої автоматизації з в
 
 <b>Open Source спільнота</b>
 
-Ініціатори openHAB open source максимально підтримують свою спільноту. Форум, на якому зареєстровано більше 13 000 користувачів, є місцем для пошуку вказівок, допомоги та натхнення. Приєднуйтеся до спільноти openHAB на https://community.openhab.org
-Якщо знайдете помилку, будь ласка, повідомте про це на форумі, або на https://github.com/openhab/openhab-android/issues
-Якщо хочете перекласти програму своєю мовою - приєднуйтеся до нас на https://crowdin.com/project/openhab-android
+Ініціатори openHAB open source максимально підтримують свою спільноту. Форум, на якому зареєстровано більше 13 000 користувачів, є місцем для пошуку вказівок, допомоги та натхнення. 
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues.
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android.
 
 <b>openHAB Foundation</b>
 
-openHAB Foundation - це неприбуткова організація, яка поставила собі за мету розповісти суспільству про можливості і переваги вільних і відкритих рішень "розумного будинку". Дізнайтеся більше про цілі і послуги openHAB Foundation на https://www.openhabfoundation.org
+openHAB Foundation - це неприбуткова організація, яка поставила собі за мету розповісти суспільству про можливості і переваги вільних і відкритих рішень "розумного будинку". 
 
 <b>Важлива примітка</b>
 

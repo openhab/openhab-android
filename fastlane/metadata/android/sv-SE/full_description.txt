@@ -15,8 +15,8 @@ Appen har en inbyggd åtgärdsplugin för Tasker och Locale.
 <b>Öppen källkods-gemenskapen</b>
 
 The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org.
-När du hittar ett problem vänligen rapportera det i forumet eller på https://github.com/openhab/openhab-android/issues
-Om du vill översätta appen till ditt språk gå med oss på https://crowdin.com/project/openhab-android
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues.
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android.
 
 <b>openHAB Foundation</b>
 

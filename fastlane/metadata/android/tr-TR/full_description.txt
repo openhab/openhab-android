@@ -14,13 +14,13 @@ Uygulama, Tasker ve Locale için bir eylem eklentisine sahiptir.
 
 <b>Açık Kaynak Topluluğu</b>
 
-openHAB açık kaynak girişimi, canlı topluluğunu güçlü bir şekilde destekliyor. Forum 13,000 kayıtlı kullanıcı ile rehberlik, yardım ve ilham bulmak için bir yerdir. openHAB topluluk forumu' na katıl: https://community.openhab.org
-Bir sorun bulduğunuzda lütfen bunu forumda veya https://github.com/openhab/openhab-android/issues adresinde bildirin
-Uygulamayı kendi dilinize çevirmek isterseniz https://crowdin.com/project/openhab-android adresinden bize katılın
+openHAB açık kaynak girişimi, canlı topluluğunu güçlü bir şekilde destekliyor. Forum 13,000 kayıtlı kullanıcı ile rehberlik, yardım ve ilham bulmak için bir yerdir. 
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues.
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android.
 
 <b>openHAB Vakfı</b>
 
-openHAB Vakfı e.V. kamuoyunu serbest ve açık akıllı ev çözümlerinin olanakları ve faydaları hakkında eğitmek misyonu ile kar amacı gütmeyen bir organizasyondur. https://www.openhabfoundation.org adresinden vakfın misyonu ve hizmetleri hakkında bilgi edinin
+openHAB Vakfı e.V. kamuoyunu serbest ve açık akıllı ev çözümlerinin olanakları ve faydaları hakkında eğitmek misyonu ile kar amacı gütmeyen bir organizasyondur. 
 
 <b>Önemli not</b>
 

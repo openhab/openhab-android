@@ -14,13 +14,13 @@ Aplikacija ima vgrajen akcijski vtičnik za Tasker in Locale.
 
 <b>Odprtokodna skupnost</b>
 
-openHAB odprtokodna iniciativa močno podpira svojo živahno skupnost. Forum z več kot 13.000 registriranimi uporabniki je kraj kjer se lahko poišče smernice, pomoč in navdih. Pridruži se forumu openHAB skupnosti na https://community.openhab.org
-V kolikor najdete napako, jo prosim sporočite na forumu ali na https://github.com/openhab/openhab-android/issues
-V kolikor želite prevesti aplikacijo v vaš jezik se nam pridružite na https://crowdin.com/project/openhab-android
+openHAB odprtokodna iniciativa močno podpira svojo živahno skupnost. Forum z več kot 13.000 registriranimi uporabniki je kraj kjer se lahko poišče smernice, pomoč in navdih. 
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues.
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android.
 
 <b>openHAB fundacija</b>
 
-openHAB fundacija e.V. je neprofitna organizacija s ciljem učenja javnosti o možnostih in prednostih prostih in odprtih rešitev za domačo avtomatizacijo. Pozanimajte se o cilju in storitvah fundacije na https://www.openhabfoundation.org
+openHAB fundacija e.V. je neprofitna organizacija s ciljem učenja javnosti o možnostih in prednostih prostih in odprtih rešitev za domačo avtomatizacijo. 
 
 <b>Pomembna opomba</b>
 

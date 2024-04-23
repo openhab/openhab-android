@@ -14,13 +14,13 @@ L'aplicació inclou un connector (action) per a Tasker i Locale.
 
 <b>Comunitat de codi obert</b>
 
-La iniciativa de codi obert openHAB dona ferm suport a la seva vibrant comunitat. El fòrum, amb més de 13.000 usuaris registrats, és un lloc on trobar orientacions, ajuda i inspiració. Uniu-vos al fòrum de la comunitat openHAB a https://community.openhab.org
-Si trobeu un problema, informeu-nos en en el fòrem o a https://github.com/openhab/openhab-android/issues
-Si voleu traduir la aplicació a la vostra llengua, uniu-vos a https://crowdin.com/project/openhab-android
+La iniciativa de codi obert openHAB dona ferm suport a la seva vibrant comunitat. El fòrum, amb més de 13.000 usuaris registrats, és un lloc on trobar orientacions, ajuda i inspiració. 
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues.
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android.
 
 <b>Fundació openHAB</b>
 
-La fundació openHAB (openHAB Foundation e.V.) és una organització sense afany de lucre amb la missió d'educar al públic sobre la possibilitats i beneficis de les solucions lliures i obertes per a la domòtica i llars intel·ligents. Teniu més informació sobre la missió i els serveis de la fundació a https://www.openhabfoundation.org
+La fundació openHAB (openHAB Foundation e.V.) és una organització sense afany de lucre amb la missió d'educar al públic sobre la possibilitats i beneficis de les solucions lliures i obertes per a la domòtica i llars intel·ligents. 
 
 <b>Nota important</b>
 

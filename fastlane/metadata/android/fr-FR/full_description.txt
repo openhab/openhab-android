@@ -14,13 +14,13 @@ L'application dispose d'un plugin d'action pour Tasker et Locale.
 
 <b>Communauté open source</b>
 
-L'initiative Open Source openHAB soutient vivement sa communauté très dynamique. Le forum avec plus de 13.000 utilisateurs enregistrés est le lieu où l'on peut trouver aide et inspiration. Rejoignez le forum de la communauté openHAB sur https://community.openhab.org
-Si vous rencontrez un problème, veuillez nous en faire part sur le forum ou sur https://github.com/openhab/openhab-android/issues
-Si vous souhaitez traduire l'application dans votre langue, rejoignez-nous sur https://crowdin.com/project/openhab-android
+L'initiative Open Source openHAB soutient vivement sa communauté très dynamique. Le forum avec plus de 13.000 utilisateurs enregistrés est le lieu où l'on peut trouver aide et inspiration. 
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues.
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android.
 
 <b>Fondation openHAB</b>
 
-La fondation openHAB est une organisation à but non lucratif qui a pour mission d'informer le public sur les possibilités et les bénéfices des solutions domotiques libres et open source. Découvrez les missions et les services de la fondation sur https://www.openhabfoundation.org
+La fondation openHAB est une organisation à but non lucratif qui a pour mission d'informer le public sur les possibilités et les bénéfices des solutions domotiques libres et open source. 
 
 <b>Remarque importante</b>
 

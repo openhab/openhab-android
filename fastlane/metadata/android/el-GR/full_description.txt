@@ -15,8 +15,8 @@ The app has an action plugin for Tasker and Locale included.
 <b>Κοινότητα Ανοικτού Λογισμικού</b>
 
 The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org.
-Όταν βρείτε ένα πρόβλημα παρακαλώ αναφέρετε το στο φόρουμ ή στο https://github.com/openhab/openhab-android/issues
-Εάν θέλετε να μεταφράσετε την εφαρμογή στην γλώσσα σας δηλώστε συμμετοχή στο https://crowdin.com/project/openhab-android
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues.
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android.
 
 <b>Ίδρυμα openHAB</b>
 

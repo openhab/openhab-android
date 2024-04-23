@@ -14,9 +14,9 @@ Sovelluksessa on liitännäinen Taskeria ja Localea varten.
 
 <b>Avoimen lähdekoodin yhteisö</b>
 
- Yli 13 000 rekisteröityneen käyttäjän foorumi on paikka mistä löydät opastusta, apua ja inspiraatiota. Liity openHAB yhteisön foorumiin osoitteessa https://community.openhab.org
-Löytäessäsi ongelman ilmoita siitä foorumilla tai osoitteessa https://github.com/openhab/openhab-android/issues
-Jos haluat kääntää tämän sovelluksen omalle kielellesi niin liity mukaan osoitteessa https://crowdin.com/project/openhab-android
+ Yli 13 000 rekisteröityneen käyttäjän foorumi on paikka mistä löydät opastusta, apua ja inspiraatiota. 
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues.
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android.
 
 <b>openHAB Säätiö</b>
 

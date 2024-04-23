@@ -14,13 +14,13 @@ Az alkalmazás rendelkezik eseménykezelő bővítménnyel a Tasker és a Locale
 
 <b>Nyílt forráskódú közösség</b>
 
-Az openHAB egy nyílt forráskódú kezdeményezés, erős támogatottsággal és élénk, aktív közösséggel. Különböző leírásokat, segítséget és inspriációt nyerhet fórumunk több, mint 13,000 regisztrált felhasználójától. Az openHAB közösség fórumához a https://community.openhab.org oldalon lehet csatlakozni
-Amikor találsz valamilyen hibát vagy hiányosságot, kérlek jelezd a fórumon vagy a https://github.com/openhab/openhab-android/issues internet oldalon
-Ha szeretnéd az alkamazást lefordítani a saját nyelvedre, akkor csatlakozz hozzánk https://crowdin.com/project/openhab-android
+Az openHAB egy nyílt forráskódú kezdeményezés, erős támogatottsággal és élénk, aktív közösséggel. Különböző leírásokat, segítséget és inspriációt nyerhet fórumunk több, mint 13,000 regisztrált felhasználójától. 
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues.
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android.
 
 <b>openHAB alapítvány</b>
 
-Az openHAB Alapítvány e.V. egy nonprofit szervezet, azzal a küldetéssel, hogy megismertesse a közvéleményt a nyílt és okos otthon megoldások előnyeivel és lehetőségeivel. Tudj meg többet az alapítvány küldetéséről és szolgáltatásairól: https://www.openhabfoundation.org
+Az openHAB Alapítvány e.V. egy nonprofit szervezet, azzal a küldetéssel, hogy megismertesse a közvéleményt a nyílt és okos otthon megoldások előnyeivel és lehetőségeivel. 
 
 <b>Fontos megjegyzés</b>
 

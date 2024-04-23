@@ -15,13 +15,13 @@ Aplikacja zawiera wtyczkę akcji dla Taskera i Locale.
 <b>Społeczność Open Source</b>
 
 Inicjatywa open source openHAB mocno wspiera swoją żywą społeczność. Forum z ponad 13 000 zarejestrowanymi użytkownikami to miejsce, gdzie możesz
-znaleźć wskazówki, pomoc i inspirację. Dołącz do forum społeczności openHAB na https://community.openhab.org
-Po znalezieniu problemu złoś go na forum lub na https://github.com/openhab/openhab-android/issues
-Jeśli chcesz przetłumaczyć tę aplikację na swój język dołącz do nas na https://crowdin.com/project/openhab-android
+znaleźć wskazówki, pomoc i inspirację. 
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues.
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android.
 
 <b>Fundacja openHAB</b>
 
-Fundacja openHAB jest organizacją non-profit z misją informowania o możliwościach i korzyściach z używania wolnych i otwartych rozwiązań dla inteligentnego domu. Dowiedz się więcej o misji i usługach fundacji na https://www.openhabfoundation.org
+Fundacja openHAB jest organizacją non-profit z misją informowania o możliwościach i korzyściach z używania wolnych i otwartych rozwiązań dla inteligentnego domu. 
 
 <b>Istotne kwestie</b>
 
