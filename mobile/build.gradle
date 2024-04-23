@@ -182,7 +182,7 @@ dependencies {
     implementation "com.mikepenz:aboutlibraries:$about_libraries_version"
 
     // Firebase
-    implementation platform("com.google.firebase:firebase-bom:25.13.0")
+    implementation platform("com.google.firebase:firebase-bom:32.8.1")
     fullImplementation "com.google.firebase:firebase-messaging-ktx"
     fullImplementation "com.google.firebase:firebase-crashlytics-ktx"
 
