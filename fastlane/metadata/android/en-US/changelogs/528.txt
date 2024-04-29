@@ -1,0 +1,6 @@
+## What's Changed
+* Update docs on Device Control by @mueller-ma in https://github.com/openhab/openhab-android/pull/3655
+* Special handling for icon=none only for oh source by @mueller-ma in https://github.com/openhab/openhab-android/pull/3662
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.12.4-beta...3.12.5-beta
