@@ -70,6 +70,20 @@ class IconResourceTest {
         }
     }
 
+    @Test
+    fun testIsNoneIcon() {
+        mapOf(
+            "none" to true,
+            "oh:none" to true,
+            "oh:classic:none" to true,
+            "oh:foo:none" to true,
+            "f7:none" to false,
+            "lights" to false
+        ).forEach {
+            assertEquals("${it.key} failed", it.key.isNoneIcon(), it.value)
+        }
+    }
+
     private fun testIconToUrl(icon: String, url: String) {
         assertEquals(
             "$icon icon failed!",
