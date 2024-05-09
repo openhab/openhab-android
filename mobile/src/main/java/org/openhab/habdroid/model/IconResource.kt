@@ -70,6 +70,7 @@ data class IconResource internal constructor(
         when (iconSource) {
             "material" -> {
                 iconSource = "iconify"
+                iconName = iconName.replace("_", "-")
                 iconName = "$iconSet-$iconName"
                 iconSet = "ic"
             }
