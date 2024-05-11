@@ -1,0 +1,5 @@
+## What's Changed
+* Translate material icon underscores into iconify style dashes by @jimtng in https://github.com/openhab/openhab-android/pull/3677
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.12.5-beta...3.12.6-beta
