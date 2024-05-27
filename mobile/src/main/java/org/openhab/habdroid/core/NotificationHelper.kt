@@ -46,16 +46,15 @@ class NotificationHelper(private val context: Context) {
     private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     suspend fun showNotification(
-        notificationId: Int,
         message: CloudNotification,
         deleteIntent: PendingIntent?,
         summaryDeleteIntent: PendingIntent?
     ) {
         createChannelForSeverity(message.severity)
 
-        val n = makeNotification(message, notificationId, deleteIntent)
+        val n = makeNotification(message, message.idHash, deleteIntent)
 
-        notificationManager.notify(notificationId, n)
+        notificationManager.notify(message.idHash, n)
 
         if (HAS_GROUPING_SUPPORT) {
             val count = countCloudNotifications(notificationManager.activeNotifications)
@@ -218,7 +217,6 @@ class NotificationHelper(private val context: Context) {
         val contentIntent = Intent(context, MainActivity::class.java).apply {
             action = MainActivity.ACTION_NOTIFICATION_SELECTED
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
-            putExtra(EXTRA_NOTIFICATION_ID, notificationId)
             putExtra(MainActivity.EXTRA_PERSISTED_NOTIFICATION_ID, persistedId)
         }
         return PendingIntent.getActivity(
@@ -249,8 +247,6 @@ class NotificationHelper(private val context: Context) {
             "severity-$severity"
         }
 
-        @Suppress("MemberVisibilityCanBePrivate") // Used in full flavor
-        internal const val EXTRA_NOTIFICATION_ID = "notificationId"
         internal const val SUMMARY_NOTIFICATION_ID = 0
 
         // Notification grouping is only available on N or higher, as mentioned in

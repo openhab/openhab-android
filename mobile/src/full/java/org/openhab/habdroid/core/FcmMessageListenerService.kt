@@ -39,7 +39,6 @@ class FcmMessageListenerService : FirebaseMessagingService() {
         val data = message.data
         Log.d(TAG, "onMessageReceived with data $data")
         val messageType = data["type"] ?: return
-        val notificationId = data["notificationId"]?.toInt() ?: 1
 
         when (messageType) {
             "notification" -> {
@@ -55,20 +54,15 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                 )
 
                 runBlocking {
-                    val context = this@FcmMessageListenerService
                     notifHelper.showNotification(
-                        notificationId,
                         cloudNotification,
-                        FcmRegistrationWorker.createHideNotificationIntent(context, notificationId),
-                        FcmRegistrationWorker.createHideNotificationIntent(
-                            context,
-                            NotificationHelper.SUMMARY_NOTIFICATION_ID
-                        )
+                        null,
+                        null
                     )
                 }
             }
             "hideNotification" -> {
-                notifHelper.cancelNotification(notificationId)
+                notifHelper.cancelNotification(data["persistedId"].orEmpty().hashCode())
             }
         }
     }
