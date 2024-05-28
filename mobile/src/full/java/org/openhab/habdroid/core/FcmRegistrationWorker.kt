@@ -30,13 +30,12 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import androidx.work.WorkerParameters
-import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.RemoteMessage
 import java.io.IOException
 import java.net.URLEncoder
 import java.util.Locale
 import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.runBlocking
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
@@ -100,13 +99,6 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
                     return retryOrFail()
                 }
             }
-            ACTION_HIDE_NOTIFICATION -> {
-                val id = inputData.getInt(KEY_NOTIFICATION_ID, -1)
-                if (id >= 0) {
-                    sendHideNotificationRequest(id, connection.messagingSenderId)
-                    return Result.success()
-                }
-            }
             else -> Log.e(TAG, "Invalid action '$action'")
         }
 
@@ -121,34 +113,25 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
     // HttpException is thrown by our HTTP code, IOException can be thrown by FCM
     @Throws(HttpClient.HttpException::class, IOException::class)
     private suspend fun registerFcm(connection: CloudConnection) {
-        val token = FirebaseInstanceId.getInstance().getToken(
-            connection.messagingSenderId,
-            FirebaseMessaging.INSTANCE_ID_SCOPE
-        )
-        val deviceName = deviceName + if (Util.isFlavorBeta) " (${context.getString(R.string.beta)})" else ""
-        val deviceId = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID) +
-            if (Util.isFlavorBeta) "-beta" else ""
+        FirebaseMessaging.getInstance().token.addOnSuccessListener { token: String ->
+            val deviceName = deviceName + if (Util.isFlavorBeta) " (${context.getString(R.string.beta)})" else ""
+            val deviceId = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID) +
+                if (Util.isFlavorBeta) "-beta" else ""
 
-        val regUrl = String.format(
-            Locale.US,
-            "addAndroidRegistration?deviceId=%s&deviceModel=%s&regId=%s",
-            deviceId,
-            URLEncoder.encode(deviceName, "UTF-8"),
-            token
-        )
+            val registrationUrl = String.format(
+                Locale.US,
+                "addAndroidRegistration?deviceId=%s&deviceModel=%s&regId=%s",
+                deviceId,
+                URLEncoder.encode(deviceName, "UTF-8"),
+                token
+            )
 
-        Log.d(TAG, "Register device at openHAB-cloud with URL: $regUrl")
-        connection.httpClient.get(regUrl).close()
-        Log.d(TAG, "FCM reg id success")
-    }
-
-    private fun sendHideNotificationRequest(notificationId: Int, senderId: String) {
-        val fcm = FirebaseMessaging.getInstance()
-        val message = RemoteMessage.Builder("$senderId@gcm.googleapis.com")
-            .addData("type", "hideNotification")
-            .addData("notificationId", notificationId.toString())
-            .build()
-        fcm.send(message)
+            Log.d(TAG, "Register device at openHAB cloud with URL: $registrationUrl")
+            runBlocking {
+                connection.httpClient.get(registrationUrl).close()
+            }
+            Log.d(TAG, "FCM reg id success")
+        }
     }
 
     class ProxyReceiver : BroadcastReceiver() {
@@ -181,7 +164,6 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
         private val TAG = FcmRegistrationWorker::class.java.simpleName
 
         private const val ACTION_REGISTER = "org.openhab.habdroid.action.REGISTER_GCM"
-        private const val ACTION_HIDE_NOTIFICATION = "org.openhab.habdroid.action.HIDE_NOTIFICATION"
         private const val KEY_ACTION = "action"
         private const val KEY_NOTIFICATION_ID = "notificationId"
 
@@ -191,23 +173,6 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
                 .build()
 
             enqueueFcmWorker(context, data)
-        }
-
-        internal fun scheduleHideNotification(context: Context, notificationId: Int) {
-            val data = Data.Builder()
-                .putString(KEY_ACTION, ACTION_HIDE_NOTIFICATION)
-                .putInt(KEY_NOTIFICATION_ID, notificationId)
-                .build()
-
-            enqueueFcmWorker(context, data)
-        }
-
-        internal fun createHideNotificationIntent(context: Context, notificationId: Int): PendingIntent {
-            val intent = Intent(context, FcmRegistrationWorker::class.java)
-                .setAction(ACTION_HIDE_NOTIFICATION)
-                .putExtra(KEY_NOTIFICATION_ID, notificationId)
-
-            return ProxyReceiver.wrap(context, intent, notificationId)
         }
 
         private fun enqueueFcmWorker(context: Context, data: Data) {

@@ -67,7 +67,6 @@ object NotificationPoller {
 
         newMessages.forEach { message ->
             notifHelper.showNotification(
-                message.id.hashCode(),
                 message,
                 null,
                 null

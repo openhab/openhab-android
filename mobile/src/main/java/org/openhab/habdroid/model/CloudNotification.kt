@@ -30,7 +30,9 @@ data class CloudNotification internal constructor(
     val createdTimestamp: Long,
     val icon: IconResource?,
     val severity: String?
-) : Parcelable
+) : Parcelable {
+    val idHash get() = id.hashCode()
+}
 
 @Throws(JSONException::class)
 fun JSONObject.toCloudNotification(): CloudNotification {

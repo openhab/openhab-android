@@ -40,12 +40,8 @@ object CloudMessagingHelper {
         }
     }
 
-    fun onNotificationSelected(context: Context, intent: Intent) {
-        val notificationId = intent.getIntExtra(NotificationHelper.EXTRA_NOTIFICATION_ID, -1)
-        if (notificationId >= 0) {
-            FcmRegistrationWorker.scheduleHideNotification(context, notificationId)
-        }
-    }
+    @Suppress("UNUSED_PARAMETER")
+    fun onNotificationSelected(context: Context, intent: Intent) {}
 
     fun isPollingBuild() = false
 
