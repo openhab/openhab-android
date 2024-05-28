@@ -31,6 +31,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.ui.AbstractBaseActivity
 import org.openhab.habdroid.ui.preference.fragments.AbstractSettingsFragment
+import org.openhab.habdroid.ui.preference.fragments.DayDreamFragment
 import org.openhab.habdroid.ui.preference.fragments.MainSettingsFragment
 import org.openhab.habdroid.ui.preference.fragments.TileOverviewFragment
 import org.openhab.habdroid.ui.preference.fragments.TileSettingsFragment
@@ -69,6 +70,9 @@ class PreferencesActivity : AbstractBaseActivity() {
                         AppWidgetManager.INVALID_APPWIDGET_ID
                     ) ?: AppWidgetManager.INVALID_APPWIDGET_ID
                     WidgetSettingsFragment.newInstance(id)
+                }
+                intent.action == ACTION_DAY_DREAM -> {
+                    DayDreamFragment()
                 }
                 else -> {
                     MainSettingsFragment()
@@ -175,6 +179,7 @@ class PreferencesActivity : AbstractBaseActivity() {
     }
 
     companion object {
+        const val ACTION_DAY_DREAM = "day_dream"
         const val RESULT_EXTRA_THEME_CHANGED = "theme_changed"
         const val RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared"
         const val RESULT_EXTRA_SITEMAP_DRAWER_CHANGED = "sitemap_drawer_changed"

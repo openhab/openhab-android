@@ -90,6 +90,9 @@ object PrefKeys {
     const val DRAWER_ENTRY_NFC = "show_nfc"
     const val DRAWER_ENTRY_FRONTAIL = "show_frontail"
 
+    const val DAY_DREAM_ITEM = "daydream_item"
+    const val DAY_DREAM_BRIGHT_SCREEN = "daydream_bright_screen"
+
     /**
      * Application state flags
      */

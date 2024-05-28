@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <org.openhab.habdroid.ui.preference.widgets.CustomInputTypePreference
+        android:key="daydream_item"
+        android:title="@string/screensaver_item"
+        app:whitespaceBehavior="trim"
+        app:useSimpleSummaryProvider="true"
+        android:inputType="text" />
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:key="daydream_bright_screen"
+        android:title="@string/screensaver_bright_screen"
+        android:widgetLayout="@layout/preference_material_switch"
+        app:singleLineTitle="false" />
+</androidx.preference.PreferenceScreen>
