@@ -1,0 +1,5 @@
+## What's Changed
+* Update firebase to latest version by @mueller-ma in https://github.com/openhab/openhab-android/pull/3135
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.13.0-release...3.13.1-beta
