@@ -134,6 +134,10 @@
     <string name="device_control">Controllo dispositivo Android</string>
     <string name="device_control_subtitle">Descrizione dell\'icona</string>
     <string name="device_control_hint">A seconda della versione di Android queste icone si trovano nel menu ottenuto premendo a lungo sul pulsante di accensione o accanto alle icone ad accesso rapido</string>
+    <string name="screensaver">Salvaschermo</string>
+    <string name="screensaver_item">Item Schermo</string>
+    <string name="screensaver_bright_screen">Schermo luminoso</string>
+    <string name="screensaver_error_loading_item">Errore nel caricare l\'item \"%s\"</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandi vocali</string>
     <string name="voice_command">Comando vocale</string>
