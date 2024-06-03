@@ -1017,9 +1017,10 @@ class WidgetAdapter(
         override fun bind(widget: Widget) {
             super.bind(widget)
 
+            val hideLabel = widget.labelSource != Widget.LabelSource.SitemapDefinition
             val hasNoLabelAndValue = labelView.text.isEmpty() && valueView?.text?.isEmpty() != false
             labelView.isGone = hasNoLabelAndValue
-            valueView?.isGone = hasNoLabelAndValue
+            valueView?.isGone = hasNoLabelAndValue || hideLabel
 
             val mappings = widget.mappingsOrItemOptions
             val buttonCount = min(mappings.size, maxButtons)
