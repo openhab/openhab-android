@@ -145,6 +145,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         webView = view.findViewById(R.id.webview)
+        webView?.settings?.mediaPlaybackRequiresUserGesture = false
         webView?.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 Log.d(TAG, "progressCallback: progress = $newProgress")
