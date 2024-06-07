@@ -56,6 +56,7 @@ open class ConnectionWebViewClient(
     }
 
     // This is called on older Android versions
+    @Deprecated("Deprecated in Java")
     override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
         if (url == EMPTY_PAGE || view.url == EMPTY_PAGE) {
             Log.d(TAG, "Either current or new page is '$EMPTY_PAGE'")
