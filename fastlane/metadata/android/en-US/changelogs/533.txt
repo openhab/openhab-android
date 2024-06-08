@@ -1,0 +1,4 @@
+## What's Changed
+* Do not require users to have to manually click videos for playback. by @digitaldan in https://github.com/openhab/openhab-android/pull/3696
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.13.2-beta...3.13.3-beta
