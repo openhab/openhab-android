@@ -25,7 +25,7 @@
             android:layout_gravity="center"
             android:paddingTop="64dp"
             android:textAppearance="@style/TextAppearance.Material3.DisplayMedium"
-            tools:text="foo: bar\nfoo:baz" />
+            tools:text="Temperature: 19 °C" />
     </LinearLayout>
 
 
