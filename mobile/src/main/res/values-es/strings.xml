@@ -134,6 +134,10 @@
     <string name="device_control">Control de dispositivos Android</string>
     <string name="device_control_subtitle">Descripción en los mosaicos</string>
     <string name="device_control_hint">Dependiendo de tu versión de Android, estos azulejos se encuentran en el menú de pulsación larga del botón de encendido o junto a los azulejos rápidos</string>
+    <string name="screensaver">Salvapantallas</string>
+    <string name="screensaver_item">Item mostrado</string>
+    <string name="screensaver_bright_screen">Brillo pantalla</string>
+    <string name="screensaver_error_loading_item">Error al cargar el Item \"%s\"</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandos de voz</string>
     <string name="voice_command">Comando de voz</string>
