@@ -1,0 +1,5 @@
+## What's Changed
+* Improve Daydream by @mueller-ma in https://github.com/openhab/openhab-android/pull/3698
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.13.3-beta...3.13.4-beta
