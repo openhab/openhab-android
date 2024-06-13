@@ -2,20 +2,13 @@
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
         "config:recommended",
-        "schedule:weekly"
+        "schedule:monthly"
     ],
-    "minimumReleaseAge": "7 days",
-    "packageRules": [
-        {
-            "matchPackageNames": [
-                "com.google.firebase-firebase-bom"
-            ],
-            "enabled": false
-        }
-    ],
+    "minimumReleaseAge": "14 days",
     "labels": [
         "dependencies"
     ],
     "configMigration": true,
-    "commitBody": "Signed-off-by: {{{gitAuthor}}}"
+    "commitBody": "Signed-off-by: {{{gitAuthor}}}",
+    "osvVulnerabilityAlerts": true
 }
