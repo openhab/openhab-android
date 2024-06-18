@@ -467,14 +467,8 @@ abstract class ContentController protected constructor(private val activity: Mai
         return false
     }
 
-    override fun closeFragment() {
-        if (temporaryPage != null) {
-            temporaryPage = null
-            activity.updateTitle()
-            updateActionBarState()
-            updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
-            updateConnectionState()
-        }
+    override fun openDrawer() {
+        activity.openDrawer()
     }
 
     override fun onPageUpdated(pageUrl: String, pageTitle: String?, widgets: List<Widget>) {

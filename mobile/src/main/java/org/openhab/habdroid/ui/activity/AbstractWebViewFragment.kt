@@ -396,8 +396,8 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         callback?.updateActionBarState()
     }
 
-    private fun closeFragment() {
-        callback?.closeFragment()
+    private fun openDrawer() {
+        callback?.openDrawer()
     }
 
     open class OHAppInterface(private val context: Context, private val fragment: AbstractWebViewFragment) {
@@ -417,7 +417,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         fun exitToApp() {
             Log.d(TAG, "exitToApp()")
             fragment.launch {
-                fragment.closeFragment()
+                fragment.openDrawer()
             }
         }
 
@@ -474,7 +474,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
     }
 
     interface ParentCallback {
-        fun closeFragment()
+        fun openDrawer()
 
         fun updateActionBarState()
     }
