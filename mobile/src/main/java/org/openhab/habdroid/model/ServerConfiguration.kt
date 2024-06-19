@@ -67,7 +67,8 @@ data class ServerConfiguration(
     val defaultSitemap: DefaultSitemap?,
     val wifiSsids: Set<String>?,
     val restrictToWifiSsids: Boolean,
-    val frontailUrl: String?
+    val frontailUrl: String?,
+    val mainUiStartPage: String?
 ) : Parcelable {
     fun saveToPrefs(prefs: SharedPreferences, secretPrefs: SharedPreferences) {
         Log.d(TAG, "saveToPrefs: ${this.toRedactedString()}")
@@ -78,6 +79,7 @@ data class ServerConfiguration(
             putString(PrefKeys.buildServerKey(id, PrefKeys.LOCAL_URL_PREFIX), localPath?.url)
             putString(PrefKeys.buildServerKey(id, PrefKeys.REMOTE_URL_PREFIX), remotePath?.url)
             putString(PrefKeys.buildServerKey(id, PrefKeys.FRONTAIL_URL_PREFIX), frontailUrl)
+            putString(PrefKeys.buildServerKey(id, PrefKeys.MAIN_UI_START_PAGE_PREFIX), mainUiStartPage)
             putString(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX), sslClientCert)
             putStringSet(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX), wifiSsids)
             putBoolean(PrefKeys.buildServerKey(id, PrefKeys.RESTRICT_TO_SSID_PREFIX), restrictToWifiSsids)
@@ -109,6 +111,7 @@ data class ServerConfiguration(
             remove(PrefKeys.buildServerKey(id, PrefKeys.LOCAL_URL_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.REMOTE_URL_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.FRONTAIL_URL_PREFIX))
+            remove(PrefKeys.buildServerKey(id, PrefKeys.MAIN_UI_START_PAGE_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_NAME_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_LABEL_PREFIX))
@@ -140,16 +143,10 @@ data class ServerConfiguration(
             )
         }
 
-        return ServerConfiguration(
-            id,
-            name,
-            redactCredentials(localPath),
-            redactCredentials(remotePath),
-            sslClientCert,
-            defaultSitemap,
-            wifiSsids,
-            restrictToWifiSsids,
-            frontailUrl
+        return createFrom(
+            this,
+            localPath = redactCredentials(localPath),
+            remotePath = redactCredentials(remotePath)
         ).toString()
     }
 
@@ -185,7 +182,8 @@ data class ServerConfiguration(
             }
             val restrictToWifiSsids =
                 prefs.getBoolean(PrefKeys.buildServerKey(id, PrefKeys.RESTRICT_TO_SSID_PREFIX), false)
-            val frontailPort = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.FRONTAIL_URL_PREFIX))
+            val frontailUrl = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.FRONTAIL_URL_PREFIX))
+            val mainUiStartPage = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.MAIN_UI_START_PAGE_PREFIX))
 
             val config = ServerConfiguration(
                 id,
@@ -196,7 +194,8 @@ data class ServerConfiguration(
                 getDefaultSitemap(prefs, id),
                 wifiSsids,
                 restrictToWifiSsids,
-                frontailPort
+                frontailUrl,
+                mainUiStartPage
             )
             Log.d(TAG, "load: ${config.toRedactedString()}")
             return config
@@ -220,6 +219,31 @@ data class ServerConfiguration(
                 null
             }
         }
+
+        fun createFrom(
+            config: ServerConfiguration,
+            id: Int = config.id,
+            name: String = config.name,
+            localPath: ServerPath? = config.localPath,
+            remotePath: ServerPath? = config.remotePath,
+            sslClientCert: String? = config.sslClientCert,
+            defaultSitemap: DefaultSitemap? = config.defaultSitemap,
+            wifiSsids: Set<String>? = config.wifiSsids,
+            restrictToWifiSsids: Boolean = config.restrictToWifiSsids,
+            frontailUrl: String? = config.frontailUrl,
+            mainUiStartPage: String? = config.mainUiStartPage
+        ) = ServerConfiguration(
+            id,
+            name,
+            localPath,
+            remotePath,
+            sslClientCert,
+            defaultSitemap,
+            wifiSsids,
+            restrictToWifiSsids,
+            frontailUrl,
+            mainUiStartPage
+        )
     }
 }
 

@@ -140,7 +140,7 @@ class MainSettingsFragment : AbstractSettingsFragment(), ConnectionFactory.Updat
                 getString(R.string.settings_server_default_name, nextServerId)
             }
             val f = ServerEditorFragment.newInstance(
-                ServerConfiguration(nextServerId, nextName, null, null, null, null, null, false, null)
+                ServerConfiguration(nextServerId, nextName, null, null, null, null, null, false, null, null)
             )
             parentActivity.openSubScreen(f)
             true

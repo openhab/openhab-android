@@ -150,6 +150,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                         defaultSitemap,
                         null,
                         false,
+                        null,
                         null
                     )
                     config.saveToPrefs(prefs, secretPrefs)

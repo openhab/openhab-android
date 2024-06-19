@@ -161,17 +161,7 @@ class ServerEditorFragment :
         val serverNamePref = getPreference("name") as EditTextPreference
         serverNamePref.text = config.name
         serverNamePref.setOnPreferenceChangeListener { _, newValue ->
-            config = ServerConfiguration(
-                config.id,
-                newValue as String,
-                config.localPath,
-                config.remotePath,
-                config.sslClientCert,
-                config.defaultSitemap,
-                config.wifiSsids,
-                config.restrictToWifiSsids,
-                config.frontailUrl
-            )
+            config = ServerConfiguration.createFrom(config, name = newValue as String)
             parentActivity.invalidateOptionsMenu()
             true
         }
@@ -208,17 +198,7 @@ class ServerEditorFragment :
 
         val clientCertPref = getPreference("clientcert") as SslClientCertificatePreference
         clientCertPref.setOnPreferenceChangeListener { _, newValue ->
-            config = ServerConfiguration(
-                config.id,
-                config.name,
-                config.localPath,
-                config.remotePath,
-                newValue as String?,
-                config.defaultSitemap,
-                config.wifiSsids,
-                config.restrictToWifiSsids,
-                config.frontailUrl
-            )
+            config = ServerConfiguration.createFrom(config, sslClientCert = newValue as String?)
             true
         }
         clientCertPref.setValue(config.sslClientCert)
@@ -270,16 +250,10 @@ class ServerEditorFragment :
                 val ssids = value.first.toWifiSsids()
                 // Don't restrict if no SSID is set
                 val restrictToSsids = if (ssids.isEmpty()) false else value.second
-                config = ServerConfiguration(
-                    config.id,
-                    config.name,
-                    config.localPath,
-                    config.remotePath,
-                    config.sslClientCert,
-                    config.defaultSitemap,
-                    ssids,
-                    restrictToSsids,
-                    config.frontailUrl
+                config = ServerConfiguration.createFrom(
+                    config,
+                    wifiSsids = ssids,
+                    restrictToWifiSsids = restrictToSsids
                 )
                 true
             }
@@ -295,17 +269,19 @@ class ServerEditorFragment :
         frontailUrlPref.setOnPreferenceChangeListener { _, newValue ->
             val newUrl = newValue as String?
             frontailUrlPref.summary = summaryGenerator(newUrl)
-            config = ServerConfiguration(
-                config.id,
-                config.name,
-                config.localPath,
-                config.remotePath,
-                config.sslClientCert,
-                config.defaultSitemap,
-                config.wifiSsids,
-                config.restrictToWifiSsids,
-                newUrl
-            )
+            config = ServerConfiguration.createFrom(config, frontailUrl = newUrl)
+            true
+        }
+
+        val mainUiStartPagePref = getPreference("main_ui_start_page") as EditTextPreference
+        mainUiStartPagePref.text = config.mainUiStartPage
+        mainUiStartPagePref.setOnPreferenceChangeListener { _, newValue ->
+            var newPage = newValue as String?
+            if (!newPage.isNullOrEmpty() && !newPage.startsWith("/")) {
+                newPage = "/$newPage"
+                mainUiStartPagePref.text = newPage
+            }
+            config = ServerConfiguration.createFrom(config, mainUiStartPage = newPage)
             true
         }
 
@@ -335,29 +311,9 @@ class ServerEditorFragment :
 
     fun onPathChanged(key: String, path: ServerPath) {
         config = if (key == "local") {
-            ServerConfiguration(
-                config.id,
-                config.name,
-                path,
-                config.remotePath,
-                config.sslClientCert,
-                config.defaultSitemap,
-                config.wifiSsids,
-                config.restrictToWifiSsids,
-                config.frontailUrl
-            )
+            ServerConfiguration.createFrom(config, localPath = path)
         } else {
-            ServerConfiguration(
-                config.id,
-                config.name,
-                config.localPath,
-                path,
-                config.sslClientCert,
-                config.defaultSitemap,
-                config.wifiSsids,
-                config.restrictToWifiSsids,
-                config.frontailUrl
-            )
+            ServerConfiguration.createFrom(config, remotePath = path)
         }
         parentActivity.invalidateOptionsMenu()
     }

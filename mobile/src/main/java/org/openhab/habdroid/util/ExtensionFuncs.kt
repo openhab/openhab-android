@@ -590,6 +590,7 @@ fun ServiceInfo.addToPrefs(context: Context) {
         null,
         null,
         false,
+        null,
         null
     )
     config.saveToPrefs(context.getPrefs(), context.getSecretPrefs())
