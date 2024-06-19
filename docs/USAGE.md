@@ -336,8 +336,13 @@ Create an "Android App: Device Controls" metadata on an Item with a link without
 
 ### UI command Item
 
-Similar to the [UI command Item in Main UI](https://next.openhab.org/docs/mainui/about.html#ui-command-item) you can use an Item to control the Sitemaps.
-All commands except `popup:` are supported by the app.
+Similar to the [UI command Item in Main UI](https://next.openhab.org/docs/mainui/about.html#ui-command-item) you can use a `String` Item to control the Sitemaps.
+Whenever the configured Item receives a command, the app reacts on this command.
+Examples:
+- Sending the command `navigate:/basicui/app?w=0003&sitemap=foo` opens a subpage of the Sitemap `foo`. To get this URL, open the Sitemap in Basic UI and copy the URL after the hostname.
+- Sending the command `notification:Hi there` shows a popup with this text.
+
+All commands except the `popup:` command are supported by the app.
 
 ## Multi server support
 
