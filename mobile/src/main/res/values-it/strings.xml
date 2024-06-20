@@ -74,6 +74,7 @@
     <string name="settings_no_default_sitemap">Nessun Sitemap predefinito selezionato</string>
     <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Sitemap predefinito attuale: %1$s</string>
+    <string name="settings_main_ui_start_page">Pagina Iniziale Main UI</string>
     <string name="settings_ui_command_item">Item comando UI</string>
     <string name="settings_ui_command_item_summary_on">La sitemap può essere controllata tramite l\'item \"%s\"</string>
     <string name="settings_ui_command_item_summary_off">La sitemap non può essere controllata da un Item</string>
