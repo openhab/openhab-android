@@ -1,0 +1,3 @@
+- Allow configuration of Main UI start page
+- Add screensaver feature
+
