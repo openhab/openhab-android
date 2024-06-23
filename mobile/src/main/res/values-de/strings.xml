@@ -76,6 +76,7 @@
     <string name="settings_no_default_sitemap">Keine Standard-Sitemap festgelegt</string>
     <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Aktuelle Standard-Sitemap: %1$s</string>
+    <string name="settings_main_ui_start_page">Startseite Main UI</string>
     <string name="settings_ui_command_item">Item für UI-Befehle</string>
     <string name="settings_ui_command_item_summary_on">Sitemap kann über Item \"%s\" gesteuert werden</string>
     <string name="settings_ui_command_item_summary_off">Sitemap kann nicht über ein Item gesteuert werden</string>

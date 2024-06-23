@@ -76,6 +76,7 @@
     <string name="settings_no_default_sitemap">Intet standard Sitemap er valgt</string>
     <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Nåværende standard Sitemap: %1$s</string>
+    <string name="settings_main_ui_start_page">Main UI startside</string>
     <string name="settings_ui_command_item">UI kommando Item</string>
     <string name="settings_ui_command_item_summary_on">Sitemap kan kontrolleres via Item \"%s\"</string>
     <string name="settings_ui_command_item_summary_off">SItemap kan ikke kontrolleres av et Item</string>

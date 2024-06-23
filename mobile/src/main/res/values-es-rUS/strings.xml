@@ -74,6 +74,7 @@
     <string name="settings_no_default_sitemap">No se ha seleccionado ningún Sitemap por defecto</string>
     <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Sitemap predeterminado actual: %1$s</string>
+    <string name="settings_main_ui_start_page">Página de inicio de la interfaz de usuario principal</string>
     <string name="settings_ui_command_item">Item del comando de interfaz de usuario</string>
     <string name="settings_ui_command_item_summary_on">El Sitemap puede ser controlado mediante el Item \"%s\"</string>
     <string name="settings_ui_command_item_summary_off">El Sitemap no puede ser controlado mediante un Item</string>
@@ -134,6 +135,10 @@
     <string name="device_control">Control de dispositivos Android</string>
     <string name="device_control_subtitle">Descripción en los mosaicos</string>
     <string name="device_control_hint">Dependiendo de tu versión de Android, estos azulejos se encuentran en el menú de pulsación larga del botón de encendido o junto a los azulejos rápidos</string>
+    <string name="screensaver">Salvapantallas</string>
+    <string name="screensaver_item">Item mostrado</string>
+    <string name="screensaver_bright_screen">Brillo pantalla</string>
+    <string name="screensaver_error_loading_item">Error al cargar el Item \"%s\"</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandos de voz</string>
     <string name="voice_command">Comando de voz</string>
