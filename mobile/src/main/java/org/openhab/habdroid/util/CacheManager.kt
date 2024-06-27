@@ -24,6 +24,7 @@ import java.io.IOException
 import java.io.InputStream
 import okhttp3.Cache
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.model.IconFormat
 
 class CacheManager private constructor(appContext: Context) {
@@ -53,12 +54,14 @@ class CacheManager private constructor(appContext: Context) {
     }
 
     private fun targetCache(url: HttpUrl): BitmapCache {
-        return if (url.pathSegments.firstOrNull() == "icon" && url.pathSegments[1].isNotEmpty()) {
+        return if (url.isIconUrl()) {
             iconBitmapCache
         } else {
             temporaryBitmapCache
         }
     }
+
+    private fun HttpUrl.isIconUrl() = pathSegments.firstOrNull() == "icon" && pathSegments[1].isNotEmpty()
 
     fun isBitmapCached(url: HttpUrl, @ColorInt fallbackColor: Int): Boolean {
         return getCachedBitmap(url, fallbackColor) != null
@@ -87,14 +90,26 @@ class CacheManager private constructor(appContext: Context) {
 
     fun clearCache(alsoClearIcons: Boolean) {
         temporaryBitmapCache.evictAll()
-        try {
-            httpCache.evictAll()
-        } catch (ignored: IOException) {
-            // ignored
-        }
         if (alsoClearIcons) {
+            try {
+                httpCache.evictAll()
+            } catch (ignored: IOException) {
+                // ignored
+            }
             widgetIconDirectory?.listFiles()?.forEach { f -> f.delete() }
             iconBitmapCache.evictAll()
+        } else {
+            // Don't evict icons from httpCache
+            try {
+                val urlIterator = httpCache.urls()
+                while (urlIterator.hasNext()) {
+                    if (urlIterator.next().toHttpUrlOrNull()?.isIconUrl() == false) {
+                        urlIterator.remove()
+                    }
+                }
+            } catch (ignored: IOException) {
+                // ignored
+            }
         }
     }
 
@@ -118,6 +133,7 @@ class CacheManager private constructor(appContext: Context) {
     )
 
     companion object {
+        private val TAG = CacheManager::class.java.simpleName
         private var instance: CacheManager? = null
 
         fun getInstance(context: Context): CacheManager {
