@@ -37,7 +37,6 @@ import android.os.Parcelable
 import android.speech.RecognizerIntent
 import android.telephony.TelephonyManager
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -810,17 +809,20 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 }
                 ItemUpdateWorker.ValueWithInfo(ssidToSend)
             }
-            @RequiresApi(Build.VERSION_CODES.M)
             VALUE_GETTER_MAP[PrefKeys.SEND_DND_MODE] = { context, _ ->
-                val nm = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-                val mode = when (nm.currentInterruptionFilter) {
-                    NotificationManager.INTERRUPTION_FILTER_NONE -> "TOTAL_SILENCE"
-                    NotificationManager.INTERRUPTION_FILTER_PRIORITY -> "PRIORITY"
-                    NotificationManager.INTERRUPTION_FILTER_ALARMS -> "ALARMS"
-                    NotificationManager.INTERRUPTION_FILTER_ALL -> "OFF"
-                    else -> "UNDEF"
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    val nm = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                    val mode = when (nm.currentInterruptionFilter) {
+                        NotificationManager.INTERRUPTION_FILTER_NONE -> "TOTAL_SILENCE"
+                        NotificationManager.INTERRUPTION_FILTER_PRIORITY -> "PRIORITY"
+                        NotificationManager.INTERRUPTION_FILTER_ALARMS -> "ALARMS"
+                        NotificationManager.INTERRUPTION_FILTER_ALL -> "OFF"
+                        else -> "UNDEF"
+                    }
+                    ItemUpdateWorker.ValueWithInfo(mode)
+                } else {
+                    ItemUpdateWorker.ValueWithInfo("UNDEF")
                 }
-                ItemUpdateWorker.ValueWithInfo(mode)
             }
             VALUE_GETTER_MAP[PrefKeys.SEND_BLUETOOTH_DEVICES] = { context, _ ->
                 fun BluetoothDevice.isConnected(): Boolean {
