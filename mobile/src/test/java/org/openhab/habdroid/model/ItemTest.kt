@@ -163,7 +163,7 @@ class ItemTest {
     @Test
     fun tagsHaveLabel() {
         val mustHaveLabel = listOf(Item.Tag.Location, Item.Tag.Equipment)
-        Item.Tag.values()
+        Item.Tag.entries
             .filter { tag -> tag.parent in mustHaveLabel }
             .forEach { tag ->
                 assertNotNull(tag.labelResId)
