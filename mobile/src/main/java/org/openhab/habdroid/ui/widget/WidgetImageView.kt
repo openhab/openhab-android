@@ -68,8 +68,8 @@ class WidgetImageView(context: Context, attrs: AttributeSet?) : AppCompatImageVi
             emptyHeightToWidthRatio = getFraction(R.styleable.WidgetImageView_emptyHeightToWidthRatio, 1, 1, 0f)
             addRandomnessToUrl = getBoolean(R.styleable.WidgetImageView_addRandomnessToUrl, false)
             val imageScalingType = getInt(R.styleable.WidgetImageView_imageScalingType, 0)
-            if (imageScalingType < ImageScalingType.values().size) {
-                setImageScalingType(ImageScalingType.values()[imageScalingType])
+            if (imageScalingType < ImageScalingType.entries.size) {
+                setImageScalingType(ImageScalingType.entries[imageScalingType])
             }
             recycle()
         }

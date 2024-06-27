@@ -43,8 +43,8 @@ open class CustomInputTypePreference(context: Context, attrs: AttributeSet) :
             inputType = getInt(0, 0)
             autofillHints = getString(1)?.split(',')?.toTypedArray()
             val whitespaceBehaviorId = getInt(2, 0)
-            whitespaceBehavior = if (whitespaceBehaviorId < WhitespaceBehavior.values().size) {
-                WhitespaceBehavior.values()[whitespaceBehaviorId]
+            whitespaceBehavior = if (whitespaceBehaviorId < WhitespaceBehavior.entries.size) {
+                WhitespaceBehavior.entries[whitespaceBehaviorId]
             } else {
                 WhitespaceBehavior.IGNORE
             }
@@ -114,8 +114,8 @@ open class CustomInputTypePreference(context: Context, attrs: AttributeSet) :
                 }
             }
             val whitespaceBehaviorId = arguments?.getInt(KEY_WHITESPACE_BEHAVIOR, 0) ?: 0
-            whitespaceBehavior = if (whitespaceBehaviorId < WhitespaceBehavior.values().size) {
-                WhitespaceBehavior.values()[whitespaceBehaviorId]
+            whitespaceBehavior = if (whitespaceBehaviorId < WhitespaceBehavior.entries.size) {
+                WhitespaceBehavior.entries[whitespaceBehaviorId]
             } else {
                 WhitespaceBehavior.IGNORE
             }

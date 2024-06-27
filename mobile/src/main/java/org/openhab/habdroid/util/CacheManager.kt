@@ -71,11 +71,11 @@ class CacheManager private constructor(appContext: Context) {
     }
 
     fun removeWidgetIcon(widgetId: Int) {
-        IconFormat.values().forEach { format -> getWidgetIconFile(widgetId, format).delete() }
+        IconFormat.entries.forEach { format -> getWidgetIconFile(widgetId, format).delete() }
     }
 
     fun getWidgetIconFormat(widgetId: Int): IconFormat? {
-        return IconFormat.values()
+        return IconFormat.entries
             .firstOrNull { format -> getWidgetIconFile(widgetId, format).exists() }
     }
 
