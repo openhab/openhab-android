@@ -34,13 +34,39 @@
             android:textColor="?colorOnSurfaceVariant"
             tools:text="Some status message" />
 
-        <ProgressBar
-            android:id="@+id/progress"
-            style="?attr/indeterminateProgressStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_gravity="center_horizontal" />
+        <com.faltenreich.skeletonlayout.SkeletonLayout
+            android:id="@+id/skeletonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <include layout="@layout/widgetlist_frameitem" />
+                <include layout="@layout/widgetlist_textitem_compact" />
+                <include layout="@layout/widgetlist_textitem_compact" />
+                <include layout="@layout/widgetlist_textitem_compact" />
+                <include layout="@layout/widgetlist_textitem_compact" />
+                <include layout="@layout/widgetlist_frameitem" />
+                <include layout="@layout/widgetlist_textitem_compact" />
+                <include layout="@layout/widgetlist_textitem_compact" />
+                <include layout="@layout/widgetlist_textitem_compact" />
+                <include layout="@layout/widgetlist_textitem_compact" />
+                <include layout="@layout/widgetlist_frameitem" />
+                <include layout="@layout/widgetlist_textitem_compact" />
+                <include layout="@layout/widgetlist_textitem_compact" />
+                <include layout="@layout/widgetlist_textitem_compact" />
+                <include layout="@layout/widgetlist_textitem_compact" />
+                <include layout="@layout/widgetlist_frameitem" />
+                <include layout="@layout/widgetlist_textitem_compact" />
+                <include layout="@layout/widgetlist_textitem_compact" />
+                <include layout="@layout/widgetlist_textitem_compact" />
+                <include layout="@layout/widgetlist_textitem_compact" />
+            </LinearLayout>
+
+
+        </com.faltenreich.skeletonlayout.SkeletonLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button1"
