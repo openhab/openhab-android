@@ -41,7 +41,7 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
     fun setItems(items: List<Item>) {
         filteredItems.clear()
         filteredItems.addAll(items)
-        filteredItems.sortWith(Comparator { lhs, rhs -> lhs.name.compareTo(rhs.name, ignoreCase = true) })
+        filteredItems.sortWith { lhs, rhs -> lhs.name.compareTo(rhs.name, ignoreCase = true) }
         allItems.clear()
         allItems.addAll(filteredItems)
         notifyDataSetChanged()
