@@ -768,6 +768,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                         }
                     } else {
                         chooseSitemap()
+                        updateSitemapDrawerEntries()
                     }
                     if (connection !is DemoConnection) {
                         prefs.edit {
