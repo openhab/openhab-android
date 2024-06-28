@@ -75,12 +75,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
-import org.json.JSONException
-import org.json.JSONObject
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
@@ -116,6 +113,7 @@ import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.IconBackground
 import org.openhab.habdroid.util.ImageConversionPolicy
+import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ScreenLockMode
@@ -1489,39 +1487,14 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private suspend fun listenUiCommandItem(item: String) {
-        val connection = connection ?: return
-        val eventSubscription = connection.httpClient.makeSse(
-            // Support for both the "openhab" and the older "smarthome" root topic by using a wildcard
-            connection.httpClient.buildUrl("rest/events?topics=*/items/$item/command")
-        )
-
-        try {
-            while (isActive) {
-                try {
-                    val event = JSONObject(eventSubscription.getNextEvent())
-                    if (event.optString("type") == "ALIVE") {
-                        Log.d(TAG, "Got ALIVE event")
-                        continue
-                    }
-                    val topic = event.getString("topic")
-                    val topicPath = topic.split('/')
-                    // Possible formats:
-                    // - openhab/items/<item>/statechanged
-                    // - openhab/items/<group item>/<item>/statechanged
-                    // When an update for a group is sent, there's also one for the individual item.
-                    // Therefore always take the element on index two.
-                    if (topicPath.size !in 4..5) {
-                        throw JSONException("Unexpected topic path $topic")
-                    }
-                    val state = JSONObject(event.getString("payload")).getString("value")
-                    Log.d(TAG, "Got state by event: $state")
-                    handleUiCommand(state)
-                } catch (e: JSONException) {
-                    Log.e(TAG, "Failed parsing JSON of state change event", e)
-                }
-            }
-        } finally {
-            eventSubscription.cancel()
+        ItemClient.listenForItemChange(
+            this,
+            connection ?: return,
+            item
+        ) { _, payload ->
+            val state = payload.getString("value")
+            Log.d(TAG, "Got state by event: $state")
+            handleUiCommand(state)
         }
     }
 

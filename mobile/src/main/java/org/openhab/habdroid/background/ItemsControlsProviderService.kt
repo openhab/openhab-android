@@ -36,11 +36,8 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.jdk9.flowPublish
 import kotlinx.coroutines.launch
-import org.json.JSONException
-import org.json.JSONObject
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
@@ -82,41 +79,14 @@ class ItemsControlsProviderService : ControlsProviderService() {
             .mapNotNull { factory.maybeCreateControl(it.value) }
             .forEach { control -> send(control) }
 
-        val eventSubscription = connection.httpClient.makeSse(
-            // Support for both the "openhab" and the older "smarthome" root topic by using a wildcard
-            connection.httpClient.buildUrl("rest/events?topics=*/items/*/statechanged")
-        )
-
-        try {
-            while (isActive) {
-                try {
-                    val event = JSONObject(eventSubscription.getNextEvent())
-                    if (event.optString("type") == "ALIVE") {
-                        Log.d(TAG, "Got ALIVE event")
-                        continue
-                    }
-                    val topic = event.getString("topic")
-                    val topicPath = topic.split('/')
-                    // Possible formats:
-                    // - openhab/items/<item>/statechanged
-                    // - openhab/items/<group item>/<item>/statechanged
-                    // When an update for a group is sent, there's also one for the individual item.
-                    // Therefore always take the element on index two.
-                    if (topicPath.size !in 4..5) {
-                        throw JSONException("Unexpected topic path $topic")
-                    }
-                    val item = allItems[topicPath[2]]
-                    if (item != null) {
-                        val payload = JSONObject(event.getString("payload"))
-                        val newItem = item.copy(state = payload.getString("value").toParsedState())
-                        factory.maybeCreateControl(newItem)?.let { control -> send(control) }
-                    }
-                } catch (e: JSONException) {
-                    Log.e(TAG, "Failed parsing JSON of state change event", e)
+        ItemClient.listenForItemChange(this, connection, "*") { topicPath, payload ->
+            val item = allItems[topicPath[2]]
+            if (item != null) {
+                val newItem = item.copy(state = payload.getString("value").toParsedState())
+                launch {
+                    factory.maybeCreateControl(newItem)?.let { control -> send(control) }
                 }
             }
-        } finally {
-            eventSubscription.cancel()
         }
     }
 

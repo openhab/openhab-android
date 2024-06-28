@@ -27,10 +27,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import org.json.JSONException
-import org.json.JSONObject
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.HttpClient
@@ -74,44 +71,20 @@ class DayDream : DreamService(), CoroutineScope {
         ConnectionFactory.waitForInitialization()
         val connection = ConnectionFactory.primaryUsableConnection?.connection ?: return
 
-        val eventSubscription = connection.httpClient.makeSse(
-            // Support for both the "openhab" and the older "smarthome" root topic by using a wildcard
-            connection.httpClient.buildUrl("rest/events?topics=*/items/$item/command")
-        )
-
         textView.text = try {
             ItemClient.loadItem(connection, item)?.state?.asString.orEmpty()
         } catch (e: HttpClient.HttpException) {
             getString(R.string.screensaver_error_loading_item, item)
         }
 
-        try {
-            while (isActive) {
-                try {
-                    val event = JSONObject(eventSubscription.getNextEvent())
-                    if (event.optString("type") == "ALIVE") {
-                        Log.d(TAG, "Got ALIVE event")
-                        continue
-                    }
-                    val topic = event.getString("topic")
-                    val topicPath = topic.split('/')
-                    // Possible formats:
-                    // - openhab/items/<item>/statechanged
-                    // - openhab/items/<group item>/<item>/statechanged
-                    // When an update for a group is sent, there's also one for the individual item.
-                    // Therefore always take the element on index two.
-                    if (topicPath.size !in 4..5) {
-                        throw JSONException("Unexpected topic path $topic")
-                    }
-                    val state = JSONObject(event.getString("payload")).getString("value")
-                    Log.d(TAG, "Got state by event: $state")
-                    textView.text = state
-                } catch (e: JSONException) {
-                    Log.e(TAG, "Failed parsing JSON of state change event", e)
-                }
-            }
-        } finally {
-            eventSubscription.cancel()
+        ItemClient.listenForItemChange(
+            this,
+            connection,
+            item
+        ) { _, payload ->
+            val state = payload.getString("value")
+            Log.d(TAG, "Got state by event: $state")
+            textView.text = state
         }
     }
 

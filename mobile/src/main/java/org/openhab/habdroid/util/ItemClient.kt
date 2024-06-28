@@ -18,6 +18,8 @@ import java.io.IOException
 import java.io.StringReader
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.isActive
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -98,6 +100,49 @@ object ItemClient {
                 Log.e(TAG, "Failed parsing XML result for item $itemName", e)
                 null
             }
+        }
+    }
+
+    suspend fun listenForItemChange(
+        scope: CoroutineScope,
+        connection: Connection,
+        item: String,
+        callback: (topicPath: List<String>, payload: JSONObject) -> Unit
+    ) {
+        val eventSubscription = connection.httpClient.makeSse(
+            // Support for both the "openhab" and the older "smarthome" root topic by using a wildcard
+            connection.httpClient.buildUrl("rest/events?topics=*/items/$item/command")
+        )
+
+        try {
+            while (scope.isActive) {
+                try {
+                    val event = JSONObject(eventSubscription.getNextEvent())
+                    if (event.optString("type") == "ALIVE") {
+                        Log.d(TAG, "Got ALIVE event for item $item")
+                        continue
+                    }
+                    val topic = event.getString("topic")
+                    val topicPath = topic.split('/')
+                    // Possible formats:
+                    // - openhab/items/<item>/statechanged
+                    // - openhab/items/<group item>/<item>/statechanged
+                    // When an update for a group is sent, there's also one for the individual item.
+                    // Therefore always take the element on index two.
+                    if (topicPath.size !in 4..5) {
+                        throw JSONException("Unexpected topic path $topic for item $item")
+                    }
+                    val payload = JSONObject(event.getString("payload"))
+                    Log.d(TAG, "Got payload: $payload")
+                    callback(topicPath, payload)
+                } catch (e: JSONException) {
+                    Log.e(TAG, "Failed parsing JSON of state change event for item $item", e)
+                } catch (e: HttpClient.SseFailureException) {
+                    Log.e(TAG, "SSE failure for item $item", e)
+                }
+            }
+        } finally {
+            eventSubscription.cancel()
         }
     }
 }
