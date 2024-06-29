@@ -1,0 +1,10 @@
+## What's Changed
+* Add skelton view while loading by @mueller-ma in https://github.com/openhab/openhab-android/pull/3713
+* Keep icons in cache when refreshing Sitemap by @mueller-ma in https://github.com/openhab/openhab-android/pull/3717
+* Add scrollbars to Item picker and notification list by @mueller-ma in https://github.com/openhab/openhab-android/pull/3719
+* Avoid animation of server settings by @mueller-ma in https://github.com/openhab/openhab-android/pull/3720
+* Fix crash when listening for command item by @mueller-ma in https://github.com/openhab/openhab-android/pull/3721
+* Update summary notification when notification is dismissed by @mueller-ma in https://github.com/openhab/openhab-android/pull/3722
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.14.1-beta...3.14.2-beta
