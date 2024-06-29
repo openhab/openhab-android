@@ -54,11 +54,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                 )
 
                 runBlocking {
-                    notifHelper.showNotification(
-                        cloudNotification,
-                        null,
-                        null
-                    )
+                    notifHelper.showNotification(cloudNotification)
                 }
             }
             "hideNotification" -> {

@@ -276,6 +276,9 @@
         <receiver
             android:name=".background.CopyToClipboardReceiver"
             android:exported="false" />
+        <receiver
+            android:name=".core.NotificationDismissedReceiver"
+            android:exported="false" />
 
         <activity
             android:name=".background.NfcReceiveActivity"

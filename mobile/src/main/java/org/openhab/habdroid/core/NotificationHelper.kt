@@ -45,26 +45,11 @@ import org.openhab.habdroid.util.getPrefs
 class NotificationHelper(private val context: Context) {
     private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-    suspend fun showNotification(
-        message: CloudNotification,
-        deleteIntent: PendingIntent?,
-        summaryDeleteIntent: PendingIntent?
-    ) {
+    suspend fun showNotification(message: CloudNotification) {
         createChannelForSeverity(message.severity)
-
-        val n = makeNotification(message, message.idHash, deleteIntent)
-
+        val n = makeNotification(message, message.idHash, createDeleteIntent(message.idHash))
         notificationManager.notify(message.idHash, n)
-
-        if (HAS_GROUPING_SUPPORT) {
-            val count = countCloudNotifications(notificationManager.activeNotifications)
-            if (count > 1) {
-                notificationManager.notify(
-                    SUMMARY_NOTIFICATION_ID,
-                    makeSummaryNotification(count, message.createdTimestamp, summaryDeleteIntent)
-                )
-            }
-        }
+        updateGroupNotification()
     }
 
     fun cancelNotification(notificationId: Int) {
@@ -79,8 +64,34 @@ class NotificationHelper(private val context: Context) {
                 for (n in active) {
                     notificationManager.cancel(n.id)
                 }
+            } else {
+                updateGroupNotification()
             }
         }
+    }
+
+    fun updateGroupNotification() {
+        if (!HAS_GROUPING_SUPPORT) {
+            return
+        }
+        val count = countCloudNotifications(notificationManager.activeNotifications)
+        if (count > 1) {
+            notificationManager.notify(
+                SUMMARY_NOTIFICATION_ID,
+                makeSummaryNotification(count, System.currentTimeMillis(), createDeleteIntent(SUMMARY_NOTIFICATION_ID))
+            )
+        }
+    }
+
+    private fun createDeleteIntent(notificationId: Int): PendingIntent {
+        val intent = Intent(context, NotificationDismissedReceiver::class.java)
+        intent.putExtra(NOTIFICATION_ID_EXTRA, notificationId)
+        return PendingIntent.getBroadcast(
+            context,
+            notificationId,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
+        )
     }
 
     private fun createChannelForSeverity(severity: String?) {
@@ -182,11 +193,7 @@ class NotificationHelper(private val context: Context) {
     }
 
     @TargetApi(24)
-    fun makeSummaryNotification(
-        subNotificationCount: Int,
-        timestamp: Long,
-        deleteIntent: PendingIntent?
-    ): Notification {
+    fun makeSummaryNotification(subNotificationCount: Int, timestamp: Long, deleteIntent: PendingIntent): Notification {
         val text = context.resources.getQuantityString(
             R.plurals.summary_notification_text,
             subNotificationCount,
@@ -240,6 +247,7 @@ class NotificationHelper(private val context: Context) {
 
     companion object {
         private val TAG = NotificationHelper::class.java.simpleName
+        const val NOTIFICATION_ID_EXTRA = "notification_id"
 
         private fun getChannelId(severity: String?) = if (severity.isNullOrEmpty()) {
             NotificationUpdateObserver.CHANNEL_ID_MESSAGE_DEFAULT

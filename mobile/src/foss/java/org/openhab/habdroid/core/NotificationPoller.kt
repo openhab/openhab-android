@@ -66,11 +66,7 @@ object NotificationPoller {
         val notifHelper = NotificationHelper(context)
 
         newMessages.forEach { message ->
-            notifHelper.showNotification(
-                message,
-                null,
-                null
-            )
+            notifHelper.showNotification(message)
         }
     }
 }
