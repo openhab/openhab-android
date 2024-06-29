@@ -104,6 +104,9 @@ class MainSettingsFragment : AbstractSettingsFragment(), ConnectionFactory.Updat
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.preferences)
+        // Populate server prefs here, so they don't get animated.
+        // Do it in onStart() again to update the list, e.g. after adding new servers.
+        populateServerPrefs()
 
         val addServerPref = getPreference("add_server")
         val sendDeviceInfoPref = getPreference(PrefKeys.SUBSCREEN_SEND_DEVICE_INFO)
