@@ -18,7 +18,10 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlinx.coroutines.runBlocking
 import org.openhab.habdroid.model.CloudNotification
+import org.openhab.habdroid.model.toCloudNotificationAction
 import org.openhab.habdroid.model.toOH2IconResource
+import org.openhab.habdroid.util.map
+import org.openhab.habdroid.util.toJsonArrayOrNull
 
 class FcmMessageListenerService : FirebaseMessagingService() {
     private lateinit var notifHelper: NotificationHelper
@@ -42,15 +45,23 @@ class FcmMessageListenerService : FirebaseMessagingService() {
 
         when (messageType) {
             "notification" -> {
+                val actions = data["actions"]
+                    ?.toJsonArrayOrNull()
+                    ?.map { it.toCloudNotificationAction() }
+                    ?.filterNotNull()
                 val cloudNotification = CloudNotification(
-                    data["persistedId"].orEmpty(),
-                    data["message"].orEmpty(),
+                    id = data["persistedId"].orEmpty(),
+                    title = data["title"].orEmpty(),
+                    message = data["message"].orEmpty(),
                     // Older versions of openhab-cloud didn't send the notification generation
                     // timestamp, so use the (undocumented) google.sent_time as a time reference
                     // in that case. If that also isn't present, don't show time at all.
-                    data["timestamp"]?.toLong() ?: message.sentTime,
-                    data["icon"].toOH2IconResource(),
-                    data["severity"]
+                    createdTimestamp = data["timestamp"]?.toLongOrNull() ?: message.sentTime,
+                    icon = data["icon"].toOH2IconResource(),
+                    severity = data["severity"],
+                    actions = actions,
+                    onClickAction = data["TODO"].toCloudNotificationAction(),
+                    mediaAttachmentUrl = data["TODO"]
                 )
 
                 runBlocking {
@@ -67,3 +78,4 @@ class FcmMessageListenerService : FirebaseMessagingService() {
         private val TAG = FcmMessageListenerService::class.java.simpleName
     }
 }
+

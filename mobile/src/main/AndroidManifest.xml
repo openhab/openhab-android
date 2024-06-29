@@ -279,6 +279,9 @@
         <receiver
             android:name=".core.NotificationDismissedReceiver"
             android:exported="false" />
+        <receiver
+            android:name=".core.NotificationActionReceiver"
+            android:exported="false" />
 
         <activity
             android:name=".background.NfcReceiveActivity"

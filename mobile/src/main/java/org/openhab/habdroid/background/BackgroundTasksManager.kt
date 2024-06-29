@@ -63,6 +63,7 @@ import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.background.tiles.TileData
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.OpenHabApplication
+import org.openhab.habdroid.model.CloudNotificationAction
 import org.openhab.habdroid.model.NfcTag
 import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
@@ -279,6 +280,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         const val WORKER_TAG_PREFIX_TASKER = "tasker-"
         const val WORKER_TAG_PREFIX_WIDGET = "widget-"
         const val WORKER_TAG_PREFIX_TILE = "tile-"
+        const val WORKER_TAG_PREFIX_NOTIFICATION = "notification-"
         const val WORKER_TAG_PREFIX_TILE_ID = "tile_id-"
         const val WORKER_TAG_VOICE_COMMAND = "voiceCommand"
 
@@ -425,6 +427,21 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 asCommand = true,
                 forceUpdate = true,
                 secondaryTags = listOf(WORKER_TAG_PREFIX_TILE_ID + tileId)
+            )
+        }
+
+        fun enqueueNotificationAction(context: Context, action: CloudNotificationAction) {
+            val split = action.action.split(":", limit = 3)
+            enqueueItemUpload(
+                context,
+                WORKER_TAG_PREFIX_NOTIFICATION + split[1],
+                split[1],
+                null,
+                ItemUpdateWorker.ValueWithInfo(split[2]),
+                isImportant = true,
+                showToast = true,
+                asCommand = true,
+                forceUpdate = true
             )
         }
 

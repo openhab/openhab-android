@@ -21,7 +21,11 @@ import android.widget.TextView
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import java.util.ArrayList
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.CloudNotification
@@ -96,9 +100,11 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
 
     class NotificationViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
         RecyclerView.ViewHolder(inflater.inflate(R.layout.notificationlist_item, parent, false)) {
-        private val createdView: TextView = itemView.findViewById(R.id.notificationCreated)
+        private val titleView: TextView = itemView.findViewById(R.id.notificationTitle)
         private val messageView: TextView = itemView.findViewById(R.id.notificationMessage)
-        private val iconView: WidgetImageView = itemView.findViewById(R.id.notificationImage)
+        private val createdView: TextView = itemView.findViewById(R.id.notificationCreated)
+        private val iconView: WidgetImageView = itemView.findViewById(R.id.notificationIcon)
+        private val imageView: WidgetImageView = itemView.findViewById(R.id.notificationImage)
         private val severityView: TextView = itemView.findViewById(R.id.notificationSeverity)
 
         fun bind(notification: CloudNotification) {
@@ -109,20 +115,33 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
                 DateUtils.WEEK_IN_MILLIS,
                 0
             )
+            titleView.text = notification.title
+            titleView.isVisible = notification.title.isNotEmpty()
             messageView.text = notification.message
+            messageView.isVisible = notification.message.isNotEmpty()
 
             val conn = ConnectionFactory.activeCloudConnection?.connection
-            if (notification.icon != null && conn != null) {
-                iconView.setImageUrl(
-                    conn,
-                    notification.icon.toUrl(
-                        itemView.context,
-                        itemView.context.determineDataUsagePolicy(conn).loadIconsWithState
-                    ),
-                    timeoutMillis = 2000
-                )
-            } else {
+            if (conn == null) {
                 iconView.applyFallbackDrawable()
+                imageView.isVisible = false
+            } else {
+                if (notification.icon != null) {
+                    iconView.setImageUrl(
+                        conn,
+                        notification.icon.toUrl(
+                            itemView.context,
+                            itemView.context.determineDataUsagePolicy(conn).loadIconsWithState
+                        ),
+                        timeoutMillis = 2000
+                    )
+                }
+                imageView.isVisible = notification.mediaAttachmentUrl != null
+                CoroutineScope(Dispatchers.IO + Job()).launch {
+                    val bitmap = notification.loadImage(conn, itemView.context, itemView.width)
+                    withContext(Dispatchers.Main) {
+                        imageView.setImageBitmap(bitmap)
+                    }
+                }
             }
             severityView.text = notification.severity
             severityView.isGone = notification.severity.isNullOrEmpty()

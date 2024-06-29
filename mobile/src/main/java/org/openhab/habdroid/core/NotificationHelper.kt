@@ -30,6 +30,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.CloudNotification
+import org.openhab.habdroid.model.CloudNotificationAction
 import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.HttpClient
@@ -94,6 +95,19 @@ class NotificationHelper(private val context: Context) {
         )
     }
 
+    private fun createActionIntent(action: CloudNotificationAction, notificationId: Int): PendingIntent {
+        val intent = Intent(context, NotificationActionReceiver::class.java)
+        intent.putExtra(NOTIFICATION_ID_EXTRA, notificationId)
+        intent.putExtra(NOTIFICATION_ACTION_LABEL, action.label)
+        intent.putExtra(NOTIFICATION_ACTION_ACTION, action.action)
+        return PendingIntent.getBroadcast(
+            context,
+            notificationId + action.hashCode(),
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
+        )
+    }
+
     private fun createChannelForSeverity(severity: String?) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             return
@@ -130,7 +144,11 @@ class NotificationHelper(private val context: Context) {
     ): Notification {
         val iconBitmap = getNotificationIcon(message.icon)
 
-        val contentIntent = makeNotificationClickIntent(message.id, notificationId)
+        val contentIntent = if (message.onClickAction == null){
+            makeNotificationClickIntent(message.id, notificationId)
+        } else {
+            createActionIntent(message.onClickAction, notificationId)
+        }
         val channelId = getChannelId(message.severity)
 
         val publicText = context.resources.getQuantityString(R.plurals.summary_notification_text, 1, 1)
@@ -140,17 +158,24 @@ class NotificationHelper(private val context: Context) {
             .setContentIntent(contentIntent)
             .build()
 
-        return makeNotificationBuilder(channelId, message.createdTimestamp)
+        val builder = makeNotificationBuilder(channelId, message.createdTimestamp)
             .setLargeIcon(iconBitmap)
             .setStyle(NotificationCompat.BigTextStyle().bigText(message.message))
             .setSound(context.getPrefs().getNotificationTone())
+            .setContentTitle(message.title)
             .setContentText(message.message)
             .setSubText(message.severity)
             .setContentIntent(contentIntent)
             .setDeleteIntent(deleteIntent)
             .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
             .setPublicVersion(publicVersion)
-            .build()
+
+        message.actions?.forEach {
+            val action = NotificationCompat.Action(null, it.label, createActionIntent(it, notificationId))
+            builder.addAction(action)
+        }
+
+        return builder.build()
     }
 
     private suspend fun getNotificationIcon(icon: IconResource?): Bitmap? {
@@ -248,6 +273,8 @@ class NotificationHelper(private val context: Context) {
     companion object {
         private val TAG = NotificationHelper::class.java.simpleName
         const val NOTIFICATION_ID_EXTRA = "notification_id"
+        const val NOTIFICATION_ACTION_LABEL = "notification_action_label"
+        const val NOTIFICATION_ACTION_ACTION = "notification_action_action"
 
         private fun getChannelId(severity: String?) = if (severity.isNullOrEmpty()) {
             NotificationUpdateObserver.CHANNEL_ID_MESSAGE_DEFAULT

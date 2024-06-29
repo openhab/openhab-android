@@ -305,6 +305,12 @@ fun JSONObject.optStringOrFallback(key: String, fallback: String?): String? {
     return if (has(key)) getString(key) else fallback
 }
 
+fun String.toJsonArrayOrNull() = try {
+    JSONArray(this)
+} catch (e: Exception) {
+    null
+}
+
 fun Context.getPrefs(): SharedPreferences {
     return PreferenceManager.getDefaultSharedPreferences(this)
 }
