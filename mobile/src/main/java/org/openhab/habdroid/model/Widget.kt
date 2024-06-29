@@ -54,6 +54,10 @@ data class Widget(
     private val rawMinValue: Float?,
     private val rawMaxValue: Float?,
     private val rawStep: Float?,
+    val row: Int,
+    val column: Int,
+    val command: String?,
+    val releaseCommand: String?,
     val period: String,
     val service: String,
     val legend: Boolean?,
@@ -122,6 +126,7 @@ data class Widget(
         Webview,
         Input,
         Buttongrid,
+        Button,
         Unknown
     }
 
@@ -207,6 +212,10 @@ data class Widget(
                 rawMinValue = source.rawMinValue,
                 rawMaxValue = source.rawMaxValue,
                 rawStep = source.rawStep,
+                row = source.row,
+                column = source.column,
+                command = source.command,
+                releaseCommand = source.releaseCommand,
                 period = source.period,
                 service = source.service,
                 legend = source.legend,
@@ -278,6 +287,10 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
     var minValue = 0f
     var maxValue = 100f
     var step = 1f
+    var row = 0
+    var column = 0
+    var command: String? = null
+    var releaseCommand: String? = null
     var refresh = 0
     var height = 0
     val mappings = ArrayList<LabeledValue>()
@@ -296,6 +309,10 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
             "minValue" -> minValue = node.textContent.toFloat()
             "maxValue" -> maxValue = node.textContent.toFloat()
             "step" -> step = node.textContent.toFloat()
+            "row" -> row = node.textContent.toInt()
+            "column" -> column = node.textContent.toInt()
+            "command" -> command = node.textContent
+            "releaseCommand" -> releaseCommand = node.textContent
             "refresh" -> refresh = node.textContent.toInt()
             "period" -> period = node.textContent
             "service" -> service = node.textContent
@@ -342,6 +359,10 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
         rawMinValue = minValue,
         rawMaxValue = maxValue,
         rawStep = step,
+        row = row,
+        column = column,
+        command = command,
+        releaseCommand = releaseCommand,
         period = Widget.sanitizePeriod(period),
         service = service,
         legend = null,
@@ -393,6 +414,10 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         rawMinValue = optFloatOrNull("minValue"),
         rawMaxValue = optFloatOrNull("maxValue"),
         rawStep = optFloatOrNull("step"),
+        row = optInt("row"),
+        column = optInt("column"),
+        command = optStringOrNull("command"),
+        releaseCommand = optStringOrNull("releaseCommand"),
         period = Widget.sanitizePeriod(optString("period")),
         service = optString("service", ""),
         legend = optBooleanOrNull("legend"),
