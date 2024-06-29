@@ -26,10 +26,14 @@ import org.openhab.habdroid.util.optStringOrNull
 @Parcelize
 data class CloudNotification internal constructor(
     val id: String,
+    val title: String,
     val message: String,
     val createdTimestamp: Long,
     val icon: IconResource?,
-    val severity: String?
+    val severity: String?,
+    val actions: List<CloudNotificationAction>?,
+    val onClickAction: CloudNotificationAction?,
+    val mediaAttachmentUrl: String?
 ) : Parcelable {
     val idHash get() = id.hashCode()
 }
@@ -47,11 +51,30 @@ fun JSONObject.toCloudNotification(): CloudNotification {
         }
     }
 
+    // TODO
     return CloudNotification(
-        getString("_id"),
-        getString("message"),
-        created,
-        optStringOrNull("icon").toOH2IconResource(),
-        optStringOrNull("severity")
+        id = getString("_id"),
+        title = "",
+        message = getString("message"),
+        createdTimestamp = created,
+        icon = optStringOrNull("icon").toOH2IconResource(),
+        severity = optStringOrNull("severity"),
+        actions = null,
+        onClickAction = null,
+        mediaAttachmentUrl = null
     )
+}
+
+@Parcelize
+data class CloudNotificationAction internal constructor(
+    val label: String,
+    val action: String
+) : Parcelable
+
+fun String?.toCloudNotificationAction(): CloudNotificationAction? {
+    val split = this?.split("=", limit = 2)
+    if (split?.size != 2) {
+        return null
+    }
+    return CloudNotificationAction(split.component1(), split.component2())
 }
