@@ -27,6 +27,7 @@ import android.text.format.DateFormat
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -228,7 +229,7 @@ class WidgetAdapter(
             TYPE_LOCATION -> MapViewHelper.createViewHolder(initData)
             TYPE_INPUT -> InputViewHolder(initData)
             TYPE_DATETIMEINPUT -> DateTimeInputViewHolder(initData)
-            TYPE_BUTTONGRID -> ButtongridViewHolder(initData)
+            TYPE_BUTTONGRID -> ButtongridViewHolder(initData, items)
             TYPE_INVISIBLE -> InvisibleWidgetViewHolder(initData)
             else -> throw IllegalArgumentException("View type $viewType is not known")
         }
@@ -319,6 +320,9 @@ class WidgetAdapter(
                 return false
             }
         }
+        if (widget.type == Widget.Type.Button) {
+            return false
+        }
         val parent = widget.parentId?.let { id -> widgetsById[id] } ?: return true
         return shouldShowWidget(parent)
     }
@@ -354,6 +358,7 @@ class WidgetAdapter(
             Widget.Type.Mapview -> TYPE_LOCATION
             Widget.Type.Input -> if (widget.shouldUseDateTimePickerForInput()) TYPE_DATETIMEINPUT else TYPE_INPUT
             Widget.Type.Buttongrid -> TYPE_BUTTONGRID
+            Widget.Type.Button -> TYPE_BUTTON
             else -> TYPE_GENERICITEM
         }
         return toInternalViewType(actualViewType, compactMode)
@@ -811,8 +816,8 @@ class WidgetAdapter(
         }
     }
 
-    class ButtongridViewHolder internal constructor(private val initData: ViewHolderInitData) :
-        LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem), View.OnClickListener {
+    class ButtongridViewHolder internal constructor(private val initData: ViewHolderInitData, private val items: List<Widget>) :
+        LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem), View.OnTouchListener {
         private val table: GridLayout = itemView.findViewById(R.id.widget_content)
         private val spareViews = mutableListOf<MaterialButton>()
         private val maxColumns = itemView.resources.getInteger(R.integer.section_switch_max_buttons)
@@ -826,24 +831,62 @@ class WidgetAdapter(
             iconView.isVisible = showLabelAndIcon
 
             val mappings = widget.mappings.filter { it.column != 0 && it.row != 0 }
+            val buttons = items.filter { it.parentId == widget.id } +
+                            mappings.map { mapping ->
+                                Widget(
+                                    id = mapping.value,
+                                    parentId = widget.id,
+                                    rawLabel = mapping.label,
+                                    labelSource = Widget.LabelSource.SitemapDefinition,
+                                    icon = mapping.icon,
+                                    state = null,
+                                    type = Widget.Type.Button,
+                                    url = null,
+                                    item = widget.item,
+                                    linkedPage = null,
+                                    mappings = emptyList(),
+                                    encoding = null,
+                                    iconColor = null,
+                                    labelColor = null,
+                                    valueColor = null,
+                                    refresh = 0,
+                                    rawMinValue = null,
+                                    rawMaxValue = null,
+                                    rawStep = null,
+                                    row = mapping.row,
+                                    column = mapping.column,
+                                    command = mapping.value,
+                                    releaseCommand = null,
+                                    period = "",
+                                    service = "",
+                                    legend = null,
+                                    forceAsItem = false,
+                                    yAxisDecimalPattern = null,
+                                    switchSupport = false,
+                                    releaseOnly = null,
+                                    height = 0,
+                                    visibility = true,
+                                    rawInputHint = null
+                                )
+                            }
             spareViews.addAll(table.children.map { it as? MaterialButton }.filterNotNull())
             table.removeAllViews()
 
-            table.rowCount = mappings.maxOfOrNull { it.row } ?: 0
-            table.columnCount = min(mappings.maxOfOrNull { it.column } ?: 0, maxColumns)
+            table.rowCount = buttons.maxOfOrNull { it.row } ?: 0
+            table.columnCount = min(buttons.maxOfOrNull { it.column } ?: 0, maxColumns)
             (0 until table.rowCount).forEach { row ->
                 (0 until table.columnCount).forEach { column ->
                     val buttonView = spareViews.removeFirstOrNull()
                         ?: initData.inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, table, false)
                             as MaterialButton
                     // Rows and columns start with 1 in Sitemap definition, thus decrement them here
-                    val mapping = mappings.firstOrNull { it.row - 1 == row && it.column - 1 == column }
+                    val button = buttons.firstOrNull { it.row - 1 == row && it.column - 1 == column }
                     // Create invisible buttons if there's no mapping so each cell has an equal size
-                    buttonView.isInvisible = mapping == null
-                    if (mapping != null) {
-                        buttonView.setOnClickListener(this)
-                        buttonView.setTextAndIcon(connection, mapping)
-                        buttonView.tag = mapping.value
+                    buttonView.isInvisible = button == null
+                    if (button != null) {
+                        buttonView.setOnTouchListener(this)
+                        buttonView.setTextAndIcon(connection, button.label, button.icon)
+                        buttonView.tag = button
                         buttonView.visibility = View.VISIBLE
                     }
                     buttonView.maxWidth = table.width / table.columnCount
@@ -859,8 +902,19 @@ class WidgetAdapter(
             }
         }
 
-        override fun onClick(view: View) {
-            connection.httpClient.sendItemCommand(boundWidget?.item, view.tag as String)
+        override fun onTouch(view: View, event: MotionEvent): Boolean {
+            val widget = view.tag as Widget
+            if (event.action == MotionEvent.ACTION_DOWN && widget.command != null) {
+                connection.httpClient.sendItemCommand(widget.item, widget.command)
+                return true
+            }
+
+            if (event.action == MotionEvent.ACTION_UP && widget.releaseCommand != null) {
+                connection.httpClient.sendItemCommand(widget.item, widget.releaseCommand)
+                return true
+            }
+
+            return false
         }
     }
 
@@ -1643,7 +1697,8 @@ class WidgetAdapter(
         private const val TYPE_INPUT = 19
         private const val TYPE_DATETIMEINPUT = 20
         private const val TYPE_BUTTONGRID = 21
-        private const val TYPE_INVISIBLE = 22
+        private const val TYPE_BUTTON = 22
+        private const val TYPE_INVISIBLE = 23
 
         private fun toInternalViewType(viewType: Int, compactMode: Boolean): Int {
             return viewType or (if (compactMode) 0x100 else 0)

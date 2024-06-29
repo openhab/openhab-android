@@ -39,6 +39,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
+import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.model.LabeledValue
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ImageConversionPolicy
@@ -120,14 +121,19 @@ fun RemoteViews.duplicate(): RemoteViews {
 }
 
 fun MaterialButton.setTextAndIcon(connection: Connection, mapping: LabeledValue) {
-    contentDescription = mapping.label
-    val iconUrl = mapping.icon?.toUrl(context, true)
+    setTextAndIcon(connection, mapping.label, mapping.icon)
+}
+
+fun MaterialButton.setTextAndIcon(connection: Connection, label: String, icon: IconResource?) {
+    contentDescription = label
+    val iconUrl = icon?.toUrl(context, true)
     if (iconUrl == null) {
-        icon = null
-        text = mapping.label
+        this.icon = null
+        text = label
         return
     }
     val iconSize = context.resources.getDimensionPixelSize(R.dimen.section_switch_icon)
+    val thisButton = this
     CoroutineScope(Dispatchers.IO + Job()).launch {
         val drawable = try {
             connection.httpClient.get(iconUrl, caching = HttpClient.CachingMode.DEFAULT)
@@ -138,8 +144,8 @@ fun MaterialButton.setTextAndIcon(connection: Connection, mapping: LabeledValue)
             null
         }
         withContext(Dispatchers.Main) {
-            icon = drawable
-            text = if (drawable == null) mapping.label else null
+            thisButton.icon = drawable
+            text = if (drawable == null) label else null
         }
     }
 }
