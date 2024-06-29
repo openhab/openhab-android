@@ -41,6 +41,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
 import androidx.fragment.app.commit
 import androidx.fragment.app.commitNow
+import com.faltenreich.skeletonlayout.SkeletonLayout
 import java.util.Stack
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
@@ -793,7 +794,9 @@ abstract class ContentController protected constructor(private val activity: Mai
             descriptionText.text = arguments.getCharSequence(KEY_MESSAGE)
             descriptionText.isVisible = !descriptionText.text.isNullOrEmpty()
 
-            view.findViewById<View>(R.id.progress).isVisible = arguments.getBoolean(KEY_PROGRESS)
+            val skeleton = view.findViewById<SkeletonLayout>(R.id.skeletonLayout)
+            skeleton.isVisible = arguments.getBoolean(KEY_PROGRESS)
+            skeleton.showSkeleton()
 
             val watermark = view.findViewById<ImageView>(R.id.image)
 

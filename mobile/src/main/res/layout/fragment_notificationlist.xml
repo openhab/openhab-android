@@ -54,6 +54,18 @@
 
         </LinearLayout>
 
+        <com.faltenreich.skeletonlayout.SkeletonLayout
+            android:id="@+id/skeletonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/skeletonList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" />
+        </com.faltenreich.skeletonlayout.SkeletonLayout>
+
     </FrameLayout>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

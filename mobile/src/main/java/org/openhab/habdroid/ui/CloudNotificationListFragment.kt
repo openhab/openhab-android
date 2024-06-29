@@ -21,6 +21,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -28,6 +29,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.faltenreich.skeletonlayout.SkeletonLayout
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.json.JSONArray
@@ -50,6 +52,7 @@ import org.openhab.habdroid.util.map
  */
 class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     lateinit var recyclerView: RecyclerView
+    private lateinit var skeleton: SkeletonLayout
     private lateinit var swipeLayout: SwipeRefreshLayout
     private lateinit var retryButton: Button
     private lateinit var emptyView: View
@@ -71,6 +74,13 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
         emptyView = view.findViewById(android.R.id.empty)
         emptyMessage = view.findViewById(R.id.empty_message)
         emptyWatermark = view.findViewById(R.id.watermark)
+        skeleton = view.findViewById(R.id.skeletonLayout)
+        view.findViewById<LinearLayout>(R.id.skeletonList).apply {
+            repeat(10) {
+                addView(inflater.inflate(R.layout.notificationlist_item, null))
+            }
+        }
+        skeleton.showSkeleton()
 
         swipeLayout = view.findViewById(R.id.swipe_container)
         swipeLayout.setOnRefreshListener(this)
@@ -106,6 +116,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
 
     override fun onRefresh() {
         Log.d(TAG, "onRefresh()")
+        swipeLayout.isRefreshing = false
         loadNotifications(true)
     }
 
@@ -172,7 +183,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
         val showEmpty = !loading && (adapter.itemCount == 0 || loadError)
         recyclerView.isVisible = !showEmpty
         emptyView.isVisible = showEmpty
-        swipeLayout.isRefreshing = loading
+        skeleton.isVisible = loading
         emptyMessage.setText(
             if (loadError) R.string.notification_list_error else R.string.notification_list_empty
         )
