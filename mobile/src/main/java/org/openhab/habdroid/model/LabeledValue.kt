@@ -32,6 +32,6 @@ data class LabeledValue internal constructor(
 fun JSONObject.toLabeledValue(valueKey: String, labelKey: String): LabeledValue {
     val value = getString(valueKey)
     val label = optString(labelKey, value)
-    val icon = optStringOrNull("icon")?.toOH2IconResource()
+    val icon = optStringOrNull("icon")?.toIconResource()
     return LabeledValue(value, label, icon, optInt("row"), optInt("column"))
 }

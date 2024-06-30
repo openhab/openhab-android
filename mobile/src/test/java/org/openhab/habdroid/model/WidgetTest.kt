@@ -13,20 +13,15 @@
 
 package org.openhab.habdroid.model
 
-import java.io.StringReader
 import java.security.InvalidParameterException
-import javax.xml.parsers.DocumentBuilderFactory
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
-import org.w3c.dom.Node
-import org.xml.sax.InputSource
 
 class WidgetTest {
-    private lateinit var sutXml: List<Widget>
     private lateinit var sut1: List<Widget>
     private lateinit var sut2: List<Widget>
     private lateinit var sut3: List<Widget>
@@ -35,7 +30,6 @@ class WidgetTest {
     @Before
     @Throws(Exception::class)
     fun parse_createsWidget() {
-        sutXml = createXmlNode().collectWidgets(null)
         sut1 = createJsonObject(1).collectWidgets(null)
         sut2 = createJsonObject(2).collectWidgets(null)
         sut3 = createJsonObject(3).collectWidgets(null)
@@ -43,16 +37,9 @@ class WidgetTest {
 
     @Test
     fun testCountInstances() {
-        assertEquals(sutXml.size, 2)
         assertEquals(sut1.size, 2)
         assertEquals(sut2.size, 1)
         assertEquals(sut3.size, 4)
-    }
-
-    @Test
-    fun getIconPath_iconExists_returnIconUrlFromImages() {
-        assertEquals("images/groupicon.png", sutXml[0].icon?.toUrl(false, IconFormat.Png, 64))
-        assertEquals("images/groupicon.png", sutXml[0].icon?.toUrl(true, IconFormat.Png, 64))
     }
 
     @Test
@@ -235,56 +222,6 @@ class WidgetTest {
     fun testGetEncoding() {
         assertEquals("mpeg", sut1[0].encoding)
         assertEquals(null, sut2[0].encoding)
-    }
-
-    @Throws(Exception::class)
-    private fun createXmlNode(): Node {
-        val xml =
-            """
-            <widget>
-                <widgetId>demo</widgetId>
-                <type>Group</type>
-                <label>Group1</label>
-                <icon>groupicon</icon>
-                <url>http://localhost/url</url>
-                <minValue>0.0</minValue>
-                <maxValue>10.0</maxValue>
-                <step>1</step>
-                <refresh>10</refresh>
-                <period>D</period>
-                <service>D</service>
-                <height>10</height>
-                <iconcolor>white</iconcolor>
-                <labelcolor>white</labelcolor>
-                <valuecolor>white</valuecolor>
-                <encoding></encoding>
-                <mapping>
-                    <command>ON</command>
-                    <label>On</label>
-                </mapping>
-                <item>
-                    <type>GroupItem</type>
-                    <name>group1</name>
-                    <state>Undefined</state>
-                    <link>http://localhost/rest/items/group1</link>
-                </item>
-                <linkedPage>
-                    <id>0001</id>
-                    <title>LinkedPage</title>
-                    <icon>linkedpageicon</icon>
-                    <link>http://localhost/rest/sitemaps/demo/0001</link>
-                    <leaf>false</leaf>
-                </linkedPage>
-                <widget>
-                    <widgetId>demo11</widgetId>
-                    <type>Switch</type>
-                </widget>"
-             </widget>
-            """.trimIndent()
-        val dbf = DocumentBuilderFactory.newInstance()
-        val builder = dbf.newDocumentBuilder()
-        val document = builder.parse(InputSource(StringReader(xml)))
-        return document.firstChild
     }
 
     /**

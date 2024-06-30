@@ -19,12 +19,10 @@ import kotlinx.parcelize.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.R
-import org.openhab.habdroid.util.forEach
 import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.mapString
 import org.openhab.habdroid.util.optFloatOrNull
 import org.openhab.habdroid.util.optStringOrNull
-import org.w3c.dom.Node
 
 @Parcelize
 data class Item internal constructor(
@@ -243,47 +241,6 @@ data class Item internal constructor(
             return parsedItem.copy(link = link, rawLabel = parsedItem.label)
         }
     }
-}
-
-fun Node.toItem(): Item? {
-    var name: String? = null
-    var state: String? = null
-    var link: String? = null
-    var type = Item.Type.None
-    var groupType = Item.Type.None
-    childNodes.forEach { node ->
-        when (node.nodeName) {
-            "type" -> type = node.textContent.toItemType()
-            "groupType" -> groupType = node.textContent.toItemType()
-            "name" -> name = node.textContent
-            "state" -> state = node.textContent
-            "link" -> link = node.textContent
-        }
-    }
-
-    val finalName = name ?: return null
-    if (state == "Uninitialized" || state == "Undefined") {
-        state = null
-    }
-
-    return Item(
-        name = finalName,
-        rawLabel = finalName,
-        category = null,
-        type = type,
-        groupType = groupType,
-        link = link,
-        readOnly = false,
-        members = emptyList(),
-        options = null,
-        state = state.toParsedState(),
-        tags = emptyList(),
-        groupNames = emptyList(),
-        minimum = null,
-        maximum = null,
-        step = null,
-        linkToMore = null
-    )
 }
 
 @Throws(JSONException::class)

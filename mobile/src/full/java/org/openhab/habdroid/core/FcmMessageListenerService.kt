@@ -18,7 +18,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlinx.coroutines.runBlocking
 import org.openhab.habdroid.model.CloudNotification
-import org.openhab.habdroid.model.toOH2IconResource
+import org.openhab.habdroid.model.toIconResource
 
 class FcmMessageListenerService : FirebaseMessagingService() {
     private lateinit var notifHelper: NotificationHelper
@@ -49,7 +49,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                     // timestamp, so use the (undocumented) google.sent_time as a time reference
                     // in that case. If that also isn't present, don't show time at all.
                     data["timestamp"]?.toLong() ?: message.sentTime,
-                    data["icon"].toOH2IconResource(),
+                    data["icon"].toIconResource(),
                     data["severity"]
                 )
 

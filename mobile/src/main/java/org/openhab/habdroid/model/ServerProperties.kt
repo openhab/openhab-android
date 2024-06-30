@@ -15,10 +15,6 @@ package org.openhab.habdroid.model
 
 import android.os.Parcelable
 import android.util.Log
-import java.io.IOException
-import java.io.StringReader
-import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.parsers.ParserConfigurationException
 import kotlinx.parcelize.Parcelize
 import okhttp3.Request
 import org.json.JSONArray
@@ -26,15 +22,9 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.HttpClient
-import org.xml.sax.InputSource
-import org.xml.sax.SAXException
 
 @Parcelize
 data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parcelable {
-    fun hasJsonApi(): Boolean {
-        return flags and SERVER_FLAG_JSON_REST_API != 0
-    }
-
     fun hasSseSupport(): Boolean {
         return flags and SERVER_FLAG_SSE_SUPPORT != 0
     }
@@ -50,7 +40,6 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
     companion object {
         private val TAG = ServerProperties::class.java.simpleName
 
-        const val SERVER_FLAG_JSON_REST_API = 1 shl 0
         const val SERVER_FLAG_SSE_SUPPORT = 1 shl 1
         const val SERVER_FLAG_ICON_FORMAT_SUPPORT = 1 shl 2
         const val SERVER_FLAG_CHART_SCALING_SUPPORT = 1 shl 3
@@ -87,12 +76,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
             val result = client.get("rest/").asText()
             try {
                 val resultJson = JSONObject(result.response)
-                // If this succeeded, we're talking to OH2
-                var flags = (
-                    SERVER_FLAG_JSON_REST_API
-                        or SERVER_FLAG_ICON_FORMAT_SUPPORT
-                        or SERVER_FLAG_CHART_SCALING_SUPPORT
-                    )
+                var flags = (SERVER_FLAG_ICON_FORMAT_SUPPORT or SERVER_FLAG_CHART_SCALING_SUPPORT)
                 try {
                     val version = resultJson.getString("version").toInt()
                     Log.i(TAG, "Server has rest api version $version")
@@ -130,12 +114,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
 
                 FlagsSuccess(flags)
             } catch (e: JSONException) {
-                if (result.response.startsWith("<?xml")) {
-                    // We're talking to an OH1 instance
-                    FlagsSuccess(0)
-                } else {
-                    FlagsFailure(result.request, 200, e)
-                }
+                FlagsFailure(result.request, 200, e)
             }
         } catch (e: HttpClient.HttpException) {
             FlagsFailure(e.request, e.statusCode, e)
@@ -143,33 +122,11 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
 
         private suspend fun fetchSitemaps(client: HttpClient, flags: Int): PropsResult = try {
             val result = client.get("rest/sitemaps").asText()
-            // OH1 returns XML, later versions return JSON
-            val sitemaps = if (flags and SERVER_FLAG_JSON_REST_API != 0) {
-                loadSitemapsFromJson(result.response)
-            } else {
-                loadSitemapsFromXml(result.response)
-            }
-
+            val sitemaps = loadSitemapsFromJson(result.response)
             Log.d(TAG, "Server returned sitemaps: $sitemaps")
             PropsSuccess(ServerProperties(flags, sitemaps))
         } catch (e: HttpClient.HttpException) {
             PropsFailure(e.request, e.statusCode, e)
-        }
-
-        private fun loadSitemapsFromXml(response: String): List<Sitemap> {
-            val dbf = DocumentBuilderFactory.newInstance()
-            try {
-                val builder = dbf.newDocumentBuilder()
-                val sitemapsXml = builder.parse(InputSource(StringReader(response)))
-                return sitemapsXml.toSitemapList()
-            } catch (e: ParserConfigurationException) {
-                Log.e(TAG, "Failed parsing sitemap XML", e)
-            } catch (e: SAXException) {
-                Log.e(TAG, "Failed parsing sitemap XML", e)
-            } catch (e: IOException) {
-                Log.e(TAG, "Failed parsing sitemap XML", e)
-            }
-            return emptyList()
         }
 
         private fun loadSitemapsFromJson(response: String): List<Sitemap> {
