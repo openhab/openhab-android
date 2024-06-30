@@ -28,6 +28,7 @@ import org.openhab.habdroid.util.getChartScalingFactor
 import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.optBooleanOrNull
 import org.openhab.habdroid.util.optFloatOrNull
+import org.openhab.habdroid.util.optIntOrNull
 import org.openhab.habdroid.util.optStringOrFallback
 import org.openhab.habdroid.util.optStringOrNull
 import org.openhab.habdroid.util.shouldRequestHighResChart
@@ -54,8 +55,8 @@ data class Widget(
     private val rawMinValue: Float?,
     private val rawMaxValue: Float?,
     private val rawStep: Float?,
-    val row: Int,
-    val column: Int,
+    val row: Int?,
+    val column: Int?,
     val command: String?,
     val releaseCommand: String?,
     val period: String,
@@ -269,6 +270,7 @@ fun String?.toLabelSource(): Widget.LabelSource = when (this) {
     else -> Widget.LabelSource.Unknown
 }
 
+// This function is only used on openHAB versions with XML API, which is openHAB 1.x
 fun Node.collectWidgets(parent: Widget?): List<Widget> {
     var item: Item? = null
     var linkedPage: LinkedPage? = null
@@ -287,10 +289,6 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
     var minValue = 0f
     var maxValue = 100f
     var step = 1f
-    var row = 0
-    var column = 0
-    var command: String? = null
-    var releaseCommand: String? = null
     var refresh = 0
     var height = 0
     val mappings = ArrayList<LabeledValue>()
@@ -309,10 +307,6 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
             "minValue" -> minValue = node.textContent.toFloat()
             "maxValue" -> maxValue = node.textContent.toFloat()
             "step" -> step = node.textContent.toFloat()
-            "row" -> row = node.textContent.toInt()
-            "column" -> column = node.textContent.toInt()
-            "command" -> command = node.textContent
-            "releaseCommand" -> releaseCommand = node.textContent
             "refresh" -> refresh = node.textContent.toInt()
             "period" -> period = node.textContent
             "service" -> service = node.textContent
@@ -359,10 +353,12 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
         rawMinValue = minValue,
         rawMaxValue = maxValue,
         rawStep = step,
-        row = row,
-        column = column,
-        command = command,
-        releaseCommand = releaseCommand,
+        // row, column, command, and releaseCommand were added in openHAB 4.2
+        // so no support for openHAB 1 required.
+        row = null,
+        column = null,
+        command = null,
+        releaseCommand = null,
         period = Widget.sanitizePeriod(period),
         service = service,
         legend = null,
@@ -414,8 +410,8 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         rawMinValue = optFloatOrNull("minValue"),
         rawMaxValue = optFloatOrNull("maxValue"),
         rawStep = optFloatOrNull("step"),
-        row = optInt("row"),
-        column = optInt("column"),
+        row = optIntOrNull("row"),
+        column = optIntOrNull("column"),
         command = optStringOrNull("command"),
         releaseCommand = optStringOrNull("releaseCommand"),
         period = Widget.sanitizePeriod(optString("period")),

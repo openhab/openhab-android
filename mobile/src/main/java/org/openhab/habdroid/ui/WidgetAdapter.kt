@@ -872,15 +872,15 @@ class WidgetAdapter(
             spareViews.addAll(table.children.map { it as? MaterialButton }.filterNotNull())
             table.removeAllViews()
 
-            table.rowCount = buttons.maxOfOrNull { it.row } ?: 0
-            table.columnCount = min(buttons.maxOfOrNull { it.column } ?: 0, maxColumns)
+            table.rowCount = buttons.maxOfOrNull { it.row ?: 0 } ?: 0
+            table.columnCount = min(buttons.maxOfOrNull { it.column ?: 0 } ?: 0, maxColumns)
             (0 until table.rowCount).forEach { row ->
                 (0 until table.columnCount).forEach { column ->
                     val buttonView = spareViews.removeFirstOrNull()
                         ?: initData.inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, table, false)
                             as MaterialButton
                     // Rows and columns start with 1 in Sitemap definition, thus decrement them here
-                    val button = buttons.firstOrNull { it.row - 1 == row && it.column - 1 == column }
+                    val button = buttons.firstOrNull { (it.row ?: 0) - 1 == row && (it.column ?: 0) - 1 == column }
                     // Create invisible buttons if there's no mapping so each cell has an equal size
                     buttonView.isInvisible = button == null
                     if (button != null) {
