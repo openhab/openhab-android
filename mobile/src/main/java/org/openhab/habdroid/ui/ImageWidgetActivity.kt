@@ -20,8 +20,10 @@ import android.util.Base64
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.faltenreich.skeletonlayout.Skeleton
 import com.github.chrisbanes.photoview.PhotoView
 import kotlin.math.max
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -40,6 +42,7 @@ import org.openhab.habdroid.util.orDefaultIfEmpty
 
 class ImageWidgetActivity : AbstractBaseActivity() {
     private lateinit var imageView: PhotoView
+    private lateinit var skeleton: Skeleton
     private var connection: Connection? = null
     private var refreshJob: Job? = null
     private var delay: Long = 0
@@ -52,7 +55,9 @@ class ImageWidgetActivity : AbstractBaseActivity() {
         supportActionBar?.title =
             intent.getStringExtra(WIDGET_LABEL).orDefaultIfEmpty(getString(R.string.widget_type_image))
 
-        imageView = findViewById(R.id.activity_content)
+        imageView = findViewById(R.id.photo_view)
+        skeleton = findViewById(R.id.activity_content)
+
         delay = intent.getIntExtra(WIDGET_REFRESH, 0).toLong()
     }
 
@@ -106,6 +111,7 @@ class ImageWidgetActivity : AbstractBaseActivity() {
     private suspend fun loadImage() {
         val widgetUrl = intent.getStringExtra(WIDGET_URL)
         val conn = connection ?: return finish()
+        skeleton.showSkeleton()
         val bitmap = if (widgetUrl != null) {
             Log.d(TAG, "Load image from url")
             val displayMetrics = resources.displayMetrics
@@ -149,6 +155,7 @@ class ImageWidgetActivity : AbstractBaseActivity() {
         imageView.getSuppMatrix(matrix)
         imageView.setImageBitmap(bitmap)
         imageView.setSuppMatrix(matrix)
+        skeleton.showOriginal()
     }
 
     private fun scheduleRefresh() {

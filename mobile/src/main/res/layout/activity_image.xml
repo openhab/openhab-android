@@ -8,10 +8,17 @@
 
     <include layout="@layout/app_bar" />
 
-    <com.github.chrisbanes.photoview.PhotoView
+    <com.faltenreich.skeletonlayout.SkeletonLayout
         android:id="@+id/activity_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/photo_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </com.faltenreich.skeletonlayout.SkeletonLayout>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
