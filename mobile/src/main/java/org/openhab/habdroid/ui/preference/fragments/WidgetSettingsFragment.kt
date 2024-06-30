@@ -36,7 +36,7 @@ import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.snackbar.Snackbar
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
-import org.openhab.habdroid.model.toOH2IconResource
+import org.openhab.habdroid.model.toIconResource
 import org.openhab.habdroid.ui.BasicItemPickerActivity
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.PreferencesActivity
@@ -160,7 +160,7 @@ class WidgetSettingsFragment :
             label = itemAndStatePref.label.orEmpty(),
             widgetLabel = namePref.text.orEmpty(),
             mappedState = itemAndStatePref.mappedState.orEmpty(),
-            icon = itemAndStatePref.icon.toOH2IconResource(),
+            icon = itemAndStatePref.icon.toIconResource(),
             showState = showStatePref.isChecked
         )
     }
