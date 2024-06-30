@@ -343,6 +343,7 @@ class WidgetAdapter(
                 widget.mappingsOrItemOptions.isNotEmpty() -> TYPE_SECTIONSWITCH
                 else -> TYPE_SWITCH
             }
+
             Widget.Type.Text -> TYPE_TEXT
             Widget.Type.Slider -> TYPE_SLIDER
             Widget.Type.Image -> TYPE_IMAGE
@@ -353,6 +354,7 @@ class WidgetAdapter(
                 "mjpeg".equals(widget.encoding, ignoreCase = true) -> TYPE_VIDEO_MJPEG
                 else -> TYPE_VIDEO
             }
+
             Widget.Type.Webview -> TYPE_WEB
             Widget.Type.Colorpicker -> TYPE_COLOR
             Widget.Type.Mapview -> TYPE_LOCATION
@@ -711,6 +713,7 @@ class WidgetAdapter(
                     val state = newValue.let { ParsedState.parseAsNumber(it, item.state?.asNumber?.format) }
                     connection.httpClient.sendItemUpdate(item, state)
                 }
+
                 else -> connection.httpClient.sendItemCommand(item, newValue)
             }
 
@@ -733,10 +736,13 @@ class WidgetAdapter(
                 !displayState.isNullOrEmpty() -> displayState
                 widget.inputHint == Widget.InputTypeHint.Date ->
                     dateTimeState?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+
                 widget.inputHint == Widget.InputTypeHint.Time ->
                     dateTimeState?.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+
                 widget.inputHint == Widget.InputTypeHint.Datetime ->
                     dateTimeState?.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
+
                 else -> dateTimeState?.toString()
             }
             valueView?.isVisible = !valueView?.text.isNullOrEmpty()
@@ -816,8 +822,10 @@ class WidgetAdapter(
         }
     }
 
-    class ButtongridViewHolder internal constructor(private val initData: ViewHolderInitData, private val items: List<Widget>) :
-        LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem), View.OnTouchListener {
+    class ButtongridViewHolder internal constructor(
+        private val initData: ViewHolderInitData,
+        private val items: List<Widget>
+    ) : LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem), View.OnTouchListener {
         private val table: GridLayout = itemView.findViewById(R.id.widget_content)
         private val spareViews = mutableListOf<MaterialButton>()
         private val maxColumns = itemView.resources.getInteger(R.integer.section_switch_max_buttons)
@@ -832,43 +840,43 @@ class WidgetAdapter(
 
             val mappings = widget.mappings.filter { it.column != 0 && it.row != 0 }
             val buttons = items.filter { it.parentId == widget.id } +
-                            mappings.map { mapping ->
-                                Widget(
-                                    id = mapping.value,
-                                    parentId = widget.id,
-                                    rawLabel = mapping.label,
-                                    labelSource = Widget.LabelSource.SitemapDefinition,
-                                    icon = mapping.icon,
-                                    state = null,
-                                    type = Widget.Type.Button,
-                                    url = null,
-                                    item = widget.item,
-                                    linkedPage = null,
-                                    mappings = emptyList(),
-                                    encoding = null,
-                                    iconColor = null,
-                                    labelColor = null,
-                                    valueColor = null,
-                                    refresh = 0,
-                                    rawMinValue = null,
-                                    rawMaxValue = null,
-                                    rawStep = null,
-                                    row = mapping.row,
-                                    column = mapping.column,
-                                    command = mapping.value,
-                                    releaseCommand = null,
-                                    period = "",
-                                    service = "",
-                                    legend = null,
-                                    forceAsItem = false,
-                                    yAxisDecimalPattern = null,
-                                    switchSupport = false,
-                                    releaseOnly = null,
-                                    height = 0,
-                                    visibility = true,
-                                    rawInputHint = null
-                                )
-                            }
+                mappings.map { mapping ->
+                    Widget(
+                        id = mapping.value,
+                        parentId = widget.id,
+                        rawLabel = mapping.label,
+                        labelSource = Widget.LabelSource.SitemapDefinition,
+                        icon = mapping.icon,
+                        state = null,
+                        type = Widget.Type.Button,
+                        url = null,
+                        item = widget.item,
+                        linkedPage = null,
+                        mappings = emptyList(),
+                        encoding = null,
+                        iconColor = null,
+                        labelColor = null,
+                        valueColor = null,
+                        refresh = 0,
+                        rawMinValue = null,
+                        rawMaxValue = null,
+                        rawStep = null,
+                        row = mapping.row,
+                        column = mapping.column,
+                        command = mapping.value,
+                        releaseCommand = null,
+                        period = "",
+                        service = "",
+                        legend = null,
+                        forceAsItem = false,
+                        yAxisDecimalPattern = null,
+                        switchSupport = false,
+                        releaseOnly = null,
+                        height = 0,
+                        visibility = true,
+                        rawInputHint = null
+                    )
+                }
             spareViews.addAll(table.children.map { it as? MaterialButton }.filterNotNull())
             table.removeAllViews()
 
