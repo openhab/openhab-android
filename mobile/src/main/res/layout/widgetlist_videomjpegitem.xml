@@ -14,8 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:contentDescription="@string/content_description_video"
-        app:imageScalingType="scaleToFitWithViewAdjustment"
-        app:progressIndicator="@drawable/ic_image_loading_themed" />
+        app:imageScalingType="scaleToFitWithViewAdjustment" />
 
     <include layout="@layout/widgetlist_data_saver" />
 

@@ -22,6 +22,9 @@ import android.util.AttributeSet
 import android.util.Base64
 import android.util.Log
 import androidx.appcompat.widget.AppCompatImageView
+import com.faltenreich.skeletonlayout.Skeleton
+import com.faltenreich.skeletonlayout.SkeletonLayout
+import com.faltenreich.skeletonlayout.createSkeleton
 import kotlin.random.Random
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,8 +46,8 @@ import org.openhab.habdroid.util.isDebugModeEnabled
 class WidgetImageView(context: Context, attrs: AttributeSet?) : AppCompatImageView(context, attrs) {
     private var scope: CoroutineScope? = null
     private val fallback: Drawable?
-    private val progressDrawable: Drawable?
 
+    private var skeleton: Skeleton? = null
     private var originalScaleType: ScaleType? = null
     private var originalAdjustViewBounds: Boolean = false
     private val emptyHeightToWidthRatio: Float
@@ -64,7 +67,6 @@ class WidgetImageView(context: Context, attrs: AttributeSet?) : AppCompatImageVi
     init {
         context.obtainStyledAttributes(attrs, R.styleable.WidgetImageView).apply {
             fallback = getDrawable(R.styleable.WidgetImageView_fallback)
-            progressDrawable = getDrawable(R.styleable.WidgetImageView_progressIndicator)
             emptyHeightToWidthRatio = getFraction(R.styleable.WidgetImageView_emptyHeightToWidthRatio, 1, 1, 0f)
             addRandomnessToUrl = getBoolean(R.styleable.WidgetImageView_addRandomnessToUrl, false)
             val imageScalingType = getInt(R.styleable.WidgetImageView_imageScalingType, 0)
@@ -72,6 +74,12 @@ class WidgetImageView(context: Context, attrs: AttributeSet?) : AppCompatImageVi
                 setImageScalingType(ImageScalingType.entries[imageScalingType])
             }
             recycle()
+        }
+        // In some cases it's required to add the skeleton manually to XML.
+        // In these cases, set the parent as skeleton here, otherwise create it in applyProgressDrawable()
+        val parent = parent
+        if (parent is SkeletonLayout) {
+            skeleton = parent
         }
     }
 
@@ -166,9 +174,7 @@ class WidgetImageView(context: Context, attrs: AttributeSet?) : AppCompatImageVi
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val d = drawable
-        val isEmpty = d == null || d === progressDrawable
-
-        if (isEmpty && emptyHeightToWidthRatio > 0) {
+        if (d == null && emptyHeightToWidthRatio > 0) {
             val specWidth = MeasureSpec.getSize(widthMeasureSpec)
             val specMode = MeasureSpec.getMode(widthMeasureSpec)
             if (specMode == MeasureSpec.AT_MOST || specMode == MeasureSpec.EXACTLY) {
@@ -240,7 +246,7 @@ class WidgetImageView(context: Context, attrs: AttributeSet?) : AppCompatImageVi
         cancelRefresh()
         lastRequest = null
         refreshInterval = 0
-        removeProgressDrawable()
+        removeSkeleton()
     }
 
     private fun doLoad(client: HttpClient, url: HttpUrl, timeoutMillis: Long, forceLoad: Boolean) {
@@ -254,8 +260,8 @@ class WidgetImageView(context: Context, attrs: AttributeSet?) : AppCompatImageVi
 
         if (cached != null) {
             applyLoadedBitmap(cached)
-        } else if (progressDrawable != null || lastRequest?.statelessUrlEquals(url) != true) {
-            applyProgressDrawable()
+        } else if (lastRequest?.statelessUrlEquals(url) != true) {
+            applySkeleton()
         }
 
         if (cached == null || forceLoad) {
@@ -287,7 +293,7 @@ class WidgetImageView(context: Context, attrs: AttributeSet?) : AppCompatImageVi
     }
 
     private fun applyLoadedBitmap(bitmap: Bitmap) {
-        removeProgressDrawable()
+        removeSkeleton()
         if (imageScalingType == ImageScalingType.ScaleToFitWithViewAdjustmentDownscaleOnly) {
             // Make sure that view only shrinks to accommodate bitmap size, but doesn't enlarge ... that is,
             // adjust view bounds only if width is larger than target size or height is larger than the maximum height
@@ -309,22 +315,15 @@ class WidgetImageView(context: Context, attrs: AttributeSet?) : AppCompatImageVi
         super.setImageDrawable(fallback)
     }
 
-    private fun applyProgressDrawable() {
-        if (originalScaleType == null) {
-            originalScaleType = scaleType
-            super.setScaleType(ScaleType.CENTER)
-            super.setAdjustViewBounds(false)
+    private fun applySkeleton() {
+        if (skeleton == null) {
+            skeleton = createSkeleton()
         }
-        super.setImageDrawable(progressDrawable)
+        skeleton?.showSkeleton()
     }
 
-    private fun removeProgressDrawable() {
-        if (originalScaleType != null) {
-            super.setAdjustViewBounds(originalAdjustViewBounds)
-            super.setScaleType(originalScaleType)
-            originalScaleType = null
-        }
-        super.setImageDrawable(null)
+    private fun removeSkeleton() {
+        skeleton?.showOriginal()
     }
 
     private inner class HttpImageRequest(
@@ -378,7 +377,7 @@ class WidgetImageView(context: Context, attrs: AttributeSet?) : AppCompatImageVi
                     if (context.getPrefs().isDebugModeEnabled()) {
                         Log.d(TAG, "Failed to load image '$url', HTTP code ${e.statusCode}", e)
                     }
-                    removeProgressDrawable()
+                    removeSkeleton()
                     applyFallbackDrawable()
                 }
             }
