@@ -55,8 +55,8 @@ data class Widget(
     private val rawMinValue: Float?,
     private val rawMaxValue: Float?,
     private val rawStep: Float?,
-    // sub-widgets are for the buttons in buttongrids
-    val widgets: List<Widget>?,
+    // buttons are sub-widgets of buttongrids
+    val buttons: List<Widget>?,
     val row: Int?,
     val column: Int?,
     val command: String?,
@@ -73,12 +73,11 @@ data class Widget(
     val rawInputHint: InputTypeHint?
 ) : Parcelable {
     val label get() = rawLabel.split("[", "]")[0].trim()
-    val stateFromLabel: String?
-        get() {
-            val value = rawLabel.split("[", "]").getOrNull(1)?.trim()
-            val optionLabel = mappingsOrItemOptions.find { it.value == value }?.label
-            return optionLabel ?: value
-        }
+    val stateFromLabel: String? get() {
+        val value = rawLabel.split("[", "]").getOrNull(1)?.trim()
+        val optionLabel = mappingsOrItemOptions.find { it.value == value }?.label
+        return optionLabel ?: value
+    }
 
     val mappingsOrItemOptions get() = if (mappings.isEmpty() && item?.options != null) item.options else mappings
 
@@ -86,35 +85,31 @@ data class Widget(
     val maxValue get() = max(configuredMinValue, configuredMaxValue)
     val step get() = abs(configuredStep)
 
-    val inputHint: InputTypeHint
-        get() {
-            if (rawInputHint != null) {
-                return rawInputHint
-            }
-            if (item?.isOfTypeOrGroupType(Item.Type.DateTime) == true) {
-                return InputTypeHint.Datetime
-            }
-            return InputTypeHint.Text
+    val inputHint: InputTypeHint get() {
+        if (rawInputHint != null) {
+            return rawInputHint
         }
+        if (item?.isOfTypeOrGroupType(Item.Type.DateTime) == true) {
+            return InputTypeHint.Datetime
+        }
+        return InputTypeHint.Text
+    }
 
-    private val configuredMinValue
-        get() = when {
-            rawMinValue != null -> rawMinValue
-            item?.minimum != null && item.type != Item.Type.Dimmer -> item.minimum
-            else -> 0f
-        }
-    private val configuredMaxValue
-        get() = when {
-            rawMaxValue != null -> rawMaxValue
-            item?.maximum != null && item.type != Item.Type.Dimmer -> item.maximum
-            else -> 100f
-        }
-    private val configuredStep
-        get() = when {
-            rawStep != null -> rawStep
-            item?.step != null && item.type != Item.Type.Dimmer -> item.step
-            else -> 1f
-        }
+    private val configuredMinValue get() = when {
+        rawMinValue != null -> rawMinValue
+        item?.minimum != null && item.type != Item.Type.Dimmer -> item.minimum
+        else -> 0f
+    }
+    private val configuredMaxValue get() = when {
+        rawMaxValue != null -> rawMaxValue
+        item?.maximum != null && item.type != Item.Type.Dimmer -> item.maximum
+        else -> 100f
+    }
+    private val configuredStep get() = when {
+        rawStep != null -> rawStep
+        item?.step != null && item.type != Item.Type.Dimmer -> item.step
+        else -> 1f
+    }
 
     @Suppress("unused")
     enum class Type {
@@ -220,7 +215,7 @@ data class Widget(
                 rawMinValue = source.rawMinValue,
                 rawMaxValue = source.rawMaxValue,
                 rawStep = source.rawStep,
-                widgets = source.widgets,
+                buttons = source.buttons,
                 row = source.row,
                 column = source.column,
                 command = source.command,
@@ -247,7 +242,6 @@ data class Widget(
             item?.isOfTypeOrGroupType(Item.Type.Number) == true ||
                 item?.isOfTypeOrGroupType(Item.Type.NumberWithDimension) == true ->
                 state.toParsedState(item.state?.asNumber?.format)
-
             else -> state.toParsedState()
         }
     }
@@ -336,7 +330,6 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
                 }
                 mappings.add(LabeledValue(mappingCommand, mappingLabel, null, 0, 0))
             }
-
             else -> {}
         }
     }
@@ -363,9 +356,9 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
         rawMinValue = minValue,
         rawMaxValue = maxValue,
         rawStep = step,
-        // widgets, row, column, command, and releaseCommand were added in openHAB 4.2
+        // buttons, row, column, command, and releaseCommand were added in openHAB 4.2
         // so no support for openHAB 1 required.
-        widgets = null,
+        buttons = null,
         row = null,
         column = null,
         command = null,
@@ -401,45 +394,8 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
     val icon = optStringOrNull("icon")
     val staticIcon = optBoolean("staticIcon", false)
 
-    val widgets = if (type == Widget.Type.Buttongrid) {
-        val buttonWidgets = ArrayList<Widget>(mappings.map { mapping ->
-            Widget(
-                id = mapping.value,
-                parentId = null,
-                rawLabel = mapping.label,
-                labelSource = Widget.LabelSource.SitemapDefinition,
-                icon = mapping.icon,
-                state = null,
-                type = Widget.Type.Button,
-                url = null,
-                item = item,
-                linkedPage = null,
-                mappings = emptyList(),
-                encoding = null,
-                iconColor = null,
-                labelColor = null,
-                valueColor = null,
-                refresh = 0,
-                rawMinValue = null,
-                rawMaxValue = null,
-                rawStep = null,
-                widgets = null,
-                row = mapping.row,
-                column = mapping.column,
-                command = mapping.value,
-                releaseCommand = null,
-                period = "",
-                service = "",
-                legend = null,
-                forceAsItem = false,
-                yAxisDecimalPattern = null,
-                switchSupport = false,
-                releaseOnly = null,
-                height = 0,
-                visibility = true,
-                rawInputHint = null
-            )
-        })
+    val buttons = if (type == Widget.Type.Buttongrid) {
+        val buttonWidgets = mappings.map { mapping -> mapping.toWidget(mapping.value, item) }.toMutableList()
         optJSONArray("widgets")?.forEach { obj -> buttonWidgets.addAll(obj.collectWidgets(null)) }
         buttonWidgets.ifEmpty { null }
     } else {
@@ -466,7 +422,7 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         rawMinValue = optFloatOrNull("minValue"),
         rawMaxValue = optFloatOrNull("maxValue"),
         rawStep = optFloatOrNull("step"),
-        widgets = widgets,
+        buttons = buttons,
         row = optIntOrNull("row"),
         column = optIntOrNull("column"),
         command = optStringOrNull("command"),
@@ -489,4 +445,43 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         childWidgetJson?.forEach { obj -> result.addAll(obj.collectWidgets(widget)) }
     }
     return result
+}
+
+fun LabeledValue.toWidget(id: String, item: Item?): Widget {
+    return Widget(
+        id = id,
+        parentId = null,
+        rawLabel = label,
+        labelSource = Widget.LabelSource.SitemapDefinition,
+        icon = icon,
+        state = null,
+        type = Widget.Type.Button,
+        url = null,
+        item = item,
+        linkedPage = null,
+        mappings = emptyList(),
+        encoding = null,
+        iconColor = null,
+        labelColor = null,
+        valueColor = null,
+        refresh = 0,
+        rawMinValue = null,
+        rawMaxValue = null,
+        rawStep = null,
+        buttons = null,
+        row = row,
+        column = column,
+        command = value,
+        releaseCommand = null,
+        period = "",
+        service = "",
+        legend = null,
+        forceAsItem = false,
+        yAxisDecimalPattern = null,
+        switchSupport = false,
+        releaseOnly = null,
+        height = 0,
+        visibility = true,
+        rawInputHint = null
+    )
 }
