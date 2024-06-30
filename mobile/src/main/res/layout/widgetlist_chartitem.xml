@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             app:imageScalingType="scaleToFitWithViewAdjustment"
             app:emptyHeightToWidthRatio="50%"
-            app:progressIndicator="@drawable/ic_image_loading_themed"
             app:addRandomnessToUrl="true" />
 
         <include layout="@layout/widgetlist_data_saver" />

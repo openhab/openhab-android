@@ -19,7 +19,6 @@
         android:layout_height="40dp"
         android:layout_gravity="center_vertical"
         app:imageScalingType="noScaling"
-        app:progressIndicator="@drawable/ic_openhab_appicon_24dp"
         app:fallback="@drawable/ic_openhab_appicon_24dp"
         tools:src="@drawable/ic_openhab_appicon_24dp" />
 
