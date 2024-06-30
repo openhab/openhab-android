@@ -120,10 +120,6 @@ fun RemoteViews.duplicate(): RemoteViews {
     }
 }
 
-fun MaterialButton.setTextAndIcon(connection: Connection, mapping: LabeledValue) {
-    setTextAndIcon(connection, mapping.label, mapping.icon)
-}
-
 fun MaterialButton.setTextAndIcon(connection: Connection, label: String, icon: IconResource?) {
     contentDescription = label
     val iconUrl = icon?.toUrl(context, true)
@@ -133,7 +129,6 @@ fun MaterialButton.setTextAndIcon(connection: Connection, label: String, icon: I
         return
     }
     val iconSize = context.resources.getDimensionPixelSize(R.dimen.section_switch_icon)
-    val thisButton = this
     CoroutineScope(Dispatchers.IO + Job()).launch {
         val drawable = try {
             connection.httpClient.get(iconUrl, caching = HttpClient.CachingMode.DEFAULT)
@@ -144,7 +139,7 @@ fun MaterialButton.setTextAndIcon(connection: Connection, label: String, icon: I
             null
         }
         withContext(Dispatchers.Main) {
-            thisButton.icon = drawable
+            this@setTextAndIcon.icon = drawable
             text = if (drawable == null) label else null
         }
     }

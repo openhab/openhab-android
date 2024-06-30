@@ -340,7 +340,6 @@ class WidgetAdapter(
                 widget.mappingsOrItemOptions.isNotEmpty() -> TYPE_SECTIONSWITCH
                 else -> TYPE_SWITCH
             }
-
             Widget.Type.Text -> TYPE_TEXT
             Widget.Type.Slider -> TYPE_SLIDER
             Widget.Type.Image -> TYPE_IMAGE
@@ -351,7 +350,6 @@ class WidgetAdapter(
                 "mjpeg".equals(widget.encoding, ignoreCase = true) -> TYPE_VIDEO_MJPEG
                 else -> TYPE_VIDEO
             }
-
             Widget.Type.Webview -> TYPE_WEB
             Widget.Type.Colorpicker -> TYPE_COLOR
             Widget.Type.Mapview -> TYPE_LOCATION
@@ -710,7 +708,6 @@ class WidgetAdapter(
                     val state = newValue.let { ParsedState.parseAsNumber(it, item.state?.asNumber?.format) }
                     connection.httpClient.sendItemUpdate(item, state)
                 }
-
                 else -> connection.httpClient.sendItemCommand(item, newValue)
             }
 
@@ -733,13 +730,10 @@ class WidgetAdapter(
                 !displayState.isNullOrEmpty() -> displayState
                 widget.inputHint == Widget.InputTypeHint.Date ->
                     dateTimeState?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
-
                 widget.inputHint == Widget.InputTypeHint.Time ->
                     dateTimeState?.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-
                 widget.inputHint == Widget.InputTypeHint.Datetime ->
                     dateTimeState?.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
-
                 else -> dateTimeState?.toString()
             }
             valueView?.isVisible = !valueView?.text.isNullOrEmpty()
@@ -833,7 +827,7 @@ class WidgetAdapter(
             labelView.isVisible = showLabelAndIcon
             iconView.isVisible = showLabelAndIcon
 
-            val buttons = widget.widgets?.filter { (it.row ?: 0) != 0 && (it.column ?: 0) != 0 } ?: emptyList()
+            val buttons = widget.buttons?.filter { (it.row ?: 0) != 0 && (it.column ?: 0) != 0 } ?: emptyList()
             spareViews.addAll(table.children.map { it as? MaterialButton }.filterNotNull())
             table.removeAllViews()
 
@@ -1072,7 +1066,7 @@ class WidgetAdapter(
             mappings.slice(0 until buttonCount).forEachIndexed { index, mapping ->
                 with(group[index] as MaterialButton) {
                     tag = mapping.value
-                    setTextAndIcon(connection, mapping)
+                    setTextAndIcon(connection, mapping.label, mapping.icon)
                 }
             }
 
@@ -1142,7 +1136,7 @@ class WidgetAdapter(
                 button.isGone = mapping == null
                 if (mapping != null) {
                     button.isChecked = widget.state?.asString == mapping.value
-                    button.setTextAndIcon(connection, mapping)
+                    button.setTextAndIcon(connection, mapping.label, mapping.icon)
                     button.tag = mapping.value
                 }
             }
