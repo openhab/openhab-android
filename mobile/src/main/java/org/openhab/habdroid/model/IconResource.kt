@@ -32,7 +32,6 @@ import org.openhab.habdroid.util.getStringOrNull
 @Parcelize
 data class IconResource internal constructor(
     internal val icon: String,
-    internal val isOh2: Boolean,
     internal val customState: String
 ) : Parcelable {
     fun toUrl(context: Context, includeState: Boolean): String {
@@ -42,10 +41,6 @@ data class IconResource internal constructor(
 
     @VisibleForTesting
     fun toUrl(includeState: Boolean, iconFormat: IconFormat, desiredSizePixels: Int): String {
-        if (!isOh2) {
-            return "images/$icon.png"
-        }
-
         var iconSource = "oh"
         var iconSet = "classic"
         var iconName = "none"
@@ -119,7 +114,7 @@ data class IconResource internal constructor(
     }
 
     fun withCustomState(state: String): IconResource {
-        return IconResource(icon, isOh2, state)
+        return IconResource(icon, state)
     }
 
     companion object {
@@ -132,9 +127,8 @@ fun SharedPreferences.getIconResource(key: String): IconResource? {
     return try {
         val obj = JSONObject(iconString)
         val icon = obj.getString("icon")
-        val isOh2 = obj.getInt("ohversion") == 2
         val customState = obj.optString("state")
-        IconResource(icon, isOh2, customState)
+        IconResource(icon, customState)
     } catch (e: JSONException) {
         null
     }
@@ -146,7 +140,6 @@ fun SharedPreferences.Editor.putIconResource(key: String, icon: IconResource?): 
     } else {
         val iconString = JSONObject()
             .put("icon", icon.icon)
-            .put("ohversion", if (icon.isOh2) 2 else 1)
             .put("state", icon.customState)
             .toString()
         putString(key, iconString)
@@ -157,15 +150,11 @@ fun SharedPreferences.Editor.putIconResource(key: String, icon: IconResource?): 
 @VisibleForTesting
 fun String.isNoneIcon() = "(oh:([a-z]+:)?)?none".toRegex().matches(this)
 
-fun String?.toOH1IconResource(): IconResource? {
-    return if (isNullOrEmpty() || isNoneIcon()) null else IconResource(this, false, "")
+fun String?.toIconResource(): IconResource? {
+    return if (isNullOrEmpty() || isNoneIcon()) null else IconResource(this, "")
 }
 
-fun String?.toOH2IconResource(): IconResource? {
-    return if (isNullOrEmpty() || isNoneIcon()) null else IconResource(this, true, "")
-}
-
-internal fun String?.toOH2WidgetIconResource(
+internal fun String?.toWidgetIconResource(
     item: Item?,
     type: Widget.Type,
     hasMappings: Boolean,
@@ -206,7 +195,7 @@ internal fun String?.toOH2WidgetIconResource(
         else -> item.state.asString
     }
 
-    return IconResource(this, true, iconState.orEmpty())
+    return IconResource(this, iconState.orEmpty())
 }
 
 enum class IconFormat {

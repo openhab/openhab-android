@@ -34,6 +34,6 @@ fun JSONObject.toLabeledValue(valueKey: String, labelKey: String): LabeledValue 
     val value = getString(valueKey)
     val valueRelease = optStringOrNull("releaseCommand")
     val label = optString(labelKey, value)
-    val icon = optStringOrNull("icon")?.toOH2IconResource()
+    val icon = optStringOrNull("icon")?.toIconResource()
     return LabeledValue(value, valueRelease, label, icon, optInt("row"), optInt("column"))
 }

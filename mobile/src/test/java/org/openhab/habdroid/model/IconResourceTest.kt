@@ -88,7 +88,7 @@ class IconResourceTest {
         assertEquals(
             "$icon icon failed!",
             url,
-            IconResource(icon, true, "").toUrl(false, IconFormat.Png, 64)
+            IconResource(icon, "").toUrl(false, IconFormat.Png, 64)
         )
     }
 }
