@@ -20,10 +20,12 @@ import android.view.MotionEvent
 import androidx.drawerlayout.widget.DrawerLayout
 
 class LockableDrawerLayout(context: Context, attrs: AttributeSet?) : DrawerLayout(context, attrs) {
-    var isSwipeDisabled = false
+    var swipeToOpenDisabled = false
+    private val shouldIgnoreTouch
+        get() = swipeToOpenDisabled && !isOpen
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-        if (isSwipeDisabled) {
+        if (shouldIgnoreTouch) {
             return false
         }
         return super.onInterceptTouchEvent(ev)
@@ -31,7 +33,7 @@ class LockableDrawerLayout(context: Context, attrs: AttributeSet?) : DrawerLayou
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(ev: MotionEvent): Boolean {
-        if (isSwipeDisabled) {
+        if (shouldIgnoreTouch) {
             return false
         }
         return super.onTouchEvent(ev)
