@@ -229,7 +229,7 @@ class WidgetAdapter(
             TYPE_LOCATION -> MapViewHelper.createViewHolder(initData)
             TYPE_INPUT -> InputViewHolder(initData)
             TYPE_DATETIMEINPUT -> DateTimeInputViewHolder(initData)
-            TYPE_BUTTONGRID -> ButtongridViewHolder(initData, items)
+            TYPE_BUTTONGRID -> ButtongridViewHolder(initData)
             TYPE_INVISIBLE -> InvisibleWidgetViewHolder(initData)
             else -> throw IllegalArgumentException("View type $viewType is not known")
         }
@@ -319,9 +319,6 @@ class WidgetAdapter(
             if (!hasVisibleChildren) {
                 return false
             }
-        }
-        if (widget.type == Widget.Type.Button) {
-            return false
         }
         val parent = widget.parentId?.let { id -> widgetsById[id] } ?: return true
         return shouldShowWidget(parent)
@@ -822,10 +819,8 @@ class WidgetAdapter(
         }
     }
 
-    class ButtongridViewHolder internal constructor(
-        private val initData: ViewHolderInitData,
-        private val items: List<Widget>
-    ) : LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem), View.OnTouchListener {
+    class ButtongridViewHolder internal constructor(private val initData: ViewHolderInitData) :
+        LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem), View.OnTouchListener {
         private val table: GridLayout = itemView.findViewById(R.id.widget_content)
         private val spareViews = mutableListOf<MaterialButton>()
         private val maxColumns = itemView.resources.getInteger(R.integer.section_switch_max_buttons)
@@ -838,45 +833,7 @@ class WidgetAdapter(
             labelView.isVisible = showLabelAndIcon
             iconView.isVisible = showLabelAndIcon
 
-            val mappings = widget.mappings.filter { it.column != 0 && it.row != 0 }
-            val buttons = items.filter { it.parentId == widget.id } +
-                mappings.map { mapping ->
-                    Widget(
-                        id = mapping.value,
-                        parentId = widget.id,
-                        rawLabel = mapping.label,
-                        labelSource = Widget.LabelSource.SitemapDefinition,
-                        icon = mapping.icon,
-                        state = null,
-                        type = Widget.Type.Button,
-                        url = null,
-                        item = widget.item,
-                        linkedPage = null,
-                        mappings = emptyList(),
-                        encoding = null,
-                        iconColor = null,
-                        labelColor = null,
-                        valueColor = null,
-                        refresh = 0,
-                        rawMinValue = null,
-                        rawMaxValue = null,
-                        rawStep = null,
-                        row = mapping.row,
-                        column = mapping.column,
-                        command = mapping.value,
-                        releaseCommand = null,
-                        period = "",
-                        service = "",
-                        legend = null,
-                        forceAsItem = false,
-                        yAxisDecimalPattern = null,
-                        switchSupport = false,
-                        releaseOnly = null,
-                        height = 0,
-                        visibility = true,
-                        rawInputHint = null
-                    )
-                }
+            val buttons = widget.widgets?.filter { (it.row ?: 0) != 0 && (it.column ?: 0) != 0 } ?: emptyList()
             spareViews.addAll(table.children.map { it as? MaterialButton }.filterNotNull())
             table.removeAllViews()
 
