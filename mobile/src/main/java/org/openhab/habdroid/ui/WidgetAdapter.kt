@@ -873,6 +873,7 @@ class WidgetAdapter(
             }
         }
 
+        @SuppressLint("ClickableViewAccessibility")
         override fun onTouch(view: View, event: MotionEvent): Boolean {
             val button = view.tag as Widget
             if (button.releaseCommand == null) {
@@ -884,13 +885,13 @@ class WidgetAdapter(
                     button.command?.let { connection.httpClient.sendItemCommand(button.item, it) }
                 }
                 MotionEvent.ACTION_UP -> {
-                    button.releaseCommand.let { connection.httpClient.sendItemCommand(button.item, it) }
+                    connection.httpClient.sendItemCommand(button.item, button.releaseCommand)
                 }
                 else -> return false
-            } 
+            }
             // Don't return true here!
             // Even though we're handing this event, we want the click gesture to be handled normally
-            // so that we can capture the release command in the onClick event handler.
+            // for accessibility purposes.
             return false // tell the system that we didn't consume the event
         }
     }
