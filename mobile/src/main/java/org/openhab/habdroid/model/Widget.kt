@@ -394,6 +394,9 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
     val icon = optStringOrNull("icon")
     val staticIcon = optBoolean("staticIcon", false)
 
+    // Parse the sub-widgets of a Buttongrid into buttons
+    // but they also need to be included in the main list of widgets below
+    // so that they can be found when we receive update events
     val buttons = if (type == Widget.Type.Buttongrid) {
         val buttonWidgets = mappings.map { mapping -> mapping.toWidget(mapping.value, item) }.toMutableList()
         optJSONArray("widgets")?.forEach { obj -> buttonWidgets.addAll(obj.collectWidgets(null)) }
@@ -440,10 +443,8 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
     )
 
     val result = arrayListOf(widget)
-    if (type != Widget.Type.Buttongrid) {
-        val childWidgetJson = optJSONArray("widgets")
-        childWidgetJson?.forEach { obj -> result.addAll(obj.collectWidgets(widget)) }
-    }
+    val childWidgetJson = optJSONArray("widgets")
+    childWidgetJson?.forEach { obj -> result.addAll(obj.collectWidgets(widget)) }
     return result
 }
 
