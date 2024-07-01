@@ -28,6 +28,7 @@ import org.openhab.habdroid.util.getChartScalingFactor
 import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.optBooleanOrNull
 import org.openhab.habdroid.util.optFloatOrNull
+import org.openhab.habdroid.util.optIntOrNull
 import org.openhab.habdroid.util.optStringOrFallback
 import org.openhab.habdroid.util.optStringOrNull
 import org.openhab.habdroid.util.shouldRequestHighResChart
@@ -54,6 +55,12 @@ data class Widget(
     private val rawMinValue: Float?,
     private val rawMaxValue: Float?,
     private val rawStep: Float?,
+    // buttons are sub-widgets of buttongrids
+    val buttons: List<Widget>?,
+    val row: Int?,
+    val column: Int?,
+    val command: String?,
+    val releaseCommand: String?,
     val period: String,
     val service: String,
     val legend: Boolean?,
@@ -122,6 +129,7 @@ data class Widget(
         Webview,
         Input,
         Buttongrid,
+        Button,
         Unknown
     }
 
@@ -207,6 +215,11 @@ data class Widget(
                 rawMinValue = source.rawMinValue,
                 rawMaxValue = source.rawMaxValue,
                 rawStep = source.rawStep,
+                buttons = source.buttons,
+                row = source.row,
+                column = source.column,
+                command = source.command,
+                releaseCommand = source.releaseCommand,
                 period = source.period,
                 service = source.service,
                 legend = source.legend,
@@ -260,6 +273,7 @@ fun String?.toLabelSource(): Widget.LabelSource = when (this) {
     else -> Widget.LabelSource.Unknown
 }
 
+// This function is only used on openHAB versions with XML API, which is openHAB 1.x
 fun Node.collectWidgets(parent: Widget?): List<Widget> {
     var item: Item? = null
     var linkedPage: LinkedPage? = null
@@ -342,6 +356,13 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
         rawMinValue = minValue,
         rawMaxValue = maxValue,
         rawStep = step,
+        // buttons, row, column, command, and releaseCommand were added in openHAB 4.2
+        // so no support for openHAB 1 required.
+        buttons = null,
+        row = null,
+        column = null,
+        command = null,
+        releaseCommand = null,
         period = Widget.sanitizePeriod(period),
         service = service,
         legend = null,
@@ -373,6 +394,17 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
     val icon = optStringOrNull("icon")
     val staticIcon = optBoolean("staticIcon", false)
 
+    // Parse the sub-widgets of a Buttongrid into buttons
+    // but they also need to be included in the main list of widgets below
+    // so that they can be found when we receive update events
+    val buttons = if (type == Widget.Type.Buttongrid) {
+        val buttonWidgets = mappings.map { mapping -> mapping.toWidget(mapping.value, item) }.toMutableList()
+        optJSONArray("widgets")?.forEach { obj -> buttonWidgets.addAll(obj.collectWidgets(null)) }
+        buttonWidgets.ifEmpty { null }
+    } else {
+        null
+    }
+
     val widget = Widget(
         id = getString("widgetId"),
         parentId = parent?.id,
@@ -393,6 +425,11 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         rawMinValue = optFloatOrNull("minValue"),
         rawMaxValue = optFloatOrNull("maxValue"),
         rawStep = optFloatOrNull("step"),
+        buttons = buttons,
+        row = optIntOrNull("row"),
+        column = optIntOrNull("column"),
+        command = optStringOrNull("command"),
+        releaseCommand = optStringOrNull("releaseCommand"),
         period = Widget.sanitizePeriod(optString("period")),
         service = optString("service", ""),
         legend = optBooleanOrNull("legend"),
@@ -409,4 +446,43 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
     val childWidgetJson = optJSONArray("widgets")
     childWidgetJson?.forEach { obj -> result.addAll(obj.collectWidgets(widget)) }
     return result
+}
+
+fun LabeledValue.toWidget(id: String, item: Item?): Widget {
+    return Widget(
+        id = id,
+        parentId = null,
+        rawLabel = label,
+        labelSource = Widget.LabelSource.SitemapDefinition,
+        icon = icon,
+        state = null,
+        type = Widget.Type.Button,
+        url = null,
+        item = item,
+        linkedPage = null,
+        mappings = emptyList(),
+        encoding = null,
+        iconColor = null,
+        labelColor = null,
+        valueColor = null,
+        refresh = 0,
+        rawMinValue = null,
+        rawMaxValue = null,
+        rawStep = null,
+        buttons = null,
+        row = row,
+        column = column,
+        command = value,
+        releaseCommand = null,
+        period = "",
+        service = "",
+        legend = null,
+        forceAsItem = false,
+        yAxisDecimalPattern = null,
+        switchSupport = false,
+        releaseOnly = null,
+        height = 0,
+        visibility = true,
+        rawInputHint = null
+    )
 }

@@ -27,6 +27,7 @@ import android.text.format.DateFormat
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -318,6 +319,8 @@ class WidgetAdapter(
             if (!hasVisibleChildren) {
                 return false
             }
+        } else if (widget.type == Widget.Type.Buttongrid && widget.buttons.isNullOrEmpty()) {
+            return false
         }
         val parent = widget.parentId?.let { id -> widgetsById[id] } ?: return true
         return shouldShowWidget(parent)
@@ -354,6 +357,7 @@ class WidgetAdapter(
             Widget.Type.Mapview -> TYPE_LOCATION
             Widget.Type.Input -> if (widget.shouldUseDateTimePickerForInput()) TYPE_DATETIMEINPUT else TYPE_INPUT
             Widget.Type.Buttongrid -> TYPE_BUTTONGRID
+            Widget.Type.Button -> TYPE_INVISIBLE
             else -> TYPE_GENERICITEM
         }
         return toInternalViewType(actualViewType, compactMode)
@@ -812,7 +816,9 @@ class WidgetAdapter(
     }
 
     class ButtongridViewHolder internal constructor(private val initData: ViewHolderInitData) :
-        LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem), View.OnClickListener {
+        LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem),
+        View.OnClickListener,
+        View.OnTouchListener {
         private val table: GridLayout = itemView.findViewById(R.id.widget_content)
         private val spareViews = mutableListOf<MaterialButton>()
         private val maxColumns = itemView.resources.getInteger(R.integer.section_switch_max_buttons)
@@ -825,25 +831,26 @@ class WidgetAdapter(
             labelView.isVisible = showLabelAndIcon
             iconView.isVisible = showLabelAndIcon
 
-            val mappings = widget.mappings.filter { it.column != 0 && it.row != 0 }
+            val buttons = widget.buttons?.filter { (it.row ?: 0) != 0 && (it.column ?: 0) != 0 } ?: emptyList()
             spareViews.addAll(table.children.map { it as? MaterialButton }.filterNotNull())
             table.removeAllViews()
 
-            table.rowCount = mappings.maxOfOrNull { it.row } ?: 0
-            table.columnCount = min(mappings.maxOfOrNull { it.column } ?: 0, maxColumns)
+            table.rowCount = buttons.maxOfOrNull { it.row ?: 0 } ?: 0
+            table.columnCount = min(buttons.maxOfOrNull { it.column ?: 0 } ?: 0, maxColumns)
             (0 until table.rowCount).forEach { row ->
                 (0 until table.columnCount).forEach { column ->
                     val buttonView = spareViews.removeFirstOrNull()
                         ?: initData.inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, table, false)
                             as MaterialButton
                     // Rows and columns start with 1 in Sitemap definition, thus decrement them here
-                    val mapping = mappings.firstOrNull { it.row - 1 == row && it.column - 1 == column }
+                    val button = buttons.firstOrNull { (it.row ?: 0) - 1 == row && (it.column ?: 0) - 1 == column }
                     // Create invisible buttons if there's no mapping so each cell has an equal size
-                    buttonView.isInvisible = mapping == null
-                    if (mapping != null) {
+                    buttonView.isInvisible = button == null
+                    if (button != null) {
                         buttonView.setOnClickListener(this)
-                        buttonView.setTextAndIcon(connection, mapping)
-                        buttonView.tag = mapping.value
+                        buttonView.setOnTouchListener(this)
+                        buttonView.setTextAndIcon(connection, button.label, button.icon)
+                        buttonView.tag = button
                         buttonView.visibility = View.VISIBLE
                     }
                     buttonView.maxWidth = table.width / table.columnCount
@@ -860,7 +867,28 @@ class WidgetAdapter(
         }
 
         override fun onClick(view: View) {
-            connection.httpClient.sendItemCommand(boundWidget?.item, view.tag as String)
+            val button = view.tag as Widget
+            if (button.releaseCommand.isNullOrEmpty()) {
+                button.command?.let { connection.httpClient.sendItemCommand(button.item, it) }
+            }
+        }
+
+        @SuppressLint("ClickableViewAccessibility")
+        override fun onTouch(view: View, event: MotionEvent): Boolean {
+            val button = view.tag as Widget
+
+            if (!button.releaseCommand.isNullOrEmpty()) {
+                val command = when (event.action) {
+                    MotionEvent.ACTION_DOWN -> button.command
+                    MotionEvent.ACTION_UP -> button.releaseCommand
+                    else -> null
+                }
+                command?.let { connection.httpClient.sendItemCommand(button.item, it) }
+            }
+            // Don't return true here!
+            // Even though we're handing this event, we want the click gesture to be handled normally
+            // for accessibility purposes.
+            return false // tell the system that we didn't consume the event
         }
     }
 
@@ -1053,7 +1081,7 @@ class WidgetAdapter(
             mappings.slice(0 until buttonCount).forEachIndexed { index, mapping ->
                 with(group[index] as MaterialButton) {
                     tag = mapping.value
-                    setTextAndIcon(connection, mapping)
+                    setTextAndIcon(connection, mapping.label, mapping.icon)
                 }
             }
 
@@ -1123,7 +1151,7 @@ class WidgetAdapter(
                 button.isGone = mapping == null
                 if (mapping != null) {
                     button.isChecked = widget.state?.asString == mapping.value
-                    button.setTextAndIcon(connection, mapping)
+                    button.setTextAndIcon(connection, mapping.label, mapping.icon)
                     button.tag = mapping.value
                 }
             }
