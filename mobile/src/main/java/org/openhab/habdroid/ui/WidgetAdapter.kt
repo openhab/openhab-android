@@ -869,21 +869,28 @@ class WidgetAdapter(
         override fun onClick(view: View) {
             val button = view.tag as Widget
             if (button.releaseCommand == null) {
-                // when there's a "releaseCommand", the normal "command" is sent in the onTouch event
                 button.command?.let { connection.httpClient.sendItemCommand(button.item, it) }
-            } else {
-                connection.httpClient.sendItemCommand(button.item, button.releaseCommand)
             }
         }
 
         override fun onTouch(view: View, event: MotionEvent): Boolean {
             val button = view.tag as Widget
-            if (button.releaseCommand != null && event.action == MotionEvent.ACTION_DOWN) {
-                button.command?.let { connection.httpClient.sendItemCommand(button.item, it) }
-                // Don't return true here!
-                // Even though we're handing this event, we want the click gesture to be handled normally
-                // so that we can capture the release command in the onClick event handler.
+            if (button.releaseCommand == null) {
+                return false
             }
+
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    button.command?.let { connection.httpClient.sendItemCommand(button.item, it) }
+                }
+                MotionEvent.ACTION_UP -> {
+                    button.releaseCommand.let { connection.httpClient.sendItemCommand(button.item, it) }
+                }
+                else -> return false
+            } 
+            // Don't return true here!
+            // Even though we're handing this event, we want the click gesture to be handled normally
+            // so that we can capture the release command in the onClick event handler.
             return false // tell the system that we didn't consume the event
         }
     }
