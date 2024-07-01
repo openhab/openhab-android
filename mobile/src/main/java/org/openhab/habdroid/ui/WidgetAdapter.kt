@@ -868,7 +868,7 @@ class WidgetAdapter(
 
         override fun onClick(view: View) {
             val button = view.tag as Widget
-            if (button.releaseCommand == null) {
+            if (button.releaseCommand.isNullOrEmpty()) {
                 button.command?.let { connection.httpClient.sendItemCommand(button.item, it) }
             }
         }
@@ -877,7 +877,7 @@ class WidgetAdapter(
         override fun onTouch(view: View, event: MotionEvent): Boolean {
             val button = view.tag as Widget
 
-            if (button.releaseCommand != null) {
+            if (!button.releaseCommand.isNullOrEmpty()) {
                 val command = when (event.action) {
                     MotionEvent.ACTION_DOWN -> button.command
                     MotionEvent.ACTION_UP -> button.releaseCommand
