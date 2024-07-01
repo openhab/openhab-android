@@ -816,7 +816,9 @@ class WidgetAdapter(
     }
 
     class ButtongridViewHolder internal constructor(private val initData: ViewHolderInitData) :
-        LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem), View.OnClickListener, View.OnTouchListener {
+        LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem),
+        View.OnClickListener,
+        View.OnTouchListener {
         private val table: GridLayout = itemView.findViewById(R.id.widget_content)
         private val spareViews = mutableListOf<MaterialButton>()
         private val maxColumns = itemView.resources.getInteger(R.integer.section_switch_max_buttons)
