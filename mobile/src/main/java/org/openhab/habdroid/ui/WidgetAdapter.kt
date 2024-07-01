@@ -319,6 +319,8 @@ class WidgetAdapter(
             if (!hasVisibleChildren) {
                 return false
             }
+        } else if (widget.type == Widget.Type.Buttongrid && widget.buttons.isNullOrEmpty()) {
+            return false
         }
         val parent = widget.parentId?.let { id -> widgetsById[id] } ?: return true
         return shouldShowWidget(parent)
@@ -355,7 +357,7 @@ class WidgetAdapter(
             Widget.Type.Mapview -> TYPE_LOCATION
             Widget.Type.Input -> if (widget.shouldUseDateTimePickerForInput()) TYPE_DATETIMEINPUT else TYPE_INPUT
             Widget.Type.Buttongrid -> TYPE_BUTTONGRID
-            Widget.Type.Button -> TYPE_BUTTON
+            Widget.Type.Button -> TYPE_INVISIBLE
             else -> TYPE_GENERICITEM
         }
         return toInternalViewType(actualViewType, compactMode)
@@ -814,7 +816,7 @@ class WidgetAdapter(
     }
 
     class ButtongridViewHolder internal constructor(private val initData: ViewHolderInitData) :
-        LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem), View.OnTouchListener {
+        LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem), View.OnClickListener, View.OnTouchListener {
         private val table: GridLayout = itemView.findViewById(R.id.widget_content)
         private val spareViews = mutableListOf<MaterialButton>()
         private val maxColumns = itemView.resources.getInteger(R.integer.section_switch_max_buttons)
@@ -843,6 +845,7 @@ class WidgetAdapter(
                     // Create invisible buttons if there's no mapping so each cell has an equal size
                     buttonView.isInvisible = button == null
                     if (button != null) {
+                        buttonView.setOnClickListener(this)
                         buttonView.setOnTouchListener(this)
                         buttonView.setTextAndIcon(connection, button.label, button.icon)
                         buttonView.tag = button
@@ -861,19 +864,25 @@ class WidgetAdapter(
             }
         }
 
+        override fun onClick(view: View) {
+            val button = view.tag as Widget
+            if (button.releaseCommand == null) {
+                // when there's a "releaseCommand", the normal "command" is sent in the onTouch event
+                button.command?.let { connection.httpClient.sendItemCommand(button.item, it) }
+            } else {
+                connection.httpClient.sendItemCommand(button.item, button.releaseCommand)
+            }
+        }
+
         override fun onTouch(view: View, event: MotionEvent): Boolean {
-            val widget = view.tag as Widget
-            if (event.action == MotionEvent.ACTION_DOWN && widget.command != null) {
-                connection.httpClient.sendItemCommand(widget.item, widget.command)
-                return true
+            val button = view.tag as Widget
+            if (button.releaseCommand != null && event.action == MotionEvent.ACTION_DOWN) {
+                button.command?.let { connection.httpClient.sendItemCommand(button.item, it) }
+                // Don't return true here!
+                // Even though we're handing this event, we want the click gesture to be handled normally
+                // so that we can capture the release command in the onClick event handler.
             }
-
-            if (event.action == MotionEvent.ACTION_UP && widget.releaseCommand != null) {
-                connection.httpClient.sendItemCommand(widget.item, widget.releaseCommand)
-                return true
-            }
-
-            return false
+            return false // tell the system that we didn't consume the event
         }
     }
 
@@ -1656,8 +1665,7 @@ class WidgetAdapter(
         private const val TYPE_INPUT = 19
         private const val TYPE_DATETIMEINPUT = 20
         private const val TYPE_BUTTONGRID = 21
-        private const val TYPE_BUTTON = 22
-        private const val TYPE_INVISIBLE = 23
+        private const val TYPE_INVISIBLE = 22
 
         private fun toInternalViewType(viewType: Int, compactMode: Boolean): Int {
             return viewType or (if (compactMode) 0x100 else 0)
