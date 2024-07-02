@@ -2,7 +2,6 @@
 <resources>
     <declare-styleable name="WidgetImageView">
         <attr name="fallback" format="reference" />
-        <attr name="progressIndicator" format="reference" />
         <attr name="emptyHeightToWidthRatio" format="fraction" />
         <attr name="addRandomnessToUrl" format="boolean" />
         <attr name="imageScalingType" format="enum">

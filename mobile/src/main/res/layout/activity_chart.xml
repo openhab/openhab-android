@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -14,13 +15,17 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <org.openhab.habdroid.ui.widget.WidgetImageView
-            android:id="@+id/chart"
+        <com.faltenreich.skeletonlayout.SkeletonLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:imageScalingType="scaleToFitWithViewAdjustment"
-            app:progressIndicator="@drawable/ic_image_loading_themed"
-            app:addRandomnessToUrl="true" />
+            android:layout_height="match_parent">
+            <org.openhab.habdroid.ui.widget.WidgetImageView
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:imageScalingType="scaleToFitWithViewAdjustment"
+                app:addRandomnessToUrl="true"
+                tools:src="@drawable/day_dream_preview" />
+        </com.faltenreich.skeletonlayout.SkeletonLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

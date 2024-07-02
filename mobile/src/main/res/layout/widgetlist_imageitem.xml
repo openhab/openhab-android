@@ -12,8 +12,7 @@
     <org.openhab.habdroid.ui.widget.WidgetImageView
         android:id="@+id/widget_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:progressIndicator="@drawable/ic_image_loading_themed" />
+        android:layout_height="wrap_content" />
 
     <include layout="@layout/widgetlist_data_saver" />
 
