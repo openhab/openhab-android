@@ -18,7 +18,9 @@ import java.io.IOException
 import java.io.StringReader
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import org.json.JSONArray
 import org.json.JSONException
@@ -109,10 +111,11 @@ object ItemClient {
         item: String,
         callback: (topicPath: List<String>, payload: JSONObject) -> Unit
     ) {
-        val eventSubscription = connection.httpClient.makeSse(
+        fun createSubscription() = connection.httpClient.makeSse(
             // Support for both the "openhab" and the older "smarthome" root topic by using a wildcard
             connection.httpClient.buildUrl("rest/events?topics=*/items/$item/command")
         )
+        var eventSubscription = createSubscription()
 
         try {
             while (scope.isActive) {
@@ -139,6 +142,9 @@ object ItemClient {
                     Log.e(TAG, "Failed parsing JSON of state change event for item $item", e)
                 } catch (e: HttpClient.SseFailureException) {
                     Log.e(TAG, "SSE failure for item $item", e)
+                    eventSubscription.cancel()
+                    delay(5.seconds)
+                    eventSubscription = createSubscription()
                 }
             }
         } finally {

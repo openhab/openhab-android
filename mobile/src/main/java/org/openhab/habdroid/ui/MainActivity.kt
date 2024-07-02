@@ -1488,11 +1488,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     }
 
     private suspend fun listenUiCommandItem(item: String) {
-        ItemClient.listenForItemChange(
-            this,
-            connection ?: return,
-            item
-        ) { _, payload ->
+        ItemClient.listenForItemChange(this, connection ?: return, item) { _, payload ->
             val state = payload.getString("value")
             Log.d(TAG, "Got state by event: $state")
             handleUiCommand(state)
