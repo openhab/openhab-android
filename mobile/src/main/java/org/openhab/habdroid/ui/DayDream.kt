@@ -77,11 +77,7 @@ class DayDream : DreamService(), CoroutineScope {
             getString(R.string.screensaver_error_loading_item, item)
         }
 
-        ItemClient.listenForItemChange(
-            this,
-            connection,
-            item
-        ) { _, payload ->
+        ItemClient.listenForItemChange(this, connection, item) { _, payload ->
             val state = payload.getString("value")
             Log.d(TAG, "Got state by event: $state")
             textView.text = state
