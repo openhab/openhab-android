@@ -16,6 +16,8 @@ package org.openhab.habdroid.ui
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -119,14 +121,22 @@ fun RemoteViews.duplicate(): RemoteViews {
     }
 }
 
-fun MaterialButton.setTextAndIcon(connection: Connection, label: String, icon: IconResource?) {
+fun MaterialButton.setTextAndIcon(
+    connection: Connection,
+    label: String,
+    icon: IconResource?,
+    labelColor: String? = null,
+    iconColor: String? = null,
+    mapper: WidgetAdapter.ColorMapper? = null
+) {
     contentDescription = label
     val iconUrl = icon?.toUrl(context, true)
     if (iconUrl == null) {
         this.icon = null
         text = label
+        mapper?.mapColor(labelColor)?.let { setTextColor(it) }
         return
-    }
+    } 
     val iconSize = context.resources.getDimensionPixelSize(R.dimen.section_switch_icon)
     CoroutineScope(Dispatchers.IO + Job()).launch {
         val drawable = try {
@@ -138,8 +148,16 @@ fun MaterialButton.setTextAndIcon(connection: Connection, label: String, icon: I
             null
         }
         withContext(Dispatchers.Main) {
+            if (drawable != null) {
+                mapper?.mapColor(iconColor)?.let {
+                    drawable.setColorFilter(BlendModeColorFilter(it, BlendMode.SRC_ATOP)) 
+                }
+                text = null
+            } else {
+                text = label
+                mapper?.mapColor(labelColor)?.let { setTextColor(it) }
+            }
             this@setTextAndIcon.icon = drawable
-            text = if (drawable == null) label else null
         }
     }
 }

@@ -56,11 +56,12 @@ data class Widget(
     private val rawMaxValue: Float?,
     private val rawStep: Float?,
     // buttons are sub-widgets of buttongrids
-    val buttons: List<Widget>?,
+    val buttons: MutableList<Widget>?,
     val row: Int?,
     val column: Int?,
     val command: String?,
     val releaseCommand: String?,
+    val stateless: Boolean?,
     val period: String,
     val service: String,
     val legend: Boolean?,
@@ -186,6 +187,12 @@ data class Widget(
         return chartUrl.toString()
     }
 
+    fun updateButton(button: Widget) {
+        buttons?.indexOfFirst { it.id == button.id }?.takeIf { it >= 0 }?.let { index ->
+            buttons.set(index, button)
+        }
+    }
+
     companion object {
         @Throws(JSONException::class)
         fun updateFromEvent(source: Widget, eventPayload: JSONObject): Widget {
@@ -220,6 +227,7 @@ data class Widget(
                 column = source.column,
                 command = source.command,
                 releaseCommand = source.releaseCommand,
+                stateless = source.stateless,
                 period = source.period,
                 service = source.service,
                 legend = source.legend,
@@ -356,13 +364,14 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
         rawMinValue = minValue,
         rawMaxValue = maxValue,
         rawStep = step,
-        // buttons, row, column, command, and releaseCommand were added in openHAB 4.2
+        // buttons, row, column, command, releaseCommand, stateless were added in openHAB 4.2
         // so no support for openHAB 1 required.
         buttons = null,
         row = null,
         column = null,
         command = null,
         releaseCommand = null,
+        stateless = null,
         period = Widget.sanitizePeriod(period),
         service = service,
         legend = null,
@@ -389,6 +398,7 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         emptyList()
     }
 
+    val id = getString("widgetId")
     val item = optJSONObject("item")?.toItem()
     val type = getString("type").toWidgetType()
     val icon = optStringOrNull("icon")
@@ -398,7 +408,9 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
     // but they also need to be included in the main list of widgets below
     // so that they can be found when we receive update events
     val buttons = if (type == Widget.Type.Buttongrid) {
-        val buttonWidgets = mappings.map { mapping -> mapping.toWidget(mapping.value, item) }.toMutableList()
+        val buttonWidgets = mappings.mapIndexed { index, mapping -> 
+            mapping.toWidget("$id-mappings-$index", item) 
+        }.toMutableList()
         optJSONArray("widgets")?.forEach { obj -> buttonWidgets.addAll(obj.collectWidgets(null)) }
         buttonWidgets.ifEmpty { null }
     } else {
@@ -406,7 +418,7 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
     }
 
     val widget = Widget(
-        id = getString("widgetId"),
+        id = id,
         parentId = parent?.id,
         rawLabel = optString("label", ""),
         labelSource = optStringOrNull("labelSource").toLabelSource(),
@@ -430,6 +442,7 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         column = optIntOrNull("column"),
         command = optStringOrNull("command"),
         releaseCommand = optStringOrNull("releaseCommand"),
+        stateless = optBooleanOrNull("stateless"),
         period = Widget.sanitizePeriod(optString("period")),
         service = optString("service", ""),
         legend = optBooleanOrNull("legend"),
@@ -474,6 +487,7 @@ fun LabeledValue.toWidget(id: String, item: Item?): Widget {
         column = column,
         command = value,
         releaseCommand = null,
+        stateless = null,
         period = "",
         service = "",
         legend = null,
