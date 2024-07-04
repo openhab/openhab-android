@@ -15,9 +15,9 @@ package org.openhab.habdroid.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
+import android.os.Build
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -136,7 +136,7 @@ fun MaterialButton.setTextAndIcon(
         text = label
         mapper?.mapColor(labelColor)?.let { setTextColor(it) }
         return
-    } 
+    }
     val iconSize = context.resources.getDimensionPixelSize(R.dimen.section_switch_icon)
     CoroutineScope(Dispatchers.IO + Job()).launch {
         val drawable = try {
@@ -150,7 +150,7 @@ fun MaterialButton.setTextAndIcon(
         withContext(Dispatchers.Main) {
             if (drawable != null) {
                 mapper?.mapColor(iconColor)?.let {
-                    drawable.setColorFilter(BlendModeColorFilter(it, BlendMode.SRC_ATOP)) 
+                    drawable.setColorFilter(BlendModeColorFilter(it, BlendMode.SRC_ATOP))
                 }
                 text = null
             } else {

@@ -55,8 +55,6 @@ data class Widget(
     private val rawMinValue: Float?,
     private val rawMaxValue: Float?,
     private val rawStep: Float?,
-    // buttons are sub-widgets of buttongrids
-    val buttons: MutableList<Widget>?,
     val row: Int?,
     val column: Int?,
     val command: String?,
@@ -187,12 +185,6 @@ data class Widget(
         return chartUrl.toString()
     }
 
-    fun updateButton(button: Widget) {
-        buttons?.indexOfFirst { it.id == button.id }?.takeIf { it >= 0 }?.let { index ->
-            buttons.set(index, button)
-        }
-    }
-
     companion object {
         @Throws(JSONException::class)
         fun updateFromEvent(source: Widget, eventPayload: JSONObject): Widget {
@@ -222,7 +214,6 @@ data class Widget(
                 rawMinValue = source.rawMinValue,
                 rawMaxValue = source.rawMaxValue,
                 rawStep = source.rawStep,
-                buttons = source.buttons,
                 row = source.row,
                 column = source.column,
                 command = source.command,
@@ -364,9 +355,8 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
         rawMinValue = minValue,
         rawMaxValue = maxValue,
         rawStep = step,
-        // buttons, row, column, command, releaseCommand, stateless were added in openHAB 4.2
+        // row, column, command, releaseCommand, stateless were added in openHAB 4.2
         // so no support for openHAB 1 required.
-        buttons = null,
         row = null,
         column = null,
         command = null,
@@ -398,27 +388,13 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         emptyList()
     }
 
-    val id = getString("widgetId")
     val item = optJSONObject("item")?.toItem()
     val type = getString("type").toWidgetType()
     val icon = optStringOrNull("icon")
     val staticIcon = optBoolean("staticIcon", false)
 
-    // Parse the sub-widgets of a Buttongrid into buttons
-    // but they also need to be included in the main list of widgets below
-    // so that they can be found when we receive update events
-    val buttons = if (type == Widget.Type.Buttongrid) {
-        val buttonWidgets = mappings.mapIndexed { index, mapping -> 
-            mapping.toWidget("$id-mappings-$index", item) 
-        }.toMutableList()
-        optJSONArray("widgets")?.forEach { obj -> buttonWidgets.addAll(obj.collectWidgets(null)) }
-        buttonWidgets.ifEmpty { null }
-    } else {
-        null
-    }
-
     val widget = Widget(
-        id = id,
+        id = getString("widgetId"),
         parentId = parent?.id,
         rawLabel = optString("label", ""),
         labelSource = optStringOrNull("labelSource").toLabelSource(),
@@ -437,7 +413,6 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         rawMinValue = optFloatOrNull("minValue"),
         rawMaxValue = optFloatOrNull("maxValue"),
         rawStep = optFloatOrNull("step"),
-        buttons = buttons,
         row = optIntOrNull("row"),
         column = optIntOrNull("column"),
         command = optStringOrNull("command"),
@@ -459,44 +434,4 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
     val childWidgetJson = optJSONArray("widgets")
     childWidgetJson?.forEach { obj -> result.addAll(obj.collectWidgets(widget)) }
     return result
-}
-
-fun LabeledValue.toWidget(id: String, item: Item?): Widget {
-    return Widget(
-        id = id,
-        parentId = null,
-        rawLabel = label,
-        labelSource = Widget.LabelSource.SitemapDefinition,
-        icon = icon,
-        state = null,
-        type = Widget.Type.Button,
-        url = null,
-        item = item,
-        linkedPage = null,
-        mappings = emptyList(),
-        encoding = null,
-        iconColor = null,
-        labelColor = null,
-        valueColor = null,
-        refresh = 0,
-        rawMinValue = null,
-        rawMaxValue = null,
-        rawStep = null,
-        buttons = null,
-        row = row,
-        column = column,
-        command = value,
-        releaseCommand = null,
-        stateless = null,
-        period = "",
-        service = "",
-        legend = null,
-        forceAsItem = false,
-        yAxisDecimalPattern = null,
-        switchSupport = false,
-        releaseOnly = null,
-        height = 0,
-        visibility = true,
-        rawInputHint = null
-    )
 }
