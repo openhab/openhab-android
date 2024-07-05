@@ -162,8 +162,6 @@ class WidgetAdapter(
             widgets.size == items.size &&
             widgets.filterIndexed { i, widget -> getItemViewType(widget) != getItemViewType(items[i]) }.isEmpty()
 
-        Log.d(TAG, "update, forceFullUpdate: $forceFullUpdate, compatibleUpdate: $compatibleUpdate")
-
         if (compatibleUpdate) {
             widgets.forEachIndexed { index, widget ->
                 if (items[index] != widget) {
