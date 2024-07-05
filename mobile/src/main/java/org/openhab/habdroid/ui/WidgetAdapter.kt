@@ -136,7 +136,6 @@ class WidgetAdapter(
     val itemList: List<Widget> get() = items
     private val widgetsById = mutableMapOf<String, Widget>()
     private val widgetsByParentId = mutableMapOf<String, MutableList<Widget>>()
-    val widgetsByParentIdMap: Map<String, List<Widget>> get() = widgetsByParentId
     val hasVisibleWidgets: Boolean
         get() = items.any { widget -> shouldShowWidget(widget) }
 
@@ -178,9 +177,9 @@ class WidgetAdapter(
             widgetsByParentId.clear()
             widgets.forEach { w ->
                 widgetsById[w.id] = w
-                w.parentId?.let { parentId ->
-                    widgetsByParentId.getOrPut(parentId) { mutableListOf() }.add(w)
-                }
+                w.parentId
+                    ?.let { parentId -> widgetsByParentId.getOrPut(parentId) { mutableListOf() } }
+                    ?.add(w)
             }
             notifyDataSetChanged()
         }
@@ -245,7 +244,7 @@ class WidgetAdapter(
             TYPE_LOCATION -> MapViewHelper.createViewHolder(initData)
             TYPE_INPUT -> InputViewHolder(initData)
             TYPE_DATETIMEINPUT -> DateTimeInputViewHolder(initData)
-            TYPE_BUTTONGRID -> ButtongridViewHolder(initData)
+            TYPE_BUTTONGRID -> ButtongridViewHolder(initData) { id -> widgetsByParentId[id] }
             TYPE_INVISIBLE -> InvisibleWidgetViewHolder(initData)
             else -> throw IllegalArgumentException("View type $viewType is not known")
         }
@@ -311,15 +310,10 @@ class WidgetAdapter(
         val oldWidget = items[position]
         items[position] = widget
         widgetsById[widget.id] = widget
-        widgetsByParentId[oldWidget.parentId]?.let {
-            it.remove(oldWidget)
-            if (it.isEmpty()) {
-                widgetsByParentId.remove(oldWidget.parentId)
-            }
-        }
-        widget.parentId?.let { parentId ->
-            widgetsByParentId.getOrPut(parentId) { mutableListOf() }.add(widget)
-        }
+        widgetsByParentId[oldWidget.parentId]?.remove(oldWidget)
+        widget.parentId
+            ?.let { parentId -> widgetsByParentId.getOrPut(parentId) { mutableListOf() } }
+            ?.add(widget)
         // If visibility of a container with at least one child changes, refresh the whole list to make sure
         // the child visibility is also updated. Otherwise it's sufficient to update the single widget only.
         if (oldWidget.visibility != widget.visibility && items.any { w -> w.parentId == widget.id }) {
@@ -327,8 +321,9 @@ class WidgetAdapter(
         } else {
             // update the parent Buttongrid if the updated widget is a button
             if (widget.type == Widget.Type.Button && widget.parentId != null) {
-                items.indexOfFirst { w -> w.id == widget.parentId }?.let { position ->
-                    notifyItemChanged(position)
+                val parentPosition = items.indexOfFirst { w -> w.id == widget.parentId }
+                if (parentPosition >= 0) {
+                    notifyItemChanged(parentPosition)
                 }
             } else {
                 notifyItemChanged(position)
@@ -845,13 +840,19 @@ class WidgetAdapter(
         }
     }
 
-    class ButtongridViewHolder internal constructor(private val initData: ViewHolderInitData) :
-        LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem),
+    class ButtongridViewHolder internal constructor(
+        private val initData: ViewHolderInitData,
+        private val childWidgetCallback: (String) -> List<Widget>?
+    ) : LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem),
         View.OnClickListener,
         View.OnTouchListener {
+
+        data class Position(val row: Int, val column: Int)
+
         private val table: GridLayout = itemView.findViewById(R.id.widget_content)
         private val maxColumns = itemView.resources.getInteger(R.integer.section_switch_max_buttons)
-        private val buttonViews = mutableMapOf<Pair<Int, Int>, MaterialButton>()
+        private val spareViews = mutableListOf<MaterialButton>()
+        private val buttonViews = mutableMapOf<Position, MaterialButton>()
 
         override fun bind(widget: Widget) {
             super.bind(widget)
@@ -861,19 +862,24 @@ class WidgetAdapter(
             labelView.isVisible = showLabelAndIcon
             iconView.isVisible = showLabelAndIcon
 
-            val buttons =
-                widget.mappings.mapIndexed { index, it -> it.toWidget("$widget.id-mappings-$index", widget.item) } +
-                    (bindingAdapter as WidgetAdapter).widgetsByParentIdMap[widget.id].orEmpty()
+            val buttons = childWidgetCallback(widget.id).orEmpty() +
+                widget.mappings.mapIndexed { index, it -> it.toWidget("$widget.id-mappings-$index", widget.item) }
 
             val rowCount = buttons.maxOfOrNull { it.row ?: 0 } ?: 0
             val columnCount = min(buttons.maxOfOrNull { it.column ?: 0 } ?: 0, maxColumns)
-            buttonViews.filter { (position, buttonView) ->
-                position.first >= rowCount ||
-                    position.second >= columnCount ||
-                    (buttonView.tag as? Widget)?.parentId != widget.id
-            }
+
+            // Remove buttons selectively and ensure buttons stay in place when rebinding to the same widget (after
+            // e.g. sending a command on button touch), to make sure touch/release tracking isn't lost in that case
+            buttonViews
+                .filter { (position, buttonView) ->
+                    // Remove buttons beyond the grid size; in case of rebinding to different widgets remove all
+                    // buttons since we *do* want button release tracking to get lost in that case
+                    position.row >= rowCount || position.column >= columnCount ||
+                        (buttonView.tag as? Widget)?.parentId != widget.id
+                }
                 .forEach { (position, buttonView) ->
                     table.removeView(buttonView)
+                    spareViews.add(buttonView)
                     buttonViews.remove(position)
                 }
 
@@ -881,10 +887,14 @@ class WidgetAdapter(
             table.columnCount = columnCount
             (0 until table.rowCount).forEach { row ->
                 (0 until table.columnCount).forEach { column ->
-                    val position = Pair(row, column)
-                    val buttonView = buttonViews.getOrPut(position) {
-                        val newButton = initData.inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, table, false)
-                            as MaterialButton
+                    val buttonView = buttonViews.getOrPut(Position(row, column)) {
+                        val newButton = spareViews.firstOrNull()
+                            ?: initData.inflater.inflate(
+                                R.layout.widgetlist_sectionswitchitem_button,
+                                table,
+                                false
+                            ) as MaterialButton
+
                         table.addView(
                             newButton,
                             GridLayout.LayoutParams(
@@ -911,7 +921,7 @@ class WidgetAdapter(
                             iconColor = button.iconColor,
                             mapper = colorMapper
                         )
-                        buttonView.isCheckable = button.stateless?.not() ?: false
+                        buttonView.isCheckable = button.stateless == true
                         buttonView.isChecked = button.item?.state?.asString == button.command
                         buttonView.visibility = View.VISIBLE
                     }
