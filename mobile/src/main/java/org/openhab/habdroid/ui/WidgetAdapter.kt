@@ -136,6 +136,7 @@ class WidgetAdapter(
     val itemList: List<Widget> get() = items
     private val widgetsById = mutableMapOf<String, Widget>()
     private val widgetsByParentId = mutableMapOf<String, MutableList<Widget>>()
+    val widgetsByParentIdMap: Map<String, List<Widget>> get() = widgetsByParentId
     val hasVisibleWidgets: Boolean
         get() = items.any { widget -> shouldShowWidget(widget) }
 
@@ -242,7 +243,7 @@ class WidgetAdapter(
             TYPE_LOCATION -> MapViewHelper.createViewHolder(initData)
             TYPE_INPUT -> InputViewHolder(initData)
             TYPE_DATETIMEINPUT -> DateTimeInputViewHolder(initData)
-            TYPE_BUTTONGRID -> ButtongridViewHolder(initData) { id -> widgetsByParentId[id] }
+            TYPE_BUTTONGRID -> ButtongridViewHolder(initData)
             TYPE_INVISIBLE -> InvisibleWidgetViewHolder(initData)
             else -> throw IllegalArgumentException("View type $viewType is not known")
         }
@@ -838,10 +839,8 @@ class WidgetAdapter(
         }
     }
 
-    class ButtongridViewHolder internal constructor(
-        private val initData: ViewHolderInitData,
-        private val childWidgetCallback: (String) -> List<Widget>?
-    ) : LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem),
+    class ButtongridViewHolder internal constructor(private val initData: ViewHolderInitData) :
+        LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem),
         View.OnClickListener,
         View.OnTouchListener {
 
@@ -860,8 +859,8 @@ class WidgetAdapter(
             labelView.isVisible = showLabelAndIcon
             iconView.isVisible = showLabelAndIcon
 
-            val buttons = childWidgetCallback(widget.id).orEmpty() +
-                widget.mappings.mapIndexed { index, it -> it.toWidget("$widget.id-mappings-$index", widget.item) }
+            val buttons = (bindingAdapter as WidgetAdapter).widgetsByParentIdMap[widget.id].orEmpty() +
+                widget.mappings.mapIndexed { index, it -> it.toWidget("${widget.id}-mappings-$index", widget.item) }
 
             val rowCount = buttons.maxOfOrNull { it.row ?: 0 } ?: 0
             val columnCount = min(buttons.maxOfOrNull { it.column ?: 0 } ?: 0, maxColumns)
@@ -919,8 +918,26 @@ class WidgetAdapter(
                             iconColor = button.iconColor,
                             mapper = colorMapper
                         )
-                        buttonView.isCheckable = button.stateless == false
-                        buttonView.isChecked = button.item?.state?.asString == button.command
+
+                        //
+                        // 1. button.stateless == true is NOT the logical inverse of button.stateless == false
+                        //    because stateless == null means stateless
+                        //    so don't use `stateless == true` by rearranging the clauses below
+                        //
+                        // 2. Rule: isChecked cannot be changed when isCheckable is false
+                        //    and it will be stuck at whatever state it was before.
+                        //    So:
+                        //    before setting the checked state, set checkable to true
+                        //    consequently,
+                        //    before setting checkable to false, clear the checked state first
+                        //
+                        if (button.stateless == false) {
+                            buttonView.isCheckable = true
+                            buttonView.isChecked = button.item?.state?.asString == button.command
+                        } else {
+                            buttonView.isChecked = false
+                            buttonView.isCheckable = false
+                        }
                         buttonView.visibility = View.VISIBLE
                     }
                     buttonView.maxWidth = table.width / table.columnCount
