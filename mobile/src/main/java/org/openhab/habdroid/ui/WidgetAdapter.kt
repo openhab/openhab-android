@@ -888,7 +888,7 @@ class WidgetAdapter(
             (0 until table.rowCount).forEach { row ->
                 (0 until table.columnCount).forEach { column ->
                     val buttonView = buttonViews.getOrPut(Position(row, column)) {
-                        val newButton = spareViews.firstOrNull()
+                        val newButton = spareViews.removeFirstOrNull()
                             ?: initData.inflater.inflate(
                                 R.layout.widgetlist_sectionswitchitem_button,
                                 table,
@@ -921,7 +921,7 @@ class WidgetAdapter(
                             iconColor = button.iconColor,
                             mapper = colorMapper
                         )
-                        buttonView.isCheckable = button.stateless == true
+                        buttonView.isCheckable = button.stateless == false
                         buttonView.isChecked = button.item?.state?.asString == button.command
                         buttonView.visibility = View.VISIBLE
                     }
