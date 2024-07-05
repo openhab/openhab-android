@@ -44,6 +44,9 @@ import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.isGone
@@ -90,8 +93,10 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
+import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.LabeledValue
 import org.openhab.habdroid.model.ParsedState
@@ -104,6 +109,7 @@ import org.openhab.habdroid.ui.widget.WidgetSlider
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.IconBackground
+import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.MjpegStreamer
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.beautify
@@ -900,7 +906,7 @@ class WidgetAdapter(
                         buttonView.setTextAndIcon(
                             connection = connection,
                             label = button.label,
-                            icon = button.icon,
+                            iconRes = button.icon,
                             labelColor = button.labelColor,
                             iconColor = button.iconColor,
                             mapper = colorMapper
@@ -1813,6 +1819,47 @@ fun WidgetImageView.loadWidgetIcon(connection: Connection, widget: Widget, mappe
         setColorFilter(color)
     } else {
         clearColorFilter()
+    }
+}
+
+fun MaterialButton.setTextAndIcon(
+    connection: Connection,
+    label: String,
+    iconRes: IconResource?,
+    labelColor: String? = null,
+    iconColor: String? = null,
+    mapper: WidgetAdapter.ColorMapper? = null
+) {
+    contentDescription = label
+    val iconUrl = iconRes?.toUrl(context, true)
+    if (iconUrl == null) {
+        icon = null
+        text = label
+        mapper?.let { applyWidgetColor(labelColor, it) }
+        return
+    }
+    val iconSize = context.resources.getDimensionPixelSize(R.dimen.section_switch_icon)
+    CoroutineScope(Dispatchers.IO + Job()).launch {
+        val drawable = try {
+            connection.httpClient.get(iconUrl, caching = HttpClient.CachingMode.DEFAULT)
+                .asBitmap(iconSize, 0, ImageConversionPolicy.ForceTargetSize).response
+                .toDrawable(resources)
+        } catch (e: HttpClient.HttpException) {
+            Log.d(WidgetAdapter.TAG, "Error getting icon for button", e)
+            null
+        }
+        withContext(Dispatchers.Main) {
+            icon = drawable?.apply {
+                mapper?.mapColor(iconColor)?.let {
+                    colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+                        it,
+                        BlendModeCompat.SRC_ATOP
+                    )
+                }
+            }
+            text = if (drawable == null) label else null
+            mapper?.let { applyWidgetColor(labelColor, it) }
+        }
     }
 }
 
