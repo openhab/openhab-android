@@ -918,23 +918,14 @@ class WidgetAdapter(
                             iconColor = button.iconColor,
                             mapper = colorMapper
                         )
-
-                        //
-                        // 1. button.stateless == true is NOT the logical inverse of button.stateless == false
-                        //    because stateless == null means stateless
-                        //    so don't use `stateless == true` by rearranging the clauses below
-                        //
-                        // 2. Rule: isChecked cannot be changed when isCheckable is false
-                        //    and it will be stuck at whatever state it was before.
-                        //    So:
-                        //    before setting the checked state, set checkable to true
-                        //    consequently,
-                        //    before setting checkable to false, clear the checked state first
-                        //
                         if (button.stateless == false) {
+                            // stateful button: make checkable and set checked state afterwards
+                            // (isChecked can not be set if isCheckable is false)
                             buttonView.isCheckable = true
                             buttonView.isChecked = button.item?.state?.asString == button.command
                         } else {
+                            // stateless button: not checkable
+                            // (unset isChecked before isCheckable for the reason outlined above)
                             buttonView.isChecked = false
                             buttonView.isCheckable = false
                         }
