@@ -70,6 +70,7 @@ import java.nio.charset.Charset
 import java.util.concurrent.CancellationException
 import javax.jmdns.ServiceInfo
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -168,6 +169,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         private set
     private var propsRequestJob: Job? = null
     private var retryJob: Job? = null
+    private var notificationPollingJob: Job? = null
     private var isStarted: Boolean = false
     private var shortcutManager: ShortcutManager? = null
     private val backgroundTasksManager = BackgroundTasksManager()
@@ -324,6 +326,18 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             switchServerBasedOnWifi(switchToServer)
         }
         handlePendingAction()
+        startNotificationPolling()
+    }
+
+    private fun startNotificationPolling() {
+        notificationPollingJob?.cancel()
+        if (CloudMessagingHelper.needsPollingForNotifications(this)) {
+            notificationPollingJob = launch {
+                CloudMessagingHelper.pollForNotifications(this@MainActivity)
+                delay(3.minutes)
+                startNotificationPolling()
+            }
+        }
     }
 
     public override fun onStop() {
@@ -337,6 +351,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             sitemapSelectionDialog?.dismiss()
         }
         propsRequestJob?.cancel()
+        notificationPollingJob?.cancel()
     }
 
     override fun onResume() {
