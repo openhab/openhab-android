@@ -28,7 +28,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             return suggestedCommands
         }
 
-        for ((value, label) in widget.mappingsOrItemOptions) {
+        for ((value, _, label) in widget.mappingsOrItemOptions) {
             add(suggestedCommands, value, label)
         }
 

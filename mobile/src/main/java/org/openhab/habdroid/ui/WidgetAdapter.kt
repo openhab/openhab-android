@@ -1109,7 +1109,8 @@ class WidgetAdapter(
             R.layout.widgetlist_sectionswitchitem,
             R.layout.widgetlist_sectionswitchitem_compact
         ),
-        View.OnClickListener {
+        View.OnClickListener,
+        View.OnTouchListener {
         private val group: MaterialButtonToggleGroup = itemView.findViewById(R.id.switch_group)
         private val overflowButton: MaterialButton = itemView.findViewById(R.id.overflow_button)
         private val spareViews = mutableListOf<View>()
@@ -1147,6 +1148,7 @@ class WidgetAdapter(
                 }
                 val view = initData.inflater.inflate(buttonLayout, group, false)
                 view.setOnClickListener(this)
+                view.setOnTouchListener(this)
                 group.addView(view)
             }
 
@@ -1160,7 +1162,7 @@ class WidgetAdapter(
             // bind views
             mappings.slice(0 until buttonCount).forEachIndexed { index, mapping ->
                 with(group[index] as MaterialButton) {
-                    tag = mapping.value
+                    tag = mapping
                     setTextAndIcon(connection, mapping.label, mapping.icon)
                 }
             }
@@ -1174,7 +1176,7 @@ class WidgetAdapter(
             val state = widget.state?.asString
             val checkedId = group.children
                 .filter { it.id != R.id.overflow_button }
-                .filter { it.tag == state }
+                .filter { (it.tag as LabeledValue).value == state }
                 .map { it.id }
                 .firstOrNull()
 
@@ -1188,7 +1190,23 @@ class WidgetAdapter(
         }
 
         override fun onClick(view: View) {
-            connection.httpClient.sendItemCommand(boundWidget?.item, view.tag as String)
+            val mapping = view.tag as LabeledValue
+            if (mapping.valueRelease.isNullOrEmpty()) {
+                connection.httpClient.sendItemCommand(boundWidget?.item, mapping.value)
+            }
+        }
+
+        override fun onTouch(view: View, event: MotionEvent): Boolean {
+            val mapping = view.tag as LabeledValue
+            if (!mapping.valueRelease.isNullOrEmpty()) {
+                val command = when (event.action) {
+                    MotionEvent.ACTION_DOWN -> mapping.value
+                    MotionEvent.ACTION_UP -> mapping.valueRelease
+                    else -> null
+                }
+                command?.let { connection.httpClient.sendItemCommand(boundWidget?.item, it) }
+            }
+            return false
         }
 
         override fun handleRowClick() {
@@ -1211,7 +1229,8 @@ class WidgetAdapter(
 
     class SmallSectionSwitchViewHolder internal constructor(initData: ViewHolderInitData) :
         LabeledItemBaseViewHolder(initData, R.layout.widgetlist_smallsectionswitch_item),
-        View.OnClickListener {
+        View.OnClickListener,
+        View.OnTouchListener {
         private val toggles = listOf<MaterialButton>(
             itemView.findViewById(R.id.switch_one),
             itemView.findViewById(R.id.switch_two)
@@ -1221,6 +1240,7 @@ class WidgetAdapter(
             toggles.forEach { t ->
                 t.isCheckable = true
                 t.setOnClickListener(this)
+                t.setOnTouchListener(this)
             }
         }
 
@@ -1232,7 +1252,7 @@ class WidgetAdapter(
                 if (mapping != null) {
                     button.isChecked = widget.state?.asString == mapping.value
                     button.setTextAndIcon(connection, mapping.label, mapping.icon)
-                    button.tag = mapping.value
+                    button.tag = mapping
                 }
             }
             applyMapping(toggles[0], widget.mappingsOrItemOptions[0])
@@ -1242,7 +1262,23 @@ class WidgetAdapter(
         override fun onClick(view: View) {
             // Make sure one can't uncheck buttons by clicking a checked one
             (view as MaterialButton).isChecked = true
-            connection.httpClient.sendItemCommand(boundWidget?.item, view.tag as String)
+            val mapping = view.tag as LabeledValue
+            if (mapping.valueRelease.isNullOrEmpty()) {
+                connection.httpClient.sendItemCommand(boundWidget?.item, mapping.value)
+            }
+        }
+
+        override fun onTouch(view: View, event: MotionEvent): Boolean {
+            val mapping = view.tag as LabeledValue
+            if (!mapping.valueRelease.isNullOrEmpty()) {
+                val command = when (event.action) {
+                    MotionEvent.ACTION_DOWN -> mapping.value
+                    MotionEvent.ACTION_UP -> mapping.valueRelease
+                    else -> null
+                }
+                command?.let { connection.httpClient.sendItemCommand(boundWidget?.item, it) }
+            }
+            return false
         }
 
         override fun handleRowClick() {

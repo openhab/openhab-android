@@ -22,6 +22,7 @@ import org.openhab.habdroid.util.optStringOrNull
 @Parcelize
 data class LabeledValue internal constructor(
     val value: String,
+    val valueRelease: String?,
     val label: String,
     val icon: IconResource?,
     val row: Int,
@@ -31,7 +32,8 @@ data class LabeledValue internal constructor(
 @Throws(JSONException::class)
 fun JSONObject.toLabeledValue(valueKey: String, labelKey: String): LabeledValue {
     val value = getString(valueKey)
+    val valueRelease = optStringOrNull("releaseCommand")
     val label = optString(labelKey, value)
     val icon = optStringOrNull("icon")?.toOH2IconResource()
-    return LabeledValue(value, label, icon, optInt("row"), optInt("column"))
+    return LabeledValue(value, valueRelease, label, icon, optInt("row"), optInt("column"))
 }
