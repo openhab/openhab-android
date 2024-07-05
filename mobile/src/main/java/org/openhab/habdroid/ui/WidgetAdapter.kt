@@ -136,7 +136,6 @@ class WidgetAdapter(
     val itemList: List<Widget> get() = items
     private val widgetsById = mutableMapOf<String, Widget>()
     private val widgetsByParentId = mutableMapOf<String, MutableList<Widget>>()
-    val widgetsByParentIdMap: Map<String, List<Widget>> get() = widgetsByParentId
     val hasVisibleWidgets: Boolean
         get() = items.any { widget -> shouldShowWidget(widget) }
 
@@ -255,8 +254,16 @@ class WidgetAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val wasStarted = holder.stop()
-        holder.vhc = ViewHolderContext(connection, fragmentPresenter, colorMapper, serverFlags, chartTheme)
-        holder.bind(items[position])
+        val widget = items[position]
+        holder.vhc = ViewHolderContext(
+            connection,
+            fragmentPresenter,
+            colorMapper,
+            serverFlags,
+            chartTheme,
+            { widgetsByParentId[widget.id] }
+        )
+        holder.bind(widget)
         if (holder is FrameViewHolder) {
             holder.setShownAsFirst(position == firstVisibleWidgetPosition)
         }
@@ -398,7 +405,8 @@ class WidgetAdapter(
         val fragmentPresenter: FragmentPresenter,
         val colorMapper: ColorMapper,
         val serverFlags: Int,
-        val chartTheme: CharSequence?
+        val chartTheme: CharSequence?,
+        val childWidgetGetter: () -> List<Widget>?
     )
 
     abstract class ViewHolder internal constructor(
@@ -414,6 +422,7 @@ class WidgetAdapter(
         protected val connection get() = requireHolderContext().connection
         protected val colorMapper get() = requireHolderContext().colorMapper
         protected val fragmentPresenter get() = requireHolderContext().fragmentPresenter
+        protected val childWidgets get() = requireHolderContext().childWidgetGetter()
 
         abstract fun bind(widget: Widget)
 
@@ -859,7 +868,7 @@ class WidgetAdapter(
             labelView.isVisible = showLabelAndIcon
             iconView.isVisible = showLabelAndIcon
 
-            val buttons = (bindingAdapter as WidgetAdapter).widgetsByParentIdMap[widget.id].orEmpty() +
+            val buttons = childWidgets.orEmpty() +
                 widget.mappings.mapIndexed { index, it -> it.toWidget("${widget.id}-mappings-$index", widget.item) }
 
             val rowCount = buttons.maxOfOrNull { it.row ?: 0 } ?: 0
