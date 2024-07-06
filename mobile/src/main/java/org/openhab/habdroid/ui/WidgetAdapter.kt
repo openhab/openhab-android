@@ -913,7 +913,7 @@ class WidgetAdapter(
 
                     // Rows and columns start with 1 in Sitemap definition, thus decrement them here
                     val button = buttons.firstOrNull { (it.row ?: 0) - 1 == row && (it.column ?: 0) - 1 == column }
-                    if (button != null && button.visibility == true) {
+                    if (button != null && button.visibility) {
                         buttonView.tag = button
                         buttonView.setOnClickListener(this)
                         buttonView.setOnTouchListener(this)
