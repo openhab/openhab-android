@@ -901,6 +901,7 @@ class WidgetAdapter(
                                 false
                             ) as MaterialButton
 
+                        // Buttons are created even for the empty positions so each cell has an equal size
                         table.addView(
                             newButton,
                             GridLayout.LayoutParams(
@@ -913,9 +914,7 @@ class WidgetAdapter(
 
                     // Rows and columns start with 1 in Sitemap definition, thus decrement them here
                     val button = buttons.firstOrNull { (it.row ?: 0) - 1 == row && (it.column ?: 0) - 1 == column }
-                    // Create invisible buttons if there's no mapping so each cell has an equal size
-                    buttonView.isInvisible = button == null
-                    if (button != null) {
+                    if (button != null && button.visibility == true) {
                         buttonView.tag = button
                         buttonView.setOnClickListener(this)
                         buttonView.setOnTouchListener(this)
@@ -938,7 +937,9 @@ class WidgetAdapter(
                             buttonView.isChecked = false
                             buttonView.isCheckable = false
                         }
-                        buttonView.visibility = View.VISIBLE
+                        buttonView.isVisible = true
+                    } else {
+                        buttonView.isVisible = false
                     }
                     buttonView.maxWidth = table.width / table.columnCount
                 }
