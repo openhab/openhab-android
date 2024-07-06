@@ -50,7 +50,6 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.isGone
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.core.widget.doAfterTextChanged
