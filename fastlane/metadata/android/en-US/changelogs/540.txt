@@ -1,0 +1,6 @@
+## What's Changed
+* Improve SSE error handling by @mueller-ma in https://github.com/openhab/openhab-android/pull/3730
+* Poll for notifications when in foreground by @mueller-ma in https://github.com/openhab/openhab-android/pull/3731
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.14.3-beta...3.14.4-beta
