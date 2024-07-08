@@ -22,10 +22,7 @@ import org.openhab.habdroid.core.NotificationHelper.Companion.NOTIFICATION_ID_EX
 class NotificationDismissedReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         Log.d(TAG, "onReceive(): $intent")
-        val notificationId = intent.getIntExtra(NOTIFICATION_ID_EXTRA, -1)
-        if (notificationId < 0) {
-            return
-        }
+        val notificationId = intent.getIntExtra(NOTIFICATION_ID_EXTRA, 0)
         Log.d(TAG, "Dismissed notification $notificationId")
         NotificationHelper(context).updateGroupNotification()
     }
