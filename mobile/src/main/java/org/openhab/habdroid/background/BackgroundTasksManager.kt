@@ -430,14 +430,13 @@ class BackgroundTasksManager : BroadcastReceiver() {
             )
         }
 
-        fun enqueueNotificationAction(context: Context, action: CloudNotificationAction) {
-            val split = action.action.split(":", limit = 3)
+        fun enqueueNotificationAction(context: Context, action: CloudNotificationAction.Action.ItemCommandAction) {
             enqueueItemUpload(
                 context,
-                WORKER_TAG_PREFIX_NOTIFICATION + split[1],
-                split[1],
+                WORKER_TAG_PREFIX_NOTIFICATION + action.itemName,
+                action.itemName,
                 null,
-                ItemUpdateWorker.ValueWithInfo(split[2]),
+                ItemUpdateWorker.ValueWithInfo(action.command),
                 isImportant = true,
                 showToast = true,
                 asCommand = true,

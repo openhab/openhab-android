@@ -17,10 +17,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import androidx.core.content.IntentCompat
 import androidx.core.net.toUri
 import org.openhab.habdroid.background.BackgroundTasksManager
-import org.openhab.habdroid.core.NotificationHelper.Companion.NOTIFICATION_ACTION_ACTION
-import org.openhab.habdroid.core.NotificationHelper.Companion.NOTIFICATION_ACTION_LABEL
+import org.openhab.habdroid.core.NotificationHelper.Companion.NOTIFICATION_ACTION_EXTRA
 import org.openhab.habdroid.core.NotificationHelper.Companion.NOTIFICATION_ID_EXTRA
 import org.openhab.habdroid.model.CloudNotificationAction
 import org.openhab.habdroid.util.openInBrowser
@@ -32,28 +32,26 @@ class NotificationActionReceiver : BroadcastReceiver() {
         if (notificationId == 0) {
             return
         }
-        val rawAction = intent.getStringExtra(NOTIFICATION_ACTION_ACTION) ?: return
-        val label = intent.getStringExtra(NOTIFICATION_ACTION_LABEL) ?: return
-        val action = CloudNotificationAction(label, rawAction)
-        Log.d(TAG, "Received action from $notificationId: $action")
-        executeAction(context, action)
+        val cna = IntentCompat.getParcelableExtra(
+            intent,
+            NOTIFICATION_ACTION_EXTRA,
+            CloudNotificationAction::class.java
+        ) ?: return
+        Log.d(TAG, "Received action from $notificationId: $cna")
+
+        when (val action = cna.action) {
+            is CloudNotificationAction.Action.ItemCommandAction ->
+                BackgroundTasksManager.enqueueNotificationAction(context, action)
+            is CloudNotificationAction.Action.UrlAction ->
+                action.url.toUri().openInBrowser(context)
+            else -> {
+                // TODO
+                Log.e(TAG, "Not yet implemented")
+            }
+        }
     }
 
     companion object {
         private val TAG = NotificationActionReceiver::class.java.simpleName
-
-        fun executeAction(context: Context, action: CloudNotificationAction) {
-            when {
-                action.action.startsWith("command:") -> {
-                    BackgroundTasksManager.enqueueNotificationAction(context, action)
-                }
-                action.action.startsWith("http://") || action.action.startsWith("https://") -> {
-                    action.action.toUri().openInBrowser(context)
-                } else -> {
-                    // TODO
-                    Log.e(TAG, "Not yet implemented")
-                }
-            }
-        }
     }
 }

@@ -89,8 +89,25 @@ fun JSONObject.toCloudNotification(): CloudNotification {
 @Parcelize
 data class CloudNotificationAction internal constructor(
     val label: String,
-    val action: String
-) : Parcelable
+    private val internalAction: String
+) : Parcelable {
+    sealed class Action {
+        class UrlAction(val url: String) : Action()
+        class ItemCommandAction(val itemName: String, val command: String) : Action()
+        object NoAction : Action()
+    }
+
+    val action: Action get() {
+        val split = internalAction.split(":", limit = 3)
+        return when {
+            split[0] == "command" && split.size == 3 ->
+                Action.ItemCommandAction(split[1], split[2])
+            internalAction.startsWith("http://") || internalAction.startsWith("https://") ->
+                Action.UrlAction(internalAction)
+            else -> Action.NoAction
+        }
+    }
+}
 
 fun String?.toCloudNotificationAction(): CloudNotificationAction? {
     val split = this?.split("=", limit = 2)
