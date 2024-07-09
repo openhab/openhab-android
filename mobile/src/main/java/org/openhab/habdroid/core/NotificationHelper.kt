@@ -30,7 +30,6 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.CloudNotification
-import org.openhab.habdroid.model.CloudNotificationAction
 import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.HttpClient
@@ -94,16 +93,6 @@ class NotificationHelper(private val context: Context) {
         )
     }
 
-    private fun createActionIntent(action: CloudNotificationAction, notificationId: Int): PendingIntent {
-        val intent = NotificationHandlingReceiver.createActionIntent(context, notificationId, action)
-        return PendingIntent.getBroadcast(
-            context,
-            notificationId + action.hashCode(),
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
-        )
-    }
-
     private fun createChannelForSeverity(severity: String?) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             return
@@ -143,7 +132,7 @@ class NotificationHelper(private val context: Context) {
         val contentIntent = if (message.onClickAction == null) {
             makeNotificationClickIntent(message.id, notificationId)
         } else {
-            createActionIntent(message.onClickAction, notificationId)
+            NotificationHandlingReceiver.createActionPendingIntent(context, notificationId, message.onClickAction)
         }
         val channelId = getChannelId(message.severity)
 
@@ -167,7 +156,8 @@ class NotificationHelper(private val context: Context) {
             .setPublicVersion(publicVersion)
 
         message.actions?.forEach {
-            val action = NotificationCompat.Action(null, it.label, createActionIntent(it, notificationId))
+            val pi = NotificationHandlingReceiver.createActionPendingIntent(context, notificationId, it)
+            val action = NotificationCompat.Action(null, it.label, pi)
             builder.addAction(action)
         }
 

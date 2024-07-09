@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.core
 
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -23,6 +24,7 @@ import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.model.CloudNotificationAction
 import org.openhab.habdroid.ui.MainActivity
+import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.openInBrowser
 
 class NotificationHandlingReceiver : BroadcastReceiver() {
@@ -72,20 +74,34 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
             }
         }
 
-        fun createActionIntent(context: Context, notificationId: Int, cna: CloudNotificationAction): Intent {
-            val cnaAction = cna.action
-            return if (cnaAction is CloudNotificationAction.Action.UiCommandAction) {
-                Intent(context, MainActivity::class.java).apply {
-                    action = Intent.ACTION_VIEW
-                    flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP or
-                        Intent.FLAG_ACTIVITY_NEW_TASK
-                    putExtra(MainActivity.EXTRA_UI_COMMAND, cnaAction.command)
+        fun createActionPendingIntent(context: Context, notificationId: Int, cna: CloudNotificationAction): PendingIntent {
+            return when (val cnaAction = cna.action) {
+                is CloudNotificationAction.Action.UiCommandAction -> {
+                    val intent = Intent(context, MainActivity::class.java).apply {
+                        action = Intent.ACTION_VIEW
+                        flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                            Intent.FLAG_ACTIVITY_NEW_TASK
+                        putExtra(MainActivity.EXTRA_UI_COMMAND, cnaAction.command)
+                    }
+                    PendingIntent.getActivity(
+                        context,
+                        notificationId + cna.hashCode(),
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
+                    )
                 }
-            } else {
-                Intent(context, NotificationHandlingReceiver::class.java).apply {
-                    action = ACTION_NOTIF_ACTION
-                    putExtra(EXTRA_NOTIFICATION_ID, notificationId)
-                    putExtra(EXTRA_NOTIFICATION_ACTION, cna)
+                else -> {
+                    val intent = Intent(context, NotificationHandlingReceiver::class.java).apply {
+                        action = ACTION_NOTIF_ACTION
+                        putExtra(EXTRA_NOTIFICATION_ID, notificationId)
+                        putExtra(EXTRA_NOTIFICATION_ACTION, cna)
+                    }
+                    PendingIntent.getBroadcast(
+                        context,
+                        notificationId + cna.hashCode(),
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
+                    )
                 }
             }
         }
