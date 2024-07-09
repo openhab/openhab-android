@@ -47,14 +47,6 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
                         BackgroundTasksManager.enqueueNotificationAction(context, action)
                     is CloudNotificationAction.Action.UrlAction ->
                         action.url.toUri().openInBrowser(context)
-                    is CloudNotificationAction.Action.UiCommandAction -> {
-                        val commandIntent = Intent(context, MainActivity::class.java).apply {
-                            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP or
-                                Intent.FLAG_ACTIVITY_NEW_TASK
-                            putExtra(MainActivity.EXTRA_UI_COMMAND, action.command)
-                        }
-                        context.startActivity(commandIntent)
-                    }
                     else -> {
                         // TODO
                         Log.e(TAG, "Not yet implemented")
@@ -81,10 +73,20 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
         }
 
         fun createActionIntent(context: Context, notificationId: Int, cna: CloudNotificationAction): Intent {
-            return Intent(context, NotificationHandlingReceiver::class.java).apply {
-                action = ACTION_NOTIF_ACTION
-                putExtra(EXTRA_NOTIFICATION_ID, notificationId)
-                putExtra(EXTRA_NOTIFICATION_ACTION, cna)
+            val cnaAction = cna.action
+            return if (cnaAction is CloudNotificationAction.Action.UiCommandAction) {
+                Intent(context, MainActivity::class.java).apply {
+                    action = Intent.ACTION_VIEW
+                    flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                        Intent.FLAG_ACTIVITY_NEW_TASK
+                    putExtra(MainActivity.EXTRA_UI_COMMAND, cnaAction.command)
+                }
+            } else {
+                Intent(context, NotificationHandlingReceiver::class.java).apply {
+                    action = ACTION_NOTIF_ACTION
+                    putExtra(EXTRA_NOTIFICATION_ID, notificationId)
+                    putExtra(EXTRA_NOTIFICATION_ACTION, cna)
+                }
             }
         }
     }

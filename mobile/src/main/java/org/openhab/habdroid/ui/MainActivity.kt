@@ -140,6 +140,7 @@ import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isEventListenerEnabled
 import org.openhab.habdroid.util.isScreenTimerDisabled
 import org.openhab.habdroid.util.openInAppStore
+import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.putActiveServerId
 import org.openhab.habdroid.util.resolveThemedColor
@@ -827,8 +828,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             // Add a host here to be able to parse as HttpUrl
             val httpLink = "https://openhab.org$link".toHttpUrlOrNull() ?: return
             val sitemap = httpLink.queryParameter("sitemap")
-                ?: prefs.getDefaultSitemap(connection, serverId)?.name
-            val subpage = httpLink.queryParameter("w")
+                ?: prefs.getDefaultSitemap(connection, serverId)?.name ?: return
+            val subpage = httpLink.queryParameter("w").orDefaultIfEmpty(sitemap)
             executeOrStoreAction(PendingAction.OpenSitemapUrl("/$sitemap/$subpage", serverId))
         } else {
             executeOrStoreAction(PendingAction.OpenWebViewUi(WebViewUi.MAIN_UI, serverId, link))
