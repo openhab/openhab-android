@@ -105,7 +105,7 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
         private val createdView: TextView = itemView.findViewById(R.id.notificationCreated)
         private val iconView: WidgetImageView = itemView.findViewById(R.id.notificationIcon)
         private val imageView: WidgetImageView = itemView.findViewById(R.id.notificationImage)
-        private val severityView: TextView = itemView.findViewById(R.id.notificationSeverity)
+        private val tagView: TextView = itemView.findViewById(R.id.notificationTag)
 
         fun bind(notification: CloudNotification) {
             createdView.text = DateUtils.getRelativeDateTimeString(
@@ -143,8 +143,8 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
                     }
                 }
             }
-            severityView.text = notification.severity
-            severityView.isGone = notification.severity.isNullOrEmpty()
+            tagView.text = notification.tag
+            tagView.isGone = notification.tag.isNullOrEmpty()
         }
     }
 

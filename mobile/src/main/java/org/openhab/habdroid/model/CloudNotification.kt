@@ -41,7 +41,7 @@ data class CloudNotification internal constructor(
     val message: String,
     val createdTimestamp: Long,
     val icon: IconResource?,
-    val severity: String?,
+    val tag: String?,
     val actions: List<CloudNotificationAction>?,
     val onClickAction: CloudNotificationAction?,
     val mediaAttachmentUrl: String?
@@ -99,7 +99,7 @@ fun JSONObject.toCloudNotification(): CloudNotification {
         message = payload?.getString("message") ?: getString("message"),
         createdTimestamp = created,
         icon = payload?.optStringOrNull("icon").toOH2IconResource() ?: optStringOrNull("icon").toOH2IconResource(),
-        severity = payload?.optStringOrNull("severity") ?: optStringOrNull("severity"),
+        tag = payload?.optStringOrNull("tag") ?: optStringOrNull("severity"),
         actions = payload?.optJSONArray("actions")?.map { it.toCloudNotificationAction() }?.filterNotNull(),
         onClickAction = payload?.optStringOrNull("on-click").toCloudNotificationAction(),
         mediaAttachmentUrl = payload?.optStringOrNull("media-attachment-url")

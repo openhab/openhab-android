@@ -61,7 +61,7 @@
         tools:text="6 hours ago" />
 
     <TextView
-        android:id="@+id/notificationSeverity"
+        android:id="@+id/notificationTag"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

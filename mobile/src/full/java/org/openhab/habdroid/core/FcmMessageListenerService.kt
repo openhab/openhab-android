@@ -58,7 +58,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                     // in that case. If that also isn't present, don't show time at all.
                     createdTimestamp = data["timestamp"]?.toLongOrNull() ?: 0,
                     icon = data["icon"].toOH2IconResource(),
-                    severity = data["tag"],
+                    tag = data["tag"],
                     actions = actions,
                     onClickAction = data["on-click"].toCloudNotificationAction(),
                     mediaAttachmentUrl = data["media-attachment-url"]
