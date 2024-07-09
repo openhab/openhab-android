@@ -74,7 +74,11 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
             }
         }
 
-        fun createActionPendingIntent(context: Context, notificationId: Int, cna: CloudNotificationAction): PendingIntent {
+        fun createActionPendingIntent(
+            context: Context,
+            notificationId: Int,
+            cna: CloudNotificationAction
+        ): PendingIntent {
             return when (val cnaAction = cna.action) {
                 is CloudNotificationAction.Action.UiCommandAction -> {
                     val intent = Intent(context, MainActivity::class.java).apply {
