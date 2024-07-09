@@ -85,8 +85,7 @@ class NotificationHelper(private val context: Context) {
     }
 
     private fun createDeleteIntent(notificationId: Int): PendingIntent {
-        val intent = Intent(context, NotificationDismissedReceiver::class.java)
-        intent.putExtra(NOTIFICATION_ID_EXTRA, notificationId)
+        val intent = NotificationHandlingReceiver.createDismissedIntent(context, notificationId)
         return PendingIntent.getBroadcast(
             context,
             notificationId,
@@ -96,9 +95,7 @@ class NotificationHelper(private val context: Context) {
     }
 
     private fun createActionIntent(action: CloudNotificationAction, notificationId: Int): PendingIntent {
-        val intent = Intent(context, NotificationActionReceiver::class.java)
-        intent.putExtra(NOTIFICATION_ID_EXTRA, notificationId)
-        intent.putExtra(NOTIFICATION_ACTION_EXTRA, action)
+        val intent = NotificationHandlingReceiver.createActionIntent(context, notificationId, action)
         return PendingIntent.getBroadcast(
             context,
             notificationId + action.hashCode(),
@@ -271,8 +268,6 @@ class NotificationHelper(private val context: Context) {
 
     companion object {
         private val TAG = NotificationHelper::class.java.simpleName
-        const val NOTIFICATION_ID_EXTRA = "notification_id"
-        const val NOTIFICATION_ACTION_EXTRA = "notification_action"
 
         private fun getChannelId(severity: String?) = if (severity.isNullOrEmpty()) {
             NotificationUpdateObserver.CHANNEL_ID_MESSAGE_DEFAULT
