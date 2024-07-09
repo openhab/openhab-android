@@ -83,7 +83,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/notificationCreated"
-        app:srcCompat="@android:mipmap/sym_def_app_icon" />
+        tools:srcCompat="@android:mipmap/sym_def_app_icon" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

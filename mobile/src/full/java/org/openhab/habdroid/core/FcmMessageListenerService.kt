@@ -56,12 +56,12 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                     // Older versions of openhab-cloud didn't send the notification generation
                     // timestamp, so use the (undocumented) google.sent_time as a time reference
                     // in that case. If that also isn't present, don't show time at all.
-                    createdTimestamp = data["timestamp"]?.toLongOrNull() ?: message.sentTime,
+                    createdTimestamp = data["timestamp"]?.toLongOrNull() ?: 0,
                     icon = data["icon"].toOH2IconResource(),
-                    severity = data["severity"],
+                    severity = data["tag"],
                     actions = actions,
-                    onClickAction = data["TODO"].toCloudNotificationAction(),
-                    mediaAttachmentUrl = data["TODO"]
+                    onClickAction = data["on-click"].toCloudNotificationAction(),
+                    mediaAttachmentUrl = data["media-attachment-url"]
                 )
 
                 runBlocking {

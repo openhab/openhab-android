@@ -15,17 +15,21 @@ package org.openhab.habdroid.model
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Parcelable
+import android.util.Base64
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
 import kotlinx.parcelize.Parcelize
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.IconBackground
 import org.openhab.habdroid.util.ImageConversionPolicy
+import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.getIconFallbackColor
 import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.optStringOrNull
@@ -46,16 +50,32 @@ data class CloudNotification internal constructor(
 
     suspend fun loadImage(connection: Connection, context: Context, size: Int): Bitmap? {
         mediaAttachmentUrl ?: return null
-        //if (mediaAttachmentUrl.startsWith("item:")) {
-        //    val itemName = mediaAttachmentUrl.removePrefix("item:")
-        //    val item = ItemClient.loadItem(connection, itemName)
-        //
-        //}
+        val url = if (mediaAttachmentUrl.startsWith("item:")) {
+            val itemName = mediaAttachmentUrl.removePrefix("item:")
+            val item = ItemClient.loadItem(connection, itemName)
+            val state = item?.state?.asString ?: return null
+            if (state.toHttpUrlOrNull() != null) {
+                state
+            } else {
+                return bitmapFromBase64(state)
+            }
+        } else {
+            mediaAttachmentUrl
+        }
         val fallbackColor = context.getIconFallbackColor(IconBackground.APP_THEME)
         return connection.httpClient
-            .get(mediaAttachmentUrl)
+            .get(url)
             .asBitmap(size, fallbackColor, ImageConversionPolicy.PreferTargetSize)
             .response
+    }
+
+    private fun bitmapFromBase64(itemState: String): Bitmap? {
+        return try {
+            val data = Base64.decode(itemState, Base64.DEFAULT)
+            BitmapFactory.decodeByteArray(data, 0, data.size)
+        } catch (e: IllegalArgumentException) {
+            null
+        }
     }
 }
 
