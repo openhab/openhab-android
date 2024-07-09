@@ -145,7 +145,6 @@ class NotificationHelper(private val context: Context) {
 
         val builder = makeNotificationBuilder(channelId, message.createdTimestamp)
             .setLargeIcon(iconBitmap)
-            .setStyle(NotificationCompat.BigTextStyle().bigText(message.message))
             .setSound(context.getPrefs().getNotificationTone())
             .setContentTitle(message.title)
             .setContentText(message.message)
@@ -154,6 +153,20 @@ class NotificationHelper(private val context: Context) {
             .setDeleteIntent(deleteIntent)
             .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
             .setPublicVersion(publicVersion)
+
+        if (message.mediaAttachmentUrl != null) {
+            ConnectionFactory.waitForInitialization()
+            val bitmap = ConnectionFactory.primaryUsableConnection?.connection?.let {
+                message.loadImage(it, context, 99)
+            }
+            if (bitmap == null) {
+                builder.setStyle(NotificationCompat.BigTextStyle().bigText(message.message))
+            } else {
+                builder.setStyle(NotificationCompat.BigPictureStyle().bigPicture(bitmap))
+            }
+        } else {
+            builder.setStyle(NotificationCompat.BigTextStyle().bigText(message.message))
+        }
 
         message.actions?.forEach {
             val pi = NotificationHandlingReceiver.createActionPendingIntent(context, notificationId, it)
