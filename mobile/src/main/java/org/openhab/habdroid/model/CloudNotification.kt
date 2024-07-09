@@ -94,6 +94,7 @@ data class CloudNotificationAction internal constructor(
     sealed class Action {
         class UrlAction(val url: String) : Action()
         class ItemCommandAction(val itemName: String, val command: String) : Action()
+        class UiCommandAction(val command: String) : Action()
         object NoAction : Action()
     }
 
@@ -104,6 +105,12 @@ data class CloudNotificationAction internal constructor(
                 Action.ItemCommandAction(split[1], split[2])
             internalAction.startsWith("http://") || internalAction.startsWith("https://") ->
                 Action.UrlAction(internalAction)
+            split[0] == "ui" && split.size == 3 -> {
+                Action.UiCommandAction("${split[1]}${split[2]}")
+            }
+            split[0] == "ui" && split.size == 2 -> {
+                Action.UiCommandAction("navigate:${split[1]}")
+            }
             else -> Action.NoAction
         }
     }

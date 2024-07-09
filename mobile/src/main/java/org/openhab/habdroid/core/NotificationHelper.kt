@@ -140,7 +140,7 @@ class NotificationHelper(private val context: Context) {
     ): Notification {
         val iconBitmap = getNotificationIcon(message.icon)
 
-        val contentIntent = if (message.onClickAction == null){
+        val contentIntent = if (message.onClickAction == null) {
             makeNotificationClickIntent(message.id, notificationId)
         } else {
             createActionIntent(message.onClickAction, notificationId)

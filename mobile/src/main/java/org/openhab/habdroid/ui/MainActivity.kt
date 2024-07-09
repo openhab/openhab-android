@@ -848,6 +848,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             handleLink(link, serverId)
         }
 
+        if (!intent.getStringExtra(EXTRA_UI_COMMAND).isNullOrEmpty()) {
+            val command = intent.getStringExtra(EXTRA_UI_COMMAND) ?: return
+            handleUiCommand(command, prefs.getPrimaryServerId())
+        }
+
         when (intent.action) {
             NfcAdapter.ACTION_NDEF_DISCOVERED, Intent.ACTION_VIEW -> {
                 val tag = intent.data?.toTagData()
@@ -1506,11 +1511,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         ItemClient.listenForItemChange(this, connection ?: return, item) { _, payload ->
             val state = payload.getString("value")
             Log.d(TAG, "Got state by event: $state")
-            handleUiCommand(state)
+            handleUiCommand(state, prefs.getActiveServerId())
         }
     }
 
-    private fun handleUiCommand(command: String) {
+    private fun handleUiCommand(command: String, serverId: Int) {
         val prefix = command.substringBefore(":")
         val commandContent = command.removePrefix("$prefix:")
         when (prefix) {
@@ -1538,7 +1543,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     }
                 }
             }
-            "navigate" -> handleLink(commandContent, prefs.getActiveServerId())
+            "navigate" -> handleLink(commandContent, serverId)
             "close" -> uiCommandItemNotification?.dismiss()
             "back" -> onBackPressedCallback.handleOnBackPressed()
             "reload" -> recreate()
@@ -1645,6 +1650,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         const val EXTRA_SUBPAGE = "subpage"
         const val EXTRA_LINK = "link"
         const val EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId"
+        const val EXTRA_UI_COMMAND = "uiCommand"
 
         const val SNACKBAR_TAG_DEMO_MODE_ACTIVE = "demoModeActive"
         const val SNACKBAR_TAG_PRESS_AGAIN_EXIT = "pressAgainToExit"

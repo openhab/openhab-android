@@ -22,6 +22,7 @@ import androidx.core.net.toUri
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.model.CloudNotificationAction
+import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.openInBrowser
 
 class NotificationHandlingReceiver : BroadcastReceiver() {
@@ -46,6 +47,14 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
                         BackgroundTasksManager.enqueueNotificationAction(context, action)
                     is CloudNotificationAction.Action.UrlAction ->
                         action.url.toUri().openInBrowser(context)
+                    is CloudNotificationAction.Action.UiCommandAction -> {
+                        val commandIntent = Intent(context, MainActivity::class.java).apply {
+                            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                                Intent.FLAG_ACTIVITY_NEW_TASK
+                            putExtra(MainActivity.EXTRA_UI_COMMAND, action.command)
+                        }
+                        context.startActivity(commandIntent)
+                    }
                     else -> {
                         // TODO
                         Log.e(TAG, "Not yet implemented")
