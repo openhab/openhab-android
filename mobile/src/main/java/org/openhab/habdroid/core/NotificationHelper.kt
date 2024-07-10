@@ -77,21 +77,15 @@ class NotificationHelper(private val context: Context) {
         }
         val count = countCloudNotifications(notificationManager.activeNotifications)
         if (count > 1) {
+            val deleteIntent = NotificationHandlingReceiver.createDismissedPendingIntent(
+                context,
+                SUMMARY_NOTIFICATION_ID
+            )
             notificationManager.notify(
                 SUMMARY_NOTIFICATION_ID,
-                makeSummaryNotification(count, System.currentTimeMillis(), createDeleteIntent(SUMMARY_NOTIFICATION_ID))
+                makeSummaryNotification(count, System.currentTimeMillis(), deleteIntent)
             )
         }
-    }
-
-    private fun createDeleteIntent(notificationId: Int): PendingIntent {
-        val intent = NotificationHandlingReceiver.createDismissedIntent(context, notificationId)
-        return PendingIntent.getBroadcast(
-            context,
-            notificationId,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
-        )
     }
 
     private fun createChannelForTag(tag: String?) {
@@ -131,7 +125,10 @@ class NotificationHelper(private val context: Context) {
         } else {
             NotificationHandlingReceiver.createActionPendingIntent(context, message.id, message.onClickAction)
         }
-        val deleteIntent = createDeleteIntent(message.id.notificationId)
+        val deleteIntent = NotificationHandlingReceiver.createDismissedPendingIntent(
+            context,
+            message.id.notificationId
+        )
         val channelId = getChannelId(message.tag)
 
         val publicText = context.resources.getQuantityString(R.plurals.summary_notification_text, 1, 1)
@@ -152,16 +149,16 @@ class NotificationHelper(private val context: Context) {
             .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
             .setPublicVersion(publicVersion)
 
-        if (message.mediaAttachmentUrl != null) {
+        val messageImage = if (message.mediaAttachmentUrl != null) {
             ConnectionFactory.waitForInitialization()
-            val bitmap = ConnectionFactory.primaryUsableConnection?.connection?.let {
+            ConnectionFactory.primaryUsableConnection?.connection?.let {
                 message.loadImage(it, context, 99)
             }
-            if (bitmap == null) {
-                builder.setStyle(NotificationCompat.BigTextStyle().bigText(message.message))
-            } else {
-                builder.setStyle(NotificationCompat.BigPictureStyle().bigPicture(bitmap))
-            }
+        } else {
+            null
+        }
+        if (messageImage != null) {
+            builder.setStyle(NotificationCompat.BigPictureStyle().bigPicture(messageImage))
         } else {
             builder.setStyle(NotificationCompat.BigTextStyle().bigText(message.message))
         }

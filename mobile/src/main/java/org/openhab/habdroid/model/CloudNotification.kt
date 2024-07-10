@@ -55,22 +55,23 @@ data class CloudNotification internal constructor(
     val mediaAttachmentUrl: String?
 ) : Parcelable {
     suspend fun loadImage(connection: Connection, context: Context, size: Int): Bitmap? {
-        mediaAttachmentUrl ?: return null
-        val url = if (mediaAttachmentUrl.startsWith("item:")) {
+        if (mediaAttachmentUrl == null) {
+            return null
+        }
+        val itemStateFromMedia = if (mediaAttachmentUrl.startsWith("item:")) {
             val itemName = mediaAttachmentUrl.removePrefix("item:")
             val item = ItemClient.loadItem(connection, itemName)
-            val state = item?.state?.asString ?: return null
-            if (state.toHttpUrlOrNull() != null) {
-                state
-            } else {
-                return bitmapFromBase64(state)
-            }
+            item?.state?.asString
         } else {
-            mediaAttachmentUrl
+            null
+        }
+        if (itemStateFromMedia != null && itemStateFromMedia.toHttpUrlOrNull() == null) {
+            // media attachment is an item, but item state is not a URL -> interpret as base64 encoded image
+            return bitmapFromBase64(itemStateFromMedia)
         }
         val fallbackColor = context.getIconFallbackColor(IconBackground.APP_THEME)
         return connection.httpClient
-            .get(url)
+            .get(itemStateFromMedia ?: mediaAttachmentUrl)
             .asBitmap(size, fallbackColor, ImageConversionPolicy.PreferTargetSize)
             .response
     }
