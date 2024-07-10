@@ -25,6 +25,7 @@ import android.os.Build
 import android.service.notification.StatusBarNotification
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.NotificationUpdateObserver
@@ -69,6 +70,14 @@ class NotificationHelper(private val context: Context) {
                 updateGroupNotification()
             }
         }
+    }
+
+    fun cancelNotificationsByTag(tag: String) {
+        val channelId = getChannelId(tag)
+        NotificationManagerCompat.from(context)
+            .activeNotifications
+            .filter { sbn -> NotificationCompat.getChannelId(sbn.notification) == channelId }
+            .forEach { sbn -> notificationManager.cancel(sbn.id) }
     }
 
     fun updateGroupNotification() {
