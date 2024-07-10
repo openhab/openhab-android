@@ -51,8 +51,7 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
                     is CloudNotificationAction.Action.UrlAction ->
                         action.url.toUri().openInBrowser(context)
                     else -> {
-                        // TODO
-                        Log.e(TAG, "Not yet implemented")
+                        throw IllegalArgumentException("Got unexpected action: $action")
                     }
                 }
             }
@@ -103,7 +102,7 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
             else -> {
                 val intent = Intent(context, NotificationHandlingReceiver::class.java).apply {
                     action = ACTION_NOTIF_ACTION
-                    putExtra(EXTRA_NOTIFICATION_ID, notificationId)
+                    putExtra(EXTRA_NOTIFICATION_ID, notificationId.notificationId)
                     putExtra(EXTRA_NOTIFICATION_ACTION, cna)
                 }
                 PendingIntent.getBroadcast(
