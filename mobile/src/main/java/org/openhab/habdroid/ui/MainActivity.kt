@@ -140,6 +140,7 @@ import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isEventListenerEnabled
 import org.openhab.habdroid.util.isScreenTimerDisabled
 import org.openhab.habdroid.util.openInAppStore
+import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.putActiveServerId
 import org.openhab.habdroid.util.resolveThemedColor
@@ -1313,7 +1314,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     fun updateTitle() {
         val title = controller.currentTitle
         val activeServerName = ServerConfiguration.load(prefs, getSecretPrefs(), prefs.getActiveServerId())?.name
-        setTitle(title ?: activeServerName ?: getString(R.string.app_name))
+        setTitle(title.orDefaultIfEmpty(activeServerName.orEmpty()).orDefaultIfEmpty(getString(R.string.app_name)))
         drawerToggle.isDrawerIndicatorEnabled = !controller.canGoBack()
     }
 
