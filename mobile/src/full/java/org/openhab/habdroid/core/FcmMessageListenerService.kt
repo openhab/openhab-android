@@ -18,6 +18,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlinx.coroutines.runBlocking
 import org.openhab.habdroid.model.CloudNotification
+import org.openhab.habdroid.model.CloudNotificationAction
 import org.openhab.habdroid.model.CloudNotificationId
 import org.openhab.habdroid.model.toCloudNotificationAction
 import org.openhab.habdroid.model.toOH2IconResource
@@ -61,7 +62,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                     icon = data["icon"].toOH2IconResource(),
                     tag = data["tag"],
                     actions = actions,
-                    onClickAction = data["on-click"].toCloudNotificationAction(),
+                    onClickAction = data["on-click"]?.let { CloudNotificationAction("", it) },
                     mediaAttachmentUrl = data["media-attachment-url"]
                 )
 

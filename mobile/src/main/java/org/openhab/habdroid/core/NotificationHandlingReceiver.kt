@@ -50,6 +50,9 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
                         BackgroundTasksManager.enqueueNotificationAction(context, action)
                     is CloudNotificationAction.Action.UrlAction ->
                         action.url.toUri().openInBrowser(context)
+                    is CloudNotificationAction.Action.NoAction -> {
+                        // no-op
+                    }
                     else -> {
                         throw IllegalArgumentException("Got unexpected action: $action")
                     }
