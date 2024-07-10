@@ -34,24 +34,39 @@ import org.openhab.habdroid.util.determineDataUsagePolicy
 
 class CloudNotificationAdapter(context: Context, private val loadMoreListener: () -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private val items = ArrayList<CloudNotification>()
+    private val items = mutableListOf<CloudNotification>()
+    private val existingReferenceIds = mutableSetOf<String>()
     private val inflater = LayoutInflater.from(context)
     private var hasMoreItems: Boolean = false
     private var waitingForMoreData: Boolean = false
     private var highlightedPosition = -1
 
-    fun addLoadedItems(items: List<CloudNotification>, hasMoreItems: Boolean) {
-        this.items.addAll(items)
+    fun addLoadedItems(loaded: List<CloudNotification>, hasMoreItems: Boolean) {
+        val existingItemCount = items.size
+        val relevant = loaded.filter {
+            // Collapse multiple notifications with the same reference ID into the latest one by accepting either
+            // - notifications without reference ID or
+            // - notifications whose reference ID we haven't seen yet
+            it.id.referenceId == null || existingReferenceIds.add(it.id.referenceId)
+        }
+        items.addAll(relevant)
+        notifyItemRangeInserted(existingItemCount, relevant.size)
+        if (this.hasMoreItems && !hasMoreItems) {
+            notifyItemRemoved(items.size)
+        } else if (!this.hasMoreItems && hasMoreItems) {
+            notifyItemInserted(items.size)
+        }
         this.hasMoreItems = hasMoreItems
         waitingForMoreData = false
-        notifyDataSetChanged()
     }
 
     fun clear() {
+        val existingItemCount = itemCount
         items.clear()
+        existingReferenceIds.clear()
         hasMoreItems = false
         waitingForMoreData = false
-        notifyDataSetChanged()
+        notifyItemRangeRemoved(0, existingItemCount)
     }
 
     fun findPositionForId(id: String): Int {
