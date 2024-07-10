@@ -101,7 +101,7 @@ fun JSONObject.toCloudNotification(): CloudNotification {
 
     val payload = optJSONObject("payload")
     return CloudNotification(
-        id = CloudNotificationId(getString("_id"), optStringOrNull("reference-id")),
+        id = CloudNotificationId(getString("_id"), payload?.optStringOrNull("reference-id")),
         title = payload?.optString("title").orEmpty(),
         message = payload?.getString("message") ?: getString("message"),
         createdTimestamp = created,
