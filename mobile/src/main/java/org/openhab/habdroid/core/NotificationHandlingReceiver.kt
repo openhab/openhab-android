@@ -23,6 +23,7 @@ import androidx.core.net.toUri
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.model.CloudNotificationAction
+import org.openhab.habdroid.model.CloudNotificationId
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.openInBrowser
@@ -76,7 +77,7 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
 
         fun createActionPendingIntent(
             context: Context,
-            notificationId: Int,
+            notificationId: CloudNotificationId,
             cna: CloudNotificationAction
         ): PendingIntent {
             return when (val cnaAction = cna.action) {
@@ -89,7 +90,7 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
                     }
                     PendingIntent.getActivity(
                         context,
-                        notificationId + cna.hashCode(),
+                        notificationId.notificationId + cna.hashCode(),
                         intent,
                         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
                     )
@@ -102,7 +103,7 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
                     }
                     PendingIntent.getBroadcast(
                         context,
-                        notificationId + cna.hashCode(),
+                        notificationId.notificationId + cna.hashCode(),
                         intent,
                         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
                     )

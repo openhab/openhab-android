@@ -55,7 +55,7 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
     }
 
     fun findPositionForId(id: String): Int {
-        return items.indexOfFirst { item -> item.id == id }
+        return items.indexOfFirst { item -> item.id.persistedId == id }
     }
 
     fun highlightItem(position: Int) {

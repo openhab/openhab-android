@@ -35,8 +35,16 @@ import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.optStringOrNull
 
 @Parcelize
+data class CloudNotificationId internal constructor(
+    val persistedId: String,
+    val referenceId: String?
+) : Parcelable {
+    val notificationId get() = (referenceId ?: persistedId).hashCode()
+}
+
+@Parcelize
 data class CloudNotification internal constructor(
-    val id: String,
+    val id: CloudNotificationId,
     val title: String,
     val message: String,
     val createdTimestamp: Long,
@@ -46,8 +54,6 @@ data class CloudNotification internal constructor(
     val onClickAction: CloudNotificationAction?,
     val mediaAttachmentUrl: String?
 ) : Parcelable {
-    val idHash get() = id.hashCode()
-
     suspend fun loadImage(connection: Connection, context: Context, size: Int): Bitmap? {
         mediaAttachmentUrl ?: return null
         val url = if (mediaAttachmentUrl.startsWith("item:")) {
@@ -94,7 +100,7 @@ fun JSONObject.toCloudNotification(): CloudNotification {
 
     val payload = optJSONObject("payload")
     return CloudNotification(
-        id = getString("_id"),
+        id = CloudNotificationId(getString("_id"), optStringOrNull("reference-id")),
         title = payload?.optString("title").orEmpty(),
         message = payload?.getString("message") ?: getString("message"),
         createdTimestamp = created,

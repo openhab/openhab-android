@@ -30,6 +30,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.CloudNotification
+import org.openhab.habdroid.model.CloudNotificationId
 import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.HttpClient
@@ -47,8 +48,8 @@ class NotificationHelper(private val context: Context) {
 
     suspend fun showNotification(message: CloudNotification) {
         createChannelForTag(message.tag)
-        val n = makeNotification(message, message.idHash, createDeleteIntent(message.idHash))
-        notificationManager.notify(message.idHash, n)
+        val n = makeNotification(message)
+        notificationManager.notify(message.id.notificationId, n)
         updateGroupNotification()
     }
 
@@ -122,18 +123,15 @@ class NotificationHelper(private val context: Context) {
         return active.count { n -> n.id != 0 && (n.groupKey?.endsWith("gcm") == true) }
     }
 
-    private suspend fun makeNotification(
-        message: CloudNotification,
-        notificationId: Int,
-        deleteIntent: PendingIntent?
-    ): Notification {
+    private suspend fun makeNotification(message: CloudNotification): Notification {
         val iconBitmap = getNotificationIcon(message.icon)
 
         val contentIntent = if (message.onClickAction == null) {
-            makeNotificationClickIntent(message.id, notificationId)
+            makeNotificationClickIntent(message.id, message.id.notificationId)
         } else {
-            NotificationHandlingReceiver.createActionPendingIntent(context, notificationId, message.onClickAction)
+            NotificationHandlingReceiver.createActionPendingIntent(context, message.id, message.onClickAction)
         }
+        val deleteIntent = createDeleteIntent(message.id.notificationId)
         val channelId = getChannelId(message.tag)
 
         val publicText = context.resources.getQuantityString(R.plurals.summary_notification_text, 1, 1)
@@ -169,7 +167,7 @@ class NotificationHelper(private val context: Context) {
         }
 
         message.actions?.forEach {
-            val pi = NotificationHandlingReceiver.createActionPendingIntent(context, notificationId, it)
+            val pi = NotificationHandlingReceiver.createActionPendingIntent(context, message.id, it)
             val action = NotificationCompat.Action(null, it.label, pi)
             builder.addAction(action)
         }
@@ -244,11 +242,11 @@ class NotificationHelper(private val context: Context) {
             .build()
     }
 
-    private fun makeNotificationClickIntent(persistedId: String?, notificationId: Int): PendingIntent {
+    private fun makeNotificationClickIntent(id: CloudNotificationId?, notificationId: Int): PendingIntent {
         val contentIntent = Intent(context, MainActivity::class.java).apply {
             action = MainActivity.ACTION_NOTIFICATION_SELECTED
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
-            putExtra(MainActivity.EXTRA_PERSISTED_NOTIFICATION_ID, persistedId)
+            putExtra(MainActivity.EXTRA_PERSISTED_NOTIFICATION_ID, id?.persistedId)
         }
         return PendingIntent.getActivity(
             context,

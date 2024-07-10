@@ -52,7 +52,7 @@ object NotificationPoller {
 
         val lastSeenMessageId = prefs.getString(PrefKeys.FOSS_LAST_SEEN_MESSAGE, null)
         prefs.edit {
-            val newestSeenId = messages.firstOrNull()?.id ?: lastSeenMessageId
+            val newestSeenId = messages.firstOrNull()?.id?.persistedId ?: lastSeenMessageId
             putString(PrefKeys.FOSS_LAST_SEEN_MESSAGE, newestSeenId)
         }
         if (lastSeenMessageId == null) {
@@ -61,7 +61,7 @@ object NotificationPoller {
             return
         }
 
-        val lastSeenIndex = messages.map { msg -> msg.id }.indexOf(lastSeenMessageId)
+        val lastSeenIndex = messages.map { msg -> msg.id.persistedId }.indexOf(lastSeenMessageId)
         val newMessages = if (lastSeenIndex >= 0) messages.subList(0, lastSeenIndex) else messages
         val notifHelper = NotificationHelper(context)
 

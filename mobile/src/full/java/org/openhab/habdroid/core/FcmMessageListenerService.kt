@@ -18,6 +18,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlinx.coroutines.runBlocking
 import org.openhab.habdroid.model.CloudNotification
+import org.openhab.habdroid.model.CloudNotificationId
 import org.openhab.habdroid.model.toCloudNotificationAction
 import org.openhab.habdroid.model.toOH2IconResource
 import org.openhab.habdroid.util.map
@@ -50,7 +51,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                     ?.map { it.toCloudNotificationAction() }
                     ?.filterNotNull()
                 val cloudNotification = CloudNotification(
-                    id = data["persistedId"].orEmpty(),
+                    id = CloudNotificationId(data["persistedId"].orEmpty(), data["reference-id"]),
                     title = data["title"].orEmpty(),
                     message = data["message"].orEmpty(),
                     // Older versions of openhab-cloud didn't send the notification generation
@@ -69,7 +70,8 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                 }
             }
             "hideNotification" -> {
-                notifHelper.cancelNotification(data["persistedId"].orEmpty().hashCode())
+                val id = CloudNotificationId(data["persistedId"].orEmpty(), data["reference-id"])
+                notifHelper.cancelNotification(id.notificationId)
             }
         }
     }
