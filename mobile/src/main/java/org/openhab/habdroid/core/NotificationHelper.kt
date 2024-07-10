@@ -161,7 +161,7 @@ class NotificationHelper(private val context: Context) {
         val messageImage = if (message.mediaAttachmentUrl != null) {
             ConnectionFactory.waitForInitialization()
             ConnectionFactory.primaryUsableConnection?.connection?.let {
-                message.loadImage(it, context, 99)
+                message.loadImage(it, context, context.resources.displayMetrics.widthPixels)
             }
         } else {
             null
