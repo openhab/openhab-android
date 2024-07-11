@@ -11,7 +11,7 @@ source: https://github.com/openhab/openhab-android/blob/main/docs/USAGE.md
 # Android App
 
 The openHAB Android application is a native client for openHAB, compatible with phones and tablets.
-The app follows the basic principles of the other openHAB UIs, like Basic UI, and presents your predefined openHAB [sitemap(s)](https://www.openhab.org/docs/configuration/sitemaps.html) and other UIs.
+The app follows the basic principles of the other openHAB UIs, like Basic UI, and presents your predefined openHAB [sitemap(s)](https://www.openhab.org/docs/configuration/sitemaps.html) and other UIs, like Main UI.
 
 <a href="https://play.google.com/store/apps/details?id=org.openhab.habdroid">
   <img alt="Get it on Google Play" src="images/en_badge_web_generic.png" width="240px">
@@ -351,7 +351,7 @@ The active server is used for foreground operations, e.g. display the Sitemaps, 
 The primary server is used for all background operations and can be changed in the settings.
 
 Features that support multiple servers:
-* Display Sitemaps and HABPanel
+* Display Sitemaps, Main UI and HABPanel
 * Voice commands launched from in-app (sent to active server) and from widgets (sent to primary server)
 * Show a list of recent notifications
 * Sitemap shortcuts on the home screen
