@@ -1,0 +1,5 @@
+## What's Changed
+* Implement new notification features by @mueller-ma in https://github.com/openhab/openhab-android/pull/3724
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.14.5-beta...3.14.6-beta
