@@ -50,6 +50,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.content.IntentCompat
 import androidx.core.content.edit
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.drawable.toDrawable
@@ -86,6 +87,7 @@ import org.openhab.habdroid.background.EventListenerService
 import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.background.PeriodicItemUpdateWorker
 import org.openhab.habdroid.core.CloudMessagingHelper
+import org.openhab.habdroid.core.NotificationHelper
 import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.core.UpdateBroadcastReceiver
 import org.openhab.habdroid.core.connection.CloudConnection
@@ -96,6 +98,7 @@ import org.openhab.habdroid.core.connection.DemoConnection
 import org.openhab.habdroid.core.connection.NetworkNotAvailableException
 import org.openhab.habdroid.core.connection.NoUrlInformationException
 import org.openhab.habdroid.core.connection.WrongWifiException
+import org.openhab.habdroid.model.CloudNotificationId
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerProperties
@@ -140,6 +143,7 @@ import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isEventListenerEnabled
 import org.openhab.habdroid.util.isScreenTimerDisabled
 import org.openhab.habdroid.util.openInAppStore
+import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.putActiveServerId
 import org.openhab.habdroid.util.resolveThemedColor
@@ -827,8 +831,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             // Add a host here to be able to parse as HttpUrl
             val httpLink = "https://openhab.org$link".toHttpUrlOrNull() ?: return
             val sitemap = httpLink.queryParameter("sitemap")
-                ?: prefs.getDefaultSitemap(connection, serverId)?.name
-            val subpage = httpLink.queryParameter("w")
+                ?: prefs.getDefaultSitemap(connection, serverId)?.name ?: return
+            val subpage = httpLink.queryParameter("w").orDefaultIfEmpty(sitemap)
             executeOrStoreAction(PendingAction.OpenSitemapUrl("/$sitemap/$subpage", serverId))
         } else {
             executeOrStoreAction(PendingAction.OpenWebViewUi(WebViewUi.MAIN_UI, serverId, link))
@@ -846,6 +850,20 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             val link = intent.getStringExtra(EXTRA_LINK) ?: return
             val serverId = intent.getIntExtra(EXTRA_SERVER_ID, prefs.getPrimaryServerId())
             handleLink(link, serverId)
+        }
+
+        if (!intent.getStringExtra(EXTRA_UI_COMMAND).isNullOrEmpty()) {
+            val command = intent.getStringExtra(EXTRA_UI_COMMAND) ?: return
+            handleUiCommand(command, prefs.getPrimaryServerId())
+            val notificationId = IntentCompat.getParcelableExtra(
+                intent,
+                EXTRA_CLOUD_NOTIFICATION_ID,
+                CloudNotificationId::class.java
+            )
+            if (notificationId != null) {
+                // The invoking intent came from a notification click, so cancel the notification
+                NotificationHelper(this).cancelNotificationById(notificationId)
+            }
         }
 
         when (intent.action) {
@@ -1506,11 +1524,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         ItemClient.listenForItemChange(this, connection ?: return, item) { _, payload ->
             val state = payload.getString("value")
             Log.d(TAG, "Got state by event: $state")
-            handleUiCommand(state)
+            handleUiCommand(state, prefs.getActiveServerId())
         }
     }
 
-    private fun handleUiCommand(command: String) {
+    private fun handleUiCommand(command: String, serverId: Int) {
         val prefix = command.substringBefore(":")
         val commandContent = command.removePrefix("$prefix:")
         when (prefix) {
@@ -1538,7 +1556,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                     }
                 }
             }
-            "navigate" -> handleLink(commandContent, prefs.getActiveServerId())
+            "navigate" -> handleLink(commandContent, serverId)
             "close" -> uiCommandItemNotification?.dismiss()
             "back" -> onBackPressedCallback.handleOnBackPressed()
             "reload" -> recreate()
@@ -1645,6 +1663,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         const val EXTRA_SUBPAGE = "subpage"
         const val EXTRA_LINK = "link"
         const val EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId"
+        const val EXTRA_UI_COMMAND = "uiCommand"
+        const val EXTRA_CLOUD_NOTIFICATION_ID = "cloudNotificationId"
 
         const val SNACKBAR_TAG_DEMO_MODE_ACTIVE = "demoModeActive"
         const val SNACKBAR_TAG_PRESS_AGAIN_EXIT = "pressAgainToExit"

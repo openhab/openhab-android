@@ -21,7 +21,11 @@ import android.widget.TextView
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import java.util.ArrayList
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.CloudNotification
@@ -30,28 +34,43 @@ import org.openhab.habdroid.util.determineDataUsagePolicy
 
 class CloudNotificationAdapter(context: Context, private val loadMoreListener: () -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private val items = ArrayList<CloudNotification>()
+    private val items = mutableListOf<CloudNotification>()
+    private val existingReferenceIds = mutableSetOf<String>()
     private val inflater = LayoutInflater.from(context)
     private var hasMoreItems: Boolean = false
     private var waitingForMoreData: Boolean = false
     private var highlightedPosition = -1
 
-    fun addLoadedItems(items: List<CloudNotification>, hasMoreItems: Boolean) {
-        this.items.addAll(items)
+    fun addLoadedItems(loaded: List<CloudNotification>, hasMoreItems: Boolean) {
+        val existingItemCount = items.size
+        val relevant = loaded.filter {
+            // Collapse multiple notifications with the same reference ID into the latest one by accepting either
+            // - notifications without reference ID or
+            // - notifications whose reference ID we haven't seen yet
+            it.id.referenceId == null || existingReferenceIds.add(it.id.referenceId)
+        }
+        items.addAll(relevant)
+        notifyItemRangeInserted(existingItemCount, relevant.size)
+        if (this.hasMoreItems && !hasMoreItems) {
+            notifyItemRemoved(items.size)
+        } else if (!this.hasMoreItems && hasMoreItems) {
+            notifyItemInserted(items.size)
+        }
         this.hasMoreItems = hasMoreItems
         waitingForMoreData = false
-        notifyDataSetChanged()
     }
 
     fun clear() {
+        val existingItemCount = itemCount
         items.clear()
+        existingReferenceIds.clear()
         hasMoreItems = false
         waitingForMoreData = false
-        notifyDataSetChanged()
+        notifyItemRangeRemoved(0, existingItemCount)
     }
 
     fun findPositionForId(id: String): Int {
-        return items.indexOfFirst { item -> item.id == id }
+        return items.indexOfFirst { item -> item.id.persistedId == id }
     }
 
     fun highlightItem(position: Int) {
@@ -96,10 +115,12 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
 
     class NotificationViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
         RecyclerView.ViewHolder(inflater.inflate(R.layout.notificationlist_item, parent, false)) {
-        private val createdView: TextView = itemView.findViewById(R.id.notificationCreated)
+        private val titleView: TextView = itemView.findViewById(R.id.notificationTitle)
         private val messageView: TextView = itemView.findViewById(R.id.notificationMessage)
-        private val iconView: WidgetImageView = itemView.findViewById(R.id.notificationImage)
-        private val severityView: TextView = itemView.findViewById(R.id.notificationSeverity)
+        private val createdView: TextView = itemView.findViewById(R.id.notificationCreated)
+        private val iconView: WidgetImageView = itemView.findViewById(R.id.notificationIcon)
+        private val imageView: WidgetImageView = itemView.findViewById(R.id.notificationImage)
+        private val tagView: TextView = itemView.findViewById(R.id.notificationTag)
 
         fun bind(notification: CloudNotification) {
             createdView.text = DateUtils.getRelativeDateTimeString(
@@ -109,23 +130,36 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
                 DateUtils.WEEK_IN_MILLIS,
                 0
             )
+            titleView.text = notification.title
+            titleView.isVisible = notification.title.isNotEmpty()
             messageView.text = notification.message
+            messageView.isVisible = notification.message.isNotEmpty()
 
             val conn = ConnectionFactory.activeCloudConnection?.connection
-            if (notification.icon != null && conn != null) {
-                iconView.setImageUrl(
-                    conn,
-                    notification.icon.toUrl(
-                        itemView.context,
-                        itemView.context.determineDataUsagePolicy(conn).loadIconsWithState
-                    ),
-                    timeoutMillis = 2000
-                )
-            } else {
+            if (conn == null) {
                 iconView.applyFallbackDrawable()
+                imageView.isVisible = false
+            } else {
+                if (notification.icon != null) {
+                    iconView.setImageUrl(
+                        conn,
+                        notification.icon.toUrl(
+                            itemView.context,
+                            itemView.context.determineDataUsagePolicy(conn).loadIconsWithState
+                        ),
+                        timeoutMillis = 2000
+                    )
+                }
+                imageView.isVisible = notification.mediaAttachmentUrl != null
+                CoroutineScope(Dispatchers.IO + Job()).launch {
+                    val bitmap = notification.loadImage(conn, itemView.context, itemView.width)
+                    withContext(Dispatchers.Main) {
+                        imageView.setImageBitmap(bitmap)
+                    }
+                }
             }
-            severityView.text = notification.severity
-            severityView.isGone = notification.severity.isNullOrEmpty()
+            tagView.text = notification.tag
+            tagView.isGone = notification.tag.isNullOrEmpty()
         }
     }
 

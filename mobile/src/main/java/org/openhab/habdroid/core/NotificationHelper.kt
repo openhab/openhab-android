@@ -25,11 +25,13 @@ import android.os.Build
 import android.service.notification.StatusBarNotification
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.CloudNotification
+import org.openhab.habdroid.model.CloudNotificationId
 import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.HttpClient
@@ -46,64 +48,72 @@ class NotificationHelper(private val context: Context) {
     private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     suspend fun showNotification(message: CloudNotification) {
-        createChannelForSeverity(message.severity)
-        val n = makeNotification(message, message.idHash, createDeleteIntent(message.idHash))
-        notificationManager.notify(message.idHash, n)
+        createChannelForTag(message.tag)
+        val n = makeNotification(message)
+        notificationManager.notify(message.id.notificationId, n)
         updateGroupNotification()
     }
 
-    fun cancelNotification(notificationId: Int) {
-        notificationManager.cancel(notificationId)
+    fun cancelNotificationById(id: CloudNotificationId) {
+        notificationManager.cancel(id.notificationId)
         if (HAS_GROUPING_SUPPORT) {
             val active = notificationManager.activeNotifications
-            if (notificationId != SUMMARY_NOTIFICATION_ID && countCloudNotifications(active) == 0) {
+            if (countCloudNotifications(active) == 0) {
                 // Cancel summary when removing the last sub-notification
                 notificationManager.cancel(SUMMARY_NOTIFICATION_ID)
-            } else if (notificationId == SUMMARY_NOTIFICATION_ID) {
-                // Cancel all sub-notifications when removing the summary
-                for (n in active) {
-                    notificationManager.cancel(n.id)
-                }
             } else {
                 updateGroupNotification()
             }
         }
     }
 
-    fun updateGroupNotification() {
+    fun cancelNotificationsByTag(tag: String) {
+        val channelId = getChannelId(tag)
+        NotificationManagerCompat.from(context)
+            .activeNotifications
+            .filter { sbn -> NotificationCompat.getChannelId(sbn.notification) == channelId }
+            .forEach { sbn -> notificationManager.cancel(sbn.id) }
+    }
+
+    fun handleNotificationDismissed(notificationId: Int) {
+        if (!HAS_GROUPING_SUPPORT) {
+            return
+        }
+        if (notificationId == SUMMARY_NOTIFICATION_ID) {
+            // Cancel all sub-notifications when removing the summary
+            notificationManager.activeNotifications.forEach { notificationManager.cancel(it.id) }
+        } else {
+            updateGroupNotification()
+        }
+    }
+
+    private fun updateGroupNotification() {
         if (!HAS_GROUPING_SUPPORT) {
             return
         }
         val count = countCloudNotifications(notificationManager.activeNotifications)
         if (count > 1) {
+            val deleteIntent = NotificationHandlingReceiver.createDismissedPendingIntent(
+                context,
+                SUMMARY_NOTIFICATION_ID
+            )
             notificationManager.notify(
                 SUMMARY_NOTIFICATION_ID,
-                makeSummaryNotification(count, System.currentTimeMillis(), createDeleteIntent(SUMMARY_NOTIFICATION_ID))
+                makeSummaryNotification(count, System.currentTimeMillis(), deleteIntent)
             )
         }
     }
 
-    private fun createDeleteIntent(notificationId: Int): PendingIntent {
-        val intent = Intent(context, NotificationDismissedReceiver::class.java)
-        intent.putExtra(NOTIFICATION_ID_EXTRA, notificationId)
-        return PendingIntent.getBroadcast(
-            context,
-            notificationId,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
-        )
-    }
-
-    private fun createChannelForSeverity(severity: String?) {
+    private fun createChannelForTag(tag: String?) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             return
         }
         NotificationUpdateObserver.createNotificationChannels(context)
-        if (!severity.isNullOrEmpty()) {
+        if (!tag.isNullOrEmpty()) {
             with(
                 NotificationChannel(
-                    getChannelId(severity),
-                    context.getString(R.string.notification_channel_severity_value, severity),
+                    getChannelId(tag),
+                    context.getString(R.string.notification_channel_severity_value, tag),
                     NotificationManager.IMPORTANCE_DEFAULT
                 )
             ) {
@@ -112,7 +122,7 @@ class NotificationHelper(private val context: Context) {
                 enableLights(true)
                 lightColor = ContextCompat.getColor(context, R.color.openhab_orange)
                 group = NotificationUpdateObserver.CHANNEL_GROUP_MESSAGES
-                description = context.getString(R.string.notification_channel_severity_value_description, severity)
+                description = context.getString(R.string.notification_channel_severity_value_description, tag)
                 notificationManager.createNotificationChannel(this)
             }
         }
@@ -123,15 +133,19 @@ class NotificationHelper(private val context: Context) {
         return active.count { n -> n.id != 0 && (n.groupKey?.endsWith("gcm") == true) }
     }
 
-    private suspend fun makeNotification(
-        message: CloudNotification,
-        notificationId: Int,
-        deleteIntent: PendingIntent?
-    ): Notification {
+    private suspend fun makeNotification(message: CloudNotification): Notification {
         val iconBitmap = getNotificationIcon(message.icon)
 
-        val contentIntent = makeNotificationClickIntent(message.id, notificationId)
-        val channelId = getChannelId(message.severity)
+        val contentIntent = if (message.onClickAction == null) {
+            makeNotificationClickIntent(message.id, message.id.notificationId)
+        } else {
+            NotificationHandlingReceiver.createActionPendingIntent(context, message.id, message.onClickAction)
+        }
+        val deleteIntent = NotificationHandlingReceiver.createDismissedPendingIntent(
+            context,
+            message.id.notificationId
+        )
+        val channelId = getChannelId(message.tag)
 
         val publicText = context.resources.getQuantityString(R.plurals.summary_notification_text, 1, 1)
         val publicVersion = makeNotificationBuilder(channelId, message.createdTimestamp)
@@ -140,17 +154,38 @@ class NotificationHelper(private val context: Context) {
             .setContentIntent(contentIntent)
             .build()
 
-        return makeNotificationBuilder(channelId, message.createdTimestamp)
+        val builder = makeNotificationBuilder(channelId, message.createdTimestamp)
             .setLargeIcon(iconBitmap)
-            .setStyle(NotificationCompat.BigTextStyle().bigText(message.message))
             .setSound(context.getPrefs().getNotificationTone())
+            .setContentTitle(message.title)
             .setContentText(message.message)
-            .setSubText(message.severity)
+            .setSubText(message.tag)
             .setContentIntent(contentIntent)
             .setDeleteIntent(deleteIntent)
             .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
             .setPublicVersion(publicVersion)
-            .build()
+
+        val messageImage = if (message.mediaAttachmentUrl != null) {
+            ConnectionFactory.waitForInitialization()
+            ConnectionFactory.primaryUsableConnection?.connection?.let {
+                message.loadImage(it, context, context.resources.displayMetrics.widthPixels)
+            }
+        } else {
+            null
+        }
+        if (messageImage != null) {
+            builder.setStyle(NotificationCompat.BigPictureStyle().bigPicture(messageImage))
+        } else {
+            builder.setStyle(NotificationCompat.BigTextStyle().bigText(message.message))
+        }
+
+        message.actions?.forEach {
+            val pi = NotificationHandlingReceiver.createActionPendingIntent(context, message.id, it)
+            val action = NotificationCompat.Action(null, it.label, pi)
+            builder.addAction(action)
+        }
+
+        return builder.build()
     }
 
     private suspend fun getNotificationIcon(icon: IconResource?): Bitmap? {
@@ -220,11 +255,11 @@ class NotificationHelper(private val context: Context) {
             .build()
     }
 
-    private fun makeNotificationClickIntent(persistedId: String?, notificationId: Int): PendingIntent {
+    private fun makeNotificationClickIntent(id: CloudNotificationId?, notificationId: Int): PendingIntent {
         val contentIntent = Intent(context, MainActivity::class.java).apply {
             action = MainActivity.ACTION_NOTIFICATION_SELECTED
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
-            putExtra(MainActivity.EXTRA_PERSISTED_NOTIFICATION_ID, persistedId)
+            putExtra(MainActivity.EXTRA_PERSISTED_NOTIFICATION_ID, id?.persistedId)
         }
         return PendingIntent.getActivity(
             context,
@@ -247,12 +282,11 @@ class NotificationHelper(private val context: Context) {
 
     companion object {
         private val TAG = NotificationHelper::class.java.simpleName
-        const val NOTIFICATION_ID_EXTRA = "notification_id"
 
-        private fun getChannelId(severity: String?) = if (severity.isNullOrEmpty()) {
+        private fun getChannelId(tag: String?) = if (tag.isNullOrEmpty()) {
             NotificationUpdateObserver.CHANNEL_ID_MESSAGE_DEFAULT
         } else {
-            "severity-$severity"
+            "severity-$tag"
         }
 
         internal const val SUMMARY_NOTIFICATION_ID = 0

@@ -277,7 +277,7 @@
             android:name=".background.CopyToClipboardReceiver"
             android:exported="false" />
         <receiver
-            android:name=".core.NotificationDismissedReceiver"
+            android:name=".core.NotificationHandlingReceiver"
             android:exported="false" />
 
         <activity
