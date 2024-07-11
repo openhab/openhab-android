@@ -16,7 +16,6 @@ package org.openhab.habdroid.ui
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.webkit.WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
@@ -27,21 +26,11 @@ import android.widget.ImageView
 import android.widget.RemoteViews
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.graphics.drawable.toDrawable
 import androidx.core.net.toUri
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.button.MaterialButton
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
-import org.openhab.habdroid.model.LabeledValue
-import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.openInBrowser
 import org.openhab.habdroid.util.resolveThemedColor
 
@@ -116,30 +105,5 @@ fun RemoteViews.duplicate(): RemoteViews {
     } else {
         @Suppress("DEPRECATION")
         clone()
-    }
-}
-
-fun MaterialButton.setTextAndIcon(connection: Connection, mapping: LabeledValue) {
-    contentDescription = mapping.label
-    val iconUrl = mapping.icon?.toUrl(context, true)
-    if (iconUrl == null) {
-        icon = null
-        text = mapping.label
-        return
-    }
-    val iconSize = context.resources.getDimensionPixelSize(R.dimen.section_switch_icon)
-    CoroutineScope(Dispatchers.IO + Job()).launch {
-        val drawable = try {
-            connection.httpClient.get(iconUrl, caching = HttpClient.CachingMode.DEFAULT)
-                .asBitmap(iconSize, 0, ImageConversionPolicy.ForceTargetSize).response
-                .toDrawable(resources)
-        } catch (e: HttpClient.HttpException) {
-            Log.d(WidgetAdapter.TAG, "Error getting icon for button", e)
-            null
-        }
-        withContext(Dispatchers.Main) {
-            icon = drawable
-            text = if (drawable == null) mapping.label else null
-        }
     }
 }

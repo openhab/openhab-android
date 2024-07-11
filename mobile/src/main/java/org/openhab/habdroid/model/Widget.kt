@@ -28,6 +28,7 @@ import org.openhab.habdroid.util.getChartScalingFactor
 import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.optBooleanOrNull
 import org.openhab.habdroid.util.optFloatOrNull
+import org.openhab.habdroid.util.optIntOrNull
 import org.openhab.habdroid.util.optStringOrFallback
 import org.openhab.habdroid.util.optStringOrNull
 import org.openhab.habdroid.util.shouldRequestHighResChart
@@ -54,6 +55,11 @@ data class Widget(
     private val rawMinValue: Float?,
     private val rawMaxValue: Float?,
     private val rawStep: Float?,
+    val row: Int?,
+    val column: Int?,
+    val command: String?,
+    val releaseCommand: String?,
+    val stateless: Boolean?,
     val period: String,
     val service: String,
     val legend: Boolean?,
@@ -122,6 +128,7 @@ data class Widget(
         Webview,
         Input,
         Buttongrid,
+        Button,
         Unknown
     }
 
@@ -207,6 +214,11 @@ data class Widget(
                 rawMinValue = source.rawMinValue,
                 rawMaxValue = source.rawMaxValue,
                 rawStep = source.rawStep,
+                row = source.row,
+                column = source.column,
+                command = source.command,
+                releaseCommand = source.releaseCommand,
+                stateless = source.stateless,
                 period = source.period,
                 service = source.service,
                 legend = source.legend,
@@ -260,6 +272,7 @@ fun String?.toLabelSource(): Widget.LabelSource = when (this) {
     else -> Widget.LabelSource.Unknown
 }
 
+// This function is only used on openHAB versions with XML API, which is openHAB 1.x
 fun Node.collectWidgets(parent: Widget?): List<Widget> {
     var item: Item? = null
     var linkedPage: LinkedPage? = null
@@ -342,6 +355,13 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
         rawMinValue = minValue,
         rawMaxValue = maxValue,
         rawStep = step,
+        // row, column, command, releaseCommand, stateless were added in openHAB 4.2
+        // so no support for openHAB 1 required.
+        row = null,
+        column = null,
+        command = null,
+        releaseCommand = null,
+        stateless = null,
         period = Widget.sanitizePeriod(period),
         service = service,
         legend = null,
@@ -393,6 +413,11 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         rawMinValue = optFloatOrNull("minValue"),
         rawMaxValue = optFloatOrNull("maxValue"),
         rawStep = optFloatOrNull("step"),
+        row = optIntOrNull("row"),
+        column = optIntOrNull("column"),
+        command = optStringOrNull("command"),
+        releaseCommand = optStringOrNull("releaseCommand"),
+        stateless = optBooleanOrNull("stateless"),
         period = Widget.sanitizePeriod(optString("period")),
         service = optString("service", ""),
         legend = optBooleanOrNull("legend"),

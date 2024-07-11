@@ -27,6 +27,7 @@ import android.text.format.DateFormat
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -43,10 +44,12 @@ import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.isGone
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.core.widget.doAfterTextChanged
@@ -89,8 +92,10 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
+import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.LabeledValue
 import org.openhab.habdroid.model.ParsedState
@@ -103,6 +108,7 @@ import org.openhab.habdroid.ui.widget.WidgetSlider
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.IconBackground
+import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.MjpegStreamer
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.beautify
@@ -128,6 +134,7 @@ class WidgetAdapter(
     private val items = mutableListOf<Widget>()
     val itemList: List<Widget> get() = items
     private val widgetsById = mutableMapOf<String, Widget>()
+    private val widgetsByParentId = mutableMapOf<String, MutableList<Widget>>()
     val hasVisibleWidgets: Boolean
         get() = items.any { widget -> shouldShowWidget(widget) }
 
@@ -164,7 +171,13 @@ class WidgetAdapter(
             items.clear()
             items.addAll(widgets)
             widgetsById.clear()
-            widgets.forEach { w -> widgetsById[w.id] = w }
+            widgetsByParentId.clear()
+            widgets.forEach { w ->
+                widgetsById[w.id] = w
+                w.parentId
+                    ?.let { parentId -> widgetsByParentId.getOrPut(parentId) { mutableListOf() } }
+                    ?.add(w)
+            }
             notifyDataSetChanged()
         }
         updateFirstVisibleWidgetPosition()
@@ -240,8 +253,16 @@ class WidgetAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val wasStarted = holder.stop()
-        holder.vhc = ViewHolderContext(connection, fragmentPresenter, colorMapper, serverFlags, chartTheme)
-        holder.bind(items[position])
+        val widget = items[position]
+        holder.vhc = ViewHolderContext(
+            connection,
+            fragmentPresenter,
+            colorMapper,
+            serverFlags,
+            chartTheme,
+            { widgetsByParentId[widget.id] }
+        )
+        holder.bind(widget)
         if (holder is FrameViewHolder) {
             holder.setShownAsFirst(position == firstVisibleWidgetPosition)
         }
@@ -294,12 +315,24 @@ class WidgetAdapter(
         val oldWidget = items[position]
         items[position] = widget
         widgetsById[widget.id] = widget
+        widgetsByParentId[oldWidget.parentId]?.remove(oldWidget)
+        widget.parentId
+            ?.let { parentId -> widgetsByParentId.getOrPut(parentId) { mutableListOf() } }
+            ?.add(widget)
         // If visibility of a container with at least one child changes, refresh the whole list to make sure
         // the child visibility is also updated. Otherwise it's sufficient to update the single widget only.
         if (oldWidget.visibility != widget.visibility && items.any { w -> w.parentId == widget.id }) {
             notifyDataSetChanged()
         } else {
-            notifyItemChanged(position)
+            // update the parent Buttongrid if the updated widget is a button
+            if (widget.type == Widget.Type.Button && widget.parentId != null) {
+                val parentPosition = items.indexOfFirst { w -> w.id == widget.parentId }
+                if (parentPosition >= 0) {
+                    notifyItemChanged(parentPosition)
+                }
+            } else {
+                notifyItemChanged(position)
+            }
         }
     }
 
@@ -354,6 +387,7 @@ class WidgetAdapter(
             Widget.Type.Mapview -> TYPE_LOCATION
             Widget.Type.Input -> if (widget.shouldUseDateTimePickerForInput()) TYPE_DATETIMEINPUT else TYPE_INPUT
             Widget.Type.Buttongrid -> TYPE_BUTTONGRID
+            Widget.Type.Button -> TYPE_INVISIBLE
             else -> TYPE_GENERICITEM
         }
         return toInternalViewType(actualViewType, compactMode)
@@ -370,7 +404,8 @@ class WidgetAdapter(
         val fragmentPresenter: FragmentPresenter,
         val colorMapper: ColorMapper,
         val serverFlags: Int,
-        val chartTheme: CharSequence?
+        val chartTheme: CharSequence?,
+        val childWidgetGetter: () -> List<Widget>?
     )
 
     abstract class ViewHolder internal constructor(
@@ -386,6 +421,7 @@ class WidgetAdapter(
         protected val connection get() = requireHolderContext().connection
         protected val colorMapper get() = requireHolderContext().colorMapper
         protected val fragmentPresenter get() = requireHolderContext().fragmentPresenter
+        protected val childWidgets get() = requireHolderContext().childWidgetGetter()
 
         abstract fun bind(widget: Widget)
 
@@ -812,10 +848,16 @@ class WidgetAdapter(
     }
 
     class ButtongridViewHolder internal constructor(private val initData: ViewHolderInitData) :
-        LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem), View.OnClickListener {
+        LabeledItemBaseViewHolder(initData, R.layout.widgetlist_buttongriditem),
+        View.OnClickListener,
+        View.OnTouchListener {
+
+        data class Position(val row: Int, val column: Int)
+
         private val table: GridLayout = itemView.findViewById(R.id.widget_content)
-        private val spareViews = mutableListOf<MaterialButton>()
         private val maxColumns = itemView.resources.getInteger(R.integer.section_switch_max_buttons)
+        private val spareViews = mutableListOf<MaterialButton>()
+        private val buttonViews = mutableMapOf<Position, MaterialButton>()
 
         override fun bind(widget: Widget) {
             super.bind(widget)
@@ -825,42 +867,108 @@ class WidgetAdapter(
             labelView.isVisible = showLabelAndIcon
             iconView.isVisible = showLabelAndIcon
 
-            val mappings = widget.mappings.filter { it.column != 0 && it.row != 0 }
-            spareViews.addAll(table.children.map { it as? MaterialButton }.filterNotNull())
-            table.removeAllViews()
+            val buttons = childWidgets.orEmpty() +
+                widget.mappings.mapIndexed { index, it -> it.toWidget("${widget.id}-mappings-$index", widget.item) }
 
-            table.rowCount = mappings.maxOfOrNull { it.row } ?: 0
-            table.columnCount = min(mappings.maxOfOrNull { it.column } ?: 0, maxColumns)
+            val rowCount = buttons.maxOfOrNull { it.row ?: 0 } ?: 0
+            val columnCount = min(buttons.maxOfOrNull { it.column ?: 0 } ?: 0, maxColumns)
+
+            // Remove buttons selectively and ensure buttons stay in place when rebinding to the same widget (after
+            // e.g. sending a command on button touch), to make sure touch/release tracking isn't lost in that case
+            buttonViews
+                .filter { (position, buttonView) ->
+                    // Remove buttons beyond the grid size; in case of rebinding to different widgets remove all
+                    // buttons since we *do* want button release tracking to get lost in that case
+                    position.row >= rowCount || position.column >= columnCount ||
+                        (buttonView.tag as? Widget)?.parentId != widget.id
+                }
+                .forEach { (position, buttonView) ->
+                    table.removeView(buttonView)
+                    spareViews.add(buttonView)
+                    buttonViews.remove(position)
+                }
+
+            table.rowCount = rowCount
+            table.columnCount = columnCount
             (0 until table.rowCount).forEach { row ->
                 (0 until table.columnCount).forEach { column ->
-                    val buttonView = spareViews.removeFirstOrNull()
-                        ?: initData.inflater.inflate(R.layout.widgetlist_sectionswitchitem_button, table, false)
-                            as MaterialButton
+                    val buttonView = buttonViews.getOrPut(Position(row, column)) {
+                        val newButton = spareViews.removeFirstOrNull()
+                            ?: initData.inflater.inflate(
+                                R.layout.widgetlist_sectionswitchitem_button,
+                                table,
+                                false
+                            ) as MaterialButton
+
+                        // Buttons are created even for the empty positions so each cell has an equal size
+                        table.addView(
+                            newButton,
+                            GridLayout.LayoutParams(
+                                GridLayout.spec(row, GridLayout.FILL, 1f),
+                                GridLayout.spec(column, GridLayout.FILL, 1f)
+                            )
+                        )
+                        newButton
+                    }
+
                     // Rows and columns start with 1 in Sitemap definition, thus decrement them here
-                    val mapping = mappings.firstOrNull { it.row - 1 == row && it.column - 1 == column }
-                    // Create invisible buttons if there's no mapping so each cell has an equal size
-                    buttonView.isInvisible = mapping == null
-                    if (mapping != null) {
+                    val button = buttons.firstOrNull { (it.row ?: 0) - 1 == row && (it.column ?: 0) - 1 == column }
+                    if (button != null && button.visibility) {
+                        buttonView.tag = button
                         buttonView.setOnClickListener(this)
-                        buttonView.setTextAndIcon(connection, mapping)
-                        buttonView.tag = mapping.value
-                        buttonView.visibility = View.VISIBLE
+                        buttonView.setOnTouchListener(this)
+                        buttonView.setTextAndIcon(
+                            connection = connection,
+                            label = button.label,
+                            iconRes = button.icon,
+                            labelColor = button.labelColor,
+                            iconColor = button.iconColor,
+                            mapper = colorMapper
+                        )
+                        if (button.stateless == false) {
+                            // stateful button: make checkable and set checked state afterwards
+                            // (isChecked can not be set if isCheckable is false)
+                            buttonView.isCheckable = true
+                            buttonView.isChecked = button.item?.state?.asString == button.command
+                        } else {
+                            // stateless button: not checkable
+                            // (unset isChecked before isCheckable for the reason outlined above)
+                            buttonView.isChecked = false
+                            buttonView.isCheckable = false
+                        }
+                        buttonView.isVisible = true
+                    } else {
+                        buttonView.isVisible = false
                     }
                     buttonView.maxWidth = table.width / table.columnCount
-
-                    table.addView(
-                        buttonView,
-                        GridLayout.LayoutParams(
-                            GridLayout.spec(row, GridLayout.FILL, 1f),
-                            GridLayout.spec(column, GridLayout.FILL, 1f)
-                        )
-                    )
                 }
             }
         }
 
         override fun onClick(view: View) {
-            connection.httpClient.sendItemCommand(boundWidget?.item, view.tag as String)
+            val button = view.tag as Widget
+            // When there's a releaseCommand, the command is sent on ACTION_DOWN
+            if (button.releaseCommand.isNullOrEmpty() && button.command != null) {
+                connection.httpClient.sendItemCommand(button.item, button.command)
+            }
+        }
+
+        @SuppressLint("ClickableViewAccessibility")
+        override fun onTouch(view: View, event: MotionEvent): Boolean {
+            val button = view.tag as Widget
+
+            if (!button.releaseCommand.isNullOrEmpty()) {
+                val command = when (event.action) {
+                    MotionEvent.ACTION_DOWN -> button.command
+                    MotionEvent.ACTION_UP -> button.releaseCommand
+                    else -> null
+                }
+                command?.let { connection.httpClient.sendItemCommand(button.item, it) }
+            }
+            // Don't return true here!
+            // Even though we're handing this event, we want the click gesture to be handled normally
+            // for accessibility purposes.
+            return false // tell the system that we didn't consume the event
         }
     }
 
@@ -1053,7 +1161,7 @@ class WidgetAdapter(
             mappings.slice(0 until buttonCount).forEachIndexed { index, mapping ->
                 with(group[index] as MaterialButton) {
                     tag = mapping.value
-                    setTextAndIcon(connection, mapping)
+                    setTextAndIcon(connection, mapping.label, mapping.icon)
                 }
             }
 
@@ -1123,7 +1231,7 @@ class WidgetAdapter(
                 button.isGone = mapping == null
                 if (mapping != null) {
                     button.isChecked = widget.state?.asString == mapping.value
-                    button.setTextAndIcon(connection, mapping)
+                    button.setTextAndIcon(connection, mapping.label, mapping.icon)
                     button.tag = mapping.value
                 }
             }
@@ -1739,6 +1847,47 @@ fun WidgetImageView.loadWidgetIcon(connection: Connection, widget: Widget, mappe
     }
 }
 
+fun MaterialButton.setTextAndIcon(
+    connection: Connection,
+    label: String,
+    iconRes: IconResource?,
+    labelColor: String? = null,
+    iconColor: String? = null,
+    mapper: WidgetAdapter.ColorMapper? = null
+) {
+    contentDescription = label
+    val iconUrl = iconRes?.toUrl(context, true)
+    if (iconUrl == null) {
+        icon = null
+        text = label
+        mapper?.let { applyWidgetColor(labelColor, it) }
+        return
+    }
+    val iconSize = context.resources.getDimensionPixelSize(R.dimen.section_switch_icon)
+    CoroutineScope(Dispatchers.IO + Job()).launch {
+        val drawable = try {
+            connection.httpClient.get(iconUrl, caching = HttpClient.CachingMode.DEFAULT)
+                .asBitmap(iconSize, 0, ImageConversionPolicy.ForceTargetSize).response
+                .toDrawable(resources)
+        } catch (e: HttpClient.HttpException) {
+            Log.d(WidgetAdapter.TAG, "Error getting icon for button", e)
+            null
+        }
+        withContext(Dispatchers.Main) {
+            icon = drawable?.apply {
+                mapper?.mapColor(iconColor)?.let {
+                    colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+                        it,
+                        BlendModeCompat.SRC_ATOP
+                    )
+                }
+            }
+            text = if (drawable == null) label else null
+            mapper?.let { applyWidgetColor(labelColor, it) }
+        }
+    }
+}
+
 fun HttpClient.sendItemUpdate(item: Item?, state: ParsedState.NumberState?) {
     if (item == null || state == null) {
         return
@@ -1771,4 +1920,43 @@ fun HttpClient.sendItemCommand(item: Item?, command: String): Job? {
             Log.e(WidgetAdapter.TAG, "Sending command $command to $url failed: status ${e.statusCode}", e)
         }
     }
+}
+
+fun LabeledValue.toWidget(id: String, item: Item?): Widget {
+    return Widget(
+        id = id,
+        parentId = null,
+        rawLabel = label,
+        labelSource = Widget.LabelSource.SitemapDefinition,
+        icon = icon,
+        state = null,
+        type = Widget.Type.Button,
+        url = null,
+        item = item,
+        linkedPage = null,
+        mappings = emptyList(),
+        encoding = null,
+        iconColor = null,
+        labelColor = null,
+        valueColor = null,
+        refresh = 0,
+        rawMinValue = null,
+        rawMaxValue = null,
+        rawStep = null,
+        row = row,
+        column = column,
+        command = value,
+        releaseCommand = null,
+        stateless = null,
+        period = "",
+        service = "",
+        legend = null,
+        forceAsItem = false,
+        yAxisDecimalPattern = null,
+        switchSupport = false,
+        releaseOnly = null,
+        height = 0,
+        visibility = true,
+        rawInputHint = null
+    )
 }
