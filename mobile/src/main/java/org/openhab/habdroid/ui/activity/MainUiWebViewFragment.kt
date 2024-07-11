@@ -34,9 +34,10 @@ class MainUiWebViewFragment : AbstractWebViewFragment() {
                 .host("home.myopenhab.org")
                 .build()
         }
-        context?.loadActiveServerConfig()?.mainUiStartPage?.let {
+        val mainUiStartPage = context?.loadActiveServerConfig()?.mainUiStartPage
+        if (!mainUiStartPage.isNullOrEmpty()) {
             modified = modified.newBuilder()
-                .encodedPath(it)
+                .encodedPath(mainUiStartPage)
                 .build()
         }
         return modified
