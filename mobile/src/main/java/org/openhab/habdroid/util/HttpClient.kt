@@ -206,7 +206,7 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
                                 HttpException(call.request(), url, response.message, response.code)
                             )
                         }
-                        body == null -> {
+                        body == null || body.contentLength() == 0L -> {
                             cont.resumeWithException(HttpException(call.request(), url, "Empty body", 500))
                         }
                         else -> {
