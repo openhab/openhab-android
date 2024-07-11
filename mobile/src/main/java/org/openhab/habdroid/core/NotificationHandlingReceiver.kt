@@ -31,9 +31,9 @@ import org.openhab.habdroid.util.openInBrowser
 class NotificationHandlingReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         Log.d(TAG, "onReceive(): $intent")
-        val notificationId = intent.getIntExtra(EXTRA_NOTIFICATION_ID, 0)
         when (intent.action) {
             ACTION_DISMISSED -> {
+                val notificationId = intent.getIntExtra(EXTRA_NOTIFICATION_ID, 0)
                 Log.d(TAG, "Dismissed notification $notificationId")
                 NotificationHelper(context).handleNotificationDismissed(notificationId)
             }
@@ -42,6 +42,11 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
                     intent,
                     EXTRA_NOTIFICATION_ACTION,
                     CloudNotificationAction::class.java
+                ) ?: return
+                val notificationId = IntentCompat.getParcelableExtra(
+                    intent,
+                    EXTRA_NOTIFICATION_ID,
+                    CloudNotificationId::class.java
                 ) ?: return
                 Log.d(TAG, "Received action from $notificationId: $cna")
 
@@ -57,6 +62,7 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
                         throw IllegalArgumentException("Got unexpected action: $action")
                     }
                 }
+                NotificationHelper(context).cancelNotificationById(notificationId)
             }
         }
     }
@@ -94,6 +100,7 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
                     flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP or
                         Intent.FLAG_ACTIVITY_NEW_TASK
                     putExtra(MainActivity.EXTRA_UI_COMMAND, cnaAction.command)
+                    putExtra(MainActivity.EXTRA_CLOUD_NOTIFICATION_ID, notificationId)
                 }
                 PendingIntent.getActivity(
                     context,
@@ -105,7 +112,7 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
             else -> {
                 val intent = Intent(context, NotificationHandlingReceiver::class.java).apply {
                     action = ACTION_NOTIF_ACTION
-                    putExtra(EXTRA_NOTIFICATION_ID, notificationId.notificationId)
+                    putExtra(EXTRA_NOTIFICATION_ID, notificationId)
                     putExtra(EXTRA_NOTIFICATION_ACTION, cna)
                 }
                 PendingIntent.getBroadcast(

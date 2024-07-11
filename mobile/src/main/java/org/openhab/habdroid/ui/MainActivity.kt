@@ -50,6 +50,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.content.IntentCompat
 import androidx.core.content.edit
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.drawable.toDrawable
@@ -86,6 +87,7 @@ import org.openhab.habdroid.background.EventListenerService
 import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.background.PeriodicItemUpdateWorker
 import org.openhab.habdroid.core.CloudMessagingHelper
+import org.openhab.habdroid.core.NotificationHelper
 import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.core.UpdateBroadcastReceiver
 import org.openhab.habdroid.core.connection.CloudConnection
@@ -96,6 +98,7 @@ import org.openhab.habdroid.core.connection.DemoConnection
 import org.openhab.habdroid.core.connection.NetworkNotAvailableException
 import org.openhab.habdroid.core.connection.NoUrlInformationException
 import org.openhab.habdroid.core.connection.WrongWifiException
+import org.openhab.habdroid.model.CloudNotificationId
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerProperties
@@ -852,6 +855,15 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         if (!intent.getStringExtra(EXTRA_UI_COMMAND).isNullOrEmpty()) {
             val command = intent.getStringExtra(EXTRA_UI_COMMAND) ?: return
             handleUiCommand(command, prefs.getPrimaryServerId())
+            val notificationId = IntentCompat.getParcelableExtra(
+                intent,
+                EXTRA_CLOUD_NOTIFICATION_ID,
+                CloudNotificationId::class.java
+            )
+            if (notificationId != null) {
+                // The invoking intent came from a notification click, so cancel the notification
+                NotificationHelper(this).cancelNotificationById(notificationId)
+            }
         }
 
         when (intent.action) {
@@ -1652,6 +1664,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         const val EXTRA_LINK = "link"
         const val EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId"
         const val EXTRA_UI_COMMAND = "uiCommand"
+        const val EXTRA_CLOUD_NOTIFICATION_ID = "cloudNotificationId"
 
         const val SNACKBAR_TAG_DEMO_MODE_ACTIVE = "demoModeActive"
         const val SNACKBAR_TAG_PRESS_AGAIN_EXIT = "pressAgainToExit"
