@@ -1,0 +1,5 @@
+## What's Changed
+* Support buttongrid's button widgets by @jimtng in https://github.com/openhab/openhab-android/pull/3723
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.14.4-beta...3.14.5-beta
