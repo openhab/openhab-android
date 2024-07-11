@@ -73,7 +73,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
             "hideNotification" -> {
                 data["tag"]?.let { tag -> notifHelper.cancelNotificationsByTag(tag) }
                 val id = CloudNotificationId(data["persistedId"].orEmpty(), data["reference-id"])
-                notifHelper.cancelNotification(id.notificationId)
+                notifHelper.cancelNotificationById(id)
             }
         }
     }

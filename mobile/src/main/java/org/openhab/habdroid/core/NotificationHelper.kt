@@ -54,18 +54,13 @@ class NotificationHelper(private val context: Context) {
         updateGroupNotification()
     }
 
-    fun cancelNotification(notificationId: Int) {
-        notificationManager.cancel(notificationId)
+    fun cancelNotificationById(id: CloudNotificationId) {
+        notificationManager.cancel(id.notificationId)
         if (HAS_GROUPING_SUPPORT) {
             val active = notificationManager.activeNotifications
-            if (notificationId != SUMMARY_NOTIFICATION_ID && countCloudNotifications(active) == 0) {
+            if (countCloudNotifications(active) == 0) {
                 // Cancel summary when removing the last sub-notification
                 notificationManager.cancel(SUMMARY_NOTIFICATION_ID)
-            } else if (notificationId == SUMMARY_NOTIFICATION_ID) {
-                // Cancel all sub-notifications when removing the summary
-                for (n in active) {
-                    notificationManager.cancel(n.id)
-                }
             } else {
                 updateGroupNotification()
             }
@@ -80,7 +75,19 @@ class NotificationHelper(private val context: Context) {
             .forEach { sbn -> notificationManager.cancel(sbn.id) }
     }
 
-    fun updateGroupNotification() {
+    fun handleNotificationDismissed(notificationId: Int) {
+        if (!HAS_GROUPING_SUPPORT) {
+            return
+        }
+        if (notificationId == SUMMARY_NOTIFICATION_ID) {
+            // Cancel all sub-notifications when removing the summary
+            notificationManager.activeNotifications.forEach { notificationManager.cancel(it.id) }
+        } else {
+            updateGroupNotification()
+        }
+    }
+
+    private fun updateGroupNotification() {
         if (!HAS_GROUPING_SUPPORT) {
             return
         }

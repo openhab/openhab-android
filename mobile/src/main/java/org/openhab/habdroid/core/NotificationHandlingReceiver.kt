@@ -35,7 +35,7 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
         when (intent.action) {
             ACTION_DISMISSED -> {
                 Log.d(TAG, "Dismissed notification $notificationId")
-                NotificationHelper(context).updateGroupNotification()
+                NotificationHelper(context).handleNotificationDismissed(notificationId)
             }
             ACTION_NOTIF_ACTION -> {
                 val cna = IntentCompat.getParcelableExtra(
