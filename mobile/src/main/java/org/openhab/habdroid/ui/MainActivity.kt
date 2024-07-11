@@ -523,7 +523,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         when {
             newConnection != null -> {
                 handleConnectionChange()
-                controller.updateConnection(newConnection, null, 0)
+                controller.updateConnection(newConnection, null, 0, true)
             }
             failureReason is WrongWifiException -> {
                 val activeConfig = ServerConfiguration.load(prefs, getSecretPrefs(), prefs.getActiveServerId())
@@ -547,7 +547,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                         controller.updateConnection(
                             null,
                             getString(R.string.resolving_openhab),
-                            R.drawable.ic_home_search_outline_grey_340dp
+                            R.drawable.ic_home_search_outline_grey_340dp,
+                            false
                         )
                     }
                 } else {
@@ -560,7 +561,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 controller.indicateNoNetwork(getString(R.string.error_wifi_not_available), true)
             }
             failureReason is ConnectionNotInitializedException -> {
-                controller.updateConnection(null, null, 0)
+                controller.updateConnection(null, null, 0, true)
             }
             else -> {
                 controller.indicateNoNetwork(getString(R.string.error_network_not_available), false)
@@ -747,7 +748,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             controller.updateConnection(
                 null,
                 getString(R.string.waiting_for_wifi),
-                R.drawable.ic_wifi_strength_outline_grey_24dp
+                R.drawable.ic_wifi_strength_outline_grey_24dp,
+                true
             )
         }
     }

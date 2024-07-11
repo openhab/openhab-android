@@ -125,7 +125,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         }
         this.connectionFragment = connectionFragment
 
-        defaultProgressFragment = ProgressFragment.newInstance(null, 0)
+        defaultProgressFragment = ProgressFragment.newInstance(null, 0, true)
         connectionFragment.setCallback(this)
 
         fm.registerFragmentLifecycleCallbacks(this, true)
@@ -362,10 +362,15 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param connection New connection to use; might be null if none is currently available
      * @param progressMessage Message to show to the user if no connection is available
      */
-    fun updateConnection(connection: Connection?, progressMessage: CharSequence?, @DrawableRes icon: Int) {
+    fun updateConnection(
+        connection: Connection?,
+        progressMessage: CharSequence?,
+        @DrawableRes icon: Int,
+        showSitemapSkeleton: Boolean
+    ) {
         CrashReportingHelper.d(TAG, "Update to connection $connection (message $progressMessage)")
         noConnectionFragment = if (connection == null) {
-            ProgressFragment.newInstance(progressMessage, icon)
+            ProgressFragment.newInstance(progressMessage, icon, showSitemapSkeleton)
         } else {
             null
         }
@@ -613,8 +618,7 @@ abstract class ContentController protected constructor(private val activity: Mai
                 f.arguments = buildArgs(
                     message,
                     R.string.try_again_button,
-                    R.drawable.ic_openhab_appicon_340dp,
-                    false
+                    R.drawable.ic_openhab_appicon_340dp
                 )
                 return f
             }
@@ -627,9 +631,13 @@ abstract class ContentController protected constructor(private val activity: Mai
         }
 
         companion object {
-            fun newInstance(message: CharSequence?, @DrawableRes image: Int): ProgressFragment {
+            fun newInstance(
+                message: CharSequence?,
+                @DrawableRes image: Int,
+                sitemapSkeleton: Boolean
+            ): ProgressFragment {
                 val f = ProgressFragment()
-                f.arguments = buildArgs(message, 0, image, true)
+                f.arguments = buildArgs(message, 0, image, !sitemapSkeleton, sitemapSkeleton)
                 return f
             }
         }
@@ -647,8 +655,7 @@ abstract class ContentController protected constructor(private val activity: Mai
                 f.arguments = buildArgs(
                     message,
                     R.string.try_again_button,
-                    R.drawable.ic_network_strength_off_outline_black_24dp,
-                    false
+                    R.drawable.ic_network_strength_off_outline_black_24dp
                 )
                 return f
             }
@@ -666,8 +673,7 @@ abstract class ContentController protected constructor(private val activity: Mai
                 f.arguments = buildArgs(
                     message,
                     R.string.enable_wifi_button,
-                    R.drawable.ic_wifi_strength_off_outline_grey_24dp,
-                    false
+                    R.drawable.ic_wifi_strength_off_outline_grey_24dp
                 )
                 return f
             }
@@ -699,8 +705,7 @@ abstract class ContentController protected constructor(private val activity: Mai
                     } else {
                         0
                     },
-                    drawableResId = R.drawable.ic_wifi_strength_off_outline_grey_24dp,
-                    showProgress = false
+                    drawableResId = R.drawable.ic_wifi_strength_off_outline_grey_24dp
                 )
                 f.arguments = args
                 return f
@@ -758,22 +763,19 @@ abstract class ContentController protected constructor(private val activity: Mai
                         context.getString(R.string.configuration_missing),
                         R.string.go_to_settings_button,
                         R.string.enable_demo_mode_button,
-                        R.drawable.ic_home_search_outline_grey_340dp,
-                        false
+                        R.drawable.ic_home_search_outline_grey_340dp
                     )
                     hasWifiEnabled -> buildArgs(
                         context.getString(R.string.no_remote_server),
                         R.string.try_again_button,
                         if (wouldHaveUsedOfficialServer) R.string.visit_status_openhab_org else 0,
-                        R.drawable.ic_network_strength_off_outline_black_24dp,
-                        false
+                        R.drawable.ic_network_strength_off_outline_black_24dp
                     )
                     else -> buildArgs(
                         context.getString(R.string.no_remote_server),
                         R.string.enable_wifi_button,
                         if (wouldHaveUsedOfficialServer) R.string.visit_status_openhab_org else 0,
-                        R.drawable.ic_wifi_strength_off_outline_grey_24dp,
-                        false
+                        R.drawable.ic_wifi_strength_off_outline_grey_24dp
                     )
                 }
                 args.putBoolean(KEY_RESOLVE_ATTEMPTED, resolveAttempted)
@@ -795,8 +797,10 @@ abstract class ContentController protected constructor(private val activity: Mai
             descriptionText.isVisible = !descriptionText.text.isNullOrEmpty()
 
             val skeleton = view.findViewById<SkeletonLayout>(R.id.skeletonLayout)
-            skeleton.isVisible = arguments.getBoolean(KEY_PROGRESS)
+            skeleton.isVisible = arguments.getBoolean(KEY_SITEMAP_SKELETON)
             skeleton.showSkeleton()
+
+            view.findViewById<View>(R.id.progress).isVisible = arguments.getBoolean(KEY_PROGRESS)
 
             val watermark = view.findViewById<ImageView>(R.id.image)
 
@@ -832,6 +836,7 @@ abstract class ContentController protected constructor(private val activity: Mai
             internal const val KEY_BUTTON_1_TEXT = "button1text"
             internal const val KEY_BUTTON_2_TEXT = "button2text"
             internal const val KEY_PROGRESS = "progress"
+            internal const val KEY_SITEMAP_SKELETON = "sitemapSkeleton"
             internal const val KEY_RESOLVE_ATTEMPTED = "resolveAttempted"
             internal const val KEY_WIFI_ENABLED = "wifiEnabled"
 
@@ -839,14 +844,16 @@ abstract class ContentController protected constructor(private val activity: Mai
                 message: CharSequence?,
                 @StringRes buttonTextResId: Int,
                 @DrawableRes drawableResId: Int,
-                showProgress: Boolean
+                showProgress: Boolean = false,
+                showSitemapSkeleton: Boolean = false
             ): Bundle {
                 return buildArgs(
                     message,
                     buttonTextResId,
                     0,
                     drawableResId,
-                    showProgress
+                    showProgress,
+                    showSitemapSkeleton
                 )
             }
 
@@ -855,14 +862,16 @@ abstract class ContentController protected constructor(private val activity: Mai
                 @StringRes button1TextResId: Int,
                 @StringRes button2TextResId: Int,
                 @DrawableRes drawableResId: Int,
-                showProgress: Boolean
+                showProgress: Boolean = false,
+                showSitemapSkeleton: Boolean = false
             ): Bundle {
                 return bundleOf(
                     KEY_MESSAGE to message,
                     KEY_DRAWABLE to drawableResId,
                     KEY_BUTTON_1_TEXT to button1TextResId,
                     KEY_BUTTON_2_TEXT to button2TextResId,
-                    KEY_PROGRESS to showProgress
+                    KEY_PROGRESS to showProgress,
+                    KEY_SITEMAP_SKELETON to showSitemapSkeleton
                 )
             }
         }
