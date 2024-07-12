@@ -1,0 +1,3 @@
+- Implement new notification features
+- Support buttongrid's button widgets
+- This version is the last one with support for openHAB 1
