@@ -18,6 +18,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Parcelable
 import android.util.Base64
+import android.util.Log
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -27,6 +28,7 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.core.connection.Connection
+import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.IconBackground
 import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.ItemClient
@@ -60,7 +62,12 @@ data class CloudNotification internal constructor(
         }
         val itemStateFromMedia = if (mediaAttachmentUrl.startsWith("item:")) {
             val itemName = mediaAttachmentUrl.removePrefix("item:")
-            val item = ItemClient.loadItem(connection, itemName)
+            val item = try {
+                ItemClient.loadItem(connection, itemName)
+            } catch (e: HttpClient.HttpException) {
+                Log.e(TAG, "Error loading item for image", e)
+                null
+            }
             item?.state?.asString
         } else {
             null
@@ -70,10 +77,15 @@ data class CloudNotification internal constructor(
             return bitmapFromBase64(itemStateFromMedia)
         }
         val fallbackColor = context.getIconFallbackColor(IconBackground.APP_THEME)
-        return connection.httpClient
-            .get(itemStateFromMedia ?: mediaAttachmentUrl)
-            .asBitmap(size, fallbackColor, ImageConversionPolicy.PreferTargetSize)
-            .response
+        return try {
+            connection.httpClient
+                .get(itemStateFromMedia ?: mediaAttachmentUrl)
+                .asBitmap(size, fallbackColor, ImageConversionPolicy.PreferTargetSize)
+                .response
+        } catch (e: HttpClient.HttpException) {
+            Log.e(TAG, "Error loading image", e)
+            null
+        }
     }
 
     private fun bitmapFromBase64(itemState: String): Bitmap? {
@@ -83,6 +95,10 @@ data class CloudNotification internal constructor(
         } catch (e: IllegalArgumentException) {
             null
         }
+    }
+
+    companion object {
+        private val TAG = CloudNotification::class.java.simpleName
     }
 }
 

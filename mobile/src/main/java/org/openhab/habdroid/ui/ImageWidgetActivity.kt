@@ -130,12 +130,17 @@ class ImageWidgetActivity : AbstractBaseActivity() {
             }
         } else {
             val link = intent.getStringExtra(WIDGET_LINK)!!
-            val widgetState = JSONObject(
-                conn.httpClient
-                    .get(link)
-                    .asText()
-                    .response
-            ).getString("state") ?: return finish()
+            val widgetState = try {
+                JSONObject(
+                    conn.httpClient
+                        .get(link)
+                        .asText()
+                        .response
+                ).getString("state") ?: return finish()
+            } catch (e: HttpClient.HttpException) {
+                Log.d(TAG, "Failed to load image", e)
+                return finish()
+            }
 
             if (widgetState.matches("data:image/.*;base64,.*".toRegex())) {
                 Log.d(TAG, "Load image from value")
