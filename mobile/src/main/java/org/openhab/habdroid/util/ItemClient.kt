@@ -34,6 +34,7 @@ import org.xml.sax.SAXException
 object ItemClient {
     private val TAG = ItemClient::class.java.simpleName
 
+    @Throws(HttpClient.HttpException::class)
     suspend fun loadItems(connection: Connection): List<Item>? {
         val response = connection.httpClient.get("rest/items")
         val contentType = response.response.contentType()
@@ -72,6 +73,7 @@ object ItemClient {
         }
     }
 
+    @Throws(HttpClient.HttpException::class)
     suspend fun loadItem(connection: Connection, itemName: String): Item? {
         val response = connection.httpClient.get("rest/items/$itemName")
         val contentType = response.response.contentType()
