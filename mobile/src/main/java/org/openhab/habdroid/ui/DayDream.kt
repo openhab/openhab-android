@@ -23,11 +23,13 @@ import android.widget.TextView
 import kotlin.coroutines.CoroutineContext
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.HttpClient
@@ -88,27 +90,35 @@ class DayDream : DreamService(), CoroutineScope {
         wrapper.fadeOut()
         wrapper.moveViewToRandomPosition(container)
         wrapper.fadeIn()
-        delay(1.minutes)
+        delay(if (BuildConfig.DEBUG) 10.seconds else 1.minutes)
         moveText()
     }
 
     private fun View.moveViewToRandomPosition(container: FrameLayout) {
-        val randomX = Random.nextInt(0, container.width - width)
-        val randomY = Random.nextInt(0, container.height - height)
+        val randomX = randomIntFromZero(container.width - width)
+        val randomY = randomIntFromZero(container.height - height)
 
         x = randomX.toFloat()
         y = randomY.toFloat()
     }
 
+    private fun randomIntFromZero(until: Int): Int {
+        // Fix "random range is empty" exception
+        if (until == 0) {
+            return 0
+        }
+        return Random.nextInt(0, until)
+    }
+
     private fun View.fadeOut() {
         val animator = ObjectAnimator.ofFloat(this, View.ALPHA, 1f, 0f)
-        animator.duration = 2000
+        animator.duration = if (BuildConfig.DEBUG) 500 else 2000
         animator.start()
     }
 
     private fun View.fadeIn() {
         val animator = ObjectAnimator.ofFloat(this, View.ALPHA, 0f, 1f)
-        animator.duration = 2000
+        animator.duration = if (BuildConfig.DEBUG) 500 else 2000
         animator.start()
     }
 
