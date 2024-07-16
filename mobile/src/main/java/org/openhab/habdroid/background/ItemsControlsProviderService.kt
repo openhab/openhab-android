@@ -14,6 +14,7 @@
 package org.openhab.habdroid.background
 
 import android.app.PendingIntent
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -155,7 +156,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
         private val serverName: String
         private val primaryServerId: Int
         private val subtitleMode: DeviceControlSubtitleMode
-        private val authRequired: Boolean
+        private val prefsAuthRequired: Boolean
 
         init {
             val prefs = context.getPrefs()
@@ -164,7 +165,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 ?.name
                 .orDefaultIfEmpty(context.getString(R.string.app_name))
             subtitleMode = prefs.getDeviceControlSubtitle(context)
-            authRequired = prefs.getBoolean(PrefKeys.DEVICE_CONTROL_AUTH_REQUIRED, true)
+            prefsAuthRequired = prefs.getBoolean(PrefKeys.DEVICE_CONTROL_AUTH_REQUIRED, true)
         }
 
         fun maybeCreateControl(item: Item): Control? {
@@ -209,6 +210,16 @@ class ItemsControlsProviderService : ControlsProviderService() {
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                // Enforce authentication when the tile only opens MainActivity,
+                // which cannot be displayed on a locked screen.
+                val authRequired = if (
+                    controlTemplate.templateType == ControlTemplate.TYPE_NO_TEMPLATE &&
+                    intent.component == ComponentName(context, MainActivity::class.java)
+                ) {
+                    true
+                } else {
+                    prefsAuthRequired
+                }
                 statefulControl.setAuthRequired(authRequired)
             }
 
