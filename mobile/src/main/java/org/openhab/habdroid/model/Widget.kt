@@ -327,7 +327,7 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
                         "label" -> mappingLabel = childNode.textContent
                     }
                 }
-                mappings.add(LabeledValue(mappingCommand, mappingLabel, null, 0, 0))
+                mappings.add(LabeledValue(mappingCommand, null, mappingLabel, null, 0, 0))
             }
             else -> {}
         }

@@ -107,8 +107,8 @@ class ItemTest {
     @Test
     fun getCommandOptions() {
         val sut = itemWithCommandOptions.toItem()
-        assertEquals(LabeledValue("1", "One", "switch".toOH2IconResource(), 1, 2), sut.options!!.component1())
-        assertEquals(LabeledValue("2", "Two", null, 0, 0), sut.options!!.component2())
+        assertEquals(LabeledValue("1", null, "One", "switch".toOH2IconResource(), 1, 2), sut.options!!.component1())
+        assertEquals(LabeledValue("2", null, "Two", null, 0, 0), sut.options!!.component2())
     }
 
     @Test
