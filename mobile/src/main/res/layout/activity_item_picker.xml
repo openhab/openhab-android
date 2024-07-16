@@ -53,6 +53,7 @@
                     android:textAlignment="center"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="?colorOnSurfaceVariant"
+                    android:gravity="center"
                     tools:text="Some error occurred" />
 
                 <com.google.android.material.button.MaterialButton
