@@ -26,6 +26,7 @@ import okhttp3.Cache
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.model.IconFormat
+import org.openhab.habdroid.model.IconResource
 
 class CacheManager private constructor(appContext: Context) {
     val httpCache: Cache = Cache(File(appContext.cacheDir, "http"), (10 * 1024 * 1024).toLong())
@@ -61,7 +62,8 @@ class CacheManager private constructor(appContext: Context) {
         }
     }
 
-    private fun HttpUrl.isIconUrl() = pathSegments.firstOrNull() == "icon" && pathSegments[1].isNotEmpty()
+    private fun HttpUrl.isIconUrl() = host == IconResource.ICONIFY_API_URL ||
+        (pathSegments.firstOrNull() == "icon" && pathSegments[1].isNotEmpty())
 
     fun isBitmapCached(url: HttpUrl, @ColorInt fallbackColor: Int): Boolean {
         return getCachedBitmap(url, fallbackColor) != null

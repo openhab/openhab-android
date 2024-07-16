@@ -86,7 +86,7 @@ data class IconResource internal constructor(
         when (iconSource) {
             "if", "iconify" -> {
                 builder.scheme("https")
-                    .authority("api.iconify.design")
+                    .authority(ICONIFY_API_URL)
                     .path(iconSet)
                     .appendPath("$iconName.svg")
                     .appendQueryParameter("height", desiredSizePixels.toString())
@@ -120,6 +120,10 @@ data class IconResource internal constructor(
 
     fun withCustomState(state: String): IconResource {
         return IconResource(icon, isOh2, state)
+    }
+
+    companion object {
+        public const val ICONIFY_API_URL = "api.iconify.design"
     }
 }
 
