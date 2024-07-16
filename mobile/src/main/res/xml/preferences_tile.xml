@@ -6,19 +6,22 @@
         android:persistent="false"
         android:key="tile_show"
         android:title="@string/tile_enable"
-        android:widgetLayout="@layout/preference_material_switch" />
+        android:widgetLayout="@layout/preference_material_switch"
+        app:singleLineTitle="false" />
     <org.openhab.habdroid.ui.preference.widgets.ItemAndStatePreference
         android:persistent="false"
         android:dependency="tile_show"
         android:key="tile_item_and_action"
-        android:title="@string/tile_item_and_action" />
+        android:title="@string/tile_item_and_action"
+        app:singleLineTitle="false" />
     <org.openhab.habdroid.ui.preference.widgets.CustomInputTypePreference
         android:persistent="false"
         android:dependency="tile_show"
         android:key="tile_name"
         android:title="@string/tile_name"
         app:whitespaceBehavior="trim"
-        android:inputType="text" />
+        android:inputType="text"
+        app:singleLineTitle="false" />
     <ListPreference
         android:persistent="false"
         android:dependency="tile_show"
@@ -27,7 +30,8 @@
         android:summary="%s"
         android:defaultValue="@string/tile_icon_openhab_value"
         android:entries="@array/tile_icons"
-        android:entryValues="@array/tile_icons_values" />
+        android:entryValues="@array/tile_icons_values"
+        app:singleLineTitle="false" />
     <SwitchPreferenceCompat
         android:persistent="false"
         android:dependency="tile_show"
@@ -35,5 +39,6 @@
         android:title="@string/tile_require_unlock"
         android:summaryOn="@string/tile_require_unlock_summary_on"
         android:summaryOff="@string/tile_require_unlock_summary_off"
-        android:widgetLayout="@layout/preference_material_switch" />
+        android:widgetLayout="@layout/preference_material_switch"
+        app:singleLineTitle="false" />
 </androidx.preference.PreferenceScreen>

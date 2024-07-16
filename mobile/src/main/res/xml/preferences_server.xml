@@ -7,55 +7,65 @@
         android:persistent="false"
         app:whitespaceBehavior="trim"
         android:inputType="text"
-        app:useSimpleSummaryProvider="true" />
+        app:useSimpleSummaryProvider="true"
+        app:singleLineTitle="false" />
     <Preference
         android:key="local"
         android:persistent="false"
         android:title="@string/settings_openhab_connection"
-        android:icon="@drawable/ic_home_outline_grey_24dp" />
+        android:icon="@drawable/ic_home_outline_grey_24dp"
+        app:singleLineTitle="false" />
     <Preference
         android:key="remote"
         android:persistent="false"
         android:title="@string/settings_openhab_alt_connection"
-        android:icon="@drawable/ic_tree_outline_grey_24dp" />
+        android:icon="@drawable/ic_tree_outline_grey_24dp"
+        app:singleLineTitle="false" />
     <Preference
         android:clickable="true"
         android:key="clear_default_sitemap"
-        android:title="@string/settings_clear_default_sitemap" />
+        android:title="@string/settings_clear_default_sitemap"
+        app:singleLineTitle="false" />
     <org.openhab.habdroid.ui.preference.widgets.CustomInputTypePreference
         android:key="main_ui_start_page"
         android:title="@string/settings_main_ui_start_page"
         android:persistent="false"
         app:whitespaceBehavior="trim"
         android:inputType="text"
-        app:useSimpleSummaryProvider="true" />
+        app:useSimpleSummaryProvider="true"
+        app:singleLineTitle="false" />
     <org.openhab.habdroid.ui.preference.widgets.PrimaryServerPreference
         android:key="primary_server_pref"
         android:icon="@drawable/ic_star_border_grey_24dp"
-        android:title="@string/settings_server_primary_title" />
+        android:title="@string/settings_server_primary_title"
+        app:singleLineTitle="false" />
     <Preference
         android:clickable="true"
         app:isPreferenceVisible="true"
         android:key="advanced_prefs"
         android:icon="@drawable/ic_keyboard_arrow_down_grey_24dp"
-        android:title="@string/settings_advanced" />
+        android:title="@string/settings_advanced"
+        app:singleLineTitle="false" />
     <org.openhab.habdroid.ui.preference.widgets.SslClientCertificatePreference
         android:key="clientcert"
         android:persistent="false"
         app:isPreferenceVisible="false"
-        android:title="@string/settings_openhab_sslclientcert" />
+        android:title="@string/settings_openhab_sslclientcert"
+        app:singleLineTitle="false" />
     <org.openhab.habdroid.ui.preference.widgets.WifiSsidInputPreference
         android:key="wifi_ssid"
         android:persistent="false"
         app:isPreferenceVisible="false"
         app:whitespaceBehavior="trim"
         android:inputType="text"
-        android:title="@string/settings_wifi_ssid" />
+        android:title="@string/settings_wifi_ssid"
+        app:singleLineTitle="false" />
     <org.openhab.habdroid.ui.preference.widgets.UrlInputPreference
         android:key="frontail_url"
         android:defaultValue="@string/empty_string"
         android:persistent="false"
         app:isPreferenceVisible="false"
         android:title="@string/frontail_url_title"
-        app:isForRemoteServer="false" />
+        app:isForRemoteServer="false"
+        app:singleLineTitle="false" />
 </PreferenceScreen>

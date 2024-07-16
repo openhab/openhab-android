@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <org.openhab.habdroid.ui.preference.widgets.InfoPreference
-        android:summary="@string/tile_overview_hint" />
+        android:summary="@string/tile_overview_hint"
+        app:singleLineTitle="false" />
 </androidx.preference.PreferenceScreen>

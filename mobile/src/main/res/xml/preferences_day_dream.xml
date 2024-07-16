@@ -6,7 +6,8 @@
         android:title="@string/screensaver_item"
         app:whitespaceBehavior="trim"
         app:useSimpleSummaryProvider="true"
-        android:inputType="text" />
+        android:inputType="text"
+        app:singleLineTitle="false" />
     <SwitchPreferenceCompat
         android:defaultValue="true"
         android:key="daydream_bright_screen"
