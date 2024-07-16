@@ -10,10 +10,12 @@
         android:defaultValue="@string/device_control_subtitle_location_value"
         app:useSimpleSummaryProvider="true"
         android:entries="@array/device_control_subtitle"
-        android:entryValues="@array/device_control_subtitle_values"/>
+        android:entryValues="@array/device_control_subtitle_values"
+        app:singleLineTitle="false" />
     <SwitchPreferenceCompat
         android:key="device_control_auth_required"
         android:title="@string/tile_require_unlock"
         android:defaultValue="true"
-        android:widgetLayout="@layout/preference_material_switch" />
+        android:widgetLayout="@layout/preference_material_switch"
+        app:singleLineTitle="false" />
 </androidx.preference.PreferenceScreen>
