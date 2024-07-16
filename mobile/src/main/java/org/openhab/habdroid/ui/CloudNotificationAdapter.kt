@@ -149,6 +149,8 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
                         ),
                         timeoutMillis = 2000
                     )
+                } else {
+                    iconView.applyFallbackDrawable()
                 }
                 imageView.isVisible = notification.mediaAttachmentUrl != null
                 CoroutineScope(Dispatchers.IO + Job()).launch {
