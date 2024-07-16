@@ -36,6 +36,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.model.CloudNotificationType
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.toCloudNotification
 import org.openhab.habdroid.util.HttpClient
@@ -151,10 +152,12 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
         requestJob = activity.launch {
             try {
                 val response = conn.httpClient.get(url).asText().response
-                val items = JSONArray(response).map { obj -> obj.toCloudNotification() }
-                Log.d(TAG, "Notifications request success, got ${items.size} items")
-                loadOffset += items.size
-                adapter.addLoadedItems(items, items.size == PAGE_SIZE)
+                val allItems = JSONArray(response).map { obj -> obj.toCloudNotification() }
+                val filteredItems = allItems
+                    .filter { notification -> notification.type == CloudNotificationType.NOTIFICATION }
+                Log.d(TAG, "Notifications request success, got ${allItems.size} items")
+                loadOffset += allItems.size
+                adapter.addLoadedItems(filteredItems, allItems.size == PAGE_SIZE)
                 handleInitialHighlight()
                 updateViewVisibility(loading = false, loadError = false)
             } catch (e: JSONException) {

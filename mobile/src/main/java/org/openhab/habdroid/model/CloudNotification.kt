@@ -45,7 +45,20 @@ data class CloudNotificationId internal constructor(
 }
 
 @Parcelize
+enum class CloudNotificationType : Parcelable {
+    NOTIFICATION,
+    HIDE_NOTIFICATION
+}
+
+fun String.toCloudNotificationType() = when (this) {
+    "notification" -> CloudNotificationType.NOTIFICATION
+    "hideNotification" -> CloudNotificationType.HIDE_NOTIFICATION
+    else -> null
+}
+
+@Parcelize
 data class CloudNotification internal constructor(
+    val type: CloudNotificationType,
     val id: CloudNotificationId,
     val title: String,
     val message: String,
@@ -117,9 +130,11 @@ fun JSONObject.toCloudNotification(): CloudNotification {
 
     val payload = optJSONObject("payload")
     return CloudNotification(
+        // Old notifications don't contain "type", so fallback to normal notifications here.
+        type = payload?.optString("type")?.toCloudNotificationType() ?: CloudNotificationType.NOTIFICATION,
         id = CloudNotificationId(getString("_id"), payload?.optStringOrNull("reference-id")),
         title = payload?.optString("title").orEmpty(),
-        message = payload?.getString("message") ?: getString("message"),
+        message = payload?.optString("message") ?: optString("message"),
         createdTimestamp = created,
         icon = payload?.optStringOrNull("icon").toOH2IconResource() ?: optStringOrNull("icon").toOH2IconResource(),
         tag = payload?.optStringOrNull("tag") ?: optStringOrNull("severity"),

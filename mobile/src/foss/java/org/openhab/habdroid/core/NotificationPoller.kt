@@ -19,6 +19,7 @@ import androidx.core.content.edit
 import org.json.JSONArray
 import org.json.JSONException
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.model.CloudNotificationType
 import org.openhab.habdroid.model.toCloudNotification
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
@@ -65,8 +66,18 @@ object NotificationPoller {
         val newMessages = if (lastSeenIndex >= 0) messages.subList(0, lastSeenIndex) else messages
         val notifHelper = NotificationHelper(context)
 
-        newMessages.forEach { message ->
-            notifHelper.showNotification(message)
+        // Reverse list, so old notifications are processed first and can be hidden by newer notifications.
+        newMessages.reversed().forEach { message ->
+            when (message.type) {
+                CloudNotificationType.NOTIFICATION -> notifHelper.showNotification(message)
+                CloudNotificationType.HIDE_NOTIFICATION -> {
+                    if (!message.tag.isNullOrEmpty()) {
+                        notifHelper.cancelNotificationsByTag(message.tag)
+                    } else {
+                        notifHelper.cancelNotificationById(message.id)
+                    }
+                }
+            }
         }
     }
 }

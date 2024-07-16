@@ -415,7 +415,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             connection != null && SpeechRecognizer.isRecognitionAvailable(this)
         val debugItems = listOf(
             R.id.mainmenu_debug_crash,
-            R.id.mainmenu_debug_clear_mtm
+            R.id.mainmenu_debug_clear_mtm,
+            R.id.mainmenu_poll_notifications
         )
         debugItems.forEach {
             menu.findItem(it).isVisible = BuildConfig.DEBUG
@@ -451,6 +452,14 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
                 mtm.certificates.iterator().forEach {
                     Log.d(TAG, "Remove $it from MTM keystore")
                     mtm.deleteCertificate(it)
+                }
+                true
+            }
+            R.id.mainmenu_poll_notifications -> {
+                if (CloudMessagingHelper.needsPollingForNotifications(this)) {
+                    launch {
+                        CloudMessagingHelper.pollForNotifications(this@MainActivity)
+                    }
                 }
                 true
             }
