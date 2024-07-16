@@ -11,6 +11,12 @@
         app:showAsAction="always"
         app:iconTint="?android:textColorSecondary" />
     <item
+        android:id="@+id/mainmenu_poll_notifications"
+        android:orderInCategory="1000"
+        android:title="Poll notifications"
+        app:showAsAction="never"
+        tools:ignore="HardcodedText" />
+    <item
         android:id="@+id/mainmenu_debug_crash"
         android:orderInCategory="1000"
         android:title="Crash"

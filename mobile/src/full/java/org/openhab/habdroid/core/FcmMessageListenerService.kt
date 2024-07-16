@@ -20,6 +20,7 @@ import kotlinx.coroutines.runBlocking
 import org.openhab.habdroid.model.CloudNotification
 import org.openhab.habdroid.model.CloudNotificationAction
 import org.openhab.habdroid.model.CloudNotificationId
+import org.openhab.habdroid.model.CloudNotificationType
 import org.openhab.habdroid.model.toCloudNotificationAction
 import org.openhab.habdroid.model.toOH2IconResource
 import org.openhab.habdroid.util.map
@@ -52,6 +53,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                     ?.map { it.toCloudNotificationAction() }
                     ?.filterNotNull()
                 val cloudNotification = CloudNotification(
+                    type = CloudNotificationType.NOTIFICATION,
                     id = CloudNotificationId(data["persistedId"].orEmpty(), data["reference-id"]),
                     title = data["title"].orEmpty(),
                     message = data["message"].orEmpty(),
