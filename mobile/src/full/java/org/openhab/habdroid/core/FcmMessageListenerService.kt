@@ -17,10 +17,9 @@ import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlinx.coroutines.runBlocking
-import org.openhab.habdroid.model.CloudNotification
+import org.openhab.habdroid.model.CloudMessage
 import org.openhab.habdroid.model.CloudNotificationAction
 import org.openhab.habdroid.model.CloudNotificationId
-import org.openhab.habdroid.model.CloudNotificationType
 import org.openhab.habdroid.model.toCloudNotificationAction
 import org.openhab.habdroid.model.toOH2IconResource
 import org.openhab.habdroid.util.map
@@ -44,16 +43,14 @@ class FcmMessageListenerService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         val data = message.data
         Log.d(TAG, "onMessageReceived with data $data")
-        val messageType = data["type"] ?: return
 
-        when (messageType) {
+        val cloudMessage: CloudMessage? = when (data["type"]) {
             "notification" -> {
                 val actions = data["actions"]
                     ?.toJsonArrayOrNull()
                     ?.map { it.toCloudNotificationAction() }
                     ?.filterNotNull()
-                val cloudNotification = CloudNotification(
-                    type = CloudNotificationType.NOTIFICATION,
+                CloudMessage.CloudNotification(
                     id = CloudNotificationId(data["persistedId"].orEmpty(), data["reference-id"]),
                     title = data["title"].orEmpty(),
                     message = data["message"].orEmpty(),
@@ -67,16 +64,20 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                     onClickAction = data["on-click"]?.let { CloudNotificationAction("", it) },
                     mediaAttachmentUrl = data["media-attachment-url"]
                 )
+            }
 
-                runBlocking {
-                    notifHelper.showNotification(cloudNotification)
-                }
-            }
             "hideNotification" -> {
-                data["tag"]?.let { tag -> notifHelper.cancelNotificationsByTag(tag) }
-                val id = CloudNotificationId(data["persistedId"].orEmpty(), data["reference-id"])
-                notifHelper.cancelNotificationById(id)
+                CloudMessage.CloudHideNotificationRequest(
+                    id = CloudNotificationId(data["persistedId"].orEmpty(), data["reference-id"]),
+                    tag = data["tag"]
+                )
             }
+
+            else -> null
+        }
+
+        runBlocking {
+            cloudMessage?.let { notifHelper.handleNewCloudMessage(it) }
         }
     }
 

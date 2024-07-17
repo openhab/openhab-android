@@ -28,20 +28,20 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
-import org.openhab.habdroid.model.CloudNotification
+import org.openhab.habdroid.model.CloudMessage
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.determineDataUsagePolicy
 
 class CloudNotificationAdapter(context: Context, private val loadMoreListener: () -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private val items = mutableListOf<CloudNotification>()
+    private val items = mutableListOf<CloudMessage.CloudNotification>()
     private val existingReferenceIds = mutableSetOf<String>()
     private val inflater = LayoutInflater.from(context)
     private var hasMoreItems: Boolean = false
     private var waitingForMoreData: Boolean = false
     private var highlightedPosition = -1
 
-    fun addLoadedItems(loaded: List<CloudNotification>, hasMoreItems: Boolean) {
+    fun addLoadedItems(loaded: List<CloudMessage.CloudNotification>, hasMoreItems: Boolean) {
         val existingItemCount = items.size
         val relevant = loaded.filter {
             // Collapse multiple notifications with the same reference ID into the latest one by accepting either
@@ -122,7 +122,7 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
         private val imageView: WidgetImageView = itemView.findViewById(R.id.notificationImage)
         private val tagView: TextView = itemView.findViewById(R.id.notificationTag)
 
-        fun bind(notification: CloudNotification) {
+        fun bind(notification: CloudMessage.CloudNotification) {
             createdView.text = DateUtils.getRelativeDateTimeString(
                 itemView.context,
                 notification.createdTimestamp,

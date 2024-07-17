@@ -30,7 +30,7 @@ import androidx.core.content.ContextCompat
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.core.connection.ConnectionFactory
-import org.openhab.habdroid.model.CloudNotification
+import org.openhab.habdroid.model.CloudMessage
 import org.openhab.habdroid.model.CloudNotificationId
 import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.ui.MainActivity
@@ -47,11 +47,15 @@ import org.openhab.habdroid.util.getPrefs
 class NotificationHelper(private val context: Context) {
     private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-    suspend fun showNotification(message: CloudNotification) {
-        createChannelForTag(message.tag)
-        val n = makeNotification(message)
-        notificationManager.notify(message.id.notificationId, n)
-        updateGroupNotification()
+    suspend fun handleNewCloudMessage(message: CloudMessage) = when (message) {
+        is CloudMessage.CloudNotification -> showNotification(message)
+        is CloudMessage.CloudHideNotificationRequest -> {
+            if (!message.tag.isNullOrEmpty()) {
+                cancelNotificationsByTag(message.tag)
+            } else {
+                cancelNotificationById(message.id)
+            }
+        }
     }
 
     fun cancelNotificationById(id: CloudNotificationId) {
@@ -67,12 +71,19 @@ class NotificationHelper(private val context: Context) {
         }
     }
 
-    fun cancelNotificationsByTag(tag: String) {
+    private fun cancelNotificationsByTag(tag: String) {
         val channelId = getChannelId(tag)
         NotificationManagerCompat.from(context)
             .activeNotifications
             .filter { sbn -> NotificationCompat.getChannelId(sbn.notification) == channelId }
             .forEach { sbn -> notificationManager.cancel(sbn.id) }
+    }
+
+    private suspend fun showNotification(message: CloudMessage.CloudNotification) {
+        createChannelForTag(message.tag)
+        val n = makeNotification(message)
+        notificationManager.notify(message.id.notificationId, n)
+        updateGroupNotification()
     }
 
     fun handleNotificationDismissed(notificationId: Int) {
@@ -133,7 +144,7 @@ class NotificationHelper(private val context: Context) {
         return active.count { n -> n.id != 0 && (n.groupKey?.endsWith("gcm") == true) }
     }
 
-    private suspend fun makeNotification(message: CloudNotification): Notification {
+    private suspend fun makeNotification(message: CloudMessage.CloudNotification): Notification {
         val iconBitmap = getNotificationIcon(message.icon)
 
         val contentIntent = if (message.onClickAction == null) {

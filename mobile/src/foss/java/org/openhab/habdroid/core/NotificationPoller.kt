@@ -19,8 +19,8 @@ import androidx.core.content.edit
 import org.json.JSONArray
 import org.json.JSONException
 import org.openhab.habdroid.core.connection.ConnectionFactory
-import org.openhab.habdroid.model.CloudNotificationType
-import org.openhab.habdroid.model.toCloudNotification
+import org.openhab.habdroid.model.CloudMessage
+import org.openhab.habdroid.model.toCloudMessage
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPrefs
@@ -40,7 +40,7 @@ object NotificationPoller {
         val messages = try {
             val response = connection.httpClient.get(url).asText().response
             Log.d(TAG, "Notifications request success")
-            JSONArray(response).map { obj -> obj.toCloudNotification() }
+            JSONArray(response).map { obj -> obj.toCloudMessage() }.filterNotNull()
         } catch (e: JSONException) {
             Log.d(TAG, "Notification response could not be parsed", e)
             null
@@ -67,17 +67,6 @@ object NotificationPoller {
         val notifHelper = NotificationHelper(context)
 
         // Reverse list, so old notifications are processed first and can be hidden by newer notifications.
-        newMessages.reversed().forEach { message ->
-            when (message.type) {
-                CloudNotificationType.NOTIFICATION -> notifHelper.showNotification(message)
-                CloudNotificationType.HIDE_NOTIFICATION -> {
-                    if (!message.tag.isNullOrEmpty()) {
-                        notifHelper.cancelNotificationsByTag(message.tag)
-                    } else {
-                        notifHelper.cancelNotificationById(message.id)
-                    }
-                }
-            }
-        }
+        newMessages.reversed().forEach { notifHelper.handleNewCloudMessage(it) }
     }
 }
