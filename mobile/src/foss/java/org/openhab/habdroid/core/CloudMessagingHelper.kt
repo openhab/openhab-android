@@ -15,10 +15,17 @@ package org.openhab.habdroid.core
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
+import androidx.core.content.edit
+import org.json.JSONArray
+import org.json.JSONException
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
+import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.NotACloudServerException
+import org.openhab.habdroid.model.CloudMessage
+import org.openhab.habdroid.model.toCloudMessage
 import org.openhab.habdroid.ui.preference.PushNotificationStatus
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
@@ -26,8 +33,11 @@ import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getRemoteUrl
+import org.openhab.habdroid.util.map
 
 object CloudMessagingHelper {
+    private val TAG = CloudMessagingHelper::class.java.simpleName
+
     @Suppress("UNUSED_PARAMETER")
     fun onConnectionUpdated(context: Context, connection: CloudConnection?) {}
 
@@ -40,7 +50,48 @@ object CloudMessagingHelper {
         context.getPrefs().getBoolean(PrefKeys.FOSS_NOTIFICATIONS_ENABLED, false)
 
     suspend fun pollForNotifications(context: Context) {
-        NotificationPoller.checkForNewNotifications(context)
+        ConnectionFactory.waitForInitialization()
+        val connection = ConnectionFactory.primaryCloudConnection?.connection
+        if (connection == null) {
+            Log.d(TAG, "No connection for loading notifications")
+            return
+        }
+
+        val notifHelper = NotificationHelper(context)
+        loadNewMessages(context, connection)
+            // Reverse list, so old notifications are processed first and can be hidden by newer notifications.
+            ?.reversed()
+            ?.forEach { notifHelper.handleNewCloudMessage(it) }
+    }
+
+    private suspend fun loadNewMessages(context: Context, connection: Connection): List<CloudMessage>? {
+        val url = "api/v1/notifications?limit=20"
+        val messages = try {
+            val response = connection.httpClient.get(url).asText().response
+            Log.d(TAG, "Notifications request success")
+            JSONArray(response).map { obj -> obj.toCloudMessage() }.filterNotNull()
+        } catch (e: JSONException) {
+            Log.d(TAG, "Notification response could not be parsed", e)
+            return null
+        } catch (e: HttpClient.HttpException) {
+            Log.e(TAG, "Notifications request failure", e)
+            return null
+        }
+
+        val prefs = context.getPrefs()
+        val lastSeenMessageId = prefs.getString(PrefKeys.FOSS_LAST_SEEN_MESSAGE, null)
+        prefs.edit {
+            val newestSeenId = messages.firstOrNull()?.id?.persistedId ?: lastSeenMessageId
+            putString(PrefKeys.FOSS_LAST_SEEN_MESSAGE, newestSeenId)
+        }
+        if (lastSeenMessageId == null) {
+            // Never checked for notifications before
+            Log.d(TAG, "First notification check")
+            return null
+        }
+
+        val lastSeenIndex = messages.map { msg -> msg.id.persistedId }.indexOf(lastSeenMessageId)
+        return if (lastSeenIndex >= 0) messages.subList(0, lastSeenIndex) else messages
     }
 
     suspend fun getPushNotificationStatus(context: Context): PushNotificationStatus {
