@@ -21,16 +21,14 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.DialogPreference
 import androidx.preference.PreferenceDialogFragmentCompat
-import com.google.android.material.materialswitch.MaterialSwitch
-import com.google.android.material.textfield.TextInputLayout
 import org.openhab.habdroid.R
+import org.openhab.habdroid.databinding.PrefDialogDeviceIdentifierBinding
 import org.openhab.habdroid.ui.preference.CustomDialogPreference
 import org.openhab.habdroid.util.PrefKeys
 
@@ -75,36 +73,30 @@ class DeviceIdentifierPreference(context: Context, attrs: AttributeSet) :
     class PrefFragment :
         PreferenceDialogFragmentCompat(),
         TextWatcher {
-        private lateinit var editorWrapper: TextInputLayout
-        private lateinit var editor: EditText
-        private lateinit var voiceButton: MaterialSwitch
-        private lateinit var backgroundTasksButton: MaterialSwitch
+        private lateinit var binding: PrefDialogDeviceIdentifierBinding
 
         override fun onCreateDialogView(context: Context): View {
             val inflater = LayoutInflater.from(activity)
-            val v = inflater.inflate(R.layout.pref_dialog_device_identifier, null)
+            binding = PrefDialogDeviceIdentifierBinding.inflate(inflater)
 
-            editorWrapper = v.findViewById(R.id.input_wrapper)
-            editor = v.findViewById(android.R.id.edit)
-            voiceButton = v.findViewById(R.id.voice_switch)
-            backgroundTasksButton = v.findViewById(R.id.background_tasks_switch)
-
-            editor.addTextChangedListener(this)
-            editor.inputType = InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
             arguments?.getCharSequence(KEY_TITLE)?.let { title ->
-                editorWrapper.hint = title
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                editor.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+                binding.inputWrapper.hint = title
             }
 
             val prefs = preference.sharedPreferences!!
-            editor.setText((preference as DeviceIdentifierPreference).value)
-            editor.setSelection(editor.text.length)
-            voiceButton.isChecked = prefs.getBoolean(PrefKeys.DEV_ID_PREFIX_VOICE, false)
-            backgroundTasksButton.isChecked = prefs.getBoolean(PrefKeys.DEV_ID_PREFIX_BG_TASKS, true)
+            binding.edit.apply {
+                addTextChangedListener(this@PrefFragment)
+                inputType = InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+                }
+                setText((preference as DeviceIdentifierPreference).value)
+                setSelection(text?.length ?: 0)
+            }
+            binding.voiceSwitch.isChecked = prefs.getBoolean(PrefKeys.DEV_ID_PREFIX_VOICE, false)
+            binding.backgroundTasksSwitch.isChecked = prefs.getBoolean(PrefKeys.DEV_ID_PREFIX_BG_TASKS, true)
 
-            return v
+            return binding.root
         }
 
         override fun onDialogClosed(positiveResult: Boolean) {
@@ -112,9 +104,9 @@ class DeviceIdentifierPreference(context: Context, attrs: AttributeSet) :
                 val prefs = preference.sharedPreferences!!
                 prefs.edit {
                     val pref = preference as DeviceIdentifierPreference
-                    pref.setValue(editor.text.toString())
-                    putBoolean(PrefKeys.DEV_ID_PREFIX_VOICE, voiceButton.isChecked)
-                    putBoolean(PrefKeys.DEV_ID_PREFIX_BG_TASKS, backgroundTasksButton.isChecked)
+                    pref.setValue(binding.edit.text.toString())
+                    putBoolean(PrefKeys.DEV_ID_PREFIX_VOICE, binding.voiceSwitch.isChecked)
+                    putBoolean(PrefKeys.DEV_ID_PREFIX_BG_TASKS, binding.backgroundTasksSwitch.isChecked)
                 }
             }
         }
@@ -135,9 +127,9 @@ class DeviceIdentifierPreference(context: Context, attrs: AttributeSet) :
         override fun afterTextChanged(s: Editable) {
             val value = s.toString()
             if (value.contains(" ") || value.contains("\n")) {
-                editorWrapper.error = context?.getString(R.string.error_no_valid_item_name)
+                binding.inputWrapper.error = context?.getString(R.string.error_no_valid_item_name)
             } else {
-                editorWrapper.error = null
+                binding.inputWrapper.error = null
             }
             updateOkButtonState()
         }
@@ -146,8 +138,8 @@ class DeviceIdentifierPreference(context: Context, attrs: AttributeSet) :
             val dialog = this.dialog
             if (dialog is AlertDialog) {
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled =
-                    !editor.isEnabled ||
-                    editorWrapper.error == null
+                    !binding.edit.isEnabled ||
+                    binding.inputWrapper.error == null
             }
         }
 

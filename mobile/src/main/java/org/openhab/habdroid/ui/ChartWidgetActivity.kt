@@ -23,8 +23,6 @@ import android.text.format.DateFormat
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.Button
 import android.widget.TextView
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.isVisible
@@ -75,6 +73,7 @@ import org.json.JSONObject
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.databinding.ActivityChartBinding
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.Widget
@@ -91,13 +90,8 @@ import org.openhab.habdroid.util.resolveThemedColorArray
 import org.openhab.habdroid.util.serializable
 
 class ChartWidgetActivity : AbstractBaseActivity() {
+    private lateinit var binding: ActivityChartBinding
     private lateinit var widget: Widget
-    private lateinit var chart: LineChart
-    private lateinit var progressContainer: View
-    private lateinit var progressText: TextView
-    private lateinit var errorContainer: View
-    private lateinit var errorText: TextView
-    private lateinit var retryButton: Button
     private lateinit var seriesColors: Array<Int>
     private val dataCacheFragment get() =
         supportFragmentManager.findFragmentByTag("cache") as? ChartDataCacheFragment
@@ -106,8 +100,6 @@ class ChartWidgetActivity : AbstractBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_chart)
 
         val widget = intent.parcelable<Widget>(EXTRA_WIDGET)
         if (widget == null) {
@@ -133,14 +125,12 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         }
 
         seriesColors = resolveThemedColorArray(R.attr.chartSeriesColors)
-        progressContainer = findViewById(R.id.progress_container)
-        progressText = findViewById(R.id.progress_text)
-        errorContainer = findViewById(R.id.error_container)
-        errorText = findViewById(R.id.error_message)
-        retryButton = findViewById(R.id.retry_button)
-        chart = findViewById<LineChart>(R.id.chart).also {
-            configureChart(it)
-        }
+        configureChart()
+    }
+
+    override fun inflateBinding(): CommonBinding {
+        binding = ActivityChartBinding.inflate(layoutInflater)
+        return CommonBinding(binding.root, binding.appBar, binding.coordinator, binding.activityContent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -228,7 +218,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
 
         val data = try {
             loadData(connection, item, period, widget.service) { itemName ->
-                progressText.text = getString(R.string.chart_activity_loading_progress_item, itemName)
+                binding.progressText.text = getString(R.string.chart_activity_loading_progress_item, itemName)
             }
         } catch (e: HttpClient.HttpException) {
             Log.w(TAG, "Could not load chart data", e)
@@ -261,26 +251,26 @@ class ChartWidgetActivity : AbstractBaseActivity() {
     }
 
     private fun showLoadingIndicator() {
-        chart.isVisible = false
-        progressContainer.isVisible = true
-        errorContainer.isVisible = false
-        progressText.text = ""
+        binding.chart.isVisible = false
+        binding.progressContainer.isVisible = true
+        binding.errorContainer.isVisible = false
+        binding.progressText.text = ""
     }
 
     private fun showChart() {
-        progressContainer.isVisible = false
-        errorContainer.isVisible = false
-        chart.isVisible = true
+        binding.progressContainer.isVisible = false
+        binding.errorContainer.isVisible = false
+        binding.chart.isVisible = true
     }
 
     private fun showError(message: CharSequence, retryButtonText: CharSequence, retryAction: (() -> Unit)? = null) {
-        chart.isVisible = false
-        progressContainer.isVisible = false
-        errorContainer.isVisible = true
-        errorText.text = message
-        retryButton.isVisible = retryAction != null
-        retryButton.text = retryButtonText
-        retryAction?.let { retryButton.setOnClickListener { it() } }
+        binding.chart.isVisible = false
+        binding.progressContainer.isVisible = false
+        binding.errorContainer.isVisible = true
+        binding.errorMessage.text = message
+        binding.retryButton.isVisible = retryAction != null
+        binding.retryButton.text = retryButtonText
+        retryAction?.let { binding.retryButton.setOnClickListener { it() } }
     }
 
     private fun goToChartImageActivity() {
@@ -325,7 +315,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         return ChartData(allSeries, timestamp, startTime)
     }
 
-    private fun configureChart(chart: LineChart) = with(chart) {
+    private fun configureChart() = with(binding.chart) {
         val foregroundColor = resolveThemedColor(R.attr.colorOnSurface)
         val padding = 4F // dp
 
@@ -339,7 +329,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         setDrawGridBackground(false)
         setBorderColor(foregroundColor)
 
-        marker = ValueMarkerView(chart, seriesColors)
+        marker = ValueMarkerView(this, seriesColors)
         isHighlightPerTapEnabled = true
         isHighlightPerDragEnabled = true
 
@@ -393,20 +383,22 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             }
         }
 
-        val viewportHandler = chart.viewPortHandler
-        chart.setXAxisRenderer(
-            TimeXAxisRenderer(
-                viewportHandler,
-                chart.xAxis,
-                chart.rendererXAxis.transformer,
-                data.startTime
+        val viewportHandler = binding.chart.viewPortHandler
+        with(binding.chart) {
+            setXAxisRenderer(
+                TimeXAxisRenderer(
+                    viewportHandler,
+                    xAxis,
+                    rendererXAxis.transformer,
+                    data.startTime
+                )
             )
-        )
-        chart.xAxis.valueFormatter = TimeXAxisValueFormatter(
-            data.startTime,
-            viewportHandler,
-            Locale.getDefault()
-        )
+            xAxis.valueFormatter = TimeXAxisValueFormatter(
+                data.startTime,
+                viewportHandler,
+                Locale.getDefault()
+            )
+        }
 
         // Make sure at least 5 seconds stay visible on screen
         val minX = dataSets.minByOrNull { it.xMin }?.xMin
@@ -415,7 +407,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             viewportHandler.setMaximumScaleX((maxX - minX) / 50)
         }
 
-        with(chart.axisLeft) {
+        with(binding.chart.axisLeft) {
             if (data.data.all { it.type in listOf(Item.Type.Switch, Item.Type.Contact) }) {
                 // states only
                 axisMinimum = -0.05F
@@ -446,9 +438,11 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             }
         }
 
-        chart.legend.isEnabled = data.data.size > 1
-        chart.data = LineData(dataSets)
-        chart.fitScreen()
+        binding.chart.apply {
+            legend.isEnabled = data.data.size > 1
+            this.data = LineData(dataSets)
+            fitScreen()
+        }
     }
 
     @Throws(HttpClient.HttpException::class, NumberFormatException::class)

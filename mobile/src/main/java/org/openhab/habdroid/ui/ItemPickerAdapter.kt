@@ -17,14 +17,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.util.Locale
-import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.databinding.ItempickerlistItemBinding
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.toOH2IconResource
-import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.determineDataUsagePolicy
 
 class ItemPickerAdapter(context: Context, private val itemClickListener: ItemClickListener?) :
@@ -71,7 +69,8 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
         notifyItemChanged(position)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder = ItemViewHolder(inflater, parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder =
+        ItemViewHolder(ItempickerlistItemBinding.inflate(inflater, parent, false))
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.bind(filteredItems[position])
@@ -94,33 +93,29 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
         }
     }
 
-    class ItemViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
-        RecyclerView.ViewHolder(inflater.inflate(R.layout.itempickerlist_item, parent, false)) {
-        private val itemNameView: TextView = itemView.findViewById(R.id.itemName)
-        private val itemLabelView: TextView = itemView.findViewById(R.id.itemLabel)
-        private val iconView: WidgetImageView = itemView.findViewById(R.id.itemIcon)
-        private val itemTypeView: TextView = itemView.findViewById(R.id.itemType)
+    class ItemViewHolder(private val binding: ItempickerlistItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         init {
             itemView.tag = this
         }
 
         fun bind(item: Item) {
-            itemNameView.text = item.name
-            itemLabelView.text = item.label
-            itemTypeView.text = item.type.toString()
+            binding.itemName.text = item.name
+            binding.itemLabel.text = item.label
+            binding.itemType.text = item.type.toString()
 
             val context = itemView.context
             val connection = ConnectionFactory.primaryUsableConnection?.connection
             val icon = item.category.toOH2IconResource()
             if (icon != null && connection != null) {
-                iconView.setImageUrl(
+                binding.itemIcon.setImageUrl(
                     connection,
                     icon.toUrl(context, context.determineDataUsagePolicy(connection).loadIconsWithState),
                     timeoutMillis = 2000
                 )
             } else {
-                iconView.applyFallbackDrawable()
+                binding.itemIcon.applyFallbackDrawable()
             }
         }
     }

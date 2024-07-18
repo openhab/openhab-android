@@ -48,7 +48,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
@@ -58,11 +57,11 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.databinding.FragmentWidgetlistBinding
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
-import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.IconBackground
@@ -91,12 +90,12 @@ class WidgetListFragment :
     AbstractWidgetBottomSheet.ConnectionGetter,
     OpenHabApplication.OnDataUsagePolicyChangedListener,
     SharedPreferences.OnSharedPreferenceChangeListener {
-    @VisibleForTesting lateinit var recyclerView: RecyclerView
-    private lateinit var refreshLayout: RecyclerViewSwipeRefreshLayout
-    private lateinit var emptyPageView: View
+    private lateinit var binding: FragmentWidgetlistBinding
     private lateinit var layoutManager: LinearLayoutManager
     private var adapter: WidgetAdapter? = null
     private var lastContextMenu: ContextMenu? = null
+
+    @VisibleForTesting val recyclerView get() = binding.recyclerview
 
     // parent activity
     private var titleOverride: String? = null
@@ -121,9 +120,9 @@ class WidgetListFragment :
         outState.putString("title", titleOverride)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_widgetlist, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentWidgetlistBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -138,23 +137,23 @@ class WidgetListFragment :
         layoutManager = LinearLayoutManager(activity)
         layoutManager.recycleChildrenOnDetach = true
 
-        recyclerView = view.findViewById(R.id.recyclerview)
-        recyclerView.setRecycledViewPool(activity.viewPool)
-        recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = adapter
-        (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-        registerForContextMenu(recyclerView)
-
-        refreshLayout = view.findViewById(R.id.swiperefresh)
-        refreshLayout.applyColors()
-        refreshLayout.recyclerView = recyclerView
-        refreshLayout.setOnRefreshListener {
-            activity.showRefreshHintSnackbarIfNeeded()
-            CacheManager.getInstance(activity).clearCache(false)
-            activity.triggerPageUpdate(displayPageUrl, true)
+        binding.recyclerview.apply {
+            setRecycledViewPool(activity.viewPool)
+            layoutManager = this@WidgetListFragment.layoutManager
+            adapter = this@WidgetListFragment.adapter
+            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+            registerForContextMenu(this)
         }
 
-        emptyPageView = view.findViewById(android.R.id.empty)
+        binding.swiperefresh.apply {
+            applyColors()
+            recyclerView = binding.recyclerview
+            setOnRefreshListener {
+                activity.showRefreshHintSnackbarIfNeeded()
+                CacheManager.getInstance(activity).clearCache(false)
+                activity.triggerPageUpdate(displayPageUrl, true)
+            }
+        }
     }
 
     override fun onDetach() {
@@ -192,7 +191,7 @@ class WidgetListFragment :
         val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
         val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
         for (i in firstVisibleItemPosition..lastVisibleItemPosition) {
-            val holder = recyclerView.findViewHolderForAdapterPosition(i)
+            val holder = binding.recyclerview.findViewHolderForAdapterPosition(i)
             if (holder is WidgetAdapter.HeavyDataViewHolder) {
                 holder.handleDataUsagePolicyChange()
             } else if (holder is WidgetAdapter.AbstractMapViewHolder) {
@@ -391,7 +390,7 @@ class WidgetListFragment :
                         // Avoid duplicate notifications
                         // https://developer.android.com/develop/ui/views/touch-and-input/copy-paste?hl=en#duplicate-notifications
                         Snackbar.make(
-                            activity.findViewById(android.R.id.content),
+                            activity.layoutForSnackbar,
                             activity.getString(R.string.copied_item_name, itemName),
                             Snackbar.LENGTH_LONG
                         ).show()
@@ -490,10 +489,10 @@ class WidgetListFragment :
 
     fun updateWidgets(widgets: List<Widget>) {
         val adapter = adapter ?: return
-        adapter.update(widgets, refreshLayout.isRefreshing)
+        adapter.update(widgets, binding.swiperefresh.isRefreshing)
         updateUiState(adapter)
         setHighlightedPageLink(highlightedPageLink)
-        refreshLayout.isRefreshing = false
+        binding.swiperefresh.isRefreshing = false
     }
 
     fun updateWidget(widget: Widget) {
@@ -504,8 +503,8 @@ class WidgetListFragment :
     }
 
     private fun updateUiState(adapter: WidgetAdapter) {
-        recyclerView.isVisible = adapter.hasVisibleWidgets
-        emptyPageView.isVisible = !recyclerView.isVisible
+        binding.recyclerview.isVisible = adapter.hasVisibleWidgets
+        binding.empty.isVisible = !binding.recyclerview.isVisible
     }
 
     fun closeAllDialogs() {
@@ -516,7 +515,7 @@ class WidgetListFragment :
         val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
         val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
         for (i in firstVisibleItemPosition..lastVisibleItemPosition) {
-            val holder = recyclerView.findViewHolderForAdapterPosition(i) as WidgetAdapter.ViewHolder?
+            val holder = binding.recyclerview.findViewHolderForAdapterPosition(i) as WidgetAdapter.ViewHolder?
             if (start) {
                 holder?.start()
             } else {

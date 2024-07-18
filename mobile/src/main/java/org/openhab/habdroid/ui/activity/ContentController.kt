@@ -25,9 +25,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.annotation.AnimRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -47,6 +44,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.databinding.FragmentStatusBinding
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.model.WebViewUi
@@ -788,30 +786,28 @@ abstract class ContentController protected constructor(private val activity: Mai
         View.OnClickListener {
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
             val arguments = requireArguments()
-            val view = inflater.inflate(R.layout.fragment_status, container, false)
+            val binding = FragmentStatusBinding.inflate(inflater, container, false)
 
-            val descriptionText = view.findViewById<TextView>(R.id.description)
-            descriptionText.text = arguments.getCharSequence(KEY_MESSAGE)
-            descriptionText.isVisible = !descriptionText.text.isNullOrEmpty()
+            binding.description.apply {
+                text = arguments.getCharSequence(KEY_MESSAGE)
+                isVisible = !text.isNullOrEmpty()
+            }
 
-            view.findViewById<View>(R.id.progress).isVisible = arguments.getBoolean(KEY_PROGRESS)
-
-            val watermark = view.findViewById<ImageView>(R.id.image)
+            binding.progress.isVisible = arguments.getBoolean(KEY_PROGRESS)
 
             @DrawableRes val drawableResId = arguments.getInt(KEY_DRAWABLE)
             if (drawableResId != 0) {
-                val drawable = ContextCompat.getDrawable(view.context, drawableResId)
+                val drawable = ContextCompat.getDrawable(binding.root.context, drawableResId)
                 drawable?.colorFilter = PorterDuffColorFilter(
-                    view.context.resolveThemedColor(R.attr.colorOnSurfaceVariant),
+                    binding.root.context.resolveThemedColor(R.attr.colorOnSurfaceVariant),
                     PorterDuff.Mode.SRC_IN
                 )
-                watermark.setImageDrawable(drawable)
+                binding.image.setImageDrawable(drawable)
             } else {
-                watermark.isVisible = false
+                binding.image.isVisible = false
             }
 
-            for ((id, key) in mapOf(R.id.button1 to KEY_BUTTON_1_TEXT, R.id.button2 to KEY_BUTTON_2_TEXT)) {
-                val button = view.findViewById<Button>(id)
+            for ((button, key) in mapOf(binding.button1 to KEY_BUTTON_1_TEXT, binding.button2 to KEY_BUTTON_2_TEXT)) {
                 val buttonTextResId = arguments.getInt(key)
                 if (buttonTextResId != 0) {
                     button.setText(buttonTextResId)
@@ -821,7 +817,7 @@ abstract class ContentController protected constructor(private val activity: Mai
                 }
             }
 
-            return view
+            return binding.root
         }
 
         companion object {
@@ -882,7 +878,7 @@ abstract class ContentController protected constructor(private val activity: Mai
                 f is WidgetListFragment && f == fragmentForAppBarScroll -> f.recyclerView
                 else -> null
             }
-            activity.appBarLayout.setLiftOnScrollTargetView(scrollingTargetView)
+            activity.binding.appBar.root.setLiftOnScrollTargetView(scrollingTargetView)
         }
     }
 

@@ -21,6 +21,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.commit
 import androidx.fragment.app.commitNow
 import org.openhab.habdroid.R
+import org.openhab.habdroid.databinding.ContentTwopaneBinding
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.WidgetListFragment
@@ -29,7 +30,7 @@ import org.openhab.habdroid.ui.WidgetListFragment
 @Suppress("UNUSED")
 @Keep
 class ContentControllerTwoPane(activity: MainActivity) : ContentController(activity) {
-    private lateinit var rightContentView: View
+    private lateinit var binding: ContentTwopaneBinding
 
     override val fragmentForTitle
         get() = if (pageStack.size > 1) pageStack[pageStack.size - 2].second else sitemapFragment
@@ -38,7 +39,7 @@ class ContentControllerTwoPane(activity: MainActivity) : ContentController(activ
 
     override fun onRestoreInstanceState(state: Bundle) {
         super.onRestoreInstanceState(state)
-        rightContentView.isVisible = fm.findFragmentById(R.id.content_right) != null
+        binding.contentRight.isVisible = fm.findFragmentById(R.id.content_right) != null
     }
 
     override fun executeStateUpdate(reason: FragmentUpdateReason) {
@@ -91,7 +92,7 @@ class ContentControllerTwoPane(activity: MainActivity) : ContentController(activ
             }
         }
 
-        rightContentView.isVisible = rightFragment != null
+        binding.contentRight.isVisible = rightFragment != null
     }
 
     override fun openPage(page: LinkedPage, source: WidgetListFragment) {
@@ -105,8 +106,8 @@ class ContentControllerTwoPane(activity: MainActivity) : ContentController(activ
     override fun inflateContentView(stub: ViewStub): View {
         stub.layoutResource = R.layout.content_twopane
         val view = stub.inflate()
-        rightContentView = view.findViewById(R.id.content_right)
-        rightContentView.isVisible = false
+        binding = ContentTwopaneBinding.bind(view)
+        binding.contentRight.isVisible = false
         return view
     }
 }

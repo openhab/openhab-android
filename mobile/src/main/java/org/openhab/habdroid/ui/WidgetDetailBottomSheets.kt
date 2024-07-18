@@ -22,11 +22,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
 import androidx.core.os.bundleOf
-import com.chimbori.colorpicker.ColorPickerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -39,6 +35,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
+import org.openhab.habdroid.databinding.BottomSheetColorPickerBinding
+import org.openhab.habdroid.databinding.BottomSheetSelectionBinding
+import org.openhab.habdroid.databinding.BottomSheetSelectionItemRadioButtonBinding
+import org.openhab.habdroid.databinding.BottomSheetSetpointBinding
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.toColorTemperatureInKelvin
 import org.openhab.habdroid.model.withValue
@@ -75,20 +75,18 @@ open class AbstractWidgetBottomSheet : BottomSheetDialogFragment() {
 open class SliderBottomSheet :
     AbstractWidgetBottomSheet(),
     WidgetSlider.UpdateListener {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val view = inflater.inflate(R.layout.bottom_sheet_setpoint, container, false)
+    protected lateinit var binding: BottomSheetSetpointBinding
 
-        view.findViewById<WidgetSlider>(R.id.slider).apply {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = BottomSheetSetpointBinding.inflate(inflater, container, false)
+        binding.slider.apply {
             labelBehavior = LabelFormatter.LABEL_VISIBLE
             updateListener = this@SliderBottomSheet
             bindToWidget(widget, false)
         }
+        binding.title.text = widget.label
 
-        view.findViewById<TextView>(R.id.title).apply {
-            text = widget.label
-        }
-
-        return view
+        return binding.root
     }
 
     override suspend fun onValueUpdate(value: Float) {
@@ -108,7 +106,7 @@ class ColorTemperatureSliderBottomSheet :
     View.OnLayoutChangeListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val v = super.onCreateView(inflater, container, savedInstanceState)
-        v.findViewById<WidgetSlider>(R.id.slider).apply {
+        binding.slider.apply {
             addOnLayoutChangeListener(this@ColorTemperatureSliderBottomSheet)
             setLabelFormatter { value -> "${value.roundToInt()} K" }
         }
@@ -151,46 +149,39 @@ class ColorTemperatureSliderBottomSheet :
 }
 
 class SelectionBottomSheet : AbstractWidgetBottomSheet() {
+    private lateinit var binding: BottomSheetSelectionBinding
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.bottom_sheet_selection, container, false)
-        val group = view.findViewById<RadioGroup>(R.id.group)
+        binding = BottomSheetSelectionBinding.inflate(inflater, container, false)
         val stateString = widget.state?.asString
         for (mapping in widget.mappingsOrItemOptions) {
-            val radio = inflater.inflate(R.layout.bottom_sheet_selection_item_radio_button, group, false) as RadioButton
-            radio.id = mapping.hashCode()
-            radio.text = mapping.label
-            radio.isChecked = stateString == mapping.value
-            radio.setOnClickListener {
-                connection?.httpClient?.sendItemCommand(widget.item, mapping.value)
-                dismissAllowingStateLoss()
+            val radio = BottomSheetSelectionItemRadioButtonBinding.inflate(inflater, binding.group, false).root.apply {
+                id = mapping.hashCode()
+                text = mapping.label
+                isChecked = stateString == mapping.value
+                setOnClickListener {
+                    connection?.httpClient?.sendItemCommand(widget.item, mapping.value)
+                    dismissAllowingStateLoss()
+                }
+                isEnabled = !widget.readOnly
             }
-            radio.isEnabled = !widget.readOnly
-            group.addView(radio)
+            binding.group.addView(radio)
         }
-
-        view.findViewById<TextView>(R.id.title).apply {
-            text = widget.label
-        }
-        return view
+        binding.title.text = widget.label
+        return binding.root
     }
 }
 
 class ColorChooserBottomSheet : AbstractWidgetBottomSheet() {
     private lateinit var pickerHelper: ColorPickerHelper
+    private lateinit var binding: BottomSheetColorPickerBinding
     private var scope: CoroutineScope? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.bottom_sheet_color_picker, container, false)
-
-        val colorPicker = view.findViewById<ColorPickerView>(R.id.picker)
-        val slider = view.findViewById<Slider>(R.id.brightness_slider)
-        pickerHelper = ColorPickerHelper(colorPicker, slider)
-
-        view.findViewById<TextView>(R.id.title).apply {
-            text = widget.label
-        }
-
-        return view
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = BottomSheetColorPickerBinding.inflate(inflater, container, false)
+        pickerHelper = ColorPickerHelper(binding.picker, binding.brightnessSlider)
+        binding.title.text = widget.label
+        return binding.root
     }
 
     override fun onResume() {

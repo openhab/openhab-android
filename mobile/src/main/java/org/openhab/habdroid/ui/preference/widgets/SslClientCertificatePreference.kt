@@ -41,7 +41,6 @@ class SslClientCertificatePreference(context: Context, attrs: AttributeSet) :
     Preference(context, attrs),
     CoroutineScope by CoroutineScope(Dispatchers.Main) {
     private var currentAlias: String? = null
-    private var helpIcon: ImageView? = null
 
     init {
         widgetLayoutResource = R.layout.help_icon_pref
@@ -49,8 +48,8 @@ class SslClientCertificatePreference(context: Context, attrs: AttributeSet) :
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
-        helpIcon = holder.itemView.findViewById(R.id.help_icon)
-        helpIcon?.setupHelpIcon(
+        val helpIcon = holder.itemView.findViewById<ImageView>(R.id.help_icon)
+        helpIcon.setupHelpIcon(
             context.getString(R.string.settings_openhab_sslclientcert_howto_url),
             R.string.settings_openhab_sslclientcert_howto_summary
         )
