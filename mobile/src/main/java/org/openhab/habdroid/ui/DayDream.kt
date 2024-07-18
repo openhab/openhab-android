@@ -14,6 +14,10 @@
 package org.openhab.habdroid.ui
 
 import android.animation.ObjectAnimator
+import android.content.res.Configuration
+import android.graphics.Rect
+import android.os.Handler
+import android.os.Looper
 import android.service.dreams.DreamService
 import android.util.Log
 import android.view.View
@@ -41,6 +45,7 @@ import org.openhab.habdroid.util.getStringOrNull
 class DayDream : DreamService(), CoroutineScope {
     private val job = Job()
     override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
+    private var moveTextJob: Job? = null
     private lateinit var textView: TextView
     private lateinit var wrapper: LinearLayout
     private lateinit var container: FrameLayout
@@ -64,34 +69,50 @@ class DayDream : DreamService(), CoroutineScope {
         launch {
             item?.let { listenForTextItem(it) }
         }
-        launch {
-            moveText()
-        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        moveTextIfRequired()
     }
 
     private suspend fun listenForTextItem(item: String) {
         ConnectionFactory.waitForInitialization()
         val connection = ConnectionFactory.primaryUsableConnection?.connection ?: return
 
+        moveText()
         textView.text = try {
             ItemClient.loadItem(connection, item)?.state?.asString.orEmpty()
         } catch (e: HttpClient.HttpException) {
             getString(R.string.screensaver_error_loading_item, item)
         }
+        moveTextIfRequired()
 
         ItemClient.listenForItemChange(this, connection, item) { _, payload ->
             val state = payload.getString("value")
             Log.d(TAG, "Got state by event: $state")
             textView.text = state
+            moveTextIfRequired()
         }
     }
 
-    private suspend fun moveText() {
+    private fun moveText() {
+        moveTextJob?.cancel()
         wrapper.fadeOut()
         wrapper.moveViewToRandomPosition(container)
         wrapper.fadeIn()
-        delay(if (BuildConfig.DEBUG) 10.seconds else 1.minutes)
-        moveText()
+        moveTextJob = launch {
+            delay(if (BuildConfig.DEBUG) 10.seconds else 1.minutes)
+            moveText()
+        }
+    }
+
+    private fun moveTextIfRequired() {
+        Handler(Looper.getMainLooper()).post {
+            if (!textView.isFullyVisible()) {
+                moveText()
+            }
+        }
     }
 
     private fun View.moveViewToRandomPosition(container: FrameLayout) {
@@ -120,6 +141,15 @@ class DayDream : DreamService(), CoroutineScope {
         val animator = ObjectAnimator.ofFloat(this, View.ALPHA, 0f, 1f)
         animator.duration = if (BuildConfig.DEBUG) 500 else 2000
         animator.start()
+    }
+
+    private fun View.isFullyVisible(): Boolean {
+        val rect = Rect()
+        val isVisible = this.getGlobalVisibleRect(rect)
+        val viewHeight = this.height
+        val viewWidth = this.width
+
+        return isVisible && rect.height() == viewHeight && rect.width() == viewWidth
     }
 
     override fun onDetachedFromWindow() {
