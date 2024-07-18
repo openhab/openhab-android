@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:maskColor="?colorOnSurfaceInverse">
+        app:maskColor="?skeletonBackground"
+        app:shimmerColor="?skeletonShimmer">
         <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/photo_view"
             android:layout_width="match_parent"

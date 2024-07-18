@@ -18,7 +18,8 @@
         <com.faltenreich.skeletonlayout.SkeletonLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:maskColor="?colorOnSurfaceInverse">
+            app:maskColor="?skeletonBackground"
+            app:shimmerColor="?skeletonShimmer">
             <org.openhab.habdroid.ui.widget.WidgetImageView
                 android:id="@+id/chart"
                 android:layout_width="match_parent"

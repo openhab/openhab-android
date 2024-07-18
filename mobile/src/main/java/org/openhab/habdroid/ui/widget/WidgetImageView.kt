@@ -23,6 +23,7 @@ import android.util.Base64
 import android.util.Log
 import androidx.appcompat.widget.AppCompatImageView
 import com.faltenreich.skeletonlayout.Skeleton
+import com.faltenreich.skeletonlayout.SkeletonConfig
 import com.faltenreich.skeletonlayout.SkeletonLayout
 import com.faltenreich.skeletonlayout.createSkeleton
 import kotlin.random.Random
@@ -42,6 +43,7 @@ import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.getIconFallbackColor
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDebugModeEnabled
+import org.openhab.habdroid.util.resolveThemedColor
 
 class WidgetImageView(context: Context, attrs: AttributeSet?) : AppCompatImageView(context, attrs) {
     private var scope: CoroutineScope? = null
@@ -317,7 +319,10 @@ class WidgetImageView(context: Context, attrs: AttributeSet?) : AppCompatImageVi
 
     private fun applySkeleton() {
         if (skeleton == null) {
-            skeleton = createSkeleton()
+            val config = SkeletonConfig.default(context)
+            config.maskColor = context.resolveThemedColor(R.attr.skeletonBackground, config.maskColor)
+            config.shimmerColor = context.resolveThemedColor(R.attr.skeletonShimmer, config.shimmerColor)
+            skeleton = createSkeleton(config)
         }
         skeleton?.showSkeleton()
     }
