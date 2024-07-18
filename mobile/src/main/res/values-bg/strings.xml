@@ -36,7 +36,7 @@
     <string name="settings_openhab_screentimeroff">Екранът е постоянно включен</string>
     <string name="settings_openhab_screentimeroff_summary">Екранът не се изключва, докато openHAB работи</string>
     <string name="settings_openhab_demomode">Демонстрационен режим</string>
-    <string name="settings_openhab_demomode_summary">Ако нямаш openHAB сървър избери този режим за да добиеш представа на какво openHAB е способен.</string>
+    <string name="settings_openhab_demomode_summary">Ако нямаш openHAB сървър избери този режим, за да добиеш представа на какво openHAB е способен.</string>
     <string name="start_page_title">Начална страница</string>
     <string name="drawer_entries">Елементи в ☰ менюто</string>
     <string name="settings_openhab_theme">Тема</string>
@@ -145,6 +145,7 @@
     <string name="error_certificate_revoked">SSL сертификатът е анулиран. Моля вземете нов сертификат или приемете сертификат по време на SSL ръкостискане.</string>
     <string name="error_certificate_wrong_host">SSL сертификат не е валиден за %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Удостоверяването се провали. Провери настроеното потребителско име и парола, съответно предоставеният TLS сертификат (HTTP грешка %d). Увери се, че сървърът е разрешил Basic удостоверяване.</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Не беше намерено (HTTP код %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">Адресът е прекалено дълъг. Използвай IP адрес или по-късо URL (HTTP код %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
