@@ -21,7 +21,6 @@ import android.view.ViewGroup
 import androidx.core.view.isGone
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
@@ -40,11 +39,10 @@ object MapViewHelper {
 
     private class GoogleMapsViewHolder(initData: WidgetAdapter.ViewHolderInitData) :
         WidgetAdapter.AbstractMapViewHolder(initData) {
-        private val mapView = baseMapView as MapView
         private var map: GoogleMap? = null
 
         init {
-            mapView.onCreate(null)
+            binding.mapview.onCreate(null)
         }
 
         override fun bindAfterDataSaverCheck(widget: Widget) {
@@ -57,14 +55,18 @@ object MapViewHelper {
 
         override fun onStart() {
             super.onStart()
-            mapView.onStart()
-            mapView.onResume()
+            binding.mapview.apply {
+                onStart()
+                onResume()
+            }
         }
 
         override fun onStop() {
             super.onStop()
-            mapView.onPause()
-            mapView.onStop()
+            binding.mapview.apply {
+                onPause()
+                onStop()
+            }
         }
 
         override fun openPopup() {
@@ -79,7 +81,7 @@ object MapViewHelper {
                 return
             }
 
-            mapView.getMapAsync { map ->
+            binding.mapview.getMapAsync { map ->
                 this.map = map
                 with(map.uiSettings) {
                     setAllGesturesEnabled(false)

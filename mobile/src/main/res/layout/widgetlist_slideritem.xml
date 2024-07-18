@@ -8,7 +8,7 @@
     style="@style/WidgetListItemContainer">
 
     <org.openhab.habdroid.ui.widget.WidgetImageView
-        android:id="@+id/widgeticon"
+        android:id="@+id/icon"
         android:layout_width="@dimen/widgetlist_icon_size"
         android:layout_height="@dimen/widgetlist_icon_size"
         android:layout_gravity="center_vertical"
@@ -24,7 +24,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/widgetlabel"
+            android:id="@+id/label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -49,7 +49,7 @@
                 app:thumbHeight="32dp" />
 
             <TextView
-                android:id="@+id/widgetvalue"
+                android:id="@+id/value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
