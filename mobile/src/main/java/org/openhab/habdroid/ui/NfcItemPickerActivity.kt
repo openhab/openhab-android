@@ -33,7 +33,7 @@ class NfcItemPickerActivity(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        retryButton.setOnClickListener {
+        binding.retryButton.setOnClickListener {
             if (needToShowHint) {
                 getPrefs().edit {
                     putBoolean(PrefKeys.NFC_INFO_HINT_SHOWN, true)

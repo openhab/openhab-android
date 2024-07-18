@@ -20,18 +20,14 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.CompoundButton
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.DialogPreference
 import androidx.preference.PreferenceDialogFragmentCompat
-import com.google.android.material.materialswitch.MaterialSwitch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.CloudMessagingHelper
+import org.openhab.habdroid.databinding.PrefDialogNotificationPollingBinding
 import org.openhab.habdroid.ui.preference.CustomDialogPreference
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.util.PrefKeys
@@ -72,68 +68,55 @@ class NotificationPollingPreference(context: Context, attrs: AttributeSet?) :
         setIcon(status.icon)
     }
 
-    class PrefDialogFragment :
-        PreferenceDialogFragmentCompat(),
-        CompoundButton.OnCheckedChangeListener {
-        private lateinit var helpIcon: ImageView
-        private lateinit var switch: MaterialSwitch
-        private lateinit var spinner: AppCompatSpinner
+    class PrefDialogFragment : PreferenceDialogFragmentCompat() {
+        private lateinit var binding: PrefDialogNotificationPollingBinding
         private lateinit var spinnerValues: Array<String>
         private lateinit var prefs: SharedPreferences
 
         override fun onCreateDialogView(context: Context): View {
             val inflater = LayoutInflater.from(activity)
-            val v = inflater.inflate(R.layout.pref_dialog_notification_polling, null)
             val pref = preference as NotificationPollingPreference
+            binding = PrefDialogNotificationPollingBinding.inflate(inflater)
 
-            switch = v.findViewById(R.id.enabled)
-            switch.setOnCheckedChangeListener(this)
-            helpIcon = v.findViewById(R.id.help_icon)
-            helpIcon.setupHelpIcon(
+            binding.enabled.setOnCheckedChangeListener { _, checked ->
+                binding.spinner.isEnabled = checked
+            }
+
+            binding.helpIcon.setupHelpIcon(
                 "https://www.openhab.org/docs/apps/android.html#notifications-in-foss-version",
                 R.string.click_here_for_more_information
             )
-            spinner = v.findViewById(R.id.spinner)
             ArrayAdapter.createFromResource(
                 context,
                 R.array.send_device_info_schedule,
                 android.R.layout.simple_spinner_item
             ).also { adapter ->
                 adapter.setDropDownViewResource(R.layout.select_dialog_singlechoice)
-                spinner.adapter = adapter
+                binding.spinner.adapter = adapter
             }
 
-            val label = v.findViewById<TextView>(R.id.enabledLabel)
-            label.text = getString(R.string.app_notifications)
+            binding.enabledLabel.text = getString(R.string.app_notifications)
 
-            val value = pref.value
-            if (value != null) {
-                switch.isChecked = value
-            }
+            pref.value?.let { binding.enabled.isChecked = it }
 
             spinnerValues = context.resources.getStringArray(R.array.send_device_info_schedule_values)
             prefs = context.getPrefs()
 
             val spinnerValue = prefs.getStringOrFallbackIfEmpty(PrefKeys.SEND_DEVICE_INFO_SCHEDULE, "360")
-            spinner.setSelection(spinnerValues.indexOf(spinnerValue), false)
+            binding.spinner.setSelection(spinnerValues.indexOf(spinnerValue), false)
+            binding.spinner.isEnabled = binding.enabled.isChecked
 
-            onCheckedChanged(switch, switch.isChecked)
-
-            return v
+            return binding.root
         }
 
         override fun onDialogClosed(positiveResult: Boolean) {
             if (positiveResult) {
                 val pref = preference as NotificationPollingPreference
-                pref.setValue(switch.isChecked)
+                pref.setValue(binding.enabled.isChecked)
                 prefs.edit {
-                    putString(PrefKeys.SEND_DEVICE_INFO_SCHEDULE, spinnerValues[spinner.selectedItemPosition])
+                    putString(PrefKeys.SEND_DEVICE_INFO_SCHEDULE, spinnerValues[binding.spinner.selectedItemPosition])
                 }
             }
-        }
-
-        override fun onCheckedChanged(button: CompoundButton, checked: Boolean) {
-            spinner.isEnabled = checked
         }
 
         companion object {
