@@ -21,13 +21,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import java.util.Locale
 import kotlin.math.max
 import kotlin.math.min
 import org.openhab.habdroid.R
+import org.openhab.habdroid.databinding.BottomSheetMapBinding
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.util.dpToPixel
@@ -201,45 +201,44 @@ fun Location.toMapsUrl() = "https://www.openstreetmap.org/#map=16/$latitude/$lon
 class MapBottomSheet :
     AbstractWidgetBottomSheet(),
     Marker.OnMarkerDragListener {
-    private lateinit var mapView: MapView
-    private val handler = Handler(Looper.getMainLooper())
+    private lateinit var binding: BottomSheetMapBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val view = inflater.inflate(R.layout.bottom_sheet_map, container, false)
-        val title = view.findViewById<TextView>(R.id.title)
+        binding = BottomSheetMapBinding.inflate(inflater, container, false)
 
-        title.text = widget.label
-        title.isGone = widget.label.isEmpty()
+        binding.title.apply {
+            text = widget.label
+            isGone = widget.label.isEmpty()
+        }
 
-        mapView = view.findViewById(R.id.mapview)
-        with(mapView) {
+        binding.mapview.apply {
             zoomController.setVisibility(Visibility.SHOW_AND_FADEOUT)
             setMultiTouchControls(true)
             isVerticalMapRepetitionEnabled = false
             overlays.add(CopyrightOverlay(context))
             mapOverlay.setColorFilter(if (context.isDarkModeActive()) TilesOverlay.INVERT_COLORS else null)
-        }
-        handler.post {
-            mapView.applyPositionAndLabel(
-                widget.item,
-                widget.label,
-                16.0f,
-                allowDrag = true,
-                allowScroll = true,
-                markerDragListener = this@MapBottomSheet
-            )
+            handler.post {
+                applyPositionAndLabel(
+                    widget.item,
+                    widget.label,
+                    16.0f,
+                    allowDrag = true,
+                    allowScroll = true,
+                    markerDragListener = this@MapBottomSheet
+                )
+            }
         }
 
-        return view
+        return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        mapView.onResume()
+        binding.mapview.onResume()
     }
 
     override fun onPause() {
-        mapView.onPause()
+        binding.mapview.onPause()
         super.onPause()
     }
 

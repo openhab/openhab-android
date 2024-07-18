@@ -35,9 +35,8 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -48,6 +47,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
+import org.openhab.habdroid.databinding.ActivityWritetagBinding
+import org.openhab.habdroid.databinding.FragmentWritenfcBinding
 import org.openhab.habdroid.model.NfcTag
 import org.openhab.habdroid.util.PendingIntent_Mutable
 import org.openhab.habdroid.util.appendQueryParameter
@@ -58,6 +59,7 @@ import org.openhab.habdroid.util.showToast
 class WriteTagActivity :
     AbstractBaseActivity(),
     CoroutineScope {
+    private lateinit var binding: ActivityWritetagBinding
     private var nfcAdapter: NfcAdapter? = null
     private var nfcStateChangeReceiver: NfcStateChangeReceiver = NfcStateChangeReceiver()
     private var longUri: Uri? = null
@@ -72,14 +74,12 @@ class WriteTagActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_writetag)
-
         val manager = getSystemService(Context.NFC_SERVICE) as NfcManager
         nfcAdapter = manager.defaultAdapter
 
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
-                add(R.id.activity_content, fragment)
+                add(binding.activityContent.id, fragment)
             }
         }
 
@@ -88,6 +88,11 @@ class WriteTagActivity :
         longUri = intent.parcelable(EXTRA_LONG_URI)
         shortUri = intent.parcelable(EXTRA_SHORT_URI)
         Log.d(TAG, "Got URL $longUri (short URI $shortUri)")
+    }
+
+    override fun inflateBinding(): CommonBinding {
+        binding = ActivityWritetagBinding.inflate(layoutInflater)
+        return CommonBinding(binding.root, binding.appBar, binding.coordinator, binding.activityContent)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -132,15 +137,17 @@ class WriteTagActivity :
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         launch {
-            val writeTagMessage = findViewById<TextView>(R.id.write_tag_message)
-            writeTagMessage.setText(R.string.info_write_tag_progress)
+            val f = supportFragmentManager.findFragmentById(R.id.activity_content)
+            if (f is NfcWriteTagFragment) {
+                f.updateStatusText(R.string.info_write_tag_progress)
 
-            val tag = intent.parcelable<Tag>(NfcAdapter.EXTRA_TAG)
-            if (tag != null && writeTag(tag)) {
-                showToast(R.string.info_write_tag_finished)
-                finish()
-            } else {
-                writeTagMessage.setText(R.string.info_write_failed)
+                val tag = intent.parcelable<Tag>(NfcAdapter.EXTRA_TAG)
+                if (tag != null && writeTag(tag)) {
+                    showToast(R.string.info_write_tag_finished)
+                    finish()
+                } else {
+                    f.updateStatusText(R.string.info_write_failed)
+                }
             }
         }
     }
@@ -218,9 +225,12 @@ class WriteTagActivity :
     abstract class AbstractNfcFragment : Fragment() {
         @get:DrawableRes
         protected abstract val watermarkIcon: Int
+        protected lateinit var binding: FragmentWritenfcBinding
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fragment_writenfc, container, false)
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+            binding = FragmentWritenfcBinding.inflate(inflater, container, false)
+            return binding.root
+        }
     }
 
     class NfcUnsupportedFragment : AbstractNfcFragment() {
@@ -228,10 +238,9 @@ class WriteTagActivity :
             @DrawableRes
             get() = R.drawable.ic_nfc_off_black_180dp
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
             val view = super.onCreateView(inflater, container, savedInstanceState)
-            val message = view?.findViewById<TextView>(R.id.write_tag_message)
-            message?.setText(R.string.info_write_tag_unsupported)
+            binding.writeTagMessage.setText(R.string.info_write_tag_unsupported)
             return view
         }
     }
@@ -241,23 +250,21 @@ class WriteTagActivity :
             @DrawableRes
             get() = R.drawable.ic_nfc_off_black_180dp
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
             val view = super.onCreateView(inflater, container, savedInstanceState)
-            val message = view?.findViewById<TextView>(R.id.write_tag_message)
-            message?.setText(R.string.info_write_tag_disabled)
+            binding.writeTagMessage.setText(R.string.info_write_tag_disabled)
 
-            val nfcActivate = view?.findViewById<Button>(R.id.nfc_activate)
-            nfcActivate?.isVisible = true
-
-            val action = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                Settings.Panel.ACTION_NFC
-            } else {
-                Settings.ACTION_NFC_SETTINGS
+            binding.nfcActivate.apply {
+                isVisible = true
+                val action = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    Settings.Panel.ACTION_NFC
+                } else {
+                    Settings.ACTION_NFC_SETTINGS
+                }
+                setOnClickListener {
+                    startActivity(Intent(action))
+                }
             }
-            nfcActivate?.setOnClickListener {
-                startActivity(Intent(action))
-            }
-
             return view
         }
     }
@@ -267,10 +274,14 @@ class WriteTagActivity :
             @DrawableRes
             get() = R.drawable.ic_nfc_search_black_180dp
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
             val view = super.onCreateView(inflater, container, savedInstanceState)
-            view?.findViewById<View>(R.id.nfc_wait_progress)?.isVisible = true
+            binding.nfcWaitProgress.isVisible = true
             return view
+        }
+
+        fun updateStatusText(@StringRes statusTextResId: Int) {
+            binding.writeTagMessage.setText(statusTextResId)
         }
     }
 
