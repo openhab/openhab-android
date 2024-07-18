@@ -44,104 +44,111 @@ data class CloudNotificationId internal constructor(
     val notificationId get() = (referenceId ?: persistedId).hashCode()
 }
 
-@Parcelize
-enum class CloudNotificationType : Parcelable {
-    NOTIFICATION,
-    HIDE_NOTIFICATION
-}
+sealed class CloudMessage : Parcelable {
+    abstract val id: CloudNotificationId
 
-fun String.toCloudNotificationType() = when (this) {
-    "notification" -> CloudNotificationType.NOTIFICATION
-    "hideNotification" -> CloudNotificationType.HIDE_NOTIFICATION
-    else -> null
-}
-
-@Parcelize
-data class CloudNotification internal constructor(
-    val type: CloudNotificationType,
-    val id: CloudNotificationId,
-    val title: String,
-    val message: String,
-    val createdTimestamp: Long,
-    val icon: IconResource?,
-    val tag: String?,
-    val actions: List<CloudNotificationAction>?,
-    val onClickAction: CloudNotificationAction?,
-    val mediaAttachmentUrl: String?
-) : Parcelable {
-    suspend fun loadImage(connection: Connection, context: Context, size: Int): Bitmap? {
-        if (mediaAttachmentUrl == null) {
-            return null
-        }
-        val itemStateFromMedia = if (mediaAttachmentUrl.startsWith("item:")) {
-            val itemName = mediaAttachmentUrl.removePrefix("item:")
-            val item = try {
-                ItemClient.loadItem(connection, itemName)
-            } catch (e: HttpClient.HttpException) {
-                Log.e(TAG, "Error loading item for image", e)
+    @Parcelize
+    data class CloudNotification internal constructor(
+        override val id: CloudNotificationId,
+        val title: String,
+        val message: String,
+        val createdTimestamp: Long,
+        val icon: IconResource?,
+        val tag: String?,
+        val actions: List<CloudNotificationAction>?,
+        val onClickAction: CloudNotificationAction?,
+        val mediaAttachmentUrl: String?
+    ) : CloudMessage() {
+        suspend fun loadImage(connection: Connection, context: Context, size: Int): Bitmap? {
+            if (mediaAttachmentUrl == null) {
+                return null
+            }
+            val itemStateFromMedia = if (mediaAttachmentUrl.startsWith("item:")) {
+                val itemName = mediaAttachmentUrl.removePrefix("item:")
+                val item = try {
+                    ItemClient.loadItem(connection, itemName)
+                } catch (e: HttpClient.HttpException) {
+                    Log.e(TAG, "Error loading item for image", e)
+                    null
+                }
+                item?.state?.asString
+            } else {
                 null
             }
-            item?.state?.asString
-        } else {
-            null
-        }
-        if (itemStateFromMedia != null && itemStateFromMedia.toHttpUrlOrNull() == null) {
-            // media attachment is an item, but item state is not a URL -> interpret as base64 encoded image
-            return bitmapFromBase64(itemStateFromMedia)
-        }
-        val fallbackColor = context.getIconFallbackColor(IconBackground.APP_THEME)
-        return try {
-            connection.httpClient
-                .get(itemStateFromMedia ?: mediaAttachmentUrl)
-                .asBitmap(size, fallbackColor, ImageConversionPolicy.PreferTargetSize)
-                .response
-        } catch (e: HttpClient.HttpException) {
-            Log.e(TAG, "Error loading image", e)
-            null
+            if (itemStateFromMedia != null && itemStateFromMedia.toHttpUrlOrNull() == null) {
+                // media attachment is an item, but item state is not a URL -> interpret as base64 encoded image
+                return try {
+                    val data = Base64.decode(itemStateFromMedia, Base64.DEFAULT)
+                    BitmapFactory.decodeByteArray(data, 0, data.size)
+                } catch (e: IllegalArgumentException) {
+                    null
+                }
+            }
+            val fallbackColor = context.getIconFallbackColor(IconBackground.APP_THEME)
+            return try {
+                connection.httpClient
+                    .get(itemStateFromMedia ?: mediaAttachmentUrl)
+                    .asBitmap(size, fallbackColor, ImageConversionPolicy.PreferTargetSize)
+                    .response
+            } catch (e: HttpClient.HttpException) {
+                Log.e(TAG, "Error loading image", e)
+                null
+            }
         }
     }
 
-    private fun bitmapFromBase64(itemState: String): Bitmap? {
-        return try {
-            val data = Base64.decode(itemState, Base64.DEFAULT)
-            BitmapFactory.decodeByteArray(data, 0, data.size)
-        } catch (e: IllegalArgumentException) {
-            null
-        }
-    }
+    @Parcelize
+    data class CloudHideNotificationRequest(
+        override val id: CloudNotificationId,
+        val tag: String?
+    ) : CloudMessage()
 
     companion object {
-        private val TAG = CloudNotification::class.java.simpleName
+        val TAG = CloudNotification::class.java.simpleName
     }
 }
 
 @Throws(JSONException::class)
-fun JSONObject.toCloudNotification(): CloudNotification {
-    var created: Long = 0
-    if (has("created")) {
-        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S'Z'", Locale.US)
-        format.timeZone = TimeZone.getTimeZone("UTC")
-        try {
-            created = format.parse(getString("created"))?.time ?: 0
-        } catch (e: ParseException) {
-            // keep created at 0
+fun JSONObject.toCloudMessage(): CloudMessage? {
+    val payload = optJSONObject("payload")
+    val id = CloudNotificationId(getString("_id"), payload?.optStringOrNull("reference-id"))
+    val tag = payload?.optStringOrNull("tag") ?: optStringOrNull("severity")
+    // Old notifications don't contain "type", so fallback to normal notifications here.
+    val type = payload?.optStringOrNull("type") ?: "notification"
+
+    return when (type) {
+        "notification" -> {
+            val created = if (has("created")) {
+                val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S'Z'", Locale.US)
+                format.timeZone = TimeZone.getTimeZone("UTC")
+                try {
+                    format.parse(getString("created"))?.time ?: 0L
+                } catch (e: ParseException) {
+                    0L
+                }
+            } else {
+                0L
+            }
+            CloudMessage.CloudNotification(
+                id = id,
+                title = payload?.optString("title").orEmpty(),
+                message = payload?.getString("message") ?: getString("message"),
+                createdTimestamp = created,
+                icon = (payload?.optStringOrNull("icon") ?: optStringOrNull("icon")).toOH2IconResource(),
+                tag = tag,
+                actions = payload?.optJSONArray("actions")?.map { it.toCloudNotificationAction() }?.filterNotNull(),
+                onClickAction = payload?.optStringOrNull("on-click").toCloudNotificationAction(),
+                mediaAttachmentUrl = payload?.optStringOrNull("media-attachment-url")
+            )
+        }
+        "hideNotification" -> {
+            CloudMessage.CloudHideNotificationRequest(id, tag)
+        }
+        else -> {
+            Log.w(CloudMessage.TAG, "Got unknown message type $type")
+            null
         }
     }
-
-    val payload = optJSONObject("payload")
-    return CloudNotification(
-        // Old notifications don't contain "type", so fallback to normal notifications here.
-        type = payload?.optString("type")?.toCloudNotificationType() ?: CloudNotificationType.NOTIFICATION,
-        id = CloudNotificationId(getString("_id"), payload?.optStringOrNull("reference-id")),
-        title = payload?.optString("title").orEmpty(),
-        message = payload?.optString("message") ?: optString("message"),
-        createdTimestamp = created,
-        icon = payload?.optStringOrNull("icon").toOH2IconResource() ?: optStringOrNull("icon").toOH2IconResource(),
-        tag = payload?.optStringOrNull("tag") ?: optStringOrNull("severity"),
-        actions = payload?.optJSONArray("actions")?.map { it.toCloudNotificationAction() }?.filterNotNull(),
-        onClickAction = payload?.optStringOrNull("on-click").toCloudNotificationAction(),
-        mediaAttachmentUrl = payload?.optStringOrNull("media-attachment-url")
-    )
 }
 
 @Parcelize
