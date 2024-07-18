@@ -956,7 +956,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START)
         // Ensure drawer layout uses the same background as the app bar layout,
         // even if the toolbar is currently hidden
-        drawerLayout.setStatusBarBackgroundColor(resolveThemedColor(R.attr.colorSurface))
+        drawerLayout.setStatusBarBackgroundColor(resolveThemedColor(com.google.android.material.R.attr.colorSurface))
 
         val drawerView = findViewById<NavigationView>(R.id.left_drawer)
         drawerView.inflateMenu(R.menu.left_drawer)

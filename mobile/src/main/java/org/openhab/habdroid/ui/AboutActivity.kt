@@ -109,7 +109,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
             }
             appCard.addItem(
                 MaterialAboutActionItem.Builder()
-                    .text(R.string.version)
+                    .text(com.mikepenz.aboutlibraries.R.string.version)
                     .subText(BuildConfig.VERSION_NAME)
                     .icon(R.drawable.ic_update_grey_24dp)
                     .build()

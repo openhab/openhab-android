@@ -1740,8 +1740,8 @@ class WidgetAdapter(
                 colorMap[colorNames[i]] = ta.getColor(i, 0)
                 i++
             }
-            colorMap["primary"] = context.resolveThemedColor(R.attr.colorPrimary, 0)
-            colorMap["secondary"] = context.resolveThemedColor(R.attr.colorSecondary, 0)
+            colorMap["primary"] = context.resolveThemedColor(androidx.appcompat.R.attr.colorPrimary, 0)
+            colorMap["secondary"] = context.resolveThemedColor(com.google.android.material.R.attr.colorSecondary, 0)
 
             ta.recycle()
         }

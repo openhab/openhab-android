@@ -95,8 +95,8 @@ class IntroActivity : AppIntro(), CoroutineScope {
         }
 
         // Change bar color
-        setBarColor(resolveThemedColor(R.attr.colorPrimary))
-        setSeparatorColor(resolveThemedColor(R.attr.colorPrimaryDark))
+        setBarColor(resolveThemedColor(androidx.appcompat.R.attr.colorPrimary))
+        setSeparatorColor(resolveThemedColor(androidx.appcompat.R.attr.colorPrimaryDark))
     }
 
     /**
@@ -135,7 +135,7 @@ class IntroActivity : AppIntro(), CoroutineScope {
      * @param imageDrawable
      */
     private fun addSlide(@StringRes title: Int, @StringRes description: Int, @DrawableRes imageDrawable: Int) {
-        val colorTextRes = resolveThemedColorToResource(R.attr.colorOnBackground)
+        val colorTextRes = resolveThemedColorToResource(com.google.android.material.R.attr.colorOnBackground)
         val colorBackgroundRes = resolveThemedColorToResource(android.R.attr.colorBackground)
 
         addSlide(

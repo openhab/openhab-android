@@ -501,7 +501,7 @@ enum class IconBackground {
 
 @ColorInt
 fun Context.getIconFallbackColor(iconBackground: IconBackground) = when (iconBackground) {
-    IconBackground.APP_THEME -> resolveThemedColor(R.attr.colorOnBackground)
+    IconBackground.APP_THEME -> resolveThemedColor(com.google.android.material.R.attr.colorOnBackground)
     IconBackground.OS_THEME -> {
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         val isDark = currentNightMode != Configuration.UI_MODE_NIGHT_NO

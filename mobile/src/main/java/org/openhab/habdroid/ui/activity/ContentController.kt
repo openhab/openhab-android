@@ -801,7 +801,7 @@ abstract class ContentController protected constructor(private val activity: Mai
             if (drawableResId != 0) {
                 val drawable = ContextCompat.getDrawable(view.context, drawableResId)
                 drawable?.colorFilter = PorterDuffColorFilter(
-                    view.context.resolveThemedColor(R.attr.colorOnSurfaceVariant),
+                    view.context.resolveThemedColor(com.google.android.material.R.attr.colorOnSurfaceVariant),
                     PorterDuff.Mode.SRC_IN
                 )
                 watermark.setImageDrawable(drawable)

@@ -63,7 +63,7 @@ public class MemorizingActivity extends Activity
 		}
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			int colorPrimary = ExtensionFuncsKt.resolveThemedColor(mThemedContext, R.attr.colorPrimary, 0);
+			int colorPrimary = ExtensionFuncsKt.resolveThemedColor(mThemedContext, androidx.appcompat.R.attr.colorPrimary, 0);
 			setTaskDescription(new ActivityManager.TaskDescription(null, null, colorPrimary));
 		}
 

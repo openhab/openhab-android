@@ -38,7 +38,7 @@ import org.openhab.habdroid.util.resolveThemedColor
  * Sets [SwipeRefreshLayout] color scheme according to colorPrimary and colorAccent
  */
 fun SwipeRefreshLayout.applyColors() {
-    val colors = listOf(R.attr.colorPrimary, R.attr.colorAccent)
+    val colors = listOf(androidx.appcompat.R.attr.colorPrimary, androidx.appcompat.R.attr.colorAccent)
         .map { attr -> context.resolveThemedColor(attr) }
         .toIntArray()
     setColorSchemeColors(*colors)
