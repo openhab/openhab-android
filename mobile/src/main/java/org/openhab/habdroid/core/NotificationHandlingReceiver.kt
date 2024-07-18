@@ -17,6 +17,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.util.Log
 import androidx.core.content.IntentCompat
 import androidx.core.net.toUri
@@ -54,7 +55,7 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
                     is CloudNotificationAction.Action.ItemCommandAction ->
                         BackgroundTasksManager.enqueueNotificationAction(context, action)
                     is CloudNotificationAction.Action.UrlAction ->
-                        action.url.toUri().openInBrowser(context)
+                        action.url.toUri().openInBrowser(context, FLAG_ACTIVITY_NEW_TASK)
                     is CloudNotificationAction.Action.NoAction -> {
                         // no-op
                     }
