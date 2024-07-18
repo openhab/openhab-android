@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
     <Button
         style="@style/openHAB.ActionButton"
@@ -21,4 +24,4 @@
         android:contentDescription="@string/content_description_player_next"
         app:icon="@drawable/ic_next_track_themed_24dp" />
 
-</merge>
+</LinearLayout>

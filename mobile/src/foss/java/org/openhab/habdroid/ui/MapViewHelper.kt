@@ -56,11 +56,10 @@ object MapViewHelper {
 
     private class OsmViewHolder(initData: WidgetAdapter.ViewHolderInitData) :
         WidgetAdapter.AbstractMapViewHolder(initData) {
-        private val mapView = baseMapView as MapView
         private val handler: Handler = Handler(Looper.getMainLooper())
 
         init {
-            with(mapView) {
+            binding.mapview.apply {
                 setTileSource(TileSourceFactory.MAPNIK)
                 isVerticalMapRepetitionEnabled = false
                 zoomController.setVisibility(Visibility.NEVER)
@@ -84,9 +83,9 @@ object MapViewHelper {
         override fun bindAfterDataSaverCheck(widget: Widget) {
             super.bindAfterDataSaverCheck(widget)
             handler.post {
-                mapView.applyPositionAndLabel(
+                binding.mapview.applyPositionAndLabel(
                     boundWidget?.item,
-                    labelView.text,
+                    binding.icontext.label.text,
                     15.0f,
                     allowDrag = false,
                     allowScroll = false
@@ -95,11 +94,11 @@ object MapViewHelper {
         }
 
         override fun onStart() {
-            mapView.onResume()
+            binding.mapview.onResume()
         }
 
         override fun onStop() {
-            mapView.onPause()
+            binding.mapview.onPause()
         }
 
         override fun openPopup() {
