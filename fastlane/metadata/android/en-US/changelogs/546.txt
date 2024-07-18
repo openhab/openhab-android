@@ -1,0 +1,6 @@
+## What's Changed
+* Fix notification issues by @maniac103 and @mueller-ma
+* Fix quick tiles by @mueller-ma in https://github.com/openhab/openhab-android/pull/3763
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.15.2-release...3.15.3-beta
