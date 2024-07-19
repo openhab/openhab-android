@@ -73,7 +73,7 @@ data class Widget(
 ) : Parcelable {
     val label get() = rawLabel.split("[", "]")[0].trim()
     val stateFromLabel: String? get() {
-        val value = rawLabel.split("[", "]").getOrNull(1)?.trim()
+        val value = Widget.stateLabelRegex.find(rawLabel)?.groupValues?.getOrNull(1)?.trim()
         val optionLabel = mappingsOrItemOptions.find { it.value == value }?.label
         return optionLabel ?: value
     }
@@ -243,6 +243,8 @@ data class Widget(
                 state.toParsedState(item.state?.asNumber?.format)
             else -> state.toParsedState()
         }
+
+        internal val stateLabelRegex = Regex("\\[(.*)\\]$")
     }
 }
 
