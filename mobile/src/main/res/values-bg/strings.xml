@@ -25,7 +25,7 @@
     <string name="settings_openhab_url">Адрес на локален сървър</string>
     <string name="settings_openhab_url_summary">URL на openHAB (базиран хост или IP). Ако e ръчно конфигуриран, автоматичното откриване е изключено. Текущата настройка: %s</string>
     <string name="settings_openhab_alturl">Адрес на отдалечен сървър</string>
-    <string name="settings_openhab_alturl_summary">URL на openHAB табло се използва, когато локалният адрес е недостъпна. Текущата настройка: %s</string>
+    <string name="settings_openhab_alturl_summary">URL на openHAB табло се използва, когато локалният адрес е недостъпен. Текущата настройка: %s</string>
     <string name="settings_openhab_username">Потребителско име</string>
     <string name="settings_openhab_password">Парола</string>
     <string name="settings_openhab_password_summary_weak">Настроена проста парола</string>
