@@ -41,6 +41,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
 import androidx.fragment.app.commit
 import androidx.fragment.app.commitNow
+import com.faltenreich.skeletonlayout.SkeletonLayout
 import java.util.Stack
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
@@ -124,7 +125,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         }
         this.connectionFragment = connectionFragment
 
-        defaultProgressFragment = ProgressFragment.newInstance(null, 0)
+        defaultProgressFragment = LoadingSkeletonFragment.newInstance()
         connectionFragment.setCallback(this)
 
         fm.registerFragmentLifecycleCallbacks(this, true)
@@ -363,10 +364,10 @@ abstract class ContentController protected constructor(private val activity: Mai
      */
     fun updateConnection(connection: Connection?, progressMessage: CharSequence?, @DrawableRes icon: Int) {
         CrashReportingHelper.d(TAG, "Update to connection $connection (message $progressMessage)")
-        noConnectionFragment = if (connection == null) {
-            ProgressFragment.newInstance(progressMessage, icon)
-        } else {
-            null
+        noConnectionFragment = when {
+            connection != null -> null
+            progressMessage != null -> ProgressFragment.newInstance(progressMessage, icon)
+            else -> LoadingSkeletonFragment.newInstance()
         }
         resetState()
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
@@ -626,10 +627,8 @@ abstract class ContentController protected constructor(private val activity: Mai
         }
 
         companion object {
-            fun newInstance(message: CharSequence?, @DrawableRes image: Int): ProgressFragment {
-                val f = ProgressFragment()
-                f.arguments = buildArgs(message, 0, image, true)
-                return f
+            fun newInstance(message: CharSequence, @DrawableRes drawableResId: Int) = ProgressFragment().apply {
+                arguments = buildArgs(message, 0, drawableResId, true)
             }
         }
     }
@@ -833,7 +832,7 @@ abstract class ContentController protected constructor(private val activity: Mai
             internal const val KEY_WIFI_ENABLED = "wifiEnabled"
 
             internal fun buildArgs(
-                message: CharSequence?,
+                message: CharSequence,
                 @StringRes buttonTextResId: Int,
                 @DrawableRes drawableResId: Int,
                 showProgress: Boolean
@@ -862,6 +861,18 @@ abstract class ContentController protected constructor(private val activity: Mai
                     KEY_PROGRESS to showProgress
                 )
             }
+        }
+    }
+
+    internal class LoadingSkeletonFragment : Fragment() {
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+            val view = inflater.inflate(R.layout.fragment_loading_skeleton, container, false) as SkeletonLayout
+            view.showSkeleton()
+            return view
+        }
+
+        companion object {
+            fun newInstance() = LoadingSkeletonFragment()
         }
     }
 
