@@ -17,6 +17,7 @@
     <string name="app_notifications">Известия</string>
     <string name="habpanel_error">Грешка при зареждане на HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Избери сайткарта по подразбиране</string>
+    <string name="settings_clear_caches">Изчисти кеша</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Връзка</string>
     <string name="settings_display_title">Изглед</string>
@@ -202,7 +203,8 @@
         <item quantity="one">%d ново известие</item>
         <item quantity="other">%d нови известия</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">Известията не са налични: отдалеченият сървър не е настроен</string>
+    <string name="push_notification_status_no_remote_configured">Няма известия: отдалеченият сървър не е настроен</string>
+    <string name="push_notification_status_http_error">Няма известия: Грешка при свързване с отдалечения сървър: %s</string>
     <string name="push_notification_status">Състояние</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
@@ -307,7 +309,7 @@
     <string name="go_to_settings_button">Отворете приложението Настройки</string>
     <string name="enable_demo_mode_button">Включване на демо режим</string>
     <string name="configuration_missing">Не откриваме openHAB сървър във вашата мрежа. Ако вече имате сървър, моля конфигурирайте неговия IP адрес или host име в сървърните настройки. Ако все още нямате сървър, започнете демо режим за да видите openHAB с неговите възможности.</string>
-    <string name="no_remote_server">Връзката към местния сървър се провали и отдалечен сървър не е настроен</string>
+    <string name="no_remote_server">Връзката към местния сървър се провали и отдалечен сървър не е настроен.</string>
     <string name="resolving_openhab">Опитвам се да намеря openHAB сървър\u2026</string>
     <string name="waiting_for_wifi">Чакам Wi-Fi да се свърже\u2026</string>
     <string name="visit_status_openhab_org">Посети status.openhab.org</string>
