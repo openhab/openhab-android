@@ -308,7 +308,7 @@
     <string name="switch_wifi_button">Свържи се към други Wi-Fi</string>
     <string name="go_to_settings_button">Отворете приложението Настройки</string>
     <string name="enable_demo_mode_button">Включване на демо режим</string>
-    <string name="configuration_missing">Не откриваме openHAB сървър във вашата мрежа. Ако вече имате сървър, моля конфигурирайте неговия IP адрес или host име в сървърните настройки. Ако все още нямате сървър, започнете демо режим за да видите openHAB с неговите възможности.</string>
+    <string name="configuration_missing">Не открих openHAB сървър в твоята мрежа. Ако вече имаш сървър, моля въведи неговия IP адрес или host име в сървърните настройки. Ако все още нямаш сървър, започни демонстрационния режим, за да откриевидиш openHAB с неговите възможности.</string>
     <string name="no_remote_server">Връзката към местния сървър се провали и отдалечен сървър не е настроен.</string>
     <string name="resolving_openhab">Опитвам се да намеря openHAB сървър\u2026</string>
     <string name="waiting_for_wifi">Чакам Wi-Fi да се свърже\u2026</string>
