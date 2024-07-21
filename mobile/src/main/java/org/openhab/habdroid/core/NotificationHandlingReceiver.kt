@@ -17,7 +17,6 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.util.Log
 import androidx.core.content.IntentCompat
 import androidx.core.net.toUri
@@ -27,7 +26,6 @@ import org.openhab.habdroid.model.CloudNotificationAction
 import org.openhab.habdroid.model.CloudNotificationId
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.PendingIntent_Immutable
-import org.openhab.habdroid.util.openInBrowser
 
 class NotificationHandlingReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -54,8 +52,6 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
                 when (val action = cna.action) {
                     is CloudNotificationAction.Action.ItemCommandAction ->
                         BackgroundTasksManager.enqueueNotificationAction(context, action)
-                    is CloudNotificationAction.Action.UrlAction ->
-                        action.url.toUri().openInBrowser(context, FLAG_ACTIVITY_NEW_TASK)
                     is CloudNotificationAction.Action.NoAction -> {
                         // no-op
                     }
@@ -102,6 +98,18 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
                         Intent.FLAG_ACTIVITY_NEW_TASK
                     putExtra(MainActivity.EXTRA_UI_COMMAND, cnaAction.command)
                     putExtra(MainActivity.EXTRA_CLOUD_NOTIFICATION_ID, notificationId)
+                }
+                PendingIntent.getActivity(
+                    context,
+                    notificationId.notificationId + cna.hashCode(),
+                    intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
+                )
+            }
+            is CloudNotificationAction.Action.UrlAction -> {
+                val intent = Intent(Intent.ACTION_VIEW, cnaAction.url.toUri()).apply {
+                    flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                        Intent.FLAG_ACTIVITY_NEW_TASK
                 }
                 PendingIntent.getActivity(
                     context,
