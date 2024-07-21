@@ -6,6 +6,8 @@
         <item name="valueColors">@array/valueColorsDarkBackground</item>
         <item name="android:statusBarColor">?android:colorBackground</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="skeletonBackground">#1E1E1E</item>
+        <item name="skeletonShimmer">#3C3C3C</item>
     </style>
 
     <style name="openHAB.DayNight.orange" parent="openHAB.DayNight.Base">

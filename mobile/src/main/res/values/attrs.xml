@@ -28,6 +28,8 @@
         <attr name="chartTheme" format="string" />
         <attr name="transparentChartTheme" format="string" />
         <attr name="valueColors" format="reference" />
+        <attr name="skeletonBackground" format="color" />
+        <attr name="skeletonShimmer" format="color" />
     </declare-styleable>
 
     <declare-styleable name="CustomInputTypePreference">
