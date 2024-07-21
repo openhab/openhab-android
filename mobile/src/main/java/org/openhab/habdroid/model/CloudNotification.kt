@@ -78,7 +78,8 @@ sealed class CloudMessage : Parcelable {
             if (itemStateFromMedia != null && itemStateFromMedia.toHttpUrlOrNull() == null) {
                 // media attachment is an item, but item state is not a URL -> interpret as base64 encoded image
                 return try {
-                    val data = Base64.decode(itemStateFromMedia, Base64.DEFAULT)
+                    val dataString = itemStateFromMedia.substring(itemStateFromMedia.indexOf(",") + 1)
+                    val data = Base64.decode(dataString, Base64.DEFAULT)
                     BitmapFactory.decodeByteArray(data, 0, data.size)
                 } catch (e: IllegalArgumentException) {
                     null
