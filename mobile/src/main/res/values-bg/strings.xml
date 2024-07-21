@@ -24,7 +24,7 @@
     <string name="settings_sitemap_title">Сайткарта</string>
     <string name="settings_misc_title">Други</string>
     <string name="settings_openhab_url">Адрес на локален сървър</string>
-    <string name="settings_openhab_url_summary">URL на openHAB (базиран хост или IP). Ако e ръчно конфигуриран, автоматичното откриване е изключено. Текущата настройка: %s</string>
+    <string name="settings_openhab_url_summary">URL на openHAB (базиран хост или IP). Ако e ръчно настроен, автоматичното откриване е изключено. Текуща настройка: %s</string>
     <string name="settings_openhab_alturl">Адрес на отдалечен сървър</string>
     <string name="settings_openhab_alturl_summary">URL на openHAB табло се използва, когато локалният адрес е недостъпен. Текущата настройка: %s</string>
     <string name="settings_openhab_username">Потребителско име</string>
@@ -37,7 +37,7 @@
     <string name="settings_openhab_screentimeroff">Екранът е постоянно включен</string>
     <string name="settings_openhab_screentimeroff_summary">Екранът не се изключва, докато openHAB работи</string>
     <string name="settings_openhab_demomode">Демонстрационен режим</string>
-    <string name="settings_openhab_demomode_summary">Ако нямаш openHAB сървър избери този режим, за да добиеш представа на какво openHAB е способен.</string>
+    <string name="settings_openhab_demomode_summary">Ако нямаш openHAB сървър, избери този режим, за да добиеш представа на какво openHAB е способен.</string>
     <string name="start_page_title">Начална страница</string>
     <string name="drawer_entries">Елементи в ☰ менюто</string>
     <string name="settings_openhab_theme">Тема</string>
