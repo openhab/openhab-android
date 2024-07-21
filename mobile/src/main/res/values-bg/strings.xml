@@ -17,6 +17,7 @@
     <string name="app_notifications">Известия</string>
     <string name="habpanel_error">Грешка при зареждане на HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Избери сайткарта по подразбиране</string>
+    <string name="settings_clear_caches">Изчисти кеша</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Връзка</string>
     <string name="settings_display_title">Изглед</string>
@@ -25,7 +26,7 @@
     <string name="settings_openhab_url">Адрес на локален сървър</string>
     <string name="settings_openhab_url_summary">URL на openHAB (базиран хост или IP). Ако e ръчно конфигуриран, автоматичното откриване е изключено. Текущата настройка: %s</string>
     <string name="settings_openhab_alturl">Адрес на отдалечен сървър</string>
-    <string name="settings_openhab_alturl_summary">URL на openHAB табло се използва, когато локалният адрес е недостъпна. Текущата настройка: %s</string>
+    <string name="settings_openhab_alturl_summary">URL на openHAB табло се използва, когато локалният адрес е недостъпен. Текущата настройка: %s</string>
     <string name="settings_openhab_username">Потребителско име</string>
     <string name="settings_openhab_password">Парола</string>
     <string name="settings_openhab_password_summary_weak">Настроена проста парола</string>
@@ -36,7 +37,7 @@
     <string name="settings_openhab_screentimeroff">Екранът е постоянно включен</string>
     <string name="settings_openhab_screentimeroff_summary">Екранът не се изключва, докато openHAB работи</string>
     <string name="settings_openhab_demomode">Демонстрационен режим</string>
-    <string name="settings_openhab_demomode_summary">Ако нямаш openHAB сървър избери този режим за да добиеш представа на какво openHAB е способен.</string>
+    <string name="settings_openhab_demomode_summary">Ако нямаш openHAB сървър избери този режим, за да добиеш представа на какво openHAB е способен.</string>
     <string name="start_page_title">Начална страница</string>
     <string name="drawer_entries">Елементи в ☰ менюто</string>
     <string name="settings_openhab_theme">Тема</string>
@@ -145,6 +146,7 @@
     <string name="error_certificate_revoked">SSL сертификатът е анулиран. Моля вземете нов сертификат или приемете сертификат по време на SSL ръкостискане.</string>
     <string name="error_certificate_wrong_host">SSL сертификат не е валиден за %s</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Удостоверяването се провали. Провери настроеното потребителско име и парола, съответно предоставения TLS сертификат (HTTP грешка %d). Увери се, че сървърът е разрешил Basic удостоверяване.</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Не беше намерено (HTTP код %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">Адресът е прекалено дълъг. Използвай IP адрес или по-късо URL (HTTP код %d).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
@@ -201,7 +203,8 @@
         <item quantity="one">%d ново известие</item>
         <item quantity="other">%d нови известия</item>
     </plurals>
-    <string name="push_notification_status_no_remote_configured">Известията не са налични: отдалеченият сървър не е настроен</string>
+    <string name="push_notification_status_no_remote_configured">Няма известия: отдалеченият сървър не е настроен</string>
+    <string name="push_notification_status_http_error">Няма известия: Грешка при свързване с отдалечения сървър: %s</string>
     <string name="push_notification_status">Състояние</string>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
     <!-- %1$s: Item label, %2$s: HTTP error message -->
@@ -306,7 +309,7 @@
     <string name="go_to_settings_button">Отворете приложението Настройки</string>
     <string name="enable_demo_mode_button">Включване на демо режим</string>
     <string name="configuration_missing">Не откриваме openHAB сървър във вашата мрежа. Ако вече имате сървър, моля конфигурирайте неговия IP адрес или host име в сървърните настройки. Ако все още нямате сървър, започнете демо режим за да видите openHAB с неговите възможности.</string>
-    <string name="no_remote_server">Връзката към местния сървър се провали и отдалечен сървър не е настроен</string>
+    <string name="no_remote_server">Връзката към местния сървър се провали и отдалечен сървър не е настроен.</string>
     <string name="resolving_openhab">Опитвам се да намеря openHAB сървър\u2026</string>
     <string name="waiting_for_wifi">Чакам Wi-Fi да се свърже\u2026</string>
     <string name="visit_status_openhab_org">Посети status.openhab.org</string>

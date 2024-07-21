@@ -8,18 +8,18 @@
     <automation_apps>Приложението има интеграция с Tasker и Locale.</automation_apps>
 
     <oss_community>Общност с отворен код</oss_community>
-    <forum>Софтуерът с отворен код openHAB се използва от много потребители, които си помагат взаимно в онлайн форум. Форумът с над 13 000 регистрирани потребители е място за намиране на насоки, помощ и вдъхновение. </forum>
+    <forum>Софтуерът с отворен код openHAB се използва от много потребители, които си помагат взаимно в онлайн форум. Форумът с над 13 000 регистрирани потребители е място за намиране на насоки, помощ и вдъхновение. Включи се във форума на openHAB на https://community.openhab.org.</forum>
 
-    <report_issues/>
-    <translation/>
+    <report_issues>Докладвай пробеми във форума или на https://github.com/openhab/openhab-android/issues.</report_issues>
+    <translation>За да преведеш програмата на твоя език посети https://crowdin.com/project/openhab-android.</translation>
     <foundation>openHAB фондация</foundation>
-    <about_foundation>openHAB Foundation e.V. е организация с нестопанска цел с мисията да образова обществеността за възможностите и предимствата на безплатните и отворени решения за интелигентен дом. </about_foundation>
-    <important_note/>
+    <about_foundation>openHAB Foundation e.V. е организация с нестопанска цел с мисията да образова обществеността за възможностите и предимствата на безплатните и отворени решения за интелигентен дом. Научи за мисията и услугите на фондацията на https://www.openhabfoundation.org.</about_foundation>
+    <important_note>Важна бележка</important_note>
     <oh_server>Трябва ти openHAB сървър за тази програма.</oh_server>
     <short_description>Cистема за автоматизация на домове обединяваща различни технологии</short_description>
     <fdroid> Вместо това известията се анкетират редовно в тези компилации.</fdroid>
     <fdroid_beta><![CDATA[Може да инсталираш бета версията паралелно със <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабилната версия</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy/>
+    <fdroid_privacy_policy>Политика на поверителност: https://www.openhabfoundation.org/privacy.html#android-app</fdroid_privacy_policy>
     <beta>Опитай нови функции и дайте ранна обратна връзка!</beta>
     <play_beta>Може да инсталираш бета версията едновременно със стабилната версия.</play_beta>
     <changelog_play_beta>Оправя грешки и подобрява стабилността. Посети https://github.com/openhab/openhab-android/releases за подробно описание на промените.</changelog_play_beta>
