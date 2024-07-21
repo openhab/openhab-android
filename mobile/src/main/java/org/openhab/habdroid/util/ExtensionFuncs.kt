@@ -129,14 +129,11 @@ fun String?.toNormalizedUrl(): String? {
 
 fun String?.orDefaultIfEmpty(defaultValue: String) = if (isNullOrEmpty()) defaultValue else this
 
-fun Uri?.openInBrowser(context: Context, intentFlags: Int = 0) {
+fun Uri?.openInBrowser(context: Context) {
     if (this == null) {
         return
     }
     val intent = Intent(Intent.ACTION_VIEW, this)
-    if (intentFlags != 0) {
-        intent.addFlags(intentFlags)
-    }
     try {
         context.startActivity(intent)
     } catch (e: ActivityNotFoundException) {
