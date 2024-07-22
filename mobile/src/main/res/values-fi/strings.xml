@@ -251,7 +251,6 @@
         <item quantity="other">%d uutta ilmoitusta</item>
     </plurals>
     <string name="push_notification_status">Tila</string>
-    <string name="push_notification_hint">Ilmoitukset kysellään säännöllisen aikataulun mukaan, samalla lailla kuin \"Lähetä laitteen tiedot palvelimelle\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">Item %d ei voitu päivittää</item>
         <item quantity="other">Itemeitä %d ei voitu päivittää</item>
