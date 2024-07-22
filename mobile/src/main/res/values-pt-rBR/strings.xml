@@ -269,7 +269,6 @@
     <string name="push_notification_status_http_error">Notificações estão indisponíveis: Erro ao conectar ao servidor remoto: %s</string>
     <string name="push_notification_status_remote_no_cloud">Notificações estão indisponíveis: Servidor remoto não é uma instância do openHAB</string>
     <string name="push_notification_status">Status</string>
-    <string name="push_notification_hint">As notificações são consultadas regularmente, que é o mesmo que \"Enviar informações do dispositivo para o servidor\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item não pôde ser atualizado</item>
         <item quantity="other">%d Items não puderam ser atualizados</item>
