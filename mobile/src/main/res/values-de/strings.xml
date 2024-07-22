@@ -321,7 +321,6 @@
     <string name="push_notification_status_http_error">Benachrichtigungen nicht verfügbar: Fehler beim Verbinden mit dem Server für den Fernzugriff: %s</string>
     <string name="push_notification_status_remote_no_cloud">Benachrichtigungen nicht verfügbar: Server für den Fernzugriff ist keine openHAB-Cloud-Instanz</string>
     <string name="push_notification_status">Status</string>
-    <string name="push_notification_hint">Die Benachrichtigungen werden nach einem regelmäßigen Zeitplan abgefragt, dessen Intervall mit dem für \"Geräteinformationen an Server senden\" eingestellten identisch ist</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item konnte nicht aktualisiert werden</item>
         <item quantity="other">%d Items konnten nicht aktualisiert werden</item>
