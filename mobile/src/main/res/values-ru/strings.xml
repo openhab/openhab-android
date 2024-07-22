@@ -285,7 +285,6 @@
     <string name="push_notification_status_http_error">Push уведомления недоступны: Ошибка подключения к удаленному серверу: %s</string>
     <string name="push_notification_status_remote_no_cloud">Push уведомления недоступны: Удаленный сервер не облачный openHAB</string>
     <string name="push_notification_status">Статус</string>
-    <string name="push_notification_hint">Уведомления проверяются по регулярному расписанию, такому же как и в \"Посылать информацию об устройстве на сервер\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item не может быть обновлен</item>
         <item quantity="few">%d Items не могут быть обновлены</item>
