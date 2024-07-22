@@ -263,7 +263,6 @@
     <string name="push_notification_status_http_error">Powiadomienia są niedostępne: Błąd podczas łączenia ze zdalnym serwerem: %s</string>
     <string name="push_notification_status_remote_no_cloud">Powiadomienia są niedostępne: zdalny serwer nie jest instancją w chmurze openHAB</string>
     <string name="push_notification_status">Stan</string>
-    <string name="push_notification_hint">Powiadomienia są sprawdzane w regularnym harmonogramie, który jest taki sam jak dla \"Wyślij informacje o urządzeniu do serwera\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Element nie mogły zostać zaktualizowany</item>
         <item quantity="few">%d Elementy nie mogły zostać zaktualizowane</item>
