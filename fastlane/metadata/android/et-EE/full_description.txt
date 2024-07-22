@@ -1,6 +1,8 @@
 openHAB - "empowering the smart home" - nutitkodudele mõeldud automatiseerimistarkvara, mis on tootjatest ja tehnoloogiatest sõltumatu
 
 The builds on F-Droid have FCM removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
+Proovige uusi funktsioone ja andke tagasisidet!
+Võite installida beta versiooni paralleelselt <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabiilse versiooniga</a>.
 
 openHAB - see on Java-põhine avatud lähtekoodiga koduautomaatika platvorm, mis integreerib suure hulga nutika kodu süsteemid ühte lahendusesse.
 Abstraktsiooni tipptasemel on kõik ühendatud seadmed automatiseerimisreeglite ja mitmesuguste kasutajaliideste jaoks saadaval.
