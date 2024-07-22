@@ -281,7 +281,6 @@
     <string name="push_notification_status_http_error">Сповіщення недоступні: помилка підключення до віддаленого сервера: %s</string>
     <string name="push_notification_status_remote_no_cloud">Сповіщення недоступні: віддалений сервер не є хмарним екземпляром openHAB</string>
     <string name="push_notification_status">Стан</string>
-    <string name="push_notification_hint">Сповіщення відтворюються за звичайним розкладом, таким самим як \"Відправити інформацію про пристрій на сервер\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">Неможливо оновити %d об\'єкт</item>
         <item quantity="few">Неможливо оновити %d об\'єкти</item>
