@@ -321,6 +321,7 @@
     <string name="push_notification_status_http_error">Varsler er utilgjengelige: Feil ved tilkobling til ekstern server: %s</string>
     <string name="push_notification_status_remote_no_cloud">Varsler er utilgjengelige: Ekstern server er ikke en openHAB-sky forekomst</string>
     <string name="push_notification_status">Status</string>
+    <string name="push_notification_hint">Varslene forespørres etter en fast tidsplan, som er den samme som den for \"Send enhetsinformasjon til server\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d elementer kan ikke oppdateres</item>
         <item quantity="other">%d elementer kan ikke oppdateres</item>
