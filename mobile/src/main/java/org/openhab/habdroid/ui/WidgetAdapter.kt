@@ -50,6 +50,7 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.core.widget.doAfterTextChanged
@@ -938,7 +939,9 @@ class WidgetAdapter(
                         }
                         buttonView.isVisible = true
                     } else {
-                        buttonView.isVisible = false
+                        // don't use isVisible = false because it sets visibility to GONE,
+                        // collapsing the column and row if no other views are present
+                        buttonView.isInvisible = true
                     }
                     buttonView.maxWidth = table.width / table.columnCount
                 }
