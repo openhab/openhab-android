@@ -52,6 +52,7 @@ import androidx.core.view.get
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.core.view.marginStart
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
@@ -261,7 +262,8 @@ class WidgetAdapter(
             colorMapper,
             serverFlags,
             chartTheme,
-            { widgetsByParentId[widget.id] }
+            { widgetsByParentId[widget.id] },
+            widgetsById[widget.parentId]
         )
         holder.bind(widget)
         if (holder is FrameViewHolder) {
@@ -406,7 +408,8 @@ class WidgetAdapter(
         val colorMapper: ColorMapper,
         val serverFlags: Int,
         val chartTheme: CharSequence?,
-        val childWidgetGetter: () -> List<Widget>?
+        val childWidgetGetter: () -> List<Widget>?,
+        val parentWidget: Widget?
     )
 
     abstract class ViewHolder internal constructor(
@@ -423,6 +426,7 @@ class WidgetAdapter(
         protected val colorMapper get() = requireHolderContext().colorMapper
         protected val fragmentPresenter get() = requireHolderContext().fragmentPresenter
         protected val childWidgets get() = requireHolderContext().childWidgetGetter()
+        protected val parentWidget get() = requireHolderContext().parentWidget
 
         abstract fun bind(widget: Widget)
 
@@ -610,6 +614,9 @@ class WidgetAdapter(
             labelView.text = widget.label + label
             labelView.applyWidgetColor(widget.valueColor, colorMapper)
             labelView.isGone = widget.label.isEmpty()
+            containerView.layoutParams = (containerView.layoutParams as ViewGroup.MarginLayoutParams).apply {
+                marginStart = if (parentWidget?.type == Widget.Type.Frame) marginEnd else 0
+            }
         }
 
         fun setShownAsFirst(shownAsFirst: Boolean) {

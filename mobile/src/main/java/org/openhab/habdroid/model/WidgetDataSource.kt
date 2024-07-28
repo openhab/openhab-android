@@ -41,13 +41,11 @@ class WidgetDataSource {
             .map { w -> w.id }
             .toSet()
         val secondLevelWidgetIds = allWidgets
-            .filter { w -> w.parentId in firstLevelWidgetIds }
+            .filter { w -> w.parentId in firstLevelWidgetIds && w.type in ALLOWED_SECOND_LEVEL_PARENTS }
             .map { w -> w.id }
             .toSet()
         return allWidgets.filter { w ->
-            w.parentId == null ||
-                w.parentId in firstLevelWidgetIds ||
-                w.parentId in secondLevelWidgetIds && w.type == Widget.Type.Button
+            w.parentId == null || w.parentId in (firstLevelWidgetIds + secondLevelWidgetIds)
         }
     }
 
@@ -70,5 +68,6 @@ class WidgetDataSource {
 
     companion object {
         private val TAG = WidgetDataSource::class.java.simpleName
+        private val ALLOWED_SECOND_LEVEL_PARENTS = setOf(Widget.Type.Buttongrid, Widget.Type.Frame)
     }
 }
