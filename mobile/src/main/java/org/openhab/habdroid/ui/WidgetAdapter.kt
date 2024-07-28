@@ -19,6 +19,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.text.InputType.TYPE_CLASS_NUMBER
 import android.text.InputType.TYPE_CLASS_TEXT
 import android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
@@ -604,6 +605,9 @@ class WidgetAdapter(
         private val containerView: View = itemView.findViewById(R.id.container)
         private val spacer: View = itemView.findViewById(R.id.first_view_spacer)
         private val originalPaddingTop = containerView.paddingTop
+        private val backgroundColorMap =
+            mapOf(false to R.attr.colorPrimaryContainer, true to R.attr.colorSecondaryContainer)
+                .mapValues { itemView.context.resolveThemedColor(it.value) }
 
         init {
             itemView.isClickable = false
@@ -621,6 +625,8 @@ class WidgetAdapter(
 
             val paddingTop = if (isNested) 0 else originalPaddingTop
             containerView.updatePadding(top = paddingTop, bottom = paddingTop)
+
+            backgroundColorMap[isNested]?.let { (containerView.background as GradientDrawable).setColor(it) }
 
             labelView.layoutParams = (labelView.layoutParams as ViewGroup.MarginLayoutParams).apply {
                 marginStart = if (isNested) labelView.resources.dpToPixel(8f).toInt() else 0
