@@ -45,7 +45,7 @@ class WidgetDataSource {
             .map { w -> w.id }
             .toSet()
         return allWidgets.filter { w ->
-            w.parentId == null || w.parentId in (firstLevelWidgetIds + secondLevelWidgetIds)
+            w.parentId == null || w.parentId in firstLevelWidgetIds || w.parentId in secondLevelWidgetIds
         }
     }
 
