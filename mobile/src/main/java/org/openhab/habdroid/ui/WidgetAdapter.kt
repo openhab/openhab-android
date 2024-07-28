@@ -53,6 +53,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.marginStart
+import androidx.core.view.updatePadding
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
@@ -115,6 +116,7 @@ import org.openhab.habdroid.util.MjpegStreamer
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.beautify
 import org.openhab.habdroid.util.determineDataUsagePolicy
+import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getChartTheme
 import org.openhab.habdroid.util.getIconFallbackColor
 import org.openhab.habdroid.util.getImageWidgetScalingType
@@ -601,6 +603,7 @@ class WidgetAdapter(
         private val labelView: TextView = itemView.findViewById(R.id.widgetlabel)
         private val containerView: View = itemView.findViewById(R.id.container)
         private val spacer: View = itemView.findViewById(R.id.first_view_spacer)
+        private val originalPaddingTop = containerView.paddingTop
 
         init {
             itemView.isClickable = false
@@ -614,8 +617,13 @@ class WidgetAdapter(
             labelView.text = widget.label + label
             labelView.applyWidgetColor(widget.valueColor, colorMapper)
             labelView.isGone = widget.label.isEmpty()
-            containerView.layoutParams = (containerView.layoutParams as ViewGroup.MarginLayoutParams).apply {
-                marginStart = if (parentWidget?.type == Widget.Type.Frame) marginEnd else 0
+            val isNested = parentWidget?.type == Widget.Type.Frame
+
+            val paddingTop = if (isNested) 0 else originalPaddingTop
+            containerView.updatePadding(top = paddingTop, bottom = paddingTop)
+
+            labelView.layoutParams = (labelView.layoutParams as ViewGroup.MarginLayoutParams).apply {
+                marginStart = if (isNested) labelView.resources.dpToPixel(8f).toInt() else 0
             }
         }
 
