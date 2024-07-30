@@ -39,7 +39,7 @@ class WidgetTest {
     fun testCountInstances() {
         assertEquals(sut1.size, 2)
         assertEquals(sut2.size, 1)
-        assertEquals(sut3.size, 4)
+        assertEquals(sut3.size, 5)
     }
 
     @Test
@@ -157,6 +157,7 @@ class WidgetTest {
         assertNull(sut1[0].stateFromLabel)
         assertNull(sut2[0].stateFromLabel)
         assertEquals("81 %", sut3[1].stateFromLabel)
+        assertEquals("Value [42]", sut3[4].stateFromLabel)
     }
 
     @Test
@@ -380,6 +381,26 @@ class WidgetTest {
                       'link': 'http://openhab.local:8080/rest/sitemaps/demo/02020002',
                       'leaf': true,
                       'timeout': false
+                    },
+                    'widgets': []
+                  }, {
+                    'widgetId': '0202_0_0_1',
+                    'type': 'Switch',
+                    'label': 'Test [Value [42]]',
+                    'icon': 'input',
+                    'mappings': [],
+                    'item': {
+                      'link': 'http://openhab.local:8080/rest/items/DemoString',
+                      'state': 'Value [42]',
+                      'stateDescription': {
+                          'pattern': '%s',
+                          'readOnly': false,
+                          'options': []
+                      },
+                    'type': 'String',
+                      'name': 'DemoString',
+                      'tags': [],
+                      'groupNames': []
                     },
                     'widgets': []
                   } ]
