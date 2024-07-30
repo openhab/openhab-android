@@ -40,8 +40,15 @@ class WidgetDataSource {
             .filter { w -> w.parentId == null }
             .map { w -> w.id }
             .toSet()
-        return allWidgets
-            .filter { w -> w.parentId == null || w.parentId in firstLevelWidgetIds }
+        val secondLevelWidgetIds = allWidgets
+            .filter { w -> w.parentId in firstLevelWidgetIds }
+            .map { w -> w.id }
+            .toSet()
+        return allWidgets.filter { w ->
+            w.parentId == null ||
+                w.parentId in firstLevelWidgetIds ||
+                w.parentId in secondLevelWidgetIds && w.type == Widget.Type.Button
+        }
     }
 
     fun setSourceJson(jsonObject: JSONObject) {
