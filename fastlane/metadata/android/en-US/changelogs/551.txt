@@ -1,0 +1,5 @@
+## What's Changed
+* Fix icon placement for section switches by @maniac103 in https://github.com/openhab/openhab-android/pull/3787
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.15.7-beta...3.15.8-beta
