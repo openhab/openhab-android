@@ -1042,11 +1042,12 @@ class WidgetAdapter(
 
             // Make sure images fit into the content frame by scaling
             // them at max 90% of the available height
-            if (initData.parent.height > 0) {
-                imageView.maxHeight = (0.9f * initData.parent.height).roundToInt()
-            } else {
-                imageView.maxHeight = Integer.MAX_VALUE
-            }
+            imageView.setMaxHeight(
+                when {
+                    initData.parent.height > 0 -> (0.9f * initData.parent.height).roundToInt()
+                    else -> Integer.MAX_VALUE
+                }
+            )
             imageView.setImageScalingType(prefs.getImageWidgetScalingType())
 
             if (value != null && value.matches("data:image/.*;base64,.*".toRegex())) {
