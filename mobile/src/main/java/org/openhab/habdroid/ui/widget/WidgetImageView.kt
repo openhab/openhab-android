@@ -47,8 +47,7 @@ import org.openhab.habdroid.util.resolveThemedColor
 
 class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageView: InternalImageView) :
     SkeletonLayout(context, attrs, config = createConfig(context)),
-    WidgetImageViewIntf by imageView
-{
+    WidgetImageViewIntf by imageView {
     constructor(context: Context, attrs: AttributeSet?) : this(
         context,
         attrs,
