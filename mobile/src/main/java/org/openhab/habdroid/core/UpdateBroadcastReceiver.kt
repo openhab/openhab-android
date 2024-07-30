@@ -31,7 +31,7 @@ import org.openhab.habdroid.model.DefaultSitemap
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.model.putIconResource
-import org.openhab.habdroid.model.toOH2IconResource
+import org.openhab.habdroid.model.toIconResource
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.util.PrefKeys
@@ -107,7 +107,7 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                     val widgetPrefs = ItemUpdateWidget.getPrefsForWidget(context, id)
                     val icon = widgetPrefs.getStringOrNull(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON)
                     widgetPrefs.edit {
-                        putIconResource(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON, icon.toOH2IconResource())
+                        putIconResource(PreferencesActivity.ITEM_UPDATE_WIDGET_ICON, icon.toIconResource())
                     }
                 }
 

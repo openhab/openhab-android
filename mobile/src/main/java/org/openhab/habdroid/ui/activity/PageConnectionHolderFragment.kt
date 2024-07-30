@@ -17,11 +17,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import java.io.IOException
-import java.io.StringReader
-import java.util.HashMap
-import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.parsers.ParserConfigurationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -38,8 +33,6 @@ import org.openhab.habdroid.model.WidgetDataSource
 import org.openhab.habdroid.ui.WidgetListFragment
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.appendQueryParameter
-import org.xml.sax.InputSource
-import org.xml.sax.SAXException
 
 /**
  * Fragment that manages connections for active instances of
@@ -266,9 +259,6 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
 
             Log.d(TAG, "Loading data for $url, long polling $longPolling")
             val headers = HashMap<String, String>()
-            if (callback.serverProperties?.hasJsonApi() == false) {
-                headers["Accept"] = "application/xml"
-            }
 
             if (longPolling) {
                 headers["X-Atmosphere-Transport"] = "long-polling"
@@ -317,11 +307,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             }
 
             val dataSource = WidgetDataSource()
-            val hasUpdate = if (callback.serverProperties?.hasJsonApi() == true) {
-                parseResponseJson(dataSource, response)
-            } else {
-                parseResponseXml(dataSource, response)
-            }
+            val hasUpdate = parseResponseJson(dataSource, response)
 
             if (hasUpdate) {
                 // Remove frame widgets with no label text
@@ -338,35 +324,6 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             }
 
             load()
-        }
-
-        private fun parseResponseXml(dataSource: WidgetDataSource, response: String): Boolean {
-            val dbf = DocumentBuilderFactory.newInstance()
-            try {
-                val builder = dbf.newDocumentBuilder()
-                val document = builder.parse(InputSource(StringReader(response)))
-                if (document == null) {
-                    Log.d(TAG, "Got empty XML document for $url")
-                    longPolling = false
-                    return false
-                }
-                val rootNode = document.firstChild
-                dataSource.setSourceNode(rootNode)
-                longPolling = true
-                return true
-            } catch (e: ParserConfigurationException) {
-                Log.d(TAG, "Parsing data for $url failed", e)
-                longPolling = false
-                return false
-            } catch (e: SAXException) {
-                Log.d(TAG, "Parsing data for $url failed", e)
-                longPolling = false
-                return false
-            } catch (e: IOException) {
-                Log.d(TAG, "Parsing data for $url failed", e)
-                longPolling = false
-                return false
-            }
         }
 
         private fun parseResponseJson(dataSource: WidgetDataSource, response: String): Boolean {
@@ -459,7 +416,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
             }
         }
 
-        private class EventHelper internal constructor(
+        private class EventHelper(
             private val scope: CoroutineScope,
             private val client: HttpClient,
             private val sitemap: String,
