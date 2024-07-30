@@ -15,19 +15,13 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.faltenreich.skeletonlayout.SkeletonLayout
+        <org.openhab.habdroid.ui.widget.WidgetImageView
+            android:id="@+id/chart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:maskColor="?skeletonBackground"
-            app:shimmerColor="?skeletonShimmer">
-            <org.openhab.habdroid.ui.widget.WidgetImageView
-                android:id="@+id/chart"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:imageScalingType="scaleToFitWithViewAdjustment"
-                app:addRandomnessToUrl="true"
-                tools:src="@drawable/day_dream_preview" />
-        </com.faltenreich.skeletonlayout.SkeletonLayout>
+            app:imageScalingType="scaleToFitWithViewAdjustment"
+            app:addRandomnessToUrl="true"
+            tools:src="@drawable/day_dream_preview" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
