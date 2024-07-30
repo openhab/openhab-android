@@ -57,10 +57,12 @@ class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageV
 
     init {
         addView(imageView, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
-        imageView.loadProgressCallback = { loading -> when (loading) {
-            true -> showSkeleton()
-            false -> showOriginal()
-        } }
+        imageView.loadProgressCallback = { loading ->
+            when (loading) {
+                true -> showSkeleton()
+                false -> showOriginal()
+            }
+        }
     }
 
     @SuppressLint("CustomViewStyleable")
