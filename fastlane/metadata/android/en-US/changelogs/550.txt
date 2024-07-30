@@ -1,0 +1,9 @@
+## What's Changed
+* Drop support for openHAB 1 by @mueller-ma in https://github.com/openhab/openhab-android/pull/3725
+* Fix handling of multiple buttons with different visibility in the same spot by @jimtng in https://github.com/openhab/openhab-android/pull/3784
+* Fix Buttons not showing when the Buttongrid is inside a Frame by @jimtng in https://github.com/openhab/openhab-android/pull/3783
+* Fix Buttongrid's layout changes when there is an invisible button by @jimtng in https://github.com/openhab/openhab-android/pull/3782
+* Fix stateFromLabel when label contains square brackets in pattern by @jimtng in https://github.com/openhab/openhab-android/pull/3770
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.15.6-beta...3.15.7-beta
