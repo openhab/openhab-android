@@ -606,7 +606,7 @@ class WidgetAdapter(
         private val spacer: View = itemView.findViewById(R.id.first_view_spacer)
         private val originalPaddingTop = containerView.paddingTop
         private val backgroundColorMap =
-            mapOf(false to R.attr.colorPrimaryContainer, true to R.attr.colorSecondaryContainer)
+            mapOf(false to R.attr.colorPrimaryContainer, true to R.attr.colorTertiaryContainer)
                 .mapValues { itemView.context.resolveThemedColor(it.value) }
 
         init {
