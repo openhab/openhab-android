@@ -280,7 +280,6 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="push_notification_status_http_error">Les notificacions no estan disponibles: Error en connectar-se al servidor remot: %s</string>
     <string name="push_notification_status_remote_no_cloud">Les notificacions no estan disponibles: El servidor remot no és una instància d\'openHAB cloud</string>
     <string name="push_notification_status">Estat</string>
-    <string name="push_notification_hint">Les notificacions es consulten regularment, amb la mateixa freqüència que \"Envia informació del dispositiu al servidor\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item no s\'ha pogut actualitzar</item>
         <item quantity="other">%d Items no s\'han pogut actualitzar</item>

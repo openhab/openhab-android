@@ -24,7 +24,7 @@
     <string name="settings_sitemap_title">Сайткарта</string>
     <string name="settings_misc_title">Други</string>
     <string name="settings_openhab_url">Адрес на локален сървър</string>
-    <string name="settings_openhab_url_summary">URL на openHAB (базиран хост или IP). Ако e ръчно конфигуриран, автоматичното откриване е изключено. Текущата настройка: %s</string>
+    <string name="settings_openhab_url_summary">URL на openHAB (базиран хост или IP). Ако e ръчно настроен, автоматичното откриване е изключено. Текуща настройка: %s</string>
     <string name="settings_openhab_alturl">Адрес на отдалечен сървър</string>
     <string name="settings_openhab_alturl_summary">URL на openHAB табло се използва, когато локалният адрес е недостъпен. Текущата настройка: %s</string>
     <string name="settings_openhab_username">Потребителско име</string>
@@ -37,7 +37,7 @@
     <string name="settings_openhab_screentimeroff">Екранът е постоянно включен</string>
     <string name="settings_openhab_screentimeroff_summary">Екранът не се изключва, докато openHAB работи</string>
     <string name="settings_openhab_demomode">Демонстрационен режим</string>
-    <string name="settings_openhab_demomode_summary">Ако нямаш openHAB сървър избери този режим, за да добиеш представа на какво openHAB е способен.</string>
+    <string name="settings_openhab_demomode_summary">Ако нямаш openHAB сървър, избери този режим, за да добиеш представа на какво openHAB е способен.</string>
     <string name="start_page_title">Начална страница</string>
     <string name="drawer_entries">Елементи в ☰ менюто</string>
     <string name="settings_openhab_theme">Тема</string>
@@ -308,7 +308,7 @@
     <string name="switch_wifi_button">Свържи се към други Wi-Fi</string>
     <string name="go_to_settings_button">Отворете приложението Настройки</string>
     <string name="enable_demo_mode_button">Включване на демо режим</string>
-    <string name="configuration_missing">Не откриваме openHAB сървър във вашата мрежа. Ако вече имате сървър, моля конфигурирайте неговия IP адрес или host име в сървърните настройки. Ако все още нямате сървър, започнете демо режим за да видите openHAB с неговите възможности.</string>
+    <string name="configuration_missing">Не открих openHAB сървър в твоята мрежа. Ако вече имаш сървър, моля въведи неговия IP адрес или host име в сървърните настройки. Ако все още нямаш сървър, започни демонстрационния режим, за да откриевидиш openHAB с неговите възможности.</string>
     <string name="no_remote_server">Връзката към местния сървър се провали и отдалечен сървър не е настроен.</string>
     <string name="resolving_openhab">Опитвам се да намеря openHAB сървър\u2026</string>
     <string name="waiting_for_wifi">Чакам Wi-Fi да се свърже\u2026</string>

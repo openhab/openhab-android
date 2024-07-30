@@ -284,7 +284,6 @@
     <string name="push_notification_status_http_error">Meldingen zijn niet beschikbaar: Fout bij verbinden met externe server: %s</string>
     <string name="push_notification_status_remote_no_cloud">Meldingen zijn niet beschikbaar: Externe server is geen openHAB cloud</string>
     <string name="push_notification_status">Status</string>
-    <string name="push_notification_hint">De meldingen worden opgevraagd volgens een schema, welke hetzelfde is als voor \"Apparaatinformatie naar server verzenden\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item kon niet worden bijgewerkt</item>
         <item quantity="other">%d Items konden niet worden bijgewerkt</item>

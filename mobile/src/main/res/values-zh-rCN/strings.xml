@@ -305,7 +305,6 @@
     <string name="push_notification_status_http_error">通知不可用: 连接到远程服务器时出错: %s</string>
     <string name="push_notification_status_remote_no_cloud">通知不可用：远程服务器不是一个 openHAB云实例</string>
     <string name="push_notification_status">状态</string>
-    <string name="push_notification_hint">通知按正常计划安排，与“向服务器发送设备信息”相同。</string>
     <plurals name="item_update_error_title">
         <item quantity="other">无法更新 %d 个项目</item>
     </plurals>

@@ -306,7 +306,6 @@
     <string name="push_notification_status_http_error">Az értesítések nem elérhetőek: a(z) \"%s\" távoli kiszolgálóhoz nem lehet csatlakozni</string>
     <string name="push_notification_status_remote_no_cloud">Az értesítések nem érhetőek el. A távoli kiszolgáló nem egy openHAB-cloud példány</string>
     <string name="push_notification_status">Állapot</string>
-    <string name="push_notification_hint">Az értesítéseket ütemezés szerint kérdezzük le, ugyanúgy, mint az \"Eszközadatok küldése a kiszolgálónak\" funkció</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Eleme nem volt frissíthető</item>
         <item quantity="other">%d az Elemek nem frissíthetőek</item>

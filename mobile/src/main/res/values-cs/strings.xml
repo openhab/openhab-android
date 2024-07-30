@@ -304,7 +304,6 @@
     <string name="push_notification_status_http_error">Upozornění nejsou k dispozici: Chyba při připojování ke vzdálenému serveru: %s</string>
     <string name="push_notification_status_remote_no_cloud">Oznámení nejsou k dispozici: Vzdálený server není instance openHAB cloudu</string>
     <string name="push_notification_status">Stav</string>
-    <string name="push_notification_hint">Oznámení jsou stahována v pravidelném intervalu, který je stejný jako pro \"Odeslat informace o zařízení na server\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Item nemohla být aktualizována</item>
         <item quantity="few">%d Items nemohly být aktualizovány</item>
