@@ -19,7 +19,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.text.InputType.TYPE_CLASS_NUMBER
 import android.text.InputType.TYPE_CLASS_TEXT
 import android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
@@ -53,8 +52,6 @@ import androidx.core.view.get
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import androidx.core.view.marginStart
-import androidx.core.view.updatePadding
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
@@ -117,7 +114,6 @@ import org.openhab.habdroid.util.MjpegStreamer
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.beautify
 import org.openhab.habdroid.util.determineDataUsagePolicy
-import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getChartTheme
 import org.openhab.habdroid.util.getIconFallbackColor
 import org.openhab.habdroid.util.getImageWidgetScalingType
@@ -226,7 +222,8 @@ class WidgetAdapter(
         val initData = ViewHolderInitData(inflater, parent, compactMode)
         val holder = when (actualViewType) {
             TYPE_GENERICITEM -> GenericViewHolder(initData)
-            TYPE_FRAME -> FrameViewHolder(initData)
+            TYPE_FRAME -> FirstLevelFrameViewHolder(initData)
+            TYPE_NESTED_FRAME -> SecondLevelFrameViewHolder(initData)
             TYPE_GROUP -> TextViewHolder(initData)
             TYPE_SWITCH -> SwitchViewHolder(initData)
             TYPE_TEXT -> TextViewHolder(initData)
@@ -265,11 +262,10 @@ class WidgetAdapter(
             colorMapper,
             serverFlags,
             chartTheme,
-            { widgetsByParentId[widget.id] },
-            widgetsById[widget.parentId]
+            { widgetsByParentId[widget.id] }
         )
         holder.bind(widget)
-        if (holder is FrameViewHolder) {
+        if (holder is AbstractFrameViewHolder) {
             holder.setShownAsFirst(position == firstVisibleWidgetPosition)
         }
         with(holder.itemView) {
@@ -367,7 +363,10 @@ class WidgetAdapter(
             return toInternalViewType(TYPE_INVISIBLE, compactMode)
         }
         val actualViewType = when (widget.type) {
-            Widget.Type.Frame -> TYPE_FRAME
+            Widget.Type.Frame -> when {
+                widgetsById[widget.parentId]?.type == Widget.Type.Frame -> TYPE_NESTED_FRAME
+                else -> TYPE_FRAME
+            }
             Widget.Type.Group -> TYPE_GROUP
             Widget.Type.Switch -> when {
                 widget.shouldRenderAsPlayer() -> TYPE_PLAYER
@@ -411,8 +410,7 @@ class WidgetAdapter(
         val colorMapper: ColorMapper,
         val serverFlags: Int,
         val chartTheme: CharSequence?,
-        val childWidgetGetter: () -> List<Widget>?,
-        val parentWidget: Widget?
+        val childWidgetGetter: () -> List<Widget>?
     )
 
     abstract class ViewHolder internal constructor(
@@ -429,7 +427,6 @@ class WidgetAdapter(
         protected val colorMapper get() = requireHolderContext().colorMapper
         protected val fragmentPresenter get() = requireHolderContext().fragmentPresenter
         protected val childWidgets get() = requireHolderContext().childWidgetGetter()
-        protected val parentWidget get() = requireHolderContext().parentWidget
 
         abstract fun bind(widget: Widget)
 
@@ -599,15 +596,14 @@ class WidgetAdapter(
         }
     }
 
-    class FrameViewHolder internal constructor(initData: ViewHolderInitData) :
-        ViewHolder(initData, R.layout.widgetlist_frameitem, R.layout.widgetlist_frameitem_compact) {
+    open class AbstractFrameViewHolder internal constructor(
+        initData: ViewHolderInitData,
+        @LayoutRes layoutResId: Int,
+        @LayoutRes compactModeLayoutResId: Int
+    ) : ViewHolder(initData, layoutResId, compactModeLayoutResId) {
         private val labelView: TextView = itemView.findViewById(R.id.widgetlabel)
         private val containerView: View = itemView.findViewById(R.id.container)
         private val spacer: View = itemView.findViewById(R.id.first_view_spacer)
-        private val originalPaddingTop = containerView.paddingTop
-        private val backgroundColorMap =
-            mapOf(false to R.attr.colorPrimaryContainer, true to R.attr.colorTertiaryContainer)
-                .mapValues { itemView.context.resolveThemedColor(it.value) }
 
         init {
             itemView.isClickable = false
@@ -621,16 +617,6 @@ class WidgetAdapter(
             labelView.text = widget.label + label
             labelView.applyWidgetColor(widget.valueColor, colorMapper)
             labelView.isGone = widget.label.isEmpty()
-            val isNested = parentWidget?.type == Widget.Type.Frame
-
-            val paddingTop = if (isNested) 0 else originalPaddingTop
-            containerView.updatePadding(top = paddingTop, bottom = paddingTop)
-
-            backgroundColorMap[isNested]?.let { (containerView.background as GradientDrawable).setColor(it) }
-
-            labelView.layoutParams = (labelView.layoutParams as ViewGroup.MarginLayoutParams).apply {
-                marginStart = if (isNested) labelView.resources.dpToPixel(8f).toInt() else 0
-            }
         }
 
         fun setShownAsFirst(shownAsFirst: Boolean) {
@@ -638,6 +624,18 @@ class WidgetAdapter(
             spacer.isGone = !containerView.isGone
         }
     }
+
+    class FirstLevelFrameViewHolder internal constructor(initData: ViewHolderInitData) : AbstractFrameViewHolder(
+        initData,
+        R.layout.widgetlist_frameitem,
+        R.layout.widgetlist_frameitem_compact
+    )
+
+    class SecondLevelFrameViewHolder internal constructor(initData: ViewHolderInitData) : AbstractFrameViewHolder(
+        initData,
+        R.layout.widgetlist_frameitem_nested,
+        R.layout.widgetlist_frameitem_nested_compact
+    )
 
     class SwitchViewHolder internal constructor(initData: ViewHolderInitData) :
         LabeledItemBaseViewHolder(initData, R.layout.widgetlist_switchitem, R.layout.widgetlist_switchitem_compact) {
@@ -1794,27 +1792,28 @@ class WidgetAdapter(
 
         private const val TYPE_GENERICITEM = 0
         private const val TYPE_FRAME = 1
-        private const val TYPE_GROUP = 2
-        private const val TYPE_SWITCH = 3
-        private const val TYPE_TEXT = 4
-        private const val TYPE_SLIDER = 5
-        private const val TYPE_IMAGE = 6
-        private const val TYPE_SELECTION = 7
-        private const val TYPE_SECTIONSWITCH = 8
-        private const val TYPE_SECTIONSWITCH_SMALL = 9
-        private const val TYPE_ROLLERSHUTTER = 10
-        private const val TYPE_PLAYER = 11
-        private const val TYPE_SETPOINT = 12
-        private const val TYPE_CHART = 13
-        private const val TYPE_VIDEO = 14
-        private const val TYPE_WEB = 15
-        private const val TYPE_COLOR = 16
-        private const val TYPE_VIDEO_MJPEG = 17
-        private const val TYPE_LOCATION = 18
-        private const val TYPE_INPUT = 19
-        private const val TYPE_DATETIMEINPUT = 20
-        private const val TYPE_BUTTONGRID = 21
-        private const val TYPE_INVISIBLE = 22
+        private const val TYPE_NESTED_FRAME = 2
+        private const val TYPE_GROUP = 3
+        private const val TYPE_SWITCH = 4
+        private const val TYPE_TEXT = 5
+        private const val TYPE_SLIDER = 6
+        private const val TYPE_IMAGE = 7
+        private const val TYPE_SELECTION = 8
+        private const val TYPE_SECTIONSWITCH = 9
+        private const val TYPE_SECTIONSWITCH_SMALL = 10
+        private const val TYPE_ROLLERSHUTTER = 11
+        private const val TYPE_PLAYER = 12
+        private const val TYPE_SETPOINT = 13
+        private const val TYPE_CHART = 14
+        private const val TYPE_VIDEO = 15
+        private const val TYPE_WEB = 16
+        private const val TYPE_COLOR = 17
+        private const val TYPE_VIDEO_MJPEG = 18
+        private const val TYPE_LOCATION = 19
+        private const val TYPE_INPUT = 20
+        private const val TYPE_DATETIMEINPUT = 21
+        private const val TYPE_BUTTONGRID = 22
+        private const val TYPE_INVISIBLE = 23
 
         private fun toInternalViewType(viewType: Int, compactMode: Boolean): Int {
             return viewType or (if (compactMode) 0x100 else 0)
