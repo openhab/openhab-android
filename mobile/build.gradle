@@ -212,5 +212,5 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version", {
         exclude group: "com.android.support", module: "support-annotations"
     }
-    androidTestImplementation "androidx.test.ext:junit:1.1.5"
+    androidTestImplementation "androidx.test.ext:junit:1.2.1"
 }
