@@ -133,7 +133,7 @@ fun JSONObject.toCloudMessage(): CloudMessage? {
             CloudMessage.CloudNotification(
                 id = id,
                 title = payload?.optString("title").orEmpty(),
-                message = payload?.getString("message") ?: getString("message"),
+                message = payload?.optString("message", "") ?: getString("message"),
                 createdTimestamp = created,
                 icon = (payload?.optStringOrNull("icon") ?: optStringOrNull("icon")).toIconResource(),
                 tag = tag,
