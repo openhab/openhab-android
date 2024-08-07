@@ -222,7 +222,8 @@ class WidgetAdapter(
         val initData = ViewHolderInitData(inflater, parent, compactMode)
         val holder = when (actualViewType) {
             TYPE_GENERICITEM -> GenericViewHolder(initData)
-            TYPE_FRAME -> FrameViewHolder(initData)
+            TYPE_FRAME -> FirstLevelFrameViewHolder(initData)
+            TYPE_NESTED_FRAME -> SecondLevelFrameViewHolder(initData)
             TYPE_GROUP -> TextViewHolder(initData)
             TYPE_SWITCH -> SwitchViewHolder(initData)
             TYPE_TEXT -> TextViewHolder(initData)
@@ -264,7 +265,7 @@ class WidgetAdapter(
             { widgetsByParentId[widget.id] }
         )
         holder.bind(widget)
-        if (holder is FrameViewHolder) {
+        if (holder is AbstractFrameViewHolder) {
             holder.setShownAsFirst(position == firstVisibleWidgetPosition)
         }
         with(holder.itemView) {
@@ -362,7 +363,10 @@ class WidgetAdapter(
             return toInternalViewType(TYPE_INVISIBLE, compactMode)
         }
         val actualViewType = when (widget.type) {
-            Widget.Type.Frame -> TYPE_FRAME
+            Widget.Type.Frame -> when {
+                widgetsById[widget.parentId]?.type == Widget.Type.Frame -> TYPE_NESTED_FRAME
+                else -> TYPE_FRAME
+            }
             Widget.Type.Group -> TYPE_GROUP
             Widget.Type.Switch -> when {
                 widget.shouldRenderAsPlayer() -> TYPE_PLAYER
@@ -592,8 +596,11 @@ class WidgetAdapter(
         }
     }
 
-    class FrameViewHolder internal constructor(initData: ViewHolderInitData) :
-        ViewHolder(initData, R.layout.widgetlist_frameitem, R.layout.widgetlist_frameitem_compact) {
+    open class AbstractFrameViewHolder internal constructor(
+        initData: ViewHolderInitData,
+        @LayoutRes layoutResId: Int,
+        @LayoutRes compactModeLayoutResId: Int
+    ) : ViewHolder(initData, layoutResId, compactModeLayoutResId) {
         private val labelView: TextView = itemView.findViewById(R.id.widgetlabel)
         private val containerView: View = itemView.findViewById(R.id.container)
         private val spacer: View = itemView.findViewById(R.id.first_view_spacer)
@@ -617,6 +624,18 @@ class WidgetAdapter(
             spacer.isGone = !containerView.isGone
         }
     }
+
+    class FirstLevelFrameViewHolder internal constructor(initData: ViewHolderInitData) : AbstractFrameViewHolder(
+        initData,
+        R.layout.widgetlist_frameitem,
+        R.layout.widgetlist_frameitem_compact
+    )
+
+    class SecondLevelFrameViewHolder internal constructor(initData: ViewHolderInitData) : AbstractFrameViewHolder(
+        initData,
+        R.layout.widgetlist_frameitem_nested,
+        R.layout.widgetlist_frameitem_nested_compact
+    )
 
     class SwitchViewHolder internal constructor(initData: ViewHolderInitData) :
         LabeledItemBaseViewHolder(initData, R.layout.widgetlist_switchitem, R.layout.widgetlist_switchitem_compact) {
@@ -1773,27 +1792,28 @@ class WidgetAdapter(
 
         private const val TYPE_GENERICITEM = 0
         private const val TYPE_FRAME = 1
-        private const val TYPE_GROUP = 2
-        private const val TYPE_SWITCH = 3
-        private const val TYPE_TEXT = 4
-        private const val TYPE_SLIDER = 5
-        private const val TYPE_IMAGE = 6
-        private const val TYPE_SELECTION = 7
-        private const val TYPE_SECTIONSWITCH = 8
-        private const val TYPE_SECTIONSWITCH_SMALL = 9
-        private const val TYPE_ROLLERSHUTTER = 10
-        private const val TYPE_PLAYER = 11
-        private const val TYPE_SETPOINT = 12
-        private const val TYPE_CHART = 13
-        private const val TYPE_VIDEO = 14
-        private const val TYPE_WEB = 15
-        private const val TYPE_COLOR = 16
-        private const val TYPE_VIDEO_MJPEG = 17
-        private const val TYPE_LOCATION = 18
-        private const val TYPE_INPUT = 19
-        private const val TYPE_DATETIMEINPUT = 20
-        private const val TYPE_BUTTONGRID = 21
-        private const val TYPE_INVISIBLE = 22
+        private const val TYPE_NESTED_FRAME = 2
+        private const val TYPE_GROUP = 3
+        private const val TYPE_SWITCH = 4
+        private const val TYPE_TEXT = 5
+        private const val TYPE_SLIDER = 6
+        private const val TYPE_IMAGE = 7
+        private const val TYPE_SELECTION = 8
+        private const val TYPE_SECTIONSWITCH = 9
+        private const val TYPE_SECTIONSWITCH_SMALL = 10
+        private const val TYPE_ROLLERSHUTTER = 11
+        private const val TYPE_PLAYER = 12
+        private const val TYPE_SETPOINT = 13
+        private const val TYPE_CHART = 14
+        private const val TYPE_VIDEO = 15
+        private const val TYPE_WEB = 16
+        private const val TYPE_COLOR = 17
+        private const val TYPE_VIDEO_MJPEG = 18
+        private const val TYPE_LOCATION = 19
+        private const val TYPE_INPUT = 20
+        private const val TYPE_DATETIMEINPUT = 21
+        private const val TYPE_BUTTONGRID = 22
+        private const val TYPE_INVISIBLE = 23
 
         private fun toInternalViewType(viewType: Int, compactMode: Boolean): Int {
             return viewType or (if (compactMode) 0x100 else 0)
