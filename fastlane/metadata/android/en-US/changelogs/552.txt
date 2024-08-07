@@ -1,0 +1,7 @@
+## What's Changed
+* Allow one level of nested frames in sitemaps by @jimtng in https://github.com/openhab/openhab-android/pull/3785
+* Don't truncate widget values by @mueller-ma in https://github.com/openhab/openhab-android/pull/3795
+* Fix notifications without message by @mueller-ma in https://github.com/openhab/openhab-android/pull/3794
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.15.8-beta...3.15.9-beta
