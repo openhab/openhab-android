@@ -120,7 +120,13 @@ class ItemsControlsProviderService : ControlsProviderService() {
         }
         val state = when (action) {
             is BooleanAction -> {
-                val item = ItemClient.loadItem(connection, itemName) ?: return ControlAction.RESPONSE_FAIL
+                val item = try {
+                    ItemClient.loadItem(connection, itemName)
+                } catch (e: HttpClient.HttpException) {
+                    Log.e(TAG, "Could not determine item type for boolean action", e)
+                    null
+                } ?: return ControlAction.RESPONSE_FAIL
+
                 if (item.isOfTypeOrGroupType(Item.Type.Player)) {
                     if (action.newState) "PLAY" else "PAUSE"
                 } else {
