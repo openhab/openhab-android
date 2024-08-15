@@ -1,0 +1,6 @@
+## What's Changed
+* Correctly catch HttpException when retrieving item by @maniac103 in https://github.com/openhab/openhab-android/pull/3798
+* Fix resolving color state lists from theme by @maniac103 in https://github.com/openhab/openhab-android/pull/3800
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.15.9-beta...3.15.10-beta
