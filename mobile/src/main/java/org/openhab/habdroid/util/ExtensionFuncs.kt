@@ -49,6 +49,7 @@ import androidx.preference.PreferenceManager
 import com.caverock.androidsvg.RenderOptions
 import com.caverock.androidsvg.SVG
 import com.google.android.material.color.DynamicColors
+import com.google.android.material.color.MaterialColors
 import java.io.EOFException
 import java.io.IOException
 import java.io.InputStream
@@ -448,13 +449,7 @@ fun Context.determineDataUsagePolicy(conn: Connection? = null): DataUsagePolicy 
 
 @ColorInt
 fun Context.resolveThemedColor(@AttrRes colorAttr: Int, @ColorInt fallbackColor: Int = 0): Int {
-    val tv = TypedValue()
-    theme.resolveAttribute(colorAttr, tv, true)
-    return if (tv.type >= TypedValue.TYPE_FIRST_COLOR_INT && tv.type <= TypedValue.TYPE_LAST_COLOR_INT) {
-        tv.data
-    } else {
-        fallbackColor
-    }
+    return MaterialColors.getColor(this, colorAttr, fallbackColor)
 }
 
 @ColorRes
