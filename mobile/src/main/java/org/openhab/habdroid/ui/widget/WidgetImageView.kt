@@ -70,7 +70,7 @@ class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageV
         attrs: AttributeSet?
     ) : AppCompatImageView(context, attrs), WidgetImageViewIntf {
         private var scope: CoroutineScope? = null
-        var loadProgressCallback: (loading: Boolean) -> Unit = {}
+        var loadProgressCallback: ((loading: Boolean) -> Unit)? = null
         private val fallback: Drawable?
 
         private var originalScaleType: ScaleType? = null
@@ -270,7 +270,7 @@ class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageV
             cancelRefresh()
             lastRequest = null
             refreshInterval = 0
-            loadProgressCallback.invoke(false)
+            loadProgressCallback?.invoke(false)
         }
 
         private fun doLoad(client: HttpClient, url: HttpUrl, timeoutMillis: Long, forceLoad: Boolean) {
@@ -285,7 +285,7 @@ class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageV
             if (cached != null) {
                 applyLoadedBitmap(cached)
             } else if (lastRequest?.statelessUrlEquals(url) != true) {
-                loadProgressCallback.invoke(true)
+                loadProgressCallback?.invoke(true)
             }
 
             if (cached == null || forceLoad) {
@@ -317,7 +317,7 @@ class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageV
         }
 
         private fun applyLoadedBitmap(bitmap: Bitmap) {
-            loadProgressCallback.invoke(false)
+            loadProgressCallback?.invoke(false)
             if (imageScalingType == ImageScalingType.ScaleToFitWithViewAdjustmentDownscaleOnly) {
                 // Make sure that view only shrinks to accommodate bitmap size, but doesn't enlarge ... that is,
                 // adjust view bounds only if width is larger than target size or height is larger than the maximum height
@@ -390,7 +390,7 @@ class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageV
                         if (context.getPrefs().isDebugModeEnabled()) {
                             Log.d(TAG, "Failed to load image '$url', HTTP code ${e.statusCode}", e)
                         }
-                        loadProgressCallback.invoke(false)
+                        loadProgressCallback?.invoke(false)
                         applyFallbackDrawable()
                     }
                 }
