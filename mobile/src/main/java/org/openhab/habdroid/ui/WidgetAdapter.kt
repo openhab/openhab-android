@@ -1704,7 +1704,7 @@ class WidgetAdapter(
 
     class MjpegVideoViewHolder internal constructor(initData: ViewHolderInitData) :
         HeavyDataViewHolder(initData, R.layout.widgetlist_videomjpegitem) {
-        private val imageView = widgetContentView as ImageView
+        private val imageView = widgetContentView as WidgetImageView
         private var streamer: MjpegStreamer? = null
 
         override fun bindAfterDataSaverCheck(widget: Widget) {

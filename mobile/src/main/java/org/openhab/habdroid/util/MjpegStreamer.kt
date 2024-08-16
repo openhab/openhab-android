@@ -14,7 +14,6 @@
 package org.openhab.habdroid.util
 
 import android.util.Log
-import android.widget.ImageView
 import java.io.IOException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,8 +22,9 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.openhab.habdroid.core.connection.Connection
+import org.openhab.habdroid.ui.widget.WidgetImageView
 
-class MjpegStreamer(private val view: ImageView, connection: Connection, private val url: String) {
+class MjpegStreamer(private val view: WidgetImageView, connection: Connection, private val url: String) {
     private val httpClient = connection.httpClient
     private var job: Job? = null
 
