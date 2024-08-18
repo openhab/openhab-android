@@ -318,6 +318,7 @@
     <string name="push_notification_status_http_error">Notifiche non disponibili: errore di connessione al server remoto: %s</string>
     <string name="push_notification_status_remote_no_cloud">Notifiche non disponibili: il server remoto non è un\'istanza cloud openHAB</string>
     <string name="push_notification_status">Stato</string>
+    <string name="push_notification_hint">Le notifiche sono intervistate secondo un programma regolare, che è lo stesso di \"Invia informazioni sul dispositivo al server\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">L’item %d non può essere aggiornato</item>
         <item quantity="other">Gli item %d non possono essere aggiornati</item>
