@@ -10,6 +10,7 @@
             <enum name="scaleToFitWithViewAdjustment" value="2" />
             <enum name="scaleToFitWithViewAdjustmentDownscaleOnly" value="3" />
         </attr>
+        <attr name="android:src" />
     </declare-styleable>
 
     <declare-styleable name="ItemAndTogglePreference">
