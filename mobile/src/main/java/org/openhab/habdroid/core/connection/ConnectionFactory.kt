@@ -211,10 +211,10 @@ class ConnectionFactory internal constructor(
             activeConn = loadServerConnections(activeServer)
 
             val primaryServer = prefs.getPrimaryServerId()
-            if (primaryServer == activeServer) {
-                primaryConn = activeConn
+            primaryConn = if (primaryServer == activeServer) {
+                activeConn
             } else {
-                primaryConn = loadServerConnections(primaryServer)
+                loadServerConnections(primaryServer)
             }
 
             updateState(callListenersImmediately, null, null, null)

@@ -19,7 +19,9 @@ import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.Socket
 import java.net.SocketTimeoutException
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import org.openhab.habdroid.model.ServerPath
@@ -42,7 +44,9 @@ open class DefaultConnection : AbstractConnection {
         Log.d(TAG, "Checking reachability of $baseUrl (via $network)")
         val url = baseUrl.toHttpUrl()
         val s = createConnectedSocket(InetSocketAddress(url.host, url.port), network)
-        s?.close()
+        withContext(Dispatchers.IO) {
+            s?.close()
+        }
         return s != null
     }
 
@@ -53,8 +57,10 @@ open class DefaultConnection : AbstractConnection {
         var retries = 0
         while (retries < 10) {
             try {
-                s.connect(socketAddress, 1000)
-                Log.d(TAG, "Socket connected (attempt  $retries)")
+                withContext(Dispatchers.IO) {
+                    s.connect(socketAddress, 1000)
+                }
+                Log.d(TAG, "Socket connected (attempt $retries)")
                 return s
             } catch (e: SocketTimeoutException) {
                 Log.d(TAG, "Socket timeout after $retries retries")
