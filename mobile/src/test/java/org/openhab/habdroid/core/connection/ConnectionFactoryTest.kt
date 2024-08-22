@@ -14,7 +14,6 @@
 package org.openhab.habdroid.core.connection
 
 import android.app.Application
-import android.content.Context
 import android.content.SharedPreferences
 import android.net.Network
 import android.net.NetworkCapabilities
@@ -78,7 +77,7 @@ class ConnectionFactoryTest {
     @JvmField
     val retry = RetryRule()
 
-    private lateinit var mockContext: Context
+    private lateinit var mockContext: Application
     private lateinit var mockPrefs: SharedPreferences
     private lateinit var mockNetwork: Network
     private lateinit var mockNetworkCaps: NetworkCapabilities
