@@ -16,6 +16,7 @@
 package org.openhab.habdroid.core.connection
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.NetworkCapabilities
@@ -66,7 +67,7 @@ import org.openhab.habdroid.util.isDemoModeEnabled
  * (see the constants in [Connection]).
  */
 class ConnectionFactory internal constructor(
-    private val context: Context,
+    private val context: Application,
     private val prefs: SharedPreferences,
     private val secretPrefs: SharedPreferences,
     private val connectionHelper: ConnectionManagerHelper
@@ -560,17 +561,19 @@ class ConnectionFactory internal constructor(
         )
         private val CLIENT_CERT_UPDATE_TRIGGERING_PREFIXES = listOf(PrefKeys.SSL_CLIENT_CERT_PREFIX)
 
-        @VisibleForTesting lateinit var instance: ConnectionFactory
+        @VisibleForTesting
+        lateinit var instance: ConnectionFactory
 
-        fun initialize(ctx: Context) {
+        fun initialize(ctx: Application) {
             instance = ConnectionFactory(ctx, ctx.getPrefs(), ctx.getSecretPrefs(), ConnectionManagerHelper.create(ctx))
             instance.launch {
+                instance.connectionHelper.start()
                 instance.updateConnections()
             }
         }
 
         @VisibleForTesting
-        fun initialize(ctx: Context, prefs: SharedPreferences, connectionHelper: ConnectionManagerHelper) {
+        fun initialize(ctx: Application, prefs: SharedPreferences, connectionHelper: ConnectionManagerHelper) {
             instance = ConnectionFactory(ctx, prefs, prefs, connectionHelper)
         }
 
