@@ -277,6 +277,7 @@ class ConnectionFactoryTest {
             changeCallback?.invoke()
         }
 
+        override fun start() {}
         override fun shutdown() {}
     }
 
