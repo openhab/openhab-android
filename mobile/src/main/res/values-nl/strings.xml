@@ -7,16 +7,23 @@
     <string name="save">Opslaan</string>
     <string name="discard">Negeer</string>
     <string name="delete">Verwijder</string>
+    <string name="attribution_tag_discover_server">Zoek openHAB server</string>
+    <string name="attribution_tag_select_server_wifi">Selecteer server gebaseerd op Wi-Fi</string>
+    <string name="attribution_tag_suggest_turn_on_wifi">Suggereren om Wi-Fi in te schakelen</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Instellingen</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_main_ui">Main UI</string>
     <string name="mainmenu_openhab_frontail">Frontail</string>
     <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
+    <string name="ui_on_server">%1$s (%2$s)</string>
     <string name="app_notifications">Notificaties</string>
     <string name="habpanel_error">Er is een fout opgetreden tijdens het laden van HABPanel</string>
+    <string name="main_ui_error">Er is een fout opgetreden tijdens het laden van Main UI</string>
     <string name="frontail_error">Er is een fout opgetreden tijdens het laden van Frontail. Houd er rekening mee dat het niet beschikbaar is via openHAB Cloud.</string>
     <string name="mainmenu_openhab_selectsitemap">Selecteer standaard Sitemap</string>
+    <string name="settings_clear_caches">Cache wissen</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Verbindingsinstellingen</string>
     <string name="settings_display_title">Weergave Instellingen</string>
@@ -34,6 +41,8 @@
     <string name="settings_openhab_sslclientcert">SSL-clientcertificaat</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Tik hier voor enkele tips en uitleg over het instellen van SSL certificaat authenticatie</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL-cliëntcertificaten worden niet ondersteund door uw apparaat</string>
+    <string name="frontail_url_title">Frontail URL</string>
+    <string name="frontail_url_summary">De URL van Frontail. Het is gebundeld met openHABian of kan handmatig geïnstalleerd worden. Laat leeg om de standaardinstellingen te gebruiken. Huidige instelling: %s</string>
     <string name="settings_openhab_screentimeroff">Schermtimeout uitschakelen</string>
     <string name="settings_openhab_screentimeroff_summary">Het scherm wordt niet uitgeschakeld als openHAB wordt uitgevoerd</string>
     <string name="settings_openhab_demomode">Demonstratiemodus</string>
@@ -42,6 +51,13 @@
     <string name="drawer_entries">Zijmenu items</string>
     <string name="settings_openhab_theme">Thema</string>
     <string name="settings_openhab_fullscreen">Volledig scherm</string>
+    <string name="settings_set_as_launcher_title">Registreer als launcher</string>
+    <string name="settings_set_as_launcher_summary">Sta de app toe om te worden gebruikt als launcher. Na het inschakelen moet de app geselecteerd zijn als standaard launcher om van kracht te worden.</string>
+    <string name="settings_sitemap_compact_mode_title">Compacte weergave</string>
+    <string name="settings_sitemap_compact_mode_off">Gebruik een twee-lijnen lay-out voor Sitemap widgets, wat besturingselementen groter en dus makkelijker te gebruiken maakt, maar meer scrollen vereist voor langere lijsten</string>
+    <string name="settings_sitemap_compact_mode_on">Gebruik een één-lijn lay-out voor Sitemap widgets, die zoveel mogelijk widgets op het scherm plaatst, maar de grootte van de besturingselementen vermindert</string>
+    <string name="settings_color_scheme_title">Kleur schema</string>
+    <string name="settings_show_icons">Pictogrammen tonen</string>
     <string name="settings_openhab_icon_format">Pictogramindeling</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vector</string>
@@ -60,6 +76,10 @@
     <string name="settings_no_default_sitemap">Geen standaard Sitemap geselecteerd</string>
     <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Standaard Sitemap: %1$s</string>
+    <string name="settings_main_ui_start_page">Main UI startpagina</string>
+    <string name="settings_ui_command_item">UI commando-item</string>
+    <string name="settings_ui_command_item_summary_on">Sitemap kan met Item \"%s\" aangestuurd worden</string>
+    <string name="settings_ui_command_item_summary_off">Sitemap kan niet niet met een Item aangestuurd worden</string>
     <string name="settings_openhab_alt_connection">Extern</string>
     <string name="settings_openhab_connection">Lokaal</string>
     <string name="settings_ringtone">Beltoon</string>
@@ -71,6 +91,9 @@
     <string name="settings_notification_vibration_long">Lang</string>
     <string name="settings_notification_vibration_twice">Twee keer</string>
     <string name="settings_notification_ringtone_vibration">Beltoon &amp; Trillen</string>
+    <string name="settings_notification_reset_settings">Categorieën resetten</string>
+    <string name="settings_notification_reset_settings_confirm">Wilt u alle notificatie categorieën verwijderen? Ze worden opnieuw aangemaakt wanneer een nieuwe notificatie arriveert in deze categorie.</string>
+    <string name="settings_notification_hint">De prioriteit van meldingen via myopenHAB.org is ingesteld als notificatie categorie. U kunt voor elke categorie verschillende notificatie-instellingen definiëren.</string>
     <string name="settings_connection_summary">Verbonden met %s</string>
     <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">Onveilig verbonden met %1$s: %2$s</string>
@@ -108,7 +131,16 @@
     <string name="setting_crash_reporting_title">Foutenrapportering</string>
     <string name="setting_crash_reporting_summary">Crashrapporten verzenden ter ondersteuning van de ontwikkeling van de app</string>
     <string name="device_control_subtitle_location">Locatie</string>
+    <string name="device_control_subtitle_equipment">Apparatuur</string>
+    <string name="device_control_subtitle_location_equipment">Locatie en apparatuur</string>
     <string name="device_control_subtitle_item_name">Itemnaam</string>
+    <string name="device_control">Android apparaat beheer</string>
+    <string name="device_control_subtitle">Beschrijving in tegels</string>
+    <string name="device_control_hint">Deze tegels bevinden zich, afhankelijk van je Android versie, in een lang-drukken menu van de aan/uit-knop of naast de sneltegels</string>
+    <string name="screensaver">Schermbeveiliging</string>
+    <string name="screensaver_item">Weergegeven Item</string>
+    <string name="screensaver_bright_screen">Helder scherm</string>
+    <string name="screensaver_error_loading_item">Fout bij laden van Item \"%s\"</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Spraakcommando\'s</string>
     <string name="voice_command">Spraakcommando</string>
@@ -153,7 +185,9 @@
     <string name="error_certificate_wrong_host">SSL-certificaat is niet geldig voor %s</string>
     <string name="error_http_to_https_port">Onverwachte beëindiging van een stream. Probeert u verbinding te maken met een HTTPS poort via HTTP?</string>
     <string name="webview_ssl">Momenteel ondersteunt deze app geen zelf ondertekende SSL-certificaten voor Webview widgets</string>
+    <string name="webview_snackbar_permissions_missing">De pagina vereist extra machtigingen om goed te werken</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Authenticatie mislukt. Controleer de ingevulde gebruikersnaam en wachtwoord of het SSL-certificaat (HTTP Code %d). Controleer of Server Basic Authenticatie aan staat.</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Niet gevonden (HTTP code %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL is te lang. Gebruik het IP-adres of een korte URL (HTTP Code %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">HTTPS is vereist. Wijzig de URL (HTTP Code %d).</string>
@@ -193,6 +227,7 @@
     <string name="error_openhab_offline">Uw openHAB server is offline terwijl de cloud instance actief is</string>
     <string name="error_no_browser_found">Geen browser gevonden op dit apparaat</string>
     <string name="error_no_speech_to_text_app_found">Geen app voor spraakherkenning gevonden</string>
+    <string name="error_sse_failed">Event abonnement mislukt, widget vernieuwen mogelijk beperkt</string>
     <string name="error_video_player">%s kon niet worden geladen</string>
     <string name="install">Installeren</string>
     <string name="title_activity_openhabwritetag">Schrijf NFC-tag</string>
@@ -204,6 +239,7 @@
     <string name="info_write_tag_unsupported">Dit apparaat heeft geen NFC-ondersteuning</string>
     <string name="info_write_tag_disabled">NFC is uitgeschakeld</string>
     <string name="action_settings">Instellingen</string>
+    <string name="nfc_info_hint">Item updates kunnen naar NFC-tags worden geschreven. Selecteer hier een Item of druk lang op een Widget in de Sitemap.</string>
     <string name="info_not_set">Niet ingesteld</string>
     <string name="empty_page">Deze pagina bevat geen widgets die zijn ingesteld als zichtbaar</string>
     <!-- Background tasks -->
@@ -260,6 +296,7 @@
     <string name="settings_gadgetbridge_summary_off">Stuur geen Gadgetbridge-acties</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Deze functie vereist extra machtigingen. Na het inschakelen wordt u gevraagd om toestemming te verlenen.</string>
     <string name="settings_background_tasks_permission_hint">Deze functie vereist extra machtigingen om. Na het inschakelen wordt u gevraagd om toestemming te verlenen. Zorg ervoor dat u de machtiging ook voor achtergrondgebruik goedkeurt, aangezien de Item updates ook gebeuren wanneer de app zich op de achtergrond bevindt.</string>
+    <string name="settings_permission_denied">Sommige functies zijn uitgeschakeld vanwege ontbrekende machtigingen</string>
     <string name="settings_background_tasks_permission_denied_background_location">Sommige achtergrondtaken vereisen om locatietoegang in te stellen op \"%s\" in de Android-instellingen</string>
     <string name="settings_background_tasks_permission_allow">Toestaan</string>
     <string name="settings_location_permissions_required">Deze app verzamelt locatiegegevens om \"Wi-Fi naam verzenden naar de server\" en \"Selecteer server op basis van wifi\" in te schakelen, zelfs wanneer de app is gesloten of niet in gebruik is. Houd er rekening mee dat deze gegevens alleen worden verzonden naar de servers die je hebt geconfigureerd.</string>
@@ -338,6 +375,8 @@
     <string name="theme_name_battery_saver">Donkere modus bij batterijbesparing</string>
     <string name="theme_name_black">Zwart</string>
     <string name="color_scheme_name_default">Standaard</string>
+    <string name="color_scheme_name_basicui">Basic UI</string>
+    <string name="color_scheme_name_dynamic">Dynamisch</string>
     <!-- Chart -->
     <string name="chart_activity_title">Grafiek</string>
     <string name="chart_activity_hide_legend">Legende verbergen</string>
@@ -431,12 +470,18 @@
     <string name="content_description_open_roller_shutter">Open rolluik</string>
     <string name="content_description_stop_roller_shutter">Stop rolluik</string>
     <string name="content_description_close_roller_shutter">Sluit rolluik</string>
+    <string name="content_description_player_previous">Spring naar vorige nummer</string>
+    <string name="content_description_player_next">Spring naar volgende nummer</string>
+    <string name="content_description_player_pause">Afspelen pauzeren</string>
+    <string name="content_description_player_play">Afspelen starten</string>
     <string name="content_description_open_color_wheel">Open kleurenwiel</string>
     <string name="content_description_color_up">Aan of ingedrukt houden om feller te maken</string>
     <string name="content_description_color_down">Uit of ingedrukt houden om minder fel te maken</string>
     <string name="content_description_open_number_picker">Open nummer kiezer</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Open openHAB</string>
+    <string name="content_description_increase_item_value">Verhoog Item waarde</string>
+    <string name="content_description_decrease_item_value">Verlaag Item waarde</string>
     <string name="swipe_to_refresh_description">De app wordt ook automatisch vernieuwd, het is meestal niet nodig om dit handmatig te doen</string>
     <string name="got_it">Begrepen!</string>
     <!-- Intro strings -->
@@ -476,11 +521,16 @@
     <string name="press_back_to_exit">Druk nogmaals op \'terug\' om te sluiten</string>
     <!-- Item update widget -->
     <string name="item_update_widget_title">Item controleren</string>
+    <string name="item_update_widget_content_description">Status van een Item wijzigen of lezen</string>
     <string name="item_update_widget_content_description_edit">Widget bewerken</string>
     <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="item_update_widget_text">%1$s: %2$s</string>
     <!-- Used in the widget preview -->
+    <string name="item_update_widget_preview_text">Open garage</string>
+    <string name="widget_show_state_summary">De status wordt bijgewerkt volgens het tijdschema dat kan worden ingesteld in de instellingen, onder \"Stuur apparaat informatie naar de server\"</string>
+    <string name="widget_no_command">Stuur geen opdracht</string>
+    <string name="error_getting_state">Fout bij laden van status</string>
     <!-- %1$s: Item label, %2$s: State-->
     <string name="item_update_success_message_generic">%1$s is op %2$s gezet</string>
     <string name="item_update_success_message_on">%s is ingeschakeld</string>
@@ -520,10 +570,14 @@
     <string name="item_update_error_no_connection">Geen verbinding</string>
     <string name="item_update_error_couldnt_get_item_type">Kan Item-type niet ophalen</string>
     <string name="create_home_screen_widget_title">Widget maken</string>
+    <string name="create_home_screen_widget_no_command">Huidige status weergeven</string>
     <string name="create_home_screen_widget_not_supported">Ga naar het widget menu op uw startscherm en maak vanaf daar een widget</string>
+    <string name="analyse">Analyseren</string>
     <!-- Data saver -->
     <string name="data_saver_title">Gegevensbesparing</string>
     <string name="data_saver_on">Sitemap elementen die mogelijk grotere data transfers vereisen zijn niet geladen</string>
+    <string name="data_saver_off">Bij het laden van data-intensieve Sitemap elementen worden de systeeminstelling voor gegevensbesparing gevolgd</string>
+    <string name="data_saver_off_pre_n">Alle sitemap elementen worden geladen, onafhankelijk van data volume</string>
     <string name="data_saver_load">Toch laden</string>
     <string name="data_saver_hint">%s is niet geladen om gegevensgebruik te besparen</string>
     <string name="data_saver_snackbar">Pictogrammen zijn niet gebaseerd op Item-statussen, omdat gegevensbesparing is ingeschakeld</string>
@@ -611,12 +665,22 @@
     <string name="tile_icon_lamp_outdoor">Buitenlamp</string>
     <!-- Tile icon values -->
     <!-- Item tag type labels -->
+    <string name="item_tag_location_apartment">Appartement</string>
     <string name="item_tag_location_attic">Zolder</string>
     <string name="item_tag_location_basement">Kelder</string>
     <string name="item_tag_location_bathroom">Badkamer</string>
     <string name="item_tag_location_bedroom">Slaapkamer</string>
+    <string name="item_tag_location_boilerroom">Ketelruimte</string>
     <string name="item_tag_location_building">Gebouw</string>
+    <string name="item_tag_location_carport">Carport</string>
+    <string name="item_tag_location_cellar">Kelder</string>
+    <string name="item_tag_location_corridor">Gang</string>
+    <string name="item_tag_location_diningroom">Eetkamer</string>
+    <string name="item_tag_location_driveway">Oprit</string>
+    <string name="item_tag_location_entry">Ingang</string>
+    <string name="item_tag_location_familyroom">Familiekamer</string>
     <string name="item_tag_location_firstfloor">Eerste verdieping</string>
+    <string name="item_tag_location_floor">Verdieping</string>
     <string name="item_tag_location_garage">Garage</string>
     <string name="item_tag_location_garden">Tuin</string>
     <string name="item_tag_location_groundfloor">Begane grond</string>
@@ -628,17 +692,25 @@
     <string name="item_tag_location_livingroom">Woonkamer</string>
     <string name="item_tag_location_office">Kantoor</string>
     <string name="item_tag_location_outdoor">Buiten</string>
+    <string name="item_tag_location_patio">Binnenhof</string>
+    <string name="item_tag_location_porch">Portiek</string>
     <string name="item_tag_location_room">Kamer</string>
     <string name="item_tag_location_secondfloor">Tweede verdieping</string>
     <string name="item_tag_location_shed">Schuur</string>
+    <string name="item_tag_location_summerhouse">Zomerhuis</string>
     <string name="item_tag_location_terrace">Terras</string>
     <string name="item_tag_location_thirdfloor">Derde verdieping</string>
+    <string name="item_tag_location_veranda">Veranda</string>
     <string name="item_tag_equipment_alarmsystem">Alarmsysteem</string>
     <string name="item_tag_equipment_backdoor">Achterdeur</string>
     <string name="item_tag_equipment_battery">Batterij</string>
+    <string name="item_tag_equipment_blinds">Jaloezieën</string>
+    <string name="item_tag_equipment_boiler">Boiler</string>
     <string name="item_tag_equipment_camera">Camera</string>
     <string name="item_tag_equipment_car">Auto</string>
     <string name="item_tag_equipment_ceilingfan">Plafondventilator</string>
+    <string name="item_tag_equipment_cellardoor">Kelderdeur</string>
+    <string name="item_tag_equipment_cleaningrobot">Robot stofzuiger</string>
     <string name="item_tag_equipment_dishwasher">Vaatwasser</string>
     <string name="item_tag_equipment_door">Deur</string>
     <string name="item_tag_equipment_doorbell">Deurbel</string>
@@ -648,7 +720,9 @@
     <string name="item_tag_equipment_frontdoor">Voordeur</string>
     <string name="item_tag_equipment_garagedoor">Garagedeur</string>
     <string name="item_tag_equipment_gate">Hek</string>
+    <string name="item_tag_equipment_hvac">HVAC</string>
     <string name="item_tag_equipment_innerdoor">Binnendeur</string>
+    <string name="item_tag_equipment_inverter">Omvormer</string>
     <string name="item_tag_equipment_kitchenhood">Afzuigkap</string>
     <string name="item_tag_equipment_lawnmower">Grasmaaier</string>
     <string name="item_tag_equipment_lightbulb">Lamp</string>
@@ -660,15 +734,21 @@
     <string name="item_tag_equipment_poweroutlet">Stopcontact</string>
     <string name="item_tag_equipment_projector">Projector</string>
     <string name="item_tag_equipment_pump">Pomp</string>
+    <string name="item_tag_equipment_radiatorcontrol">Radiatorbediening</string>
+    <string name="item_tag_equipment_receiver">Ontvanger</string>
     <string name="item_tag_equipment_refrigerator">Koelkast</string>
     <string name="item_tag_equipment_remotecontrol">Afstandsbediening</string>
     <string name="item_tag_equipment_screen">Scherm</string>
     <string name="item_tag_equipment_sensor">Sensor</string>
+    <string name="item_tag_equipment_sidedoor">Zijdeur</string>
     <string name="item_tag_equipment_siren">Sirene</string>
     <string name="item_tag_equipment_smartphone">Smartphone</string>
     <string name="item_tag_equipment_smokedetector">Rookmelder</string>
     <string name="item_tag_equipment_speaker">Speaker</string>
     <string name="item_tag_equipment_television">Televisie</string>
+    <string name="item_tag_equipment_valve">Ventiel</string>
+    <string name="item_tag_equipment_voiceassistant">Spraakassistent</string>
+    <string name="item_tag_equipment_wallswitch">Wandschakelaar</string>
     <string name="item_tag_equipment_washingmachine">Wasmachine</string>
     <string name="item_tag_equipment_weatherservice">Weerservice</string>
     <string name="item_tag_equipment_webservice">Webservice</string>

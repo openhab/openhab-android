@@ -12,7 +12,7 @@
 
     <report_issues/>
     <translation/>
-    <foundation/>
+    <foundation>openHAB Foundation</foundation>
     <about_foundation> </about_foundation>
     <important_note>Viktigt meddelande</important_note>
     <oh_server>Du behöver en openHAB-server för denna app.</oh_server>
