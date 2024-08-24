@@ -76,6 +76,7 @@
     <string name="settings_no_default_sitemap">לא נבחרה תצורת מערכת ברירת מחדל</string>
     <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">ברירת המחדל הנוכחית של תצורת המערכת: %1$s</string>
+    <string name="settings_main_ui_start_page">דף הפתיחה הראשי של ממשק המשתמש</string>
     <string name="settings_ui_command_item">פריט פקודת ממשק משתמש</string>
     <string name="settings_ui_command_item_summary_on">ניתן לשלוט ב-Sitemap באמצעות פריט \"%s\"</string>
     <string name="settings_ui_command_item_summary_off">לא ניתן לשלוט על Sitemap על ידי פריט</string>
@@ -136,6 +137,10 @@
     <string name="device_control">שליטה במכשיר אנדרואיד</string>
     <string name="device_control_subtitle">תיאור באריחים</string>
     <string name="device_control_hint">בהתאם לגרסת האנדרואיד שלך אריחים אלו ממוקמים בתפריט לחיצה ארוכה של לחצן ההפעלה או ליד האריחים המהירים</string>
+    <string name="screensaver">שומר מסך</string>
+    <string name="screensaver_item">פריט מוצג</string>
+    <string name="screensaver_bright_screen">מסך בהיר</string>
+    <string name="screensaver_error_loading_item">שגיאה בטעינת הפריט \"%s\"</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">פקודות קוליות</string>
     <string name="voice_command">פקודה קולית</string>
@@ -319,6 +324,7 @@
     <string name="push_notification_status_http_error">התראות לא זמינות: שגיאה בחיבור לשרת מרוחק: %s</string>
     <string name="push_notification_status_remote_no_cloud">התראות לא זמינות: השרת המרוחק אינו שרת ענן של openHAB</string>
     <string name="push_notification_status">מצב</string>
+    <string name="push_notification_hint">ההתראות מתקבלות בלוח זמנים קבוע, זהה לזה של \"שלח מידע מכשיר לשרת\"</string>
     <plurals name="item_update_error_title">
         <item quantity="one">לפריט %d לא היתה אפשרות להתעדכן</item>
         <item quantity="two">ל %d פריטים לא היתה אפשרות להתעדכן</item>
@@ -572,6 +578,7 @@
     <string name="create_home_screen_widget_title">יצירת יישומון</string>
     <string name="create_home_screen_widget_no_command">הצג מצב נוכחי</string>
     <string name="create_home_screen_widget_not_supported">אנא פנה לתפריט הווידג׳ט במסך הבית וצור ווידג׳ט שם</string>
+    <string name="analyse">אבחן</string>
     <!-- Data saver -->
     <string name="data_saver_title">חסכון בנתונים</string>
     <string name="data_saver_on">רכיבי תצורת המערכת העלולים לדרוש העברת נפח נתונים גדול לא יטענו</string>
