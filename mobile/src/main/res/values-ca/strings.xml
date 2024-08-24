@@ -7,12 +7,16 @@
     <string name="save">Desa</string>
     <string name="discard">Descarta</string>
     <string name="delete">Esborra</string>
+    <string name="attribution_tag_discover_server">Descobreix el servidor d\'openHAB</string>
+    <string name="attribution_tag_select_server_wifi">Selecciona el servidor segons la Wi-Fi</string>
+    <string name="attribution_tag_suggest_turn_on_wifi">Suggereix activar la Wi-Fi</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Mapa del lloc</string>
     <string name="mainmenu_openhab_preferences">Configuració</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="mainmenu_openhab_frontail">Frontail</string>
     <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
+    <string name="ui_on_server">%1$s (%2$s)</string>
     <string name="app_notifications">Notificacions</string>
     <string name="habpanel_error">S\'ha produït un error durant la càrrega d\'HABPanel</string>
     <string name="frontail_error">S\'ha produït un error en carregar el Frontail. Tingueu en compte que no està disponible mitjançant openHAB Cloud.</string>
@@ -34,6 +38,8 @@
     <string name="settings_openhab_sslclientcert">Certificat SSL de client</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Toqueu aquí per a obtenir alguns consells i explicacions sobre com configurar l\'autenticació amb certificat SSL de client</string>
     <string name="settings_openhab_sslclientcert_not_supported">Els certificats SSL de client no estan suportats per al teu dispositiu</string>
+    <string name="frontail_url_title">Frontail URL</string>
+    <string name="frontail_url_summary">La URL del Frontail. És empaquetada amb l\'openHABian o pot ser instal•lada manualment. Deixeu-la en blanc per a utilitzar la configuració per defecte. Configuració actual: %s</string>
     <string name="settings_openhab_screentimeroff">Desactiva el temps d\'espera de la pantalla</string>
     <string name="settings_openhab_screentimeroff_summary">La pantalla no s\'apagarà quan openHAB estigui actiu</string>
     <string name="settings_openhab_demomode">Mode de demostració</string>
@@ -44,6 +50,11 @@
     <string name="settings_openhab_fullscreen">Pantalla completa</string>
     <string name="settings_set_as_launcher_title">Registrar com a llançador</string>
     <string name="settings_set_as_launcher_summary">Permet a l\'app ser usada com a llançador. Una vegada activat, l\'app necessita ser seleccionada com a llançador per defecte per a ser efectiu.</string>
+    <string name="settings_sitemap_compact_mode_title">Mode compacte</string>
+    <string name="settings_sitemap_compact_mode_off">Utilitza una plantilla de dues línies per als widgets del Sitemap, això fa els controls més grans i fàcils d\'utilitzar, però requereix més scrolling per a llistes llargues</string>
+    <string name="settings_sitemap_compact_mode_on">Utilitza una plantilla d\'una línia per als widgets del Sitemap, això fa que es mostrin el màxim nombre possible de widgets a la pantalla, però redueix la mida dels controls</string>
+    <string name="settings_color_scheme_title">Esquema de color</string>
+    <string name="settings_show_icons">Mostra icones</string>
     <string name="settings_openhab_icon_format">Format d\'icona</string>
     <string name="settings_openhab_icon_format_png">Mapa de bits</string>
     <string name="settings_openhab_icon_format_svg">Vectorial</string>
@@ -109,7 +120,12 @@
     <string name="settings_multi_server_wifi_ssid_location_off">No es pot llegir el nom de la Wi-Fi: la ubicació està desactivada</string>
     <string name="setting_crash_reporting_title">Informes d\'error</string>
     <string name="setting_crash_reporting_summary">Envieu informes d\'error per donar suport al desenvolupament de l\'aplicació</string>
+    <string name="device_control_subtitle_location">Ubicació</string>
+    <string name="device_control_subtitle_equipment">Equipament</string>
+    <string name="device_control_subtitle_location_equipment">Ubicació i equipament</string>
     <string name="device_control_subtitle_item_name">Nom d\'element</string>
+    <string name="device_control">Control del dispositiu Android</string>
+    <string name="device_control_subtitle">Descripció a les cel•les</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Ordres de veu</string>
     <string name="voice_command">Ordre de veu</string>
@@ -156,6 +172,7 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="error_certificate_wrong_host">El certificat de %s no és vàlid</string>
     <string name="error_http_to_https_port">Final inesperat. Esteu provant de connectar-vos a un port HTTPS mitjançant HTTP?</string>
     <string name="webview_ssl">Actualment, aquesta aplicació no admet certificats SSL autofirmats per als widgets de Webview</string>
+    <string name="webview_snackbar_permissions_missing">La pàgina necessita permisos addicionals per a funcionar correctament</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">No s\'ha trobat (codi HTTP %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">L\'URL és massa llarga. Utilitzeu l\'adreça IP o una URL més curta (codi HTTP %d).</string>
@@ -196,6 +213,7 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="error_openhab_offline">El vostre servidor d\'openHAB està fora de línia mentre s\'està executant la instància del núvol</string>
     <string name="error_no_browser_found">No s\'ha trobat navegador en el teu dispositiu</string>
     <string name="error_no_speech_to_text_app_found">No s\'ha trobat cap aplicació de reconeixement de veu</string>
+    <string name="error_sse_failed">La subscripció a l\'Event ha fallat, és possible que l\'actualització del giny estigui afectada</string>
     <string name="error_video_player">%s no s\'ha pogut carregar</string>
     <string name="install">Instal·la</string>
     <string name="title_activity_openhabwritetag">Escriu etiqueta NFC</string>
@@ -230,6 +248,7 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="settings_alarm_clock">Hora d\'alarma</string>
     <string name="settings_alarm_clock_summary_on">Envia l\'hora d\'alarma a l\'element \'%1$s\'</string>
     <string name="settings_alarm_clock_summary_off">No enviar hora d\'alarma</string>
+    <string name="copy_debug_info">Copia</string>
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
     <string name="settings_phone_state">Estat de la trucada</string>
@@ -334,6 +353,7 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="theme_name_battery_saver">Mode fosc a l\'estalvi de bateria</string>
     <string name="theme_name_black">Negre</string>
     <string name="color_scheme_name_default">Per defecte</string>
+    <string name="color_scheme_name_basicui">IU bàsica</string>
     <!-- Chart -->
     <string name="chart_activity_title">Gràfic</string>
     <string name="chart_activity_hide_legend">Amaga la llegenda</string>
