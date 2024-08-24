@@ -8,6 +8,7 @@
     <string name="delete">Radera</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Inställningar</string>
+    <string name="mainmenu_openhab_main_ui">Huvudgränssnitt</string>
     <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="app_notifications">Aviseringar</string>
     <string name="habpanel_error">Ett fel inträffade vid inläsning av HABPanel</string>
@@ -25,6 +26,7 @@
     <string name="settings_openhab_password">Lösenord</string>
     <string name="settings_openhab_password_summary_weak">Svagt lösenord valt</string>
     <string name="settings_openhab_password_summary_strong">Starkt lösenord valt</string>
+    <string name="settings_openhab_api_token_hint">Om du använder ett API-token, ange det i fältet användarnamn och lämna fältet lösenord tomt</string>
     <string name="settings_openhab_sslclientcert">Klientcertifikat för SSL</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Tryck här för att få några tips och förklaringar på hur du konfigurerar klientautentisering med SSL-certifikat</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL-klientcertifikat stöds inte av din enhet</string>
@@ -75,11 +77,27 @@
     <string name="settings_server_name">Servernamn</string>
     <string name="settings_add_server">Lägg till server</string>
     <string name="settings_edit_server">Redigera server</string>
+    <string name="settings_server_at_least_name_and_connection">Minst ett servernamn och en anslutning krävs</string>
     <string name="settings_server_confirm_leave_title">Osparade ändringar</string>
+    <string name="settings_server_confirm_leave_message">Du har gjort några ändringar. Vill du spara eller kasta dem?</string>
     <string name="settings_server_primary_title">Primär server</string>
+    <string name="settings_server_primary_summary_is_primary">Denna server är den primära servern.\nFör närvarande stöds endast den primära servern av alla funktioner i den här appen. Tryck på hjälpknappen för mer information.</string>
+    <string name="settings_server_primary_summary_is_not_primary">Den primära servern är \"%s\". Tryck för att göra denna server till den primära servern.\nFör närvarande stöds endast den primära servern av alla funktioner i den här appen. Tryck på hjälp för mer information.</string>
+    <string name="settings_server_default_name">openHAB %d</string>
     <string name="settings_advanced">Avancerat</string>
+    <string name="click_here_for_more_information">Tryck här för mer information</string>
+    <string name="settings_multi_server_wifi_ssid_summary_hint">Appen kommer att välja den här servern när den är ansluten till något av dessa Wi-Fi-namn. Flera Wi-Fi-namn kan läggas till på nya rader, ett namn på varje rad.</string>
+    <string name="settings_multi_server_wifi_ssid_switched">Bytte till server \"%s\" baserat på Wi-Fi</string>
+    <string name="settings_multi_server_wifi_ssid_missing_permissions">Det går inte att läsa Wi-Fi-namn: Behörigheter saknas</string>
+    <string name="settings_multi_server_wifi_ssid_location_off">Det går inte att läsa Wi-Fi-namn: Platsen är avstängd</string>
+    <string name="setting_crash_reporting_title">Kraschrapportering</string>
+    <string name="setting_crash_reporting_summary">Skicka kraschrapporter för att stödja utvecklingen av appen</string>
     <string name="device_control_subtitle_location">Plats</string>
+    <string name="device_control_subtitle_equipment">Utrustning</string>
+    <string name="device_control_subtitle_location_equipment">Plats och utrustning</string>
     <string name="device_control_subtitle_item_name">Item-namn</string>
+    <string name="device_control">Androidenhets kontroll</string>
+    <string name="device_control_subtitle">Beskrivning i rutor</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Röstkommandon</string>
     <string name="voice_command">Röstkommando</string>
@@ -174,17 +192,26 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Skicka enhetsinformation till servern</string>
     <string name="send_device_info_to_server_short">Skicka enhetsinformation</string>
+    <string name="send_device_info_category_schedule_based_title">Schemabaserat</string>
     <string name="settings_item_update_pref_howto_summary">Tryck här för att få tips om hur du ställer in den här funktionens serversida</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
+    <string name="item_update_summary_success">Senaste uppdatering var \'%1$s\' (%2$s)</string>
+    <string name="settings_alarm_clock">Alarmtid</string>
+    <string name="settings_alarm_clock_summary_on">Skickar alarmtid till objekt \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">Skicka inte alarmtid</string>
     <string name="copy_debug_info">Kopiera</string>
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <string name="settings_alarm_clock_debug_ignored">Ignorerade uppdatering av alarmtid till %1$s som skickades av %2$s</string>
     <!-- %1$s: Alarm time, %2$s: App causing the update -->
+    <string name="settings_alarm_clock_debug">Fick uppdatering av alarmtid till %1$s som skickades av %2$s</string>
     <string name="settings_phone_state_permission_denied">Att skicka samtalsstatus har inaktiverats på grund av saknade behörigheter</string>
     <string name="settings_battery_level">Batterinivå</string>
     <string name="settings_charging_state">Laddningstillstånd</string>
     <string name="settings_wifi_ssid">WiFi-namn</string>
     <string name="settings_wifi_ssid_permission_denied">Att skicka WiFi-namn har inaktiverats på grund av saknade behörigheter</string>
     <string name="settings_bluetooth_devices">Anslutna Bluetooth-enheter</string>
+    <string name="settings_dnd_mode_summary_on">Skickar DND-läge till objekt \'%1$s\'</string>
+    <string name="settings_dnd_mode_summary_off">Skicka inte DND-läge</string>
     <string name="settings_background_tasks_permission_allow">Tillåt</string>
     <string name="settings_item_pref_item_name">Item-namn</string>
     <string name="waiting_for_item_upload">Väntar på nätverksanslutning för att skicka Item-uppdateringar</string>
@@ -298,10 +325,12 @@
     <string name="about_issues">Rapportera ett problem</string>
     <string name="about_docs">Dokumentation</string>
     <string name="about_community_forum">Forum</string>
+    <string name="about_foundation">openHAB Foundation</string>
     <string name="about_community">openHABs gemenskap</string>
     <string name="about_translation">Hjälp oss att översätta openHAB</string>
     <string name="about_privacy_policy">Integritetspolicy</string>
     <string name="about_rate_this_app">Betygsätt appen</string>
+    <string name="settings_debug_messages_title">Visa information för felsökning</string>
     <string name="settings_troubleshooting_title">Felsökning</string>
     <string name="undo">Ångra</string>
     <string name="try_again_button">Försök igen</string>
@@ -313,6 +342,7 @@
     <string name="no_remote_server">Anslutning till lokal server misslyckades och du har inte konfigurerat någon fjärrserver</string>
     <string name="resolving_openhab">Försöker hitta openHAB-server\u2026</string>
     <string name="waiting_for_wifi">Väntar på att Wi-Fi ska upprätta en anslutning\u2026</string>
+    <string name="visit_status_openhab_org">Besök status.openhab.org</string>
     <!-- Log -->
     <string name="log">Logg</string>
     <string name="view_log">Visa logg</string>
@@ -320,13 +350,21 @@
     <string name="log_activity_action_show_errors">Visa endast fel</string>
     <string name="log_activity_action_show_all">Visa alla meddelanden</string>
     <string name="log_activity_action_reload">Ladda om</string>
+    <string name="log_activity_content_description_share">Dela logg</string>
     <string name="empty_log">Loggen är tom</string>
+    <string name="log_too_large_to_share">Loggen är för stor för att delas. Rensa loggen, återskapa buggen och dela nya loggen.</string>
     <!-- Home screen shortcuts -->
     <string name="home_shortcut_pin_to_home">Fäst på hemskärmen</string>
+    <string name="home_shortcut_error_pinning">Fel vid fästning på hemskärm</string>
+    <string name="home_shortcut_success_pinning">Fäst på hemskärmen</string>
+    <string name="home_shortcut_server_has_been_deleted">Servern för denna genväg har tagits bort</string>
+    <string name="home_shortcut_title">Ställ in genvägs titel</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Öppna jalusi</string>
     <string name="content_description_stop_roller_shutter">Stoppa jalusi</string>
     <string name="content_description_close_roller_shutter">Stäng jalusi</string>
+    <string name="content_description_player_previous">Hoppa till föregående spår</string>
+    <string name="content_description_player_next">Hoppa till nästa spår</string>
     <string name="content_description_player_pause">Pausa uppspelning</string>
     <string name="content_description_player_play">Starta uppspelning</string>
     <string name="content_description_open_color_wheel">Öppna färgväljare</string>
@@ -335,38 +373,76 @@
     <string name="content_description_open_number_picker">Öppna nummerväljare</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Öppna openHAB</string>
+    <string name="content_description_increase_item_value">Öka objektets värde</string>
+    <string name="content_description_decrease_item_value">Minska objektets värde</string>
     <string name="swipe_to_refresh_description">Denna app uppdaterar sig även automatiskt, du behöver normalt sett inte göra det manuellt</string>
     <string name="got_it">Uppfattat!</string>
     <!-- Intro strings -->
     <string name="app_intro">Introduktion</string>
     <string name="intro_welcome">Välkommen till openHAB</string>
+    <string name="intro_welcome_back">Välkommen tillbaka till openHAB</string>
+    <string name="intro_app_restored">De flesta av dina inställningar har återställts, förutom serverautentiseringsuppgifter</string>
     <string name="intro_whatis">En mjukvara för att automatisera ditt hem med öppen källkod, helt oberoende av tillverkare eller teknologi</string>
     <string name="intro_voice_description">Kontrollera ditt hem med din röst</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Långtryck på en en Item för att knyta den till NFS-taggar</string>
+    <string name="intro_quick_tile_description">Styr ditt hem från enhetens snabbinställningar (den plats som håller växlarna för t.ex. Wi-Fi och Bluetooth)</string>
+    <string name="intro_send_device_info">Skicka enhetsinformation till din server</string>
+    <string name="intro_send_device_info_description">Till exempel tända lamporna när väckarklockan ringer</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">HOPPA ÖVER</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">FÄRDIGT</string>
     <!-- Item picker -->
+    <string name="item_picker_list_empty">Inga objekt hittades</string>
+    <string name="item_picker_list_error">Ett fel inträffade vid inläsning av objekt</string>
     <string name="item_picker_custom">Anpassad</string>
+    <string name="item_picker_dialog_title">Välj åtgärd</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_command">Skicka kommandot \"%3$s\" till \"%1$s\" (%2$s)</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
+    <string name="item_picker_blurb_update">Uppdatera \"%1$s\" (%2$s) till \"%3$s\"</string>
+    <string name="item_picker_tasker_variable">Tasker-variabel \"%s\"</string>
     <string name="item_picker_item_update">Uppdatera</string>
     <string name="item_picker_item_command">Kommando</string>
+    <string name="item_picker_contact_no_command">Kontakt-objekt kan inte ta emot objekt-kommandon, ändrat för uppdatera</string>
     <string name="search">Sök</string>
     <string name="settings_tasker_plugin">Tasker-integration</string>
+    <string name="settings_tasker_plugin_summary">Aktivera Tasker åtgärdsplugin som gör det möjligt att uppdatera objekt via Tasker eller andra kompatibla appar</string>
+    <string name="tasker_plugin_disabled">Taskerplugin är inaktiverat</string>
     <string name="turn_on">Sätt på</string>
     <string name="press_back_to_exit">Tryck tillbaka för att avsluta</string>
     <!-- Item update widget -->
+    <string name="item_update_widget_title">Objektkontroll</string>
+    <string name="item_update_widget_content_description">Ändra eller läs tillståndet för ett objekt</string>
     <string name="item_update_widget_content_description_edit">Redigera widget</string>
     <string name="item_update_widget">Widget</string>
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
+    <string name="item_update_widget_text">%1$s: %2$s</string>
     <!-- Used in the widget preview -->
     <string name="item_update_widget_preview_text">Öppna garage</string>
+    <string name="widget_show_state_summary">Tillståndet uppdateras enligt schema som kan sättas i inställningarna under \"Skicka enhetsinformation till server\"</string>
+    <string name="widget_no_command">Skicka inte ett kommando</string>
+    <string name="error_getting_state">Fel vid inläsning av tillstånd</string>
     <!-- %1$s: Item label, %2$s: State-->
+    <string name="item_update_success_message_on">%s har aktiverats</string>
+    <string name="item_update_success_message_off">%s har inaktiverats</string>
+    <string name="item_update_success_message_up">%s börjat höjas</string>
+    <string name="item_update_success_message_down">%s börjat sänkas</string>
+    <string name="item_update_success_message_move">%s börjar röra sig</string>
+    <string name="item_update_success_message_stop">%s har stoppats</string>
+    <string name="item_update_success_message_increase">%s har ökats</string>
+    <string name="item_update_success_message_decrease">%s har minskats</string>
+    <string name="item_update_success_message_undefined">%s har satts till odefinierad</string>
+    <string name="item_update_success_message_empty_string">%s har satts till en tom sträng</string>
+    <string name="item_update_success_message_play">%s spelas</string>
+    <string name="item_update_success_message_pause">%s har pausats</string>
+    <string name="item_update_success_message_next">%s visar nästa titel</string>
+    <string name="item_update_success_message_previous">%s visar föregående titel</string>
     <string name="item_update_success_message_rewind">%s spolar tillbaka</string>
     <string name="item_update_success_message_fastforward">%s snabbspolar</string>
+    <string name="item_update_short_success_message_generic">Sätts till %s</string>
+    <string name="item_update_short_success_message_on">Aktiverad</string>
     <string name="item_update_short_success_message_off">Avstängd</string>
     <string name="item_update_short_success_message_stop">Stoppad</string>
     <string name="item_update_short_success_message_play">Spelar</string>
