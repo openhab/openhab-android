@@ -8,12 +8,12 @@
     <automation_apps>יישום זה כולל בתוכו תוסף לביצוע פעולות עם Tasker ו- Locale.</automation_apps>
 
     <oss_community>קהילת הקוד הפתוח</oss_community>
-    <forum>הקוד הפתוח של openHAB נתמך ברמה גבוהה בקהילתה התוססת. הפורום עם יותר מ 13,000 משתמשים רשומים הוא מקום למצוא הדרכה, עזרה והשראה. </forum>
+    <forum>הקוד הפתוח של openHAB נתמך ברמה גבוהה בקהילתה התוססת. הפורום עם יותר מ 13,000 משתמשים רשומים הוא מקום למצוא הדרכה, עזרה והשראה. הצטרף לפורום הקהילה של openHAB בכתובת https://community.openhab.org.</forum>
 
-    <report_issues/>
-    <translation/>
+    <report_issues>כאשר אתה מוצא בעיה אנא דווח עליה בפורום או בכתובת https://github.com/openhab/openhab-android/issues.</report_issues>
+    <translation>אם אתה רוצה לתרגם את האפליקציה לשפה שלך הצטרף אלינו בכתובת https://crowdin.com/project/openhab-android.</translation>
     <foundation>ארגון openHAB</foundation>
-    <about_foundation>קרן openHAB הוא ארגון ללא מטרות רווח שמשימתו היא לחנך את הציבור על האפשרויות והיתרונות של שימוש בפתרונות חופשיים ופתוחים של בית חכם. </about_foundation>
+    <about_foundation>קרן openHAB הוא ארגון ללא מטרות רווח שמשימתו היא לחנך את הציבור על האפשרויות והיתרונות של שימוש בפתרונות חופשיים ופתוחים של בית חכם. למד על המשימה והשירותים של הקרן בכתובת https://www.openhabfoundation.org.</about_foundation>
     <important_note>הערה חשובה</important_note>
     <oh_server>יש צורך בשרת openHAB עבור יישום זה.</oh_server>
     <short_description>אוטומציה לבית החכם מבוססת על קוד פתוח ובלתי מוגבלת לטכנולוגיה וחברה מסויימת</short_description>
