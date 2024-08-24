@@ -14,13 +14,16 @@
     <string name="mainmenu_openhab_sitemaps">Felületek</string>
     <string name="mainmenu_openhab_preferences">Beállítások</string>
     <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="mainmenu_openhab_main_ui">Főképernyő</string>
     <string name="mainmenu_openhab_frontail">Frontail</string>
     <!-- %1$s: Name of a UI, %2$s: Server name. Example: HABPanel (House). Use the source string as translation if the punctuation rules are the same as in English. -->
     <string name="ui_on_server">%1$s (%2$s)</string>
     <string name="app_notifications">Értesítések</string>
     <string name="habpanel_error">Hiba történt a HABPanel betöltése során</string>
+    <string name="main_ui_error">Hiba lépett fel az főképernyő beöltésekor</string>
     <string name="frontail_error">Hiba történt a Frontail betöltése közben. Vegye figyelembe, hogy openHAB Cloud-n keresztül nem elérhető.</string>
     <string name="mainmenu_openhab_selectsitemap">Válassza ki az alapértelmezett felületet</string>
+    <string name="settings_clear_caches">Cache ürítése</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Kapcsolat</string>
     <string name="settings_display_title">Kijelző</string>
@@ -73,6 +76,9 @@
     <string name="settings_no_default_sitemap">Nincs alapértelmezett felületet kiválasztva</string>
     <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Jelenlegi alapértelmezett felületet: %1$s</string>
+    <string name="settings_ui_command_item">A felhasználói felület parancs eleme</string>
+    <string name="settings_ui_command_item_summary_on">Az Oldaltérkép vezérelhető a \"%s\" elemmel</string>
+    <string name="settings_ui_command_item_summary_off">Az Oldaltérkép nem vezérelhető elemmel</string>
     <string name="settings_openhab_alt_connection">Távoli</string>
     <string name="settings_openhab_connection">Helyi</string>
     <string name="settings_ringtone">Csengőhang</string>
@@ -84,6 +90,9 @@
     <string name="settings_notification_vibration_long">Hosszú</string>
     <string name="settings_notification_vibration_twice">Kétszer</string>
     <string name="settings_notification_ringtone_vibration">Csengőhang &amp; rezgés</string>
+    <string name="settings_notification_reset_settings">Kategória visszaállítása</string>
+    <string name="settings_notification_reset_settings_confirm">Kitörli a az összes értesítési kategóriát? Újra létre lesznek hozva, ha ebben a kategóriában új értesítés érkezik.</string>
+    <string name="settings_notification_hint">Az értesítés fontossága a myopenHAB.org oldalon keresztül értesítési kategóriaként kerül beállításra. Minden kategórián belül eltérő értesítési beállításokat adhat meg.</string>
     <string name="settings_connection_summary">Csatlakoztatva a %s</string>
     <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
     <string name="settings_insecure_connection_summary">Nem biztonságos a csatakozás a %1$s: %2$s szerverhez</string>
@@ -127,6 +136,10 @@
     <string name="device_control">Android eszköz kezelő</string>
     <string name="device_control_subtitle">Leírás a csempéken</string>
     <string name="device_control_hint">Az android verziótól függően ezek a csempék vagy a bekapcsoló gomb hosszú megnyomásakor vagy a gyors elérésű csempék mellett jelennek meg</string>
+    <string name="screensaver">Képernyővédő</string>
+    <string name="screensaver_item">Megjelenített elem</string>
+    <string name="screensaver_bright_screen">Világos képernyő</string>
+    <string name="screensaver_error_loading_item">A(z) \"%s\" elem betöltése sikertelen </string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Hangutasítások</string>
     <string name="voice_command">Hangutasítás</string>
@@ -173,6 +186,7 @@
     <string name="webview_ssl">Jelenleg ez alkalmazás nem támogatja az önaláírt SSL-tanúsítványokat a \"WebView\" megjelenítőkhöz</string>
     <string name="webview_snackbar_permissions_missing">Az oldal megfelelő működéséhez további engedélyek szükségesek</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
+    <string name="error_http_code_401" tools:keep="@string/error_http_code_401">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód: %d). Ellenőrizze hogy a kiszolgáló Alap Hitelesítése be van kapcsolva.</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Nem található (HTTP code %d)</string>
     <string name="error_http_code_414" tools:keep="@string/error_http_code_414">URL túl hosszú. Kérjük, használja az IP-címet vagy egy rövidebb URL-t (HTTP-válaszkód %d).</string>
     <string name="error_http_code_426" tools:keep="@string/error_http_code_426">Kötelező a HTTPS használata. Módosítsa az URL-t (HTTP válaszkód, %d).</string>
@@ -557,6 +571,7 @@
     <string name="create_home_screen_widget_title">Widget létrehozása</string>
     <string name="create_home_screen_widget_no_command">Jelenlegi állapot mutatása</string>
     <string name="create_home_screen_widget_not_supported">Kérem nyissa meg a Widget menüt a főképernyőről és hozza létre onnan</string>
+    <string name="analyse">Elemzés</string>
     <!-- Data saver -->
     <string name="data_saver_title">Adatforgalom-csökkentő</string>
     <string name="data_saver_on">A nagyobb adatátvitelt igénylő honlap elemek nem lesznek betöltve</string>
