@@ -16,7 +16,9 @@ package org.openhab.habdroid.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
+import org.openhab.habdroid.util.forEach
 import org.openhab.habdroid.util.optStringOrNull
+import org.w3c.dom.Node
 
 /**
  * This is a class to hold information about openHAB linked page.
@@ -41,6 +43,26 @@ data class LinkedPage(
     }
 }
 
+fun Node.toLinkedPage(): LinkedPage? {
+    var id: String? = null
+    var title: String? = null
+    var icon: String? = null
+    var link: String? = null
+
+    childNodes.forEach { node ->
+        when (node.nodeName) {
+            "id" -> id = node.textContent
+            "title" -> title = node.textContent
+            "icon" -> icon = node.textContent
+            "link" -> link = node.textContent
+        }
+    }
+
+    val finalId = id ?: return null
+    val finalLink = link ?: return null
+    return LinkedPage.build(finalId, title, icon.toOH1IconResource(), finalLink)
+}
+
 fun JSONObject?.toLinkedPage(): LinkedPage? {
     if (this == null) {
         return null
@@ -49,7 +71,7 @@ fun JSONObject?.toLinkedPage(): LinkedPage? {
     return LinkedPage.build(
         getString("id"),
         optStringOrNull("title"),
-        icon.toIconResource(),
+        icon.toOH2IconResource(),
         getString("link")
     )
 }

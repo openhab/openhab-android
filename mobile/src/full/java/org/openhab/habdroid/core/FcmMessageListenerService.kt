@@ -21,7 +21,7 @@ import org.openhab.habdroid.model.CloudMessage
 import org.openhab.habdroid.model.CloudNotificationAction
 import org.openhab.habdroid.model.CloudNotificationId
 import org.openhab.habdroid.model.toCloudNotificationAction
-import org.openhab.habdroid.model.toIconResource
+import org.openhab.habdroid.model.toOH2IconResource
 import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.toJsonArrayOrNull
 
@@ -58,7 +58,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                     // timestamp, so use the (undocumented) google.sent_time as a time reference
                     // in that case. If that also isn't present, don't show time at all.
                     createdTimestamp = data["timestamp"]?.toLong() ?: message.sentTime,
-                    icon = data["icon"].toIconResource(),
+                    icon = data["icon"].toOH2IconResource(),
                     tag = data["tag"],
                     actions = actions,
                     onClickAction = data["on-click"]?.let { CloudNotificationAction("", it) },

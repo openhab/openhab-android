@@ -32,6 +32,7 @@ import org.openhab.habdroid.util.optIntOrNull
 import org.openhab.habdroid.util.optStringOrFallback
 import org.openhab.habdroid.util.optStringOrNull
 import org.openhab.habdroid.util.shouldRequestHighResChart
+import org.w3c.dom.Node
 
 @Parcelize
 data class Widget(
@@ -192,7 +193,7 @@ data class Widget(
             val iconName = eventPayload.optStringOrFallback("icon", source.icon?.icon)
             val staticIcon = source.icon?.customState?.isEmpty() == true
             val hasMappings = source.mappings.isNotEmpty()
-            val icon = iconName.toWidgetIconResource(item, source.type, hasMappings, !staticIcon)
+            val icon = iconName.toOH2WidgetIconResource(item, source.type, hasMappings, !staticIcon)
             return Widget(
                 id = source.id,
                 parentId = source.parentId,
@@ -273,6 +274,114 @@ fun String?.toLabelSource(): Widget.LabelSource = when (this) {
     else -> Widget.LabelSource.Unknown
 }
 
+// This function is only used on openHAB versions with XML API, which is openHAB 1.x
+fun Node.collectWidgets(parent: Widget?): List<Widget> {
+    var item: Item? = null
+    var linkedPage: LinkedPage? = null
+    var id: String? = null
+    var label: String? = null
+    var icon: String? = null
+    var url: String? = null
+    var period = ""
+    var service = ""
+    var encoding: String? = null
+    var iconColor: String? = null
+    var labelColor: String? = null
+    var valueColor: String? = null
+    var switchSupport = false
+    var type = Widget.Type.Unknown
+    var minValue = 0f
+    var maxValue = 100f
+    var step = 1f
+    var refresh = 0
+    var height = 0
+    val mappings = ArrayList<LabeledValue>()
+    val childWidgetNodes = ArrayList<Node>()
+
+    childNodes.forEach { node ->
+        when (node.nodeName) {
+            "item" -> item = node.toItem()
+            "linkedPage" -> linkedPage = node.toLinkedPage()
+            "widget" -> childWidgetNodes.add(node)
+            "type" -> type = node.textContent.toWidgetType()
+            "widgetId" -> id = node.textContent
+            "label" -> label = node.textContent
+            "icon" -> icon = node.textContent
+            "url" -> url = node.textContent
+            "minValue" -> minValue = node.textContent.toFloat()
+            "maxValue" -> maxValue = node.textContent.toFloat()
+            "step" -> step = node.textContent.toFloat()
+            "refresh" -> refresh = node.textContent.toInt()
+            "period" -> period = node.textContent
+            "service" -> service = node.textContent
+            "height" -> height = node.textContent.toInt()
+            "iconcolor" -> iconColor = node.textContent
+            "valuecolor" -> valueColor = node.textContent
+            "labelcolor" -> labelColor = node.textContent
+            "encoding" -> encoding = node.textContent
+            "switchSupport" -> switchSupport = node.textContent?.toBoolean() == true
+            "mapping" -> {
+                var mappingCommand = ""
+                var mappingLabel = ""
+                node.childNodes.forEach { childNode ->
+                    when (childNode.nodeName) {
+                        "command" -> mappingCommand = childNode.textContent
+                        "label" -> mappingLabel = childNode.textContent
+                    }
+                }
+                mappings.add(LabeledValue(mappingCommand, null, mappingLabel, null, 0, 0))
+            }
+            else -> {}
+        }
+    }
+
+    val finalId = id ?: return emptyList()
+
+    val widget = Widget(
+        id = finalId,
+        parentId = parent?.id,
+        rawLabel = label.orEmpty(),
+        labelSource = Widget.LabelSource.Unknown,
+        icon = icon.toOH1IconResource(),
+        state = item?.state,
+        type = type,
+        url = url,
+        item = item,
+        linkedPage = linkedPage,
+        mappings = mappings,
+        encoding = encoding,
+        iconColor = iconColor,
+        labelColor = labelColor,
+        valueColor = valueColor,
+        refresh = Widget.sanitizeRefreshRate(refresh),
+        rawMinValue = minValue,
+        rawMaxValue = maxValue,
+        rawStep = step,
+        // row, column, command, releaseCommand, stateless were added in openHAB 4.2
+        // so no support for openHAB 1 required.
+        row = null,
+        column = null,
+        command = null,
+        releaseCommand = null,
+        stateless = null,
+        period = Widget.sanitizePeriod(period),
+        service = service,
+        legend = null,
+        // forceAsItem was added in openHAB 3, so no support for openHAB 1 required.
+        forceAsItem = false,
+        yAxisDecimalPattern = null,
+        switchSupport = switchSupport,
+        releaseOnly = null,
+        height = height,
+        // inputHint was added in openHAB 4, so no support for openHAB 1 required.
+        rawInputHint = null,
+        visibility = true
+    )
+    val childWidgets = childWidgetNodes.map { node -> node.collectWidgets(widget) }.flatten()
+
+    return listOf(widget) + childWidgets
+}
+
 @Throws(JSONException::class)
 fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
     val mappings = if (has("mappings")) {
@@ -291,7 +400,7 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         parentId = parent?.id,
         rawLabel = optString("label", ""),
         labelSource = optStringOrNull("labelSource").toLabelSource(),
-        icon = icon.toWidgetIconResource(item, type, mappings.isNotEmpty(), !staticIcon),
+        icon = icon.toOH2WidgetIconResource(item, type, mappings.isNotEmpty(), !staticIcon),
         state = Widget.determineWidgetState(optStringOrNull("state"), item),
         type = type,
         url = optStringOrNull("url"),

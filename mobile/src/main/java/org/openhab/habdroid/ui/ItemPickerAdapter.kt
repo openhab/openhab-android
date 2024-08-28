@@ -23,7 +23,7 @@ import java.util.Locale
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.model.toIconResource
+import org.openhab.habdroid.model.toOH2IconResource
 import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.determineDataUsagePolicy
 
@@ -117,7 +117,7 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
 
             val context = itemView.context
             val connection = ConnectionFactory.primaryUsableConnection?.connection
-            val icon = item.category.toIconResource()
+            val icon = item.category.toOH2IconResource()
             if (icon != null && connection != null) {
                 iconView.setImageUrl(
                     connection,
