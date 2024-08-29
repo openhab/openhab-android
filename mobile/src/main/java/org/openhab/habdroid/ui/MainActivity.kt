@@ -146,6 +146,7 @@ import org.openhab.habdroid.util.openInAppStore
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.putActiveServerId
+import org.openhab.habdroid.util.registerExportedReceiver
 import org.openhab.habdroid.util.resolveThemedColor
 import org.openhab.habdroid.util.updateDefaultSitemap
 
@@ -377,7 +378,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
         val intentFilter = BackgroundTasksManager.getIntentFilterForForeground(this)
         if (intentFilter.countActions() != 0 && !prefs.isEventListenerEnabled()) {
-            registerReceiver(backgroundTasksManager, intentFilter)
+            registerExportedReceiver(backgroundTasksManager, intentFilter)
         }
 
         showDataSaverHintSnackbarIfNeeded()

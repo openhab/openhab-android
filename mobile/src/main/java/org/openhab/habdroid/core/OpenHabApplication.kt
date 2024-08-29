@@ -40,6 +40,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.registerExportedReceiver
 
 class OpenHabApplication : MultiDexApplication() {
     interface OnDataUsagePolicyChangedListener {
@@ -96,7 +97,7 @@ class OpenHabApplication : MultiDexApplication() {
         BackgroundTasksManager.initialize(this)
 
         dataSaverChangeListener.let { listener ->
-            registerReceiver(
+            registerExportedReceiver(
                 listener,
                 IntentFilter().apply {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
