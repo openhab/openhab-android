@@ -52,6 +52,7 @@ import org.openhab.habdroid.model.NfcTag
 import org.openhab.habdroid.util.PendingIntent_Mutable
 import org.openhab.habdroid.util.appendQueryParameter
 import org.openhab.habdroid.util.parcelable
+import org.openhab.habdroid.util.registerExportedReceiver
 import org.openhab.habdroid.util.showToast
 
 class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
@@ -110,7 +111,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
         replaceFragment()
 
         val filter = IntentFilter(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED)
-        registerReceiver(nfcStateChangeReceiver, filter)
+        registerExportedReceiver(nfcStateChangeReceiver, filter)
     }
 
     private fun replaceFragment() {

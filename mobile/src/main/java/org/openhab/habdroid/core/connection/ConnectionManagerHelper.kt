@@ -38,6 +38,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.openhab.habdroid.util.registerExportedReceiver
 
 typealias ConnectionChangedCallback = () -> Unit
 
@@ -96,8 +97,8 @@ interface ConnectionManagerHelper {
             @Suppress("DEPRECATION")
             val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
             // Make sure to ignore the initial sticky broadcast, as we're only interested in changes
-            ignoreNextBroadcast = context.registerReceiver(null, filter) != null
-            context.registerReceiver(this, filter)
+            ignoreNextBroadcast = context.registerExportedReceiver(null, filter) != null
+            context.registerExportedReceiver(this, filter)
         }
 
         fun shutdown() {
