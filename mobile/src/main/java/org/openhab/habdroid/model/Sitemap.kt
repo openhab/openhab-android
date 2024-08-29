@@ -19,7 +19,10 @@ import kotlinx.parcelize.Parcelize
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import org.openhab.habdroid.util.forEach
 import org.openhab.habdroid.util.optStringOrNull
+import org.w3c.dom.Document
+import org.w3c.dom.Node
 
 @Parcelize
 data class Sitemap internal constructor(
@@ -29,13 +32,43 @@ data class Sitemap internal constructor(
     val homepageLink: String
 ) : Parcelable
 
+fun Node.toSitemap(): Sitemap? {
+    var label: String? = null
+    var name: String? = null
+    var icon: String? = null
+    var homepageLink: String? = null
+
+    childNodes.forEach { node ->
+        when (node.nodeName) {
+            "name" -> name = node.textContent
+            "label" -> label = node.textContent
+            "icon" -> icon = node.textContent
+            "homepage" ->
+                node.childNodes.forEach { pageNode ->
+                    if (pageNode.nodeName == "link") {
+                        homepageLink = pageNode.textContent
+                    }
+                }
+        }
+    }
+
+    val finalName = name ?: return null
+    val finalLink = homepageLink ?: return null
+    return Sitemap(finalName, label ?: finalName, icon.toOH1IconResource(), finalLink)
+}
+
 fun JSONObject.toSitemap(): Sitemap? {
     val name = optStringOrNull("name") ?: return null
     val homepageLink = optJSONObject("homepage")?.optStringOrNull("link") ?: return null
     val label = optStringOrNull("label")
     val icon = optStringOrNull("icon")
 
-    return Sitemap(name, label ?: name, icon.toIconResource(), homepageLink)
+    return Sitemap(name, label ?: name, icon.toOH2IconResource(), homepageLink)
+}
+
+fun Document.toSitemapList(): List<Sitemap> {
+    val sitemapNodes = getElementsByTagName("sitemap")
+    return (0 until sitemapNodes.length).mapNotNull { index -> sitemapNodes.item(index).toSitemap() }
 }
 
 fun JSONArray.toSitemapList(): List<Sitemap> {

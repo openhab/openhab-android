@@ -85,6 +85,8 @@ import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.util.Util.TAG
+import org.w3c.dom.Node
+import org.w3c.dom.NodeList
 
 fun Throwable?.hasCause(cause: Class<out Throwable>): Boolean {
     var error = this
@@ -270,6 +272,8 @@ fun InputStream.svgToBitmap(
         throw IOException("SVG decoding failed", e)
     }
 }
+
+fun NodeList.forEach(action: (Node) -> Unit) = (0 until length).forEach { index -> action(item(index)) }
 
 fun JSONArray.forEach(action: (JSONObject) -> Unit) =
     (0 until length()).forEach { index -> action(getJSONObject(index)) }

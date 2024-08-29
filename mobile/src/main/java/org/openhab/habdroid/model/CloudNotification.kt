@@ -135,7 +135,7 @@ fun JSONObject.toCloudMessage(): CloudMessage? {
                 title = payload?.optString("title").orEmpty(),
                 message = payload?.optString("message", "") ?: getString("message"),
                 createdTimestamp = created,
-                icon = (payload?.optStringOrNull("icon") ?: optStringOrNull("icon")).toIconResource(),
+                icon = (payload?.optStringOrNull("icon") ?: optStringOrNull("icon")).toOH2IconResource(),
                 tag = tag,
                 actions = payload?.optJSONArray("actions")?.map { it.toCloudNotificationAction() }?.filterNotNull(),
                 onClickAction = payload?.optStringOrNull("on-click")?.let { CloudNotificationAction("", it) },

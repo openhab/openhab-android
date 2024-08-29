@@ -18,13 +18,14 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.util.forEach
 import org.openhab.habdroid.util.optStringOrNull
+import org.w3c.dom.Node
 
 /**
  * This class provides datasource for openHAB widgets from sitemap page.
- * It uses a sitemap page JSON document to create a list of widgets
+ * It uses a sitemap page XML document to create a list of widgets
  */
 
-class WidgetDataSource {
+class WidgetDataSource() {
     private val allWidgets = ArrayList<Widget>()
     var title: String = ""
         private set
@@ -46,6 +47,22 @@ class WidgetDataSource {
             .toSet()
         return allWidgets.filter { w ->
             w.parentId == null || w.parentId in firstLevelWidgetIds || w.parentId in secondLevelWidgetIds
+        }
+    }
+
+    fun setSourceNode(rootNode: Node?) {
+        if (rootNode == null) {
+            return
+        }
+        rootNode.childNodes.forEach { node ->
+            when (node.nodeName) {
+                "widget" -> allWidgets.addAll(node.collectWidgets(null))
+                "title" -> title = node.textContent.orEmpty()
+                "id" -> id = node.textContent
+                "icon" -> icon = node.textContent
+                "link" -> link = node.textContent
+                else -> { }
+            }
         }
     }
 
