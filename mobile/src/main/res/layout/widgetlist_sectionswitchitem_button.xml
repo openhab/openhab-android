@@ -16,4 +16,6 @@
     tools:layout_width="wrap_content"
     app:iconGravity="textStart"
     app:iconPadding="0dp"
+    app:iconTint="@android:color/white"
+    app:iconTintMode="multiply"
     tools:text="Action 1" />
