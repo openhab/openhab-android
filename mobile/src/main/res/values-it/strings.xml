@@ -9,7 +9,7 @@
     <string name="delete">Elimina</string>
     <string name="attribution_tag_discover_server">Trova openHAB server</string>
     <string name="attribution_tag_select_server_wifi">Seleziona server su Wi-Fi</string>
-    <string name="attribution_tag_suggest_turn_on_wifi">Consigliato di accendere il Wi-Fi</string>
+    <string name="attribution_tag_suggest_turn_on_wifi">Consigliato di attivare il Wi-Fi</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Impostazioni</string>
