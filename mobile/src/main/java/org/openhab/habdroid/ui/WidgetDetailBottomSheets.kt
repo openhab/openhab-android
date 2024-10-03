@@ -98,7 +98,7 @@ class SliderBottomSheet : AbstractWidgetBottomSheet(), WidgetSlider.UpdateListen
     }
 }
 
-class SelectionBottomSheet : AbstractWidgetBottomSheet(), RadioGroup.OnCheckedChangeListener {
+class SelectionBottomSheet : AbstractWidgetBottomSheet() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.bottom_sheet_selection, container, false)
         val group = view.findViewById<RadioGroup>(R.id.group)
@@ -108,22 +108,17 @@ class SelectionBottomSheet : AbstractWidgetBottomSheet(), RadioGroup.OnCheckedCh
             radio.id = mapping.hashCode()
             radio.text = mapping.label
             radio.isChecked = stateString == mapping.value
+            radio.setOnClickListener {
+                connection?.httpClient?.sendItemCommand(widget.item, mapping.value)
+                dismissAllowingStateLoss()
+            }
             group.addView(radio)
         }
-        group.setOnCheckedChangeListener(this)
 
         view.findViewById<TextView>(R.id.title).apply {
             text = widget.label
         }
         return view
-    }
-
-    override fun onCheckedChanged(group: RadioGroup?, id: Int) {
-        val mapping = widget.mappingsOrItemOptions.firstOrNull { mapping -> mapping.hashCode() == id }
-        if (mapping != null) {
-            connection?.httpClient?.sendItemCommand(widget.item, mapping.value)
-        }
-        dismissAllowingStateLoss()
     }
 }
 
