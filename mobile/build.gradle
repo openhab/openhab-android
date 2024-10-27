@@ -40,7 +40,6 @@ if (!isFoss) {
 }
 
 android {
-    buildToolsVersion '34.0.0'
     useLibrary "org.apache.http.legacy"
     namespace 'org.openhab.habdroid'
 
@@ -48,7 +47,7 @@ android {
         applicationId "org.openhab.habdroid"
         minSdkVersion 21
         compileSdk 34
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 557
         versionName "3.16.3-beta"
         multiDexEnabled true

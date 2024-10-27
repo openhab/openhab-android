@@ -13,11 +13,14 @@
 
 package org.openhab.habdroid.util
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.PendingIntent
 import android.content.ActivityNotFoundException
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -636,6 +639,15 @@ val PendingIntent_Mutable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) 
     PendingIntent.FLAG_MUTABLE
 } else {
     0
+}
+
+@SuppressLint("UnspecifiedRegisterReceiverFlag")
+fun Context.registerExportedReceiver(receiver: BroadcastReceiver?, intentFilter: IntentFilter): Intent? {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        registerReceiver(receiver, intentFilter, Context.RECEIVER_EXPORTED)
+    } else {
+        registerReceiver(receiver, intentFilter)
+    }
 }
 
 inline fun <reified T> Intent.parcelable(key: String): T? {
