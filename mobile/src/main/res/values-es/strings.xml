@@ -309,8 +309,6 @@
     <string name="notification_channel_messages_default_severity">Por defecto</string>
     <string name="notification_channel_messages_default_severity_description">Notificaciones enviadas por el servidor con severidad no definida</string>
     <string name="notification_channel_group_messages">Mensajes</string>
-    <string name="notification_channel_severity_value">Importancia \'%1$s\'</string>
-    <string name="notification_channel_severity_value_description">Notificaciones enviadas por el servidor con importancia \'%1$s\'</string>
     <plurals name="summary_notification_text">
         <item quantity="one">%d nueva notificación</item>
         <item quantity="other">%d nuevas notificaciones</item>
