@@ -1,0 +1,6 @@
+## What's Changed
+* Clear default button icon tint by @maniac103 in https://github.com/openhab/openhab-android/pull/3816
+* SelectionBottomSheet: send command when clicking on the selected value by @mueller-ma in https://github.com/openhab/openhab-android/pull/3820
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.16.2-release...3.16.3-beta
