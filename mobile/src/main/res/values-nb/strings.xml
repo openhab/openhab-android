@@ -311,8 +311,6 @@
     <string name="notification_channel_messages_default_severity">Standard</string>
     <string name="notification_channel_messages_default_severity_description">Varsler sendt av serveren uten en definert alvorlighetsgrad</string>
     <string name="notification_channel_group_messages">Meldinger</string>
-    <string name="notification_channel_severity_value">Alvorlighetsgrad \'%1$s\'</string>
-    <string name="notification_channel_severity_value_description">Varsler sendt av serveren med alvorlighetsgrad \'%1$s\'</string>
     <plurals name="summary_notification_text">
         <item quantity="one">%d nytt varsel</item>
         <item quantity="other">%d nye varsler</item>
