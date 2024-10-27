@@ -308,8 +308,6 @@
     <string name="notification_channel_messages_default_severity">Predefinito</string>
     <string name="notification_channel_messages_default_severity_description">Notifiche inviate dal server senza gravità definita</string>
     <string name="notification_channel_group_messages">Messaggi</string>
-    <string name="notification_channel_severity_value">Gravità \'%1$s\'</string>
-    <string name="notification_channel_severity_value_description">Notifiche inviate dal server con gravità \'%1$s\'</string>
     <plurals name="summary_notification_text">
         <item quantity="one">%d nuova notifica</item>
         <item quantity="other">%d nuove notifiche</item>
