@@ -273,8 +273,6 @@
     <string name="notification_channel_messages_default_severity">По умолчанию</string>
     <string name="notification_channel_messages_default_severity_description">Уведомления, отправленные сервером без заданной важности</string>
     <string name="notification_channel_group_messages">Сообщения</string>
-    <string name="notification_channel_severity_value">Важность \'%1$s\'</string>
-    <string name="notification_channel_severity_value_description">Уведомления, отправленные сервером с важностью \'%1$s\'</string>
     <plurals name="summary_notification_text">
         <item quantity="one">%d уведомление</item>
         <item quantity="few">%d уведомлений</item>

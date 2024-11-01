@@ -312,8 +312,6 @@
     <string name="notification_channel_messages_default_severity">ברירת מחדל</string>
     <string name="notification_channel_messages_default_severity_description">התראות שנשלחו על ידי השרת ללא הגדרת תעדוף</string>
     <string name="notification_channel_group_messages">הודעות</string>
-    <string name="notification_channel_severity_value">דרגת חומרה \'%1$s\'</string>
-    <string name="notification_channel_severity_value_description">התראות שנשלחו על ידי השרת הוגדרו עם תעדוף ׳%1$s׳</string>
     <plurals name="summary_notification_text">
         <item quantity="one">%d התראה חדשה</item>
         <item quantity="two">%d התראות חדשות</item>
