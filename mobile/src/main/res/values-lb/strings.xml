@@ -236,7 +236,6 @@
     <string name="notification_channel_background_error">Feeler an den Hannergrond Prozesser</string>
     <string name="notification_channel_messages_default_severity">Standard</string>
     <string name="notification_channel_group_messages">Messagen</string>
-    <string name="notification_channel_severity_value">Eescht \'%1$s\'</string>
     <plurals name="summary_notification_text">
         <item quantity="one">%d nei Notifikatioun</item>
         <item quantity="other">%d nei Notifikatiounen</item>

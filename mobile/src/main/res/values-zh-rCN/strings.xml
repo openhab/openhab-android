@@ -296,8 +296,6 @@
     <string name="notification_channel_messages_default_severity">默认</string>
     <string name="notification_channel_messages_default_severity_description">服务器发送通知没有定义严重程度</string>
     <string name="notification_channel_group_messages">消息</string>
-    <string name="notification_channel_severity_value">严重性 \'%1$s\'</string>
-    <string name="notification_channel_severity_value_description">服务器发送严重程度为%1$s \' 的通知</string>
     <plurals name="summary_notification_text">
         <item quantity="other">%d 条新通知</item>
     </plurals>

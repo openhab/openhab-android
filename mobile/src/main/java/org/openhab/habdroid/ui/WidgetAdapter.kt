@@ -933,7 +933,7 @@ class WidgetAdapter(
 
                     // Rows and columns start with 1 in Sitemap definition, thus decrement them here
                     val button = buttons
-                        .filter { it.visibility == true }
+                        .filter { it.visibility }
                         .firstOrNull { (it.row ?: 0) - 1 == row && (it.column ?: 0) - 1 == column }
                     if (button != null && button.visibility) {
                         buttonView.tag = button
@@ -1927,9 +1927,10 @@ fun MaterialButton.setTextAndIcon(
     }
     val iconSize = context.resources.getDimensionPixelSize(R.dimen.section_switch_icon)
     CoroutineScope(Dispatchers.IO + Job()).launch {
+        val fallbackColor = context.getIconFallbackColor(IconBackground.APP_THEME)
         val drawable = try {
             connection.httpClient.get(iconUrl, caching = HttpClient.CachingMode.DEFAULT)
-                .asBitmap(iconSize, 0, ImageConversionPolicy.ForceTargetSize).response
+                .asBitmap(iconSize, fallbackColor, ImageConversionPolicy.ForceTargetSize).response
                 .toDrawable(resources)
         } catch (e: HttpClient.HttpException) {
             Log.d(WidgetAdapter.TAG, "Error getting icon for button", e)

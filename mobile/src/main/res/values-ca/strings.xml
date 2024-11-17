@@ -289,8 +289,6 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="notification_channel_messages_default_severity">Per defecte</string>
     <string name="notification_channel_messages_default_severity_description">Notificacions enviades pel servidor sense gravetat definida</string>
     <string name="notification_channel_group_messages">Missatges</string>
-    <string name="notification_channel_severity_value">Gravetat \'%1$s\'</string>
-    <string name="notification_channel_severity_value_description">Notificacions enviades pel servidor amb gravetat \'%1$s\'</string>
     <plurals name="summary_notification_text">
         <item quantity="one">%d notificació nova</item>
         <item quantity="other">%d notificacions noves</item>

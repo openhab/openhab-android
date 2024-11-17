@@ -1,0 +1,6 @@
+## What's Changed
+* Notification channels: severity => tag by @mueller-ma in https://github.com/openhab/openhab-android/pull/3821
+* Fix invisible buttongrid icons by @mueller-ma in https://github.com/openhab/openhab-android/pull/3827
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.16.3-beta...3.16.4-beta
