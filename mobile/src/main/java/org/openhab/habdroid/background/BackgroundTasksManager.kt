@@ -88,6 +88,7 @@ import org.openhab.habdroid.util.isItemUpdatePrefEnabled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.parcelableArrayList
+import org.openhab.habdroid.util.registerExportedReceiver
 import org.openhab.habdroid.util.withAttribution
 
 class BackgroundTasksManager : BroadcastReceiver() {
@@ -782,7 +783,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
             VALUE_GETTER_MAP[PrefKeys.SEND_CHARGING_STATE] = { context, _ ->
                 val batteryStatus: Intent? = IntentFilter(Intent.ACTION_BATTERY_CHANGED).let { ifilter ->
-                    context.registerReceiver(null, ifilter)
+                    context.registerExportedReceiver(null, ifilter)
                 }
                 val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
                 val plugged = batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)

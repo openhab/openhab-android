@@ -26,6 +26,7 @@ import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isEventListenerEnabled
 import org.openhab.habdroid.util.isItemUpdatePrefEnabled
+import org.openhab.habdroid.util.registerExportedReceiver
 
 class EventListenerService : Service() {
     private var backgroundTasksManager = BackgroundTasksManager()
@@ -42,7 +43,7 @@ class EventListenerService : Service() {
         if (intentFilter.countActions() == 0) {
             stopSelf(startId)
         } else {
-            registerReceiver(backgroundTasksManager, intentFilter)
+            registerExportedReceiver(backgroundTasksManager, intentFilter)
             isRegistered = true
         }
 
