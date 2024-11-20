@@ -101,6 +101,7 @@ import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.LabeledValue
 import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.Widget
+import org.openhab.habdroid.model.toColorTemperatureInKelvin
 import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.ui.widget.AutoHeightPlayerView
 import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
@@ -112,6 +113,7 @@ import org.openhab.habdroid.util.IconBackground
 import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.MjpegStreamer
 import org.openhab.habdroid.util.PrefKeys
+import org.openhab.habdroid.util.asColorTemperatureInKelvinToColor
 import org.openhab.habdroid.util.beautify
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getChartTheme
@@ -120,6 +122,7 @@ import org.openhab.habdroid.util.getImageWidgetScalingType
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.resolveThemedColor
+import org.openhab.habdroid.util.toColoredRoundedRect
 
 /**
  * This class provides openHAB widgets adapter for list view.
@@ -239,6 +242,7 @@ class WidgetAdapter(
             TYPE_VIDEO -> VideoViewHolder(initData)
             TYPE_WEB -> WebViewHolder(initData)
             TYPE_COLOR -> ColorViewHolder(initData)
+            TYPE_COLORTEMPERATURE -> ColorTemperatureViewHolder(initData)
             TYPE_VIDEO_MJPEG -> MjpegVideoViewHolder(initData)
             TYPE_LOCATION -> MapViewHelper.createViewHolder(initData)
             TYPE_INPUT -> InputViewHolder(initData)
@@ -389,6 +393,7 @@ class WidgetAdapter(
             }
             Widget.Type.Webview -> TYPE_WEB
             Widget.Type.Colorpicker -> TYPE_COLOR
+            Widget.Type.Colortemperaturepicker -> TYPE_COLORTEMPERATURE
             Widget.Type.Mapview -> TYPE_LOCATION
             Widget.Type.Input -> if (widget.shouldUseDateTimePickerForInput()) TYPE_DATETIMEINPUT else TYPE_INPUT
             Widget.Type.Buttongrid -> TYPE_BUTTONGRID
@@ -1702,6 +1707,30 @@ class WidgetAdapter(
         }
     }
 
+    class ColorTemperatureViewHolder internal constructor(initData: ViewHolderInitData) : LabeledItemBaseViewHolder(
+        initData,
+        R.layout.widgetlist_colortemperatureitem,
+        R.layout.widgetlist_colortemperatureitem_compact
+    ) {
+        private val previewImage = itemView.findViewById<ImageView>(R.id.current_temperature)
+
+        override fun bind(widget: Widget) {
+            super.bind(widget)
+            val drawable = (widget.state ?: widget.item?.state)
+                ?.asNumber
+                ?.toColorTemperatureInKelvin()
+                ?.value
+                ?.asColorTemperatureInKelvinToColor()
+                ?.toColoredRoundedRect(previewImage.context)
+            previewImage.setImageDrawable(drawable)
+        }
+
+        override fun handleRowClick() {
+            val widget = boundWidget ?: return
+            fragmentPresenter.showBottomSheet(ColorTemperatureSliderBottomSheet(), widget)
+        }
+    }
+
     class MjpegVideoViewHolder internal constructor(initData: ViewHolderInitData) :
         HeavyDataViewHolder(initData, R.layout.widgetlist_videomjpegitem) {
         private val imageView = widgetContentView as WidgetImageView
@@ -1808,12 +1837,13 @@ class WidgetAdapter(
         private const val TYPE_VIDEO = 15
         private const val TYPE_WEB = 16
         private const val TYPE_COLOR = 17
-        private const val TYPE_VIDEO_MJPEG = 18
-        private const val TYPE_LOCATION = 19
-        private const val TYPE_INPUT = 20
-        private const val TYPE_DATETIMEINPUT = 21
-        private const val TYPE_BUTTONGRID = 22
-        private const val TYPE_INVISIBLE = 23
+        private const val TYPE_COLORTEMPERATURE = 18
+        private const val TYPE_VIDEO_MJPEG = 19
+        private const val TYPE_LOCATION = 20
+        private const val TYPE_INPUT = 21
+        private const val TYPE_DATETIMEINPUT = 22
+        private const val TYPE_BUTTONGRID = 23
+        private const val TYPE_INVISIBLE = 24
 
         private fun toInternalViewType(viewType: Int, compactMode: Boolean): Int {
             return viewType or (if (compactMode) 0x100 else 0)

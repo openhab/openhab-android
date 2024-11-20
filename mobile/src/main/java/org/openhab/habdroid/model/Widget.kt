@@ -129,6 +129,7 @@ data class Widget(
         Input,
         Buttongrid,
         Button,
+        Colortemperaturepicker,
         Unknown
     }
 

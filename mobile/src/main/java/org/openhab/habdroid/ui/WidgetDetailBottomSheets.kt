@@ -13,6 +13,9 @@
 
 package org.openhab.habdroid.ui
 
+import android.graphics.LinearGradient
+import android.graphics.Paint
+import android.graphics.Shader
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -29,6 +32,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.Slider
+import kotlin.math.roundToInt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -36,9 +40,12 @@ import kotlinx.coroutines.cancel
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Widget
+import org.openhab.habdroid.model.toColorTemperatureInKelvin
 import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.ui.widget.WidgetSlider
 import org.openhab.habdroid.util.ColorPickerHelper
+import org.openhab.habdroid.util.asColorTemperatureInKelvinToColor
+import org.openhab.habdroid.util.asColorTemperatureToKelvin
 import org.openhab.habdroid.util.parcelable
 
 open class AbstractWidgetBottomSheet : BottomSheetDialogFragment() {
@@ -67,10 +74,8 @@ open class AbstractWidgetBottomSheet : BottomSheetDialogFragment() {
     }
 }
 
-class SliderBottomSheet : AbstractWidgetBottomSheet(), WidgetSlider.UpdateListener {
-    private var updateJob: Job? = null
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+open class SliderBottomSheet : AbstractWidgetBottomSheet(), WidgetSlider.UpdateListener {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.bottom_sheet_setpoint, container, false)
 
         view.findViewById<WidgetSlider>(R.id.slider).apply {
@@ -91,6 +96,51 @@ class SliderBottomSheet : AbstractWidgetBottomSheet(), WidgetSlider.UpdateListen
         val state = widget.state?.asNumber.withValue(value)
         Log.d(TAG, "Send state $state for ${item.name}")
         connection?.httpClient?.sendItemUpdate(item, state)
+    }
+
+    companion object {
+        private val TAG = SliderBottomSheet::class.java.simpleName
+    }
+}
+
+class ColorTemperatureSliderBottomSheet : SliderBottomSheet(), View.OnLayoutChangeListener {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        val v = super.onCreateView(inflater, container, savedInstanceState)
+        v.findViewById<WidgetSlider>(R.id.slider).apply {
+            addOnLayoutChangeListener(this@ColorTemperatureSliderBottomSheet)
+            setLabelFormatter { value -> "${value.roundToInt()} K" }
+        }
+        return v
+    }
+
+    override suspend fun onValueUpdate(value: Float) {
+        val item = widget.item ?: return
+        val state = widget.state?.asNumber?.toColorTemperatureInKelvin()?.withValue(value)
+        Log.d(TAG, "Send state $state for ${item.name}")
+        connection?.httpClient?.sendItemUpdate(item, state)
+    }
+
+    override fun onLayoutChange(view: View, l: Int, t: Int, r: Int, b: Int, ol: Int, ot: Int, or: Int, ob: Int) {
+        applyColorTemperatureGradientToTrack(view as WidgetSlider, r - l, b - t)
+    }
+
+    private fun applyColorTemperatureGradientToTrack(slider: WidgetSlider, width: Int, height: Int) {
+        val min = widget.minValue.asColorTemperatureToKelvin()
+        val max = widget.maxValue.asColorTemperatureToKelvin()
+        val steps = 20
+        val positions = (0 until steps).map { 1F * it / steps }.toFloatArray()
+        val colors = positions
+            .map { it * (max - min) + min }
+            .map { it.asColorTemperatureInKelvinToColor() }
+            .toIntArray()
+        val shader = LinearGradient(0F, 0F, width.toFloat(), height.toFloat(), colors, positions, Shader.TileMode.CLAMP)
+
+        listOf("activeTrackPaint", "inactiveTrackPaint")
+            .map { Slider::class.java.superclass.getDeclaredField(it) }
+            .forEach { field ->
+                field.isAccessible = true
+                (field.get(slider) as Paint).shader = shader
+            }
     }
 
     companion object {
