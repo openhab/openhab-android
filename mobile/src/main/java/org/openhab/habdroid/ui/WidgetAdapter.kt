@@ -1648,6 +1648,7 @@ class WidgetAdapter(
         View.OnLongClickListener {
         private val upButton = itemView.findViewById<View>(R.id.up_button)
         private val downButton = itemView.findViewById<View>(R.id.down_button)
+        private val selectColorButton = itemView.findViewById<ImageView>(R.id.select_color_button)
 
         data class UpDownButtonState(
             val item: Item?,
@@ -1661,7 +1662,6 @@ class WidgetAdapter(
                 b.setOnClickListener(this)
                 b.setOnLongClickListener(this)
             }
-            val selectColorButton = itemView.findViewById<View>(R.id.select_color_button)
             selectColorButton.setOnClickListener { handleRowClick() }
         }
 
@@ -1675,6 +1675,14 @@ class WidgetAdapter(
                 downButton.tag = UpDownButtonState(widget.item, "OFF", "DECREASE")
             }
             super.bind(widget)
+
+            val hsv = widget.state?.asHsv
+            val color = hsv?.toColor()
+            if (color == null || hsv.value == 0F) {
+                selectColorButton.setImageResource(R.drawable.ic_palette_outline_themed_24dp)
+            } else {
+                selectColorButton.setImageDrawable(color.toColoredRoundedRect(selectColorButton.context))
+            }
         }
 
         override fun onClick(view: View) {
