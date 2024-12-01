@@ -44,7 +44,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
-                android:max="100" />
+                android:max="100"
+                app:trackHeight="12dp"
+                app:thumbHeight="32dp" />
 
             <TextView
                 android:id="@+id/widgetvalue"
