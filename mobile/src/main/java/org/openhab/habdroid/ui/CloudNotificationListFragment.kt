@@ -210,9 +210,9 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
     }
 
     companion object {
-        private val TAG = CloudNotificationListFragment::class.java.simpleName
+        const val PAGE_SIZE = 50
 
-        private const val PAGE_SIZE = 20
+        private val TAG = CloudNotificationListFragment::class.java.simpleName
 
         fun newInstance(highlightedId: String?, primaryServer: Boolean): CloudNotificationListFragment {
             val f = CloudNotificationListFragment()
