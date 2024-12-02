@@ -23,11 +23,13 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.Uri
@@ -53,6 +55,9 @@ import com.caverock.androidsvg.RenderOptions
 import com.caverock.androidsvg.SVG
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.RelativeCornerSize
+import com.google.android.material.shape.ShapeAppearanceModel
 import java.io.EOFException
 import java.io.IOException
 import java.io.InputStream
@@ -68,8 +73,10 @@ import javax.jmdns.ServiceInfo
 import javax.net.ssl.SSLException
 import javax.net.ssl.SSLHandshakeException
 import javax.net.ssl.SSLPeerUnverifiedException
+import kotlin.math.ln
 import kotlin.math.max
 import kotlin.math.round
+import kotlin.math.roundToInt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -149,6 +156,44 @@ fun Uri?.openInBrowser(context: Context) {
 fun HttpUrl.toRelativeUrl(): String {
     val base = resolve("/")
     return this.toString().substring(base.toString().length - 1)
+}
+
+fun Float.asColorTemperatureToKelvin(): Float = if (this < 1000) {
+    // likely Mirek
+    1000000F / this
+} else {
+    this
+}
+
+fun Float.asColorTemperatureInKelvinToColor(): Int {
+    // For algorithm, see https://web.archive.org/web/20151024031939/http://www.zombieprototypes.com/?p=210
+    val temp = (this.coerceIn(1000F, 10000F) / 100F).toDouble()
+    // calculates a + bx + c * ln(x)
+    val approximate = { x: Double, a: Double, b: Double, c: Double -> a + b * x + c * ln(x) }
+    val red = when {
+        temp <= 66 -> 255.0
+        else -> approximate(temp - 55, 351.97690566805693, 0.114206453784165, -40.25366309332127)
+    }.coerceIn(0.0, 255.0)
+
+    val green = when {
+        temp <= 66 -> approximate(temp - 2, -155.25485562709179, -0.44596950469579133, 104.49216199393888)
+        else -> approximate(temp - 50, 325.4494125711974, 0.07943456536662342, -28.0852963507957)
+    }.coerceIn(0.0, 255.0)
+
+    val blue = when {
+        temp < 20 -> 0.0
+        temp > 66 -> 255.0
+        else -> approximate(temp - 10, -254.76935184120902, 0.8274096064007395, 115.67994401066147)
+    }.coerceIn(0.0, 255.0)
+
+    return Color.argb(255, red.roundToInt(), green.roundToInt(), blue.roundToInt())
+}
+
+fun Int.toColoredRoundedRect(context: Context) = MaterialShapeDrawable.createWithElevationOverlay(context).apply {
+    fillColor = ColorStateList.valueOf(this@toColoredRoundedRect)
+    shapeAppearanceModel = ShapeAppearanceModel.Builder()
+        .setAllCornerSizes(RelativeCornerSize(0.15f))
+        .build()
 }
 
 /**

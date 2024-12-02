@@ -9,11 +9,13 @@
         android:contentDescription="@string/content_description_color_up"
         app:icon="@drawable/ic_keyboard_arrow_up_themed_24dp" />
 
-    <Button
+    <ImageView
         style="@style/openHAB.ActionButton"
         android:id="@+id/select_color_button"
-        android:contentDescription="@string/content_description_open_color_wheel"
-        app:icon="@drawable/ic_palette_outline_themed_24dp" />
+        android:background="@null"
+        android:padding="8dp"
+        android:scaleType="centerInside"
+        android:contentDescription="@string/content_description_open_color_wheel" />
 
     <Button
         style="@style/openHAB.ActionButton"
