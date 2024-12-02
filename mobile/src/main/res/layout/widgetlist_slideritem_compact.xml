@@ -49,6 +49,8 @@
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="-8dp"
         android:clipToOutline="false"
-        android:max="100" />
+        android:max="100"
+        app:trackHeight="8dp"
+        app:thumbHeight="24dp" />
 
 </LinearLayout>

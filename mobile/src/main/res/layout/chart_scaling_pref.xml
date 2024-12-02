@@ -88,6 +88,8 @@
                 android:focusable="false"
                 android:clickable="false"
                 android:background="@null"
+                app:trackHeight="12dp"
+                app:thumbHeight="32dp"
                 app:labelBehavior="gone" />
 
             <TextView
