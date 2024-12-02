@@ -1,0 +1,6 @@
+## What's Changed
+* Add support for 'Colortemperaturepicker' widget by @maniac103 in https://github.com/openhab/openhab-android/pull/3830
+* Tune slider widget sizes by @maniac103 in https://github.com/openhab/openhab-android/pull/3838
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.16.5-beta...3.16.6-beta
