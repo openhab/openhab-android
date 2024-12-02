@@ -27,6 +27,7 @@ import org.openhab.habdroid.util.optStringOrNull
 import org.w3c.dom.Node
 
 @Parcelize
+@ConsistentCopyVisibility
 data class Item internal constructor(
     val name: String,
     private val rawLabel: String?,

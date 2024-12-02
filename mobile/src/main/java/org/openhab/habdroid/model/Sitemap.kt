@@ -25,6 +25,7 @@ import org.w3c.dom.Document
 import org.w3c.dom.Node
 
 @Parcelize
+@ConsistentCopyVisibility
 data class Sitemap internal constructor(
     val name: String,
     val label: String,
