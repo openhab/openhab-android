@@ -27,6 +27,7 @@ import kotlinx.parcelize.Parcelize
 import org.openhab.habdroid.util.asColorTemperatureToKelvin
 
 @Parcelize
+@ConsistentCopyVisibility
 data class HsvState internal constructor(val hue: Float, val saturation: Float, val value: Float) : Parcelable {
     fun toColor(includeValue: Boolean = true): Int {
         return Color.HSVToColor(floatArrayOf(hue, saturation, if (includeValue) value else 100F))
@@ -34,6 +35,7 @@ data class HsvState internal constructor(val hue: Float, val saturation: Float, 
 }
 
 @Parcelize
+@ConsistentCopyVisibility
 data class ParsedState internal constructor(
     val asString: String,
     val asBoolean: Boolean,
@@ -168,6 +170,7 @@ data class ParsedState internal constructor(
     }
 
     @Parcelize
+    @ConsistentCopyVisibility
     data class NumberState internal constructor(
         val value: Float,
         val unit: String? = null,

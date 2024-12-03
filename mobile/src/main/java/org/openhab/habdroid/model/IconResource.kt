@@ -30,6 +30,7 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrNull
 
 @Parcelize
+@ConsistentCopyVisibility
 data class IconResource internal constructor(
     internal val icon: String,
     internal val isOh2: Boolean,

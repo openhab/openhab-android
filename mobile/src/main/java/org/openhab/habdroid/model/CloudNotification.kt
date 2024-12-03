@@ -37,6 +37,7 @@ import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.optStringOrNull
 
 @Parcelize
+@ConsistentCopyVisibility
 data class CloudNotificationId internal constructor(
     val persistedId: String,
     val referenceId: String?
@@ -48,6 +49,7 @@ sealed class CloudMessage : Parcelable {
     abstract val id: CloudNotificationId
 
     @Parcelize
+    @ConsistentCopyVisibility
     data class CloudNotification internal constructor(
         override val id: CloudNotificationId,
         val title: String,
@@ -153,6 +155,7 @@ fun JSONObject.toCloudMessage(): CloudMessage? {
 }
 
 @Parcelize
+@ConsistentCopyVisibility
 data class CloudNotificationAction internal constructor(
     val label: String,
     private val internalAction: String

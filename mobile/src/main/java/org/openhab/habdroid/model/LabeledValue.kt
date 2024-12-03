@@ -20,6 +20,7 @@ import org.json.JSONObject
 import org.openhab.habdroid.util.optStringOrNull
 
 @Parcelize
+@ConsistentCopyVisibility
 data class LabeledValue internal constructor(
     val value: String,
     val valueRelease: String?,
