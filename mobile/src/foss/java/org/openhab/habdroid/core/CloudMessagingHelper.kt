@@ -26,6 +26,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.NotACloudServerException
 import org.openhab.habdroid.model.CloudMessage
 import org.openhab.habdroid.model.toCloudMessage
+import org.openhab.habdroid.ui.CloudNotificationListFragment
 import org.openhab.habdroid.ui.preference.PushNotificationStatus
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
@@ -65,7 +66,7 @@ object CloudMessagingHelper {
     }
 
     private suspend fun loadNewMessages(context: Context, connection: Connection): List<CloudMessage>? {
-        val url = "api/v1/notifications?limit=20"
+        val url = "api/v1/notifications?limit=${CloudNotificationListFragment.PAGE_SIZE}"
         val messages = try {
             val response = connection.httpClient.get(url).asText().response
             Log.d(TAG, "Notifications request success")
