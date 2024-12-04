@@ -71,9 +71,15 @@ data class Widget(
     val visibility: Boolean,
     val rawInputHint: InputTypeHint?
 ) : Parcelable {
-    val label get() = rawLabel.split("[", "]")[0].trim()
+    val label get() = rawLabel.substringBefore("[").trim()
     val stateFromLabel: String? get() {
-        val value = Widget.stateLabelRegex.find(rawLabel)?.groupValues?.getOrNull(1)
+        val value: String? = rawLabel.removePrefix(label).trim().let {
+            if (it.startsWith("[") && it.endsWith("]")) {
+                it.removePrefix("[").removeSuffix("]")
+            } else {
+                null
+            }
+        }
         val optionLabel = mappingsOrItemOptions.find { it.value == value }?.label
         return optionLabel ?: value
     }
@@ -244,8 +250,6 @@ data class Widget(
                 state.toParsedState(item.state?.asNumber?.format)
             else -> state.toParsedState()
         }
-
-        internal val stateLabelRegex = Regex("\\[(.*)\\]$")
     }
 }
 

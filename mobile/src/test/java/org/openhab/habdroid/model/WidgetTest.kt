@@ -170,7 +170,7 @@ class WidgetTest {
         assertNull(sut1[0].stateFromLabel)
         assertNull(sut2[0].stateFromLabel)
         assertEquals("81 %", sut3[1].stateFromLabel)
-        assertEquals("Value [42]", sut3[4].stateFromLabel)
+        assertEquals("Value [42]\n", sut3[4].stateFromLabel)
     }
 
     @Test
@@ -449,12 +449,12 @@ class WidgetTest {
                   }, {
                     'widgetId': '0202_0_0_1',
                     'type': 'Switch',
-                    'label': 'Test [Value [42]]',
+                    'label': 'Test [Value [42]\n]',
                     'icon': 'input',
                     'mappings': [],
                     'item': {
                       'link': 'http://openhab.local:8080/rest/items/DemoString',
-                      'state': 'Value [42]',
+                      'state': 'Value [42]\n',
                       'stateDescription': {
                           'pattern': '%s',
                           'readOnly': false,
