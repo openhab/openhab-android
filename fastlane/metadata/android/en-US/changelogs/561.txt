@@ -1,0 +1,5 @@
+## What's Changed
+* Fix text items with newline character by @mueller-ma in https://github.com/openhab/openhab-android/pull/3836
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.16.6-beta...3.16.7-beta
