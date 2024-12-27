@@ -26,7 +26,7 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.core.os.bundleOf
-import com.flask.colorpicker.ColorPickerView
+import com.chimbori.colorpicker.ColorPickerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
