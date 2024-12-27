@@ -19,11 +19,14 @@ import android.graphics.Rect
 import android.os.Handler
 import android.os.Looper
 import android.service.dreams.DreamService
+import android.text.format.DateFormat
 import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.TextClock
 import android.widget.TextView
+import java.util.Locale
 import kotlin.coroutines.CoroutineContext
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.minutes
@@ -65,10 +68,18 @@ class DayDream : DreamService(), CoroutineScope {
         textView = findViewById(R.id.text)
         wrapper = findViewById(R.id.wrapper)
         container = findViewById(R.id.container)
+        setupDateView()
 
         launch {
             item?.let { listenForTextItem(it) }
         }
+    }
+
+    private fun setupDateView() {
+        val dateView: TextClock = findViewById(R.id.date)
+        val pattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEEE, MMMM d, yyyy")
+        dateView.format12Hour = pattern
+        dateView.format24Hour = pattern
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

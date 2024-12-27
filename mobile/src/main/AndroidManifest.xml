@@ -92,9 +92,11 @@
             </intent-filter>
         </activity>
 
+        <!-- DayDreamPreferencesActivity only calls PreferencesActivity, so don't keep it in history -->
         <activity
             android:name=".ui.preference.DayDreamPreferencesActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:noHistory="true" />
         <activity
             android:name=".ui.AboutActivity"
             android:label="@string/about_title"
