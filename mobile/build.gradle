@@ -177,7 +177,7 @@ dependencies {
     implementation "com.faltenreich:skeletonlayout:5.0.0"
     // MapView support
     fullImplementation "com.google.android.gms:play-services-maps:18.2.0"
-    fossImplementation "org.osmdroid:osmdroid-android:6.1.18"
+    fossImplementation "org.osmdroid:osmdroid-android:6.1.20"
     // About screen
     implementation "com.github.daniel-stoneuk:material-about-library:3.1.2"
     // Used libraries
