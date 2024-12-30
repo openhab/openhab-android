@@ -1,0 +1,5 @@
+## What's Changed
+* Show date in screensaver by @mueller-ma in https://github.com/openhab/openhab-android/pull/3842
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.16.7-beta...3.16.8-beta
