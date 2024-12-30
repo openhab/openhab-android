@@ -16,7 +16,20 @@
             android:id="@+id/clock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="sans-serif-light"
             android:textAppearance="@style/TextAppearance.Material3.DisplayLarge" />
+
+        <TextClock
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:fontFamily="sans-serif-light"
+            android:textAppearance="@style/TextAppearance.Material3.DisplaySmall"
+            tools:format12Hour="EEEE, MMMM d, yyyy"
+            tools:format24Hour="EEEE, MMMM d, yyyy" />
 
         <TextView
             android:id="@+id/text"
@@ -24,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingTop="64dp"
+            android:fontFamily="sans-serif-light"
             android:textAppearance="@style/TextAppearance.Material3.DisplayMedium"
             tools:text="Temperature: 19 °C" />
     </LinearLayout>
