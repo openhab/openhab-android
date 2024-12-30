@@ -15,7 +15,7 @@ package org.openhab.habdroid.ui
 
 import android.os.Bundle
 import android.view.MenuItem
-import com.flask.colorpicker.ColorPickerView
+import com.chimbori.colorpicker.ColorPickerView
 import com.google.android.material.slider.Slider
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
