@@ -200,6 +200,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
                 resolveThemedColor(android.R.attr.windowBackground, black)
             else -> black
         }
+        @Suppress("DEPRECATION")
         window.navigationBarColor = windowColor
 
         insetsController.isAppearanceLightNavigationBars = currentNightMode != Configuration.UI_MODE_NIGHT_YES
