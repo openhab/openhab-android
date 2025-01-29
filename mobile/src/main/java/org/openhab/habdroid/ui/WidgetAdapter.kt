@@ -664,11 +664,15 @@ class WidgetAdapter(
             } else {
                 null
             }
+            switch.isEnabled = !widget.readOnly
 
             isBinding = false
         }
 
         override fun handleRowClick() {
+            if (boundWidget?.readOnly == true) {
+                return
+            }
             switch.toggle()
         }
     }
@@ -730,6 +734,7 @@ class WidgetAdapter(
             }
             inputText.setText(dataState)
             inputText.text?.let { inputText.setSelection(it.length) }
+            inputText.isEnabled = !widget.readOnly
 
             inputTextLayout.placeholderText = if (widget.state != null) "" else displayState
             inputTextLayout.suffixText = when (widget.inputHint) {
@@ -800,6 +805,9 @@ class WidgetAdapter(
 
         override fun handleRowClick() {
             val widget = boundWidget ?: return
+            if (widget.readOnly) {
+                return
+            }
             val dt = widget.state?.asDateTime
             when (widget.inputHint) {
                 Widget.InputTypeHint.Date -> showDatePicker(widget, dt, false)
@@ -950,7 +958,8 @@ class WidgetAdapter(
                             iconRes = button.icon,
                             labelColor = button.labelColor,
                             iconColor = button.iconColor,
-                            mapper = colorMapper
+                            mapper = colorMapper,
+                            readOnly = widget.readOnly
                         )
                         if (button.stateless == false) {
                             // stateful button: make checkable and set checked state afterwards
@@ -1017,6 +1026,7 @@ class WidgetAdapter(
 
             val hasValidValues = widget.minValue < widget.maxValue
             slider.isVisible = hasValidValues
+            slider.isEnabled = !widget.readOnly
             if (hasValidValues) {
                 slider.bindToWidget(widget, widget.shouldUseSliderUpdatesDuringMove())
             } else {
@@ -1026,6 +1036,9 @@ class WidgetAdapter(
 
         override fun handleRowClick() {
             val widget = boundWidget ?: return
+            if (widget.readOnly) {
+                return
+            }
             if (widget.switchSupport) {
                 connection.httpClient.sendItemCommand(
                     widget.item,
@@ -1189,7 +1202,7 @@ class WidgetAdapter(
             mappings.slice(0 until buttonCount).forEachIndexed { index, mapping ->
                 with(group[index] as MaterialButton) {
                     tag = mapping
-                    setTextAndIcon(connection, mapping.label, mapping.icon)
+                    setTextAndIcon(connection, mapping.label, mapping.icon, widget.readOnly)
                 }
             }
 
@@ -1282,7 +1295,7 @@ class WidgetAdapter(
                 button.isGone = mapping == null
                 if (mapping != null) {
                     button.isChecked = widget.state?.asString == mapping.value
-                    button.setTextAndIcon(connection, mapping.label, mapping.icon)
+                    button.setTextAndIcon(connection, mapping.label, mapping.icon, widget.readOnly)
                     button.tag = mapping
                 }
             }
@@ -1424,6 +1437,9 @@ class WidgetAdapter(
 
         private fun openSelection() {
             val widget = boundWidget ?: return
+            if (widget.readOnly) {
+                return
+            }
             fragmentPresenter.showBottomSheet(SliderBottomSheet(), widget)
         }
 
@@ -1440,6 +1456,13 @@ class WidgetAdapter(
             if (newValue >= widget.minValue && newValue <= widget.maxValue) {
                 connection.httpClient.sendItemUpdate(widget.item, state.withValue(newValue))
             }
+        }
+
+        override fun bind(widget: Widget) {
+            super.bind(widget)
+            itemView.findViewById<View>(R.id.select_button).isEnabled = !widget.readOnly
+            itemView.findViewById<View>(R.id.up_button).isEnabled = !widget.readOnly
+            itemView.findViewById<View>(R.id.down_button).isEnabled = !widget.readOnly
         }
     }
 
@@ -1684,6 +1707,9 @@ class WidgetAdapter(
             } else {
                 selectColorButton.setImageDrawable(color.toColoredRoundedRect(selectColorButton.context))
             }
+            selectColorButton.isEnabled = !widget.readOnly
+            upButton.isEnabled = !widget.readOnly
+            downButton.isEnabled = !widget.readOnly
         }
 
         override fun onClick(view: View) {
@@ -1712,6 +1738,9 @@ class WidgetAdapter(
 
         override fun handleRowClick() {
             val widget = boundWidget ?: return
+            if (widget.readOnly) {
+                return
+            }
             fragmentPresenter.showBottomSheet(ColorChooserBottomSheet(), widget)
         }
     }
@@ -1736,6 +1765,9 @@ class WidgetAdapter(
 
         override fun handleRowClick() {
             val widget = boundWidget ?: return
+            if (widget.readOnly) {
+                return
+            }
             fragmentPresenter.showBottomSheet(ColorTemperatureSliderBottomSheet(), widget)
         }
     }
@@ -1952,10 +1984,12 @@ fun MaterialButton.setTextAndIcon(
     connection: Connection,
     label: String,
     iconRes: IconResource?,
+    readOnly: Boolean,
     labelColor: String? = null,
     iconColor: String? = null,
     mapper: WidgetAdapter.ColorMapper? = null
 ) {
+    isEnabled = !readOnly
     contentDescription = label
     val iconUrl = iconRes?.toUrl(context, true)
     if (iconUrl == null) {
