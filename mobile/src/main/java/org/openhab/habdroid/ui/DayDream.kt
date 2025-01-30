@@ -16,9 +16,11 @@ package org.openhab.habdroid.ui
 import android.animation.ObjectAnimator
 import android.content.res.Configuration
 import android.graphics.Rect
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.service.dreams.DreamService
+import android.text.Html
 import android.text.format.DateFormat
 import android.util.Log
 import android.view.View
@@ -92,19 +94,27 @@ class DayDream : DreamService(), CoroutineScope {
         val connection = ConnectionFactory.primaryUsableConnection?.connection ?: return
 
         moveText()
-        textView.text = try {
+        val initialText = try {
             ItemClient.loadItem(connection, item)?.state?.asString.orEmpty()
         } catch (e: HttpClient.HttpException) {
             getString(R.string.screensaver_error_loading_item, item)
         }
-        moveTextIfRequired()
+        setText(initialText)
 
         ItemClient.listenForItemChange(this, connection, item) { _, payload ->
             val state = payload.getString("value")
             Log.d(TAG, "Got state by event: $state")
-            textView.text = state
-            moveTextIfRequired()
+            setText(state)
         }
+    }
+
+    private fun setText(text: String) {
+        textView.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Html.fromHtml(text.replace("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT)
+        } else {
+            text
+        }
+        moveTextIfRequired()
     }
 
     private fun moveText() {
