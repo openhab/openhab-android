@@ -1,0 +1,7 @@
+## What's Changed
+* Remove EventListener for Android 14 on Play Store by @mueller-ma in https://github.com/openhab/openhab-android/pull/3850
+* Format screensaver item as html by @mueller-ma in https://github.com/openhab/openhab-android/pull/3853
+* Section switch: Don't display a value text field when a switch is checked by @mueller-ma in https://github.com/openhab/openhab-android/pull/3847
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.17.0-release...3.17.1-release
