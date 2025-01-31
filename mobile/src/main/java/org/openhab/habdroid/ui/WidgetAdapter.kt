@@ -1156,10 +1156,6 @@ class WidgetAdapter(
         override fun bind(widget: Widget) {
             super.bind(widget)
 
-            val hasNoLabelAndValue = labelView.text.isEmpty() && valueView?.text?.isEmpty() != false
-            labelView.isGone = hasNoLabelAndValue
-            valueView?.isGone = hasNoLabelAndValue
-
             val mappings = widget.mappingsOrItemOptions
             val buttonCount = min(mappings.size, maxButtons)
 
@@ -1213,8 +1209,13 @@ class WidgetAdapter(
             if (checkedId == null) {
                 group.clearChecked()
             } else {
+                valueView?.text = ""
                 group.check(checkedId)
             }
+
+            val hasNoLabelAndValue = labelView.text.isEmpty() && valueView?.text?.isEmpty() != false
+            labelView.isGone = hasNoLabelAndValue
+            valueView?.isGone = hasNoLabelAndValue
 
             group.isVisible = true
         }
