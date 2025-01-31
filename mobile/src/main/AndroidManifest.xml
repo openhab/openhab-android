@@ -23,7 +23,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
 
@@ -307,7 +306,6 @@
 
         <service
             android:name=".background.EventListenerService"
-            android:foregroundServiceType="dataSync"
             android:enabled="true"
             android:exported="false" />
 
@@ -316,7 +314,7 @@
             android:directBootAware="false"
             android:enabled="@bool/enable_system_foreground_service_default"
             android:exported="false"
-            android:foregroundServiceType="dataSync"
+            android:foregroundServiceType="shortService"
             tools:targetApi="n"
             tools:ignore="Instantiatable" />
 

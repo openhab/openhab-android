@@ -26,6 +26,7 @@ import org.openhab.habdroid.ui.preference.widgets.ItemUpdatingPreference
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPreference
 import org.openhab.habdroid.util.getPrefixForBgTasks
+import org.openhab.habdroid.util.isDataSyncForegroundServiceAllowed
 import org.openhab.habdroid.util.isInstalled
 
 class SendDeviceInfoSettingsFragment :
@@ -70,6 +71,10 @@ class SendDeviceInfoSettingsFragment :
             preferenceScreen.removePreferenceRecursively(PrefKeys.SEND_DEVICE_INFO_FOREGROUND_SERVICE)
         } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             foregroundServicePref.setSummary(R.string.send_device_info_foreground_service_summary_pre_o)
+        }
+
+        if (!isDataSyncForegroundServiceAllowed()) {
+            preferenceScreen.removePreferenceRecursively(PrefKeys.SEND_DEVICE_INFO_FOREGROUND_SERVICE)
         }
 
         foregroundServicePref.setOnPreferenceChangeListener { preference, newValue ->
