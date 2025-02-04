@@ -1,0 +1,5 @@
+## What's Changed
+* Fix foreground service type by @mueller-ma in https://github.com/openhab/openhab-android/pull/3857
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.17.1-release...3.17.2-release
