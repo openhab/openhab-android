@@ -14,7 +14,7 @@
 package org.openhab.habdroid.background
 
 import android.content.Context
-import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
+import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SHORT_SERVICE
 import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
@@ -266,7 +266,11 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
             .addAction(R.drawable.ic_clear_grey_24dp, context.getString(android.R.string.cancel), cancelIntent)
             .build()
 
-        return ForegroundInfo(NOTIFICATION_ID_BACKGROUND_WORK_RUNNING, notification, FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+        return ForegroundInfo(
+            NOTIFICATION_ID_BACKGROUND_WORK_RUNNING,
+            notification,
+            FOREGROUND_SERVICE_TYPE_SHORT_SERVICE
+        )
     }
 
     private fun buildOutputData(hasConnection: Boolean, httpStatus: Int, sentValue: String? = null): Data {
