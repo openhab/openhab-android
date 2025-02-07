@@ -374,11 +374,10 @@ class WidgetAdapter(
             Widget.Type.Group -> TYPE_GROUP
             Widget.Type.Switch -> when {
                 widget.shouldRenderAsPlayer() -> TYPE_PLAYER
-                widget.mappingsOrItemOptions.size in 1..2 && !compactMode -> TYPE_SECTIONSWITCH_SMALL
-                widget.mappings.isNotEmpty() -> TYPE_SECTIONSWITCH
+                widget.mappings.isNotEmpty() -> determineSectionSwitchType(widget.mappings)
                 widget.item?.isOfTypeOrGroupType(Item.Type.Switch) == true -> TYPE_SWITCH
                 widget.item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> TYPE_ROLLERSHUTTER
-                widget.mappingsOrItemOptions.isNotEmpty() -> TYPE_SECTIONSWITCH
+                widget.mappingsOrItemOptions.isNotEmpty() -> determineSectionSwitchType(widget.mappingsOrItemOptions)
                 else -> TYPE_SWITCH
             }
             Widget.Type.Text -> TYPE_TEXT
@@ -402,6 +401,9 @@ class WidgetAdapter(
         }
         return toInternalViewType(actualViewType, compactMode)
     }
+
+    private fun determineSectionSwitchType(mappings: List<LabeledValue>) =
+        if (mappings.size in 1..2 && !compactMode) TYPE_SECTIONSWITCH_SMALL else TYPE_SECTIONSWITCH
 
     data class ViewHolderInitData(
         val inflater: LayoutInflater,
