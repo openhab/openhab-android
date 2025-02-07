@@ -100,6 +100,8 @@ data class Widget(
         return InputTypeHint.Text
     }
 
+    val readOnly get() = item?.readOnly == true
+
     private val configuredMinValue get() = when {
         rawMinValue != null -> rawMinValue
         item?.minimum != null && item.type != Item.Type.Dimmer -> item.minimum

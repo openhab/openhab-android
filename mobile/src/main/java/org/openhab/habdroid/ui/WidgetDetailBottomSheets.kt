@@ -162,6 +162,7 @@ class SelectionBottomSheet : AbstractWidgetBottomSheet() {
                 connection?.httpClient?.sendItemCommand(widget.item, mapping.value)
                 dismissAllowingStateLoss()
             }
+            radio.isEnabled = !widget.readOnly
             group.addView(radio)
         }
 
