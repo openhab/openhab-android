@@ -112,7 +112,8 @@ class DayDream : DreamService(), CoroutineScope {
         textView.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Html.fromHtml(text.replace("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT)
         } else {
-            text
+            @Suppress("DEPRECATION")
+            Html.fromHtml(text.replace("\n", "<br>"))
         }
         moveTextIfRequired()
     }
