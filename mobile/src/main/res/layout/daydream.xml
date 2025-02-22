@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingTop="64dp"
+            android:gravity="center"
             android:fontFamily="sans-serif-light"
             android:textAppearance="@style/TextAppearance.Material3.DisplayMedium"
             tools:text="Temperature: 19 °C" />
