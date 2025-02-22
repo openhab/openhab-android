@@ -132,6 +132,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             }
             Intent.ACTION_BOOT_COMPLETED -> {
                 Log.d(TAG, "Boot completed")
+                WorkManager.getInstance(context).cancelAllWorkByTag(WORKER_TAG_ITEM_UPLOADS)
                 KNOWN_KEYS.forEach { key -> scheduleWorker(context, key, true) }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     for (tileId in 1..AbstractTileService.TILE_COUNT) {
