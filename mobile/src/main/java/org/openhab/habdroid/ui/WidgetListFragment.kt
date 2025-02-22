@@ -605,13 +605,14 @@ class WidgetListFragment :
                 null
             }
 
-            val icon = if (iconBitmap != null) {
+            val bitmapConfig = iconBitmap?.config
+            val icon = if (bitmapConfig != null) {
                 val borderSize = activity.resources.dpToPixel(31F)
                 val totalFrameWidth = (borderSize * 2).toInt()
                 val bitmapWithBackground = Bitmap.createBitmap(
                     iconBitmap.width + totalFrameWidth,
                     iconBitmap.height + totalFrameWidth,
-                    iconBitmap.config
+                    bitmapConfig
                 )
                 with(Canvas(bitmapWithBackground)) {
                     drawColor(if (whiteBackground) Color.WHITE else Color.DKGRAY)
