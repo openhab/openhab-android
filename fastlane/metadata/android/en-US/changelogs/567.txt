@@ -1,0 +1,7 @@
+## What's Changed
+* Fix switch vs. section switch choice logic by @maniac103 in https://github.com/openhab/openhab-android/pull/3858
+* Format screensaver item as html by @mueller-ma in https://github.com/openhab/openhab-android/pull/3853
+* Section switch: Don't display a value text field when a switch is checked by @mueller-ma in https://github.com/openhab/openhab-android/pull/3847
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.17.2-release...3.17.3-beta
