@@ -139,6 +139,7 @@
     <string name="device_control_hint">Abhängig von Ihrer Android-Version befinden sich diese Kacheln im Menü der Power-Taste oder neben den Schnelleinstellungen</string>
     <string name="screensaver">Bildschirmschoner</string>
     <string name="screensaver_item">Angezeigtes Item</string>
+    <string name="screensaver_html_hint"><![CDATA[Eine kleine Auswahl von HTML kann verwendet werden, um das Aussehen des Item-Wertes zu kontrollieren, wie z. B. <small>.]]></string>
     <string name="screensaver_bright_screen">Heller Bildschirm</string>
     <string name="screensaver_error_loading_item">Fehler beim Laden des Items \"%s\"</string>
     <!-- App messages strings -->
@@ -311,6 +312,8 @@
     <string name="notification_channel_messages_default_severity">Standard</string>
     <string name="notification_channel_messages_default_severity_description">Vom Server gesendete Benachrichtigungen ohne definierte Wichtigkeit</string>
     <string name="notification_channel_group_messages">Nachrichten</string>
+    <string name="notification_channel_severity_value">Tag \'%1$s \' \'</string>
+    <string name="notification_channel_severity_value_description">Vom Server gesendete Benachrichtigungen mit Tag \'%1$s\'</string>
     <plurals name="summary_notification_text">
         <item quantity="one">%d neue Benachrichtigung</item>
         <item quantity="other">%d neue Benachrichtigungen</item>
