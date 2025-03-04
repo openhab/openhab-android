@@ -185,17 +185,13 @@ abstract class AbstractItemPickerActivity :
         // no-op
     }
 
-    protected open fun inflateToolbarExtension(stub: ViewStub): View? {
-        return null
-    }
+    protected open fun inflateToolbarExtension(stub: ViewStub): View? = null
 
     override fun onRefresh() {
         loadItems()
     }
 
-    override fun onQueryTextSubmit(query: String): Boolean {
-        return false
-    }
+    override fun onQueryTextSubmit(query: String): Boolean = false
 
     override fun onQueryTextChange(newText: String): Boolean {
         itemPickerAdapter.filter(newText)
@@ -308,7 +304,9 @@ abstract class AbstractItemPickerActivity :
         private val TAG = AbstractItemPickerActivity::class.java.simpleName
     }
 
-    class CommandChooserBottomSheet : BottomSheetDialogFragment(), TextWatcher {
+    class CommandChooserBottomSheet :
+        BottomSheetDialogFragment(),
+        TextWatcher {
         private val item get() = requireArguments().parcelable<Item>("item")!!
         private val entries get() = requireArguments().parcelableArrayList<CommandEntry>("entries")!!
         private val showCustom get() = requireArguments().getBoolean("show_custom")

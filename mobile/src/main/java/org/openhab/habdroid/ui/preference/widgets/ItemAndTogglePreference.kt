@@ -80,13 +80,9 @@ open class ItemAndTogglePreference(context: Context, attrs: AttributeSet?) :
         updateSummaryAndIcon()
     }
 
-    override fun onGetDefaultValue(a: TypedArray, index: Int): Any? {
-        return a.getString(index).toItemUpdatePrefValue()
-    }
+    override fun onGetDefaultValue(a: TypedArray, index: Int): Any? = a.getString(index).toItemUpdatePrefValue()
 
-    override fun createDialog(): DialogFragment {
-        return PrefDialogFragment.newInstance(key)
-    }
+    override fun createDialog(): DialogFragment = PrefDialogFragment.newInstance(key)
 
     fun setValue(checked: Boolean = this.value?.first ?: false, value: String = this.value?.second.orEmpty()) {
         val newValue = Pair(checked, value)
@@ -110,7 +106,10 @@ open class ItemAndTogglePreference(context: Context, attrs: AttributeSet?) :
         setSummary(summary.orEmpty().format(value.second))
     }
 
-    class PrefDialogFragment : PreferenceDialogFragmentCompat(), CompoundButton.OnCheckedChangeListener, TextWatcher {
+    class PrefDialogFragment :
+        PreferenceDialogFragmentCompat(),
+        CompoundButton.OnCheckedChangeListener,
+        TextWatcher {
         private lateinit var helpIcon: ImageView
         private lateinit var switch: MaterialSwitch
         private lateinit var editorWrapper: TextInputLayout
@@ -140,7 +139,8 @@ open class ItemAndTogglePreference(context: Context, attrs: AttributeSet?) :
 
             val requiredPermissions = BackgroundTasksManager.getRequiredPermissionsForTask(pref.key)
             permissionHint.isVisible =
-                requiredPermissions != null && context.hasPermissions(requiredPermissions) == false
+                requiredPermissions != null &&
+                context.hasPermissions(requiredPermissions) == false
 
             val label = v.findViewById<TextView>(R.id.enabledLabel)
             label.text = pref.title
@@ -195,7 +195,8 @@ open class ItemAndTogglePreference(context: Context, attrs: AttributeSet?) :
             val dialog = this.dialog
             if (dialog is AlertDialog) {
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled =
-                    !editor.isEnabled || editorWrapper.error == null
+                    !editor.isEnabled ||
+                    editorWrapper.error == null
             }
         }
 

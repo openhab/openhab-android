@@ -132,15 +132,13 @@ fun GoogleMap.setMarker(position: LatLng, item: Item, label: CharSequence?, canD
     addMarker(marker)?.tag = item
 }
 
-fun Location.toLatLng(): LatLng {
-    return LatLng(latitude, longitude)
-}
+fun Location.toLatLng() = LatLng(latitude, longitude)
 
-fun Location.toMapsUrl(): String {
-    return "https://www.google.de/maps/@$latitude,$longitude,16z"
-}
+fun Location.toMapsUrl() = "https://www.google.de/maps/@$latitude,$longitude,16z"
 
-class MapBottomSheet : AbstractWidgetBottomSheet(), GoogleMap.OnMarkerDragListener {
+class MapBottomSheet :
+    AbstractWidgetBottomSheet(),
+    GoogleMap.OnMarkerDragListener {
     private lateinit var mapView: MapView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

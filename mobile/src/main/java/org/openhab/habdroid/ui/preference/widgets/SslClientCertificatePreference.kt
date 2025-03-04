@@ -38,7 +38,8 @@ import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.setupHelpIcon
 
 class SslClientCertificatePreference(context: Context, attrs: AttributeSet) :
-    Preference(context, attrs), CoroutineScope by CoroutineScope(Dispatchers.Main) {
+    Preference(context, attrs),
+    CoroutineScope by CoroutineScope(Dispatchers.Main) {
     private var currentAlias: String? = null
     private var helpIcon: ImageView? = null
 

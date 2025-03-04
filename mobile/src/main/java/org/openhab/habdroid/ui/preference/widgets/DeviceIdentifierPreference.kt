@@ -50,9 +50,7 @@ class DeviceIdentifierPreference(context: Context, attrs: AttributeSet) :
         updateSummary()
     }
 
-    override fun getDialogLayoutResource(): Int {
-        return R.layout.pref_dialog_device_identifier
-    }
+    override fun getDialogLayoutResource(): Int = R.layout.pref_dialog_device_identifier
 
     private fun updateSummary() {
         summary = if (value.isNullOrEmpty()) {
@@ -72,11 +70,11 @@ class DeviceIdentifierPreference(context: Context, attrs: AttributeSet) :
         }
     }
 
-    override fun createDialog(): DialogFragment {
-        return PrefFragment.newInstance(key, title)
-    }
+    override fun createDialog(): DialogFragment = PrefFragment.newInstance(key, title)
 
-    class PrefFragment : PreferenceDialogFragmentCompat(), TextWatcher {
+    class PrefFragment :
+        PreferenceDialogFragmentCompat(),
+        TextWatcher {
         private lateinit var editorWrapper: TextInputLayout
         private lateinit var editor: EditText
         private lateinit var voiceButton: MaterialSwitch
@@ -148,7 +146,8 @@ class DeviceIdentifierPreference(context: Context, attrs: AttributeSet) :
             val dialog = this.dialog
             if (dialog is AlertDialog) {
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled =
-                    !editor.isEnabled || editorWrapper.error == null
+                    !editor.isEnabled ||
+                    editorWrapper.error == null
             }
         }
 

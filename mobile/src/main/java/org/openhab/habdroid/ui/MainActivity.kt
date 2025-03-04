@@ -150,7 +150,9 @@ import org.openhab.habdroid.util.registerExportedReceiver
 import org.openhab.habdroid.util.resolveThemedColor
 import org.openhab.habdroid.util.updateDefaultSitemap
 
-class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
+class MainActivity :
+    AbstractBaseActivity(),
+    ConnectionFactory.UpdateListener {
     private lateinit var prefs: SharedPreferences
     private val onBackPressedCallback = MainOnBackPressedCallback()
     private var serviceResolveJob: Job? = null
@@ -413,7 +415,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         CrashReportingHelper.d(TAG, "onPrepareOptionsMenu()")
         menu.findItem(R.id.mainmenu_voice_recognition).isVisible =
-            connection != null && SpeechRecognizer.isRecognitionAvailable(this)
+            connection != null &&
+            SpeechRecognizer.isRecognitionAvailable(this)
         val debugItems = listOf(
             R.id.mainmenu_debug_crash,
             R.id.mainmenu_debug_clear_mtm,
@@ -771,9 +774,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         queryServerProperties()
     }
 
-    override fun doesLockModeRequirePrompt(mode: ScreenLockMode): Boolean {
-        return mode == ScreenLockMode.Enabled
-    }
+    override fun doesLockModeRequirePrompt(mode: ScreenLockMode): Boolean = mode == ScreenLockMode.Enabled
 
     private fun queryServerProperties() {
         propsRequestJob?.cancel()
@@ -1225,7 +1226,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
         action is PendingAction.OpenSitemapUrl && isStarted && serverProperties != null -> {
             executeActionForServer(action.serverId) { buildUrlAndOpenSitemap(action.url) }
         }
-        action is PendingAction.OpenWebViewUi && isStarted &&
+        action is PendingAction.OpenWebViewUi &&
+            isStarted &&
             serverProperties?.hasWebViewUiInstalled(action.ui) == true -> {
             executeActionForServer(action.serverId) { openWebViewUi(action.ui, true, action.subpage) }
         }
@@ -1464,7 +1466,8 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
             .filter { entry ->
                 val requiredPermissions = BackgroundTasksManager.getRequiredPermissionsForTask(entry)
                 prefs.getStringOrNull(entry)?.toItemUpdatePrefValue()?.first == true &&
-                    requiredPermissions != null && !hasPermissions(requiredPermissions)
+                    requiredPermissions != null &&
+                    !hasPermissions(requiredPermissions)
             }
             .mapNotNull { entry -> BackgroundTasksManager.getRequiredPermissionsForTask(entry)?.toList() }
             .flatten()

@@ -22,8 +22,7 @@ import androidx.preference.PreferenceViewHolder
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.setupHelpIcon
 
-class InfoPreference(context: Context, attrs: AttributeSet) :
-    Preference(context, attrs) {
+class InfoPreference(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
     private var helpIcon: ImageView? = null
     private val infoUrl: String?
 

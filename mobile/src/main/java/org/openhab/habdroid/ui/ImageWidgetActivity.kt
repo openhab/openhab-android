@@ -172,9 +172,7 @@ class ImageWidgetActivity : AbstractBaseActivity() {
         }
     }
 
-    override fun doesLockModeRequirePrompt(mode: ScreenLockMode): Boolean {
-        return mode == ScreenLockMode.Enabled
-    }
+    override fun doesLockModeRequirePrompt(mode: ScreenLockMode): Boolean = mode == ScreenLockMode.Enabled
 
     companion object {
         private val TAG = ImageWidgetActivity::class.java.simpleName

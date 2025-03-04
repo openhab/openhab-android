@@ -49,4 +49,4 @@ class RetryRule : TestRule {
 
 @Target(AnnotationTarget.FUNCTION)
 @kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
-annotation class Retry()
+annotation class Retry

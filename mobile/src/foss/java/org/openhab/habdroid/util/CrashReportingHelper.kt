@@ -57,9 +57,7 @@ object CrashReportingHelper {
         ACRA.init(app, builder)
     }
 
-    fun isCrashReporterProcess(): Boolean {
-        return ACRA.isACRASenderServiceProcess()
-    }
+    fun isCrashReporterProcess() = ACRA.isACRASenderServiceProcess()
 
     fun canBeDisabledByUser() = false
 

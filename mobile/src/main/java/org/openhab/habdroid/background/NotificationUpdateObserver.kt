@@ -256,14 +256,13 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
             }
         }
 
-        private fun createProgressNotification(context: Context, @StringRes messageResId: Int): Notification {
-            return createBaseBuilder(context, CHANNEL_ID_BACKGROUND)
+        private fun createProgressNotification(context: Context, @StringRes messageResId: Int) =
+            createBaseBuilder(context, CHANNEL_ID_BACKGROUND)
                 .setContentTitle(context.getString(messageResId))
                 .setCategory(NotificationCompat.CATEGORY_PROGRESS)
                 .setOngoing(true)
                 .setPriority(NotificationCompat.PRIORITY_MIN)
                 .build()
-        }
 
         private fun createErrorNotification(
             context: Context,

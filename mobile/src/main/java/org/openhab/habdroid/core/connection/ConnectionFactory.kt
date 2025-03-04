@@ -70,7 +70,8 @@ class ConnectionFactory internal constructor(
     private val prefs: SharedPreferences,
     private val secretPrefs: SharedPreferences,
     private val connectionHelper: ConnectionManagerHelper
-) : CoroutineScope by CoroutineScope(Dispatchers.Main), SharedPreferences.OnSharedPreferenceChangeListener {
+) : CoroutineScope by CoroutineScope(Dispatchers.Main),
+    SharedPreferences.OnSharedPreferenceChangeListener {
     private val trustManager: MemorizingTrustManager
     private val httpLogger: HttpLoggingInterceptor
     private var httpClient: OkHttpClient
@@ -87,20 +88,11 @@ class ConnectionFactory internal constructor(
     private var activeCloudCheck: Job? = null
     private var primaryCloudCheck: Job? = null
 
-    private data class ServerConnections(
-        val local: Connection?,
-        val remote: AbstractConnection?
-    )
+    private data class ServerConnections(val local: Connection?, val remote: AbstractConnection?)
 
-    data class ConnectionResult(
-        val connection: Connection?,
-        val failureReason: ConnectionException?
-    )
+    data class ConnectionResult(val connection: Connection?, val failureReason: ConnectionException?)
 
-    data class CloudConnectionResult(
-        val connection: CloudConnection?,
-        val failureReason: Exception?
-    )
+    data class CloudConnectionResult(val connection: CloudConnection?, val failureReason: Exception?)
 
     private data class StateHolder(
         val primary: ConnectionResult?,

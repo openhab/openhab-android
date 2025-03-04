@@ -204,9 +204,7 @@ fun Int.toColoredRoundedRect(context: Context) = MaterialShapeDrawable.createWit
  * @return A float value to represent px equivalent to dp depending on device density
  * @author https://stackoverflow.com/a/9563438
  */
-fun Resources.dpToPixel(dp: Float): Float {
-    return dp * displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT
-}
+fun Resources.dpToPixel(dp: Float): Float = dp * displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT
 
 enum class ImageConversionPolicy {
     PreferSourceSize,
@@ -242,83 +240,79 @@ fun ResponseBody.toBitmap(
     return byteStream().svgToBitmap(targetSize, fallbackColor, conversionPolicy)
 }
 
-fun MediaType?.isSvg(): Boolean {
-    return this != null && this.type == "image" && this.subtype.contains("svg")
-}
+fun MediaType?.isSvg(): Boolean = this != null && this.type == "image" && this.subtype.contains("svg")
 
 @Throws(IOException::class)
 fun InputStream.svgToBitmap(
     targetSize: Int,
     @ColorInt fallbackColor: Int,
     conversionPolicy: ImageConversionPolicy
-): Bitmap {
-    return try {
-        val svg = SVG.getFromInputStream(this)
-        val displayMetrics = Resources.getSystem().displayMetrics
-        var density: Float? = displayMetrics.density
-        val targetSizeFloat = targetSize.toFloat()
+): Bitmap = try {
+    val svg = SVG.getFromInputStream(this)
+    val displayMetrics = Resources.getSystem().displayMetrics
+    var density: Float? = displayMetrics.density
+    val targetSizeFloat = targetSize.toFloat()
 
-        if (svg.documentViewBox == null && svg.documentWidth > 0 && svg.documentHeight > 0) {
-            svg.setDocumentViewBox(0F, 0F, svg.documentWidth, svg.documentHeight)
-        }
-        if (conversionPolicy == ImageConversionPolicy.ForceTargetSize ||
-            (conversionPolicy == ImageConversionPolicy.PreferTargetSize && svg.documentViewBox != null)
-        ) {
-            svg.setDocumentWidth("100%")
-            svg.setDocumentHeight("100%")
-        }
+    if (svg.documentViewBox == null && svg.documentWidth > 0 && svg.documentHeight > 0) {
+        svg.setDocumentViewBox(0F, 0F, svg.documentWidth, svg.documentHeight)
+    }
+    if (conversionPolicy == ImageConversionPolicy.ForceTargetSize ||
+        (conversionPolicy == ImageConversionPolicy.PreferTargetSize && svg.documentViewBox != null)
+    ) {
+        svg.setDocumentWidth("100%")
+        svg.setDocumentHeight("100%")
+    }
 
-        svg.renderDPI = DisplayMetrics.DENSITY_DEFAULT.toFloat()
-        var docWidth = svg.documentWidth * displayMetrics.density
-        var docHeight = svg.documentHeight * displayMetrics.density
+    svg.renderDPI = DisplayMetrics.DENSITY_DEFAULT.toFloat()
+    var docWidth = svg.documentWidth * displayMetrics.density
+    var docHeight = svg.documentHeight * displayMetrics.density
 
-        if (docWidth < 0 || docHeight < 0) {
-            val aspectRatio = svg.documentAspectRatio
-            if (aspectRatio > 0) {
-                val heightForAspect = targetSizeFloat / aspectRatio
-                val widthForAspect = targetSizeFloat * aspectRatio
-                if (widthForAspect < heightForAspect) {
-                    docWidth = widthForAspect
-                    docHeight = targetSizeFloat
-                } else {
-                    docWidth = targetSizeFloat
-                    docHeight = heightForAspect
-                }
+    if (docWidth < 0 || docHeight < 0) {
+        val aspectRatio = svg.documentAspectRatio
+        if (aspectRatio > 0) {
+            val heightForAspect = targetSizeFloat / aspectRatio
+            val widthForAspect = targetSizeFloat * aspectRatio
+            if (widthForAspect < heightForAspect) {
+                docWidth = widthForAspect
+                docHeight = targetSizeFloat
             } else {
                 docWidth = targetSizeFloat
-                docHeight = targetSizeFloat
+                docHeight = heightForAspect
             }
-
-            // we didn't take density into account anymore when calculating docWidth
-            // and docHeight, so don't scale with it and just let the renderer
-            // figure out the scaling
-            density = null
+        } else {
+            docWidth = targetSizeFloat
+            docHeight = targetSizeFloat
         }
 
-        if (docWidth > targetSizeFloat || docHeight > targetSizeFloat) {
-            val widthScaler = max(1F, docWidth / targetSizeFloat)
-            val heightScaler = max(1F, docHeight / targetSizeFloat)
-            val scaler = max(widthScaler, heightScaler)
-            docWidth /= scaler
-            docHeight /= scaler
-            if (density != null) {
-                density /= scaler
-            }
-        }
-
-        val bitmap = Bitmap.createBitmap(round(docWidth).toInt(), round(docHeight).toInt(), Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        if (density != null) {
-            canvas.scale(density, density)
-        }
-
-        val options = RenderOptions()
-        options.css(" * { color: ${String.format("#%06X", 0xFFFFFF and fallbackColor)}; }")
-        svg.renderToCanvas(canvas, options)
-        bitmap
-    } catch (e: Exception) {
-        throw IOException("SVG decoding failed", e)
+        // we didn't take density into account anymore when calculating docWidth
+        // and docHeight, so don't scale with it and just let the renderer
+        // figure out the scaling
+        density = null
     }
+
+    if (docWidth > targetSizeFloat || docHeight > targetSizeFloat) {
+        val widthScaler = max(1F, docWidth / targetSizeFloat)
+        val heightScaler = max(1F, docHeight / targetSizeFloat)
+        val scaler = max(widthScaler, heightScaler)
+        docWidth /= scaler
+        docHeight /= scaler
+        if (density != null) {
+            density /= scaler
+        }
+    }
+
+    val bitmap = Bitmap.createBitmap(round(docWidth).toInt(), round(docHeight).toInt(), Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+    if (density != null) {
+        canvas.scale(density, density)
+    }
+
+    val options = RenderOptions()
+    options.css(" * { color: ${String.format("#%06X", 0xFFFFFF and fallbackColor)}; }")
+    svg.renderToCanvas(canvas, options)
+    bitmap
+} catch (e: Exception) {
+    throw IOException("SVG decoding failed", e)
 }
 
 fun NodeList.forEach(action: (Node) -> Unit) = (0 until length).forEach { index -> action(item(index)) }
@@ -326,37 +320,25 @@ fun NodeList.forEach(action: (Node) -> Unit) = (0 until length).forEach { index 
 fun JSONArray.forEach(action: (JSONObject) -> Unit) =
     (0 until length()).forEach { index -> action(getJSONObject(index)) }
 
-inline fun <T> JSONArray.map(transform: (JSONObject) -> T): List<T> {
-    return (0 until length()).map { index -> transform(getJSONObject(index)) }
+inline fun <T> JSONArray.map(transform: (JSONObject) -> T): List<T> = (0 until length()).map { index ->
+    transform(getJSONObject(index))
 }
 
-inline fun <T> JSONArray.mapString(transform: (String) -> T): List<T> {
-    return (0 until length()).map { index -> transform(getString(index)) }
+inline fun <T> JSONArray.mapString(transform: (String) -> T): List<T> = (0 until length()).map { index ->
+    transform(getString(index))
 }
 
-fun JSONObject.optDoubleOrNull(key: String): Double? {
-    return if (has(key)) getDouble(key) else null
-}
+fun JSONObject.optDoubleOrNull(key: String): Double? = if (has(key)) getDouble(key) else null
 
-fun JSONObject.optFloatOrNull(key: String): Float? {
-    return if (has(key)) getDouble(key).toFloat() else null
-}
+fun JSONObject.optFloatOrNull(key: String): Float? = if (has(key)) getDouble(key).toFloat() else null
 
-fun JSONObject.optIntOrNull(key: String): Int? {
-    return if (has(key)) getInt(key) else null
-}
+fun JSONObject.optIntOrNull(key: String): Int? = if (has(key)) getInt(key) else null
 
-fun JSONObject.optBooleanOrNull(key: String): Boolean? {
-    return if (has(key)) getBoolean(key) else null
-}
+fun JSONObject.optBooleanOrNull(key: String): Boolean? = if (has(key)) getBoolean(key) else null
 
-fun JSONObject.optStringOrNull(key: String): String? {
-    return optStringOrFallback(key, null)
-}
+fun JSONObject.optStringOrNull(key: String): String? = optStringOrFallback(key, null)
 
-fun JSONObject.optStringOrFallback(key: String, fallback: String?): String? {
-    return if (has(key)) getString(key) else fallback
-}
+fun JSONObject.optStringOrFallback(key: String, fallback: String?): String? = if (has(key)) getString(key) else fallback
 
 fun String.toJsonArrayOrNull() = try {
     JSONArray(this)
@@ -364,13 +346,9 @@ fun String.toJsonArrayOrNull() = try {
     null
 }
 
-fun Context.getPrefs(): SharedPreferences {
-    return PreferenceManager.getDefaultSharedPreferences(this)
-}
+fun Context.getPrefs(): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
-fun Context.getSecretPrefs(): SharedPreferences {
-    return (applicationContext as OpenHabApplication).secretPrefs
-}
+fun Context.getSecretPrefs(): SharedPreferences = (applicationContext as OpenHabApplication).secretPrefs
 
 /**
  * Shows an Toast and can be called from the background.
@@ -392,8 +370,8 @@ fun Context.hasPermissions(permissions: Array<String>) = permissions.firstOrNull
     ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
 } == null
 
-fun Context.getHumanReadableErrorMessage(url: String, httpCode: Int, error: Throwable?, short: Boolean): CharSequence {
-    return if (error.hasCause(UnknownHostException::class.java)) {
+fun Context.getHumanReadableErrorMessage(url: String, httpCode: Int, error: Throwable?, short: Boolean): CharSequence =
+    if (error.hasCause(UnknownHostException::class.java)) {
         getString(
             if (short) R.string.error_short_unable_to_resolve_hostname else R.string.error_unable_to_resolve_hostname
         )
@@ -444,7 +422,6 @@ fun Context.getHumanReadableErrorMessage(url: String, httpCode: Int, error: Thro
         error.let { Log.e(TAG, "REST call to $url failed", it) }
         getString(if (short) R.string.error_short_unknown else R.string.error_unknown, error?.localizedMessage)
     }
-}
 
 fun Context.openInAppStore(app: String) {
     val intent = Intent(Intent.ACTION_VIEW, "market://details?id=$app".toUri())
@@ -500,9 +477,8 @@ fun Context.determineDataUsagePolicy(conn: Connection? = null): DataUsagePolicy 
 }
 
 @ColorInt
-fun Context.resolveThemedColor(@AttrRes colorAttr: Int, @ColorInt fallbackColor: Int = 0): Int {
-    return MaterialColors.getColor(this, colorAttr, fallbackColor)
-}
+fun Context.resolveThemedColor(@AttrRes colorAttr: Int, @ColorInt fallbackColor: Int = 0): Int =
+    MaterialColors.getColor(this, colorAttr, fallbackColor)
 
 @ColorRes
 fun Context.resolveThemedColorToResource(@AttrRes colorAttr: Int, @ColorRes fallbackColorRes: Int = 0): Int {
@@ -521,14 +497,12 @@ fun Context.getChartTheme(serverFlags: Int): CharSequence {
     return tv.string
 }
 
-fun Context.isDarkModeActive(): Boolean {
-    return when (getPrefs().getDayNightMode(this)) {
-        AppCompatDelegate.MODE_NIGHT_NO -> false
-        AppCompatDelegate.MODE_NIGHT_YES -> true
-        else -> {
-            val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-            currentNightMode != Configuration.UI_MODE_NIGHT_NO
-        }
+fun Context.isDarkModeActive(): Boolean = when (getPrefs().getDayNightMode(this)) {
+    AppCompatDelegate.MODE_NIGHT_NO -> false
+    AppCompatDelegate.MODE_NIGHT_YES -> true
+    else -> {
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        currentNightMode != Configuration.UI_MODE_NIGHT_NO
     }
 }
 
@@ -594,12 +568,10 @@ fun Context.getCurrentWifiSsid(attributionTag: String): String? {
     }
 }
 
-fun Context.withAttribution(tag: String): Context {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        createAttributionContext(tag)
-    } else {
-        this
-    }
+fun Context.withAttribution(tag: String): Context = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+    createAttributionContext(tag)
+} else {
+    this
 }
 
 fun Context.getWifiManager(attributionTag: String): WifiManager {
@@ -621,13 +593,10 @@ fun Socket.bindToNetworkIfPossible(network: Network?) {
     }
 }
 
-fun Uri.Builder.appendQueryParameter(key: String, value: Int): Uri.Builder {
-    return appendQueryParameter(key, value.toString())
-}
+fun Uri.Builder.appendQueryParameter(key: String, value: Int): Uri.Builder = appendQueryParameter(key, value.toString())
 
-fun Uri.Builder.appendQueryParameter(key: String, value: Boolean): Uri.Builder {
-    return appendQueryParameter(key, value.toString())
-}
+fun Uri.Builder.appendQueryParameter(key: String, value: Boolean): Uri.Builder =
+    appendQueryParameter(key, value.toString())
 
 fun ServiceInfo.addToPrefs(context: Context) {
     val address = hostAddresses[0]
@@ -654,24 +623,20 @@ fun ServiceInfo.addToPrefs(context: Context) {
  */
 fun Float.beautify() = if (this == this.toInt().toFloat()) this.toInt().toString() else this.toString()
 
-fun Menu.getGroupItems(groupId: Int): List<MenuItem> {
-    return (0 until size())
-        .map { index -> getItem(index) }
-        .filter { item -> item.groupId == groupId }
-}
+fun Menu.getGroupItems(groupId: Int): List<MenuItem> = (0 until size())
+    .map { index -> getItem(index) }
+    .filter { item -> item.groupId == groupId }
 
-fun PackageManager.isInstalled(app: String): Boolean {
-    return try {
-        // Some devices return `null` for getApplicationInfo()
-        @Suppress("UNNECESSARY_SAFE_CALL")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            getApplicationInfo(app, PackageManager.ApplicationInfoFlags.of(0))?.enabled == true
-        } else {
-            getApplicationInfo(app, 0)?.enabled == true
-        }
-    } catch (e: PackageManager.NameNotFoundException) {
-        false
+fun PackageManager.isInstalled(app: String): Boolean = try {
+    // Some devices return `null` for getApplicationInfo()
+    @Suppress("UNNECESSARY_SAFE_CALL")
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        getApplicationInfo(app, PackageManager.ApplicationInfoFlags.of(0))?.enabled == true
+    } else {
+        getApplicationInfo(app, 0)?.enabled == true
     }
+} catch (e: PackageManager.NameNotFoundException) {
+    false
 }
 
 val PendingIntent_Immutable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -687,13 +652,12 @@ val PendingIntent_Mutable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) 
 }
 
 @SuppressLint("UnspecifiedRegisterReceiverFlag")
-fun Context.registerExportedReceiver(receiver: BroadcastReceiver?, intentFilter: IntentFilter): Intent? {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+fun Context.registerExportedReceiver(receiver: BroadcastReceiver?, intentFilter: IntentFilter): Intent? =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         registerReceiver(receiver, intentFilter, Context.RECEIVER_EXPORTED)
     } else {
         registerReceiver(receiver, intentFilter)
     }
-}
 
 inline fun <reified T> Intent.parcelable(key: String): T? {
     setExtrasClassLoader(T::class.java.classLoader)

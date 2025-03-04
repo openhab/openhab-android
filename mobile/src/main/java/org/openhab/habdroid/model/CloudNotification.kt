@@ -38,10 +38,7 @@ import org.openhab.habdroid.util.optStringOrNull
 
 @Parcelize
 @ConsistentCopyVisibility
-data class CloudNotificationId internal constructor(
-    val persistedId: String,
-    val referenceId: String?
-) : Parcelable {
+data class CloudNotificationId internal constructor(val persistedId: String, val referenceId: String?) : Parcelable {
     val notificationId get() = (referenceId ?: persistedId).hashCode()
 }
 
@@ -101,10 +98,7 @@ sealed class CloudMessage : Parcelable {
     }
 
     @Parcelize
-    data class CloudHideNotificationRequest(
-        override val id: CloudNotificationId,
-        val tag: String?
-    ) : CloudMessage()
+    data class CloudHideNotificationRequest(override val id: CloudNotificationId, val tag: String?) : CloudMessage()
 
     companion object {
         val TAG = CloudNotification::class.java.simpleName
@@ -156,10 +150,8 @@ fun JSONObject.toCloudMessage(): CloudMessage? {
 
 @Parcelize
 @ConsistentCopyVisibility
-data class CloudNotificationAction internal constructor(
-    val label: String,
-    private val internalAction: String
-) : Parcelable {
+data class CloudNotificationAction internal constructor(val label: String, private val internalAction: String) :
+    Parcelable {
     sealed class Action {
         data class UrlAction(val url: String) : Action()
         data class ItemCommandAction(val itemName: String, val command: String) : Action()

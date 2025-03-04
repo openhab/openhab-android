@@ -61,29 +61,27 @@ interface ConnectionManagerHelper {
 
         class Wifi(network: Network, caps: NetworkCapabilities) : ConnectionType(network, caps)
 
-        override fun toString(): String {
-            return "ConnectionType(type = ${javaClass.simpleName}, network=$network)"
-        }
+        override fun toString() = "ConnectionType(type = ${javaClass.simpleName}, network=$network)"
     }
 
     companion object {
-        fun create(context: Context): ConnectionManagerHelper {
-            return when (Build.VERSION.SDK_INT) {
-                in 21..25 -> HelperApi21(context)
-                else -> HelperApi26(context)
-            }
+        fun create(context: Context): ConnectionManagerHelper = when (Build.VERSION.SDK_INT) {
+            in 21..25 -> HelperApi21(context)
+            else -> HelperApi26(context)
         }
     }
 
     private class HelperApi21(context: Context) :
-        ConnectionManagerHelper, ChangeCallbackHelperApi21(context) {
+        ChangeCallbackHelperApi21(context),
+        ConnectionManagerHelper {
         private val typeHelper = NetworkTypeHelper(context)
         override val currentConnections: List<ConnectionType> get() = typeHelper.currentConnections
     }
 
     @TargetApi(26)
     private class HelperApi26(context: Context) :
-        ConnectionManagerHelper, ChangeCallbackHelperApi26(context) {
+        ChangeCallbackHelperApi26(context),
+        ConnectionManagerHelper {
         private val typeHelper = NetworkTypeHelper(context)
         override val currentConnections: List<ConnectionType> get() = typeHelper.currentConnections
     }
