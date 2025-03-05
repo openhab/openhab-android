@@ -318,6 +318,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener {
 
         updateDrawerServerEntries()
         onActiveConnectionChanged()
+        // Make sure the connection to be used is up-to-data. There can be scenarios where the current connection
+        // is e.g. a remote one just because the local server lookup timed out for whatever reason when we were last
+        // started, and the user might have done changes to fix those timeouts since that time.
+        ConnectionFactory.restartNetworkCheck()
 
         if (connection != null && serverProperties == null) {
             controller.clearServerCommunicationFailure()

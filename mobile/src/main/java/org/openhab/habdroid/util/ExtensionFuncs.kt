@@ -585,12 +585,19 @@ fun Activity.applyUserSelectedTheme() {
     }
 }
 
+fun String.extractWifiSsid(): String? {
+    if (this == WifiManager.UNKNOWN_SSID) {
+        return null
+    }
+    return this.removeSurrounding("\"")
+}
+
 fun Context.getCurrentWifiSsid(attributionTag: String): String? {
     val wifiManager = getWifiManager(attributionTag)
     // TODO: Replace deprecated function
     @Suppress("DEPRECATION")
     return wifiManager.connectionInfo.let { info ->
-        if (info.networkId == -1) null else info.ssid.removeSurrounding("\"")
+        if (info.networkId == -1) null else info.ssid.extractWifiSsid()
     }
 }
 
