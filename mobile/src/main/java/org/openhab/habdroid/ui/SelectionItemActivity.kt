@@ -49,11 +49,12 @@ class SelectionItemActivity : AbstractBaseActivity() {
         selectionList.adapter = SelectionAdapter(this, boundItem)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if (item.itemId == android.R.id.home) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        android.R.id.home -> {
             finish()
             true
-        } else {
+        }
+        else -> {
             super.onOptionsItemSelected(item)
         }
     }
@@ -69,17 +70,14 @@ class SelectionAdapter(context: Context, val item: Item) : RecyclerView.Adapter<
     private val inflater = LayoutInflater.from(context)
     private var itemState = item.state?.asString
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return SelectionViewHolder(inflater, parent, item)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+        SelectionViewHolder(inflater, parent, item)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as SelectionViewHolder).bind(item.options!![position])
     }
 
-    override fun getItemCount(): Int {
-        return item.options?.size ?: -1
-    }
+    override fun getItemCount(): Int = item.options?.size ?: -1
 
     class SelectionViewHolder(inflater: LayoutInflater, parent: ViewGroup, val item: Item) :
         RecyclerView.ViewHolder(inflater.inflate(R.layout.selection_item, parent, false)) {

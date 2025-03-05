@@ -159,14 +159,12 @@ class TileSettingsFragment :
         inflater.inflate(R.menu.prefs_save, menu)
     }
 
-    override fun onMenuItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.save -> {
-                onLeaveAndSave()
-                true
-            }
-            else -> false
+    override fun onMenuItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.save -> {
+            onLeaveAndSave()
+            true
         }
+        else -> false
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -202,20 +200,18 @@ class TileSettingsFragment :
         }
     }
 
-    private fun getCurrentPrefsAsTileData(): TileData? {
-        return if (enabledPref.isChecked) {
-            TileData(
-                item = itemAndStatePref.item.orEmpty(),
-                state = itemAndStatePref.state.orEmpty(),
-                label = itemAndStatePref.label.orEmpty(),
-                tileLabel = namePref.text.orEmpty(),
-                mappedState = itemAndStatePref.mappedState.orEmpty(),
-                icon = iconPref.value.orEmpty(),
-                requireUnlock = requireUnlockPref.isChecked
-            )
-        } else {
-            null
-        }
+    private fun getCurrentPrefsAsTileData(): TileData? = if (enabledPref.isChecked) {
+        TileData(
+            item = itemAndStatePref.item.orEmpty(),
+            state = itemAndStatePref.state.orEmpty(),
+            label = itemAndStatePref.label.orEmpty(),
+            tileLabel = namePref.text.orEmpty(),
+            mappedState = itemAndStatePref.mappedState.orEmpty(),
+            icon = iconPref.value.orEmpty(),
+            requireUnlock = requireUnlockPref.isChecked
+        )
+    } else {
+        null
     }
 
     private fun setDataFromPrefs() {

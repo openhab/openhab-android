@@ -140,17 +140,21 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
         else -> value.value
     }
 
-    private fun determineOppositeState(item: Item): String {
-        return if (item.isOfTypeOrGroupType(Item.Type.Rollershutter) || item.isOfTypeOrGroupType(Item.Type.Dimmer)) {
+    private fun determineOppositeState(item: Item) = when {
+        item.isOfTypeOrGroupType(Item.Type.Rollershutter) || item.isOfTypeOrGroupType(Item.Type.Dimmer) -> {
             // If shutter is (partially) closed, open it, else close it
             if (item.state?.asNumber?.value == 0F) "100" else "0"
-        } else if (item.isOfTypeOrGroupType(Item.Type.Contact)) {
+        }
+        item.isOfTypeOrGroupType(Item.Type.Contact) -> {
             if (item.state?.asString == "OPEN") "CLOSED" else "OPEN"
-        } else if (item.isOfTypeOrGroupType(Item.Type.Player)) {
+        }
+        item.isOfTypeOrGroupType(Item.Type.Player) -> {
             if (item.state?.asString == "PAUSE") "PLAY" else "PAUSE"
-        } else if (item.state?.asBoolean == true) {
+        }
+        item.state?.asBoolean == true -> {
             "OFF"
-        } else {
+        }
+        else -> {
             "ON"
         }
     }
@@ -168,7 +172,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
         hasConnection: Boolean,
         httpCode: Int
     ): Result {
-        return if (runAttemptCount <= if (isImportant) 3 else 10) {
+        val maxRunCount = if (isImportant) 3 else 10
+        return if (runAttemptCount <= maxRunCount) {
             if (showToast) {
                 applicationContext.showToast(R.string.item_update_error_no_connection_retry, Toast.LENGTH_LONG)
             }
@@ -273,8 +278,8 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
         )
     }
 
-    private fun buildOutputData(hasConnection: Boolean, httpStatus: Int, sentValue: String? = null): Data {
-        return Data.Builder()
+    private fun buildOutputData(hasConnection: Boolean, httpStatus: Int, sentValue: String? = null): Data =
+        Data.Builder()
             .putBoolean(OUTPUT_DATA_HAS_CONNECTION, hasConnection)
             .putInt(OUTPUT_DATA_HTTP_STATUS, httpStatus)
             .putString(OUTPUT_DATA_ITEM_NAME, inputData.getString(INPUT_DATA_ITEM_NAME))
@@ -288,7 +293,6 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
             .putBoolean(OUTPUT_DATA_PRIMARY_SERVER, inputData.getBoolean(INPUT_DATA_PRIMARY_SERVER, false))
             .putLong(OUTPUT_DATA_TIMESTAMP, System.currentTimeMillis())
             .build()
-    }
 
     private fun getItemUpdateSuccessMessage(
         context: Context,
@@ -350,18 +354,16 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
             asCommand: Boolean,
             isImportant: Boolean,
             primaryServer: Boolean
-        ): Data {
-            return Data.Builder()
-                .putString(INPUT_DATA_ITEM_NAME, itemName)
-                .putString(INPUT_DATA_LABEL, label)
-                .putValueWithInfo(INPUT_DATA_VALUE, value)
-                .putBoolean(INPUT_DATA_SHOW_TOAST, showToast)
-                .putString(INPUT_DATA_TASKER_INTENT, taskerIntent)
-                .putBoolean(INPUT_DATA_AS_COMMAND, asCommand)
-                .putBoolean(INPUT_DATA_IS_IMPORTANT, isImportant)
-                .putBoolean(INPUT_DATA_PRIMARY_SERVER, primaryServer)
-                .build()
-        }
+        ) = Data.Builder()
+            .putString(INPUT_DATA_ITEM_NAME, itemName)
+            .putString(INPUT_DATA_LABEL, label)
+            .putValueWithInfo(INPUT_DATA_VALUE, value)
+            .putBoolean(INPUT_DATA_SHOW_TOAST, showToast)
+            .putString(INPUT_DATA_TASKER_INTENT, taskerIntent)
+            .putBoolean(INPUT_DATA_AS_COMMAND, asCommand)
+            .putBoolean(INPUT_DATA_IS_IMPORTANT, isImportant)
+            .putBoolean(INPUT_DATA_PRIMARY_SERVER, primaryServer)
+            .build()
 
         fun getShortItemUpdateSuccessMessage(context: Context, value: String): String = when (value) {
             "ON" -> context.getString(R.string.item_update_short_success_message_on)

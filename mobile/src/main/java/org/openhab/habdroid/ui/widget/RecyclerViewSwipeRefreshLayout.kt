@@ -45,9 +45,7 @@ class RecyclerViewSwipeRefreshLayout(context: Context, attrs: AttributeSet) : Sw
         return if (firstVisibleItem == null) super.canChildScrollUp() else firstVisibleItem != 0
     }
 
-    override fun onStartNestedScroll(child: View, target: View, nestedScrollAxes: Int): Boolean {
-        return false
-    }
+    override fun onStartNestedScroll(child: View, target: View, nestedScrollAxes: Int): Boolean = false
 
     override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
         if (event.action != MotionEvent.ACTION_DOWN && shouldPreventRefresh()) {
@@ -85,21 +83,15 @@ class RecyclerViewSwipeRefreshLayout(context: Context, attrs: AttributeSet) : Sw
         nestedScrollingChildHelper?.isNestedScrollingEnabled = enabled
     }
 
-    override fun isNestedScrollingEnabled(): Boolean {
-        return nestedScrollingChildHelper.isNestedScrollingEnabled
-    }
+    override fun isNestedScrollingEnabled(): Boolean = nestedScrollingChildHelper.isNestedScrollingEnabled
 
-    override fun startNestedScroll(axes: Int): Boolean {
-        return nestedScrollingChildHelper.startNestedScroll(axes)
-    }
+    override fun startNestedScroll(axes: Int): Boolean = nestedScrollingChildHelper.startNestedScroll(axes)
 
     override fun stopNestedScroll() {
         nestedScrollingChildHelper.stopNestedScroll()
     }
 
-    override fun hasNestedScrollingParent(): Boolean {
-        return nestedScrollingChildHelper.hasNestedScrollingParent()
-    }
+    override fun hasNestedScrollingParent(): Boolean = nestedScrollingChildHelper.hasNestedScrollingParent()
 
     override fun dispatchNestedScroll(
         dxConsumed: Int,
@@ -107,27 +99,22 @@ class RecyclerViewSwipeRefreshLayout(context: Context, attrs: AttributeSet) : Sw
         dxUnconsumed: Int,
         dyUnconsumed: Int,
         offsetInWindow: IntArray?
-    ): Boolean {
-        return nestedScrollingChildHelper.dispatchNestedScroll(
-            dxConsumed,
-            dyConsumed,
-            dxUnconsumed,
-            dyUnconsumed,
-            offsetInWindow
-        )
-    }
+    ): Boolean = nestedScrollingChildHelper.dispatchNestedScroll(
+        dxConsumed,
+        dyConsumed,
+        dxUnconsumed,
+        dyUnconsumed,
+        offsetInWindow
+    )
 
-    override fun dispatchNestedPreScroll(dx: Int, dy: Int, consumed: IntArray?, offsetInWindow: IntArray?): Boolean {
-        return nestedScrollingChildHelper.dispatchNestedPreScroll(dx, dy, consumed, offsetInWindow)
-    }
+    override fun dispatchNestedPreScroll(dx: Int, dy: Int, consumed: IntArray?, offsetInWindow: IntArray?): Boolean =
+        nestedScrollingChildHelper.dispatchNestedPreScroll(dx, dy, consumed, offsetInWindow)
 
-    override fun dispatchNestedFling(velocityX: Float, velocityY: Float, consumed: Boolean): Boolean {
-        return nestedScrollingChildHelper.dispatchNestedFling(velocityX, velocityY, consumed)
-    }
+    override fun dispatchNestedFling(velocityX: Float, velocityY: Float, consumed: Boolean): Boolean =
+        nestedScrollingChildHelper.dispatchNestedFling(velocityX, velocityY, consumed)
 
-    override fun dispatchNestedPreFling(velocityX: Float, velocityY: Float): Boolean {
-        return nestedScrollingChildHelper.dispatchNestedPreFling(velocityX, velocityY)
-    }
+    override fun dispatchNestedPreFling(velocityX: Float, velocityY: Float): Boolean =
+        nestedScrollingChildHelper.dispatchNestedPreFling(velocityX, velocityY)
 
     override fun onNestedScroll(target: View, dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int) {
         if (shouldPreventRefresh()) {
@@ -143,7 +130,5 @@ class RecyclerViewSwipeRefreshLayout(context: Context, attrs: AttributeSet) : Sw
         }
     }
 
-    private fun shouldPreventRefresh(): Boolean {
-        return childScrollableOnDown || isOrWasUpSwipe
-    }
+    private fun shouldPreventRefresh(): Boolean = childScrollableOnDown || isOrWasUpSwipe
 }

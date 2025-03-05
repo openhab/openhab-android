@@ -37,7 +37,9 @@ import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.openInAppStore
 import org.openhab.habdroid.util.openInBrowser
 
-class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChangedListener {
+class AboutActivity :
+    AbstractBaseActivity(),
+    FragmentManager.OnBackStackChangedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -73,9 +75,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
         updateTitle()
     }
 
-    override fun doesLockModeRequirePrompt(mode: ScreenLockMode): Boolean {
-        return mode == ScreenLockMode.Enabled
-    }
+    override fun doesLockModeRequirePrompt(mode: ScreenLockMode): Boolean = mode == ScreenLockMode.Enabled
 
     private fun updateTitle() {
         val fm = supportFragmentManager

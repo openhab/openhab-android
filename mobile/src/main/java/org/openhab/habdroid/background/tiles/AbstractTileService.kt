@@ -278,13 +278,11 @@ data class TileData(
     val icon: String,
     val requireUnlock: Boolean
 ) : Parcelable {
-    fun isValid(): Boolean {
-        return item.isNotEmpty() &&
-            label.isNotEmpty() &&
-            tileLabel.isNotEmpty() &&
-            mappedState.isNotEmpty() &&
-            icon.isNotEmpty()
-    }
+    fun isValid(): Boolean = item.isNotEmpty() &&
+        label.isNotEmpty() &&
+        tileLabel.isNotEmpty() &&
+        mappedState.isNotEmpty() &&
+        icon.isNotEmpty()
 }
 
 @RequiresApi(Build.VERSION_CODES.N)

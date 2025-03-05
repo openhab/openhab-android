@@ -64,9 +64,7 @@ open class AbstractWidgetBottomSheet : BottomSheetDialogFragment() {
     }
 
     companion object {
-        fun createArguments(widget: Widget): Bundle {
-            return bundleOf("widget" to widget)
-        }
+        fun createArguments(widget: Widget): Bundle = bundleOf("widget" to widget)
     }
 
     interface ConnectionGetter {
@@ -74,7 +72,9 @@ open class AbstractWidgetBottomSheet : BottomSheetDialogFragment() {
     }
 }
 
-open class SliderBottomSheet : AbstractWidgetBottomSheet(), WidgetSlider.UpdateListener {
+open class SliderBottomSheet :
+    AbstractWidgetBottomSheet(),
+    WidgetSlider.UpdateListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.bottom_sheet_setpoint, container, false)
 
@@ -103,7 +103,9 @@ open class SliderBottomSheet : AbstractWidgetBottomSheet(), WidgetSlider.UpdateL
     }
 }
 
-class ColorTemperatureSliderBottomSheet : SliderBottomSheet(), View.OnLayoutChangeListener {
+class ColorTemperatureSliderBottomSheet :
+    SliderBottomSheet(),
+    View.OnLayoutChangeListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val v = super.onCreateView(inflater, container, savedInstanceState)
         v.findViewById<WidgetSlider>(R.id.slider).apply {

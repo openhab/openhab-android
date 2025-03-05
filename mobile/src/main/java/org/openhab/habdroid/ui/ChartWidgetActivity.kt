@@ -32,7 +32,9 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.parcelable
 
-class ChartWidgetActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener {
+class ChartWidgetActivity :
+    AbstractBaseActivity(),
+    SwipeRefreshLayout.OnRefreshListener {
     private lateinit var swipeLayout: SwipeRefreshLayout
     private lateinit var chart: WidgetImageView
     private lateinit var period: String
@@ -183,9 +185,7 @@ class ChartWidgetActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefresh
         onRefresh()
     }
 
-    override fun doesLockModeRequirePrompt(mode: ScreenLockMode): Boolean {
-        return mode == ScreenLockMode.Enabled
-    }
+    override fun doesLockModeRequirePrompt(mode: ScreenLockMode): Boolean = mode == ScreenLockMode.Enabled
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)

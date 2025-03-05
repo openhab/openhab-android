@@ -211,9 +211,7 @@ class WidgetListFragment :
         return false
     }
 
-    override fun getConnection(): Connection? {
-        return adapter?.connection
-    }
+    override fun getConnection(): Connection? = adapter?.connection
 
     override fun showBottomSheet(sheet: AbstractWidgetBottomSheet, widget: Widget) {
         sheet.arguments = AbstractWidgetBottomSheet.createArguments(widget)
@@ -361,8 +359,12 @@ class WidgetListFragment :
                 R.string.nfc_action_write_command_tag
             )
             nfcMenu.setHeaderTitle(R.string.item_picker_dialog_title)
-            populateStatesMenu(nfcMenu, activity, suggestedCommands, suggestedCommands.shouldShowCustom) {
-                    state, mappedState, itemId ->
+            populateStatesMenu(
+                nfcMenu,
+                activity,
+                suggestedCommands,
+                suggestedCommands.shouldShowCustom
+            ) { state, mappedState, itemId ->
                 startActivity(
                     WriteTagActivity.createItemUpdateIntent(
                         activity,
@@ -659,9 +661,7 @@ class WidgetListFragment :
             }
         }
 
-    override fun toString(): String {
-        return "${super.toString()} [url=$displayPageUrl, title=$title]"
-    }
+    override fun toString() = "${super.toString()} [url=$displayPageUrl, title=$title]"
 
     companion object {
         private val TAG = WidgetListFragment::class.java.simpleName

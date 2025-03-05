@@ -40,11 +40,12 @@ class ColorItemActivity : AbstractBaseActivity() {
         pickerHelper.attach(boundItem, this, ConnectionFactory.primaryUsableConnection?.connection)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if (item.itemId == android.R.id.home) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        android.R.id.home -> {
             finish()
             true
-        } else {
+        }
+        else -> {
             super.onOptionsItemSelected(item)
         }
     }

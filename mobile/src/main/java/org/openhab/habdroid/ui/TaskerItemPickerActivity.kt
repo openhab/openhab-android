@@ -35,7 +35,8 @@ class TaskerItemPickerActivity(
     override var hintMessageId: Int = R.string.settings_tasker_plugin_summary,
     override var hintButtonMessageId: Int = R.string.turn_on,
     override var hintIconId: Int = R.drawable.ic_connection_error
-) : AbstractItemPickerActivity(), View.OnClickListener {
+) : AbstractItemPickerActivity(),
+    View.OnClickListener {
     private var relevantVars: Array<String>? = null
     private lateinit var commandButton: MaterialButton
     private lateinit var updateButton: MaterialButton
@@ -152,9 +153,7 @@ class TaskerItemPickerActivity(
         const val RESULT_CODE_PLUGIN_DISABLED = TaskerPlugin.Setting.RESULT_CODE_FAILED_PLUGIN_FIRST
         const val RESULT_CODE_NO_CONNECTION = TaskerPlugin.Setting.RESULT_CODE_FAILED_PLUGIN_FIRST + 1
 
-        fun getResultCodeForHttpFailure(httpCode: Int): Int {
-            return 1000 + httpCode
-        }
+        fun getResultCodeForHttpFailure(httpCode: Int): Int = 1000 + httpCode
 
         const val VAR_HTTP_CODE = "%httpcode"
         const val EXTRA_ITEM_AS_COMMAND = "asCommand"

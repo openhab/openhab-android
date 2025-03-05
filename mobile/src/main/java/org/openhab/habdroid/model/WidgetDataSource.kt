@@ -25,7 +25,7 @@ import org.w3c.dom.Node
  * It uses a sitemap page XML document to create a list of widgets
  */
 
-class WidgetDataSource() {
+class WidgetDataSource {
     private val allWidgets = ArrayList<Widget>()
     var title: String = ""
         private set

@@ -55,7 +55,9 @@ import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.registerExportedReceiver
 import org.openhab.habdroid.util.showToast
 
-class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
+class WriteTagActivity :
+    AbstractBaseActivity(),
+    CoroutineScope {
     private var nfcAdapter: NfcAdapter? = null
     private var nfcStateChangeReceiver: NfcStateChangeReceiver = NfcStateChangeReceiver()
     private var longUri: Uri? = null
@@ -217,9 +219,8 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
         @get:DrawableRes
         protected abstract val watermarkIcon: Int
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-            return inflater.inflate(R.layout.fragment_writenfc, container, false)
-        }
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_writenfc, container, false)
     }
 
     class NfcUnsupportedFragment : AbstractNfcFragment() {

@@ -39,7 +39,8 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 
 class NotificationPollingPreference(context: Context, attrs: AttributeSet?) :
-    DialogPreference(context, attrs), CustomDialogPreference {
+    DialogPreference(context, attrs),
+    CustomDialogPreference {
     private var value: Boolean? = null
 
     init {
@@ -52,13 +53,9 @@ class NotificationPollingPreference(context: Context, attrs: AttributeSet?) :
         value = getPersistedBoolean(false)
     }
 
-    override fun onGetDefaultValue(a: TypedArray, index: Int): Any? {
-        return a.getBoolean(index, false)
-    }
+    override fun onGetDefaultValue(a: TypedArray, index: Int): Any? = a.getBoolean(index, false)
 
-    override fun createDialog(): DialogFragment {
-        return PrefDialogFragment.newInstance(key)
-    }
+    override fun createDialog(): DialogFragment = PrefDialogFragment.newInstance(key)
 
     fun setValue(enabled: Boolean = value ?: false) {
         if (callChangeListener(enabled)) {
@@ -75,7 +72,9 @@ class NotificationPollingPreference(context: Context, attrs: AttributeSet?) :
         setIcon(status.icon)
     }
 
-    class PrefDialogFragment : PreferenceDialogFragmentCompat(), CompoundButton.OnCheckedChangeListener {
+    class PrefDialogFragment :
+        PreferenceDialogFragmentCompat(),
+        CompoundButton.OnCheckedChangeListener {
         private lateinit var helpIcon: ImageView
         private lateinit var switch: MaterialSwitch
         private lateinit var spinner: AppCompatSpinner

@@ -119,12 +119,10 @@ data class IconResource internal constructor(
         return builder.build().toString()
     }
 
-    fun withCustomState(state: String): IconResource {
-        return IconResource(icon, isOh2, state)
-    }
+    fun withCustomState(state: String) = IconResource(icon, isOh2, state)
 
     companion object {
-        public const val ICONIFY_API_URL = "api.iconify.design"
+        const val ICONIFY_API_URL = "api.iconify.design"
     }
 }
 
@@ -158,13 +156,11 @@ fun SharedPreferences.Editor.putIconResource(key: String, icon: IconResource?): 
 @VisibleForTesting
 fun String.isNoneIcon() = "(oh:([a-z]+:)?)?none".toRegex().matches(this)
 
-fun String?.toOH1IconResource(): IconResource? {
-    return if (isNullOrEmpty() || isNoneIcon()) null else IconResource(this, false, "")
-}
+fun String?.toOH1IconResource(): IconResource? =
+    if (isNullOrEmpty() || isNoneIcon()) null else IconResource(this, false, "")
 
-fun String?.toOH2IconResource(): IconResource? {
-    return if (isNullOrEmpty() || isNoneIcon()) null else IconResource(this, true, "")
-}
+fun String?.toOH2IconResource(): IconResource? =
+    if (isNullOrEmpty() || isNoneIcon()) null else IconResource(this, true, "")
 
 internal fun String?.toOH2WidgetIconResource(
     item: Item?,

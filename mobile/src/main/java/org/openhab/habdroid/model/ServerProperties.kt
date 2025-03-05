@@ -31,21 +31,13 @@ import org.xml.sax.SAXException
 
 @Parcelize
 data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parcelable {
-    fun hasJsonApi(): Boolean {
-        return flags and SERVER_FLAG_JSON_REST_API != 0
-    }
+    fun hasJsonApi(): Boolean = flags and SERVER_FLAG_JSON_REST_API != 0
 
-    fun hasSseSupport(): Boolean {
-        return flags and SERVER_FLAG_SSE_SUPPORT != 0
-    }
+    fun hasSseSupport(): Boolean = flags and SERVER_FLAG_SSE_SUPPORT != 0
 
-    fun hasWebViewUiInstalled(ui: WebViewUi): Boolean {
-        return if (ui.serverFlag == 0) true else flags and ui.serverFlag != 0
-    }
+    fun hasWebViewUiInstalled(ui: WebViewUi): Boolean = if (ui.serverFlag == 0) true else flags and ui.serverFlag != 0
 
-    fun hasInvisibleWidgetSupport(): Boolean {
-        return flags and SERVER_FLAG_SITEMAP_HAS_INVISIBLE_WIDGETS != 0
-    }
+    fun hasInvisibleWidgetSupport(): Boolean = flags and SERVER_FLAG_SITEMAP_HAS_INVISIBLE_WIDGETS != 0
 
     companion object {
         private val TAG = ServerProperties::class.java.simpleName
@@ -72,16 +64,14 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
 
         class PropsFailure(val request: Request, val httpStatusCode: Int, val error: Throwable) : PropsResult
 
-        suspend fun updateSitemaps(props: ServerProperties, connection: Connection): PropsResult {
-            return fetchSitemaps(connection.httpClient, props.flags)
-        }
+        suspend fun updateSitemaps(props: ServerProperties, connection: Connection): PropsResult =
+            fetchSitemaps(connection.httpClient, props.flags)
 
-        suspend fun fetch(connection: Connection): PropsResult {
-            return when (val flagsResult = fetchFlags(connection.httpClient)) {
+        suspend fun fetch(connection: Connection): PropsResult =
+            when (val flagsResult = fetchFlags(connection.httpClient)) {
                 is FlagsSuccess -> fetchSitemaps(connection.httpClient, flagsResult.flags)
                 is FlagsFailure -> PropsFailure(flagsResult.request, flagsResult.httpStatusCode, flagsResult.error)
             }
-        }
 
         private suspend fun fetchFlags(client: HttpClient): FlagsResult = try {
             val result = client.get("rest/").asText()
@@ -172,14 +162,12 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
             return emptyList()
         }
 
-        private fun loadSitemapsFromJson(response: String): List<Sitemap> {
-            return try {
-                val jsonArray = JSONArray(response)
-                jsonArray.toSitemapList()
-            } catch (e: JSONException) {
-                Log.e(TAG, "Failed parsing sitemap JSON", e)
-                emptyList()
-            }
+        private fun loadSitemapsFromJson(response: String): List<Sitemap> = try {
+            val jsonArray = JSONArray(response)
+            jsonArray.toSitemapList()
+        } catch (e: JSONException) {
+            Log.e(TAG, "Failed parsing sitemap JSON", e)
+            emptyList()
         }
     }
 }

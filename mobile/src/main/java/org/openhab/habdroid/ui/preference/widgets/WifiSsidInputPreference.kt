@@ -35,7 +35,8 @@ import org.openhab.habdroid.ui.preference.CustomDialogPreference
 import org.openhab.habdroid.util.getCurrentWifiSsid
 
 class WifiSsidInputPreference(context: Context, attrs: AttributeSet) :
-    DialogPreference(context, attrs), CustomDialogPreference {
+    DialogPreference(context, attrs),
+    CustomDialogPreference {
     private var value: Pair<String, Boolean>? = null
 
     init {
@@ -44,9 +45,7 @@ class WifiSsidInputPreference(context: Context, attrs: AttributeSet) :
         setNegativeButtonText(android.R.string.cancel)
     }
 
-    override fun getDialogLayoutResource(): Int {
-        return R.layout.pref_dialog_wifi_ssid
-    }
+    override fun getDialogLayoutResource(): Int = R.layout.pref_dialog_wifi_ssid
 
     private fun updateSummary() {
         val ssids = value?.first?.toWifiSsids()
@@ -64,9 +63,7 @@ class WifiSsidInputPreference(context: Context, attrs: AttributeSet) :
         }
     }
 
-    override fun createDialog(): DialogFragment {
-        return PrefFragment.newInstance(key, title)
-    }
+    override fun createDialog(): DialogFragment = PrefFragment.newInstance(key, title)
 
     class PrefFragment : PreferenceDialogFragmentCompat() {
         private lateinit var editorWrapper: TextInputLayout

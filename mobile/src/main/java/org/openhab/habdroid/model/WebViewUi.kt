@@ -18,10 +18,7 @@ import org.openhab.habdroid.ui.activity.FrontailWebViewFragment
 import org.openhab.habdroid.ui.activity.HabpanelWebViewFragment
 import org.openhab.habdroid.ui.activity.MainUiWebViewFragment
 
-data class WebViewUi(
-    val serverFlag: Int,
-    val fragment: Class<out AbstractWebViewFragment>
-) {
+data class WebViewUi(val serverFlag: Int, val fragment: Class<out AbstractWebViewFragment>) {
     companion object {
         val HABPANEL = WebViewUi(
             ServerProperties.SERVER_FLAG_HABPANEL_INSTALLED,

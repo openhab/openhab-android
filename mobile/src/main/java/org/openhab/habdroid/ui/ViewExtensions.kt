@@ -99,11 +99,9 @@ fun View.playPressAnimationAndCallBack(postAnimationCallback: () -> Unit) {
     }
 }
 
-fun RemoteViews.duplicate(): RemoteViews {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-        RemoteViews(this)
-    } else {
-        @Suppress("DEPRECATION")
-        clone()
-    }
+fun RemoteViews.duplicate(): RemoteViews = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+    RemoteViews(this)
+} else {
+    @Suppress("DEPRECATION")
+    clone()
 }

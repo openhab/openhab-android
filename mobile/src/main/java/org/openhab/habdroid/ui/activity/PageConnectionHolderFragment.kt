@@ -48,7 +48,9 @@ import org.xml.sax.SAXException
  * It retains the connections over activity recreations, and takes care of stopping
  * and restarting connections if needed.
  */
-class PageConnectionHolderFragment : Fragment(), CoroutineScope {
+class PageConnectionHolderFragment :
+    Fragment(),
+    CoroutineScope {
     private val job = Job()
     override val coroutineContext get() = Dispatchers.Main + job
     private val connections = HashMap<String, ConnectionHandler>()
@@ -138,9 +140,7 @@ class PageConnectionHolderFragment : Fragment(), CoroutineScope {
         }
     }
 
-    override fun toString(): String {
-        return "${super.toString()} [${connections.size} connections, started=$started]"
-    }
+    override fun toString() = "${super.toString()} [${connections.size} connections, started=$started]"
 
     /**
      * Assign parent callback

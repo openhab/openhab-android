@@ -63,7 +63,9 @@ import org.openhab.habdroid.util.getScreenLockMode
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.resolveThemedColor
 
-abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
+abstract class AbstractBaseActivity :
+    AppCompatActivity(),
+    CoroutineScope {
     private val job = Job()
     override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
     protected open val forceNonFullscreen = false
@@ -354,9 +356,7 @@ abstract class AbstractBaseActivity : AppCompatActivity(), CoroutineScope {
         }
     }
 
-    internal open fun doesLockModeRequirePrompt(mode: ScreenLockMode): Boolean {
-        return mode != ScreenLockMode.Disabled
-    }
+    internal open fun doesLockModeRequirePrompt(mode: ScreenLockMode): Boolean = mode != ScreenLockMode.Disabled
 
     private fun promptForDevicePasswordIfRequired() {
         if (authPrompt != null) {

@@ -69,30 +69,24 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
         notifyItemRangeRemoved(0, existingItemCount)
     }
 
-    fun findPositionForId(id: String): Int {
-        return items.indexOfFirst { item -> item.id.persistedId == id }
-    }
+    fun findPositionForId(id: String): Int = items.indexOfFirst { item -> item.id.persistedId == id }
 
     fun highlightItem(position: Int) {
         highlightedPosition = position
         notifyItemChanged(position)
     }
 
-    override fun getItemCount(): Int {
-        return items.size + if (hasMoreItems) 1 else 0
-    }
+    override fun getItemCount(): Int = items.size + if (hasMoreItems) 1 else 0
 
-    override fun getItemViewType(position: Int): Int {
-        return if (position == items.size) VIEW_TYPE_LOADING else VIEW_TYPE_NOTIFICATION
-    }
+    override fun getItemViewType(position: Int): Int =
+        if (position == items.size) VIEW_TYPE_LOADING else VIEW_TYPE_NOTIFICATION
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == VIEW_TYPE_LOADING) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+        if (viewType == VIEW_TYPE_LOADING) {
             LoadingIndicatorViewHolder(inflater, parent)
         } else {
             NotificationViewHolder(inflater, parent)
         }
-    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is NotificationViewHolder) {

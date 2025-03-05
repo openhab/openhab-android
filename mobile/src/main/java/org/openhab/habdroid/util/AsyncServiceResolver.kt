@@ -35,11 +35,8 @@ import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import org.openhab.habdroid.core.OpenHabApplication
 
-class AsyncServiceResolver(
-    context: Context,
-    private val serviceType: String,
-    private val scope: CoroutineScope
-) : ServiceListener {
+class AsyncServiceResolver(context: Context, private val serviceType: String, private val scope: CoroutineScope) :
+    ServiceListener {
     // Multicast lock for mDNS
     private val multicastLock: MulticastLock
 

@@ -47,7 +47,9 @@ import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrNull
 
-class DayDream : DreamService(), CoroutineScope {
+class DayDream :
+    DreamService(),
+    CoroutineScope {
     private val job = Job()
     override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
     private var moveTextJob: Job? = null

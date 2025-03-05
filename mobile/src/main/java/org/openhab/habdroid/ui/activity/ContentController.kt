@@ -76,7 +76,9 @@ import org.openhab.habdroid.util.resolveThemedColor
  * The layout of the content area is up to the respective subclasses.
  */
 abstract class ContentController protected constructor(private val activity: MainActivity) :
-    PageConnectionHolderFragment.ParentCallback, AbstractWebViewFragment.ParentCallback, FragmentLifecycleCallbacks() {
+    FragmentLifecycleCallbacks(),
+    PageConnectionHolderFragment.ParentCallback,
+    AbstractWebViewFragment.ParentCallback {
     protected val fm: FragmentManager = activity.supportFragmentManager
 
     private var noConnectionFragment: Fragment? = null
@@ -574,8 +576,8 @@ abstract class ContentController protected constructor(private val activity: Mai
         updateConnectionState()
     }
 
-    private fun findWidgetFragmentForUrl(url: String): WidgetListFragment? {
-        return collectWidgetFragments().firstOrNull { f -> f.displayPageUrl == url }
+    private fun findWidgetFragmentForUrl(url: String): WidgetListFragment? = collectWidgetFragments().firstOrNull { f ->
+        f.displayPageUrl == url
     }
 
     private fun collectWidgetFragments(): List<WidgetListFragment> {
@@ -587,13 +589,11 @@ abstract class ContentController protected constructor(private val activity: Mai
         return result
     }
 
-    private fun makeSitemapFragment(sitemap: Sitemap): WidgetListFragment {
-        return WidgetListFragment.withPage(sitemap.homepageLink, sitemap.label)
-    }
+    private fun makeSitemapFragment(sitemap: Sitemap): WidgetListFragment =
+        WidgetListFragment.withPage(sitemap.homepageLink, sitemap.label)
 
-    private fun makePageFragment(page: LinkedPage): WidgetListFragment {
-        return WidgetListFragment.withPage(page.link, page.title)
-    }
+    private fun makePageFragment(page: LinkedPage): WidgetListFragment =
+        WidgetListFragment.withPage(page.link, page.title)
 
     internal enum class FragmentUpdateReason {
         PAGE_ENTER,
@@ -783,7 +783,9 @@ abstract class ContentController protected constructor(private val activity: Mai
         }
     }
 
-    internal abstract class StatusFragment : Fragment(), View.OnClickListener {
+    internal abstract class StatusFragment :
+        Fragment(),
+        View.OnClickListener {
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
             val arguments = requireArguments()
             val view = inflater.inflate(R.layout.fragment_status, container, false)
@@ -836,15 +838,13 @@ abstract class ContentController protected constructor(private val activity: Mai
                 @StringRes buttonTextResId: Int,
                 @DrawableRes drawableResId: Int,
                 showProgress: Boolean
-            ): Bundle {
-                return buildArgs(
-                    message,
-                    buttonTextResId,
-                    0,
-                    drawableResId,
-                    showProgress
-                )
-            }
+            ): Bundle = buildArgs(
+                message,
+                buttonTextResId,
+                0,
+                drawableResId,
+                showProgress
+            )
 
             internal fun buildArgs(
                 message: CharSequence?,
@@ -852,15 +852,13 @@ abstract class ContentController protected constructor(private val activity: Mai
                 @StringRes button2TextResId: Int,
                 @DrawableRes drawableResId: Int,
                 showProgress: Boolean
-            ): Bundle {
-                return bundleOf(
-                    KEY_MESSAGE to message,
-                    KEY_DRAWABLE to drawableResId,
-                    KEY_BUTTON_1_TEXT to button1TextResId,
-                    KEY_BUTTON_2_TEXT to button2TextResId,
-                    KEY_PROGRESS to showProgress
-                )
-            }
+            ): Bundle = bundleOf(
+                KEY_MESSAGE to message,
+                KEY_DRAWABLE to drawableResId,
+                KEY_BUTTON_1_TEXT to button1TextResId,
+                KEY_BUTTON_2_TEXT to button2TextResId,
+                KEY_PROGRESS to showProgress
+            )
         }
     }
 
@@ -901,23 +899,19 @@ abstract class ContentController protected constructor(private val activity: Mai
         private fun makeStateKeyForPage(page: LinkedPage) = "pageFragment-${page.link}"
 
         @AnimRes
-        internal fun determineEnterAnim(reason: FragmentUpdateReason): Int {
-            return when (reason) {
-                FragmentUpdateReason.PAGE_ENTER -> R.anim.slide_in_right
-                FragmentUpdateReason.TEMPORARY_PAGE -> R.anim.slide_in_bottom
-                FragmentUpdateReason.BACK_NAVIGATION -> R.anim.slide_in_left
-                else -> 0
-            }
+        internal fun determineEnterAnim(reason: FragmentUpdateReason): Int = when (reason) {
+            FragmentUpdateReason.PAGE_ENTER -> R.anim.slide_in_right
+            FragmentUpdateReason.TEMPORARY_PAGE -> R.anim.slide_in_bottom
+            FragmentUpdateReason.BACK_NAVIGATION -> R.anim.slide_in_left
+            else -> 0
         }
 
         @AnimRes
-        internal fun determineExitAnim(reason: FragmentUpdateReason): Int {
-            return when (reason) {
-                FragmentUpdateReason.PAGE_ENTER -> R.anim.slide_out_left
-                FragmentUpdateReason.TEMPORARY_PAGE -> R.anim.slide_out_bottom
-                FragmentUpdateReason.BACK_NAVIGATION -> R.anim.slide_out_right
-                else -> 0
-            }
+        internal fun determineExitAnim(reason: FragmentUpdateReason): Int = when (reason) {
+            FragmentUpdateReason.PAGE_ENTER -> R.anim.slide_out_left
+            FragmentUpdateReason.TEMPORARY_PAGE -> R.anim.slide_out_bottom
+            FragmentUpdateReason.BACK_NAVIGATION -> R.anim.slide_out_right
+            else -> 0
         }
     }
 }

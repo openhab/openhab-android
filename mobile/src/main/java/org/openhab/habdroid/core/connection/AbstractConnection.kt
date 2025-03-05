@@ -61,9 +61,7 @@ abstract class AbstractConnection : Connection {
         httpClient = base.httpClient
     }
 
-    open fun prepareSocket(socket: Socket): Socket {
-        return socket
-    }
+    open fun prepareSocket(socket: Socket) = socket
 
     companion object {
         internal val TAG = AbstractConnection::class.java.simpleName

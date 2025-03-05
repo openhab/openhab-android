@@ -39,35 +39,25 @@ enum class ScreenLockMode {
     Enabled
 }
 
-fun SharedPreferences.getActiveServerId(): Int {
-    return getInt(PrefKeys.ACTIVE_SERVER_ID, 0)
-}
+fun SharedPreferences.getActiveServerId(): Int = getInt(PrefKeys.ACTIVE_SERVER_ID, 0)
 
-fun SharedPreferences.getPrimaryServerId(): Int {
-    return getInt(PrefKeys.PRIMARY_SERVER_ID, 0)
-}
+fun SharedPreferences.getPrimaryServerId(): Int = getInt(PrefKeys.PRIMARY_SERVER_ID, 0)
 
-fun SharedPreferences.getNextAvailableServerId(): Int {
-    return getStringSet(PrefKeys.SERVER_IDS, null)
-        ?.lastOrNull()
-        .orDefaultIfEmpty("0")
-        .let { idString -> idString.toInt() + 1 }
-}
+fun SharedPreferences.getNextAvailableServerId(): Int = getStringSet(PrefKeys.SERVER_IDS, null)
+    ?.lastOrNull()
+    .orDefaultIfEmpty("0")
+    .let { idString -> idString.toInt() + 1 }
 
-fun SharedPreferences.getConfiguredServerIds(): MutableSet<Int> {
-    return getStringSet(PrefKeys.SERVER_IDS, null)
-        ?.map { id -> id.toInt() }
-        ?.toMutableSet()
-        ?: mutableSetOf()
-}
+fun SharedPreferences.getConfiguredServerIds(): MutableSet<Int> = getStringSet(PrefKeys.SERVER_IDS, null)
+    ?.map { id -> id.toInt() }
+    ?.toMutableSet()
+    ?: mutableSetOf()
 
-fun SharedPreferences.getLocalUrl(id: Int = getActiveServerId()): String {
-    return getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.LOCAL_URL_PREFIX)).orEmpty()
-}
+fun SharedPreferences.getLocalUrl(id: Int = getActiveServerId()): String =
+    getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.LOCAL_URL_PREFIX)).orEmpty()
 
-fun SharedPreferences.getRemoteUrl(id: Int = getActiveServerId()): String {
-    return getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.REMOTE_URL_PREFIX)).orEmpty()
-}
+fun SharedPreferences.getRemoteUrl(id: Int = getActiveServerId()): String =
+    getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.REMOTE_URL_PREFIX)).orEmpty()
 
 fun SharedPreferences.getDefaultSitemap(connection: Connection?, id: Int = getActiveServerId()): DefaultSitemap? {
     if (connection is DemoConnection) {
@@ -85,13 +75,9 @@ fun SharedPreferences.getIconFormat(): IconFormat {
     return if (formatString == "SVG") IconFormat.Svg else IconFormat.Png
 }
 
-fun SharedPreferences.isDemoModeEnabled(): Boolean {
-    return getBoolean(PrefKeys.DEMO_MODE, false)
-}
+fun SharedPreferences.isDemoModeEnabled(): Boolean = getBoolean(PrefKeys.DEMO_MODE, false)
 
-fun SharedPreferences.isDebugModeEnabled(): Boolean {
-    return getBoolean(PrefKeys.DEBUG_MESSAGES, false)
-}
+fun SharedPreferences.isDebugModeEnabled(): Boolean = getBoolean(PrefKeys.DEBUG_MESSAGES, false)
 
 fun SharedPreferences.getNotificationTone(): Uri? {
     val tone = getStringOrNull(PrefKeys.NOTIFICATION_TONE)
@@ -102,54 +88,37 @@ fun SharedPreferences.getNotificationTone(): Uri? {
     }
 }
 
-fun SharedPreferences.isScreenTimerDisabled(): Boolean {
-    return getBoolean(PrefKeys.SCREEN_TIMER_OFF, false)
-}
+fun SharedPreferences.isScreenTimerDisabled(): Boolean = getBoolean(PrefKeys.SCREEN_TIMER_OFF, false)
 
-fun SharedPreferences.getChartScalingFactor(): Float {
-    return getFloat(PrefKeys.CHART_SCALING, 1.0F)
-}
+fun SharedPreferences.getChartScalingFactor(): Float = getFloat(PrefKeys.CHART_SCALING, 1.0F)
 
-fun SharedPreferences.shouldRequestHighResChart(): Boolean {
-    return getBoolean(PrefKeys.CHART_HQ, true)
-}
+fun SharedPreferences.shouldRequestHighResChart(): Boolean = getBoolean(PrefKeys.CHART_HQ, true)
 
-fun SharedPreferences.useCompactSitemapLayout(): Boolean {
-    return getBoolean(PrefKeys.SITEMAP_COMPACT_MODE, false)
-}
+fun SharedPreferences.useCompactSitemapLayout(): Boolean = getBoolean(PrefKeys.SITEMAP_COMPACT_MODE, false)
 
-fun SharedPreferences.getImageWidgetScalingType(): WidgetImageView.ImageScalingType {
-    return if (getBoolean(PrefKeys.IMAGE_WIDGET_SCALE_TO_FIT, true)) {
+fun SharedPreferences.getImageWidgetScalingType(): WidgetImageView.ImageScalingType =
+    if (getBoolean(PrefKeys.IMAGE_WIDGET_SCALE_TO_FIT, true)) {
         WidgetImageView.ImageScalingType.ScaleToFitWithViewAdjustment
     } else {
         WidgetImageView.ImageScalingType.ScaleToFitWithViewAdjustmentDownscaleOnly
     }
-}
 
-fun SharedPreferences.isTaskerPluginEnabled(): Boolean {
-    return getBoolean(PrefKeys.TASKER_PLUGIN_ENABLED, false)
-}
+fun SharedPreferences.isTaskerPluginEnabled(): Boolean = getBoolean(PrefKeys.TASKER_PLUGIN_ENABLED, false)
 
-fun SharedPreferences.wasNfcInfoHintShown(): Boolean {
-    return getBoolean(PrefKeys.NFC_INFO_HINT_SHOWN, false)
-}
+fun SharedPreferences.wasNfcInfoHintShown(): Boolean = getBoolean(PrefKeys.NFC_INFO_HINT_SHOWN, false)
 
-fun SharedPreferences.getDayNightMode(context: Context): Int {
-    return when (getStringOrNull(PrefKeys.THEME)) {
-        context.getString(R.string.theme_value_light) -> AppCompatDelegate.MODE_NIGHT_NO
-        context.getString(R.string.theme_value_dark), context.getString(R.string.theme_value_black) ->
-            AppCompatDelegate.MODE_NIGHT_YES
-        else -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-        } else {
-            AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
-        }
+fun SharedPreferences.getDayNightMode(context: Context): Int = when (getStringOrNull(PrefKeys.THEME)) {
+    context.getString(R.string.theme_value_light) -> AppCompatDelegate.MODE_NIGHT_NO
+    context.getString(R.string.theme_value_dark), context.getString(R.string.theme_value_black) ->
+        AppCompatDelegate.MODE_NIGHT_YES
+    else -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+    } else {
+        AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
     }
 }
 
-fun SharedPreferences.areSitemapsShownInDrawer(): Boolean {
-    return getBoolean(PrefKeys.SHOW_SITEMAPS_IN_DRAWER, false)
-}
+fun SharedPreferences.areSitemapsShownInDrawer(): Boolean = getBoolean(PrefKeys.SHOW_SITEMAPS_IN_DRAWER, false)
 
 fun SharedPreferences.getBackgroundTaskScheduleInMillis(): Long {
     val value = getStringOrFallbackIfEmpty(PrefKeys.SEND_DEVICE_INFO_SCHEDULE, "360")
@@ -167,26 +136,21 @@ fun SharedPreferences.getPrefixForBgTasks(): String {
     return if (enabled) getStringOrEmpty(PrefKeys.DEV_ID) else ""
 }
 
-fun SharedPreferences.getStringOrNull(key: String): String? {
-    return getString(key, null)
-}
+fun SharedPreferences.getStringOrNull(key: String): String? = getString(key, null)
 
-fun SharedPreferences.getStringOrEmpty(key: String): String {
-    return getString(key, "").orEmpty()
-}
+fun SharedPreferences.getStringOrEmpty(key: String): String = getString(key, "").orEmpty()
 
 fun SharedPreferences.getStringOrFallbackIfEmpty(key: String, fallback: String): String {
     val value = getStringOrNull(key)
     return if (value.isNullOrEmpty()) fallback else value
 }
 
-fun SharedPreferences.getScreenLockMode(context: Context): ScreenLockMode {
-    return when (getStringOrNull(PrefKeys.SCREEN_LOCK)) {
+fun SharedPreferences.getScreenLockMode(context: Context): ScreenLockMode =
+    when (getStringOrNull(PrefKeys.SCREEN_LOCK)) {
         context.getString(R.string.settings_screen_lock_kiosk_value) -> ScreenLockMode.KioskMode
         context.getString(R.string.settings_screen_lock_on_value) -> ScreenLockMode.Enabled
         else -> ScreenLockMode.Disabled
     }
-}
 
 fun SharedPreferences.isItemUpdatePrefEnabled(key: String) = getString(key, null).toItemUpdatePrefValue().first
 
@@ -200,22 +164,21 @@ enum class DeviceControlSubtitleMode {
     ITEM_NAME
 }
 
-fun SharedPreferences.getDeviceControlSubtitle(context: Context): DeviceControlSubtitleMode {
-    return when (getStringOrNull(PrefKeys.DEVICE_CONTROL_SUBTITLE)) {
+fun SharedPreferences.getDeviceControlSubtitle(context: Context): DeviceControlSubtitleMode =
+    when (getStringOrNull(PrefKeys.DEVICE_CONTROL_SUBTITLE)) {
         context.getString(R.string.device_control_subtitle_equipment_value) -> DeviceControlSubtitleMode.EQUIPMENT
         context.getString(R.string.device_control_subtitle_location_equipment_value) ->
             DeviceControlSubtitleMode.LOCATION_AND_EQUIPMENT
         context.getString(R.string.device_control_subtitle_item_name_value) -> DeviceControlSubtitleMode.ITEM_NAME
         else -> DeviceControlSubtitleMode.LOCATION
     }
-}
 
 /**
  * Returns vibration pattern for notifications that can be passed to
  * [}][androidx.core.app.NotificationCompat.Builder.setVibrate]
  */
-fun SharedPreferences.getNotificationVibrationPattern(context: Context): LongArray {
-    return when (getStringOrNull(PrefKeys.NOTIFICATION_VIBRATION)) {
+fun SharedPreferences.getNotificationVibrationPattern(context: Context): LongArray =
+    when (getStringOrNull(PrefKeys.NOTIFICATION_VIBRATION)) {
         context.getString(R.string.settings_notification_vibration_value_short) -> longArrayOf(0, 500, 500)
         context.getString(R.string.settings_notification_vibration_value_long) -> longArrayOf(0, 1000, 1000)
         context.getString(R.string.settings_notification_vibration_value_twice) -> {
@@ -223,7 +186,6 @@ fun SharedPreferences.getNotificationVibrationPattern(context: Context): LongArr
         }
         else -> longArrayOf(0)
     }
-}
 
 fun SharedPreferences.Editor.putConfiguredServerIds(ids: Set<Int>) {
     putStringSet(PrefKeys.SERVER_IDS, ids.map { id -> id.toString() }.toSet())
@@ -245,6 +207,5 @@ fun SharedPreferences.updateDefaultSitemap(connection: Connection?, sitemap: Sit
     ServerConfiguration.saveDefaultSitemap(this, id, defaultSitemap)
 }
 
-fun PreferenceFragmentCompat.getPreference(key: String): Preference {
-    return findPreference(key) ?: throw IllegalArgumentException("No such preference: $key")
-}
+fun PreferenceFragmentCompat.getPreference(key: String): Preference =
+    findPreference(key) ?: throw IllegalArgumentException("No such preference: $key")

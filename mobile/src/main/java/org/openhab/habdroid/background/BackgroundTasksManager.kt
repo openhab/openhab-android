@@ -254,7 +254,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 // Demo mode was disabled -> reschedule uploads
                 (key == PrefKeys.DEMO_MODE && !prefs.isDemoModeEnabled()) ||
                     // Prefix has been changed -> reschedule uploads
-                    key == PrefKeys.DEV_ID || key == PrefKeys.DEV_ID_PREFIX_BG_TASKS ||
+                    key == PrefKeys.DEV_ID ||
+                    key == PrefKeys.DEV_ID_PREFIX_BG_TASKS ||
                     key == PrefKeys.PRIMARY_SERVER_ID -> {
                     KNOWN_KEYS.forEach { knowKey -> scheduleWorker(context, knowKey, true) }
                 }
@@ -717,9 +718,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
             workManager.enqueueUniqueWork(primaryTag, ExistingWorkPolicy.REPLACE, workRequest.build())
         }
 
-        fun getLastUpdateCache(context: Context): SharedPreferences {
-            return context.getSharedPreferences("background-tasks-cache", Context.MODE_PRIVATE)
-        }
+        fun getLastUpdateCache(context: Context): SharedPreferences =
+            context.getSharedPreferences("background-tasks-cache", Context.MODE_PRIVATE)
 
         init {
             VALUE_GETTER_MAP[PrefKeys.SEND_ALARM_CLOCK] = { context, _ ->
@@ -843,13 +843,11 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 }
             }
             VALUE_GETTER_MAP[PrefKeys.SEND_BLUETOOTH_DEVICES] = { context, _ ->
-                fun BluetoothDevice.isConnected(): Boolean {
-                    return try {
-                        val m = javaClass.getMethod("isConnected")
-                        m.invoke(this) as Boolean
-                    } catch (e: Exception) {
-                        throw IllegalStateException(e)
-                    }
+                fun BluetoothDevice.isConnected(): Boolean = try {
+                    val m = javaClass.getMethod("isConnected")
+                    m.invoke(this) as Boolean
+                } catch (e: Exception) {
+                    throw IllegalStateException(e)
                 }
 
                 val requiredPermissions = getRequiredPermissionsForTask(PrefKeys.SEND_BLUETOOTH_DEVICES)

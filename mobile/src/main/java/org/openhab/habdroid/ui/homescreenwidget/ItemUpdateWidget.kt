@@ -365,9 +365,8 @@ open class ItemUpdateWidget : AppWidgetProvider() {
             views.setViewVisibility(R.id.progress_bar, View.GONE)
         }
 
-        fun getPrefsForWidget(context: Context, id: Int): SharedPreferences {
-            return context.getSharedPreferences(getPrefsNameForWidget(id), Context.MODE_PRIVATE)
-        }
+        fun getPrefsForWidget(context: Context, id: Int): SharedPreferences =
+            context.getSharedPreferences(getPrefsNameForWidget(id), Context.MODE_PRIVATE)
 
         private fun getPrefsNameForWidget(id: Int) = "widget-$id"
 
@@ -391,28 +390,24 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         val icon: IconResource?,
         val showState: Boolean
     ) : Parcelable {
-        fun isValid(): Boolean {
-            return item.isNotEmpty() &&
-                label.isNotEmpty()
-        }
+        fun isValid(): Boolean = item.isNotEmpty() &&
+            label.isNotEmpty()
 
         /**
          * When comparing fields treat null as an empty string.
          */
-        fun nearlyEquals(other: Any?): Boolean {
-            return when (other) {
-                null -> false
-                !is ItemUpdateWidgetData -> false
-                this -> true
-                else -> {
-                    this.item == other.item &&
-                        this.command.orEmpty() == other.command.orEmpty() &&
-                        this.label == other.label &&
-                        this.widgetLabel.orEmpty() == other.widgetLabel.orEmpty() &&
-                        this.mappedState == other.mappedState &&
-                        this.icon == other.icon &&
-                        this.showState == other.showState
-                }
+        fun nearlyEquals(other: Any?): Boolean = when (other) {
+            null -> false
+            !is ItemUpdateWidgetData -> false
+            this -> true
+            else -> {
+                this.item == other.item &&
+                    this.command.orEmpty() == other.command.orEmpty() &&
+                    this.label == other.label &&
+                    this.widgetLabel.orEmpty() == other.widgetLabel.orEmpty() &&
+                    this.mappedState == other.mappedState &&
+                    this.icon == other.icon &&
+                    this.showState == other.showState
             }
         }
     }

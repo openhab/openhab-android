@@ -74,9 +74,7 @@ object MapViewHelper {
                             return true
                         }
 
-                        override fun longPressHelper(p: GeoPoint): Boolean {
-                            return false
-                        }
+                        override fun longPressHelper(p: GeoPoint) = false
                     })
                 )
                 mapOverlay.setColorFilter(if (context.isDarkModeActive()) TilesOverlay.INVERT_COLORS else null)
@@ -196,15 +194,13 @@ fun MapView.setMarker(
     overlays.add(marker)
 }
 
-fun Location.toGeoPoint(): GeoPoint {
-    return GeoPoint(this)
-}
+fun Location.toGeoPoint() = GeoPoint(this)
 
-fun Location.toMapsUrl(): String {
-    return "https://www.openstreetmap.org/#map=16/$latitude/$longitude"
-}
+fun Location.toMapsUrl() = "https://www.openstreetmap.org/#map=16/$latitude/$longitude"
 
-class MapBottomSheet : AbstractWidgetBottomSheet(), Marker.OnMarkerDragListener {
+class MapBottomSheet :
+    AbstractWidgetBottomSheet(),
+    Marker.OnMarkerDragListener {
     private lateinit var mapView: MapView
     private val handler = Handler(Looper.getMainLooper())
 

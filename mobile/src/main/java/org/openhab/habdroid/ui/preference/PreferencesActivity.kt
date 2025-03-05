@@ -158,15 +158,13 @@ class PreferencesActivity : AbstractBaseActivity() {
             fun onLeaveAndDiscard()
         }
 
-        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-            return AlertDialog.Builder(requireContext())
-                .setTitle(R.string.settings_server_confirm_leave_title)
-                .setMessage(R.string.settings_server_confirm_leave_message)
-                .setPositiveButton(R.string.save) { _, _ -> handleDone(true) }
-                .setNegativeButton(R.string.discard) { _, _ -> handleDone(false) }
-                .setNeutralButton(android.R.string.cancel, null)
-                .create()
-        }
+        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = AlertDialog.Builder(requireContext())
+            .setTitle(R.string.settings_server_confirm_leave_title)
+            .setMessage(R.string.settings_server_confirm_leave_message)
+            .setPositiveButton(R.string.save) { _, _ -> handleDone(true) }
+            .setNegativeButton(R.string.discard) { _, _ -> handleDone(false) }
+            .setNeutralButton(android.R.string.cancel, null)
+            .create()
 
         private fun handleDone(confirmed: Boolean) {
             val callback = parentFragment as Callback? ?: throw IllegalArgumentException()
@@ -207,8 +205,4 @@ interface CustomDialogPreference {
     fun createDialog(): DialogFragment
 }
 
-data class PushNotificationStatus(
-    val message: String,
-    @DrawableRes val icon: Int,
-    val notifyUser: Boolean
-)
+data class PushNotificationStatus(val message: String, @DrawableRes val icon: Int, val notifyUser: Boolean)

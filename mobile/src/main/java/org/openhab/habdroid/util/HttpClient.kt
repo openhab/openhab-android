@@ -109,9 +109,7 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
         headers: Map<String, String>? = null,
         timeoutMillis: Long = DEFAULT_TIMEOUT_MS,
         caching: CachingMode = CachingMode.AVOID_CACHE
-    ): HttpResult {
-        return method(url, "GET", headers, null, null, timeoutMillis, caching)
-    }
+    ): HttpResult = method(url, "GET", headers, null, null, timeoutMillis, caching)
 
     @Throws(HttpException::class)
     suspend fun post(
@@ -119,17 +117,15 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
         requestBody: String,
         mediaType: String = "text/plain;charset=UTF-8",
         headers: Map<String, String>? = null
-    ): HttpResult {
-        return method(
-            url,
-            "POST",
-            headers,
-            requestBody,
-            mediaType,
-            DEFAULT_TIMEOUT_MS,
-            CachingMode.AVOID_CACHE
-        )
-    }
+    ): HttpResult = method(
+        url,
+        "POST",
+        headers,
+        requestBody,
+        mediaType,
+        DEFAULT_TIMEOUT_MS,
+        CachingMode.AVOID_CACHE
+    )
 
     @Throws(HttpException::class)
     suspend fun put(
@@ -137,17 +133,15 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
         requestBody: String,
         mediaType: String = "text/plain;charset=UTF-8",
         headers: Map<String, String>? = null
-    ): HttpResult {
-        return method(
-            url,
-            "PUT",
-            headers,
-            requestBody,
-            mediaType,
-            DEFAULT_TIMEOUT_MS,
-            CachingMode.AVOID_CACHE
-        )
-    }
+    ): HttpResult = method(
+        url,
+        "PUT",
+        headers,
+        requestBody,
+        mediaType,
+        DEFAULT_TIMEOUT_MS,
+        CachingMode.AVOID_CACHE
+    )
 
     private suspend fun method(
         url: String,
@@ -307,9 +301,7 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
 
     class SseSubscription internal constructor(private val source: EventSource, private val listener: SseListener) {
         @Throws(SseFailureException::class)
-        suspend fun getNextEvent(): String {
-            return listener.channel.receive()
-        }
+        suspend fun getNextEvent(): String = listener.channel.receive()
 
         fun cancel() {
             listener.channel.close()

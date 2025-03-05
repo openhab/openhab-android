@@ -24,7 +24,8 @@ import kotlin.math.max
 import org.openhab.habdroid.R
 
 class ChartScalingPreference(context: Context, attrs: AttributeSet) :
-    Preference(context, attrs), Slider.OnChangeListener {
+    Preference(context, attrs),
+    Slider.OnChangeListener {
     private val entries: Array<String>
     private val values: Array<Float>
     private lateinit var slider: Slider
@@ -55,9 +56,7 @@ class ChartScalingPreference(context: Context, attrs: AttributeSet) :
         updateLabel()
     }
 
-    override fun onGetDefaultValue(a: TypedArray, index: Int): Any {
-        return a.getFloat(index, 1.0f)
-    }
+    override fun onGetDefaultValue(a: TypedArray, index: Int): Any = a.getFloat(index, 1.0f)
 
     override fun onSetInitialValue(defaultValue: Any?) {
         val defaultFloat = defaultValue as? Float ?: 1.0f

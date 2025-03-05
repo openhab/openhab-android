@@ -134,7 +134,8 @@ class WidgetAdapter(
     val connection: Connection,
     private val itemClickListener: ItemClickListener,
     private val fragmentPresenter: FragmentPresenter
-) : RecyclerView.Adapter<WidgetAdapter.ViewHolder>(), View.OnClickListener {
+) : RecyclerView.Adapter<WidgetAdapter.ViewHolder>(),
+    View.OnClickListener {
     private val items = mutableListOf<Widget>()
     val itemList: List<Widget> get() = items
     private val widgetsById = mutableMapOf<String, Widget>()
@@ -216,9 +217,8 @@ class WidgetAdapter(
         return true
     }
 
-    fun getItemForContextMenu(info: ContextMenuAwareRecyclerView.RecyclerContextMenuInfo): Widget? {
-        return if (info.position < items.size) items[info.position] else null
-    }
+    fun getItemForContextMenu(info: ContextMenuAwareRecyclerView.RecyclerContextMenuInfo): Widget? =
+        if (info.position < items.size) items[info.position] else null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val (actualViewType, compactMode) = fromInternalViewType(viewType)
@@ -298,13 +298,9 @@ class WidgetAdapter(
         holder.vhc = null
     }
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
+    override fun getItemCount(): Int = items.size
 
-    override fun getItemViewType(position: Int): Int {
-        return getItemViewType(items[position])
-    }
+    override fun getItemViewType(position: Int): Int = getItemViewType(items[position])
 
     override fun onClick(view: View) {
         val holder = view.tag as ViewHolder
@@ -405,11 +401,7 @@ class WidgetAdapter(
     private fun determineSectionSwitchType(mappings: List<LabeledValue>) =
         if (mappings.size in 1..2 && !compactMode) TYPE_SECTIONSWITCH_SMALL else TYPE_SECTIONSWITCH
 
-    data class ViewHolderInitData(
-        val inflater: LayoutInflater,
-        val parent: ViewGroup,
-        val compactMode: Boolean
-    )
+    data class ViewHolderInitData(val inflater: LayoutInflater, val parent: ViewGroup, val compactMode: Boolean)
 
     data class ViewHolderContext(
         val connection: Connection,
@@ -632,17 +624,19 @@ class WidgetAdapter(
         }
     }
 
-    class FirstLevelFrameViewHolder internal constructor(initData: ViewHolderInitData) : AbstractFrameViewHolder(
-        initData,
-        R.layout.widgetlist_frameitem,
-        R.layout.widgetlist_frameitem_compact
-    )
+    class FirstLevelFrameViewHolder internal constructor(initData: ViewHolderInitData) :
+        AbstractFrameViewHolder(
+            initData,
+            R.layout.widgetlist_frameitem,
+            R.layout.widgetlist_frameitem_compact
+        )
 
-    class SecondLevelFrameViewHolder internal constructor(initData: ViewHolderInitData) : AbstractFrameViewHolder(
-        initData,
-        R.layout.widgetlist_frameitem_nested,
-        R.layout.widgetlist_frameitem_nested_compact
-    )
+    class SecondLevelFrameViewHolder internal constructor(initData: ViewHolderInitData) :
+        AbstractFrameViewHolder(
+            initData,
+            R.layout.widgetlist_frameitem_nested,
+            R.layout.widgetlist_frameitem_nested_compact
+        )
 
     class SwitchViewHolder internal constructor(initData: ViewHolderInitData) :
         LabeledItemBaseViewHolder(initData, R.layout.widgetlist_switchitem, R.layout.widgetlist_switchitem_compact) {
@@ -679,11 +673,12 @@ class WidgetAdapter(
         }
     }
 
-    class InputViewHolder internal constructor(initData: ViewHolderInitData) : LabeledItemBaseViewHolder(
-        initData,
-        R.layout.widgetlist_inputitem,
-        R.layout.widgetlist_inputitem_compact
-    ) {
+    class InputViewHolder internal constructor(initData: ViewHolderInitData) :
+        LabeledItemBaseViewHolder(
+            initData,
+            R.layout.widgetlist_inputitem,
+            R.layout.widgetlist_inputitem_compact
+        ) {
         private val inputTextLayout: TextInputLayout = itemView.findViewById(R.id.widgetinput)
         private val inputText: TextInputEditText = itemView.findViewById(R.id.widgetinputvalue)
         private var isBinding = false
@@ -781,11 +776,12 @@ class WidgetAdapter(
         }
     }
 
-    class DateTimeInputViewHolder internal constructor(initData: ViewHolderInitData) : LabeledItemBaseViewHolder(
-        initData,
-        R.layout.widgetlist_datetimeinputitem,
-        R.layout.widgetlist_datetimeinputitem_compact
-    ) {
+    class DateTimeInputViewHolder internal constructor(initData: ViewHolderInitData) :
+        LabeledItemBaseViewHolder(
+            initData,
+            R.layout.widgetlist_datetimeinputitem,
+            R.layout.widgetlist_datetimeinputitem_compact
+        ) {
         override fun bind(widget: Widget) {
             super.bind(widget)
 
@@ -914,7 +910,8 @@ class WidgetAdapter(
                 .filter { (position, buttonView) ->
                     // Remove buttons beyond the grid size; in case of rebinding to different widgets remove all
                     // buttons since we *do* want button release tracking to get lost in that case
-                    position.row >= rowCount || position.column >= columnCount ||
+                    position.row >= rowCount ||
+                        position.column >= columnCount ||
                         (buttonView.tag as? Widget)?.parentId != widget.id
                 }
                 .forEach { (position, buttonView) ->
@@ -1060,7 +1057,8 @@ class WidgetAdapter(
     }
 
     class ImageViewHolder internal constructor(private val initData: ViewHolderInitData) :
-        HeavyDataViewHolder(initData, R.layout.widgetlist_imageitem), View.OnClickListener {
+        HeavyDataViewHolder(initData, R.layout.widgetlist_imageitem),
+        View.OnClickListener {
         private val imageView = widgetContentView as WidgetImageView
         private val prefs = imageView.context.getPrefs()
 
@@ -1068,13 +1066,11 @@ class WidgetAdapter(
             imageView.setOnClickListener(this)
         }
 
-        override fun canBindWithoutDataTransfer(widget: Widget): Boolean {
-            return widget.url == null ||
-                CacheManager.getInstance(itemView.context).isBitmapCached(
-                    connection.httpClient.buildUrl(widget.url),
-                    imageView.context.getIconFallbackColor(IconBackground.APP_THEME)
-                )
-        }
+        override fun canBindWithoutDataTransfer(widget: Widget): Boolean = widget.url == null ||
+            CacheManager.getInstance(itemView.context).isBitmapCached(
+                connection.httpClient.buildUrl(widget.url),
+                imageView.context.getIconFallbackColor(IconBackground.APP_THEME)
+            )
 
         override fun bindAfterDataSaverCheck(widget: Widget) {
             val value = widget.state?.asString
@@ -1128,11 +1124,12 @@ class WidgetAdapter(
         }
     }
 
-    class SelectionViewHolder internal constructor(initData: ViewHolderInitData) : LabeledItemBaseViewHolder(
-        initData,
-        R.layout.widgetlist_selectionitem,
-        R.layout.widgetlist_selectionitem_compact
-    ) {
+    class SelectionViewHolder internal constructor(initData: ViewHolderInitData) :
+        LabeledItemBaseViewHolder(
+            initData,
+            R.layout.widgetlist_selectionitem,
+            R.layout.widgetlist_selectionitem_compact
+        ) {
         override fun bind(widget: Widget) {
             super.bind(widget)
 
@@ -1421,11 +1418,12 @@ class WidgetAdapter(
         }
     }
 
-    class SetpointViewHolder internal constructor(initData: ViewHolderInitData) : LabeledItemBaseViewHolder(
-        initData,
-        R.layout.widgetlist_setpointitem,
-        R.layout.widgetlist_setpointitem_compact
-    ) {
+    class SetpointViewHolder internal constructor(initData: ViewHolderInitData) :
+        LabeledItemBaseViewHolder(
+            initData,
+            R.layout.widgetlist_setpointitem,
+            R.layout.widgetlist_setpointitem_compact
+        ) {
         init {
             itemView.findViewById<View>(R.id.widgetvalue).setOnClickListener { openSelection() }
             itemView.findViewById<View>(R.id.select_button).setOnClickListener { openSelection() }
@@ -1469,7 +1467,8 @@ class WidgetAdapter(
     }
 
     class ChartViewHolder internal constructor(private val initData: ViewHolderInitData) :
-        HeavyDataViewHolder(initData, R.layout.widgetlist_chartitem), View.OnClickListener {
+        HeavyDataViewHolder(initData, R.layout.widgetlist_chartitem),
+        View.OnClickListener {
         private val chart = widgetContentView as WidgetImageView
         private val prefs: SharedPreferences
         private val density: Int
@@ -1747,11 +1746,12 @@ class WidgetAdapter(
         }
     }
 
-    class ColorTemperatureViewHolder internal constructor(initData: ViewHolderInitData) : LabeledItemBaseViewHolder(
-        initData,
-        R.layout.widgetlist_colortemperatureitem,
-        R.layout.widgetlist_colortemperatureitem_compact
-    ) {
+    class ColorTemperatureViewHolder internal constructor(initData: ViewHolderInitData) :
+        LabeledItemBaseViewHolder(
+            initData,
+            R.layout.widgetlist_colortemperatureitem,
+            R.layout.widgetlist_colortemperatureitem_compact
+        ) {
         private val previewImage = itemView.findViewById<ImageView>(R.id.current_temperature)
 
         override fun bind(widget: Widget) {
@@ -1888,9 +1888,8 @@ class WidgetAdapter(
         private const val TYPE_BUTTONGRID = 23
         private const val TYPE_INVISIBLE = 24
 
-        private fun toInternalViewType(viewType: Int, compactMode: Boolean): Int {
-            return viewType or (if (compactMode) 0x100 else 0)
-        }
+        private fun toInternalViewType(viewType: Int, compactMode: Boolean): Int =
+            viewType or (if (compactMode) 0x100 else 0)
 
         private fun fromInternalViewType(viewType: Int): Pair<Int, Boolean> {
             val compactMode = (viewType and 0x100) != 0
@@ -2060,41 +2059,39 @@ fun HttpClient.sendItemCommand(item: Item?, command: String): Job? {
     }
 }
 
-fun LabeledValue.toWidget(id: String, item: Item?): Widget {
-    return Widget(
-        id = id,
-        parentId = null,
-        rawLabel = label,
-        labelSource = Widget.LabelSource.SitemapDefinition,
-        icon = icon,
-        state = null,
-        type = Widget.Type.Button,
-        url = null,
-        item = item,
-        linkedPage = null,
-        mappings = emptyList(),
-        encoding = null,
-        iconColor = null,
-        labelColor = null,
-        valueColor = null,
-        refresh = 0,
-        rawMinValue = null,
-        rawMaxValue = null,
-        rawStep = null,
-        row = row,
-        column = column,
-        command = value,
-        releaseCommand = null,
-        stateless = null,
-        period = "",
-        service = "",
-        legend = null,
-        forceAsItem = false,
-        yAxisDecimalPattern = null,
-        switchSupport = false,
-        releaseOnly = null,
-        height = 0,
-        visibility = true,
-        rawInputHint = null
-    )
-}
+fun LabeledValue.toWidget(id: String, item: Item?): Widget = Widget(
+    id = id,
+    parentId = null,
+    rawLabel = label,
+    labelSource = Widget.LabelSource.SitemapDefinition,
+    icon = icon,
+    state = null,
+    type = Widget.Type.Button,
+    url = null,
+    item = item,
+    linkedPage = null,
+    mappings = emptyList(),
+    encoding = null,
+    iconColor = null,
+    labelColor = null,
+    valueColor = null,
+    refresh = 0,
+    rawMinValue = null,
+    rawMaxValue = null,
+    rawStep = null,
+    row = row,
+    column = column,
+    command = value,
+    releaseCommand = null,
+    stateless = null,
+    period = "",
+    service = "",
+    legend = null,
+    forceAsItem = false,
+    yAxisDecimalPattern = null,
+    switchSupport = false,
+    releaseOnly = null,
+    height = 0,
+    visibility = true,
+    rawInputHint = null
+)

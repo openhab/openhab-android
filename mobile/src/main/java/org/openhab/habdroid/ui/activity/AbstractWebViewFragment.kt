@@ -71,7 +71,11 @@ import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDarkModeActive
 import org.openhab.habdroid.util.toRelativeUrl
 
-abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateListener, CoroutineScope, MenuProvider {
+abstract class AbstractWebViewFragment :
+    Fragment(),
+    ConnectionFactory.UpdateListener,
+    CoroutineScope,
+    MenuProvider {
     private val job = Job()
     override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
     private var webView: WebView? = null
@@ -252,14 +256,12 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         }
     }
 
-    override fun onMenuItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.webview_add_shortcut -> {
-                pinShortcut()
-                true
-            }
-            else -> false
+    override fun onMenuItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.webview_add_shortcut -> {
+            pinShortcut()
+            true
         }
+        else -> false
     }
 
     fun setCallback(callback: ParentCallback) {
@@ -315,9 +317,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         return false
     }
 
-    fun canGoBack(): Boolean {
-        return webView?.canGoBack() == true
-    }
+    fun canGoBack(): Boolean = webView?.canGoBack() == true
 
     private fun loadWebsite(urlToLoad: String = this.urlToLoad) {
         val conn = ConnectionFactory.activeUsableConnection?.connection
@@ -371,9 +371,7 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         webView.loadUrl(url.toString())
     }
 
-    open fun modifyUrl(orig: HttpUrl): HttpUrl {
-        return orig
-    }
+    open fun modifyUrl(orig: HttpUrl): HttpUrl = orig
 
     /**
      * Change the visibility of the progress and error indicators and the WebView.
@@ -435,10 +433,8 @@ abstract class AbstractWebViewFragment : Fragment(), ConnectionFactory.UpdateLis
         }
     }
 
-    class OHAppInterfaceWithPin(
-        context: Context,
-        private val fragment: AbstractWebViewFragment
-    ) : OHAppInterface(context, fragment) {
+    class OHAppInterfaceWithPin(context: Context, private val fragment: AbstractWebViewFragment) :
+        OHAppInterface(context, fragment) {
         @JavascriptInterface
         fun pinToHome() {
             Log.d(TAG, "pinToHome()")
