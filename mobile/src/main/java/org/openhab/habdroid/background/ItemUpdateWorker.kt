@@ -410,6 +410,9 @@ fun Data.Builder.putValueWithInfo(key: String, value: ItemUpdateWorker.ValueWith
 }
 
 fun Data.getValueWithInfo(key: String): ItemUpdateWorker.ValueWithInfo? {
-    val array = getStringArray(key) ?: return null
-    return ItemUpdateWorker.ValueWithInfo(array[0], array[1], ItemUpdateWorker.ValueType.valueOf(array[2]))
+    @Suppress("UNCHECKED_CAST")
+    val array = this.keyValueMap[key] as? Array<String?> ?: return null
+    val value = array[0] ?: return null
+    val type = array[2] ?: return null
+    return ItemUpdateWorker.ValueWithInfo(value, array[1], ItemUpdateWorker.ValueType.valueOf(type))
 }
