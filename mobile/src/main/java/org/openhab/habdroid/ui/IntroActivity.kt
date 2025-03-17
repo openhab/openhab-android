@@ -36,7 +36,9 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.resolveThemedColor
 import org.openhab.habdroid.util.resolveThemedColorToResource
 
-class IntroActivity : AppIntro(), CoroutineScope {
+class IntroActivity :
+    AppIntro(),
+    CoroutineScope {
     private val job = Job()
     override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
 

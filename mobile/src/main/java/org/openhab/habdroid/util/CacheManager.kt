@@ -54,20 +54,17 @@ class CacheManager private constructor(appContext: Context) {
         targetCache(url).put(key, bitmap)
     }
 
-    private fun targetCache(url: HttpUrl): BitmapCache {
-        return if (url.isIconUrl()) {
-            iconBitmapCache
-        } else {
-            temporaryBitmapCache
-        }
+    private fun targetCache(url: HttpUrl): BitmapCache = if (url.isIconUrl()) {
+        iconBitmapCache
+    } else {
+        temporaryBitmapCache
     }
 
     private fun HttpUrl.isIconUrl() = host == IconResource.ICONIFY_API_URL ||
         (pathSegments.firstOrNull() == "icon" && pathSegments[1].isNotEmpty())
 
-    fun isBitmapCached(url: HttpUrl, @ColorInt fallbackColor: Int): Boolean {
-        return getCachedBitmap(url, fallbackColor) != null
-    }
+    fun isBitmapCached(url: HttpUrl, @ColorInt fallbackColor: Int): Boolean =
+        getCachedBitmap(url, fallbackColor) != null
 
     fun saveWidgetIcon(widgetId: Int, iconData: InputStream, format: IconFormat) {
         FileOutputStream(getWidgetIconFile(widgetId, format)).use {
@@ -79,10 +76,8 @@ class CacheManager private constructor(appContext: Context) {
         IconFormat.entries.forEach { format -> getWidgetIconFile(widgetId, format).delete() }
     }
 
-    fun getWidgetIconFormat(widgetId: Int): IconFormat? {
-        return IconFormat.entries
-            .firstOrNull { format -> getWidgetIconFile(widgetId, format).exists() }
-    }
+    fun getWidgetIconFormat(widgetId: Int): IconFormat? = IconFormat.entries
+        .firstOrNull { format -> getWidgetIconFile(widgetId, format).exists() }
 
     fun getWidgetIconStream(widgetId: Int): InputStream? {
         return getWidgetIconFormat(widgetId)?.let { format ->
@@ -124,15 +119,10 @@ class CacheManager private constructor(appContext: Context) {
     }
 
     class BitmapCache(maxSize: Int) : LruCache<CacheKey, Bitmap>(maxSize) {
-        override fun sizeOf(key: CacheKey, value: Bitmap): Int {
-            return value.byteCount / 1024
-        }
+        override fun sizeOf(key: CacheKey, value: Bitmap): Int = value.byteCount / 1024
     }
 
-    data class CacheKey(
-        val url: HttpUrl,
-        @ColorInt val fallbackColor: Int
-    )
+    data class CacheKey(val url: HttpUrl, @ColorInt val fallbackColor: Int)
 
     companion object {
         private val TAG = CacheManager::class.java.simpleName

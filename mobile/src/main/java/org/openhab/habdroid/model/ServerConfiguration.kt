@@ -29,11 +29,7 @@ import org.openhab.habdroid.util.putPrimaryServerId
 import org.openhab.habdroid.util.toNormalizedUrl
 
 @Parcelize
-data class ServerPath(
-    val url: String,
-    val userName: String?,
-    val password: String?
-) : Parcelable {
+data class ServerPath(val url: String, val userName: String?, val password: String?) : Parcelable {
     // If the user name is longer than 50 chars, assume it's an API token and therefore no password is required.
     fun hasAuthentication() = !userName.isNullOrEmpty() && (!password.isNullOrEmpty() || userName.length > 50)
 
@@ -250,9 +246,7 @@ data class ServerConfiguration(
 @Parcelize
 data class DefaultSitemap(val name: String, val label: String) : Parcelable
 
-fun String.toWifiSsids(): Set<String> {
-    return split("\n")
-        .map { ssid -> ssid.trim() }
-        .filter { it.isNotEmpty() }
-        .toSet()
-}
+fun String.toWifiSsids(): Set<String> = split("\n")
+    .map { ssid -> ssid.trim() }
+    .filter { it.isNotEmpty() }
+    .toSet()

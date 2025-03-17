@@ -65,10 +65,9 @@ class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageV
     }
 
     @SuppressLint("CustomViewStyleable")
-    class InternalImageView(
-        context: Context,
-        attrs: AttributeSet?
-    ) : AppCompatImageView(context, attrs), WidgetImageViewIntf {
+    class InternalImageView(context: Context, attrs: AttributeSet?) :
+        AppCompatImageView(context, attrs),
+        WidgetImageViewIntf {
         private var scope: CoroutineScope? = null
         var loadProgressCallback: ((loading: Boolean) -> Unit)? = null
         private val fallback: Drawable?
@@ -400,22 +399,15 @@ class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageV
                 job?.cancel()
             }
 
-            fun hasCompleted(): Boolean {
-                return job?.isCompleted == true
-            }
+            fun hasCompleted(): Boolean = job?.isCompleted == true
 
-            fun isActive(): Boolean {
-                return job?.isActive == true
-            }
+            fun isActive(): Boolean = job?.isActive == true
 
-            fun statelessUrlEquals(url: HttpUrl): Boolean {
-                return this.url.newBuilder().removeAllQueryParameters("state").build() ==
+            fun statelessUrlEquals(url: HttpUrl): Boolean =
+                this.url.newBuilder().removeAllQueryParameters("state").build() ==
                     url.newBuilder().removeAllQueryParameters("state").build()
-            }
 
-            override fun toString(): String {
-                return "HttpImageRequest(url=$url, job=$job)"
-            }
+            override fun toString() = "HttpImageRequest(url=$url, job=$job)"
         }
 
         abstract class PendingRequest

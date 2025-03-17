@@ -219,18 +219,14 @@ data class Item internal constructor(
         Window(Equipment, R.string.item_tag_equipment_window)
     }
 
-    fun isOfTypeOrGroupType(type: Type): Boolean {
-        return this.type == type || groupType == type
-    }
+    fun isOfTypeOrGroupType(type: Type) = this.type == type || groupType == type
 
-    fun canBeToggled(): Boolean {
-        return isOfTypeOrGroupType(Type.Color) ||
-            isOfTypeOrGroupType(Type.Contact) ||
-            isOfTypeOrGroupType(Type.Dimmer) ||
-            isOfTypeOrGroupType(Type.Rollershutter) ||
-            isOfTypeOrGroupType(Type.Switch) ||
-            isOfTypeOrGroupType(Type.Player)
-    }
+    fun canBeToggled() = isOfTypeOrGroupType(Type.Color) ||
+        isOfTypeOrGroupType(Type.Contact) ||
+        isOfTypeOrGroupType(Type.Dimmer) ||
+        isOfTypeOrGroupType(Type.Rollershutter) ||
+        isOfTypeOrGroupType(Type.Switch) ||
+        isOfTypeOrGroupType(Type.Player)
 
     companion object {
         @Throws(JSONException::class)

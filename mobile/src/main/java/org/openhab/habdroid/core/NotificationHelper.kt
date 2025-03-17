@@ -140,9 +140,8 @@ class NotificationHelper(private val context: Context) {
     }
 
     @TargetApi(23)
-    private fun countCloudNotifications(active: Array<StatusBarNotification>): Int {
-        return active.count { n -> n.id != 0 && (n.groupKey?.endsWith("gcm") == true) }
-    }
+    private fun countCloudNotifications(active: Array<StatusBarNotification>): Int =
+        active.count { n -> n.id != 0 && (n.groupKey?.endsWith("gcm") == true) }
 
     private suspend fun makeNotification(message: CloudMessage.CloudNotification): Notification {
         val iconBitmap = getNotificationIcon(message.icon)

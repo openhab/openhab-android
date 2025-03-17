@@ -80,9 +80,7 @@ class ColorPickerHelper(private val colorPicker: ColorPickerView, private val sl
         }
     }
 
-    override fun getFormattedValue(value: Float): String {
-        return "${value.toInt()} %"
-    }
+    override fun getFormattedValue(value: Float): String = "${value.toInt()} %"
 
     private fun setBrightnessIfNeeded() {
         if (slider.value.toInt() == 0) {

@@ -118,14 +118,12 @@ class WidgetSettingsFragment :
         inflater.inflate(R.menu.prefs_save, menu)
     }
 
-    override fun onMenuItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.save -> {
-                onLeaveAndSave()
-                true
-            }
-            else -> false
+    override fun onMenuItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.save -> {
+            onLeaveAndSave()
+            true
         }
+        else -> false
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -153,8 +151,8 @@ class WidgetSettingsFragment :
         }
     }
 
-    private fun getCurrentPrefsAsWidgetData(): ItemUpdateWidget.ItemUpdateWidgetData {
-        return ItemUpdateWidget.ItemUpdateWidgetData(
+    private fun getCurrentPrefsAsWidgetData(): ItemUpdateWidget.ItemUpdateWidgetData =
+        ItemUpdateWidget.ItemUpdateWidgetData(
             item = itemAndStatePref.item.orEmpty(),
             command = itemAndStatePref.state,
             label = itemAndStatePref.label.orEmpty(),
@@ -163,7 +161,6 @@ class WidgetSettingsFragment :
             icon = itemAndStatePref.icon.toOH2IconResource(),
             showState = showStatePref.isChecked
         )
-    }
 
     private fun setDataFromPrefs() {
         val data = ItemUpdateWidget.getInfoForWidget(requireContext(), widgetId)

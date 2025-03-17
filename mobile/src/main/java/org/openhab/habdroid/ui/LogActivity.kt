@@ -45,7 +45,10 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getRemoteUrl
 import org.openhab.habdroid.util.getSecretPrefs
 
-class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
+class LogActivity :
+    AbstractBaseActivity(),
+    SwipeRefreshLayout.OnRefreshListener,
+    SearchView.OnQueryTextListener {
     private lateinit var logTextView: TextView
     private lateinit var fab: FloatingActionButton
     private lateinit var scrollView: NestedScrollView
@@ -257,9 +260,7 @@ class LogActivity : AbstractBaseActivity(), SwipeRefreshLayout.OnRefreshListener
         private val TAG = LogActivity::class.java.simpleName
     }
 
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        return false
-    }
+    override fun onQueryTextSubmit(query: String?): Boolean = false
 
     override fun onQueryTextChange(newText: String?): Boolean {
         logTextView.text = if (newText.isNullOrEmpty()) {

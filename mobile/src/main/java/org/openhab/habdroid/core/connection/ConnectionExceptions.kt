@@ -25,9 +25,7 @@ class ConnectionNotInitializedException : ConnectionException()
 class NetworkNotAvailableException : ConnectionException()
 
 class NoUrlInformationException(private val local: Boolean) : ConnectionException() {
-    fun wouldHaveUsedLocalConnection(): Boolean {
-        return local
-    }
+    fun wouldHaveUsedLocalConnection() = local
 }
 
 class WrongWifiException : ConnectionException()

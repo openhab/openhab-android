@@ -91,23 +91,21 @@ class ServerEditorFragment :
         deleteItem.isVisible = prefs.getConfiguredServerIds().contains(config.id)
     }
 
-    override fun onMenuItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.save -> {
-                saveAndQuit()
-                true
-            }
-            R.id.delete -> {
-                PreferencesActivity.ConfirmationDialogFragment.show(
-                    childFragmentManager,
-                    R.string.settings_server_confirm_deletion,
-                    R.string.delete,
-                    "delete_server_confirmation"
-                )
-                true
-            }
-            else -> false
+    override fun onMenuItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.save -> {
+            saveAndQuit()
+            true
         }
+        R.id.delete -> {
+            PreferencesActivity.ConfirmationDialogFragment.show(
+                childFragmentManager,
+                R.string.settings_server_confirm_deletion,
+                R.string.delete,
+                "delete_server_confirmation"
+            )
+            true
+        }
+        else -> false
     }
 
     private fun saveAndQuit() {

@@ -28,7 +28,8 @@ import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.determineDataUsagePolicy
 
 class ItemPickerAdapter(context: Context, private val itemClickListener: ItemClickListener?) :
-    RecyclerView.Adapter<ItemPickerAdapter.ItemViewHolder>(), View.OnClickListener {
+    RecyclerView.Adapter<ItemPickerAdapter.ItemViewHolder>(),
+    View.OnClickListener {
     private val filteredItems = ArrayList<Item>()
     private val allItems = ArrayList<Item>()
     private val inflater = LayoutInflater.from(context)
@@ -63,18 +64,14 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
         notifyDataSetChanged()
     }
 
-    fun findPositionForName(name: String): Int {
-        return filteredItems.indexOfFirst { item -> item.name == name }
-    }
+    fun findPositionForName(name: String): Int = filteredItems.indexOfFirst { item -> item.name == name }
 
     fun highlightItem(position: Int) {
         highlightedPosition = position
         notifyItemChanged(position)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        return ItemViewHolder(inflater, parent)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder = ItemViewHolder(inflater, parent)
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.bind(filteredItems[position])
@@ -87,9 +84,7 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
         }
     }
 
-    override fun getItemCount(): Int {
-        return filteredItems.size
-    }
+    override fun getItemCount(): Int = filteredItems.size
 
     override fun onClick(view: View) {
         val holder = view.tag as ItemViewHolder

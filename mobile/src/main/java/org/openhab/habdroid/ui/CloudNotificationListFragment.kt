@@ -51,7 +51,10 @@ import org.openhab.habdroid.util.map
  * Mandatory empty constructor for the fragment manager to instantiate the
  * fragment (e.g. upon screen orientation changes).
  */
-class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+class CloudNotificationListFragment :
+    Fragment(),
+    View.OnClickListener,
+    SwipeRefreshLayout.OnRefreshListener {
     lateinit var recyclerView: RecyclerView
     private lateinit var skeleton: SkeletonLayout
     private lateinit var swipeLayout: SwipeRefreshLayout

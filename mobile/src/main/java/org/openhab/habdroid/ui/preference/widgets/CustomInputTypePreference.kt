@@ -31,7 +31,8 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.preference.CustomDialogPreference
 
 open class CustomInputTypePreference(context: Context, attrs: AttributeSet) :
-    EditTextPreference(context, attrs), CustomDialogPreference {
+    EditTextPreference(context, attrs),
+    CustomDialogPreference {
     private val inputType: Int
     private val autofillHints: Array<String>?
     private val whitespaceBehavior: WhitespaceBehavior
@@ -65,30 +66,26 @@ open class CustomInputTypePreference(context: Context, attrs: AttributeSet) :
         super.onSetInitialValue(defValue)
     }
 
-    override fun getDialogLayoutResource(): Int {
-        return R.layout.text_input_pref_dialog
-    }
+    override fun getDialogLayoutResource(): Int = R.layout.text_input_pref_dialog
 
-    override fun getDialogTitle(): CharSequence? {
-        return null
-    }
+    override fun getDialogTitle(): CharSequence? = null
 
-    override fun createDialog(): DialogFragment {
-        return PrefFragment.newInstance(
-            key,
-            title,
-            inputType,
-            autofillHints,
-            whitespaceBehavior.ordinal
-        )
-    }
+    override fun createDialog(): DialogFragment = PrefFragment.newInstance(
+        key,
+        title,
+        inputType,
+        autofillHints,
+        whitespaceBehavior.ordinal
+    )
 
     override fun setText(text: String?) {
         val textToSave = if (whitespaceBehavior == WhitespaceBehavior.TRIM) text?.trim() else text
         super.setText(textToSave)
     }
 
-    class PrefFragment : EditTextPreferenceDialogFragmentCompat(), TextWatcher {
+    class PrefFragment :
+        EditTextPreferenceDialogFragmentCompat(),
+        TextWatcher {
         private lateinit var wrapper: TextInputLayout
         private lateinit var editor: MaterialAutoCompleteTextView
         private var whitespaceBehavior: WhitespaceBehavior? = null

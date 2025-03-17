@@ -67,7 +67,9 @@ import org.openhab.habdroid.util.isInstalled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import org.openhab.habdroid.util.parcelable
 
-class MainSettingsFragment : AbstractSettingsFragment(), ConnectionFactory.UpdateListener {
+class MainSettingsFragment :
+    AbstractSettingsFragment(),
+    ConnectionFactory.UpdateListener {
     override val titleResId: Int @StringRes get() = R.string.action_settings
 
     private var notificationPollingPref: NotificationPollingPreference? = null

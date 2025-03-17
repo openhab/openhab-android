@@ -31,8 +31,7 @@ import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import org.openhab.habdroid.R
 
-class UrlInputPreference(context: Context, attrs: AttributeSet) :
-    CustomInputTypePreference(context, attrs) {
+class UrlInputPreference(context: Context, attrs: AttributeSet) : CustomInputTypePreference(context, attrs) {
     private val isForRemoteServer: Boolean
 
     init {
@@ -42,15 +41,15 @@ class UrlInputPreference(context: Context, attrs: AttributeSet) :
         }
     }
 
-    override fun createDialog(): DialogFragment {
-        return PrefFragment.newInstance(key, title, isForRemoteServer)
-    }
+    override fun createDialog(): DialogFragment = PrefFragment.newInstance(key, title, isForRemoteServer)
 
     override fun setText(text: String?) {
         super.setText(text?.trim())
     }
 
-    class PrefFragment : EditTextPreferenceDialogFragmentCompat(), TextWatcher {
+    class PrefFragment :
+        EditTextPreferenceDialogFragmentCompat(),
+        TextWatcher {
         private lateinit var wrapper: TextInputLayout
         private lateinit var editor: MaterialAutoCompleteTextView
         private var urlIsValid: Boolean = false
