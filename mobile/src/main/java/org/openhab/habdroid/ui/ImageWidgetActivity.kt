@@ -27,6 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
@@ -98,7 +99,7 @@ class ImageWidgetActivity : AbstractBaseActivity() {
                 super.onOptionsItemSelected(item)
             }
             R.id.refresh -> {
-                launch(Dispatchers.IO) {
+                launch {
                     loadImage()
                 }
                 true
@@ -111,55 +112,62 @@ class ImageWidgetActivity : AbstractBaseActivity() {
         val widgetUrl = intent.getStringExtra(WIDGET_URL)
         val conn = connection ?: return finish()
         skeleton.showSkeleton()
-        val bitmap = if (widgetUrl != null) {
-            Log.d(TAG, "Load image from url")
-            val displayMetrics = resources.displayMetrics
-            val size = max(displayMetrics.widthPixels, displayMetrics.heightPixels)
-            try {
-                conn.httpClient
-                    .get(widgetUrl)
-                    .asBitmap(
-                        size,
-                        getIconFallbackColor(IconBackground.APP_THEME),
-                        ImageConversionPolicy.PreferTargetSize
-                    )
-                    .response
-            } catch (e: HttpClient.HttpException) {
-                Log.d(TAG, "Failed to load image", e)
-                return finish()
-            }
-        } else {
-            val link = intent.getStringExtra(WIDGET_LINK)!!
-            val widgetState = try {
-                JSONObject(
-                    conn.httpClient
-                        .get(link)
-                        .asText()
-                        .response
-                ).getString("state") ?: return finish()
-            } catch (e: HttpClient.HttpException) {
-                Log.d(TAG, "Failed to load image", e)
-                return finish()
-            }
 
-            if (widgetState.matches("data:image/.*;base64,.*".toRegex())) {
-                Log.d(TAG, "Load image from value")
-                val dataString = widgetState.substring(widgetState.indexOf(",") + 1)
-                val data = Base64.decode(dataString, Base64.DEFAULT)
-                BitmapFactory.decodeByteArray(data, 0, data.size)
+        val bitmap = withContext(Dispatchers.IO) {
+            if (widgetUrl != null) {
+                Log.d(TAG, "Load image from url")
+                val displayMetrics = resources.displayMetrics
+                val size = max(displayMetrics.widthPixels, displayMetrics.heightPixels)
+                try {
+                    conn.httpClient
+                        .get(widgetUrl)
+                        .asBitmap(
+                            size,
+                            getIconFallbackColor(IconBackground.APP_THEME),
+                            ImageConversionPolicy.PreferTargetSize
+                        )
+                        .response
+                } catch (e: HttpClient.HttpException) {
+                    Log.d(TAG, "Failed to load image", e)
+                    null
+                }
             } else {
-                null
+                val link = intent.getStringExtra(WIDGET_LINK)!!
+                val widgetState = try {
+                    withContext(Dispatchers.IO) {
+                        JSONObject(
+                            conn.httpClient
+                                .get(link)
+                                .asText()
+                                .response
+                        ).getString("state")
+                    }
+                } catch (e: HttpClient.HttpException) {
+                    Log.d(TAG, "Failed to load image", e)
+                    null
+                }
+
+                if (widgetState != null && widgetState.matches("data:image/.*;base64,.*".toRegex())) {
+                    Log.d(TAG, "Load image from value")
+                    val dataString = widgetState.substring(widgetState.indexOf(",") + 1)
+                    val data = Base64.decode(dataString, Base64.DEFAULT)
+                    BitmapFactory.decodeByteArray(data, 0, data.size)
+                } else {
+                    null
+                }
             }
         }
 
-        bitmap ?: return finish()
-
-        // Restore zoom after image refresh
-        val matrix = Matrix()
-        imageView.getSuppMatrix(matrix)
-        imageView.setImageBitmap(bitmap)
-        imageView.setSuppMatrix(matrix)
-        skeleton.showOriginal()
+        if (bitmap == null) {
+            finish()
+        } else {
+            // Restore zoom after image refresh
+            val matrix = Matrix()
+            imageView.getSuppMatrix(matrix)
+            imageView.setImageBitmap(bitmap)
+            imageView.setSuppMatrix(matrix)
+            skeleton.showOriginal()
+        }
     }
 
     private fun scheduleRefresh() {
