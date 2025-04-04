@@ -76,6 +76,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
             else -> null
         }
 
+        // onMessageReceived is called from a background thread, so runBlocking is OK here
         runBlocking {
             cloudMessage?.let { notifHelper.handleNewCloudMessage(it) }
         }

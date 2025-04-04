@@ -35,7 +35,11 @@ import java.io.IOException
 import java.net.URLEncoder
 import java.util.Locale
 import java.util.concurrent.TimeUnit
-import kotlinx.coroutines.runBlocking
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
@@ -113,25 +117,24 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
     // HttpException is thrown by our HTTP code, IOException can be thrown by FCM
     @Throws(HttpClient.HttpException::class, IOException::class)
     private suspend fun registerFcm(connection: CloudConnection) {
-        FirebaseMessaging.getInstance().token.addOnSuccessListener { token: String ->
-            val deviceName = deviceName + if (Util.isFlavorBeta) " (${context.getString(R.string.beta)})" else ""
-            val deviceId = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID) +
-                if (Util.isFlavorBeta) "-beta" else ""
-
-            val registrationUrl = String.format(
-                Locale.US,
-                "addAndroidRegistration?deviceId=%s&deviceModel=%s&regId=%s",
-                deviceId,
-                URLEncoder.encode(deviceName, "UTF-8"),
-                token
-            )
-
-            Log.d(TAG, "Register device at openHAB cloud with URL: $registrationUrl")
-            runBlocking {
-                connection.httpClient.get(registrationUrl).close()
-            }
-            Log.d(TAG, "FCM reg id success")
+        val token = suspendCoroutine<String> { continuation ->
+            FirebaseMessaging.getInstance().token
+                .addOnSuccessListener { continuation.resume(it) }
+                .addOnFailureListener { continuation.resumeWithException(it) }
         }
+        val deviceName = withContext(Dispatchers.IO) {
+            URLEncoder.encode(
+                deviceName + if (Util.isFlavorBeta) " (${context.getString(R.string.beta)})" else "",
+                "UTF-8"
+            )
+        }
+        val deviceId = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID) +
+            if (Util.isFlavorBeta) "-beta" else ""
+        val registrationUrl = "addAndroidRegistration?deviceId=$deviceId&deviceModel=$deviceName&regId=$token"
+
+        Log.d(TAG, "Register device at openHAB cloud with URL: $registrationUrl")
+        connection.httpClient.get(registrationUrl).close()
+        Log.d(TAG, "FCM reg id success")
     }
 
     class ProxyReceiver : BroadcastReceiver() {
