@@ -31,7 +31,6 @@ import java.net.SocketTimeoutException
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
-import kotlinx.coroutines.runBlocking
 import kotlinx.parcelize.Parcelize
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.NotificationUpdateObserver.Companion.NOTIFICATION_ID_BACKGROUND_WORK_RUNNING
@@ -216,7 +215,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
         )
     }
 
-    private fun handleVoiceCommand(context: Context, connection: Connection, value: ValueWithInfo): Result {
+    private suspend fun handleVoiceCommand(context: Context, connection: Connection, value: ValueWithInfo): Result {
         Log.d(TAG, "handleVoiceCommand(value = $value")
         val headers = mapOf("Accept-Language" to Locale.getDefault().language)
         var voiceCommand = value.value
@@ -226,21 +225,17 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
         }
         val result = try {
             Log.d(TAG, "Try to send update to voice interpreters endpoint")
-            runBlocking {
-                connection.httpClient
-                    .post("rest/voice/interpreters", voiceCommand, headers = headers)
-                    .asStatus()
-            }
+            connection.httpClient
+                .post("rest/voice/interpreters", voiceCommand, headers = headers)
+                .asStatus()
         } catch (e: HttpClient.HttpException) {
             Log.d(TAG, "Error sending update to voice interpreters endpoint", e)
             if (e.statusCode == 404) {
                 try {
                     Log.d(TAG, "Voice interpreter endpoint returned 404, falling back to item")
-                    runBlocking {
-                        connection.httpClient
-                            .post("rest/items/VoiceCommand", voiceCommand)
-                            .asStatus()
-                    }
+                    connection.httpClient
+                        .post("rest/items/VoiceCommand", voiceCommand)
+                        .asStatus()
                 } catch (e: HttpClient.HttpException) {
                     Log.d(TAG, "Error sending update to voice item", e)
                     return Result.failure(buildOutputData(true, e.statusCode))

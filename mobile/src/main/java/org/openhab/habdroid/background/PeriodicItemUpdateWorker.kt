@@ -15,18 +15,15 @@ package org.openhab.habdroid.background
 
 import android.content.Context
 import android.util.Log
-import androidx.work.Worker
+import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import kotlinx.coroutines.runBlocking
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 
-class PeriodicItemUpdateWorker(val context: Context, params: WorkerParameters) : Worker(context, params) {
-    override fun doWork(): Result {
+class PeriodicItemUpdateWorker(val context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
+    override suspend fun doWork(): Result {
         Log.d(TAG, "doWork()")
-        runBlocking {
-            doPeriodicWork(context)
-        }
+        doPeriodicWork(context)
         return Result.success()
     }
 

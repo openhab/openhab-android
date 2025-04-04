@@ -16,7 +16,11 @@ package org.openhab.habdroid.core
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import org.openhab.habdroid.model.CloudMessage
 import org.openhab.habdroid.model.CloudNotificationAction
 import org.openhab.habdroid.model.CloudNotificationId
@@ -26,12 +30,18 @@ import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.toJsonArrayOrNull
 
 class FcmMessageListenerService : FirebaseMessagingService() {
+    private val coroutineScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private lateinit var notifHelper: NotificationHelper
 
     override fun onCreate() {
         Log.d(TAG, "onCreate()")
         super.onCreate()
         notifHelper = NotificationHelper(this)
+    }
+
+    override fun onDestroy() {
+        coroutineScope.cancel()
+        super.onDestroy()
     }
 
     override fun onNewToken(token: String) {
@@ -76,7 +86,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
             else -> null
         }
 
-        runBlocking {
+        coroutineScope.launch {
             cloudMessage?.let { notifHelper.handleNewCloudMessage(it) }
         }
     }
