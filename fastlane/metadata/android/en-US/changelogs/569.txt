@@ -1,0 +1,6 @@
+## What's Changed
+* Fix crash during refresh in image viewer activity by @maniac103 in https://github.com/openhab/openhab-android/pull/3876
+* Avoid calling runBlocking from main thread by @maniac103 in https://github.com/openhab/openhab-android/pull/3881
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.17.5-beta...3.17.6-beta
