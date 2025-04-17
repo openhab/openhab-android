@@ -1,0 +1,5 @@
+## What's Changed
+* For DateTimeInput, prefer self-formatted time over label state by @maniac103 in https://github.com/openhab/openhab-android/pull/3887
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.17.6-beta...3.17.7-beta
