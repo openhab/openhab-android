@@ -16,6 +16,7 @@
 package org.openhab.habdroid.core.connection
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.NetworkCapabilities
@@ -46,12 +47,10 @@ import okhttp3.OkHttpClient
 import okhttp3.internal.tls.OkHostnameVerifier
 import okhttp3.logging.HttpLoggingInterceptor
 import org.openhab.habdroid.core.CloudMessagingHelper
-import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getActiveServerId
-import org.openhab.habdroid.util.getCurrentWifiSsid
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getSecretPrefs
@@ -66,7 +65,7 @@ import org.openhab.habdroid.util.isDemoModeEnabled
  * (see the constants in [Connection]).
  */
 class ConnectionFactory internal constructor(
-    private val context: Context,
+    private val context: Application,
     private val prefs: SharedPreferences,
     private val secretPrefs: SharedPreferences,
     private val connectionHelper: ConnectionManagerHelper
@@ -210,10 +209,10 @@ class ConnectionFactory internal constructor(
             activeConn = loadServerConnections(activeServer)
 
             val primaryServer = prefs.getPrimaryServerId()
-            if (primaryServer == activeServer) {
-                primaryConn = activeConn
+            primaryConn = if (primaryServer == activeServer) {
+                activeConn
             } else {
-                primaryConn = loadServerConnections(primaryServer)
+                loadServerConnections(primaryServer)
             }
 
             updateState(callListenersImmediately, null, null, null)
@@ -421,27 +420,37 @@ class ConnectionFactory internal constructor(
         }
 
         var hasWrongWifi = false
+        val restrictedSsids = ServerConfiguration.load(prefs, secretPrefs, prefs.getActiveServerId())?.let { config ->
+            if (config.restrictToWifiSsids) config.wifiSsids else null
+        }
 
         if (local != null && local is DefaultConnection) {
             val localCandidates = available.filter { type ->
-                type is ConnectionManagerHelper.ConnectionType.Wifi ||
-                    type is ConnectionManagerHelper.ConnectionType.Bluetooth ||
-                    type is ConnectionManagerHelper.ConnectionType.Ethernet ||
-                    type is ConnectionManagerHelper.ConnectionType.Vpn
+                when (type) {
+                    is ConnectionManagerHelper.ConnectionType.Wifi -> {
+                        val ssid = type.fetchSsid(context)
+                        when {
+                            ssid.isNullOrEmpty() -> true // assume missing permissions
+                            restrictedSsids?.contains(ssid) == true -> {
+                                Log.d(TAG, "Skip Wi-Fi ${type.network} (server restricted to $restrictedSsids)")
+                                hasWrongWifi = true
+                                false
+                            }
+                            else -> true
+                        }
+                    }
+                    is ConnectionManagerHelper.ConnectionType.Bluetooth -> true
+                    is ConnectionManagerHelper.ConnectionType.Ethernet -> true
+                    is ConnectionManagerHelper.ConnectionType.Vpn -> true
+                    else -> false
+                }
             }
-            for (type in localCandidates) {
-                if (type is ConnectionManagerHelper.ConnectionType.Wifi && !serverMayUseWifi()) {
-                    Log.d(TAG, "Don't use current Wi-Fi because server is restricted to other Wi-Fis")
-                    hasWrongWifi = true
-                    continue
-                }
-
-                if (local.isReachableViaNetwork(type.network)) {
-                    Log.d(TAG, "Connecting to local URL via $type")
-                    local.network = type.network
-                    local.isMetered = !type.caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
-                    return local
-                }
+            val usableLocalNetwork = localCandidates.firstOrNull { local.isReachableViaNetwork(it.network) }
+            if (usableLocalNetwork != null) {
+                Log.d(TAG, "Connecting to local URL via $usableLocalNetwork")
+                local.network = usableLocalNetwork.network
+                local.isMetered = !usableLocalNetwork.caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
+                return local
             }
         }
 
@@ -461,25 +470,6 @@ class ConnectionFactory internal constructor(
         }
 
         throw if (hasWrongWifi) WrongWifiException() else NoUrlInformationException(true)
-    }
-
-    private fun serverMayUseWifi(): Boolean {
-        val activeServerId = prefs.getActiveServerId()
-        val serverPrefs = ServerConfiguration.load(prefs, secretPrefs, activeServerId) ?: return true
-
-        if (!serverPrefs.restrictToWifiSsids) {
-            Log.d(TAG, "Server ${serverPrefs.name} isn't restricted to Wi-Fis")
-            return true
-        }
-
-        val currentSsid = context.getCurrentWifiSsid(OpenHabApplication.DATA_ACCESS_TAG_SELECT_SERVER_WIFI)
-
-        if (currentSsid.isNullOrEmpty()) {
-            Log.d(TAG, "Got SSID '$currentSsid'. Assume missing permissions.")
-            return false
-        }
-
-        return serverPrefs.wifiSsids?.contains(currentSsid) == true
     }
 
     private class ClientKeyManager(context: Context, private val alias: String?) : X509KeyManager {
@@ -560,17 +550,19 @@ class ConnectionFactory internal constructor(
         )
         private val CLIENT_CERT_UPDATE_TRIGGERING_PREFIXES = listOf(PrefKeys.SSL_CLIENT_CERT_PREFIX)
 
-        @VisibleForTesting lateinit var instance: ConnectionFactory
+        @VisibleForTesting
+        lateinit var instance: ConnectionFactory
 
-        fun initialize(ctx: Context) {
+        fun initialize(ctx: Application) {
             instance = ConnectionFactory(ctx, ctx.getPrefs(), ctx.getSecretPrefs(), ConnectionManagerHelper.create(ctx))
             instance.launch {
+                instance.connectionHelper.start()
                 instance.updateConnections()
             }
         }
 
         @VisibleForTesting
-        fun initialize(ctx: Context, prefs: SharedPreferences, connectionHelper: ConnectionManagerHelper) {
+        fun initialize(ctx: Application, prefs: SharedPreferences, connectionHelper: ConnectionManagerHelper) {
             instance = ConnectionFactory(ctx, prefs, prefs, connectionHelper)
         }
 
