@@ -90,6 +90,26 @@
         <item>#daa520</item> <!-- gold -->
     </array>
 
+    <array name="chartSeriesColorsBrightBackground">
+        <item>#1976D2</item> <!-- blue 700 -->
+        <item>#D32F2F</item> <!-- red 700 -->
+        <item>#388E3C</item> <!-- green 700 -->
+        <item>#0097A7</item> <!-- cyan 700 -->
+        <item>#FFA000</item> <!-- amber 700 -->
+        <item>#7B1FA2</item> <!-- purple 700 -->
+        <item>#616161</item> <!-- grey 700 -->
+    </array>
+
+    <array name="chartSeriesColorsDarkBackground">
+        <item>#03A9F4</item> <!-- blue 500 -->
+        <item>#F44336</item> <!-- red 500 -->
+        <item>#4CAF50</item> <!-- green 500 -->
+        <item>#00BCD4</item> <!-- cyan 500 -->
+        <item>#FFC107</item> <!-- amber 500 -->
+        <item>#9C27B0</item> <!-- purple 500 -->
+        <item>#9E9E9E</item> <!-- grey 500 -->
+    </array>
+
     <string-array name="valueColorNames" translatable="false">
         <item>maroon</item>
         <item>red</item>

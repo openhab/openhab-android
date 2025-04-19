@@ -286,9 +286,8 @@ class WidgetListFragment :
                 R.string.analyse
             ).setOnMenuItemClickListener {
                 val mainActivity = activity as MainActivity
-                val intent = Intent(mainActivity, ChartWidgetActivity::class.java)
-                intent.putExtra(ChartWidgetActivity.EXTRA_WIDGET, widget)
-                intent.putExtra(ChartWidgetActivity.EXTRA_SERVER_FLAGS, mainActivity.serverProperties?.flags)
+                val serverFlags = mainActivity.serverProperties?.flags ?: 0
+                val intent = mainActivity.getChartDetailsActivityIntent(widget, serverFlags)
                 mainActivity.startActivity(intent)
                 return@setOnMenuItemClickListener true
             }

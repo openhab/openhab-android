@@ -61,6 +61,7 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import java.io.EOFException
 import java.io.IOException
 import java.io.InputStream
+import java.io.Serializable
 import java.net.ConnectException
 import java.net.Socket
 import java.net.SocketTimeoutException
@@ -486,6 +487,17 @@ fun Context.resolveThemedColorToResource(@AttrRes colorAttr: Int, @ColorRes fall
     return ta.getResourceId(0, fallbackColorRes).also { ta.recycle() }
 }
 
+fun Context.resolveThemedColorArray(@AttrRes arrayAttr: Int): Array<Int> {
+    val tv = TypedValue()
+    theme.resolveAttribute(arrayAttr, tv, false)
+    val ta = resources.obtainTypedArray(tv.data)
+    val result = (0 until ta.length())
+        .map { index -> ta.getColor(index, 0) }
+        .toTypedArray()
+    ta.recycle()
+    return result
+}
+
 fun Context.getChartTheme(serverFlags: Int): CharSequence {
     val tv = TypedValue()
     if (serverFlags and ServerProperties.SERVER_FLAG_TRANSPARENT_CHARTS == 0) {
@@ -691,4 +703,11 @@ inline fun <reified T> Bundle.parcelableArrayList(key: String): List<T>? = when 
     else ->
         @Suppress("DEPRECATION")
         getParcelableArrayList(key)
+}
+
+inline fun <reified T : Serializable> Bundle.serializable(key: String): T? = when {
+    Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getSerializable(key, T::class.java)
+    else ->
+        @Suppress("DEPRECATION")
+        getSerializable(key) as? T
 }

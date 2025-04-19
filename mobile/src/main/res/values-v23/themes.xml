@@ -6,6 +6,7 @@
         <item name="chartTheme">white</item>
         <item name="transparentChartTheme">white_transparent</item>
         <item name="valueColors">@array/valueColorsBrightBackground</item>
+        <item name="chartSeriesColors">@array/chartSeriesColorsBrightBackground</item>
         <item name="skeletonBackground">#F2F2F2</item>
         <item name="skeletonShimmer">#E0E0E0</item>
     </style>

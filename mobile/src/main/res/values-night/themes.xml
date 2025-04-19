@@ -4,6 +4,7 @@
         <item name="chartTheme">dark</item>
         <item name="transparentChartTheme">dark_transparent</item>
         <item name="valueColors">@array/valueColorsDarkBackground</item>
+        <item name="chartSeriesColors">@array/chartSeriesColorsDarkBackground</item>
         <item name="android:statusBarColor">?android:colorBackground</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="skeletonBackground">#1E1E1E</item>
