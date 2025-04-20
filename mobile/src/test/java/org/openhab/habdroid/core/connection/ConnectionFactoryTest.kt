@@ -18,6 +18,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Network
 import android.net.NetworkCapabilities
+import android.net.wifi.WifiManager
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.anyOrNull
 import com.nhaarman.mockitokotlin2.doAnswer
@@ -78,7 +79,8 @@ class ConnectionFactoryTest {
     @JvmField
     val retry = RetryRule()
 
-    private lateinit var mockContext: Context
+    private lateinit var mockWifiManager: WifiManager
+    private lateinit var mockContext: Application
     private lateinit var mockPrefs: SharedPreferences
     private lateinit var mockNetwork: Network
     private lateinit var mockNetworkCaps: NetworkCapabilities
@@ -94,12 +96,19 @@ class ConnectionFactoryTest {
             on { getStringSet(eq(PrefKeys.SERVER_IDS), anyOrNull()) } doReturn setOf("1")
             on { getInt(eq(PrefKeys.ACTIVE_SERVER_ID), any()) } doReturn 1
         }
+
+        mockWifiManager = mock {
+        }
+        @Suppress("DEPRECATION")
+        whenever(mockWifiManager.connectionInfo) doReturn null
+
         mockContext = mock<Application> {
             on { cacheDir } doReturn cacheFolder
             on { getDir(any(), any()) } doAnswer { invocation ->
                 File(appDir, invocation.getArgument<Any>(0).toString())
             }
             on { getString(any()) } doReturn ""
+            on { getSystemService(Context.WIFI_SERVICE) } doReturn mockWifiManager
         }
         whenever(mockContext.applicationContext) doReturn mockContext
 
@@ -278,6 +287,7 @@ class ConnectionFactoryTest {
             changeCallback?.invoke()
         }
 
+        override fun start() {}
         override fun shutdown() {}
     }
 
