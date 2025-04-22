@@ -369,7 +369,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             }
             LineDataSet(values, series.data.name).apply {
                 setDrawCircles(false)
-                setColor(seriesColors[index])
+                setColor(seriesColors[index % seriesColors.size])
                 setDrawCircleHole(false)
                 setDrawValues(false)
                 lineWidth = 1F
@@ -492,7 +492,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
                 val value = dp.seriesData.state?.withValue(dp.value.toFloat())?.toString() ?: e.y.toString()
                 val formattedTimestamp = formatter.format(LocalDateTime.ofInstant(dp.timestamp, dp.seriesData.zoneId))
                 text.text = "${formattedTimestamp}\n${dp.seriesData.name}: $value"
-                highlight?.let { background.setFillColor(dataSetColors[it.dataSetIndex]) }
+                highlight?.let { background.setFillColor(dataSetColors[it.dataSetIndex % dataSetColors.size]) }
             }
             super.refreshContent(e, highlight)
         }
