@@ -220,6 +220,10 @@ class ChartWidgetActivity : AbstractBaseActivity() {
                 }
             }
             return@launch
+        } catch (e: StateParsingException) {
+            Log.w(TAG, "Could not load chart data", e)
+            showError(getString(R.string.chart_error_state_format, e.item.label ?: e.item.name), "")
+            return@launch
         }
 
         configureChartForData(data)
@@ -241,13 +245,14 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         chart.isVisible = true
     }
 
-    private fun showError(message: CharSequence, retryButtonText: CharSequence, retryAction: () -> Unit) {
+    private fun showError(message: CharSequence, retryButtonText: CharSequence, retryAction: (() -> Unit)? = null) {
         chart.isVisible = false
         progressContainer.isVisible = false
         errorContainer.isVisible = true
         errorText.text = message
+        retryButton.isVisible = retryAction != null
         retryButton.text = retryButtonText
-        retryButton.setOnClickListener { retryAction() }
+        retryAction?.let { retryButton.setOnClickListener { it() } }
     }
 
     private fun goToChartImageActivity() {
@@ -262,7 +267,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         onRefresh()
     }
 
-    @Throws(HttpClient.HttpException::class)
+    @Throws(HttpClient.HttpException::class, StateParsingException::class)
     private suspend fun loadData(
         connection: Connection,
         item: Item,
@@ -280,7 +285,11 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         val startTime = timestamp.minus(period)
         val allSeries = itemsForChart.map { item ->
             progressCb(item.label ?: item.name)
-            loadSeriesForItem(connection, item, startTime, serviceId)
+            try {
+                loadSeriesForItem(connection, item, startTime, serviceId)
+            } catch (e: NumberFormatException) {
+                throw StateParsingException(e, item)
+            }
         }
         return ChartData(allSeries, timestamp, startTime)
     }
@@ -384,7 +393,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         chart.fitScreen()
     }
 
-    @Throws(HttpClient.HttpException::class)
+    @Throws(HttpClient.HttpException::class, NumberFormatException::class)
     private suspend fun loadSeriesForItem(
         connection: Connection,
         item: Item,
@@ -407,7 +416,11 @@ class ChartWidgetActivity : AbstractBaseActivity() {
                     val seriesData = SeriesData(item.label ?: item.name, item.state?.asNumber, startTime.zone)
                     val dataPoints = json.getJSONArray("data").map { dpjson ->
                         val timestamp = Instant.ofEpochMilli(dpjson.getLong("time"))
-                        val state = dpjson.getString("state").toDouble()
+                        val state = when (val state = dpjson.getString("state").substringBefore(' ')) {
+                            "ON", "OPEN" -> 1.0
+                            "OFF", "CLOSED" -> 0.0
+                            else -> state.toDouble()
+                        }
                         DataPoint(timestamp, state, seriesData)
                     }
                     Series(seriesData, dataPoints)
@@ -484,6 +497,8 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             super.refreshContent(e, highlight)
         }
     }
+
+    private class StateParsingException(cause: Throwable, val item: Item) : Exception(cause)
 
     companion object {
         private val TAG = ChartWidgetActivity::class.java.simpleName
