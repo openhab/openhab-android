@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.ui
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.net.Uri
@@ -37,9 +38,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
-import com.github.mikephil.charting.formatter.IValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
-import com.github.mikephil.charting.utils.ViewPortHandler
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RelativeCornerSize
 import com.google.android.material.shape.ShapeAppearanceModel
@@ -56,6 +55,7 @@ import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAmount
 import java.util.Locale
 import kotlin.collections.map
+import kotlin.math.roundToInt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -374,20 +374,27 @@ class ChartWidgetActivity : AbstractBaseActivity() {
                 setDrawValues(false)
                 lineWidth = 1F
                 mode = LineDataSet.Mode.STEPPED
-                valueFormatter = object : IValueFormatter {
-                    override fun getFormattedValue(
-                        value: Float,
-                        entry: Entry?,
-                        dataSetIndex: Int,
-                        viewPortHandler: ViewPortHandler?
-                    ) = series.data.state.withValue(value).toString()
-                }
             }
         }
-        chart.axisLeft.valueFormatter = object : IAxisValueFormatter {
-            override fun getFormattedValue(value: Float, axis: AxisBase?) =
-                data.data[0].data.state.withValue(value).toString()
+        with(chart.axisLeft) {
+            if (data.data.all { it.data.type in listOf(Item.Type.Switch, Item.Type.Contact) }) {
+                // states only
+                axisMinimum = -0.05F
+                axisMaximum = 1.05F
+                specificPositions = FloatArray(2) { index -> index.toFloat() }
+                isShowSpecificPositions = true
+            } else {
+                // numeric values
+                resetAxisMinimum()
+                resetAxisMaximum()
+                isShowSpecificPositions = false
+            }
+            valueFormatter = object : IAxisValueFormatter {
+                override fun getFormattedValue(value: Float, axis: AxisBase?) =
+                    data.data[0].data.formatValue(value, this@ChartWidgetActivity)
+            }
         }
+
         chart.legend.isEnabled = data.data.size > 1
         chart.data = LineData(dataSets)
         chart.fitScreen()
@@ -413,7 +420,12 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             .let { resp ->
                 withContext(Dispatchers.IO) {
                     val json = JSONObject(resp.response)
-                    val seriesData = SeriesData(item.label ?: item.name, item.state?.asNumber, startTime.zone)
+                    val seriesData = SeriesData(
+                        item.label ?: item.name,
+                        item.type,
+                        item.state?.asNumber,
+                        startTime.zone
+                    )
                     val dataPoints = json.getJSONArray("data").map { dpjson ->
                         val timestamp = Instant.ofEpochMilli(dpjson.getLong("time"))
                         val state = when (val state = dpjson.getString("state").substringBefore(' ')) {
@@ -451,7 +463,22 @@ class ChartWidgetActivity : AbstractBaseActivity() {
     }
 
     @Parcelize
-    data class SeriesData(val name: String, val state: ParsedState.NumberState?, val zoneId: ZoneId) : Parcelable
+    data class SeriesData(
+        val name: String,
+        val type: Item.Type,
+        val state: ParsedState.NumberState?,
+        val zoneId: ZoneId
+    ) : Parcelable {
+        fun formatValue(value: Float, context: Context) = when (type) {
+            Item.Type.Switch -> context.getString(
+                if (value.roundToInt() > 0) R.string.nfc_action_on else R.string.nfc_action_off
+            )
+            Item.Type.Contact -> context.getString(
+                if (value.roundToInt() > 0) R.string.nfc_action_open else R.string.nfc_action_closed
+            )
+            else -> state.withValue(value).toString()
+        }
+    }
 
     @Parcelize
     data class DataPoint(val timestamp: Instant, val value: Double, val seriesData: SeriesData) : Parcelable
@@ -489,7 +516,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             val dp = e?.data as? DataPoint
             text.isVisible = dp != null
             if (dp != null) {
-                val value = dp.seriesData.state?.withValue(dp.value.toFloat())?.toString() ?: e.y.toString()
+                val value = dp.seriesData.formatValue(dp.value.toFloat(), text.context)
                 val formattedTimestamp = formatter.format(LocalDateTime.ofInstant(dp.timestamp, dp.seriesData.zoneId))
                 text.text = "${formattedTimestamp}\n${dp.seriesData.name}: $value"
                 highlight?.let { background.setFillColor(dataSetColors[it.dataSetIndex % dataSetColors.size]) }
