@@ -4,8 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/WidgetListItemContainer"
+    android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:viewBindingType="android.view.ViewGroup">
 
     <org.openhab.habdroid.ui.widget.WidgetImageView
         android:id="@+id/icon"
@@ -38,7 +40,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="label" />
+        app:constraint_referenced_ids="label"
+        tools:viewBindingType="android.view.View" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input"
