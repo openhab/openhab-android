@@ -105,6 +105,10 @@
             android:label="@string/log"
             android:exported="false" />
         <activity
+            android:name=".ui.ChartImageActivity"
+            android:label="@string/chart_activity_title"
+            android:exported="false" />
+        <activity
             android:name=".ui.ChartWidgetActivity"
             android:label="@string/chart_activity_title"
             android:exported="false" />

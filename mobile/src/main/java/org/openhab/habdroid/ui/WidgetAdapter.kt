@@ -25,7 +25,6 @@ import android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
 import android.text.InputType.TYPE_NUMBER_FLAG_SIGNED
 import android.text.format.DateFormat
 import android.util.Log
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -100,6 +99,7 @@ import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.LabeledValue
 import org.openhab.habdroid.model.ParsedState
+import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.toColorTemperatureInKelvin
 import org.openhab.habdroid.model.withValue
@@ -122,6 +122,7 @@ import org.openhab.habdroid.util.getImageWidgetScalingType
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.resolveThemedColor
+import org.openhab.habdroid.util.resolveThemedColorArray
 import org.openhab.habdroid.util.toColoredRoundedRect
 
 /**
@@ -1510,9 +1511,8 @@ class WidgetAdapter(
         override fun onClick(v: View?) {
             val context = v?.context ?: return
             boundWidget?.let {
-                val intent = Intent(context, ChartWidgetActivity::class.java)
-                intent.putExtra(ChartWidgetActivity.EXTRA_WIDGET, it)
-                intent.putExtra(ChartWidgetActivity.EXTRA_SERVER_FLAGS, requireHolderContext().serverFlags)
+                val serverFlags = requireHolderContext().serverFlags
+                val intent = context.getChartDetailsActivityIntent(it, serverFlags)
                 context.startActivity(intent)
             }
         }
@@ -1823,24 +1823,17 @@ class WidgetAdapter(
 
     @VisibleForTesting
     class ColorMapper internal constructor(context: Context) {
-        private val colorMap = HashMap<String, Int>()
+        private val colorMap: Map<String, Int>
 
         init {
             val colorNames = context.resources.getStringArray(R.array.valueColorNames)
+            val colorValues = context.resolveThemedColorArray(R.attr.valueColors)
+            assert(colorNames.size == colorValues.size)
 
-            val tv = TypedValue()
-            context.theme.resolveAttribute(R.attr.valueColors, tv, false)
-            val ta = context.resources.obtainTypedArray(tv.data)
-
-            var i = 0
-            while (i < ta.length() && i < colorNames.size) {
-                colorMap[colorNames[i]] = ta.getColor(i, 0)
-                i++
-            }
-            colorMap["primary"] = context.resolveThemedColor(R.attr.colorPrimary, 0)
-            colorMap["secondary"] = context.resolveThemedColor(R.attr.colorSecondary, 0)
-
-            ta.recycle()
+            val colorList = colorNames.mapIndexed { index, name -> name to colorValues[index] }.toMutableList()
+            colorList.add("primary" to context.resolveThemedColor(R.attr.colorPrimary, 0))
+            colorList.add("secondary" to context.resolveThemedColor(R.attr.colorSecondary, 0))
+            colorMap = colorList.toMap()
         }
 
         fun mapColor(colorName: String?): Int? {
@@ -2095,3 +2088,14 @@ fun LabeledValue.toWidget(id: String, item: Item?): Widget = Widget(
     visibility = true,
     rawInputHint = null
 )
+
+fun Context.getChartDetailsActivityIntent(widget: Widget, serverFlags: Int) =
+    if ((serverFlags and ServerProperties.SERVER_FLAG_JSON_REST_API) != 0) {
+        Intent(this, ChartWidgetActivity::class.java)
+            .putExtra(ChartWidgetActivity.EXTRA_WIDGET, widget)
+            .putExtra(ChartWidgetActivity.EXTRA_SERVER_FLAGS, serverFlags)
+    } else {
+        Intent(this, ChartImageActivity::class.java)
+            .putExtra(ChartImageActivity.EXTRA_WIDGET, widget)
+            .putExtra(ChartImageActivity.EXTRA_SERVER_FLAGS, serverFlags)
+    }
