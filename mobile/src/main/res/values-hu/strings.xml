@@ -392,6 +392,7 @@
     <string name="chart_activity_period_2_month">2 hónap</string>
     <string name="chart_activity_period_4_month">4 hónap</string>
     <string name="chart_activity_period_1_year">1 év</string>
+    <string name="chart_error_retry_button_retry">Újra</string>
     <!-- NFC -->
     <string name="nfc_action_on">Be</string>
     <string name="nfc_action_up">Fel</string>
