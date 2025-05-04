@@ -397,6 +397,7 @@
     <string name="chart_activity_period_2_month">2 Monate</string>
     <string name="chart_activity_period_4_month">4 Monate</string>
     <string name="chart_activity_period_1_year">1 Jahr</string>
+    <string name="chart_error_retry_button_retry">Erneut versuchen</string>
     <!-- NFC -->
     <string name="nfc_action_on">An</string>
     <string name="nfc_action_up">Hoch</string>
