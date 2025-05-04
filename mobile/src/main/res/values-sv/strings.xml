@@ -288,6 +288,7 @@
     <string name="chart_activity_period_2_month">2 månader</string>
     <string name="chart_activity_period_4_month">4 månader</string>
     <string name="chart_activity_period_1_year">1 år</string>
+    <string name="chart_error_retry_button_retry">Försök igen</string>
     <!-- NFC -->
     <string name="nfc_action_on">På</string>
     <string name="nfc_action_up">Upp</string>
