@@ -1,0 +1,6 @@
+## What's Changed
+* Add interactive chart activity by @maniac103 in https://github.com/openhab/openhab-android/pull/3889
+* Refactor connection handling for API 31+ by @maniac103 in https://github.com/openhab/openhab-android/pull/3817
+* Bump workmanager and fix NPE by @mueller-ma in https://github.com/openhab/openhab-android/pull/3875
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.17.7-beta...3.17.8-beta
