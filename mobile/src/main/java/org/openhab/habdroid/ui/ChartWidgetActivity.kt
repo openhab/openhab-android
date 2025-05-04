@@ -70,6 +70,7 @@ import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
+import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.resolveThemedColor
@@ -175,14 +176,20 @@ class ChartWidgetActivity : AbstractBaseActivity() {
     override fun onStart() {
         super.onStart()
         val data = loadedChartData
-        val dataIsOutdated = data != null &&
-            widget.refresh > 0 &&
-            Duration.between(data.timestamp, Instant.now()).toMillis() > widget.refresh
-        if (data == null || dataIsOutdated) {
-            onRefresh()
-        } else {
+        val loadExistingData = data?.let {
+            val dataUsagePolicy = determineDataUsagePolicy(ConnectionFactory.activeUsableConnection?.connection)
+            val dataIsOutdated = widget.refresh > 0 &&
+                Duration.between(data.timestamp, Instant.now()).toMillis() > widget.refresh
+            val mayDoAutoUpdate = dataUsagePolicy.canDoRefreshes &&
+                (data.totalDataPointCount < 10000 || dataUsagePolicy.canDoLargeTransfers)
+            !dataIsOutdated || !mayDoAutoUpdate
+        }
+
+        if (loadExistingData == true) {
             configureChartForData(data)
             showChart()
+        } else {
+            onRefresh()
         }
     }
 
@@ -488,7 +495,9 @@ class ChartWidgetActivity : AbstractBaseActivity() {
 
     @Parcelize
     data class ChartData(val data: List<Series>, val timestamp: ZonedDateTime, val startTime: ZonedDateTime) :
-        Parcelable
+        Parcelable {
+        val totalDataPointCount get() = data.sumOf { series -> series.dataPoints.size }
+    }
 
     private class ValueMarkerView(chartView: LineChart, seriesColors: Array<Int>) :
         MarkerView(chartView.context, R.layout.chart_marker) {
