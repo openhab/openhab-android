@@ -225,6 +225,7 @@
     <string name="theme_name_battery_saver">Mod întunecat în economisirea bateriei</string>
     <string name="color_scheme_name_default">Implicit</string>
     <!-- Chart -->
+    <string name="chart_error_retry_button_retry">Reîncearcă</string>
     <!-- NFC -->
     <string name="nfc_action_on">Pornit</string>
     <string name="nfc_action_up">Sus</string>
