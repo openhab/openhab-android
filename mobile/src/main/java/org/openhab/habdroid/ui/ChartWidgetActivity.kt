@@ -78,7 +78,6 @@ import org.openhab.habdroid.util.resolveThemedColorArray
 import org.openhab.habdroid.util.serializable
 
 class ChartWidgetActivity : AbstractBaseActivity() {
-    private lateinit var period: TemporalAmount
     private lateinit var widget: Widget
     private lateinit var chart: LineChart
     private lateinit var progressContainer: View
@@ -87,6 +86,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
     private lateinit var errorText: TextView
     private lateinit var retryButton: Button
     private lateinit var seriesColors: Array<Int>
+    private var period: TemporalAmount = Duration.ofDays(1)
     private var serverFlags: Int = 0
     private var loadedChartData: ChartData? = null
 
@@ -463,7 +463,8 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         } catch (_: DateTimeParseException) {
             try {
                 Duration.parse(periodAsIso8601)
-            } catch (_: DateTimeParseException) {
+            } catch (e: DateTimeParseException) {
+                Log.e(TAG, "Could not parse period specification '$period'", e)
                 null
             }
         }
