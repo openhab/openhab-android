@@ -5,7 +5,12 @@
     android:layout_height="wrap_content"
     style="@style/WidgetListItemContainer">
 
-    <include layout="@layout/widgetlist_iconvaluetext" />
+    <include
+        android:id="@+id/icontext"
+        layout="@layout/widgetlist_iconvaluetext"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/switch_group"

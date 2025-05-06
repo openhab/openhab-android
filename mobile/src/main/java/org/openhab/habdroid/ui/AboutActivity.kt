@@ -32,6 +32,7 @@ import java.util.Calendar
 import java.util.Locale
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
+import org.openhab.habdroid.databinding.ActivityAboutBinding
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.openInAppStore
@@ -43,7 +44,6 @@ class AboutActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_about)
         supportFragmentManager.addOnBackStackChangedListener(this)
 
         if (savedInstanceState == null) {
@@ -56,6 +56,11 @@ class AboutActivity :
 
         updateTitle()
         setResult(RESULT_OK)
+    }
+
+    override fun inflateBinding(): CommonBinding {
+        val binding = ActivityAboutBinding.inflate(layoutInflater)
+        return CommonBinding(binding.root, binding.appBar, binding.coordinator, binding.activityContent)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

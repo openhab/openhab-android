@@ -41,8 +41,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
@@ -60,11 +58,9 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.forEach
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.core.widget.ContentLoadingProgressBar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import de.duenndns.ssl.MemorizingTrustManager
 import java.nio.charset.Charset
@@ -98,6 +94,8 @@ import org.openhab.habdroid.core.connection.DemoConnection
 import org.openhab.habdroid.core.connection.NetworkNotAvailableException
 import org.openhab.habdroid.core.connection.NoUrlInformationException
 import org.openhab.habdroid.core.connection.WrongWifiException
+import org.openhab.habdroid.databinding.ActivityMainBinding
+import org.openhab.habdroid.databinding.DrawerHeaderBinding
 import org.openhab.habdroid.model.CloudNotificationId
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.ServerConfiguration
@@ -111,7 +109,6 @@ import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
 import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.preference.widgets.toItemUpdatePrefValue
-import org.openhab.habdroid.ui.widget.LockableDrawerLayout
 import org.openhab.habdroid.util.AsyncServiceResolver
 import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.HttpClient
@@ -156,16 +153,13 @@ class MainActivity :
     private lateinit var prefs: SharedPreferences
     private val onBackPressedCallback = MainOnBackPressedCallback()
     private var serviceResolveJob: Job? = null
-    private lateinit var drawerLayout: LockableDrawerLayout
-    private lateinit var drawerToggle: ActionBarDrawerToggle
+    internal lateinit var binding: ActivityMainBinding
+    private lateinit var drawerHeaderBinding: DrawerHeaderBinding
     private lateinit var drawerMenu: Menu
-    private lateinit var drawerModeSelectorContainer: View
-    private lateinit var drawerModeToggle: ImageView
-    private lateinit var drawerServerNameView: TextView
+    private lateinit var drawerToggle: ActionBarDrawerToggle
     private var drawerIconTintList: ColorStateList? = null
     lateinit var viewPool: RecyclerView.RecycledViewPool
         private set
-    private var progressBar: ContentLoadingProgressBar? = null
     private var sitemapSelectionDialog: AlertDialog? = null
     var connection: Connection? = null
         private set
@@ -231,13 +225,11 @@ class MainActivity :
             throw RuntimeException(e)
         }
 
-        setContentView(R.layout.activity_main)
         // inflate the controller dependent content view
-        controller.inflateViews(findViewById(R.id.content_stub))
+        controller.inflateViews(binding.contentStub)
 
         supportActionBar?.setHomeButtonEnabled(true)
 
-        progressBar = findViewById(R.id.toolbar_progress_bar)
         setProgressIndicatorVisible(false)
 
         setupDrawer()
@@ -297,6 +289,11 @@ class MainActivity :
         }
 
         EventListenerService.startOrStopService(this)
+    }
+
+    override fun inflateBinding(): CommonBinding {
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        return CommonBinding(binding.root, binding.appBar, binding.coordinator, binding.activityContent)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -492,7 +489,7 @@ class MainActivity :
         override fun handleOnBackPressed() {
             CrashReportingHelper.d(TAG, "onBackPressed()")
             when {
-                drawerLayout.isDrawerOpen(findViewById<NavigationView>(R.id.left_drawer)) -> drawerLayout.closeDrawers()
+                binding.drawerContainer.isDrawerOpen(binding.leftDrawer) -> binding.drawerContainer.closeDrawers()
                 controller.canGoBack() -> controller.goBack()
                 isFullscreenEnabled -> when {
                     lastSnackbar?.isShown != true -> showSnackbar(
@@ -920,63 +917,66 @@ class MainActivity :
     }
 
     private fun setupDrawer() {
-        drawerLayout = findViewById(R.id.drawer_container)
-        layoutForSnackbar = drawerLayout
+        layoutForSnackbar = binding.drawerContainer
         drawerToggle = ActionBarDrawerToggle(
             this,
-            drawerLayout,
+            binding.drawerContainer,
             R.string.drawer_open,
             R.string.drawer_close
         )
-        drawerLayout.addDrawerListener(drawerToggle)
-        drawerLayout.addDrawerListener(
-            object : DrawerLayout.SimpleDrawerListener() {
-                override fun onDrawerOpened(drawerView: View) {
-                    val loadedProperties = serverProperties ?: return
-                    val connection = connection ?: return
-                    if (propsRequestJob?.isActive == true) {
-                        return
+        binding.drawerContainer.apply {
+            addDrawerListener(drawerToggle)
+            addDrawerListener(
+                object : DrawerLayout.SimpleDrawerListener() {
+                    override fun onDrawerOpened(drawerView: View) {
+                        val loadedProperties = serverProperties ?: return
+                        val connection = connection ?: return
+                        if (propsRequestJob?.isActive == true) {
+                            return
+                        }
+                        propsRequestJob = launch {
+                            val result = withContext(Dispatchers.IO) {
+                                ServerProperties.updateSitemaps(loadedProperties, connection)
+                            }
+                            when (result) {
+                                is ServerProperties.Companion.PropsSuccess -> {
+                                    serverProperties = result.props
+                                    updateSitemapDrawerEntries()
+                                }
+
+                                is ServerProperties.Companion.PropsFailure -> {
+                                    handlePropertyFetchFailure(result)
+                                }
+                            }
+                        }
                     }
-                    propsRequestJob = launch {
-                        val result = withContext(Dispatchers.IO) {
-                            ServerProperties.updateSitemaps(loadedProperties, connection)
-                        }
-                        when (result) {
-                            is ServerProperties.Companion.PropsSuccess -> {
-                                serverProperties = result.props
-                                updateSitemapDrawerEntries()
-                            }
-                            is ServerProperties.Companion.PropsFailure -> {
-                                handlePropertyFetchFailure(result)
-                            }
-                        }
+
+                    override fun onDrawerClosed(drawerView: View) {
+                        super.onDrawerClosed(drawerView)
+                        updateDrawerMode(false)
                     }
                 }
+            )
+            setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START)
+            // Ensure drawer layout uses the same background as the app bar layout,
+            // even if the toolbar is currently hidden
+            setStatusBarBackgroundColor(resolveThemedColor(R.attr.colorSurface))
+        }
 
-                override fun onDrawerClosed(drawerView: View) {
-                    super.onDrawerClosed(drawerView)
-                    updateDrawerMode(false)
-                }
-            }
-        )
-        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START)
-        // Ensure drawer layout uses the same background as the app bar layout,
-        // even if the toolbar is currently hidden
-        drawerLayout.setStatusBarBackgroundColor(resolveThemedColor(R.attr.colorSurface))
+        binding.leftDrawer.apply {
+            inflateMenu(R.menu.left_drawer)
+            drawerMenu = menu
+            // We only want to tint the menu icons, but not our loaded sitemap icons. NavigationView
+            // unfortunately doesn't support this directly, so we tint the icon drawables manually
+            // instead of letting NavigationView do it.
+            drawerIconTintList = itemIconTintList
+            itemIconTintList = null
+        }
 
-        val drawerView = findViewById<NavigationView>(R.id.left_drawer)
-        drawerView.inflateMenu(R.menu.left_drawer)
-        drawerMenu = drawerView.menu
-
-        // We only want to tint the menu icons, but not our loaded sitemap icons. NavigationView
-        // unfortunately doesn't support this directly, so we tint the icon drawables manually
-        // instead of letting NavigationView do it.
-        drawerIconTintList = drawerView.itemIconTintList
-        drawerView.itemIconTintList = null
         drawerMenu.forEach { item -> item.icon = applyDrawerIconTint(item.icon) }
 
-        drawerView.setNavigationItemSelectedListener { item ->
-            drawerLayout.closeDrawers()
+        binding.leftDrawer.setNavigationItemSelectedListener { item ->
+            binding.drawerContainer.closeDrawers()
             var handled = false
             when (item.itemId) {
                 R.id.notifications -> {
@@ -1045,11 +1045,9 @@ class MainActivity :
             handled
         }
 
-        val headerView = drawerView.getHeaderView(0)
-        drawerModeSelectorContainer = headerView.findViewById(R.id.server_selector)
-        drawerModeSelectorContainer.setOnClickListener { updateDrawerMode(!inServerSelectionMode) }
-        drawerModeToggle = drawerModeSelectorContainer.findViewById(R.id.drawer_mode_switcher)
-        drawerServerNameView = drawerModeSelectorContainer.findViewById(R.id.server_name)
+        val headerView = binding.leftDrawer.getHeaderView(0)
+        drawerHeaderBinding = DrawerHeaderBinding.bind(headerView)
+        drawerHeaderBinding.serverSelector.setOnClickListener { updateDrawerMode(!inServerSelectionMode) }
     }
 
     private fun updateDrawerServerEntries() {
@@ -1059,15 +1057,15 @@ class MainActivity :
 
         // Add new items
         if (connection is DemoConnection) {
-            drawerModeToggle.isGone = true
+            drawerHeaderBinding.drawerModeSwitcher.isGone = true
         } else {
             val configs = prefs.getConfiguredServerIds()
                 .mapNotNull { id -> ServerConfiguration.load(prefs, getSecretPrefs(), id) }
             configs.forEachIndexed { index, config -> drawerMenu.add(R.id.servers, config.id, index, config.name) }
-            drawerModeToggle.isGone = configs.size <= 1
+            drawerHeaderBinding.drawerModeSwitcher.isGone = configs.size <= 1
         }
-        drawerModeSelectorContainer.isClickable = drawerModeToggle.isVisible
-        if (!drawerModeSelectorContainer.isClickable) {
+        drawerHeaderBinding.serverSelector.isClickable = drawerHeaderBinding.drawerModeSwitcher.isVisible
+        if (!drawerHeaderBinding.serverSelector.isClickable) {
             inServerSelectionMode = false
         }
 
@@ -1112,10 +1110,10 @@ class MainActivity :
 
     private fun updateServerNameInDrawer() {
         if (connection is DemoConnection) {
-            drawerServerNameView.text = getString(R.string.settings_openhab_demomode)
+            drawerHeaderBinding.serverName.text = getString(R.string.settings_openhab_demomode)
         } else {
             val activeConfig = ServerConfiguration.load(prefs, getSecretPrefs(), prefs.getActiveServerId())
-            drawerServerNameView.text = activeConfig?.name
+            drawerHeaderBinding.serverName.text = activeConfig?.name
         }
     }
 
@@ -1167,7 +1165,7 @@ class MainActivity :
             return
         }
         inServerSelectionMode = inServerMode
-        drawerModeToggle.setImageResource(
+        drawerHeaderBinding.drawerModeSwitcher.setImageResource(
             if (inServerSelectionMode) R.drawable.ic_menu_up_24dp else R.drawable.ic_menu_down_24dp
         )
         updateDrawerItemVisibility()
@@ -1353,9 +1351,9 @@ class MainActivity :
 
     fun setProgressIndicatorVisible(visible: Boolean) {
         if (visible) {
-            progressBar?.show()
+            binding.appBar.toolbarProgressBar.show()
         } else {
-            progressBar?.hide()
+            binding.appBar.toolbarProgressBar.hide()
         }
     }
 
@@ -1416,7 +1414,7 @@ class MainActivity :
     }
 
     fun setDrawerLocked(locked: Boolean) {
-        drawerLayout.isSwipeDisabled = locked
+        binding.drawerContainer.isSwipeDisabled = locked
     }
 
     private fun handlePropertyFetchFailure(result: ServerProperties.Companion.PropsFailure) {

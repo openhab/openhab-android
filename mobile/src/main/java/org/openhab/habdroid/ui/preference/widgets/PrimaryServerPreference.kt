@@ -22,16 +22,14 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.setupHelpIcon
 
 class PrimaryServerPreference(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
-    private var helpIcon: ImageView? = null
-
     init {
         widgetLayoutResource = R.layout.help_icon_pref
     }
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
-        helpIcon = holder.itemView.findViewById(R.id.help_icon)
-        helpIcon?.setupHelpIcon(
+        val helpIcon = holder.itemView.findViewById<ImageView>(R.id.help_icon)
+        helpIcon.setupHelpIcon(
             context.getString(R.string.settings_server_primary_url),
             R.string.click_here_for_more_information
         )
