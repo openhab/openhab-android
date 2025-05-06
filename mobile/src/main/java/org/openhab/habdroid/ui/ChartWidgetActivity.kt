@@ -455,7 +455,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             period.startsWith('P') -> period
             period == "h" || period == "H" -> "PT1H"
             period.length == 1 -> "P1$period"
-            period.endsWith("H", ignoreCase = true) -> "PT${period.substring(0, period.length)}H"
+            period.endsWith("H", ignoreCase = true) -> "PT${period.substring(0, period.length - 1)}H"
             else -> "P$period"
         }
         return try {
