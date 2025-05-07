@@ -176,7 +176,11 @@ data class ParsedState internal constructor(
          */
         fun toString(locale: Locale): String {
             if (!format.isNullOrEmpty()) {
-                val actualFormat = format.replace("%unit%", unit.orEmpty())
+                val actualFormat = format
+                    .replace("%unit%", unit.orEmpty())
+                    // In case of 'one' unit, the unit is part of the format pattern, but not part of the value
+                    // sent by the server. Avoid ending the value with a space in that case.
+                    .trim()
                 try {
                     return String.format(locale, actualFormat, getActualValue())
                 } catch (e: IllegalFormatException) {
