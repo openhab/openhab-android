@@ -70,15 +70,18 @@ import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
+import org.openhab.habdroid.util.compress
 import org.openhab.habdroid.util.determineDataUsagePolicy
+import org.openhab.habdroid.util.extractParcelable
 import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.resolveThemedColor
 import org.openhab.habdroid.util.resolveThemedColorArray
 import org.openhab.habdroid.util.serializable
+import org.openhab.habdroid.util.toByteArray
+import org.openhab.habdroid.util.uncompress
 
 class ChartWidgetActivity : AbstractBaseActivity() {
-    private lateinit var period: TemporalAmount
     private lateinit var widget: Widget
     private lateinit var chart: LineChart
     private lateinit var progressContainer: View
@@ -87,6 +90,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
     private lateinit var errorText: TextView
     private lateinit var retryButton: Button
     private lateinit var seriesColors: Array<Int>
+    private var period: TemporalAmount = Duration.ofDays(1)
     private var serverFlags: Int = 0
     private var loadedChartData: ChartData? = null
 
@@ -108,7 +112,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         if (savedInstanceState != null) {
             savedInstanceState.serializable<Period>(PERIOD)?.let { period = it }
             savedInstanceState.serializable<Duration>(PERIOD)?.let { period = it }
-            loadedChartData = savedInstanceState.parcelable(DATA)
+            loadedChartData = savedInstanceState.getByteArray(DATA)?.uncompress()?.extractParcelable()
         }
 
         seriesColors = resolveThemedColorArray(R.attr.chartSeriesColors)
@@ -169,7 +173,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             is Period -> outState.putSerializable(PERIOD, p)
             is Duration -> outState.putSerializable(PERIOD, p)
         }
-        outState.putParcelable(DATA, loadedChartData)
+        outState.putByteArray(DATA, loadedChartData?.toByteArray()?.compress())
         super.onSaveInstanceState(outState)
     }
 
@@ -372,9 +376,14 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         val dataSets = data.data.mapIndexed { index, series ->
             val values = series.dataPoints.map {
                 val dpTimestamp = ZonedDateTime.ofInstant(it.timestamp, data.startTime.zone)
-                Entry(Duration.between(data.startTime, dpTimestamp).toMillis().toFloat(), it.value.toFloat(), it)
+                val entryData = DataPointWithSeries(it, series)
+                Entry(
+                    Duration.between(data.startTime, dpTimestamp).toMillis().toFloat(),
+                    it.value.toFloat(),
+                    entryData
+                )
             }
-            LineDataSet(values, series.data.name).apply {
+            LineDataSet(values, series.name).apply {
                 setDrawCircles(false)
                 setColor(seriesColors[index % seriesColors.size])
                 setDrawCircleHole(false)
@@ -384,7 +393,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             }
         }
         with(chart.axisLeft) {
-            if (data.data.all { it.data.type in listOf(Item.Type.Switch, Item.Type.Contact) }) {
+            if (data.data.all { it.type in listOf(Item.Type.Switch, Item.Type.Contact) }) {
                 // states only
                 axisMinimum = -0.05F
                 axisMaximum = 1.05F
@@ -398,7 +407,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             }
             valueFormatter = object : IAxisValueFormatter {
                 override fun getFormattedValue(value: Float, axis: AxisBase?) =
-                    data.data[0].data.formatValue(value, this@ChartWidgetActivity)
+                    data.data[0].formatValue(value, this@ChartWidgetActivity)
             }
         }
 
@@ -427,12 +436,6 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             .let { resp ->
                 withContext(Dispatchers.IO) {
                     val json = JSONObject(resp.response)
-                    val seriesData = SeriesData(
-                        item.label ?: item.name,
-                        item.type,
-                        item.state?.asNumber,
-                        startTime.zone
-                    )
                     val dataPoints = json.getJSONArray("data").map { dpjson ->
                         val timestamp = Instant.ofEpochMilli(dpjson.getLong("time"))
                         val state = when (val state = dpjson.getString("state").substringBefore(' ')) {
@@ -440,9 +443,15 @@ class ChartWidgetActivity : AbstractBaseActivity() {
                             "OFF", "CLOSED" -> 0.0
                             else -> state.toDouble()
                         }
-                        DataPoint(timestamp, state, seriesData)
+                        DataPoint(timestamp, state)
                     }
-                    Series(seriesData, dataPoints)
+                    Series(
+                        item.label ?: item.name,
+                        item.type,
+                        item.state?.asNumber,
+                        startTime.zone,
+                        dataPoints
+                    )
                 }
             }
     }
@@ -455,7 +464,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             period.startsWith('P') -> period
             period == "h" || period == "H" -> "PT1H"
             period.length == 1 -> "P1$period"
-            period.endsWith("H", ignoreCase = true) -> "PT${period.substring(0, period.length)}H"
+            period.endsWith("H", ignoreCase = true) -> "PT${period.substring(0, period.length - 1)}H"
             else -> "P$period"
         }
         return try {
@@ -463,18 +472,23 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         } catch (_: DateTimeParseException) {
             try {
                 Duration.parse(periodAsIso8601)
-            } catch (_: DateTimeParseException) {
+            } catch (e: DateTimeParseException) {
+                Log.e(TAG, "Could not parse period specification '$period'", e)
                 null
             }
         }
     }
 
     @Parcelize
-    data class SeriesData(
+    data class DataPoint(val timestamp: Instant, val value: Double) : Parcelable
+
+    @Parcelize
+    data class Series(
         val name: String,
         val type: Item.Type,
         val state: ParsedState.NumberState?,
-        val zoneId: ZoneId
+        val zoneId: ZoneId,
+        val dataPoints: List<DataPoint>
     ) : Parcelable {
         fun formatValue(value: Float, context: Context) = when (type) {
             Item.Type.Switch -> context.getString(
@@ -488,16 +502,12 @@ class ChartWidgetActivity : AbstractBaseActivity() {
     }
 
     @Parcelize
-    data class DataPoint(val timestamp: Instant, val value: Double, val seriesData: SeriesData) : Parcelable
-
-    @Parcelize
-    data class Series(val data: SeriesData, val dataPoints: List<DataPoint>) : Parcelable
-
-    @Parcelize
     data class ChartData(val data: List<Series>, val timestamp: ZonedDateTime, val startTime: ZonedDateTime) :
         Parcelable {
         val totalDataPointCount get() = data.sumOf { series -> series.dataPoints.size }
     }
+
+    data class DataPointWithSeries(val dp: DataPoint, val series: Series)
 
     private class ValueMarkerView(chartView: LineChart, seriesColors: Array<Int>) :
         MarkerView(chartView.context, R.layout.chart_marker) {
@@ -522,12 +532,14 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         }
 
         override fun refreshContent(e: Entry?, highlight: Highlight?) {
-            val dp = e?.data as? DataPoint
-            text.isVisible = dp != null
-            if (dp != null) {
-                val value = dp.seriesData.formatValue(dp.value.toFloat(), text.context)
-                val formattedTimestamp = formatter.format(LocalDateTime.ofInstant(dp.timestamp, dp.seriesData.zoneId))
-                text.text = "${formattedTimestamp}\n${dp.seriesData.name}: $value"
+            val data = e?.data as? DataPointWithSeries
+            text.isVisible = data != null
+            if (data != null) {
+                val value = data.series.formatValue(data.dp.value.toFloat(), text.context)
+                val formattedTimestamp = formatter.format(
+                    LocalDateTime.ofInstant(data.dp.timestamp, data.series.zoneId)
+                )
+                text.text = "${formattedTimestamp}\n${data.series.name}: $value"
                 highlight?.let { background.setFillColor(dataSetColors[it.dataSetIndex % dataSetColors.size]) }
             }
             super.refreshContent(e, highlight)
