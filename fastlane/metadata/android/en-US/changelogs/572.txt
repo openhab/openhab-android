@@ -1,0 +1,6 @@
+## What's Changed
+* Fix some crashes in chart activity by @maniac103 in https://github.com/openhab/openhab-android/pull/3898
+* Make sure to format number values correctly for unit 'one' by @maniac103 in https://github.com/openhab/openhab-android/pull/3899
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.17.8-beta...3.17.9-beta
