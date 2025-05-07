@@ -126,6 +126,7 @@ android {
 
 aboutLibraries {
     duplicationMode = DuplicateMode.MERGE
+    excludeFields = ['generated']
 }
 
 unMock {
