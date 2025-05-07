@@ -53,6 +53,7 @@ captures/
 .idea/workspace.xml
 .idea/deploymentTargetSelector.xml
 .idea/other.xml
+.idea/androidTestResultsUserPreferences.xml
 
 .kotlin
 
