@@ -148,6 +148,7 @@
     <string name="theme_name_dark">داكن</string>
     <string name="color_scheme_name_default">افتراضي</string>
     <!-- Chart -->
+    <string name="chart_error_retry_button_retry">اعد المحاولة</string>
     <!-- NFC -->
     <string name="nfc_action_on">تشغيل</string>
     <string name="nfc_action_up">أعلى</string>
