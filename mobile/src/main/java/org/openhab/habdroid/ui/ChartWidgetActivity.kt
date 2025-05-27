@@ -182,8 +182,9 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         val data = loadedChartData
         val loadExistingData = data?.let {
             val dataUsagePolicy = determineDataUsagePolicy(ConnectionFactory.activeUsableConnection?.connection)
+            val now = Instant.now().atZone(data.timestamp.zone)
             val dataIsOutdated = widget.refresh > 0 &&
-                Duration.between(data.timestamp, Instant.now()).toMillis() > widget.refresh
+                Duration.between(data.timestamp, now).toMillis() > widget.refresh
             val mayDoAutoUpdate = dataUsagePolicy.canDoRefreshes &&
                 (data.totalDataPointCount < 10000 || dataUsagePolicy.canDoLargeTransfers)
             !dataIsOutdated || !mayDoAutoUpdate
