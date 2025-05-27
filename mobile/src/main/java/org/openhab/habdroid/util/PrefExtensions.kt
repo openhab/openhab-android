@@ -90,7 +90,7 @@ fun SharedPreferences.getNotificationTone(): Uri? {
 
 fun SharedPreferences.isScreenTimerDisabled(): Boolean = getBoolean(PrefKeys.SCREEN_TIMER_OFF, false)
 
-fun SharedPreferences.getChartScalingFactor(): Float = getFloat(PrefKeys.CHART_SCALING, 1.0F)
+fun SharedPreferences.getChartScalingFactor(): Float = getFloat(PrefKeys.CHART_SCALING, 1.5F)
 
 fun SharedPreferences.shouldRequestHighResChart(): Boolean = getBoolean(PrefKeys.CHART_HQ, true)
 
