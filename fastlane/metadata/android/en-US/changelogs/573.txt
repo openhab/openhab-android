@@ -1,0 +1,6 @@
+## What's Changed
+* Fix crash on rotating chart activity by @maniac103 in https://github.com/openhab/openhab-android/pull/3903
+* Fix default value for chart scaling pref by @maniac103 in https://github.com/openhab/openhab-android/pull/3904
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.17.9-beta...3.17.10-beta
