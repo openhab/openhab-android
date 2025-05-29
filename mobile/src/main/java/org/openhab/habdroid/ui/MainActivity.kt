@@ -1416,7 +1416,11 @@ class MainActivity :
     }
 
     fun setDrawerLocked(locked: Boolean) {
-        drawerLayout.isSwipeDisabled = locked
+        drawerLayout.swipeToOpenDisabled = locked
+    }
+
+    fun openDrawer() {
+        drawerLayout.open()
     }
 
     private fun handlePropertyFetchFailure(result: ServerProperties.Companion.PropsFailure) {
