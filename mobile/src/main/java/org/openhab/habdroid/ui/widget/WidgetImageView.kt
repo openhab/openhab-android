@@ -129,7 +129,7 @@ class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageV
             }
 
             if (targetImageSize == 0) {
-                pendingRequest = PendingHttpRequest(client, actualUrl, timeoutMillis, forceLoad)
+                pendingRequest = PendingRequest.Http(client, actualUrl, timeoutMillis, forceLoad)
             } else {
                 doLoad(client, actualUrl, timeoutMillis, forceLoad)
             }
@@ -146,7 +146,7 @@ class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageV
             }
 
             if (targetImageSize == 0) {
-                pendingRequest = PendingBase64Request(bitmap)
+                pendingRequest = PendingRequest.Base64(bitmap)
             } else {
                 applyLoadedBitmap(bitmap)
             }
@@ -156,20 +156,14 @@ class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageV
             super.onLayout(changed, left, top, right, bottom)
             targetImageSize = right - left - paddingLeft - paddingRight
             pendingRequest?.let { r ->
-                when (r) {
-                    is PendingHttpRequest -> {
-                        pendingLoadJob = scope?.launch {
-                            doLoad(r.client, r.url, r.timeoutMillis, r.forceLoad)
-                        }
+                pendingLoadJob = scope?.launch {
+                    when (r) {
+                        is PendingRequest.Http -> doLoad(r.client, r.url, r.timeoutMillis, r.forceLoad)
+                        is PendingRequest.Base64 -> applyLoadedBitmap(r.bitmap)
                     }
-                    is PendingBase64Request -> {
-                        pendingLoadJob = scope?.launch {
-                            applyLoadedBitmap(r.bitmap)
-                        }
-                    }
+                    pendingRequest = null
                 }
             }
-            pendingRequest = null
         }
 
         override fun setImageResource(resId: Int) {
@@ -410,16 +404,12 @@ class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageV
             override fun toString() = "HttpImageRequest(url=$url, job=$job)"
         }
 
-        abstract class PendingRequest
+        sealed class PendingRequest {
+            data class Http(val client: HttpClient, val url: HttpUrl, val timeoutMillis: Long, val forceLoad: Boolean) :
+                PendingRequest()
 
-        data class PendingHttpRequest(
-            val client: HttpClient,
-            val url: HttpUrl,
-            val timeoutMillis: Long,
-            val forceLoad: Boolean
-        ) : PendingRequest()
-
-        data class PendingBase64Request(val bitmap: Bitmap) : PendingRequest()
+            data class Base64(val bitmap: Bitmap) : PendingRequest()
+        }
     }
 
     enum class ImageScalingType {
