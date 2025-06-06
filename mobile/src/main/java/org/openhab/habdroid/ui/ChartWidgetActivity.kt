@@ -70,6 +70,7 @@ import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
+import org.openhab.habdroid.util.appendQueryParameter
 import org.openhab.habdroid.util.compress
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.extractParcelable
@@ -427,6 +428,8 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         val uriBuilder = Uri.Builder()
             .path("rest/persistence/items/${item.name}")
             .appendQueryParameter("starttime", startTime.toString())
+            .appendQueryParameter("boundary", true)
+            .appendQueryParameter("itemState", true)
         if (!serviceId.isNullOrEmpty()) {
             uriBuilder.appendQueryParameter("serviceId", serviceId)
         }
