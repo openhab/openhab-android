@@ -325,6 +325,7 @@
     <string name="chart_activity_period_2_month">2 ヶ月</string>
     <string name="chart_activity_period_4_month">4 ヶ月</string>
     <string name="chart_activity_period_1_year">1 年</string>
+    <string name="chart_error_retry_button_retry">リトライ</string>
     <!-- NFC -->
     <string name="nfc_action_on">オン</string>
     <string name="nfc_action_up">上</string>

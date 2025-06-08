@@ -393,6 +393,7 @@
     <string name="chart_activity_period_2_month">2 maanden</string>
     <string name="chart_activity_period_4_month">4 maanden</string>
     <string name="chart_activity_period_1_year">1 jaar</string>
+    <string name="chart_error_retry_button_retry">Opnieuw</string>
     <!-- NFC -->
     <string name="nfc_action_on">Aan</string>
     <string name="nfc_action_up">Omhoog</string>
