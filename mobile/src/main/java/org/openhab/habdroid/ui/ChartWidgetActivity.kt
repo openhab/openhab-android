@@ -55,6 +55,7 @@ import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAmount
 import java.util.Locale
 import kotlin.collections.map
+import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -406,6 +407,18 @@ class ChartWidgetActivity : AbstractBaseActivity() {
                 resetAxisMinimum()
                 resetAxisMaximum()
                 isShowSpecificPositions = false
+                isGranularityEnabled = false
+
+                data.data[0].state?.format?.let { format ->
+                    if (format.contains("%d")) {
+                        granularity = 1F
+                    } else {
+                        // Try to extract number of decimal digits from a format like '%.3f %unit%
+                        ".*%\\.(\\d+)f.*".toRegex().matchEntire(format)?.let { match ->
+                            granularity = 10.0.pow(-match.groupValues[1].toInt()).toFloat()
+                        }
+                    }
+                }
             }
             valueFormatter = object : IAxisValueFormatter {
                 override fun getFormattedValue(value: Float, axis: AxisBase?) =
