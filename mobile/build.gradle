@@ -54,7 +54,7 @@ android {
         versionName "3.17.10-beta"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField "long", "TIMESTAMP", System.currentTimeMillis() + "L"
+        buildConfigField "long", "TIMESTAMP", System.getenv("SOURCE_DATE_EPOCH") != null ? System.getenv("SOURCE_DATE_EPOCH").toLong() + "L" : System.currentTimeMillis() + "L"
     }
     buildTypes {
         release {
