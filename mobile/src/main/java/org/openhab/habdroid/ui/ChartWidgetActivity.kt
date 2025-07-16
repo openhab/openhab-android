@@ -84,6 +84,7 @@ import org.openhab.habdroid.util.compress
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.extractParcelable
 import org.openhab.habdroid.util.map
+import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.resolveThemedColor
 import org.openhab.habdroid.util.resolveThemedColorArray
@@ -117,6 +118,8 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             this.widget = widget
             parsePeriod(widget.period)?.let { period = it }
         }
+
+        supportActionBar?.title = widget.label.orDefaultIfEmpty(getString(R.string.chart_activity_title))
         serverFlags = intent.getIntExtra(EXTRA_SERVER_FLAGS, 0)
 
         if (savedInstanceState != null) {
