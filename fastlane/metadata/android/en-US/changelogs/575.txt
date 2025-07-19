@@ -1,0 +1,9 @@
+## What's Changed
+* Ask persistence API for data including the full chart range by @maniac103 in https://github.com/openhab/openhab-android/pull/3911
+* Try to derive minimum chart grid line interval from number format by @maniac103 in https://github.com/openhab/openhab-android/pull/3909
+* Remove some non-determinism by @licaon-kter in https://github.com/openhab/openhab-android/pull/3901
+
+## New Contributors
+* @licaon-kter made their first contribution in https://github.com/openhab/openhab-android/pull/3901
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.17.10-beta...3.17.11-beta
