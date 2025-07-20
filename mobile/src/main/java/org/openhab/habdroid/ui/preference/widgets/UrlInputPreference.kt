@@ -54,6 +54,9 @@ class UrlInputPreference(context: Context, attrs: AttributeSet) : CustomInputTyp
 
         override fun onBindDialogView(view: View) {
             super.onBindDialogView(view)
+
+            binding = TextInputPrefDialogBinding.bind(view)
+
             arguments?.getCharSequence(KEY_TITLE)?.let { title ->
                 binding.inputWrapper.hint = title
             }

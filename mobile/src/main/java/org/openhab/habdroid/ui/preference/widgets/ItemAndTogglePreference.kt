@@ -111,8 +111,8 @@ open class ItemAndTogglePreference(context: Context, attrs: AttributeSet?) :
         override fun onCreateDialogView(context: Context): View {
             val inflater = LayoutInflater.from(activity)
             val pref = preference as ItemAndTogglePreference
-            val binding = ItemUpdatingPrefDialogBinding.inflate(inflater)
 
+            binding = ItemUpdatingPrefDialogBinding.inflate(inflater)
             binding.enabled.setOnCheckedChangeListener(this)
             binding.itemName.addTextChangedListener(this)
             binding.helpIcon.setupHelpIcon(pref.howtoUrl.orEmpty(), R.string.settings_item_update_pref_howto_summary)
