@@ -201,6 +201,7 @@ class MapBottomSheet :
     AbstractWidgetBottomSheet(),
     Marker.OnMarkerDragListener {
     private lateinit var binding: BottomSheetMapBinding
+    private val handler: Handler = Handler(Looper.getMainLooper())
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = BottomSheetMapBinding.inflate(inflater, container, false)
@@ -216,16 +217,16 @@ class MapBottomSheet :
             isVerticalMapRepetitionEnabled = false
             overlays.add(CopyrightOverlay(context))
             mapOverlay.setColorFilter(if (context.isDarkModeActive()) TilesOverlay.INVERT_COLORS else null)
-            handler.post {
-                applyPositionAndLabel(
-                    widget.item,
-                    widget.label,
-                    16.0f,
-                    allowDrag = true,
-                    allowScroll = true,
-                    markerDragListener = this@MapBottomSheet
-                )
-            }
+        }
+        handler.post {
+            binding.mapview.applyPositionAndLabel(
+                widget.item,
+                widget.label,
+                16.0f,
+                allowDrag = true,
+                allowScroll = true,
+                markerDragListener = this@MapBottomSheet
+            )
         }
 
         return binding.root
