@@ -160,7 +160,7 @@
     <string name="device_control_hint">Depending on your Android version these tiles are located at long-press menu of the power button or next to the quick tiles</string>
     <string name="screensaver">Screensaver</string>
     <string name="screensaver_item">Displayed Item</string>
-    <string name="screensaver_html_hint"><![CDATA[A small subset of HTML can be used to control the appearance of the Item value, like <small>.]]></string>
+    <string name="screensaver_html_hint">A small subset of HTML can be used to control the appearance of the Item value, like &lt;small&gt;</string>
     <string name="screensaver_bright_screen">Bright screen</string>
     <string name="screensaver_error_loading_item">Error loading Item \"%s\"</string>
 
