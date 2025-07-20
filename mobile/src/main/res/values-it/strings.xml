@@ -137,7 +137,7 @@
     <string name="device_control_hint">A seconda della versione di Android queste icone si trovano nel menu ottenuto premendo a lungo sul pulsante di accensione o accanto alle icone ad accesso rapido</string>
     <string name="screensaver">Salvaschermo</string>
     <string name="screensaver_item">Item Schermo</string>
-    <string name="screensaver_html_hint"><![CDATA[Un piccolo sottoinsieme di HTML può essere usato per controllare l'aspetto del valore dell'item, come <small>.]]></string>
+    <string name="screensaver_html_hint"><![CDATA[Un piccolo sottoinsieme di HTML può essere usato per controllare l\'aspetto del valore dell'item, come <small>.]]></string>
     <string name="screensaver_bright_screen">Schermo luminoso</string>
     <string name="screensaver_error_loading_item">Errore nel caricare l\'item \"%s\"</string>
     <!-- App messages strings -->
