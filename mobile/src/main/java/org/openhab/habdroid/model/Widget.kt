@@ -65,7 +65,7 @@ data class Widget(
     val legend: Boolean?,
     val forceAsItem: Boolean,
     val yAxisDecimalPattern: String?,
-    val interpolation: String?,
+    val interpolation: Interpolation?,
     val switchSupport: Boolean,
     val releaseOnly: Boolean?,
     val height: Int,
@@ -150,6 +150,13 @@ data class Widget(
         Datetime
     }
 
+    enum class Interpolation {
+        Linear,
+        Step;
+
+        override fun toString(): String = name.lowercase()
+    }
+
     enum class LabelSource {
         Unknown,
         ItemLabel,
@@ -186,7 +193,7 @@ data class Widget(
         chartTheme?.let { chartUrl.appendQueryParameter("theme", it.toString()) }
         forcedLegend?.let { chartUrl.appendQueryParameter("legend", it) }
         yAxisDecimalPattern?.let { chartUrl.appendQueryParameter("yAxisDecimalPattern", it) }
-        interpolation?.let { chartUrl.appendQueryParameter("interpolation", it) }
+        interpolation?.let { chartUrl.appendQueryParameter("interpolation", it.toString()) }
 
         if (width > 0) {
             chartUrl.appendQueryParameter("w", width / resDivider)
@@ -272,6 +279,14 @@ fun String?.toWidgetType(): Widget.Type {
 fun String?.toInputHint(): Widget.InputTypeHint? = this?.let { value ->
     try {
         return Widget.InputTypeHint.valueOf(value.lowercase().replaceFirstChar { c -> c.uppercase() })
+    } catch (e: IllegalArgumentException) {
+        return null
+    }
+}
+
+fun String?.toInterpolation(): Widget.Interpolation? = this?.let { value ->
+    try {
+        return Widget.Interpolation.valueOf(value.lowercase().replaceFirstChar { c -> c.uppercase() })
     } catch (e: IllegalArgumentException) {
         return null
     }
@@ -436,7 +451,7 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         legend = optBooleanOrNull("legend"),
         forceAsItem = optBoolean("forceAsItem", false),
         yAxisDecimalPattern = optString("yAxisDecimalPattern"),
-        interpolation = optString("interpolation"),
+        interpolation = optString("interpolation").toInterpolation(),
         switchSupport = optBoolean("switchSupport", false),
         releaseOnly = optBooleanOrNull("releaseOnly"),
         height = optInt("height"),
