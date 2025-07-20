@@ -60,7 +60,6 @@ import com.google.android.material.color.MaterialColors
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RelativeCornerSize
 import com.google.android.material.shape.ShapeAppearanceModel
-import java.io.ByteArrayOutputStream
 import java.io.EOFException
 import java.io.IOException
 import java.io.InputStream
@@ -73,9 +72,6 @@ import java.security.cert.CertPathValidatorException
 import java.security.cert.CertificateExpiredException
 import java.security.cert.CertificateNotYetValidException
 import java.security.cert.CertificateRevokedException
-import java.util.zip.Deflater
-import java.util.zip.DeflaterOutputStream
-import java.util.zip.InflaterInputStream
 import javax.jmdns.ServiceInfo
 import javax.net.ssl.SSLException
 import javax.net.ssl.SSLHandshakeException
@@ -723,35 +719,4 @@ inline fun <reified T : Serializable> Bundle.serializable(key: String): T? = whe
     else ->
         @Suppress("DEPRECATION")
         getSerializable(key) as? T
-}
-
-fun ByteArray.compress(): ByteArray {
-    val baos = ByteArrayOutputStream()
-    val compressionLevel = 3 // on a 1-9 scale, best compromise for speed without giving up too much on size
-    DeflaterOutputStream(baos, Deflater(compressionLevel)).use { it.write(this) }
-    return baos.toByteArray()
-}
-
-fun ByteArray.uncompress() = InflaterInputStream(inputStream()).use { it.readBytes() }
-
-fun Parcelable.toByteArray(): ByteArray {
-    val p = Parcel.obtain()
-    p.writeParcelable(this, 0)
-    val bytes = p.marshall()
-    p.recycle()
-    return bytes
-}
-
-inline fun <reified T : Parcelable> ByteArray.extractParcelable(): T? {
-    val p = Parcel.obtain()
-    p.unmarshall(this, 0, size)
-    p.setDataPosition(0)
-    val result = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        p.readParcelable(T::class.java.classLoader, T::class.java)
-    } else {
-        @Suppress("DEPRECATION")
-        p.readParcelable<T>(T::class.java.classLoader)
-    }
-    p.recycle()
-    return result
 }

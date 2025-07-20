@@ -28,6 +28,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.commitNow
 import androidx.lifecycle.lifecycleScope
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
@@ -80,17 +82,13 @@ import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.appendQueryParameter
-import org.openhab.habdroid.util.compress
 import org.openhab.habdroid.util.determineDataUsagePolicy
-import org.openhab.habdroid.util.extractParcelable
 import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.resolveThemedColor
 import org.openhab.habdroid.util.resolveThemedColorArray
 import org.openhab.habdroid.util.serializable
-import org.openhab.habdroid.util.toByteArray
-import org.openhab.habdroid.util.uncompress
 
 class ChartWidgetActivity : AbstractBaseActivity() {
     private lateinit var widget: Widget
@@ -101,9 +99,10 @@ class ChartWidgetActivity : AbstractBaseActivity() {
     private lateinit var errorText: TextView
     private lateinit var retryButton: Button
     private lateinit var seriesColors: Array<Int>
+    private val dataCacheFragment get() =
+        supportFragmentManager.findFragmentByTag("cache") as? ChartDataCacheFragment
     private var period: TemporalAmount = Duration.ofDays(1)
     private var serverFlags: Int = 0
-    private var loadedChartData: ChartData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,7 +124,12 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         if (savedInstanceState != null) {
             savedInstanceState.serializable<Period>(PERIOD)?.let { period = it }
             savedInstanceState.serializable<Duration>(PERIOD)?.let { period = it }
-            loadedChartData = savedInstanceState.getByteArray(DATA)?.uncompress()?.extractParcelable()
+        }
+
+        if (dataCacheFragment == null) {
+            supportFragmentManager.commitNow {
+                add(ChartDataCacheFragment(), "cache")
+            }
         }
 
         seriesColors = resolveThemedColorArray(R.attr.chartSeriesColors)
@@ -141,7 +145,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         Log.d(TAG, "onCreateOptionsMenu()")
-        loadedChartData?.let { data ->
+        dataCacheFragment?.loadedData?.let { data ->
             menuInflater.inflate(R.menu.chart_menu, menu)
             menu.removeItem(R.id.show_legend)
 
@@ -186,13 +190,12 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             is Period -> outState.putSerializable(PERIOD, p)
             is Duration -> outState.putSerializable(PERIOD, p)
         }
-        outState.putByteArray(DATA, loadedChartData?.toByteArray()?.compress())
         super.onSaveInstanceState(outState)
     }
 
     override fun onStart() {
         super.onStart()
-        val data = loadedChartData
+        val data = dataCacheFragment?.loadedData
         val loadExistingData = data?.let {
             val dataUsagePolicy = determineDataUsagePolicy(ConnectionFactory.activeUsableConnection?.connection)
             val now = Instant.now().atZone(data.timestamp.zone)
@@ -219,7 +222,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             return@launch
         }
 
-        loadedChartData = null
+        dataCacheFragment?.loadedData = null
         invalidateOptionsMenu()
         showLoadingIndicator()
 
@@ -252,7 +255,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         }
 
         configureChartForData(data)
-        loadedChartData = data
+        dataCacheFragment?.loadedData = data
         invalidateOptionsMenu()
         showChart()
     }
@@ -678,6 +681,14 @@ class ChartWidgetActivity : AbstractBaseActivity() {
 
     private class StateParsingException(cause: Throwable, val item: Item) : Exception(cause)
 
+    @Suppress("DEPRECATION")
+    class ChartDataCacheFragment : Fragment() {
+        var loadedData: ChartData? = null
+        init {
+            retainInstance = true
+        }
+    }
+
     companion object {
         private val TAG = ChartWidgetActivity::class.java.simpleName
 
@@ -700,7 +711,6 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         private const val DATA_POINT_LIMIT = 500000
 
         private const val PERIOD = "period"
-        private const val DATA = "data"
         const val EXTRA_WIDGET = "widget"
         const val EXTRA_SERVER_FLAGS = "server_flags"
     }
