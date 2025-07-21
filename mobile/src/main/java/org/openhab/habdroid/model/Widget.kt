@@ -152,9 +152,7 @@ data class Widget(
 
     enum class Interpolation {
         Linear,
-        Step;
-
-        override fun toString(): String = name.lowercase()
+        Step
     }
 
     enum class LabelSource {
@@ -193,7 +191,7 @@ data class Widget(
         chartTheme?.let { chartUrl.appendQueryParameter("theme", it.toString()) }
         forcedLegend?.let { chartUrl.appendQueryParameter("legend", it) }
         yAxisDecimalPattern?.let { chartUrl.appendQueryParameter("yAxisDecimalPattern", it) }
-        interpolation?.let { chartUrl.appendQueryParameter("interpolation", it.toString()) }
+        interpolation?.let { chartUrl.appendQueryParameter("interpolation", it.name.lowercase()) }
 
         if (width > 0) {
             chartUrl.appendQueryParameter("w", width / resDivider)
@@ -284,12 +282,10 @@ fun String?.toInputHint(): Widget.InputTypeHint? = this?.let { value ->
     }
 }
 
-fun String?.toInterpolation(): Widget.Interpolation? = this?.let { value ->
-    try {
-        return Widget.Interpolation.valueOf(value.lowercase().replaceFirstChar { c -> c.uppercase() })
-    } catch (e: IllegalArgumentException) {
-        return null
-    }
+fun String?.toInterpolation(): Widget.Interpolation? = when (this) {
+    "LINEAR" -> Widget.Interpolation.Linear
+    "STEP" -> Widget.Interpolation.Step
+    else -> null
 }
 
 fun String?.toLabelSource(): Widget.LabelSource = when (this) {
