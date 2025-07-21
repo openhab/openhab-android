@@ -139,7 +139,6 @@
     <string name="device_control_hint">Avhengig av din Android-versjon er disse flisene å finne i langt-trykk menyen til av/på bryteren eller ved siden av hurtigflisene</string>
     <string name="screensaver">Skjermsparer</string>
     <string name="screensaver_item">Vist Item</string>
-    <string name="screensaver_html_hint"><![CDATA[Enkelte HTML-elementer kan brukes til å kontrollere utseendet på Item verdien, som <small>.]]></string>
     <string name="screensaver_bright_screen">Lys skjerm</string>
     <string name="screensaver_error_loading_item">Feil ved lasting av Item \"%s\"</string>
     <!-- App messages strings -->
