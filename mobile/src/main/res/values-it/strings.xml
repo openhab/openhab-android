@@ -391,6 +391,12 @@
     <string name="chart_activity_period_2_month">2 mesi</string>
     <string name="chart_activity_period_4_month">4 mesi</string>
     <string name="chart_activity_period_1_year">1 anno</string>
+    <string name="chart_activity_loading_progress_item">Caricamento dati per %1$s</string>
+    <string name="chart_error_authentication">Il server richiede l\'autenticazione per caricare i dati del grafico.\nÈ possibile inserire le credenziali di autenticazione corrette nella configurazione del server nell\'app, oppure caricare il grafico come immagine.</string>
+    <string name="chart_error_state_format">I dati per l\'item %1$s non possono essere caricati. Molto probabilmente il tipo di item non è compatibile con essere mostrato in un grafico.</string>
+    <string name="chart_error_generic">Caricamento dei dati del grafico non riuscito (codice di stato HTTP %1$d).</string>
+    <string name="chart_error_retry_button_chart_image">Carica grafico come immagine</string>
+    <string name="chart_error_retry_button_retry">Ritenta</string>
     <!-- NFC -->
     <string name="nfc_action_on">Acceso</string>
     <string name="nfc_action_up">Su</string>

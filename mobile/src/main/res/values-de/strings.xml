@@ -311,6 +311,8 @@
     <string name="notification_channel_messages_default_severity">Standard</string>
     <string name="notification_channel_messages_default_severity_description">Vom Server gesendete Benachrichtigungen ohne definierte Wichtigkeit</string>
     <string name="notification_channel_group_messages">Nachrichten</string>
+    <string name="notification_channel_severity_value">Tag \'%1$s \' \'</string>
+    <string name="notification_channel_severity_value_description">Vom Server gesendete Benachrichtigungen mit Tag \'%1$s\'</string>
     <plurals name="summary_notification_text">
         <item quantity="one">%d neue Benachrichtigung</item>
         <item quantity="other">%d neue Benachrichtigungen</item>
@@ -394,6 +396,12 @@
     <string name="chart_activity_period_2_month">2 Monate</string>
     <string name="chart_activity_period_4_month">4 Monate</string>
     <string name="chart_activity_period_1_year">1 Jahr</string>
+    <string name="chart_activity_loading_progress_item">Lade Daten für %1$s</string>
+    <string name="chart_error_authentication">Der Server benötigt eine Authentifizierung zum Laden von Diagrammdaten.\nDu kannst entweder korrekte Authentifizierungsdaten in der Server-Konfiguration in der App eingeben oder das Diagramm als Bild laden.</string>
+    <string name="chart_error_state_format">Daten für Item %1$s konnten nicht geladen werden. Vermutlich ist der Typ des Items nicht zur Darstellung in einem Diagramm geeignet.</string>
+    <string name="chart_error_generic">Laden der Daten für das Diagramm fehlgeschlagen (HTTP-Statuscode %1$d).</string>
+    <string name="chart_error_retry_button_chart_image">Diagramm als Bild laden</string>
+    <string name="chart_error_retry_button_retry">Erneut versuchen</string>
     <!-- NFC -->
     <string name="nfc_action_on">An</string>
     <string name="nfc_action_up">Hoch</string>

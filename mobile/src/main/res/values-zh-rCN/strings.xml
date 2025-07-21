@@ -376,6 +376,7 @@
     <string name="chart_activity_period_2_month">2 个月</string>
     <string name="chart_activity_period_4_month">4 个月</string>
     <string name="chart_activity_period_1_year">1 年</string>
+    <string name="chart_error_retry_button_retry">重试</string>
     <!-- NFC -->
     <string name="nfc_action_on">开启</string>
     <string name="nfc_action_up">向上</string>

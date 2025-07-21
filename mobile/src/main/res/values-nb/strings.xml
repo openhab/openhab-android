@@ -311,6 +311,8 @@
     <string name="notification_channel_messages_default_severity">Standard</string>
     <string name="notification_channel_messages_default_severity_description">Varsler sendt av serveren uten en definert alvorlighetsgrad</string>
     <string name="notification_channel_group_messages">Meldinger</string>
+    <string name="notification_channel_severity_value">Merkelapp \'%1$s\'</string>
+    <string name="notification_channel_severity_value_description">Varsler sendt av serveren med merkelapp \'%1$s\'</string>
     <plurals name="summary_notification_text">
         <item quantity="one">%d nytt varsel</item>
         <item quantity="other">%d nye varsler</item>
@@ -394,6 +396,7 @@
     <string name="chart_activity_period_2_month">2 måneder</string>
     <string name="chart_activity_period_4_month">4 måneder</string>
     <string name="chart_activity_period_1_year">1 år</string>
+    <string name="chart_error_retry_button_retry">Prøv på nytt</string>
     <!-- NFC -->
     <string name="nfc_action_on">På</string>
     <string name="nfc_action_up">Opp</string>

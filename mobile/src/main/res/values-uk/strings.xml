@@ -353,6 +353,7 @@
     <string name="chart_activity_period_2_month">2 місяці</string>
     <string name="chart_activity_period_4_month">4 місяці</string>
     <string name="chart_activity_period_1_year">1 рік</string>
+    <string name="chart_error_retry_button_retry">Повторити</string>
     <!-- NFC -->
     <string name="nfc_action_on">Увімкнути</string>
     <string name="nfc_action_up">Підняти</string>

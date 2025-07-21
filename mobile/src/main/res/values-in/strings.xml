@@ -141,6 +141,7 @@
     <string name="theme_name_light">Cahaya</string>
     <string name="theme_name_dark">Gelap</string>
     <!-- Chart -->
+    <string name="chart_error_retry_button_retry">Coba lagi</string>
     <!-- NFC -->
     <string name="nfc_action_on">Di</string>
     <string name="nfc_action_up">Naik</string>

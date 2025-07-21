@@ -211,6 +211,7 @@
     <string name="theme_name_battery_saver">Pil tasarrufunda karanlık mod</string>
     <string name="color_scheme_name_default">Varsayılan</string>
     <!-- Chart -->
+    <string name="chart_error_retry_button_retry">Yeniden Dene</string>
     <!-- NFC -->
     <string name="nfc_action_on">Açık</string>
     <string name="nfc_action_up">Yukarı</string>

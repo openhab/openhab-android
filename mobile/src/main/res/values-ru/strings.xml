@@ -358,6 +358,7 @@
     <string name="chart_activity_period_2_month">2 месяца</string>
     <string name="chart_activity_period_4_month">4 месяца</string>
     <string name="chart_activity_period_1_year">1 год</string>
+    <string name="chart_error_retry_button_retry">Повтор</string>
     <!-- NFC -->
     <string name="nfc_action_on">Вкл</string>
     <string name="nfc_action_up">Вверх</string>
