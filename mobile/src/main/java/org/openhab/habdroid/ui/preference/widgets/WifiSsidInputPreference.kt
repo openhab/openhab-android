@@ -25,11 +25,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.DialogPreference
 import androidx.preference.PreferenceDialogFragmentCompat
-import com.google.android.material.materialswitch.MaterialSwitch
-import com.google.android.material.textfield.MaterialAutoCompleteTextView
-import com.google.android.material.textfield.TextInputLayout
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
+import org.openhab.habdroid.databinding.PrefDialogWifiSsidBinding
 import org.openhab.habdroid.model.toWifiSsids
 import org.openhab.habdroid.ui.preference.CustomDialogPreference
 import org.openhab.habdroid.util.getCurrentWifiSsid
@@ -66,24 +64,14 @@ class WifiSsidInputPreference(context: Context, attrs: AttributeSet) :
     override fun createDialog(): DialogFragment = PrefFragment.newInstance(key, title)
 
     class PrefFragment : PreferenceDialogFragmentCompat() {
-        private lateinit var editorWrapper: TextInputLayout
-        private lateinit var editor: MaterialAutoCompleteTextView
-        private lateinit var restrictButton: MaterialSwitch
+        private lateinit var binding: PrefDialogWifiSsidBinding
 
         override fun onCreateDialogView(context: Context): View {
             val inflater = LayoutInflater.from(activity)
-            val v = inflater.inflate(R.layout.pref_dialog_wifi_ssid, null)
+            binding = PrefDialogWifiSsidBinding.inflate(inflater)
 
-            editorWrapper = v.findViewById(R.id.input_wrapper)
-            editor = v.findViewById(android.R.id.edit)
-            restrictButton = v.findViewById(R.id.restrict_switch)
-
-            editor.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
             arguments?.getCharSequence(KEY_TITLE)?.let { title ->
-                editorWrapper.hint = title
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                editor.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+                binding.inputWrapper.hint = title
             }
 
             val currentValue = (preference as WifiSsidInputPreference).value
@@ -91,14 +79,20 @@ class WifiSsidInputPreference(context: Context, attrs: AttributeSet) :
             val currentSsid =
                 preference.context.getCurrentWifiSsid(OpenHabApplication.DATA_ACCESS_TAG_SELECT_SERVER_WIFI)
             val currentSsidAsArray = currentSsid?.let { arrayOf(it) } ?: emptyArray()
-            val adapter = ArrayAdapter(editor.context, android.R.layout.simple_dropdown_item_1line, currentSsidAsArray)
-            editor.setAdapter(adapter)
+            val adapter = ArrayAdapter(context, android.R.layout.simple_dropdown_item_1line, currentSsidAsArray)
 
-            editor.setText(currentValue?.first.orEmpty())
-            editor.setSelection(editor.text.length)
-            restrictButton.isChecked = currentValue?.second ?: false
+            binding.edit.apply {
+                inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+                }
+                setAdapter(adapter)
+                setText(currentValue?.first.orEmpty())
+                setSelection(text.length)
+            }
+            binding.restrictSwitch.isChecked = currentValue?.second ?: false
 
-            return v
+            return binding.root
         }
 
         override fun onDialogClosed(positiveResult: Boolean) {
@@ -106,7 +100,7 @@ class WifiSsidInputPreference(context: Context, attrs: AttributeSet) :
                 val prefs = preference.sharedPreferences!!
                 prefs.edit {
                     val pref = preference as WifiSsidInputPreference
-                    pref.setValue(Pair(editor.text.toString(), restrictButton.isChecked))
+                    pref.setValue(Pair(binding.edit.text.toString(), binding.restrictSwitch.isChecked))
                 }
             }
         }

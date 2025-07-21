@@ -15,7 +15,9 @@
         android:animateLayoutChanges="true"
         android:fitsSystemWindows="true">
 
-        <include layout="@layout/app_bar" />
+        <include
+            android:id="@+id/app_bar"
+            layout="@layout/app_bar" />
 
         <FrameLayout
             android:id="@+id/activity_content"
