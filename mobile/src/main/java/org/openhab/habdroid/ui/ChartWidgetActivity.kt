@@ -589,8 +589,10 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             val axisScaleDeciSeconds = when (fullRangeDeciSeconds.div(10)) {
                 in 0.0..120.0 -> 1F * 10F
                 in 120.0..2.0 * 3600 -> 60F * 10F
-                in 2.0 * 3600..24.0 * 3600 -> 600F * 10F
-                in 24.0 * 3600..5.0 * 24 * 3600 -> 3600F * 10F
+                in 2.0 * 3600 .. 6.0 * 3600 -> 600F * 10F
+                in 6.0 * 3600..12.0 * 3600 -> 1800F * 10F
+                in 12.0 * 3600 .. 24.0 * 3600 -> 3600F * 10F
+                in 24.0 * 3600..5.0 * 24 * 3600 -> 3F * 3600F * 10F
                 else -> 24F * 3600F * 10F
             }
 
