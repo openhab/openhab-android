@@ -2,4 +2,5 @@
 <resources>
     <integer name="section_switch_max_buttons">6</integer>
     <dimen name="widgetlist_compact_slider_width">200dp</dimen>
+    <integer name="chart_x_label_count">8</integer>
 </resources>
