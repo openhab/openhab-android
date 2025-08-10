@@ -39,6 +39,10 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.renderer.XAxisRenderer
+import com.github.mikephil.charting.utils.Transformer
+import com.github.mikephil.charting.utils.Utils
+import com.github.mikephil.charting.utils.ViewPortHandler
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RelativeCornerSize
 import com.google.android.material.shape.ShapeAppearanceModel
@@ -55,6 +59,10 @@ import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAmount
 import java.util.Locale
 import kotlin.collections.map
+import kotlin.math.ceil
+import kotlin.math.floor
+import kotlin.math.log10
+import kotlin.math.nextUp
 import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlinx.coroutines.Dispatchers
@@ -76,6 +84,7 @@ import org.openhab.habdroid.util.compress
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.extractParcelable
 import org.openhab.habdroid.util.map
+import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.resolveThemedColor
 import org.openhab.habdroid.util.resolveThemedColorArray
@@ -109,6 +118,8 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             this.widget = widget
             parsePeriod(widget.period)?.let { period = it }
         }
+
+        supportActionBar?.title = widget.label.orDefaultIfEmpty(getString(R.string.chart_activity_title))
         serverFlags = intent.getIntExtra(EXTRA_SERVER_FLAGS, 0)
 
         if (savedInstanceState != null) {
@@ -339,31 +350,9 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             isEnabled = false
         }
 
-        val locale = Locale.getDefault()
-        val formatHoursAndMinutes = DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, "JJmm"))
-        val formatHoursAndMinutesWithSeconds =
-            DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, "JJmmss"))
-        val formatDateAndTime = DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, "d JJmm"))
-        val formatDate = DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, "dM"))
-
         with(xAxis) {
             textColor = foregroundColor
-            valueFormatter = object : IAxisValueFormatter {
-                override fun getFormattedValue(value: Float, axis: AxisBase?) = loadedChartData?.let { data ->
-                    val axisRangeSeconds = axis?.mEntries?.let {
-                        val deltaSeconds = (it[it.size - 1] - it[0]) / 1000
-                        deltaSeconds.toInt()
-                    } ?: -1
-                    val format = when (axisRangeSeconds) {
-                        in 0..120 -> formatHoursAndMinutesWithSeconds
-                        in 24 * 3600..5 * 24 * 3600 -> formatDateAndTime
-                        in 5 * 24 * 3600..Int.MAX_VALUE -> formatDate
-                        else -> formatHoursAndMinutes
-                    }
-                    data.startTime.plus(value.toLong(), ChronoUnit.MILLIS)
-                        .let { format.format(it) }
-                }
-            }
+            labelCount = resources.getInteger(R.integer.chart_x_label_count)
             position = XAxis.XAxisPosition.BOTTOM
         }
 
@@ -380,8 +369,10 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             val values = series.dataPoints.map {
                 val dpTimestamp = ZonedDateTime.ofInstant(it.timestamp, data.startTime.zone)
                 val entryData = DataPointWithSeries(it, series)
+                // Entry x and y values are floats only (not double), so we use increments of 100ms as X axis
+                // scale to avoid imprecisions due to large values
                 Entry(
-                    Duration.between(data.startTime, dpTimestamp).toMillis().toFloat(),
+                    Duration.between(data.startTime, dpTimestamp).toMillis().toFloat().div(100),
                     it.value.toFloat(),
                     entryData
                 )
@@ -395,6 +386,29 @@ class ChartWidgetActivity : AbstractBaseActivity() {
                 mode = LineDataSet.Mode.STEPPED
             }
         }
+
+        val viewportHandler = chart.viewPortHandler
+        chart.setXAxisRenderer(
+            TimeXAxisRenderer(
+                viewportHandler,
+                chart.xAxis,
+                chart.rendererXAxis.transformer,
+                data.startTime
+            )
+        )
+        chart.xAxis.valueFormatter = TimeXAxisValueFormatter(
+            data.startTime,
+            viewportHandler,
+            Locale.getDefault()
+        )
+
+        // Make sure at least 5 seconds stay visible on screen
+        val minX = dataSets.minByOrNull { it.xMin }?.xMin
+        val maxX = dataSets.maxByOrNull { it.xMax }?.xMax
+        if (minX != null && maxX != null) {
+            viewportHandler.setMaximumScaleX((maxX - minX) / 50)
+        }
+
         with(chart.axisLeft) {
             if (data.data.all { it.type in listOf(Item.Type.Switch, Item.Type.Contact) }) {
                 // states only
@@ -515,6 +529,105 @@ class ChartWidgetActivity : AbstractBaseActivity() {
                 if (value.roundToInt() > 0) R.string.nfc_action_open else R.string.nfc_action_closed
             )
             else -> state.withValue(value).toString()
+        }
+    }
+
+    class TimeXAxisValueFormatter(
+        private val startTime: ZonedDateTime,
+        private val viewPortHandler: ViewPortHandler,
+        locale: Locale
+    ) : IAxisValueFormatter {
+        private val formatHoursAndMinutes =
+            DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, "JJmm"))
+        private val formatHoursAndMinutesWithDate =
+            DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, "d JJmm"))
+        private val formatHoursAndMinutesWithSeconds =
+            DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, "JJmmss"))
+        private val formatHoursAndMinutesWithSecondsAndDate =
+            DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, "d JJmmss"))
+        private val formatDate =
+            DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, "dM"))
+
+        private var lastFormattedValue = Float.MAX_VALUE
+
+        override fun getFormattedValue(value: Float, axis: AxisBase?): String? {
+            val axisRangeSeconds = axis?.mAxisRange?.div(10)?.div(viewPortHandler.scaleX)?.toInt() ?: -1
+            val labelCount = axis?.mEntryCount ?: 5
+            val needsDate = if (value < lastFormattedValue) {
+                // Since values are formatted in order, if our value is smaller than the one before, it's the first one
+                true
+            } else {
+                value.toTime().hour < lastFormattedValue.toTime().hour
+            }
+
+            val format = when (axisRangeSeconds) {
+                in 0..120 ->
+                    if (needsDate) formatHoursAndMinutesWithSecondsAndDate else formatHoursAndMinutesWithSeconds
+                in labelCount * 24 * 3600..Int.MAX_VALUE -> formatDate
+                else -> if (needsDate) formatHoursAndMinutesWithDate else formatHoursAndMinutes
+            }
+            lastFormattedValue = value
+            return format.format(value.toTime())
+        }
+
+        private fun Float.toTime() = startTime.plus(toLong() * 100, ChronoUnit.MILLIS)
+    }
+
+    class TimeXAxisRenderer(
+        viewPortHandler: ViewPortHandler,
+        axis: XAxis,
+        transformer: Transformer,
+        startTime: ZonedDateTime
+    ) : XAxisRenderer(viewPortHandler, axis, transformer) {
+        private val offset = startTime.toInstant().toEpochMilli() / 100
+
+        override fun computeAxisValues(min: Float, max: Float) {
+            super.computeAxisValues(min, max)
+
+            val labelCount = mAxis.labelCount
+            val fullRangeDeciSeconds = (max - min).toDouble()
+            val axisScaleDeciSeconds = when (fullRangeDeciSeconds.div(10)) {
+                in 0.0..120.0 -> 1F * 10F
+                in 120.0..2.0 * 3600 -> 60F * 10F
+                in 2.0 * 3600..6.0 * 3600 -> 600F * 10F
+                in 6.0 * 3600..12.0 * 3600 -> 1800F * 10F
+                in 12.0 * 3600..24.0 * 3600 -> 3600F * 10F
+                in 24.0 * 3600..5.0 * 24 * 3600 -> 3F * 3600F * 10F
+                else -> 24F * 3600F * 10F
+            }
+
+            // Find out how much spacing (in y value space) between axis values
+            val rawInterval = fullRangeDeciSeconds / labelCount / axisScaleDeciSeconds
+            var interval = Utils.roundToNextSignificant(rawInterval)
+
+            // Normalize interval
+            val intervalMagnitude = Utils.roundToNextSignificant(10.0.pow(log10(interval).toInt()))
+            val intervalSigDigit = (interval / intervalMagnitude).toInt()
+            if (intervalSigDigit > 5) {
+                // Use one order of magnitude higher, to avoid intervals like 0.9 or 90
+                interval = floor(10 * intervalMagnitude)
+            }
+
+            interval *= axisScaleDeciSeconds
+
+            val snapInDelta = (interval / 2).toDouble()
+            val first = ceil((min.toDouble() + offset) / snapInDelta) * snapInDelta - offset
+            val last = (floor((max.toDouble() + offset) / snapInDelta) * snapInDelta - offset).nextUp()
+            val n = ceil((last - first) / interval).toInt()
+
+            mAxis.mEntryCount = n
+            if (mAxis.mEntries.size < n) {
+                mAxis.mEntries = FloatArray(n)
+            }
+            (0 until n).forEach { i ->
+                mAxis.mEntries[i] = (first + interval * i).toFloat()
+            }
+
+            mAxis.mDecimals = if (interval < 1) {
+                ceil(-log10(interval)).toInt()
+            } else {
+                0
+            }
         }
     }
 
