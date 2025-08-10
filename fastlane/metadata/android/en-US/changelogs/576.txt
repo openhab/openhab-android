@@ -1,0 +1,5 @@
+## What's Changed
+* Improve chart X axis label handling by @maniac103 in https://github.com/openhab/openhab-android/pull/3919
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.17.12-beta...3.17.13-beta
