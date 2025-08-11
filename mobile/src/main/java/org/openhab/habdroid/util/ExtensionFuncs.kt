@@ -36,8 +36,6 @@ import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
