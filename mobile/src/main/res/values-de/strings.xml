@@ -139,6 +139,7 @@
     <string name="device_control_hint">Abhängig von Ihrer Android-Version befinden sich diese Kacheln im Menü der Power-Taste oder neben den Schnelleinstellungen</string>
     <string name="screensaver">Bildschirmschoner</string>
     <string name="screensaver_item">Angezeigtes Item</string>
+    <string name="screensaver_html_hint">Eine kleine Auswahl von HTML kann verwendet werden, um das Aussehen des Item-Wertes zu kontrollieren, wie z. B. &lt;small&gt;</string>
     <string name="screensaver_bright_screen">Heller Bildschirm</string>
     <string name="screensaver_error_loading_item">Fehler beim Laden des Items \"%s\"</string>
     <!-- App messages strings -->
