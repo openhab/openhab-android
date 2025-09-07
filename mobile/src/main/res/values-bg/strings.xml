@@ -32,7 +32,7 @@
     <string name="settings_openhab_password_summary_weak">Настроена проста парола</string>
     <string name="settings_openhab_password_summary_strong">Настроена сложна парола</string>
     <string name="settings_openhab_sslclientcert">SSL сертификат на клиент</string>
-    <string name="settings_openhab_sslclientcert_howto_summary">Натисни тук, за да получиш някои съвети и обяснения за това как да настроиш сертификат за удостоверяване на SSL клиент</string>
+    <string name="settings_openhab_sslclientcert_howto_summary">Натисни тук, за да получиш някои съвети и обяснения как да настроиш сертификат за удостоверяване на SSL клиент</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL клиентски сертификати не са съвместими с вашето устройство</string>
     <string name="settings_openhab_screentimeroff">Екранът е постоянно включен</string>
     <string name="settings_openhab_screentimeroff_summary">Екранът не се изключва, докато openHAB работи</string>
