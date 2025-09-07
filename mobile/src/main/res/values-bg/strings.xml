@@ -43,7 +43,7 @@
     <string name="settings_openhab_theme">Тема</string>
     <string name="settings_openhab_fullscreen">Пълен екран</string>
     <string name="settings_sitemap_compact_mode_title">Компактен изглед</string>
-    <string name="settings_sitemap_compact_mode_off">Използвай два реда за да покажеш Sitemap джаджи. Това прави елементите по-големи и по-лесни за употреба, но използва повече място при по-дълги списъци</string>
+    <string name="settings_sitemap_compact_mode_off">Използвай два реда, за да покажеш Sitemap джаджи. Това прави елементите по-големи и по-лесни за употреба, но използва повече място при по-дълги списъци</string>
     <string name="settings_sitemap_compact_mode_on">Използвай един ред за показване на Sitemap елементи. Това поставя възможно най-много елементи на екрана, но намалява размера на отделните елементи</string>
     <string name="settings_color_scheme_title">Цветова палитра</string>
     <string name="settings_show_icons">Покажи иконките</string>
@@ -112,7 +112,7 @@
     <string name="voice_command">Гласова команда</string>
     <string name="info_voice_input">openHAB на ваше командване!</string>
     <string name="info_voice_recognized_text">Разпозната команда: %1$s</string>
-    <string name="info_demo_mode_short">Работи в демо режим</string>
+    <string name="info_demo_mode_short">Работи в демонстрационен режим</string>
     <!-- Please try to keep the string as short as possible -->
     <string name="turn_off">Изключи</string>
     <string name="info_conn_url">Свързване към местен URL</string>
@@ -124,13 +124,13 @@
     <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">Копирах „%s“</string>
     <!-- Error messages -->
-    <string name="error_empty_sitemap_list">openHAB връща празен сайнмап списък</string>
+    <string name="error_empty_sitemap_list">openHAB връща празен сайтмап списък</string>
     <string name="error_sitemap_generic_load_error">Сайткартата не беше заредена. Възникна грешка: %1$s</string>
-    <string name="error_network_not_available">Не е налична мрежа</string>
+    <string name="error_network_not_available">Няма мрежа</string>
     <string name="error_wifi_not_available">Въздушната мрежа е изключена</string>
     <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_wifi_restricted">Местни връзки до сървър %1$s са ограничени до следните Wi-Fi мрежи: %2$s</string>
-    <string name="error_http_connection_failed">Връзката се провали. Дойде неочакван отговор докато се свързвах с настроения openHAB сървър (HTTP код %d).</string>
+    <string name="error_http_connection_failed">Връзката се провали. Дойде неочакван отговор, докато се свързвах с настроения openHAB сървър (HTTP код %d).</string>
     <string name="error_invalid_url">Въведи валиден адрес в \'http(s)://host(:port)/\' формат</string>
     <string name="error_invalid_https_url">Въведи валиден адрес в \'https://host(:port)/\' формат</string>
     <string name="error_port_seems_invalid">Въведеният порт изглежда невалиден за избрания протокол</string>
@@ -170,7 +170,7 @@
     <string name="install">Инсталирай</string>
     <string name="title_activity_openhabwritetag">Запиши NFC етикет</string>
     <string name="title_activity_libraries">Използвани библиотеки</string>
-    <string name="info_write_tag">Докосни етикета и задръжте докато съобщението за потвърждение се появи</string>
+    <string name="info_write_tag">Докосни етикета и задръж докато съобщението за потвърждение се появи</string>
     <string name="info_write_tag_progress">Записване на етикета</string>
     <string name="info_write_failed">Грешка на писане на етикет</string>
     <string name="info_write_tag_unsupported">Устройството не поддържа NFC</string>
@@ -179,7 +179,7 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Изпращай информация за устройството до сървъра</string>
     <string name="send_device_info_to_server_short">Изпрати информация за устройството</string>
-    <string name="settings_item_update_pref_howto_summary">Натисни тук за насоки как да настроиш тази функция на сървъра</string>
+    <string name="settings_item_update_pref_howto_summary">Натисни тук за насоки, как да настроиш тази функция на сървъра</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">Последно обновен на ”%1$s” (%2$s)</string>
     <string name="copy_debug_info">Копирай</string>
@@ -197,7 +197,6 @@
     <string name="settings_wifi_ssid_restrict">Ограничи локалните връзки до мрежи с тези имена</string>
     <string name="settings_bluetooth_devices">Свързани Bluetooth устройства</string>
     <string name="settings_bluetooth_devices_summary_off">Не изпращай свързаните Bluetooth устройства</string>
-    <string name="settings_background_tasks_permission_hint_pre_r">Тази функция изисква допълнителни права за да работи. След като я включиш, ще бъдеш помолен да одобриш необходимите права.</string>
     <string name="settings_background_tasks_permission_allow">Разреши</string>
     <string name="notification_channel_messages_default_severity">По подразбиране</string>
     <string name="notification_channel_group_messages">Съобщения</string>
@@ -310,8 +309,8 @@
     <string name="enable_wifi_button">Включи въздушната мрежа</string>
     <string name="switch_wifi_button">Свържи се към други Wi-Fi</string>
     <string name="go_to_settings_button">Отворете приложението Настройки</string>
-    <string name="enable_demo_mode_button">Включване на демо режим</string>
-    <string name="configuration_missing">Не открих openHAB сървър в твоята мрежа. Ако вече имаш сървър, моля въведи неговия IP адрес или host име в сървърните настройки. Ако все още нямаш сървър, започни демонстрационния режим, за да откриевидиш openHAB с неговите възможности.</string>
+    <string name="enable_demo_mode_button">Включване на демонстрационен режим</string>
+    <string name="configuration_missing">Не открих openHAB сървър в твоята мрежа. Ако вече имаш сървър, моля въведи неговия IP адрес или host име в сървърните настройки. Ако все още нямаш сървър, започни демонстрационния режим, за да откриеш openHAB с неговите възможности.</string>
     <string name="no_remote_server">Връзката към местния сървър се провали и отдалечен сървър не е настроен.</string>
     <string name="resolving_openhab">Опитвам се да намеря openHAB сървър\u2026</string>
     <string name="waiting_for_wifi">Чакам Wi-Fi да се свърже\u2026</string>
@@ -328,8 +327,8 @@
     <string name="log_too_large_to_share">Протоколът е много дълг, за да бъде споделен. Моля изчисти протокола, възпроизведи грешката и отново сподели протокола.</string>
     <!-- Home screen shortcuts -->
     <!-- Content description for images -->
-    <string name="content_description_color_up">Включи или задръж за да увеличиш осветеността</string>
-    <string name="content_description_color_down">Изключи или задръж за да намалиш осветеността</string>
+    <string name="content_description_color_up">Включи или задръж, за да увеличиш осветеността</string>
+    <string name="content_description_color_down">Изключи или задръж, за да намалиш осветеността</string>
     <string name="content_description_open_number_picker">Отвори избора на цифри</string>
     <string name="content_description_video">Видео</string>
     <string name="content_description_open_openhab">Отвори openHAB</string>
