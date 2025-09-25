@@ -309,7 +309,10 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         } else {
             listOf(item)
         }
-        val timestamp = ZonedDateTime.now()
+        val timestamp = ZonedDateTime.now().let { zdt ->
+            val zoneId = intent.getStringExtra(EXTRA_SERVER_TIME_ZONE)?.let { ZoneId.of(it) }
+            if (zoneId != null) zdt.withZoneSameInstant(zoneId) else zdt
+        }
         val startTime = timestamp.minus(period)
         val allSeries = itemsForChart.map { item ->
             progressCb(item.label ?: item.name)
@@ -713,5 +716,6 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         private const val PERIOD = "period"
         const val EXTRA_WIDGET = "widget"
         const val EXTRA_SERVER_FLAGS = "server_flags"
+        const val EXTRA_SERVER_TIME_ZONE = "server_timezone"
     }
 }
