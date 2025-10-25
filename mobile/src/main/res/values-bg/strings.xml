@@ -9,7 +9,7 @@
     <string name="delete">Изтрий</string>
     <string name="attribution_tag_discover_server">Открий openHAB сървър</string>
     <string name="attribution_tag_select_server_wifi">Избери сървър въз основа на Wi-Fi</string>
-    <string name="attribution_tag_suggest_turn_on_wifi">Предлагам да вкличиш Wi-Fi</string>
+    <string name="attribution_tag_suggest_turn_on_wifi">Предлагам да включиш Wi-Fi</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Сайткарти</string>
     <string name="mainmenu_openhab_preferences">Настройки</string>
@@ -32,7 +32,7 @@
     <string name="settings_openhab_password_summary_weak">Настроена проста парола</string>
     <string name="settings_openhab_password_summary_strong">Настроена сложна парола</string>
     <string name="settings_openhab_sslclientcert">SSL сертификат на клиент</string>
-    <string name="settings_openhab_sslclientcert_howto_summary">Натиснете тук, за да получите някои съвети и обяснения за това как да настроите сертификат за удостоверяване на SSL клиент</string>
+    <string name="settings_openhab_sslclientcert_howto_summary">Натисни тук, за да получиш някои съвети и обяснения как да настроиш сертификат за удостоверяване на SSL клиент</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL клиентски сертификати не са съвместими с вашето устройство</string>
     <string name="settings_openhab_screentimeroff">Екранът е постоянно включен</string>
     <string name="settings_openhab_screentimeroff_summary">Екранът не се изключва, докато openHAB работи</string>
@@ -43,7 +43,7 @@
     <string name="settings_openhab_theme">Тема</string>
     <string name="settings_openhab_fullscreen">Пълен екран</string>
     <string name="settings_sitemap_compact_mode_title">Компактен изглед</string>
-    <string name="settings_sitemap_compact_mode_off">Използвай два реда за да покажеш Sitemap джаджи. Това прави елементите по-големи и по-лесни за употреба, но използва повече място при по-дълги списъци</string>
+    <string name="settings_sitemap_compact_mode_off">Използвай два реда, за да покажеш Sitemap джаджи. Това прави елементите по-големи и по-лесни за употреба, но използва повече място при по-дълги списъци</string>
     <string name="settings_sitemap_compact_mode_on">Използвай един ред за показване на Sitemap елементи. Това поставя възможно най-много елементи на екрана, но намалява размера на отделните елементи</string>
     <string name="settings_color_scheme_title">Цветова палитра</string>
     <string name="settings_show_icons">Покажи иконките</string>
@@ -51,7 +51,7 @@
     <string name="settings_openhab_icon_format_png">Растерна графика</string>
     <string name="settings_openhab_icon_format_svg">Вектор</string>
     <string name="settings_chart_scaling">Мащабиране на графиката</string>
-    <string name="settings_chart_scaling_summary">Забележка: Малките мащаби свиват шрифтовете и ширината на линиите, така че има повече пространство за графиката, но четливостта на шрифта може да пострада.</string>
+    <string name="settings_chart_scaling_summary">Забележка: Малките мащаби свиват шрифтовете и ширината на линиите така, че има повече пространство за графиката, но четливостта на шрифта може да пострада.</string>
     <string name="settings_chart_scaling_value_xs">Много малка</string>
     <string name="settings_chart_scaling_value_s">Малка</string>
     <string name="settings_chart_scaling_value_m">По подразбиране</string>
@@ -90,7 +90,7 @@
     <string name="settings_edit_server">Редактиране сървър</string>
     <string name="server_with_name">Сървър %s</string>
     <string name="settings_server_at_least_name_and_connection">Поне име на сървър и връзка са необходими</string>
-    <string name="settings_server_confirm_deletion">Сигурен ли си, че искаш да изтрие този сървър?</string>
+    <string name="settings_server_confirm_deletion">Сигурен ли си, че искаш да изтриеш този сървър?</string>
     <string name="settings_server_confirm_leave_title">Несъхранени промени</string>
     <string name="settings_server_confirm_leave_message">Направил си промени. Искаш ли да ги запазиш или отхвърлиш?</string>
     <string name="settings_server_primary_title">Основен сървър</string>
@@ -103,7 +103,7 @@
     <string name="settings_multi_server_wifi_ssid_missing_permissions">Не мога да прочета името на Wi-Fi мрежата: Липсват ми права</string>
     <string name="settings_multi_server_wifi_ssid_location_off">Не мога да прочета името на Wi-Fi мрежата: Услугата за намиране на място е изключена</string>
     <string name="setting_crash_reporting_title">Докладване на сривове</string>
-    <string name="setting_crash_reporting_summary">Изпрати доклади за сривове за да подкрепиш разработката на приложението</string>
+    <string name="setting_crash_reporting_summary">Изпрати доклади за сривове, за да подкрепиш разработката на приложението</string>
     <string name="device_control_subtitle_location">Местоположение</string>
     <string name="device_control_subtitle_equipment">Оборудване</string>
     <string name="device_control_subtitle_location_equipment">Местоположение и оборудване</string>
@@ -112,7 +112,7 @@
     <string name="voice_command">Гласова команда</string>
     <string name="info_voice_input">openHAB на ваше командване!</string>
     <string name="info_voice_recognized_text">Разпозната команда: %1$s</string>
-    <string name="info_demo_mode_short">Работи в демо режим</string>
+    <string name="info_demo_mode_short">Работи в демонстрационен режим</string>
     <!-- Please try to keep the string as short as possible -->
     <string name="turn_off">Изключи</string>
     <string name="info_conn_url">Свързване към местен URL</string>
@@ -124,13 +124,13 @@
     <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">Копирах „%s“</string>
     <!-- Error messages -->
-    <string name="error_empty_sitemap_list">openHAB връща празен сайнмап списък</string>
+    <string name="error_empty_sitemap_list">openHAB връща празен сайтмап списък</string>
     <string name="error_sitemap_generic_load_error">Сайткартата не беше заредена. Възникна грешка: %1$s</string>
-    <string name="error_network_not_available">Не е налична мрежа</string>
+    <string name="error_network_not_available">Няма мрежа</string>
     <string name="error_wifi_not_available">Въздушната мрежа е изключена</string>
     <!-- %1$s: Server label, %2$s: List of Wi-Fi names -->
     <string name="error_wifi_restricted">Местни връзки до сървър %1$s са ограничени до следните Wi-Fi мрежи: %2$s</string>
-    <string name="error_http_connection_failed">Връзката се провали. Дойде неочакван отговор докато се свързвах с настроения openHAB сървър (HTTP код %d).</string>
+    <string name="error_http_connection_failed">Връзката се провали. Дойде неочакван отговор, докато се свързвах с настроения openHAB сървър (HTTP код %d).</string>
     <string name="error_invalid_url">Въведи валиден адрес в \'http(s)://host(:port)/\' формат</string>
     <string name="error_invalid_https_url">Въведи валиден адрес в \'https://host(:port)/\' формат</string>
     <string name="error_port_seems_invalid">Въведеният порт изглежда невалиден за избрания протокол</string>
@@ -143,8 +143,10 @@
     <string name="error_certificate_not_trusted">SSL сертификатът не е надежден. Моля внесете главен сертификат или приемете сертификат по време на SSL хендшейк.</string>
     <string name="error_certificate_expired">SSL сертификатът е изтекъл. Моля получите нов сертификат или приемете сертификат по време на SSL ръкостискане.</string>
     <string name="error_certificate_not_valid_yet">SSL сертификат не е валиден все още. Моля получете правилния сертификат или приемете сертификат по време на SSL ръкостискане. Също така проверете дали часовникът на вашето устройство е настроен правилно.</string>
+    <string name="error_certificate_invalid_date">SSL сертификатът има грешна дата. Инсталирай актуален сертификат и се увери, че датата на твоето устройство е правилна.</string>
     <string name="error_certificate_revoked">SSL сертификатът е анулиран. Моля вземете нов сертификат или приемете сертификат по време на SSL ръкостискане.</string>
     <string name="error_certificate_wrong_host">SSL сертификат не е валиден за %s</string>
+    <string name="webview_snackbar_permissions_missing">Страницата се нуждае от допълнителни разрешения, за да работи</string>
     <!-- The following strings are referenced via reflection in Context.getHumanReadableErrorMessage -->
     <string name="error_http_code_401" tools:keep="@string/error_http_code_401">Удостоверяването се провали. Провери настроеното потребителско име и парола, съответно предоставения TLS сертификат (HTTP грешка %d). Увери се, че сървърът е разрешил Basic удостоверяване.</string>
     <string name="error_http_code_404" tools:keep="@string/error_http_code_404">Не беше намерено (HTTP код %d)</string>
@@ -168,7 +170,7 @@
     <string name="install">Инсталирай</string>
     <string name="title_activity_openhabwritetag">Запиши NFC етикет</string>
     <string name="title_activity_libraries">Използвани библиотеки</string>
-    <string name="info_write_tag">Докосни етикета и задръжте докато съобщението за потвърждение се появи</string>
+    <string name="info_write_tag">Докосни етикета и задръж докато съобщението за потвърждение се появи</string>
     <string name="info_write_tag_progress">Записване на етикета</string>
     <string name="info_write_failed">Грешка на писане на етикет</string>
     <string name="info_write_tag_unsupported">Устройството не поддържа NFC</string>
@@ -177,7 +179,7 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Изпращай информация за устройството до сървъра</string>
     <string name="send_device_info_to_server_short">Изпрати информация за устройството</string>
-    <string name="settings_item_update_pref_howto_summary">Натисни тук за насоки как да настроиш тази функция на сървъра</string>
+    <string name="settings_item_update_pref_howto_summary">Натисни тук за насоки, как да настроиш тази функция на сървъра</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">Последно обновен на ”%1$s” (%2$s)</string>
     <string name="copy_debug_info">Копирай</string>
@@ -195,7 +197,6 @@
     <string name="settings_wifi_ssid_restrict">Ограничи локалните връзки до мрежи с тези имена</string>
     <string name="settings_bluetooth_devices">Свързани Bluetooth устройства</string>
     <string name="settings_bluetooth_devices_summary_off">Не изпращай свързаните Bluetooth устройства</string>
-    <string name="settings_background_tasks_permission_hint_pre_r">Тази функция изисква допълнителни права за да работи. След като я включиш, ще бъдеш помолен да одобриш необходимите права.</string>
     <string name="settings_background_tasks_permission_allow">Разреши</string>
     <string name="notification_channel_messages_default_severity">По подразбиране</string>
     <string name="notification_channel_group_messages">Съобщения</string>
@@ -308,8 +309,8 @@
     <string name="enable_wifi_button">Включи въздушната мрежа</string>
     <string name="switch_wifi_button">Свържи се към други Wi-Fi</string>
     <string name="go_to_settings_button">Отворете приложението Настройки</string>
-    <string name="enable_demo_mode_button">Включване на демо режим</string>
-    <string name="configuration_missing">Не открих openHAB сървър в твоята мрежа. Ако вече имаш сървър, моля въведи неговия IP адрес или host име в сървърните настройки. Ако все още нямаш сървър, започни демонстрационния режим, за да откриевидиш openHAB с неговите възможности.</string>
+    <string name="enable_demo_mode_button">Включване на демонстрационен режим</string>
+    <string name="configuration_missing">Не открих openHAB сървър в твоята мрежа. Ако вече имаш сървър, моля въведи неговия IP адрес или host име в сървърните настройки. Ако все още нямаш сървър, започни демонстрационния режим, за да откриеш openHAB с неговите възможности.</string>
     <string name="no_remote_server">Връзката към местния сървър се провали и отдалечен сървър не е настроен.</string>
     <string name="resolving_openhab">Опитвам се да намеря openHAB сървър\u2026</string>
     <string name="waiting_for_wifi">Чакам Wi-Fi да се свърже\u2026</string>
@@ -326,8 +327,8 @@
     <string name="log_too_large_to_share">Протоколът е много дълг, за да бъде споделен. Моля изчисти протокола, възпроизведи грешката и отново сподели протокола.</string>
     <!-- Home screen shortcuts -->
     <!-- Content description for images -->
-    <string name="content_description_color_up">Включи или задръж за да увеличиш осветеността</string>
-    <string name="content_description_color_down">Изключи или задръж за да намалиш осветеността</string>
+    <string name="content_description_color_up">Включи или задръж, за да увеличиш осветеността</string>
+    <string name="content_description_color_down">Изключи или задръж, за да намалиш осветеността</string>
     <string name="content_description_open_number_picker">Отвори избора на цифри</string>
     <string name="content_description_video">Видео</string>
     <string name="content_description_open_openhab">Отвори openHAB</string>
