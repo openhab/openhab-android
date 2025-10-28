@@ -1,8 +1,7 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
-        "config:recommended",
-        "schedule:monthly"
+        "config:recommended"
     ],
     "minimumReleaseAge": "14 days",
     "labels": [
@@ -10,5 +9,6 @@
     ],
     "configMigration": true,
     "commitBody": "Signed-off-by: {{{gitAuthor}}}",
-    "osvVulnerabilityAlerts": true
+    "osvVulnerabilityAlerts": true,
+    "dependencyDashboardApproval": true
 }
