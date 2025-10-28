@@ -321,7 +321,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
             "com.samsung.android.calendar",
             "com.miui.securitycenter",
             "org.thoughtcrime.securesms",
-            "im.molly.app"
+            "im.molly.app",
+            "com.samsung.android.fmm"
         )
         private val VALUE_GETTER_MAP = HashMap<String, (Context, Intent?) -> ItemUpdateWorker.ValueWithInfo?>()
 

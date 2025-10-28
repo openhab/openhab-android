@@ -100,7 +100,7 @@ data class Widget(
         return InputTypeHint.Text
     }
 
-    val readOnly get() = item?.readOnly == true
+    val readOnly get() = false // TODO: Re-enable once implemented in Basic UI
 
     private val configuredMinValue get() = when {
         rawMinValue != null -> rawMinValue

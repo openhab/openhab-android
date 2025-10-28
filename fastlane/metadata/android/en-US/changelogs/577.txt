@@ -1,0 +1,7 @@
+## What's Changed
+* Fix occasional crashes when stopping chart activity by @maniac103 in https://github.com/openhab/openhab-android/pull/3929
+* Ignore alarms from  com.samsung.android.fmm by @mueller-ma in https://github.com/openhab/openhab-android/pull/3938
+* Disable read-only widgets for now by @mueller-ma in https://github.com/openhab/openhab-android/pull/3941
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.17.13-beta...3.17.14-beta
