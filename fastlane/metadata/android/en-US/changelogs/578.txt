@@ -1,0 +1,7 @@
+## What's Changed
+* Ignore alarms from im.molly.app by @sideshowbob84 in https://github.com/openhab/openhab-android/pull/3942
+
+## New Contributors
+* @sideshowbob84 made their first contribution in https://github.com/openhab/openhab-android/pull/3942
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.17.14-beta...3.17.15-beta
