@@ -431,8 +431,12 @@ class ConnectionFactory internal constructor(
                         val ssid = type.fetchSsid(context)
                         when {
                             ssid.isNullOrEmpty() -> true // assume missing permissions
-                            restrictedSsids?.contains(ssid) == true -> {
-                                Log.d(TAG, "Skip Wi-Fi ${type.network} (server restricted to $restrictedSsids)")
+                            restrictedSsids == null -> true // SSID restriction disabled
+                            !restrictedSsids.contains(ssid) -> {
+                                Log.d(
+                                    TAG,
+                                    "Skip Wi-Fi ${type.network} (SSID $ssid, server restricted to $restrictedSsids)"
+                                )
                                 hasWrongWifi = true
                                 false
                             }
