@@ -132,7 +132,7 @@ class WidgetListFragment :
 
         val activity = activity as MainActivity
         adapter = activity.connection?.let { conn ->
-            WidgetAdapter(activity, activity.serverProperties!!.flags, conn, this, this)
+            WidgetAdapter(activity, activity.serverProperties!!, conn, this, this)
         }
 
         layoutManager = LinearLayoutManager(activity)
@@ -286,8 +286,10 @@ class WidgetListFragment :
                 R.string.analyse
             ).setOnMenuItemClickListener {
                 val mainActivity = activity as MainActivity
-                val serverFlags = mainActivity.serverProperties?.flags ?: 0
-                val intent = mainActivity.getChartDetailsActivityIntent(widget, serverFlags)
+                val intent = mainActivity.getChartDetailsActivityIntent(
+                    widget,
+                    mainActivity.serverProperties
+                )
                 mainActivity.startActivity(intent)
                 return@setOnMenuItemClickListener true
             }
