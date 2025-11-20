@@ -2082,6 +2082,7 @@ fun LabeledValue.toWidget(id: String, item: Item?): Widget = Widget(
     legend = null,
     forceAsItem = false,
     yAxisDecimalPattern = null,
+    interpolation = null,
     switchSupport = false,
     releaseOnly = null,
     height = 0,
