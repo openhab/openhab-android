@@ -1831,6 +1831,7 @@ class WidgetAdapter(
                 ?.asColorTemperatureInKelvinToColor()
                 ?.toColoredRoundedRect(binding.currentTemperature.context)
             binding.currentTemperature.setImageDrawable(drawable)
+            binding.icontext.bindTo(widget, requireHolderContext())
             boundWidget = widget
         }
 

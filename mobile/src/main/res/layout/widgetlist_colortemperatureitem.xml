@@ -6,7 +6,12 @@
     android:descendantFocusability="blocksDescendants"
     style="@style/WidgetListItemContainer">
 
-    <include layout="@layout/widgetlist_icontext" />
+    <include
+        android:id="@+id/icontext"
+        layout="@layout/widgetlist_iconvaluetext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
 
     <ImageView
         android:id="@+id/current_temperature"
