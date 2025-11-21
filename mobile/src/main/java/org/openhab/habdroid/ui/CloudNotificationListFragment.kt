@@ -19,23 +19,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.faltenreich.skeletonlayout.SkeletonLayout
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONException
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.databinding.FragmentNotificationlistBinding
 import org.openhab.habdroid.model.CloudMessage
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.toCloudMessage
@@ -51,17 +45,9 @@ import org.openhab.habdroid.util.map
  * Mandatory empty constructor for the fragment manager to instantiate the
  * fragment (e.g. upon screen orientation changes).
  */
-class CloudNotificationListFragment :
-    Fragment(),
-    View.OnClickListener,
-    SwipeRefreshLayout.OnRefreshListener {
-    lateinit var recyclerView: RecyclerView
-    private lateinit var skeleton: SkeletonLayout
-    private lateinit var swipeLayout: SwipeRefreshLayout
-    private lateinit var retryButton: Button
-    private lateinit var emptyView: View
-    private lateinit var emptyWatermark: ImageView
-    private lateinit var emptyMessage: TextView
+class CloudNotificationListFragment : Fragment() {
+    private lateinit var binding: FragmentNotificationlistBinding
+    val recyclerView get() = binding.list
 
     // keeps track of current request to cancel it in onPause
     private var requestJob: Job? = null
@@ -69,31 +55,31 @@ class CloudNotificationListFragment :
     private lateinit var layoutManager: LinearLayoutManager
     private var loadOffset: Int = 0
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
         Log.i(TAG, "onCreateView")
-        val view = inflater.inflate(R.layout.fragment_notificationlist, container, false)
+        binding = FragmentNotificationlistBinding.inflate(inflater, container, false)
 
-        recyclerView = view.findViewById(android.R.id.list)
-        emptyView = view.findViewById(android.R.id.empty)
-        emptyMessage = view.findViewById(R.id.empty_message)
-        emptyWatermark = view.findViewById(R.id.watermark)
-        skeleton = view.findViewById(R.id.skeletonLayout)
-        view.findViewById<LinearLayout>(R.id.skeletonList).apply {
+        binding.skeletonList.apply {
             repeat(10) {
-                addView(inflater.inflate(R.layout.notificationlist_item, null))
+                addView(inflater.inflate(R.layout.notificationlist_item, this, false))
             }
         }
-        skeleton.showSkeleton()
+        binding.skeletonLayout.showSkeleton()
 
-        swipeLayout = view.findViewById(R.id.swipe_container)
-        swipeLayout.setOnRefreshListener(this)
-        swipeLayout.applyColors()
+        binding.swipeContainer.apply {
+            setOnRefreshListener {
+                Log.d(TAG, "onRefresh()")
+                binding.swipeContainer.isRefreshing = false
+                loadNotifications(true)
+            }
+            applyColors()
+        }
+        binding.retryButton.setOnClickListener {
+            loadNotifications(true)
+        }
 
-        retryButton = view.findViewById(R.id.retry_button)
-        retryButton.setOnClickListener(this)
-
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -116,18 +102,6 @@ class CloudNotificationListFragment :
         Log.d(TAG, "onPause()")
         // Cancel request for notifications if there was any
         requestJob?.cancel()
-    }
-
-    override fun onRefresh() {
-        Log.d(TAG, "onRefresh()")
-        swipeLayout.isRefreshing = false
-        loadNotifications(true)
-    }
-
-    override fun onClick(view: View) {
-        if (view === retryButton) {
-            loadNotifications(true)
-        }
     }
 
     private fun loadNotifications(clearExisting: Boolean) {
@@ -186,16 +160,16 @@ class CloudNotificationListFragment :
 
     private fun updateViewVisibility(loading: Boolean, loadError: Boolean) {
         val showEmpty = !loading && (adapter.itemCount == 0 || loadError)
-        recyclerView.isVisible = !showEmpty
-        emptyView.isVisible = showEmpty
-        skeleton.isVisible = loading
-        emptyMessage.setText(
+        binding.list.isVisible = !showEmpty
+        binding.empty.isVisible = showEmpty
+        binding.skeletonLayout.isVisible = loading
+        binding.emptyMessage.setText(
             if (loadError) R.string.notification_list_error else R.string.notification_list_empty
         )
-        emptyWatermark.setImageResource(
+        binding.watermark.setImageResource(
             if (loadError) R.drawable.ic_connection_error else R.drawable.ic_no_notifications
         )
-        retryButton.isVisible = loadError
+        binding.retryButton.isVisible = loadError
     }
 
     private fun usePrimaryServer() = requireArguments().getBoolean("primary")

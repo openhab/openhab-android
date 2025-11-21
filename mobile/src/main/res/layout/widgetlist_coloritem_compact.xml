@@ -5,8 +5,15 @@
     android:descendantFocusability="blocksDescendants"
     style="@style/WidgetListItemContainerCompact">
 
-    <include layout="@layout/widgetlist_iconvaluetext_compact" />
+    <include
+        android:id="@+id/icontext"
+        layout="@layout/widgetlist_iconvaluetext_compact"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 
-    <include layout="@layout/widgetlist_coloritem_buttons" />
+    <include
+        android:id="@+id/buttons"
+        layout="@layout/widgetlist_coloritem_buttons" />
 
 </LinearLayout>
