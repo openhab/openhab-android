@@ -17,6 +17,8 @@ import android.os.Parcelable
 import android.util.Log
 import java.io.IOException
 import java.io.StringReader
+import java.time.ZoneId
+import java.time.zone.ZoneRulesException
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 import kotlinx.parcelize.Parcelize
@@ -26,11 +28,12 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.optStringOrNull
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
 
 @Parcelize
-data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parcelable {
+data class ServerProperties(val flags: Int, val timezoneId: String?, val sitemaps: List<Sitemap>) : Parcelable {
     fun hasJsonApi(): Boolean = flags and SERVER_FLAG_JSON_REST_API != 0
 
     fun hasSseSupport(): Boolean = flags and SERVER_FLAG_SSE_SUPPORT != 0
@@ -54,7 +57,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
 
         private sealed interface FlagsResult
 
-        private class FlagsSuccess(val flags: Int) : FlagsResult
+        private class FlagsSuccess(val flags: Int, val timezoneId: String?) : FlagsResult
 
         private class FlagsFailure(val request: Request, val httpStatusCode: Int, val error: Throwable) : FlagsResult
 
@@ -65,11 +68,11 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
         class PropsFailure(val request: Request, val httpStatusCode: Int, val error: Throwable) : PropsResult
 
         suspend fun updateSitemaps(props: ServerProperties, connection: Connection): PropsResult =
-            fetchSitemaps(connection.httpClient, props.flags)
+            fetchSitemaps(connection.httpClient, props.flags, props.timezoneId)
 
         suspend fun fetch(connection: Connection): PropsResult =
             when (val flagsResult = fetchFlags(connection.httpClient)) {
-                is FlagsSuccess -> fetchSitemaps(connection.httpClient, flagsResult.flags)
+                is FlagsSuccess -> fetchSitemaps(connection.httpClient, flagsResult.flags, flagsResult.timezoneId)
                 is FlagsFailure -> PropsFailure(flagsResult.request, flagsResult.httpStatusCode, flagsResult.error)
             }
 
@@ -118,11 +121,19 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
                     }
                 }
 
-                FlagsSuccess(flags)
+                val timeZoneId = try {
+                    resultJson.optStringOrNull("timezone")
+                        ?.let { ZoneId.of(it) }
+                        ?.id
+                } catch (_: ZoneRulesException) {
+                    null
+                }
+
+                FlagsSuccess(flags, timeZoneId)
             } catch (e: JSONException) {
                 if (result.response.startsWith("<?xml")) {
                     // We're talking to an OH1 instance
-                    FlagsSuccess(0)
+                    FlagsSuccess(0, null)
                 } else {
                     FlagsFailure(result.request, 200, e)
                 }
@@ -131,7 +142,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
             FlagsFailure(e.request, e.statusCode, e)
         }
 
-        private suspend fun fetchSitemaps(client: HttpClient, flags: Int): PropsResult = try {
+        private suspend fun fetchSitemaps(client: HttpClient, flags: Int, timezoneId: String?): PropsResult = try {
             val result = client.get("rest/sitemaps").asText()
             // OH1 returns XML, later versions return JSON
             val sitemaps = if (flags and SERVER_FLAG_JSON_REST_API != 0) {
@@ -141,7 +152,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
             }
 
             Log.d(TAG, "Server returned sitemaps: $sitemaps")
-            PropsSuccess(ServerProperties(flags, sitemaps))
+            PropsSuccess(ServerProperties(flags, timezoneId, sitemaps))
         } catch (e: HttpClient.HttpException) {
             PropsFailure(e.request, e.statusCode, e)
         }

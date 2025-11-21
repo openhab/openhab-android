@@ -131,7 +131,7 @@ import org.openhab.habdroid.util.toColoredRoundedRect
 
 class WidgetAdapter(
     context: Context,
-    val serverFlags: Int,
+    val serverProperties: ServerProperties,
     val connection: Connection,
     private val itemClickListener: ItemClickListener,
     private val fragmentPresenter: FragmentPresenter
@@ -145,7 +145,7 @@ class WidgetAdapter(
         get() = items.any { widget -> shouldShowWidget(widget) }
 
     private val inflater = LayoutInflater.from(context)
-    private val chartTheme: CharSequence = context.getChartTheme(serverFlags)
+    private val chartTheme: CharSequence = context.getChartTheme(serverProperties.flags)
     private var compactMode = false
     private var selectedPosition = RecyclerView.NO_POSITION
     private var firstVisibleWidgetPosition = RecyclerView.NO_POSITION
@@ -265,7 +265,7 @@ class WidgetAdapter(
             connection,
             fragmentPresenter,
             colorMapper,
-            serverFlags,
+            serverProperties,
             chartTheme,
             { widgetsByParentId[widget.id] }
         )
@@ -408,7 +408,7 @@ class WidgetAdapter(
         val connection: Connection,
         val fragmentPresenter: FragmentPresenter,
         val colorMapper: ColorMapper,
-        val serverFlags: Int,
+        val serverProperties: ServerProperties,
         val chartTheme: CharSequence?,
         val childWidgetGetter: () -> List<Widget>?
     )
@@ -1511,8 +1511,8 @@ class WidgetAdapter(
         override fun onClick(v: View?) {
             val context = v?.context ?: return
             boundWidget?.let {
-                val serverFlags = requireHolderContext().serverFlags
-                val intent = context.getChartDetailsActivityIntent(it, serverFlags)
+                val serverProperties = requireHolderContext().serverProperties
+                val intent = context.getChartDetailsActivityIntent(it, serverProperties)
                 context.startActivity(intent)
             }
         }
@@ -2089,13 +2089,16 @@ fun LabeledValue.toWidget(id: String, item: Item?): Widget = Widget(
     rawInputHint = null
 )
 
-fun Context.getChartDetailsActivityIntent(widget: Widget, serverFlags: Int) =
-    if ((serverFlags and ServerProperties.SERVER_FLAG_JSON_REST_API) != 0) {
+fun Context.getChartDetailsActivityIntent(widget: Widget, serverProperties: ServerProperties?): Intent {
+    val flags = serverProperties?.flags ?: 0
+    return if ((flags and ServerProperties.SERVER_FLAG_JSON_REST_API) != 0) {
         Intent(this, ChartWidgetActivity::class.java)
             .putExtra(ChartWidgetActivity.EXTRA_WIDGET, widget)
-            .putExtra(ChartWidgetActivity.EXTRA_SERVER_FLAGS, serverFlags)
+            .putExtra(ChartWidgetActivity.EXTRA_SERVER_FLAGS, flags)
+            .putExtra(ChartWidgetActivity.EXTRA_SERVER_TIME_ZONE, serverProperties?.timezoneId)
     } else {
         Intent(this, ChartImageActivity::class.java)
             .putExtra(ChartImageActivity.EXTRA_WIDGET, widget)
-            .putExtra(ChartImageActivity.EXTRA_SERVER_FLAGS, serverFlags)
+            .putExtra(ChartImageActivity.EXTRA_SERVER_FLAGS, flags)
     }
+}

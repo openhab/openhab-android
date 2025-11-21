@@ -1,0 +1,2 @@
+- Fix Wi-Fi SSID restriction check by @maniac103 in https://github.com/openhab/openhab-android/pull/3944
+
