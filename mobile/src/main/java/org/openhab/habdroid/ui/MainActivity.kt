@@ -1399,7 +1399,8 @@ class MainActivity :
 
     fun showDataSaverHintSnackbarIfNeeded() {
         if (prefs.getBoolean(PrefKeys.DATA_SAVER_EXPLAINED, false) ||
-            determineDataUsagePolicy(connection).loadIconsWithState
+            determineDataUsagePolicy(connection).loadIconsWithState ||
+            !prefs.getBoolean(PrefKeys.SHOW_ICONS, true)
         ) {
             return
         }
