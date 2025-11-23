@@ -49,7 +49,7 @@ android {
         applicationId "org.openhab.habdroid"
         minSdkVersion 21
         compileSdk 35
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode 580
         versionName "3.18.1"
         multiDexEnabled true
