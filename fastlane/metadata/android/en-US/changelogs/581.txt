@@ -1,0 +1,8 @@
+## What's Changed
+* Use server time zone for chart rendering if available by @maniac103 in https://github.com/openhab/openhab-android/pull/3925
+* Show datasaver hint only when items are shown by @mueller-ma in https://github.com/openhab/openhab-android/pull/3946
+* Increase targetSdkVersion to 35 by @mueller-ma in https://github.com/openhab/openhab-android/pull/3945
+* Get sender of alarm by @mueller-ma in https://github.com/openhab/openhab-android/pull/3950
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.18.1-release...3.19.0-beta
