@@ -25,11 +25,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.EditTextPreferenceDialogFragmentCompat
-import com.google.android.material.textfield.MaterialAutoCompleteTextView
-import com.google.android.material.textfield.TextInputLayout
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import org.openhab.habdroid.R
+import org.openhab.habdroid.databinding.TextInputPrefDialogBinding
 
 class UrlInputPreference(context: Context, attrs: AttributeSet) : CustomInputTypePreference(context, attrs) {
     private val isForRemoteServer: Boolean
@@ -50,36 +49,42 @@ class UrlInputPreference(context: Context, attrs: AttributeSet) : CustomInputTyp
     class PrefFragment :
         EditTextPreferenceDialogFragmentCompat(),
         TextWatcher {
-        private lateinit var wrapper: TextInputLayout
-        private lateinit var editor: MaterialAutoCompleteTextView
+        private lateinit var binding: TextInputPrefDialogBinding
         private var urlIsValid: Boolean = false
 
         override fun onBindDialogView(view: View) {
             super.onBindDialogView(view)
-            wrapper = view.findViewById(R.id.input_wrapper)
-            arguments?.getCharSequence(KEY_TITLE)?.let { title ->
-                wrapper.hint = title
-            }
-            editor = view.findViewById(android.R.id.edit)
-            editor.addTextChangedListener(this)
-            editor.inputType = InputType.TYPE_TEXT_VARIATION_URI
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                editor.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
-            }
 
-            val suggestions = if (requireArguments().getBoolean(IS_FOR_REMOTE_SERVER, false)) {
-                listOf("https://myopenhab.org", "https://")
-            } else {
-                listOf("https://", "http://")
+            binding = TextInputPrefDialogBinding.bind(view)
+
+            arguments?.getCharSequence(KEY_TITLE)?.let { title ->
+                binding.inputWrapper.hint = title
             }
-            val adapter = ArrayAdapter(editor.context, android.R.layout.simple_dropdown_item_1line, suggestions)
-            editor.setAdapter(adapter)
+            binding.edit.apply {
+                addTextChangedListener(this@PrefFragment)
+                inputType = InputType.TYPE_TEXT_VARIATION_URI
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+                }
+
+                val suggestions = if (requireArguments().getBoolean(IS_FOR_REMOTE_SERVER, false)) {
+                    listOf("https://myopenhab.org", "https://")
+                } else {
+                    listOf("https://", "http://")
+                }
+                val adapter = ArrayAdapter(
+                    binding.root.context,
+                    android.R.layout.simple_dropdown_item_1line,
+                    suggestions
+                )
+                setAdapter(adapter)
+            }
         }
 
         override fun onStart() {
             super.onStart()
             updateOkButtonState()
-            afterTextChanged(editor.text)
+            afterTextChanged(binding.edit.text)
         }
 
         override fun beforeTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
@@ -124,7 +129,7 @@ class UrlInputPreference(context: Context, attrs: AttributeSet) : CustomInputTyp
                 else -> 0
             }
 
-            wrapper.error = if (errorRes == 0) null else editor.resources.getString(errorRes)
+            binding.inputWrapper.error = if (errorRes == 0) null else binding.root.resources.getString(errorRes)
             updateOkButtonState()
         }
 

@@ -7,7 +7,9 @@
     android:orientation="vertical"
     style="@style/WidgetListItemContainer">
 
-    <include layout="@layout/widgetlist_icontext_for_heavy_data" />
+    <include
+        android:id="@+id/icontext"
+        layout="@layout/widgetlist_icontext_for_heavy_data" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -15,16 +17,16 @@
         android:descendantFocusability="blocksDescendants">
 
         <org.openhab.habdroid.ui.widget.WidgetImageView
-            android:id="@+id/widget_content"
+            android:id="@+id/chart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:imageScalingType="scaleToFitWithViewAdjustment"
             app:emptyHeightToWidthRatio="50%"
             app:addRandomnessToUrl="true" />
 
-        <include layout="@layout/widgetlist_data_saver" />
+        <include
+            android:id="@+id/data_saver"
+            layout="@layout/widgetlist_data_saver" />
     </FrameLayout>
-
-
 
 </LinearLayout>

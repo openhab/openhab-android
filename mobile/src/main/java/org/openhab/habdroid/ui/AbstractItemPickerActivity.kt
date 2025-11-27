@@ -25,12 +25,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.edit
@@ -38,7 +32,6 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
@@ -48,6 +41,9 @@ import kotlinx.parcelize.Parcelize
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.DemoConnection
+import org.openhab.habdroid.databinding.ActivityItemPickerBinding
+import org.openhab.habdroid.databinding.BottomSheetItemPickerCommandBinding
+import org.openhab.habdroid.databinding.BottomSheetSelectionItemRadioButtonBinding
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
@@ -67,16 +63,11 @@ abstract class AbstractItemPickerActivity :
     private var requestJob: Job? = null
     protected var initialHighlightItemName: String? = null
 
+    protected lateinit var binding: ActivityItemPickerBinding
     private lateinit var itemPickerAdapter: ItemPickerAdapter
-    private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
-    private lateinit var swipeLayout: SwipeRefreshLayout
-    private lateinit var emptyView: View
-    private lateinit var emptyMessage: TextView
-    private lateinit var watermark: ImageView
     private lateinit var searchView: SearchView
     private var toolbarExtension: View? = null
-    protected lateinit var retryButton: Button
     protected abstract var hintMessageId: Int
     protected abstract var hintButtonMessageId: Int
     protected abstract var hintIconId: Int
@@ -91,32 +82,28 @@ abstract class AbstractItemPickerActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_item_picker)
         setResult(RESULT_CANCELED)
 
-        swipeLayout = findViewById(R.id.activity_content)
-        swipeLayout.setOnRefreshListener(this)
-        swipeLayout.applyColors()
+        binding.swiperefresh.apply {
+            setOnRefreshListener(this@AbstractItemPickerActivity)
+            applyColors()
+        }
 
-        recyclerView = findViewById(android.R.id.list)
-        emptyView = findViewById(android.R.id.empty)
-        emptyMessage = findViewById(R.id.empty_message)
-        watermark = findViewById(R.id.watermark)
-        retryButton = findViewById(R.id.retry_button)
-
-        retryButton.setOnClickListener {
+        binding.retryButton.setOnClickListener {
             loadItems()
         }
 
-        toolbarExtension = inflateToolbarExtension(findViewById(R.id.toolbar_extension_stub))
+        toolbarExtension = inflateToolbarExtension(binding.appBar.toolbarExtensionStub)
 
         itemPickerAdapter = ItemPickerAdapter(this, this)
         layoutManager = LinearLayoutManager(this)
 
-        recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = itemPickerAdapter
+        binding.list.apply {
+            layoutManager = this@AbstractItemPickerActivity.layoutManager
+            adapter = itemPickerAdapter
+        }
 
-        appBarLayout.setLiftOnScrollTargetView(recyclerView)
+        binding.appBar.root.setLiftOnScrollTargetView(binding.list)
 
         val backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -130,6 +117,11 @@ abstract class AbstractItemPickerActivity :
         }
 
         onBackPressedDispatcher.addCallback(this, backCallback)
+    }
+
+    override fun inflateBinding(): CommonBinding {
+        binding = ActivityItemPickerBinding.inflate(layoutInflater)
+        return CommonBinding(binding.root, binding.appBar, binding.coordinator, binding.swiperefresh)
     }
 
     override fun onResume() {
@@ -271,7 +263,7 @@ abstract class AbstractItemPickerActivity :
         val position = itemPickerAdapter.findPositionForName(highlightItem)
         if (position >= 0) {
             layoutManager.scrollToPositionWithOffset(position, 0)
-            recyclerView.postDelayed({ itemPickerAdapter.highlightItem(position) }, 600)
+            binding.list.postDelayed({ itemPickerAdapter.highlightItem(position) }, 600)
         }
 
         initialHighlightItemName = null
@@ -279,20 +271,20 @@ abstract class AbstractItemPickerActivity :
 
     protected fun updateViewVisibility(loading: Boolean, loadError: Boolean, showHint: Boolean) {
         val showEmpty = showHint || !loading && (itemPickerAdapter.itemCount == 0 || loadError)
-        recyclerView.isVisible = !showEmpty
+        binding.list.isVisible = !showEmpty
         toolbarExtension?.isGone = showEmpty
-        emptyView.isVisible = showEmpty
-        swipeLayout.isRefreshing = loading
-        emptyMessage.setText(
+        binding.empty.isVisible = showEmpty
+        binding.swiperefresh.isRefreshing = loading
+        binding.emptyMessage.setText(
             when {
                 loadError -> R.string.item_picker_list_error
                 showHint -> hintMessageId
                 else -> R.string.item_picker_list_empty
             }
         )
-        watermark.setImageResource(if (showHint) hintIconId else R.drawable.ic_connection_error)
-        retryButton.setText(if (showHint) hintButtonMessageId else R.string.try_again_button)
-        retryButton.isVisible = loadError || showHint
+        binding.watermark.setImageResource(if (showHint) hintIconId else R.drawable.ic_connection_error)
+        binding.retryButton.setText(if (showHint) hintButtonMessageId else R.string.try_again_button)
+        binding.retryButton.isVisible = loadError || showHint
     }
 
     @Parcelize
@@ -311,8 +303,7 @@ abstract class AbstractItemPickerActivity :
         private val entries get() = requireArguments().parcelableArrayList<CommandEntry>("entries")!!
         private val showCustom get() = requireArguments().getBoolean("show_custom")
 
-        private lateinit var customSaveButton: View
-        private lateinit var customTextEditor: EditText
+        private lateinit var binding: BottomSheetItemPickerCommandBinding
 
         fun createArguments(item: Item, entries: List<CommandEntry>, showCustom: Boolean) = bundleOf(
             "item" to item,
@@ -320,40 +311,37 @@ abstract class AbstractItemPickerActivity :
             "show_custom" to showCustom
         )
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-            val content = inflater.inflate(R.layout.bottom_sheet_item_picker_command, container, false)
-            val radioGroup = content.findViewById<RadioGroup>(R.id.selection_group)
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+            binding = BottomSheetItemPickerCommandBinding.inflate(inflater, container, false)
 
             if (!showCustom) {
-                content.findViewById<View>(R.id.custom_editor_container).isGone = true
+                binding.customEditorContainer.isGone = true
                 // remove predefined 'custom' radio button
-                radioGroup.removeAllViews()
+                binding.selectionGroup.removeAllViews()
             }
 
             entries.forEachIndexed { index, entry ->
-                val button = inflater.inflate(
-                    R.layout.bottom_sheet_selection_item_radio_button,
-                    radioGroup,
+                val button = BottomSheetSelectionItemRadioButtonBinding.inflate(
+                    inflater,
+                    binding.selectionGroup,
                     false
-                ) as RadioButton
+                ).root
                 button.text = entry.label
                 button.id = entry.hashCode()
-                radioGroup.addView(button, index)
+                binding.selectionGroup.addView(button, index)
             }
 
-            customSaveButton = content.findViewById<View>(R.id.custom_save)
-            customSaveButton.setOnClickListener {
+            binding.customSave.setOnClickListener {
                 val activity = requireActivity() as AbstractItemPickerActivity
-                activity.finish(item, customTextEditor.text.toString())
+                activity.finish(item, binding.customEditor.text.toString())
                 dismissAllowingStateLoss()
             }
 
-            customTextEditor = content.findViewById(R.id.custom_editor)
-            customTextEditor.addTextChangedListener(this)
+            binding.customEditor.addTextChangedListener(this)
 
-            radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            binding.selectionGroup.setOnCheckedChangeListener { _, checkedId ->
                 if (checkedId == R.id.custom) {
-                    customTextEditor.requestFocus()
+                    binding.customEditor.requestFocus()
                 } else {
                     val activity = requireActivity() as AbstractItemPickerActivity
                     val entry = entries.first { e -> e.hashCode() == checkedId }
@@ -361,13 +349,13 @@ abstract class AbstractItemPickerActivity :
                     dismissAllowingStateLoss()
                 }
             }
-            customTextEditor.setOnFocusChangeListener { _, hasFocus ->
+            binding.customEditor.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    radioGroup.check(R.id.custom)
+                    binding.selectionGroup.check(R.id.custom)
                 }
             }
 
-            return content
+            return binding.root
         }
 
         override fun beforeTextChanged(s: CharSequence?, before: Int, count: Int, after: Int) {
@@ -379,7 +367,7 @@ abstract class AbstractItemPickerActivity :
         }
 
         override fun afterTextChanged(s: Editable?) {
-            customSaveButton.isEnabled = s?.isNotEmpty() == true
+            binding.customSave.isEnabled = s?.isNotEmpty() == true
         }
     }
 }

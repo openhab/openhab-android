@@ -21,13 +21,10 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
-import androidx.core.widget.NestedScrollView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import kotlinx.coroutines.Dispatchers
@@ -36,6 +33,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
+import org.openhab.habdroid.databinding.ActivityLogBinding
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.determineDataUsagePolicy
@@ -49,10 +47,7 @@ class LogActivity :
     AbstractBaseActivity(),
     SwipeRefreshLayout.OnRefreshListener,
     SearchView.OnQueryTextListener {
-    private lateinit var logTextView: TextView
-    private lateinit var fab: FloatingActionButton
-    private lateinit var scrollView: NestedScrollView
-    private lateinit var swipeLayout: SwipeRefreshLayout
+    private lateinit var binding: ActivityLogBinding
     private var searchView: SearchView? = null
     private var showErrorsOnly: Boolean = false
     private var fullLog = ""
@@ -60,22 +55,18 @@ class LogActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_log)
+        binding.swiperefresh.apply {
+            setOnRefreshListener(this@LogActivity)
+            applyColors()
+        }
 
-        fab = findViewById(R.id.shareFab)
-        logTextView = findViewById(R.id.log)
-        scrollView = findViewById(R.id.scrollview)
-        swipeLayout = findViewById(R.id.activity_content)
-        swipeLayout.setOnRefreshListener(this)
-        swipeLayout.applyColors()
+        binding.appBar.root.setLiftOnScrollTargetView(binding.scrollview)
 
-        appBarLayout.setLiftOnScrollTargetView(scrollView)
-
-        fab.setOnClickListener {
+        binding.shareFab.setOnClickListener {
             val sendIntent = Intent().apply {
                 action = Intent.ACTION_SEND
                 type = "text/plain"
-                putExtra(Intent.EXTRA_TEXT, logTextView.text)
+                putExtra(Intent.EXTRA_TEXT, binding.log.text)
             }
             try {
                 startActivity(sendIntent)
@@ -99,6 +90,11 @@ class LogActivity :
         }
 
         onBackPressedDispatcher.addCallback(this, backCallback)
+    }
+
+    override fun inflateBinding(): CommonBinding {
+        binding = ActivityLogBinding.inflate(layoutInflater)
+        return CommonBinding(binding.root, binding.appBar, binding.coordinator, binding.swiperefresh)
     }
 
     override fun onResume() {
@@ -171,21 +167,21 @@ class LogActivity :
     }
 
     private fun setUiState(isLoading: Boolean) {
-        swipeLayout.isRefreshing = isLoading
-        logTextView.isVisible = !isLoading
-        if (isLoading) fab.hide() else fab.show()
+        binding.swiperefresh.isRefreshing = isLoading
+        binding.log.isVisible = !isLoading
+        if (isLoading) binding.shareFab.hide() else binding.shareFab.show()
     }
 
     private fun fetchLog(clear: Boolean) = launch {
         fullLog = collectLog(clear)
         onQueryTextChange(searchView?.query?.toString())
         setUiState(false)
-        scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
+        binding.scrollview.post { binding.scrollview.fullScroll(View.FOCUS_DOWN) }
     }
 
     private suspend fun collectLog(clear: Boolean): String = withContext(Dispatchers.Default) {
         val logBuilder = StringBuilder()
-        val separator = System.getProperty("line.separator")
+        val separator = System.lineSeparator()
         val process = try {
             var args = if (clear) "-c" else "-v threadtime -d"
             if (showErrorsOnly) {
@@ -263,7 +259,7 @@ class LogActivity :
     override fun onQueryTextSubmit(query: String?): Boolean = false
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        logTextView.text = if (newText.isNullOrEmpty()) {
+        binding.log.text = if (newText.isNullOrEmpty()) {
             fullLog
         } else {
             fullLog
