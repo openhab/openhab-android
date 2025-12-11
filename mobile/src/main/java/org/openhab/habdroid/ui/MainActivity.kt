@@ -162,6 +162,7 @@ class MainActivity :
     private lateinit var drawerModeSelectorContainer: View
     private lateinit var drawerModeToggle: ImageView
     private lateinit var drawerServerNameView: TextView
+    private lateinit var drawerServerNameLabel: TextView
     private var drawerIconTintList: ColorStateList? = null
     lateinit var viewPool: RecyclerView.RecycledViewPool
         private set
@@ -1050,6 +1051,7 @@ class MainActivity :
         drawerModeSelectorContainer.setOnClickListener { updateDrawerMode(!inServerSelectionMode) }
         drawerModeToggle = drawerModeSelectorContainer.findViewById(R.id.drawer_mode_switcher)
         drawerServerNameView = drawerModeSelectorContainer.findViewById(R.id.server_name)
+        drawerServerNameLabel = drawerModeSelectorContainer.findViewById(R.id.server_name_label)
     }
 
     private fun updateDrawerServerEntries() {
@@ -1066,6 +1068,7 @@ class MainActivity :
             configs.forEachIndexed { index, config -> drawerMenu.add(R.id.servers, config.id, index, config.name) }
             drawerModeToggle.isGone = configs.size <= 1
         }
+        drawerServerNameLabel.isGone = drawerModeToggle.isGone
         drawerModeSelectorContainer.isClickable = drawerModeToggle.isVisible
         if (!drawerModeSelectorContainer.isClickable) {
             inServerSelectionMode = false
