@@ -392,10 +392,10 @@ class ChartWidgetActivity : AbstractBaseActivity() {
                 setDrawCircleHole(false)
                 setDrawValues(false)
                 lineWidth = 1F
-                mode = if (widget.interpolation == Widget.Interpolation.Linear) {
-                    LineDataSet.Mode.LINEAR
-                } else {
+                mode = if (widget.interpolation == Widget.Interpolation.Step) {
                     LineDataSet.Mode.STEPPED
+                } else {
+                    LineDataSet.Mode.LINEAR
                 }
             }
         }
