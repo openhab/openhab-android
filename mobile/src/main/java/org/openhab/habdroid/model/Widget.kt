@@ -65,6 +65,7 @@ data class Widget(
     val legend: Boolean?,
     val forceAsItem: Boolean,
     val yAxisDecimalPattern: String?,
+    val interpolation: Interpolation?,
     val switchSupport: Boolean,
     val releaseOnly: Boolean?,
     val height: Int,
@@ -149,6 +150,11 @@ data class Widget(
         Datetime
     }
 
+    enum class Interpolation {
+        Linear,
+        Step
+    }
+
     enum class LabelSource {
         Unknown,
         ItemLabel,
@@ -185,6 +191,7 @@ data class Widget(
         chartTheme?.let { chartUrl.appendQueryParameter("theme", it.toString()) }
         forcedLegend?.let { chartUrl.appendQueryParameter("legend", it) }
         yAxisDecimalPattern?.let { chartUrl.appendQueryParameter("yAxisDecimalPattern", it) }
+        interpolation?.let { chartUrl.appendQueryParameter("interpolation", it.name.lowercase()) }
 
         if (width > 0) {
             chartUrl.appendQueryParameter("w", width / resDivider)
@@ -235,6 +242,7 @@ data class Widget(
                 switchSupport = source.switchSupport,
                 releaseOnly = source.releaseOnly,
                 yAxisDecimalPattern = source.yAxisDecimalPattern,
+                interpolation = source.interpolation,
                 height = source.height,
                 visibility = eventPayload.optBoolean("visibility", source.visibility),
                 rawInputHint = source.rawInputHint
@@ -272,6 +280,12 @@ fun String?.toInputHint(): Widget.InputTypeHint? = this?.let { value ->
     } catch (e: IllegalArgumentException) {
         return null
     }
+}
+
+fun String?.toInterpolation(): Widget.Interpolation? = when (this) {
+    "linear" -> Widget.Interpolation.Linear
+    "step" -> Widget.Interpolation.Step
+    else -> null
 }
 
 fun String?.toLabelSource(): Widget.LabelSource = when (this) {
@@ -377,6 +391,7 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
         // forceAsItem was added in openHAB 3, so no support for openHAB 1 required.
         forceAsItem = false,
         yAxisDecimalPattern = null,
+        interpolation = null,
         switchSupport = switchSupport,
         releaseOnly = null,
         height = height,
@@ -432,6 +447,7 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         legend = optBooleanOrNull("legend"),
         forceAsItem = optBoolean("forceAsItem", false),
         yAxisDecimalPattern = optString("yAxisDecimalPattern"),
+        interpolation = optString("interpolation").toInterpolation(),
         switchSupport = optBoolean("switchSupport", false),
         releaseOnly = optBooleanOrNull("releaseOnly"),
         height = optInt("height"),
