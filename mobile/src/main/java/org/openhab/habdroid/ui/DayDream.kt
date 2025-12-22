@@ -17,17 +17,13 @@ import android.animation.ObjectAnimator
 import android.content.res.Configuration
 import android.graphics.Rect
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.service.dreams.DreamService
 import android.text.Html
 import android.text.format.DateFormat
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.TextClock
-import android.widget.TextView
 import java.util.Locale
 import kotlin.coroutines.CoroutineContext
 import kotlin.random.Random
@@ -41,6 +37,7 @@ import kotlinx.coroutines.launch
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.databinding.DaydreamBinding
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.PrefKeys
@@ -53,25 +50,21 @@ class DayDream :
     private val job = Job()
     override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
     private var moveTextJob: Job? = null
-    private lateinit var textView: TextView
-    private lateinit var wrapper: LinearLayout
-    private lateinit var container: FrameLayout
+    private lateinit var binding: DaydreamBinding
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         isInteractive = false
         isFullscreen = true
-        isScreenBright = applicationContext.getPrefs().getBoolean(PrefKeys.DAY_DREAM_BRIGHT_SCREEN, true)
-        setContentView(R.layout.daydream)
+        isScreenBright = getPrefs().getBoolean(PrefKeys.DAY_DREAM_BRIGHT_SCREEN, true)
+        binding = DaydreamBinding.inflate(LayoutInflater.from(this))
+        setContentView(binding.root)
     }
 
     override fun onDreamingStarted() {
         super.onDreamingStarted()
-        val item = applicationContext.getPrefs().getStringOrNull(PrefKeys.DAY_DREAM_ITEM)
+        val item = getPrefs().getStringOrNull(PrefKeys.DAY_DREAM_ITEM)
 
-        textView = findViewById(R.id.text)
-        wrapper = findViewById(R.id.wrapper)
-        container = findViewById(R.id.container)
         setupDateView()
 
         launch {
@@ -80,10 +73,9 @@ class DayDream :
     }
 
     private fun setupDateView() {
-        val dateView: TextClock = findViewById(R.id.date)
         val pattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEEE, MMMM d, yyyy")
-        dateView.format12Hour = pattern
-        dateView.format24Hour = pattern
+        binding.date.format12Hour = pattern
+        binding.date.format24Hour = pattern
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -111,7 +103,7 @@ class DayDream :
     }
 
     private fun setText(text: String) {
-        textView.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        binding.text.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Html.fromHtml(text.replace("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT)
         } else {
             @Suppress("DEPRECATION")
@@ -122,9 +114,11 @@ class DayDream :
 
     private fun moveText() {
         moveTextJob?.cancel()
-        wrapper.fadeOut()
-        wrapper.moveViewToRandomPosition(container)
-        wrapper.fadeIn()
+        binding.wrapper.apply {
+            fadeOut()
+            moveViewToRandomPosition(binding.container)
+            fadeIn()
+        }
         moveTextJob = launch {
             delay(if (BuildConfig.DEBUG) 10.seconds else 1.minutes)
             moveText()
@@ -132,8 +126,8 @@ class DayDream :
     }
 
     private fun moveTextIfRequired() {
-        Handler(Looper.getMainLooper()).post {
-            if (!textView.isFullyVisible()) {
+        binding.text.post {
+            if (!binding.text.isFullyVisible()) {
                 moveText()
             }
         }

@@ -33,9 +33,6 @@ import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.pm.ShortcutInfoCompat
@@ -58,6 +55,8 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.DemoConnection
+import org.openhab.habdroid.databinding.BottomSheetShortcutLabelBinding
+import org.openhab.habdroid.databinding.FragmentWebviewBinding
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.ui.AbstractBaseActivity
 import org.openhab.habdroid.ui.ConnectionWebViewClient
@@ -69,6 +68,7 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDarkModeActive
+import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.toRelativeUrl
 
 abstract class AbstractWebViewFragment :
@@ -78,7 +78,8 @@ abstract class AbstractWebViewFragment :
     MenuProvider {
     private val job = Job()
     override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
-    private var webView: WebView? = null
+    private var binding: FragmentWebviewBinding? = null
+    private val webView get() = binding?.webview
     private var callback: ParentCallback? = null
     private val mainActivity get() = context as MainActivity?
     var isStackRoot = false
@@ -144,11 +145,12 @@ abstract class AbstractWebViewFragment :
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
-        return inflater.inflate(R.layout.fragment_webview, container, false)
+        val binding = FragmentWebviewBinding.inflate(inflater, container, false)
+        this.binding = binding
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        webView = view.findViewById(R.id.webview)
         webView?.settings?.mediaPlaybackRequiresUserGesture = false
         webView?.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
@@ -194,13 +196,11 @@ abstract class AbstractWebViewFragment :
 
         isStackRoot = requireArguments().getBoolean(KEY_IS_STACK_ROOT)
 
-        val retryButton = view.findViewById<Button>(R.id.retry_button)
-        retryButton.setOnClickListener {
+        binding?.retryButton?.setOnClickListener {
             Log.d(TAG, "Retry button clicked, reload website")
             loadWebsite()
         }
-        val error = view.findViewById<TextView>(R.id.empty_message)
-        error.text = getString(errorMessageRes)
+        binding?.emptyMessage?.text = getString(errorMessageRes)
 
         val subpage = requireArguments().getString(KEY_SUBPAGE)
         when {
@@ -224,7 +224,7 @@ abstract class AbstractWebViewFragment :
     override fun onDestroyView() {
         super.onDestroyView()
         webView?.destroy()
-        webView = null
+        binding = null
     }
 
     override fun onResume() {
@@ -381,9 +381,9 @@ abstract class AbstractWebViewFragment :
     private fun updateViewVisibility(error: Boolean?, loadingProgress: Int?) {
         error?.let {
             webView?.isVisible = !error
-            view?.findViewById<View>(android.R.id.empty)?.isVisible = error
+            binding?.empty?.isVisible = error
         }
-        view?.findViewById<ProgressBar>(R.id.progress)?.apply {
+        binding?.progress?.apply {
             isVisible = loadingProgress != null
             progress = loadingProgress ?: 0
         }
@@ -478,35 +478,36 @@ abstract class AbstractWebViewFragment :
     class ShortcutTitleBottomSheet : BottomSheetDialogFragment() {
         private val parent get() = parentFragment as AbstractWebViewFragment
         private lateinit var origInfo: ShortcutInfoCompat
-        private lateinit var editor: EditText
+        private lateinit var binding: BottomSheetShortcutLabelBinding
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             origInfo = parent.shortcutInfo
         }
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-            val view = inflater.inflate(R.layout.bottom_sheet_shortcut_label, container, false)
-            editor = view.findViewById(R.id.editor)
-            return view
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+            binding = BottomSheetShortcutLabelBinding.inflate(inflater, container, false)
+            return binding.root
         }
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
-            editor.setText(origInfo.shortLabel, TextView.BufferType.EDITABLE)
-            editor.requestFocus()
+            binding.editor.apply {
+                setText(origInfo.shortLabel, TextView.BufferType.EDITABLE)
+                requestFocus()
+            }
 
-            view.findViewById<View>(R.id.cancel_button).setOnClickListener {
+            binding.cancelButton.setOnClickListener {
                 dismissAllowingStateLoss()
             }
-            view.findViewById<View>(R.id.save).setOnClickListener {
+            binding.save.setOnClickListener {
                 save()
                 dismissAllowingStateLoss()
             }
         }
 
         private fun save() {
-            val label = if (editor.text.isNullOrEmpty()) " " else editor.text
+            val label = binding.editor.text.toString().orDefaultIfEmpty(" ")
             val newInfo = ShortcutInfoCompat.Builder(origInfo)
                 .setShortLabel(label)
                 .build()

@@ -21,13 +21,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import java.util.Locale
 import kotlin.math.max
 import kotlin.math.min
 import org.openhab.habdroid.R
+import org.openhab.habdroid.databinding.BottomSheetMapBinding
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.util.dpToPixel
@@ -56,11 +56,10 @@ object MapViewHelper {
 
     private class OsmViewHolder(initData: WidgetAdapter.ViewHolderInitData) :
         WidgetAdapter.AbstractMapViewHolder(initData) {
-        private val mapView = baseMapView as MapView
         private val handler: Handler = Handler(Looper.getMainLooper())
 
         init {
-            with(mapView) {
+            binding.mapview.apply {
                 setTileSource(TileSourceFactory.MAPNIK)
                 isVerticalMapRepetitionEnabled = false
                 zoomController.setVisibility(Visibility.NEVER)
@@ -84,9 +83,9 @@ object MapViewHelper {
         override fun bindAfterDataSaverCheck(widget: Widget) {
             super.bindAfterDataSaverCheck(widget)
             handler.post {
-                mapView.applyPositionAndLabel(
+                binding.mapview.applyPositionAndLabel(
                     boundWidget?.item,
-                    labelView.text,
+                    binding.icontext.label.text,
                     15.0f,
                     allowDrag = false,
                     allowScroll = false
@@ -95,11 +94,11 @@ object MapViewHelper {
         }
 
         override fun onStart() {
-            mapView.onResume()
+            binding.mapview.onResume()
         }
 
         override fun onStop() {
-            mapView.onPause()
+            binding.mapview.onPause()
         }
 
         override fun openPopup() {
@@ -201,18 +200,18 @@ fun Location.toMapsUrl() = "https://www.openstreetmap.org/#map=16/$latitude/$lon
 class MapBottomSheet :
     AbstractWidgetBottomSheet(),
     Marker.OnMarkerDragListener {
-    private lateinit var mapView: MapView
-    private val handler = Handler(Looper.getMainLooper())
+    private lateinit var binding: BottomSheetMapBinding
+    private val handler: Handler = Handler(Looper.getMainLooper())
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val view = inflater.inflate(R.layout.bottom_sheet_map, container, false)
-        val title = view.findViewById<TextView>(R.id.title)
+        binding = BottomSheetMapBinding.inflate(inflater, container, false)
 
-        title.text = widget.label
-        title.isGone = widget.label.isEmpty()
+        binding.title.apply {
+            text = widget.label
+            isGone = widget.label.isEmpty()
+        }
 
-        mapView = view.findViewById(R.id.mapview)
-        with(mapView) {
+        binding.mapview.apply {
             zoomController.setVisibility(Visibility.SHOW_AND_FADEOUT)
             setMultiTouchControls(true)
             isVerticalMapRepetitionEnabled = false
@@ -220,7 +219,7 @@ class MapBottomSheet :
             mapOverlay.setColorFilter(if (context.isDarkModeActive()) TilesOverlay.INVERT_COLORS else null)
         }
         handler.post {
-            mapView.applyPositionAndLabel(
+            binding.mapview.applyPositionAndLabel(
                 widget.item,
                 widget.label,
                 16.0f,
@@ -230,16 +229,16 @@ class MapBottomSheet :
             )
         }
 
-        return view
+        return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        mapView.onResume()
+        binding.mapview.onResume()
     }
 
     override fun onPause() {
-        mapView.onPause()
+        binding.mapview.onPause()
         super.onPause()
     }
 

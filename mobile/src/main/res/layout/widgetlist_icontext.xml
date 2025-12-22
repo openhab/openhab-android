@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:parentTag="android.widget.LinearLayout">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
     <org.openhab.habdroid.ui.widget.WidgetImageView
-        android:id="@+id/widgeticon"
+        android:id="@+id/icon"
         android:layout_width="@dimen/widgetlist_icon_size"
         android:layout_height="@dimen/widgetlist_icon_size"
         android:layout_gravity="center_vertical"
@@ -13,7 +15,7 @@
         tools:src="@drawable/ic_openhab_appicon_24dp" />
 
     <TextView
-        android:id="@+id/widgetlabel"
+        android:id="@+id/label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -25,4 +27,4 @@
         android:textAppearance="?attr/textAppearanceBodyLarge"
         tools:text="Widget title" />
 
-</merge>
+</LinearLayout>

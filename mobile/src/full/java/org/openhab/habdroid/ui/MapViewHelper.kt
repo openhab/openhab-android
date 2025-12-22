@@ -18,18 +18,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.view.isGone
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import java.util.Locale
-import org.openhab.habdroid.R
+import org.openhab.habdroid.databinding.BottomSheetMapBinding
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
 
@@ -41,11 +39,10 @@ object MapViewHelper {
 
     private class GoogleMapsViewHolder(initData: WidgetAdapter.ViewHolderInitData) :
         WidgetAdapter.AbstractMapViewHolder(initData) {
-        private val mapView = baseMapView as MapView
         private var map: GoogleMap? = null
 
         init {
-            mapView.onCreate(null)
+            binding.mapview.onCreate(null)
         }
 
         override fun bindAfterDataSaverCheck(widget: Widget) {
@@ -58,14 +55,18 @@ object MapViewHelper {
 
         override fun onStart() {
             super.onStart()
-            mapView.onStart()
-            mapView.onResume()
+            binding.mapview.apply {
+                onStart()
+                onResume()
+            }
         }
 
         override fun onStop() {
             super.onStop()
-            mapView.onPause()
-            mapView.onStop()
+            binding.mapview.apply {
+                onPause()
+                onStop()
+            }
         }
 
         override fun openPopup() {
@@ -80,7 +81,7 @@ object MapViewHelper {
                 return
             }
 
-            mapView.getMapAsync { map ->
+            binding.mapview.getMapAsync { map ->
                 this.map = map
                 with(map.uiSettings) {
                     setAllGesturesEnabled(false)
@@ -102,12 +103,11 @@ fun GoogleMap.applyPositionAndLabel(widget: Widget, zoomLevel: Float, allowDrag:
     val canDragMarker = allowDrag && !item.readOnly
     if (item.members.isNotEmpty()) {
         val positionMap = item.members
-            .map { m -> m.state?.asLocation?.toLatLng()?.let { m to it } }
-            .filterNotNull()
+            .mapNotNull { m -> m.state?.asLocation?.toLatLng()?.let { m to it } }
             .toMap()
         if (positionMap.isNotEmpty()) {
             val boundsBuilder = LatLngBounds.Builder()
-            positionMap.forEach { member, pos ->
+            positionMap.forEach { (member, pos) ->
                 setMarker(pos, member, member.label, canDragMarker)
                 boundsBuilder.include(pos)
             }
@@ -139,48 +139,48 @@ fun Location.toMapsUrl() = "https://www.google.de/maps/@$latitude,$longitude,16z
 class MapBottomSheet :
     AbstractWidgetBottomSheet(),
     GoogleMap.OnMarkerDragListener {
-    private lateinit var mapView: MapView
+    private lateinit var binding: BottomSheetMapBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.bottom_sheet_map, container, false)
-        val title = view.findViewById<TextView>(R.id.title)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = BottomSheetMapBinding.inflate(inflater, container, false)
 
-        title.text = widget.label
-        title.isGone = widget.label.isEmpty()
+        binding.title.apply {
+            text = widget.label
+            isGone = widget.label.isEmpty()
+        }
 
-        mapView = view.findViewById(R.id.mapview)
-        mapView.onCreate(null)
+        binding.mapview.onCreate(null)
 
-        return view
+        return binding.root
     }
 
     override fun onDestroyView() {
-        mapView.onDestroy()
+        binding.mapview.onDestroy()
         super.onDestroyView()
     }
 
     override fun onStart() {
         super.onStart()
-        mapView.onStart()
+        binding.mapview.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        mapView.onStop()
+        binding.mapview.onStop()
     }
 
     override fun onResume() {
         super.onResume()
-        mapView.onResume()
+        binding.mapview.onResume()
 
-        mapView.getMapAsync { map ->
+        binding.mapview.getMapAsync { map ->
             map.setOnMarkerDragListener(this@MapBottomSheet)
             map.applyPositionAndLabel(widget, 16.0f, true)
         }
     }
 
     override fun onPause() {
-        mapView.onPause()
+        binding.mapview.onPause()
         super.onPause()
     }
 

@@ -17,7 +17,6 @@ import android.content.Context
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -26,10 +25,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.databinding.NotificationlistItemBinding
+import org.openhab.habdroid.databinding.NotificationlistLoadingItemBinding
 import org.openhab.habdroid.model.CloudMessage
-import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.determineDataUsagePolicy
 
 class CloudNotificationAdapter(context: Context, private val loadMoreListener: () -> Unit) :
@@ -83,9 +82,9 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         if (viewType == VIEW_TYPE_LOADING) {
-            LoadingIndicatorViewHolder(inflater, parent)
+            LoadingIndicatorViewHolder(NotificationlistLoadingItemBinding.inflate(inflater, parent, false))
         } else {
-            NotificationViewHolder(inflater, parent)
+            NotificationViewHolder(NotificationlistItemBinding.inflate(inflater, parent, false))
         }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -107,35 +106,33 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
         }
     }
 
-    class NotificationViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
-        RecyclerView.ViewHolder(inflater.inflate(R.layout.notificationlist_item, parent, false)) {
-        private val titleView: TextView = itemView.findViewById(R.id.notificationTitle)
-        private val messageView: TextView = itemView.findViewById(R.id.notificationMessage)
-        private val createdView: TextView = itemView.findViewById(R.id.notificationCreated)
-        private val iconView: WidgetImageView = itemView.findViewById(R.id.notificationIcon)
-        private val imageView: WidgetImageView = itemView.findViewById(R.id.notificationImage)
-        private val tagView: TextView = itemView.findViewById(R.id.notificationTag)
+    class NotificationViewHolder(private val binding: NotificationlistItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(notification: CloudMessage.CloudNotification) {
-            createdView.text = DateUtils.getRelativeDateTimeString(
+            binding.notificationCreated.text = DateUtils.getRelativeDateTimeString(
                 itemView.context,
                 notification.createdTimestamp,
                 DateUtils.MINUTE_IN_MILLIS,
                 DateUtils.WEEK_IN_MILLIS,
                 0
             )
-            titleView.text = notification.title
-            titleView.isVisible = notification.title.isNotEmpty()
-            messageView.text = notification.message
-            messageView.isVisible = notification.message.isNotEmpty()
+            binding.notificationTitle.apply {
+                text = notification.title
+                isVisible = notification.title.isNotEmpty()
+            }
+            binding.notificationMessage.apply {
+                text = notification.message
+                isVisible = notification.message.isNotEmpty()
+            }
 
             val conn = ConnectionFactory.activeCloudConnection?.connection
             if (conn == null) {
-                iconView.applyFallbackDrawable()
-                imageView.isVisible = false
+                binding.notificationIcon.applyFallbackDrawable()
+                binding.notificationImage.isVisible = false
             } else {
                 if (notification.icon != null) {
-                    iconView.setImageUrl(
+                    binding.notificationIcon.setImageUrl(
                         conn,
                         notification.icon.toUrl(
                             itemView.context,
@@ -144,23 +141,25 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
                         timeoutMillis = 2000
                     )
                 } else {
-                    iconView.applyFallbackDrawable()
+                    binding.notificationIcon.applyFallbackDrawable()
                 }
-                imageView.isVisible = notification.mediaAttachmentUrl != null
+                binding.notificationImage.isVisible = notification.mediaAttachmentUrl != null
                 CoroutineScope(Dispatchers.IO + Job()).launch {
                     val bitmap = notification.loadImage(conn, itemView.context, itemView.width)
                     withContext(Dispatchers.Main) {
-                        imageView.setImageBitmap(bitmap)
+                        binding.notificationImage.setImageBitmap(bitmap)
                     }
                 }
             }
-            tagView.text = notification.tag
-            tagView.isGone = notification.tag.isNullOrEmpty()
+            binding.notificationTag.apply {
+                text = notification.tag
+                isGone = notification.tag.isNullOrEmpty()
+            }
         }
     }
 
-    class LoadingIndicatorViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
-        RecyclerView.ViewHolder(inflater.inflate(R.layout.notificationlist_loading_item, parent, false))
+    class LoadingIndicatorViewHolder(binding: NotificationlistLoadingItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     companion object {
         private const val VIEW_TYPE_NOTIFICATION = 0

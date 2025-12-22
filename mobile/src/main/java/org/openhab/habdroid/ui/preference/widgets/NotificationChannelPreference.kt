@@ -25,8 +25,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.openhab.habdroid.R
 
 class NotificationChannelPreference(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
-    private var helpIcon: ImageView? = null
-
     init {
         widgetLayoutResource = R.layout.help_icon_pref
     }
@@ -38,8 +36,7 @@ class NotificationChannelPreference(context: Context, attrs: AttributeSet) : Pre
             return
         }
 
-        helpIcon = holder.itemView.findViewById(R.id.help_icon)
-        helpIcon?.apply {
+        holder.itemView.findViewById<ImageView>(R.id.help_icon).apply {
             val contentDescription = context.getString(R.string.click_here_for_more_information)
             this.contentDescription = contentDescription
             TooltipCompat.setTooltipText(this, contentDescription)

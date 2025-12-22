@@ -29,6 +29,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.tiles.AbstractTileService
+import org.openhab.habdroid.databinding.ActivityPrefsBinding
 import org.openhab.habdroid.ui.AbstractBaseActivity
 import org.openhab.habdroid.ui.preference.fragments.AbstractSettingsFragment
 import org.openhab.habdroid.ui.preference.fragments.DayDreamFragment
@@ -46,8 +47,6 @@ class PreferencesActivity : AbstractBaseActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_prefs)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -85,6 +84,11 @@ class PreferencesActivity : AbstractBaseActivity() {
             resultIntent = savedInstanceState.parcelable<Intent>(STATE_KEY_RESULT) ?: Intent()
         }
         setResult(RESULT_OK, resultIntent)
+    }
+
+    override fun inflateBinding(): CommonBinding {
+        val binding = ActivityPrefsBinding.inflate(layoutInflater)
+        return CommonBinding(binding.root, binding.appBar, binding.coordinator, binding.activityContent)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

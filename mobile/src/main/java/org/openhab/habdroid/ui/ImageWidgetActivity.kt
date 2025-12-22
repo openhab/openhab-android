@@ -20,8 +20,6 @@ import android.util.Base64
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import com.faltenreich.skeletonlayout.Skeleton
-import com.github.chrisbanes.photoview.PhotoView
 import kotlin.math.max
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -32,6 +30,7 @@ import org.json.JSONObject
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.databinding.ActivityImageBinding
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.IconBackground
 import org.openhab.habdroid.util.ImageConversionPolicy
@@ -41,8 +40,7 @@ import org.openhab.habdroid.util.getIconFallbackColor
 import org.openhab.habdroid.util.orDefaultIfEmpty
 
 class ImageWidgetActivity : AbstractBaseActivity() {
-    private lateinit var imageView: PhotoView
-    private lateinit var skeleton: Skeleton
+    private lateinit var binding: ActivityImageBinding
     private var connection: Connection? = null
     private var refreshJob: Job? = null
     private var delay: Long = 0
@@ -50,15 +48,15 @@ class ImageWidgetActivity : AbstractBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_image)
-
         supportActionBar?.title =
             intent.getStringExtra(WIDGET_LABEL).orDefaultIfEmpty(getString(R.string.widget_type_image))
 
-        imageView = findViewById(R.id.photo_view)
-        skeleton = findViewById(R.id.activity_content)
-
         delay = intent.getIntExtra(WIDGET_REFRESH, 0).toLong()
+    }
+
+    override fun inflateBinding(): CommonBinding {
+        binding = ActivityImageBinding.inflate(layoutInflater)
+        return CommonBinding(binding.root, binding.appBar, binding.coordinator, binding.skeleton)
     }
 
     override fun onResume() {
@@ -111,7 +109,7 @@ class ImageWidgetActivity : AbstractBaseActivity() {
     private suspend fun loadImage() {
         val widgetUrl = intent.getStringExtra(WIDGET_URL)
         val conn = connection ?: return finish()
-        skeleton.showSkeleton()
+        binding.skeleton.showSkeleton()
 
         val bitmap = withContext(Dispatchers.IO) {
             if (widgetUrl != null) {
@@ -163,10 +161,12 @@ class ImageWidgetActivity : AbstractBaseActivity() {
         } else {
             // Restore zoom after image refresh
             val matrix = Matrix()
-            imageView.getSuppMatrix(matrix)
-            imageView.setImageBitmap(bitmap)
-            imageView.setSuppMatrix(matrix)
-            skeleton.showOriginal()
+            binding.photoView.apply {
+                getSuppMatrix(matrix)
+                setImageBitmap(bitmap)
+                setSuppMatrix(matrix)
+            }
+            binding.skeleton.showOriginal()
         }
     }
 

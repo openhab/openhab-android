@@ -4,10 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
+    android:orientation="horizontal"
     style="@style/WidgetListItemContainerCompact">
 
-    <include layout="@layout/widgetlist_iconvaluetext_compact" />
+    <include
+        android:id="@+id/icontext"
+        layout="@layout/widgetlist_iconvaluetext_compact"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 
-    <include layout="@layout/widgetlist_rollershutteritem_buttons" />
+    <include
+        android:id="@+id/buttons"
+        layout="@layout/widgetlist_rollershutteritem_buttons" />
 
 </LinearLayout>

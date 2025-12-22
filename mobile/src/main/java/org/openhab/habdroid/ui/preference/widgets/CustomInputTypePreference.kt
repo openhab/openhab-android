@@ -25,9 +25,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.preference.EditTextPreference
 import androidx.preference.EditTextPreferenceDialogFragmentCompat
 import androidx.preference.PreferenceDataStore
-import com.google.android.material.textfield.MaterialAutoCompleteTextView
-import com.google.android.material.textfield.TextInputLayout
 import org.openhab.habdroid.R
+import org.openhab.habdroid.databinding.TextInputPrefDialogBinding
 import org.openhab.habdroid.ui.preference.CustomDialogPreference
 
 open class CustomInputTypePreference(context: Context, attrs: AttributeSet) :
@@ -86,28 +85,31 @@ open class CustomInputTypePreference(context: Context, attrs: AttributeSet) :
     class PrefFragment :
         EditTextPreferenceDialogFragmentCompat(),
         TextWatcher {
-        private lateinit var wrapper: TextInputLayout
-        private lateinit var editor: MaterialAutoCompleteTextView
+        private lateinit var binding: TextInputPrefDialogBinding
         private var whitespaceBehavior: WhitespaceBehavior? = null
 
         override fun onBindDialogView(view: View) {
             super.onBindDialogView(view)
-            wrapper = view.findViewById(R.id.input_wrapper)
-            editor = view.findViewById(android.R.id.edit)
-            editor.addTextChangedListener(this)
-            arguments?.getInt(KEY_INPUT_TYPE)?.let { type ->
-                editor.inputType = type
-            }
+            binding = TextInputPrefDialogBinding.bind(view)
+
             arguments?.getCharSequence(KEY_TITLE)?.let { title ->
-                wrapper.hint = title
+                binding.inputWrapper.hint = title
             }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val hints = arguments?.getStringArray(KEY_AUTOFILL_HINTS)
-                if (hints == null) {
-                    editor.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
-                } else {
-                    editor.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_YES
-                    editor.setAutofillHints(*hints)
+            binding.edit.apply {
+                addTextChangedListener(this@PrefFragment)
+                arguments?.getInt(KEY_INPUT_TYPE)?.let { inputType = it }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    val hints = arguments?.getStringArray(KEY_AUTOFILL_HINTS)
+                    if (hints == null) {
+                        importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+                    } else {
+                        importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_YES
+                        setAutofillHints(*hints)
+                    }
+                }
+                arguments?.getStringArray(KEY_SUGGESTIONS)?.let {
+                    val adapter = ArrayAdapter(view.context, android.R.layout.simple_dropdown_item_1line, it)
+                    setAdapter(adapter)
                 }
             }
             val whitespaceBehaviorId = arguments?.getInt(KEY_WHITESPACE_BEHAVIOR, 0) ?: 0
@@ -116,16 +118,11 @@ open class CustomInputTypePreference(context: Context, attrs: AttributeSet) :
             } else {
                 WhitespaceBehavior.IGNORE
             }
-
-            arguments?.getStringArray(KEY_SUGGESTIONS)?.let {
-                val adapter = ArrayAdapter(editor.context, android.R.layout.simple_dropdown_item_1line, it)
-                editor.setAdapter(adapter)
-            }
         }
 
         override fun onStart() {
             super.onStart()
-            afterTextChanged(editor.text)
+            afterTextChanged(binding.edit.text)
         }
 
         override fun beforeTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
@@ -146,8 +143,8 @@ open class CustomInputTypePreference(context: Context, attrs: AttributeSet) :
             val isLastCharWhitespace = value.lastOrNull()?.isWhitespace() ?: false
             val isFirstCharWhitespace = value.firstOrNull()?.isWhitespace() ?: false
 
-            val res = wrapper.resources
-            wrapper.error = when {
+            val res = binding.root.resources
+            binding.inputWrapper.error = when {
                 isFirstCharWhitespace -> res.getString(R.string.error_first_char_is_whitespace)
                 isLastCharWhitespace -> res.getString(R.string.error_last_char_is_whitespace)
                 else -> null

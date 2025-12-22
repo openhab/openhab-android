@@ -3,10 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
+    android:orientation="horizontal"
     style="@style/WidgetListItemContainer">
 
-    <include layout="@layout/widgetlist_iconvaluetext" />
+    <include
+        android:id="@+id/icontext"
+        layout="@layout/widgetlist_iconvaluetext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
 
-    <include layout="@layout/widgetlist_coloritem_buttons" />
+    <include
+        android:id="@+id/buttons"
+        layout="@layout/widgetlist_coloritem_buttons" />
 
 </LinearLayout>

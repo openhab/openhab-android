@@ -22,9 +22,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.databinding.ActivityChartimageBinding
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
-import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getChartTheme
@@ -35,8 +35,7 @@ import org.openhab.habdroid.util.parcelable
 class ChartImageActivity :
     AbstractBaseActivity(),
     SwipeRefreshLayout.OnRefreshListener {
-    private lateinit var swipeLayout: SwipeRefreshLayout
-    private lateinit var chart: WidgetImageView
+    private lateinit var binding: ActivityChartimageBinding
     private lateinit var period: String
     private lateinit var widget: Widget
     private lateinit var chartTheme: CharSequence
@@ -49,8 +48,6 @@ class ChartImageActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_chartimage)
-
         widget = intent.parcelable(EXTRA_WIDGET)!!
         period = widget.period
         // If Widget#legend is null, show legend only for groups
@@ -60,14 +57,19 @@ class ChartImageActivity :
 
         supportActionBar?.title = widget.label.orDefaultIfEmpty(getString(R.string.chart_activity_title))
 
-        chart = findViewById(R.id.chart)
-        swipeLayout = findViewById(R.id.activity_content)
-        swipeLayout.setOnRefreshListener(this)
-        swipeLayout.applyColors()
+        binding.swipeRefresh.apply {
+            setOnRefreshListener(this@ChartImageActivity)
+            applyColors()
+        }
 
         density = resources.configuration.densityDpi
 
         updateChartTheme()
+    }
+
+    override fun inflateBinding(): CommonBinding {
+        binding = ActivityChartimageBinding.inflate(layoutInflater)
+        return CommonBinding(binding.root, binding.appBar, binding.coordinator, binding.swipeRefresh)
     }
 
     override fun onResume() {
@@ -81,13 +83,13 @@ class ChartImageActivity :
 
         loadChartImage(false)
         if (determineDataUsagePolicy(connection).canDoRefreshes) {
-            chart.startRefreshingIfNeeded()
+            binding.chart.startRefreshingIfNeeded()
         }
     }
 
     override fun onPause() {
         super.onPause()
-        chart.cancelRefresh()
+        binding.chart.cancelRefresh()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -155,15 +157,15 @@ class ChartImageActivity :
 
     override fun onRefresh() {
         loadChartImage(true)
-        swipeLayout.isRefreshing = false
+        binding.swipeRefresh.isRefreshing = false
     }
 
     private fun loadChartImage(force: Boolean) {
         val conn = connection ?: return finish()
         val chartUrl = widget.toChartUrl(
             getPrefs(),
-            chart.width,
-            chart.height,
+            binding.chart.width,
+            binding.chart.height,
             chartTheme,
             density,
             period,
@@ -171,7 +173,7 @@ class ChartImageActivity :
         ) ?: return
 
         Log.d(TAG, "Load chart with url $chartUrl")
-        chart.setImageUrl(conn, chartUrl, refreshDelayInMs = widget.refresh, forceLoad = force)
+        binding.chart.setImageUrl(conn, chartUrl, refreshDelayInMs = widget.refresh, forceLoad = force)
     }
 
     private fun updateHasLegendButtonState(item: MenuItem) {

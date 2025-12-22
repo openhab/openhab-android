@@ -7,7 +7,9 @@
     android:orientation="vertical"
     style="@style/WidgetListItemContainer">
 
-    <include layout="@layout/widgetlist_icontext_for_heavy_data" />
+    <include
+        android:id="@+id/icontext"
+        layout="@layout/widgetlist_icontext_for_heavy_data" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/video_player_loading"
@@ -19,11 +21,13 @@
         tools:visibility="visible" />
 
     <org.openhab.habdroid.ui.widget.AutoHeightPlayerView
-        android:id="@+id/widget_content"
+        android:id="@+id/player"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <include layout="@layout/widgetlist_data_saver" />
+    <include
+        android:id="@+id/data_saver"
+        layout="@layout/widgetlist_data_saver" />
 
     <LinearLayout
         android:id="@+id/video_player_error"

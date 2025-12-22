@@ -41,8 +41,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.updatePadding
-import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.internal.EdgeToEdgeUtils
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -54,6 +52,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.asExecutor
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
+import org.openhab.habdroid.databinding.AppBarBinding
 import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ScreenLockMode
@@ -70,12 +69,8 @@ abstract class AbstractBaseActivity :
     override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
     protected open val forceNonFullscreen = false
     private var authPrompt: AuthPrompt? = null
-    private lateinit var coordinator: CoordinatorLayout
-    protected lateinit var layoutForSnackbar: View
-    private lateinit var toolbar: MaterialToolbar
-    private lateinit var content: View
-    lateinit var appBarLayout: AppBarLayout
-        private set
+    lateinit var layoutForSnackbar: View
+    private lateinit var binding: CommonBinding
     private lateinit var appBarBackground: Drawable
     private lateinit var insetsController: WindowInsetsControllerCompat
     private var lastInsets: WindowInsetsCompat? = null
@@ -88,38 +83,42 @@ abstract class AbstractBaseActivity :
             field = value
             // ScrollingViewBehavior assigns the AppBarLayout height as offset to other views (here: activity content)
             // even if the ABL is set to 'gone', hence we have to do this ugly workaround
-            appBarLayout.layoutParams.height = if (value) ViewGroup.LayoutParams.WRAP_CONTENT else 0
+            binding.appBar.root.layoutParams.height = if (value) ViewGroup.LayoutParams.WRAP_CONTENT else 0
             applyPaddingsForWindowInsets()
         }
 
     protected val isFullscreenEnabled: Boolean
         get() = getPrefs().getBoolean(PrefKeys.FULLSCREEN, false)
 
+    protected data class CommonBinding(
+        val root: View,
+        val appBar: AppBarBinding,
+        val coordinator: CoordinatorLayout,
+        val activityContent: View
+    )
+
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         applyUserSelectedTheme()
         super.onCreate(savedInstanceState)
-    }
 
-    override fun setContentView(layoutResID: Int) {
-        super.setContentView(layoutResID)
+        binding = inflateBinding()
+        setContentView(binding.root)
 
-        toolbar = findViewById(R.id.openhab_toolbar)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.appBar.openhabToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         enableDrawingBehindStatusBar()
 
-        coordinator = findViewById(R.id.coordinator)
-        layoutForSnackbar = coordinator
-        content = findViewById(R.id.activity_content)
-        insetsController = WindowInsetsControllerCompat(window, coordinator)
+        layoutForSnackbar = binding.coordinator
+        insetsController = WindowInsetsControllerCompat(window, binding.coordinator)
 
         setNavigationBarColor()
 
         appBarBackground = MaterialShapeDrawable.createWithElevationOverlay(this)
-        appBarLayout = findViewById(R.id.appbar_layout)
-        appBarLayout.statusBarForeground = appBarBackground
+        binding.appBar.root.statusBarForeground = appBarBackground
     }
+
+    protected abstract fun inflateBinding(): CommonBinding
 
     @CallSuper
     override fun onStart() {
@@ -160,7 +159,7 @@ abstract class AbstractBaseActivity :
         // -> Conclusion is that a) we need a listener on toolbar which consumes the insets, and b) we need a listener
         //    on something early in the hierarchy to get the full insets
         // -> Putting the listener on the toolbar fulfills both a) and b)
-        ViewCompat.setOnApplyWindowInsetsListener(toolbar) { _, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.appBar.openhabToolbar) { _, insets ->
             lastInsets = insets
             applyPaddingsForWindowInsets()
             WindowInsetsCompat.CONSUMED
@@ -184,10 +183,12 @@ abstract class AbstractBaseActivity :
         // (basically the same issue as above). To make sure it doesn't draw the background of the status bar (which
         // it thinks is present) over the actual toolbar, unset the status bar background if we think the status bar
         // is not to be shown.
-        appBarLayout.statusBarForeground = if (insets.top > 0) appBarBackground else null
-        appBarLayout.updatePadding(top = insets.top)
-        content.updatePadding(top = if (appBarShown) 0 else insets.top)
-        coordinator.updatePadding(bottom = insets.bottom)
+        binding.appBar.root.apply {
+            statusBarForeground = if (insets.top > 0) appBarBackground else null
+            updatePadding(top = insets.top)
+        }
+        binding.activityContent.updatePadding(top = if (appBarShown) 0 else insets.top)
+        binding.coordinator.updatePadding(bottom = insets.bottom)
     }
 
     private fun setNavigationBarColor() {
@@ -378,7 +379,7 @@ abstract class AbstractBaseActivity :
         ts == 0L || SystemClock.elapsedRealtime() - ts > AUTHENTICATION_VALIDITY_PERIOD
 
     private inner class AuthPrompt : BiometricPrompt.AuthenticationCallback() {
-        private val contentView = findViewById<View>(R.id.activity_content)
+        private val contentView = binding.activityContent
         private val prompt = BiometricPrompt(this@AbstractBaseActivity, Dispatchers.Main.asExecutor(), this)
 
         fun authenticate() {

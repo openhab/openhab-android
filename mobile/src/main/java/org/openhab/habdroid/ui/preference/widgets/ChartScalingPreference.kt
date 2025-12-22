@@ -16,20 +16,19 @@ package org.openhab.habdroid.ui.preference.widgets
 import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
-import android.widget.TextView
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
 import com.google.android.material.slider.Slider
 import kotlin.math.max
 import org.openhab.habdroid.R
+import org.openhab.habdroid.databinding.ChartScalingPrefBinding
 
 class ChartScalingPreference(context: Context, attrs: AttributeSet) :
     Preference(context, attrs),
     Slider.OnChangeListener {
     private val entries: Array<String>
     private val values: Array<Float>
-    private lateinit var slider: Slider
-    private lateinit var label: TextView
+    private lateinit var binding: ChartScalingPrefBinding
     private var value: Float = 0F
 
     init {
@@ -44,15 +43,15 @@ class ChartScalingPreference(context: Context, attrs: AttributeSet) :
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
 
-        slider = holder.itemView.findViewById(R.id.seekbar)
-        slider.addOnChangeListener(this)
-        slider.valueFrom = 0F
-        slider.valueTo = (values.size - 1).toFloat()
-        slider.stepSize = 1F
-        slider.value = max(0, values.indexOfFirst { v -> v == value }).toFloat()
-        slider
+        binding = ChartScalingPrefBinding.bind(holder.itemView)
+        binding.seekbar.apply {
+            addOnChangeListener(this@ChartScalingPreference)
+            valueFrom = 0F
+            valueTo = (values.size - 1).toFloat()
+            stepSize = 1F
+            value = max(0, values.indexOfFirst { v -> v == value }).toFloat()
+        }
 
-        label = holder.itemView.findViewById(R.id.label)
         updateLabel()
     }
 
@@ -78,6 +77,6 @@ class ChartScalingPreference(context: Context, attrs: AttributeSet) :
     }
 
     private fun updateLabel() {
-        label.text = entries[slider.value.toInt()]
+        binding.label.text = entries[binding.seekbar.value.toInt()]
     }
 }
