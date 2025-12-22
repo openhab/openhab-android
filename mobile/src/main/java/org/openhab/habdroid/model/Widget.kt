@@ -283,8 +283,8 @@ fun String?.toInputHint(): Widget.InputTypeHint? = this?.let { value ->
 }
 
 fun String?.toInterpolation(): Widget.Interpolation? = when (this) {
-    "LINEAR" -> Widget.Interpolation.Linear
-    "STEP" -> Widget.Interpolation.Step
+    "linear" -> Widget.Interpolation.Linear
+    "step" -> Widget.Interpolation.Step
     else -> null
 }
 
