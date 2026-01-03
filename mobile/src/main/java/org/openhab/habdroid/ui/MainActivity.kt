@@ -1064,6 +1064,7 @@ class MainActivity :
             configs.forEachIndexed { index, config -> drawerMenu.add(R.id.servers, config.id, index, config.name) }
             drawerHeaderBinding.drawerModeSwitcher.isGone = configs.size <= 1
         }
+        drawerHeaderBinding.serverNameLabel.isGone = drawerHeaderBinding.drawerModeSwitcher.isGone
         drawerHeaderBinding.serverSelector.isClickable = drawerHeaderBinding.drawerModeSwitcher.isVisible
         if (!drawerHeaderBinding.serverSelector.isClickable) {
             inServerSelectionMode = false
