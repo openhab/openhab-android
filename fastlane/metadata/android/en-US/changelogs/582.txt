@@ -1,0 +1,8 @@
+## What's Changed
+* Support new chart parameter: interpolation by @holgerfriedrich in https://github.com/openhab/openhab-android/pull/3920
+* Improve drawer header layout by @maniac103 in https://github.com/openhab/openhab-android/pull/3953
+
+## New Contributors
+* @holgerfriedrich made their first contribution in https://github.com/openhab/openhab-android/pull/3920
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.19.0-beta...3.19.1-beta
