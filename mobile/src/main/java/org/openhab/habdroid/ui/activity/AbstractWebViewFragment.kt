@@ -39,6 +39,8 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.view.MenuProvider
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -151,46 +153,53 @@ abstract class AbstractWebViewFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        webView?.settings?.mediaPlaybackRequiresUserGesture = false
-        webView?.webChromeClient = object : WebChromeClient() {
-            override fun onProgressChanged(view: WebView?, newProgress: Int) {
-                Log.d(TAG, "progressCallback: progress = $newProgress")
-                if (newProgress == 100) {
-                    updateViewVisibility(null, null)
-                } else {
-                    updateViewVisibility(null, newProgress)
-                }
+        webView?.apply {
+            // Make sure not to pass window insets into the WebView, we already handle them in the activity
+            ViewCompat.setOnApplyWindowInsetsListener(this) { v, insets ->
+                WindowInsetsCompat.CONSUMED
             }
 
-            override fun onPermissionRequest(request: PermissionRequest) {
-                val requestedPerms = request.resources
-                    .map { res -> PERMISSION_REQUEST_MAPPING.get(res) }
-                    .filterNotNull()
-                    .flatten()
-                    .toTypedArray()
-
-                if (requestedPerms.isEmpty()) {
-                    Log.w(TAG, "Requested unknown permissions ${request.resources}")
-                    request.deny()
-                } else if (requireContext().hasPermissions(requestedPerms)) {
-                    request.grant(permsToWebResources(requestedPerms))
-                } else {
-                    (activity as AbstractBaseActivity).showSnackbar(
-                        SNACKBAR_TAG_WEBVIEW_PERMISSIONS,
-                        R.string.webview_snackbar_permissions_missing,
-                        Snackbar.LENGTH_INDEFINITE,
-                        R.string.settings_background_tasks_permission_allow,
-                        { request.deny() }
-                    ) {
-                        pendingPermissionRequests[requestedPerms.toSet()] = request
-                        permissionRequester.launch(requestedPerms)
+            settings.mediaPlaybackRequiresUserGesture = false
+            webChromeClient = object : WebChromeClient() {
+                override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                    Log.d(TAG, "progressCallback: progress = $newProgress")
+                    if (newProgress == 100) {
+                        updateViewVisibility(null, null)
+                    } else {
+                        updateViewVisibility(null, newProgress)
                     }
                 }
-            }
 
-            override fun onConsoleMessage(message: ConsoleMessage): Boolean {
-                Log.d(TAG, "${message.message()} -- From line ${message.lineNumber()} of ${message.sourceId()}")
-                return true
+                override fun onPermissionRequest(request: PermissionRequest) {
+                    val requestedPerms = request.resources
+                        .map { res -> PERMISSION_REQUEST_MAPPING.get(res) }
+                        .filterNotNull()
+                        .flatten()
+                        .toTypedArray()
+
+                    if (requestedPerms.isEmpty()) {
+                        Log.w(TAG, "Requested unknown permissions ${request.resources}")
+                        request.deny()
+                    } else if (requireContext().hasPermissions(requestedPerms)) {
+                        request.grant(permsToWebResources(requestedPerms))
+                    } else {
+                        (activity as AbstractBaseActivity).showSnackbar(
+                            SNACKBAR_TAG_WEBVIEW_PERMISSIONS,
+                            R.string.webview_snackbar_permissions_missing,
+                            Snackbar.LENGTH_INDEFINITE,
+                            R.string.settings_background_tasks_permission_allow,
+                            { request.deny() }
+                        ) {
+                            pendingPermissionRequests[requestedPerms.toSet()] = request
+                            permissionRequester.launch(requestedPerms)
+                        }
+                    }
+                }
+
+                override fun onConsoleMessage(message: ConsoleMessage): Boolean {
+                    Log.d(TAG, "${message.message()} -- From line ${message.lineNumber()} of ${message.sourceId()}")
+                    return true
+                }
             }
         }
 
