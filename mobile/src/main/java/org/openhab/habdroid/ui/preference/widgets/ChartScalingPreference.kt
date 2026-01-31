@@ -43,13 +43,14 @@ class ChartScalingPreference(context: Context, attrs: AttributeSet) :
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
 
+        val position = values.indexOfFirst { v -> v == value }
         binding = ChartScalingPrefBinding.bind(holder.itemView)
         binding.seekbar.apply {
             addOnChangeListener(this@ChartScalingPreference)
             valueFrom = 0F
             valueTo = (values.size - 1).toFloat()
             stepSize = 1F
-            value = max(0, values.indexOfFirst { v -> v == value }).toFloat()
+            value = max(0, position).toFloat()
         }
 
         updateLabel()
