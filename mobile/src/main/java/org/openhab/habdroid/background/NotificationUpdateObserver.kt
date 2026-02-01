@@ -167,10 +167,8 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
     companion object {
         private const val NOTIFICATION_ID_BACKGROUND_WORK = 1000
         const val NOTIFICATION_ID_BACKGROUND_WORK_RUNNING = 1001
-        const val NOTIFICATION_ID_BROADCAST_RECEIVER = 1002
         const val CHANNEL_ID_BACKGROUND = "background"
         const val CHANNEL_ID_BACKGROUND_ERROR = "backgroundError"
-        const val CHANNEL_ID_BACKGROUND_FOREGROUND_SERVICE = "backgroundBroadcastReceiver"
         const val CHANNEL_ID_MESSAGE_DEFAULT = "default"
         const val CHANNEL_GROUP_MESSAGES = "messages"
 
@@ -223,20 +221,6 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 enableVibration(false)
                 enableLights(false)
                 description = context.getString(R.string.notification_channel_background_description)
-                nm.createNotificationChannel(this)
-            }
-
-            with(
-                NotificationChannel(
-                    CHANNEL_ID_BACKGROUND_FOREGROUND_SERVICE,
-                    context.getString(R.string.notification_channel_background_foreground_service),
-                    NotificationManager.IMPORTANCE_NONE
-                )
-            ) {
-                setShowBadge(false)
-                enableVibration(false)
-                enableLights(false)
-                description = context.getString(R.string.notification_channel_background_foreground_service_description)
                 nm.createNotificationChannel(this)
             }
 
