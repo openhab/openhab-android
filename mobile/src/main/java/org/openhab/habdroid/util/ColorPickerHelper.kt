@@ -27,7 +27,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.ui.sendItemCommand
 
 class ColorPickerHelper(private val colorPicker: ColorPickerView, private val slider: Slider) :
     Slider.OnChangeListener,
@@ -38,6 +37,7 @@ class ColorPickerHelper(private val colorPicker: ColorPickerView, private val sl
     private var scope: CoroutineScope? = null
     private var lastUpdate: Job? = null
     private var connection: Connection? = null
+    private var sourceId: String? = null
 
     init {
         colorPicker.addOnColorChangedListener(this)
@@ -46,13 +46,14 @@ class ColorPickerHelper(private val colorPicker: ColorPickerView, private val sl
         slider.setLabelFormatter(this)
     }
 
-    fun attach(item: Item?, scope: CoroutineScope, connection: Connection?) {
+    fun attach(item: Item?, scope: CoroutineScope, connection: Connection?, sourceId: String?) {
         item?.state?.asHsv?.toColor(false)?.let { colorPicker.setColor(it, true) }
         item?.state?.asBrightness?.let { slider.value = it.toFloat() }
 
         this.boundItem = item
         this.scope = scope
         this.connection = connection
+        this.sourceId = sourceId
     }
 
     fun detach() {
@@ -101,7 +102,11 @@ class ColorPickerHelper(private val colorPicker: ColorPickerView, private val sl
             val hsv = FloatArray(3)
             Color.RGBToHSV(Color.red(newColor), Color.green(newColor), Color.blue(newColor), hsv)
             val newColorValue = String.format(Locale.US, "%.0f,%.0f,%.0f", hsv[0], hsv[1] * 100, brightness.toFloat())
-            connection?.httpClient?.sendItemCommand(boundItem, newColorValue)
+            connection?.httpClient?.sendItemCommand(
+                boundItem,
+                newColorValue,
+                sourceId ?: colorPicker.context.buildBaseSourceId()
+            )
         }
     }
 

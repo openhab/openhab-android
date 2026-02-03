@@ -34,7 +34,12 @@ class ColorItemActivity : AbstractBaseActivity() {
         supportActionBar?.title = boundItem?.label.orDefaultIfEmpty(getString(R.string.widget_type_color))
 
         val pickerHelper = ColorPickerHelper(binding.picker, binding.brightnessSlider)
-        pickerHelper.attach(boundItem, this, getConnectionFactory().currentPrimary?.conn?.connection)
+        pickerHelper.attach(
+            boundItem,
+            this,
+            getConnectionFactory().currentPrimary?.conn?.connection,
+            null
+        )
     }
 
     override fun inflateBinding(): CommonBinding {

@@ -14,6 +14,7 @@
 package org.openhab.habdroid.util
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.annotation.ColorInt
 import androidx.annotation.VisibleForTesting
 import java.io.IOException
@@ -22,7 +23,10 @@ import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
@@ -42,6 +46,7 @@ import okhttp3.ResponseBody
 import okhttp3.sse.EventSource
 import okhttp3.sse.EventSourceListener
 import okhttp3.sse.EventSources
+import org.openhab.habdroid.model.Item
 
 class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, password: String?) {
     private val client: OkHttpClient
@@ -101,6 +106,19 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
             throw IllegalArgumentException("URL '$url' is invalid")
         }
         return absoluteUrl
+    }
+
+    fun sendItemCommand(item: Item?, command: String, sourceId: String): Job? {
+        val url = item?.link ?: return null
+        return GlobalScope.launch {
+            try {
+                val headers = mapOf("X-OpenHAB-Source" to sourceId)
+                post(url, command, headers = headers).close()
+                Log.d(TAG, "Command '$command' was sent successfully to $url")
+            } catch (e: HttpException) {
+                Log.e(TAG, "Sending command $command to $url failed: status ${e.statusCode}", e)
+            }
+        }
     }
 
     @Throws(HttpException::class)
@@ -314,6 +332,7 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
     }
 
     companion object {
+        const val TAG = "HttpClient"
         const val DEFAULT_TIMEOUT_MS: Long = 30000
 
         // Pretend to be Chrome on Android
