@@ -37,7 +37,7 @@ android {
 
     defaultConfig {
         applicationId "org.openhab.habdroid"
-        minSdkVersion 21
+        minSdkVersion 23
         compileSdk 35
         targetSdkVersion 35
         versionCode 592
@@ -153,6 +153,8 @@ dependencies {
     implementation libs.biometric
     implementation libs.material
     implementation libs.multidex
+    implementation libs.car
+    implementation libs.lifecycle.service
 
     implementation libs.work.runtime.ktx
     fullImplementation libs.work.gcm
