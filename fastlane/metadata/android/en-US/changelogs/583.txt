@@ -1,0 +1,6 @@
+## What's Changed
+* Fix empty space on top of MainUI by @maniac103 in https://github.com/openhab/openhab-android/pull/3959
+* Remove eventlistener by @mueller-ma in https://github.com/openhab/openhab-android/pull/3968
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.19.1-beta...3.19.2-beta
