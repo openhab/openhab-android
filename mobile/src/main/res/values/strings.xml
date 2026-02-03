@@ -651,6 +651,21 @@
     <string name="widget_type_chart">Chart</string>
     <string name="widget_type_color">Color</string>
 
+    <!-- Android Auto -->
+    <string name="car_action_rollershutter_open">Open</string>
+    <string name="car_action_rollershutter_close">Close</string>
+    <string name="car_action_rollershutter_stop">Stop</string>
+    <string name="car_action_player_prev">Previous track</string>
+    <string name="car_action_player_play">Play</string>
+    <string name="car_action_player_pause">Pause</string>
+    <string name="car_action_player_next">Next track</string>
+    <string name="car_error_server_unreachable">openHAB server can not be reached</string>
+    <string name="car_error_no_network">Network connection unavailable</string>
+    <string name="car_error_sitemap_load_failure">Sitemap could not be loaded</string>
+    <string name="car_error_retry_button">Retry</string>
+    <string name="car_error_debug_header">Failure reason:</string>
+    <string name="car_section_header_other_items">Other items</string>
+
     <!-- Tiles -->
     <string name="tile">Tile</string>
     <string name="tiles_for_quick_settings">Tiles for quick settings</string>
