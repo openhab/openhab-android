@@ -249,12 +249,6 @@
     <string name="send_device_info_category_schedule_based_explanation">Cuanto más corto sea el intervalo elegido, mayor será el impacto potencial en la duración de la batería de su dispositivo. No obstante, el dispositivo puede que no atienda exactamente al intervalo elegido, y es posible que éste retrase las actualizaciones para reducir el consumo de energía de las aplicaciones.</string>
     <string name="send_device_info_item_prefix_summary">Los nombres de Item en esta página tienen como prefijo el identificador de dispositivo \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">No se ha establecido ningún prefijo para los nombres de Item en esta página. Se puede añadir un prefijo con el identificador del dispositivo, el cual puede ser establecido en la página de configuración principal.</string>
-    <string name="send_device_info_foreground_service_title">Monitor de eventos</string>
-    <string name="send_device_info_foreground_service_summary">Supervisa los eventos relacionados con los siguientes Items. Requiere una notificación persistente y puede aumentar el consumo de batería.</string>
-    <string name="send_device_info_foreground_service_summary_pre_o">Supervisa los eventos relacionados con los siguientes Items. Requiere una notificación persistente y puede aumentar el consumo de la batería. Esto sólo es necesario para el envío del modo DND.</string>
-    <string name="send_device_info_foreground_service_running_summary_one">Supervisar eventos relacionados con %s</string>
-    <string name="send_device_info_foreground_service_running_summary_two">Supervisar eventos relacionados con %1$s y %2$s</string>
-    <string name="send_device_info_foreground_service_running_summary_more">Supervisar eventos relacionados con %1$s, %2$s y otros</string>
     <string name="settings_item_update_pref_howto_summary">Pulse aquí para ver sugerencias sobre cómo configurar esta función del servidor</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">La última actualización fue \'%1$s\' (%2$s)</string>
@@ -305,7 +299,6 @@
     <string name="notification_channel_background_description">Se utiliza para notificar tareas pendientes que se ejecutan en segundo plano, por ejemplo, esperar a que la red envíe el nivel de batería</string>
     <string name="notification_channel_background_error">Error en tareas en segundo plano</string>
     <string name="notification_channel_background_error_description">Se utiliza para notificar errores de tareas que se ejecutan en segundo plano, por ejemplo, que no hay conexión a la red para enviar el nivel de batería</string>
-    <string name="notification_channel_background_foreground_service_description">Supervisar eventos para actualizar Items en consecuencia. Puede ocultar esta categoría de forma segura.</string>
     <string name="notification_channel_messages_default_severity">Por defecto</string>
     <string name="notification_channel_messages_default_severity_description">Notificaciones enviadas por el servidor con severidad no definida</string>
     <string name="notification_channel_group_messages">Mensajes</string>
