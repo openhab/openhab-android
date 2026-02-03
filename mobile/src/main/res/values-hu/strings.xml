@@ -250,12 +250,6 @@
     <string name="send_device_info_category_schedule_based_explanation">Minél rövidebb a kiválasztott intervallum, annál jobban merül az eszköz akkumulátora. Ezen kívül az eszköz nem biztos, hogy tudja a megadott intervallumot pontosan követni, az akkumulátor kímélete miatt késleltetés léphet fel.</string>
     <string name="send_device_info_item_prefix_summary">Az Elemek neve ezen az oldalon az eszköz azonosítóval lesz előtétezve: \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Ezen az oldalon nincs előtét megadva az Elemekhez. Megadhatja ehhez az eszköz azonosítót a program beállításainak főoldalán.</string>
-    <string name="send_device_info_foreground_service_title">Eseményfigyelő</string>
-    <string name="send_device_info_foreground_service_summary">Figyelje az eseményeket az alábbi Elemekhez. Ez állandó értesítést igényel és növeli az akkumulátor használatát.</string>
-    <string name="send_device_info_foreground_service_summary_pre_o">Figyelje az eseményeket az alábbi Elemekhez. Ez állandó értesítést igényel és növeli az akkumulátor használatát. Ez a Ne Zavarj Üzemmód elküldéséhez szükséges.</string>
-    <string name="send_device_info_foreground_service_running_summary_one">Figyelje a(z) %s kapcsolatos eseményeket</string>
-    <string name="send_device_info_foreground_service_running_summary_two">Figyelje a(z) %1$s-el és a%2$s-el kapcsolatos eseményeket</string>
-    <string name="send_device_info_foreground_service_running_summary_more">Figyelje a(z) %1$s-el és a%2$s-el, stb. kapcsolatos eseményeket</string>
     <string name="settings_item_update_pref_howto_summary">Koppintson ide, hogy tanácsot kapjon arról, hogyan állítsa be ezt a szolgáltatást a szerveroldalon</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">Utolsó frissítés \'%1$s\' (%2$s)</string>
@@ -306,7 +300,6 @@
     <string name="notification_channel_background_description">A folyamatban lévő háttér műveletekről történő értesítésre használható (pl.: várakozás hálózatra)</string>
     <string name="notification_channel_background_error">Hiba a háttérben futó folyamatokban</string>
     <string name="notification_channel_background_error_description">A háttér műveleti hibákról történő értesítésre használható (pl.: nincs hálózat...)</string>
-    <string name="notification_channel_background_foreground_service_description">Események megfigyelése az Elemek frissítéséhez. Ezt a kategóriát elrejtheti.</string>
     <string name="notification_channel_messages_default_severity">Alapértelmezett</string>
     <string name="notification_channel_messages_default_severity_description">A szerver által küldött értesítés nincs priorizálva</string>
     <string name="notification_channel_group_messages">Üzenetek</string>
