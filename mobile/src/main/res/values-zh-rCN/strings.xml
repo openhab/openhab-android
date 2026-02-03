@@ -236,12 +236,6 @@
     <string name="send_device_info_category_schedule_based_explanation">选择的间隔越短，对您设备的电池寿命的潜在影响就越大。 此外，您的设备可能无法准确跟踪所选的时间间隔，但延迟更新可以降低使用时的电量消耗。</string>
     <string name="send_device_info_item_prefix_summary">此页面上的项目名称以设备标识符%s 为前缀</string>
     <string name="send_device_info_item_prefix_summary_not_set">此页面上没有为项目名称设置前缀。 您可以用设备标识符前缀他们，这个标识符可以设置在主设置页面上。</string>
-    <string name="send_device_info_foreground_service_title">事件监视器</string>
-    <string name="send_device_info_foreground_service_summary">监视与以下项目相关的事件。这需要持续的通知并可能增加电池耗电。</string>
-    <string name="send_device_info_foreground_service_summary_pre_o">监视与以下项目相关的事件。 这需要一个持续的通知并可能增加电池耗电。这只是发送DND模式所必需的。</string>
-    <string name="send_device_info_foreground_service_running_summary_one">监视与 %s 相关的事件</string>
-    <string name="send_device_info_foreground_service_running_summary_two">监视与 %1$s 和 %2$s 关联的事件</string>
-    <string name="send_device_info_foreground_service_running_summary_more">监视与 %1$s、 %2$s 和更多相关的事件</string>
     <string name="settings_item_update_pref_howto_summary">轻触此处以获取如何在服务器端设置此功能的提示</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">最后更新是\'%1$s\' (%2$s)</string>
@@ -292,7 +286,6 @@
     <string name="notification_channel_background_description">用于通知待处理的后台任务，例如等待网络用于发送电池电量</string>
     <string name="notification_channel_background_error">后台任务错误</string>
     <string name="notification_channel_background_error_description">用于通知待处理的后台任务，例如等待网络用于发送电池电量</string>
-    <string name="notification_channel_background_foreground_service_description">监视更新项目事件。您可以安全地隐藏此类别。</string>
     <string name="notification_channel_messages_default_severity">默认</string>
     <string name="notification_channel_messages_default_severity_description">服务器发送通知没有定义严重程度</string>
     <string name="notification_channel_group_messages">消息</string>
