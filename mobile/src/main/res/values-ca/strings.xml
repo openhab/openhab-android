@@ -236,12 +236,6 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="send_device_info_category_schedule_based_explanation">Com més curt sigui l\'interval escollit, més gran serà l\'impacte potencial en la durada de la bateria del dispositiu. A més, és possible que el vostre dispositiu no segueixi exactament l\'interval escollit, sinó que retardi les actualitzacions per reduir el consum d\'energia de les aplicacions.</string>
     <string name="send_device_info_item_prefix_summary">Els noms dels Items d\'aquesta pàgina tenen un prefix amb l\'identificador del dispositiu \"%s\"</string>
     <string name="send_device_info_item_prefix_summary_not_set">No s\'estableix cap prefix per als noms dels Items d\'aquesta pàgina. Podeu prefixar-los amb l\'identificador del dispositiu, que es pot configurar a la pàgina de configuració principal.</string>
-    <string name="send_device_info_foreground_service_title">Monitor d\'esdeveniments</string>
-    <string name="send_device_info_foreground_service_summary">Monitoritza esdeveniments associats als següents Items. Requereix una notificació persistent i pot incrementar l\'ús de bateria.</string>
-    <string name="send_device_info_foreground_service_summary_pre_o">Monitoritza esdeveniments associats als següents Items. Requereix notificació persistent i pot incrementar l\'ús de la bateria. Això només és necessari per enviar el mode DND.</string>
-    <string name="send_device_info_foreground_service_running_summary_one">Monitoritza esdeveniments associats a %s</string>
-    <string name="send_device_info_foreground_service_running_summary_two">Monitorita esdeveniments associats a %1$s i %2$s</string>
-    <string name="send_device_info_foreground_service_running_summary_more">Monitoritza els esdeveniments associats a %1$s, %2$s i més</string>
     <string name="settings_item_update_pref_howto_summary">Toqueu aquí per obtenir consells sobre com configurar aquesta funció al costat del servidor</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">La darrera actualització va ser \"%1$s\" (%2$s)</string>
@@ -285,7 +279,6 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="notification_channel_background_description">S\'utilitza per notificar sobre tasques en segon pla pendents, p.e. esperant que la xarxa enviï el nivell de bateria</string>
     <string name="notification_channel_background_error">Error en tasques secundàries</string>
     <string name="notification_channel_background_error_description">S\'utilitza per notificar errors en tasques en segon pla, p.e. no té xarxa per enviar el nivell de bateria</string>
-    <string name="notification_channel_background_foreground_service_description">Monitoritza esdeveniments per actualitzar Items conseqüentment. Pots ocultar aquesta categoria.</string>
     <string name="notification_channel_messages_default_severity">Per defecte</string>
     <string name="notification_channel_messages_default_severity_description">Notificacions enviades pel servidor sense gravetat definida</string>
     <string name="notification_channel_group_messages">Missatges</string>
