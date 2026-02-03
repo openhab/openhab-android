@@ -25,7 +25,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
-import org.openhab.habdroid.background.EventListenerService
 import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.model.DefaultSitemap
 import org.openhab.habdroid.model.ServerConfiguration
@@ -216,7 +215,6 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
                 AbstractTileService.requestTileUpdate(context, tileId)
             }
         }
-        EventListenerService.startOrStopService(context)
     }
 
     companion object {

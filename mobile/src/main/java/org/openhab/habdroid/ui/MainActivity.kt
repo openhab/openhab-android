@@ -79,7 +79,6 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
-import org.openhab.habdroid.background.EventListenerService
 import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.background.PeriodicItemUpdateWorker
 import org.openhab.habdroid.core.CloudMessagingHelper
@@ -137,7 +136,6 @@ import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.getWifiManager
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDebugModeEnabled
-import org.openhab.habdroid.util.isEventListenerEnabled
 import org.openhab.habdroid.util.isScreenTimerDisabled
 import org.openhab.habdroid.util.openInAppStore
 import org.openhab.habdroid.util.orDefaultIfEmpty
@@ -287,8 +285,6 @@ class MainActivity :
             setVoiceWidgetComponentEnabledSetting(VoiceWidget::class.java, isSpeechRecognizerAvailable)
             setVoiceWidgetComponentEnabledSetting(VoiceWidgetWithIcon::class.java, isSpeechRecognizerAvailable)
         }
-
-        EventListenerService.startOrStopService(this)
     }
 
     override fun inflateBinding(): CommonBinding {
@@ -380,7 +376,7 @@ class MainActivity :
         showMissingPermissionsWarningIfNeeded()
 
         val intentFilter = BackgroundTasksManager.getIntentFilterForForeground(this)
-        if (intentFilter.countActions() != 0 && !prefs.isEventListenerEnabled()) {
+        if (intentFilter.countActions() != 0) {
             registerExportedReceiver(backgroundTasksManager, intentFilter)
         }
 
