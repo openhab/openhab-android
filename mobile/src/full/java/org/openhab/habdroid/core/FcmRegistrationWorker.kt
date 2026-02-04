@@ -39,13 +39,14 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
-import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.parcelable
 
 class FcmRegistrationWorker(private val context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
@@ -75,10 +76,7 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
         val action = inputData.getString(KEY_ACTION)
         Log.d(TAG, "Run with action $action")
 
-        ConnectionFactory.waitForInitialization()
-
-        val connection = ConnectionFactory.primaryCloudConnection?.connection
-
+        val connection = context.getConnectionFactory().primaryFlow.first().cloud?.connection
         if (connection == null) {
             Log.d(TAG, "Got no connection")
             return retryOrFail()

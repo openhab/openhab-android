@@ -16,10 +16,10 @@ package org.openhab.habdroid.ui
 import android.os.Bundle
 import android.view.MenuItem
 import org.openhab.habdroid.R
-import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.databinding.ActivityColorPickerBinding
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.util.ColorPickerHelper
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.parcelable
 
@@ -34,7 +34,7 @@ class ColorItemActivity : AbstractBaseActivity() {
         supportActionBar?.title = boundItem?.label.orDefaultIfEmpty(getString(R.string.widget_type_color))
 
         val pickerHelper = ColorPickerHelper(binding.picker, binding.brightnessSlider)
-        pickerHelper.attach(boundItem, this, ConnectionFactory.primaryUsableConnection?.connection)
+        pickerHelper.attach(boundItem, this, getConnectionFactory().currentPrimary?.conn?.connection)
     }
 
     override fun inflateBinding(): CommonBinding {

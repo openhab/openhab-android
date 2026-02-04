@@ -37,6 +37,7 @@ import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.core.connection.ConnectionManagerHelper
 import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getPrefs
@@ -59,6 +60,10 @@ class OpenHabApplication : MultiDexApplication() {
         } else {
             getSharedPreferences("secret_shared_prefs", MODE_PRIVATE)
         }
+    }
+
+    val connectionFactory: ConnectionFactory by lazy {
+        ConnectionFactory(this, getPrefs(), secretPrefs, ConnectionManagerHelper.create(this))
     }
 
     var systemDataSaverStatus: Int = ConnectivityManager.RESTRICT_BACKGROUND_STATUS_DISABLED
@@ -93,8 +98,8 @@ class OpenHabApplication : MultiDexApplication() {
 
         CrashReportingHelper.initialize(this)
         AppCompatDelegate.setDefaultNightMode(getPrefs().getDayNightMode(this))
-        ConnectionFactory.initialize(this)
         BackgroundTasksManager.initialize(this)
+        connectionFactory.start()
 
         dataSaverChangeListener.let { listener ->
             registerExportedReceiver(
@@ -165,7 +170,7 @@ class OpenHabApplication : MultiDexApplication() {
 
     override fun onTerminate() {
         super.onTerminate()
-        ConnectionFactory.shutdown()
+        connectionFactory.shutdown()
     }
 
     fun registerSystemDataSaverStateChangedListener(l: OnDataUsagePolicyChangedListener) {
