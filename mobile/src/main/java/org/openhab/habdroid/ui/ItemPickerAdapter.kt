@@ -19,11 +19,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import java.util.Locale
-import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.databinding.ItempickerlistItemBinding
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.toOH2IconResource
 import org.openhab.habdroid.util.determineDataUsagePolicy
+import org.openhab.habdroid.util.getConnectionFactory
 
 class ItemPickerAdapter(context: Context, private val itemClickListener: ItemClickListener?) :
     RecyclerView.Adapter<ItemPickerAdapter.ItemViewHolder>(),
@@ -106,7 +106,7 @@ class ItemPickerAdapter(context: Context, private val itemClickListener: ItemCli
             binding.itemType.text = item.type.toString()
 
             val context = itemView.context
-            val connection = ConnectionFactory.primaryUsableConnection?.connection
+            val connection = context.getConnectionFactory().currentPrimary?.conn?.connection
             val icon = item.category.toOH2IconResource()
             if (icon != null && connection != null) {
                 binding.itemIcon.setImageUrl(

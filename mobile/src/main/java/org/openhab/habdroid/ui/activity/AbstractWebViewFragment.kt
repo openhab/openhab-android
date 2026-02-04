@@ -44,18 +44,19 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
-import org.openhab.habdroid.core.connection.CloudConnection
-import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.DemoConnection
 import org.openhab.habdroid.databinding.BottomSheetShortcutLabelBinding
 import org.openhab.habdroid.databinding.FragmentWebviewBinding
@@ -66,6 +67,7 @@ import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.setUpForConnection
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getConfiguredServerIds
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.hasPermissions
@@ -75,7 +77,6 @@ import org.openhab.habdroid.util.toRelativeUrl
 
 abstract class AbstractWebViewFragment :
     Fragment(),
-    ConnectionFactory.UpdateListener,
     CoroutineScope,
     MenuProvider {
     private val job = Job()
@@ -138,10 +139,23 @@ abstract class AbstractWebViewFragment :
         title = context.getString(titleRes)
         if (
             prefs.getConfiguredServerIds().size > 1 &&
-            ConnectionFactory.activeUsableConnection?.connection !is DemoConnection
+            context.getConnectionFactory().currentActive?.conn?.connection !is DemoConnection
         ) {
             val activeServerName = ServerConfiguration.load(prefs, context.getSecretPrefs(), activeServerId)?.name
             title = getString(R.string.ui_on_server, title, activeServerName)
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                requireContext().getConnectionFactory().activeFlow.collectLatest { info ->
+                    if (info.conn?.connection != null) {
+                        loadWebsite()
+                    }
+                }
+            }
         }
     }
 
@@ -297,26 +311,6 @@ abstract class AbstractWebViewFragment :
         mainActivity?.showSnackbar(MainActivity.SNACKBAR_TAG_SHORTCUT_INFO, textResId, duration)
     }
 
-    override fun onActiveConnectionChanged() {
-        Log.d(TAG, "onActiveConnectionChanged()")
-        loadWebsite()
-    }
-
-    override fun onPrimaryConnectionChanged() {
-        Log.d(TAG, "onPrimaryConnectionChanged()")
-        // no-op
-    }
-
-    override fun onActiveCloudConnectionChanged(connection: CloudConnection?) {
-        Log.d(TAG, "onActiveCloudConnectionChanged()")
-        // no-op
-    }
-
-    override fun onPrimaryCloudConnectionChanged(connection: CloudConnection?) {
-        Log.d(TAG, "onPrimaryCloudConnectionChanged()")
-        // no-op
-    }
-
     fun goBack(): Boolean {
         if (webView?.canGoBack() == true) {
             val oldUrl = webView?.url
@@ -332,7 +326,7 @@ abstract class AbstractWebViewFragment :
     fun canGoBack(): Boolean = webView?.canGoBack() == true
 
     private fun loadWebsite(urlToLoad: String = this.urlToLoad) {
-        val conn = ConnectionFactory.activeUsableConnection?.connection
+        val conn = requireContext().getConnectionFactory().currentActive?.conn?.connection
         if (conn == null) {
             updateViewVisibility(true, null)
             return

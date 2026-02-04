@@ -11,11 +11,8 @@
  * SPDX-License-Identifier: EPL-2.0
  */
 
-@file:Suppress("DEPRECATION")
-
 package org.openhab.habdroid.core.connection
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
@@ -38,22 +35,19 @@ import javax.net.ssl.X509KeyManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.ClosedSendChannelException
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.channels.onClosed
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.internal.tls.OkHostnameVerifier
 import okhttp3.logging.HttpLoggingInterceptor
-import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getActiveServerId
-import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
-import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isDemoModeEnabled
@@ -71,7 +65,8 @@ class ConnectionFactory internal constructor(
     private val connectionHelper: ConnectionManagerHelper
 ) : CoroutineScope by CoroutineScope(Dispatchers.Main),
     SharedPreferences.OnSharedPreferenceChangeListener {
-    private val trustManager: MemorizingTrustManager
+
+    val trustManager: MemorizingTrustManager
     private val httpLogger: HttpLoggingInterceptor
     private var httpClient: OkHttpClient
     private var lastClientCertAlias: String? = null
@@ -79,38 +74,82 @@ class ConnectionFactory internal constructor(
     private var primaryConn: ServerConnections? = null
     private var activeConn: ServerConnections? = null
 
-    private val listeners = HashSet<UpdateListener>()
-    private var needsUpdate: Boolean = false
-
-    private var activeCheck: Job? = null
-    private var primaryCheck: Job? = null
-    private var activeCloudCheck: Job? = null
-    private var primaryCloudCheck: Job? = null
+    private var needsUpdate = false
+    private var pendingChecks = mutableListOf<Job>()
+    private var subscriptionCount = 0
 
     private data class ServerConnections(val local: Connection?, val remote: AbstractConnection?)
 
     data class ConnectionResult(val connection: Connection?, val failureReason: ConnectionException?)
 
+    private data class ConnectionResultWithSource(val result: ConnectionResult, val connections: ServerConnections?)
+
     data class CloudConnectionResult(val connection: CloudConnection?, val failureReason: Exception?)
 
-    private data class StateHolder(
-        val primary: ConnectionResult?,
-        val active: ConnectionResult?,
-        val primaryCloud: CloudConnectionResult?,
-        val activeCloud: CloudConnectionResult?
+    data class ConnectionInfo(
+        val conn: ConnectionResult?,
+        val cloud: CloudConnectionResult?,
+        val hasLocal: Boolean,
+        val hasRemote: Boolean
     )
 
-    private val stateChannel = ConflatedBroadcastChannel(StateHolder(null, null, null, null))
+    private data class StateHolder(
+        val intermediate: Boolean,
+        val primary: ConnectionResultWithSource?,
+        val active: ConnectionResultWithSource?,
+        val primaryCloud: CloudConnectionResult?,
+        val activeCloud: CloudConnectionResult?
+    ) {
+        fun isReady(): Boolean {
+            if (intermediate) {
+                return false
+            }
+            if (active == null && primary == null && primaryCloud == null && activeCloud == null) {
+                return true
+            }
+            return active != null && primary != null && primaryCloud != null && activeCloud != null
+        }
 
-    interface UpdateListener {
-        fun onActiveConnectionChanged()
+        fun toActiveConnectionInfo() = toInfo(active, activeCloud)
+        fun toPrimaryConnectionInfo() = toInfo(primary, primaryCloud)
 
-        fun onPrimaryConnectionChanged()
-
-        fun onActiveCloudConnectionChanged(connection: CloudConnection?)
-
-        fun onPrimaryCloudConnectionChanged(connection: CloudConnection?)
+        private fun toInfo(conn: ConnectionResultWithSource?, cloud: CloudConnectionResult?) = ConnectionInfo(
+            conn?.result,
+            cloud,
+            conn?.connections?.local != null,
+            conn?.connections?.remote != null
+        )
     }
+
+    private val stateFlow = MutableStateFlow(StateHolder(true, null, null, null, null))
+
+    /**
+     * Returns a {@link Flow} that emits information about the current connection to the active server
+     */
+    val activeFlow get() = stateFlow
+        .filter { it.isReady() }
+        .map { it.toActiveConnectionInfo() }
+
+    /**
+     * Like {@link activeFlow}, but for the primary instead of the active server
+     */
+    val primaryFlow get() = stateFlow
+        .filter { it.isReady() }
+        .map { it.toPrimaryConnectionInfo() }
+
+    /**
+     * Returns the current information about the connection to the active server
+     */
+    val currentActive get() = stateFlow.value
+        .takeIf { it.isReady() }
+        ?.toActiveConnectionInfo()
+
+    /**
+     * Like {@link currentActive}, but for the primary instead of the active server
+     */
+    val currentPrimary get() = stateFlow.value
+        .takeIf { it.isReady() }
+        ?.toPrimaryConnectionInfo()
 
     init {
         prefs.registerOnSharedPreferenceChangeListener(this)
@@ -141,34 +180,48 @@ class ConnectionFactory internal constructor(
         httpClient.dispatcher.maxRequestsPerHost = httpClient.dispatcher.maxRequests
 
         connectionHelper.changeCallback = {
-            if (listeners.isEmpty()) {
+            if (subscriptionCount == 0) {
                 // We're running in background. Clear current state and postpone update for next
                 // listener registration.
-                updateState(false, active = null, primary = null)
+                updateState(true, active = null, primary = null)
                 needsUpdate = true
             } else {
                 triggerConnectionUpdateIfNeeded()
             }
         }
-    }
 
-    private fun addListenerInternal(l: UpdateListener) {
-        if (listeners.add(l)) {
-            if (l is Activity) {
-                trustManager.bindDisplayActivity(l)
-            }
-            if (!triggerConnectionUpdateIfNeededAndPending() && activeConn?.local != null && listeners.size == 1) {
-                // When coming back from background, re-do connectivity check for
-                // local connections, as the reachability of the local server might have
-                // changed since we went to background
-                val (_, active, _, _) = stateChannel.value
-                val local = active?.connection === activeConn?.local ||
-                    (active?.failureReason as? NoUrlInformationException)?.wouldHaveUsedLocalConnection() == true
-                if (local) {
-                    triggerConnectionUpdateIfNeeded()
+        launch {
+            stateFlow.subscriptionCount.collect {
+                subscriptionCount = it
+                if (!triggerConnectionUpdateIfNeededAndPending() && it == 1) {
+                    // When coming back from background, re-do connectivity check for
+                    // local connections, as the reachability of the local server might have
+                    // changed since we went to background
+                    val (_, _, active, _, _) = stateFlow.value
+                    val result = active?.result
+                    val local = result?.connection === active?.connections?.local ||
+                        (result?.failureReason as? NoUrlInformationException)?.wouldHaveUsedLocalConnection() == true
+                    if (local) {
+                        triggerConnectionUpdateIfNeeded()
+                    }
                 }
             }
         }
+    }
+
+    fun start() {
+        launch {
+            connectionHelper.start()
+            updateConnections()
+        }
+    }
+
+    fun shutdown() {
+        connectionHelper.shutdown()
+    }
+
+    fun restartNetworkCheck() {
+        triggerConnectionUpdateIfNeeded()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
@@ -193,7 +246,7 @@ class ConnectionFactory internal constructor(
     }
 
     @VisibleForTesting
-    fun updateConnections(callListenersImmediately: Boolean = false) {
+    fun updateConnections(updateStateImmediately: Boolean = false) {
         if (prefs.isDemoModeEnabled()) {
             if (activeConn?.local is DemoConnection) {
                 // demo mode already was enabled
@@ -202,8 +255,8 @@ class ConnectionFactory internal constructor(
             val conn = DemoConnection(httpClient)
             activeConn = ServerConnections(conn, conn)
             primaryConn = activeConn
-            val connResult = ConnectionResult(conn, null)
-            updateState(true, connResult, connResult, CloudConnectionResult(null, null))
+            val connResult = ConnectionResultWithSource(ConnectionResult(conn, null), activeConn)
+            updateState(false, connResult, connResult, CloudConnectionResult(null, null))
         } else {
             val activeServer = prefs.getActiveServerId()
             activeConn = loadServerConnections(activeServer)
@@ -215,9 +268,9 @@ class ConnectionFactory internal constructor(
                 loadServerConnections(primaryServer)
             }
 
-            updateState(callListenersImmediately, null, null, null)
-            triggerConnectionUpdateIfNeeded()
+            updateState(!updateStateImmediately, null, null, null)
         }
+        triggerConnectionUpdateIfNeeded()
     }
 
     private fun loadServerConnections(serverId: Int): ServerConnections? {
@@ -277,38 +330,14 @@ class ConnectionFactory internal constructor(
     }
 
     private fun updateState(
-        callListenersOnChange: Boolean,
-        primary: ConnectionResult? = stateChannel.value.primary,
-        active: ConnectionResult? = stateChannel.value.active,
-        primaryCloud: CloudConnectionResult? = stateChannel.value.primaryCloud,
-        activeCloud: CloudConnectionResult? = stateChannel.value.activeCloud
+        isIntermediate: Boolean,
+        primary: ConnectionResultWithSource? = stateFlow.value.primary,
+        active: ConnectionResultWithSource? = stateFlow.value.active,
+        primaryCloud: CloudConnectionResult? = stateFlow.value.primaryCloud,
+        activeCloud: CloudConnectionResult? = stateFlow.value.activeCloud
     ) {
-        val prevState = stateChannel.value
-        val newState = StateHolder(primary, active, primaryCloud, activeCloud)
-        stateChannel.trySend(newState)
-            .onClosed { throw it ?: ClosedSendChannelException("Channel was closed normally") }
-        if (!callListenersOnChange) {
-            return
-        }
-        launch {
-            if (newState.active?.failureReason != null ||
-                prevState.active?.connection !== newState.active?.connection
-            ) {
-                listeners.forEach { l -> l.onActiveConnectionChanged() }
-            }
-            if (newState.primary?.failureReason != null ||
-                prevState.primary?.connection !== newState.primary?.connection
-            ) {
-                listeners.forEach { l -> l.onPrimaryConnectionChanged() }
-            }
-            if (prevState.activeCloud !== newState.activeCloud) {
-                listeners.forEach { l -> l.onActiveCloudConnectionChanged(newState.activeCloud?.connection) }
-            }
-            if (prevState.primaryCloud !== newState.primaryCloud) {
-                CloudMessagingHelper.onConnectionUpdated(context, newState.primaryCloud?.connection)
-                listeners.forEach { l -> l.onPrimaryCloudConnectionChanged(newState.primaryCloud?.connection) }
-            }
-        }
+        val newState = StateHolder(isIntermediate, primary, active, primaryCloud, activeCloud)
+        stateFlow.tryEmit(newState)
     }
 
     private fun triggerConnectionUpdateIfNeededAndPending(): Boolean {
@@ -321,10 +350,8 @@ class ConnectionFactory internal constructor(
     }
 
     private fun triggerConnectionUpdateIfNeeded() {
-        activeCheck?.cancel()
-        primaryCheck?.cancel()
-        activeCloudCheck?.cancel()
-        primaryCloudCheck?.cancel()
+        pendingChecks.forEach { it.cancel() }
+        pendingChecks.clear()
 
         if (activeConn?.local is DemoConnection) {
             return
@@ -333,52 +360,52 @@ class ConnectionFactory internal constructor(
         val active = activeConn
         val primary = primaryConn
 
-        val updateActive = { result: ConnectionResult ->
+        val updateActive = { result: ConnectionResultWithSource ->
             if (active === primary) {
-                updateState(true, active = result, primary = result)
+                updateState(false, active = result, primary = result)
             } else {
-                updateState(true, active = result)
+                updateState(false, active = result)
             }
         }
         val updateActiveCloud = { result: CloudConnectionResult ->
             if (active === primary) {
-                updateState(true, activeCloud = result, primaryCloud = result)
+                updateState(false, activeCloud = result, primaryCloud = result)
             } else {
-                updateState(true, activeCloud = result)
+                updateState(false, activeCloud = result)
             }
         }
 
-        activeCheck = launch {
+        pendingChecks += launch {
             try {
                 val usable = withContext(Dispatchers.IO) {
                     checkAvailableConnection(active?.local, active?.remote)
                 }
-                updateActive(ConnectionResult(usable, null))
+                updateActive(ConnectionResultWithSource(ConnectionResult(usable, null), active))
             } catch (e: ConnectionException) {
-                updateActive(ConnectionResult(null, e))
+                updateActive(ConnectionResultWithSource(ConnectionResult(null, e), active))
             }
         }
 
         if (active !== primary) {
-            primaryCheck = launch {
+            pendingChecks += launch {
                 try {
                     val usable = withContext(Dispatchers.IO) {
                         checkAvailableConnection(primary?.local, primary?.remote)
                     }
-                    updateState(true, primary = ConnectionResult(usable, null))
+                    updateState(false, primary = ConnectionResultWithSource(ConnectionResult(usable, null), primary))
                 } catch (e: ConnectionException) {
-                    updateState(true, primary = ConnectionResult(null, e))
+                    updateState(false, primary = ConnectionResultWithSource(ConnectionResult(null, e), primary))
                 }
             }
         }
 
-        activeCloudCheck = launch {
+        pendingChecks += launch {
             try {
                 val result = withContext(Dispatchers.IO) {
                     active?.remote?.toCloudConnection()
                 }
                 updateActiveCloud(CloudConnectionResult(result, null))
-            } catch (e: CancellationException) {
+            } catch (_: CancellationException) {
                 // ignored
             } catch (e: Exception) {
                 updateActiveCloud(CloudConnectionResult(null, e))
@@ -386,16 +413,16 @@ class ConnectionFactory internal constructor(
         }
 
         if (active !== primary) {
-            primaryCloudCheck = launch {
+            pendingChecks += launch {
                 try {
                     val result = withContext(Dispatchers.IO) {
                         primary?.remote?.toCloudConnection()
                     }
-                    updateState(true, primaryCloud = CloudConnectionResult(result, null))
-                } catch (e: CancellationException) {
+                    updateState(false, primaryCloud = CloudConnectionResult(result, null))
+                } catch (_: CancellationException) {
                     // ignored
                 } catch (e: Exception) {
-                    updateState(true, primaryCloud = CloudConnectionResult(null, e))
+                    updateState(false, primaryCloud = CloudConnectionResult(null, e))
                 }
             }
         }
@@ -562,102 +589,5 @@ class ConnectionFactory internal constructor(
             PrefKeys.RESTRICT_TO_SSID_PREFIX
         )
         private val CLIENT_CERT_UPDATE_TRIGGERING_PREFIXES = listOf(PrefKeys.SSL_CLIENT_CERT_PREFIX)
-
-        @VisibleForTesting
-        lateinit var instance: ConnectionFactory
-
-        fun initialize(ctx: Application) {
-            instance = ConnectionFactory(ctx, ctx.getPrefs(), ctx.getSecretPrefs(), ConnectionManagerHelper.create(ctx))
-            instance.launch {
-                instance.connectionHelper.start()
-                instance.updateConnections()
-            }
-        }
-
-        @VisibleForTesting
-        fun initialize(ctx: Application, prefs: SharedPreferences, connectionHelper: ConnectionManagerHelper) {
-            instance = ConnectionFactory(ctx, prefs, prefs, connectionHelper)
-        }
-
-        fun shutdown() {
-            instance.connectionHelper.shutdown()
-        }
-
-        /**
-         * Wait for initialization of the factory.
-         *
-         * This method blocks until all asynchronous work (that is, determination of
-         * available and cloud connection) is ready, so that {@link connection}
-         * and {@link usableConnection} can safely be used.
-         */
-        suspend fun waitForInitialization() {
-            instance.triggerConnectionUpdateIfNeededAndPending()
-            val sub = instance.stateChannel.openSubscription()
-            do {
-                val (primary, active, primaryCloud, activeCloud) = sub.receive()
-            } while (primary == null || active == null || primaryCloud == null || activeCloud == null)
-        }
-
-        fun addListener(l: UpdateListener) {
-            instance.addListenerInternal(l)
-        }
-
-        fun removeListener(l: UpdateListener) {
-            if (instance.listeners.remove(l) && l is Activity) {
-                instance.trustManager.unbindDisplayActivity(l as Activity)
-            }
-        }
-
-        fun restartNetworkCheck() {
-            instance.triggerConnectionUpdateIfNeeded()
-        }
-
-        /**
-         * Returns any openHAB connection that is most likely to work for the active server on the current network.
-         * The returned object will contain either a working connection, or the initialization failure cause.
-         * If initialization did not finish yet, null is returned.
-         */
-        val activeUsableConnection get() = instance.stateChannel.value.active
-
-        /**
-         * Returns whether the active server has a configured local connection
-         */
-        val hasActiveLocalConnection get() = instance.activeConn?.local != null
-
-        /**
-         * Returns whether the active server has a configured remote connection
-         */
-        val hasActiveRemoteConnection get() = instance.activeConn?.remote != null
-
-        /**
-         * Like {@link activeUsableConnection}, but for the primary instead of active server.
-         */
-        val primaryUsableConnection get() = instance.stateChannel.value.primary
-
-        /**
-         * Like {@link hasActiveLocalConnection}, but for the primary instead of active server.
-         */
-        val hasPrimaryLocalConnection get() = instance.primaryConn?.local != null
-
-        /**
-         * Like {@link hasActiveRemoteConnection}, but for the primary instead of active server.
-         */
-        val hasPrimaryRemoteConnection get() = instance.primaryConn?.remote != null
-
-        /**
-         * Returns the resolved cloud connection for the active server.
-         * The returned object will contain either
-         * - a working connection
-         * - the initialization failure cause or
-         * - null for both values
-         *   (in case no remote server is configured or the remote server is not an openHAB cloud instance)
-         * If initialization did not finish yet, null is returned.
-         */
-        val activeCloudConnection get() = instance.stateChannel.value.activeCloud
-
-        /**
-         * Like {@link activeCloudConnection}, but for the primary instead of active server.
-         */
-        val primaryCloudConnection get() = instance.stateChannel.value.primaryCloud
     }
 }

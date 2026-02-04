@@ -72,7 +72,6 @@ import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
-import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.databinding.ActivityChartBinding
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.ParsedState
@@ -82,6 +81,7 @@ import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.appendQueryParameter
 import org.openhab.habdroid.util.determineDataUsagePolicy
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.parcelable
@@ -191,7 +191,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         super.onStart()
         val data = dataCacheFragment?.loadedData
         val loadExistingData = data?.let {
-            val dataUsagePolicy = determineDataUsagePolicy(ConnectionFactory.activeUsableConnection?.connection)
+            val dataUsagePolicy = determineDataUsagePolicy(getConnectionFactory().currentActive?.conn?.connection)
             val now = Instant.now().atZone(data.timestamp.zone)
             val dataIsOutdated = widget.refresh > 0 &&
                 Duration.between(data.timestamp, now).toMillis() > widget.refresh
@@ -209,7 +209,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
     }
 
     private fun onRefresh() = lifecycleScope.launch {
-        val connection = ConnectionFactory.activeUsableConnection?.connection
+        val connection = getConnectionFactory().currentActive?.conn?.connection
         val item = widget.item
         if (connection == null || item == null) {
             finish()
