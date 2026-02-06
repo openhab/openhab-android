@@ -37,25 +37,10 @@ proguard/
 # Android Studio captures folder
 captures/
 
-# IntelliJ
+# IntelliJ / Android Studio
 *.iml
-.idea/tasks.xml
-.idea/gradle.xml
-.idea/assetWizardSettings.xml
-.idea/libraries
-.idea/misc.xml
-# Android Studio 3 in .gitignore file.
-.idea/caches
-.idea/modules.xml
-.idea/deploymentTargetDropDown.xml
-# Comment next line if keeping position of elements in Navigation Editor is relevant for you
-.idea/navEditor.xml
-.idea/workspace.xml
-.idea/deploymentTargetSelector.xml
-.idea/other.xml
-.idea/androidTestResultsUserPreferences.xml
-
-.kotlin
+.idea/
+.kotlin/
 
 # Keystore files
 *.jks
