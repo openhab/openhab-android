@@ -31,7 +31,6 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.net.toUri
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -277,10 +276,10 @@ abstract class ContentController protected constructor(private val activity: Mai
 
     fun showWebViewUi(ui: WebViewUi, isStackRoot: Boolean, subpage: String?) {
         val webViewFragment = ui.fragment.getDeclaredConstructor().newInstance()
-        webViewFragment.arguments = bundleOf(
-            KEY_IS_STACK_ROOT to isStackRoot,
-            KEY_SUBPAGE to subpage
-        )
+        webViewFragment.arguments = Bundle().apply {
+            putBoolean(KEY_IS_STACK_ROOT, isStackRoot)
+            putString(KEY_SUBPAGE, subpage)
+        }
         webViewFragment.setCallback(this)
         showTemporaryPage(webViewFragment)
     }
@@ -871,13 +870,13 @@ abstract class ContentController protected constructor(private val activity: Mai
                 @StringRes button2TextResId: Int,
                 @DrawableRes drawableResId: Int,
                 showProgress: Boolean
-            ): Bundle = bundleOf(
-                KEY_MESSAGE to message,
-                KEY_DRAWABLE to drawableResId,
-                KEY_BUTTON_1_TEXT to button1TextResId,
-                KEY_BUTTON_2_TEXT to button2TextResId,
-                KEY_PROGRESS to showProgress
-            )
+            ) = Bundle().apply {
+                putCharSequence(KEY_MESSAGE, message)
+                putInt(KEY_DRAWABLE, drawableResId)
+                putInt(KEY_BUTTON_1_TEXT, button1TextResId)
+                putInt(KEY_BUTTON_2_TEXT, button2TextResId)
+                putBoolean(KEY_PROGRESS, showProgress)
+            }
         }
     }
 

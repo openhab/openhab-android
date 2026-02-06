@@ -23,7 +23,6 @@ import android.service.quicksettings.TileService
 import android.view.MenuItem
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
-import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
@@ -149,11 +148,11 @@ class PreferencesActivity : AbstractBaseActivity() {
         companion object {
             fun show(fm: FragmentManager, messageResId: Int, actionButtonTextResId: Int, tag: String) {
                 val f = ConfirmationDialogFragment()
-                f.arguments = bundleOf(
-                    "message" to messageResId,
-                    "buttontext" to actionButtonTextResId,
-                    "tag" to tag
-                )
+                f.arguments = Bundle().apply {
+                    putInt("message", messageResId)
+                    putInt("buttontext", actionButtonTextResId)
+                    putString("tag", tag)
+                }
                 f.show(fm, tag)
             }
         }
@@ -213,4 +212,4 @@ interface CustomDialogPreference {
     fun createDialog(): DialogFragment
 }
 
-data class PushNotificationStatus(val message: String, @DrawableRes val icon: Int, val notifyUser: Boolean)
+data class PushNotificationStatus(val message: String, @param:DrawableRes val icon: Int, val notifyUser: Boolean)

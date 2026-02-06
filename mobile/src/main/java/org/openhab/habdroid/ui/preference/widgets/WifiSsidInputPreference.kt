@@ -15,13 +15,13 @@ package org.openhab.habdroid.ui.preference.widgets
 
 import android.content.Context
 import android.os.Build
+import android.os.Bundle
 import android.text.InputType
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.core.content.edit
-import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.DialogPreference
 import androidx.preference.PreferenceDialogFragmentCompat
@@ -110,10 +110,10 @@ class WifiSsidInputPreference(context: Context, attrs: AttributeSet) :
 
             fun newInstance(key: String, title: CharSequence?): PrefFragment {
                 val f = PrefFragment()
-                f.arguments = bundleOf(
-                    ARG_KEY to key,
-                    KEY_TITLE to title
-                )
+                f.arguments = Bundle().apply {
+                    putString(ARG_KEY, key)
+                    putCharSequence(KEY_TITLE, title)
+                }
                 return f
             }
         }
