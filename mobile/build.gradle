@@ -1,4 +1,3 @@
-import com.mikepenz.aboutlibraries.plugin.DuplicateMode
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 def taskRequests = getGradle().getStartParameter().getTaskRequests().toString()
@@ -23,7 +22,7 @@ buildscript {
 apply plugin: "com.android.application"
 apply plugin: "kotlin-parcelize"
 apply plugin: "de.mobilej.unmock"
-apply plugin: "com.mikepenz.aboutlibraries.plugin"
+apply plugin: "com.mikepenz.aboutlibraries.plugin.android"
 apply plugin: "de.jjohannes.missing-metadata-guava"
 
 if (!isFoss) {
@@ -117,11 +116,6 @@ android {
     }
 }
 
-aboutLibraries {
-    duplicationMode = DuplicateMode.MERGE
-    excludeFields = ["generated"]
-}
-
 unMock {
     keepStartingWith "libcore."
     keepStartingWith "android.net.Uri"
@@ -182,7 +176,6 @@ dependencies {
 
     implementation libs.material.about.library
     implementation libs.aboutlibraries.core
-    implementation libs.aboutlibraries
 
     implementation libs.androidchart
 
