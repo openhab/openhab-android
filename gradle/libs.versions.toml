@@ -37,7 +37,7 @@ play-services-maps = "20.0.0"
 osmdroid-android = "6.1.20"
 
 material-about-library = "3.1.2"
-about-libraries = "11.5.0" # Newer versions deprecate view-based UI
+about-libraries = "14.2.0"
 
 firebase-messaging = "24.1.2"
 firebase-crashlytics = "19.4.4"
@@ -105,7 +105,6 @@ osmdroid-android = { module = "org.osmdroid:osmdroid-android", version.ref = "os
 
 material-about-library = { module = "com.github.daniel-stoneuk:material-about-library", version.ref = "material-about-library" }
 aboutlibraries-core = { module = "com.mikepenz:aboutlibraries-core", version.ref = "about-libraries" }
-aboutlibraries = { module = "com.mikepenz:aboutlibraries", version.ref = "about-libraries" }
 
 firebase-messaging-ktx = { module = "com.google.firebase:firebase-messaging-ktx", version.ref = "firebase-messaging" }
 firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebase-crashlytics" }
