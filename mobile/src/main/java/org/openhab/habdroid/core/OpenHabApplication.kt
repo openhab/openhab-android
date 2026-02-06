@@ -14,6 +14,7 @@
 package org.openhab.habdroid.core
 
 import android.app.AppOpsManager
+import android.app.Application
 import android.app.AsyncNotedAppOp
 import android.app.SyncNotedAppOp
 import android.content.BroadcastReceiver
@@ -28,11 +29,9 @@ import android.util.Log
 import android.webkit.WebView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.multidex.MultiDexApplication
 import androidx.preference.PreferenceManager
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
-import java.security.GeneralSecurityException
+import dev.spght.encryptedprefs.EncryptedSharedPreferences
+import dev.spght.encryptedprefs.MasterKey
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
@@ -44,23 +43,17 @@ import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.registerExportedReceiver
 
-class OpenHabApplication : MultiDexApplication() {
+class OpenHabApplication : Application() {
     interface OnDataUsagePolicyChangedListener {
         fun onDataUsagePolicyChanged()
     }
 
     val secretPrefs: SharedPreferences by lazy {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            try {
-                getEncryptedSharedPrefs()
-            } catch (e: GeneralSecurityException) {
-                // See https://github.com/openhab/openhab-android/issues/1807
-                CrashReportingHelper.e(TAG, "Error getting encrypted shared prefs, try again.", exception = e)
-                getEncryptedSharedPrefs()
-            }
-        } else {
-            getSharedPreferences("secret_shared_prefs", MODE_PRIVATE)
-        }
+        EncryptedSharedPreferences(
+            context = this,
+            fileName = "secret_shared_prefs_encrypted",
+            masterKey = MasterKey(this)
+        )
     }
 
     val connectionFactory: ConnectionFactory by lazy {
@@ -78,15 +71,6 @@ class OpenHabApplication : MultiDexApplication() {
 
     private val dataSaverChangeListener = SystemDataSaverStateChangeReceiver()
     private val dataUsagePolicyListeners = mutableSetOf<OnDataUsagePolicyChangedListener>()
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    private fun getEncryptedSharedPrefs() = EncryptedSharedPreferences.create(
-        "secret_shared_prefs_encrypted",
-        MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-        this,
-        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-    )
 
     override fun onCreate() {
         super.onCreate()

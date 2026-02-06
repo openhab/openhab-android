@@ -19,7 +19,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.os.bundleOf
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
@@ -145,13 +144,13 @@ class ConnectionSettingsFragment : AbstractSettingsFragment() {
             parent: ServerEditorFragment
         ): ConnectionSettingsFragment {
             val f = ConnectionSettingsFragment()
-            val args = bundleOf(
-                "key" to key,
-                "path" to serverPath,
-                "prefs" to prefsResId,
-                "title" to titleResId,
-                "urlsummary" to urlSummaryResId
-            )
+            val args = Bundle().apply {
+                putString("key", key)
+                putParcelable("path", serverPath)
+                putInt("prefs", prefsResId)
+                putInt("title", titleResId)
+                putInt("urlsummary", urlSummaryResId)
+            }
             parent.parentFragmentManager.putFragment(args, "parent", parent)
             f.arguments = args
             return f

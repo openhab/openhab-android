@@ -15,6 +15,7 @@ package org.openhab.habdroid.ui.preference.widgets
 
 import android.content.Context
 import android.os.Build
+import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -22,7 +23,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
-import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.EditTextPreferenceDialogFragmentCompat
 import okhttp3.HttpUrl
@@ -148,11 +148,11 @@ class UrlInputPreference(context: Context, attrs: AttributeSet) : CustomInputTyp
 
             fun newInstance(key: String, title: CharSequence?, isForRemoteServer: Boolean): PrefFragment {
                 val f = PrefFragment()
-                f.arguments = bundleOf(
-                    ARG_KEY to key,
-                    KEY_TITLE to title,
-                    IS_FOR_REMOTE_SERVER to isForRemoteServer
-                )
+                f.arguments = Bundle().apply {
+                    putString(ARG_KEY, key)
+                    putCharSequence(KEY_TITLE, title)
+                    putBoolean(IS_FOR_REMOTE_SERVER, isForRemoteServer)
+                }
                 return f
             }
         }

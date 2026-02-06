@@ -1,4 +1,5 @@
 import com.mikepenz.aboutlibraries.plugin.DuplicateMode
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 def taskRequests = getGradle().getStartParameter().getTaskRequests().toString()
 def isFoss = taskRequests.contains("Foss") || taskRequests.contains("foss")
@@ -20,7 +21,6 @@ buildscript {
 }
 
 apply plugin: "com.android.application"
-apply plugin: "kotlin-android"
 apply plugin: "kotlin-parcelize"
 apply plugin: "de.mobilej.unmock"
 apply plugin: "com.mikepenz.aboutlibraries.plugin"
@@ -34,11 +34,11 @@ if (!isFoss) {
 android {
     useLibrary "org.apache.http.legacy"
     namespace "org.openhab.habdroid"
+    compileSdk = 37
 
     defaultConfig {
         applicationId "org.openhab.habdroid"
-        minSdkVersion 21
-        compileSdk 35
+        minSdkVersion 23
         targetSdkVersion 35
         versionCode 599
         versionName "3.21.1"
@@ -51,7 +51,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            proguardFiles "proguard-rules.pro"
         }
         debug {
             minifyEnabled false
@@ -89,17 +89,19 @@ android {
 
     compileOptions {
         coreLibraryDesugaringEnabled true
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        targetCompatibility 11
+        sourceCompatibility 11
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-        freeCompilerArgs += [
-            "-opt-in=kotlinx.coroutines.ObsoleteCoroutinesApi",
-            "-opt-in=kotlinx.coroutines.DelicateCoroutinesApi"
-        ]
-        allWarningsAsErrors = true
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_11
+            freeCompilerArgs = [
+                "-opt-in=kotlinx.coroutines.ObsoleteCoroutinesApi",
+                "-opt-in=kotlinx.coroutines.DelicateCoroutinesApi"
+            ]
+            allWarningsAsErrors = true
+        }
     }
 
     lint {
@@ -127,10 +129,10 @@ unMock {
 }
 
 repositories {
-    maven { url "https://maven.fabric.io/public" }
+    // maven { url "https://maven.fabric.io/public" }
     mavenCentral()
-    maven { url "https://jitpack.io" }
     google()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -153,12 +155,11 @@ dependencies {
     implementation libs.preference.ktx
     implementation libs.biometric
     implementation libs.material
-    implementation libs.multidex
 
     implementation libs.work.runtime.ktx
     fullImplementation libs.work.gcm
 
-    implementation libs.security.crypto
+    implementation libs.encrypted.prefs.ktx
 
     implementation libs.media3.exoplayer
     implementation libs.media3.ui
@@ -185,7 +186,6 @@ dependencies {
 
     implementation libs.androidchart
 
-    implementation platform(libs.firebase.bom)
     fullImplementation libs.firebase.messaging.ktx
     fullImplementation libs.firebase.crashlytics.ktx
 

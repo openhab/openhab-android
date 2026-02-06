@@ -122,7 +122,7 @@ class CacheManager private constructor(appContext: Context) {
         override fun sizeOf(key: CacheKey, value: Bitmap): Int = value.byteCount / 1024
     }
 
-    data class CacheKey(val url: HttpUrl, @ColorInt val fallbackColor: Int)
+    data class CacheKey(val url: HttpUrl, @param:ColorInt val fallbackColor: Int)
 
     companion object {
         private val TAG = CacheManager::class.java.simpleName

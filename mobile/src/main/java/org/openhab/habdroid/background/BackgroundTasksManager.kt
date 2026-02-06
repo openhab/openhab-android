@@ -33,6 +33,7 @@ import android.location.LocationManager
 import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import android.os.Build
+import android.os.Bundle
 import android.os.Parcelable
 import android.speech.RecognizerIntent
 import android.telephony.TelephonyManager
@@ -42,7 +43,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.location.LocationManagerCompat
-import androidx.core.os.bundleOf
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -171,10 +171,12 @@ class BackgroundTasksManager : BroadcastReceiver() {
                         resultCode = TaskerItemPickerActivity.RESULT_CODE_PLUGIN_DISABLED
                         TaskerPlugin.addVariableBundle(
                             getResultExtras(true),
-                            bundleOf(
-                                TaskerPlugin.Setting.VARNAME_ERROR_MESSAGE to
+                            Bundle().apply {
+                                putString(
+                                    TaskerPlugin.Setting.VARNAME_ERROR_MESSAGE,
                                     context.getString(R.string.tasker_plugin_disabled)
-                            )
+                                )
+                            }
                         )
                     }
                     return

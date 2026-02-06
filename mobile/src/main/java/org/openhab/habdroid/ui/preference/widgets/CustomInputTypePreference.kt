@@ -15,12 +15,12 @@ package org.openhab.habdroid.ui.preference.widgets
 
 import android.content.Context
 import android.os.Build
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ArrayAdapter
-import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.EditTextPreference
 import androidx.preference.EditTextPreferenceDialogFragmentCompat
@@ -167,14 +167,14 @@ open class CustomInputTypePreference(context: Context, attrs: AttributeSet) :
                 suggestions: Array<String>? = null
             ): PrefFragment {
                 val f = PrefFragment()
-                f.arguments = bundleOf(
-                    ARG_KEY to key,
-                    KEY_TITLE to title,
-                    KEY_INPUT_TYPE to inputType,
-                    KEY_AUTOFILL_HINTS to autofillHints,
-                    KEY_SUGGESTIONS to suggestions,
-                    KEY_WHITESPACE_BEHAVIOR to whitespaceBehavior
-                )
+                f.arguments = Bundle().apply {
+                    putString(ARG_KEY, key)
+                    putCharSequence(KEY_TITLE, title)
+                    putInt(KEY_INPUT_TYPE, inputType)
+                    putStringArray(KEY_AUTOFILL_HINTS, autofillHints)
+                    putStringArray(KEY_SUGGESTIONS, suggestions)
+                    putInt(KEY_WHITESPACE_BEHAVIOR, whitespaceBehavior)
+                }
                 return f
             }
         }

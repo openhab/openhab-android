@@ -19,7 +19,6 @@ import android.view.View
 import android.view.ViewStub
 import androidx.annotation.StringRes
 import androidx.core.content.edit
-import androidx.core.os.bundleOf
 import com.google.android.material.button.MaterialButton
 import org.openhab.habdroid.R
 import org.openhab.habdroid.databinding.TaskerItemPickerAppbarExtensionBinding
@@ -106,13 +105,13 @@ class TaskerItemPickerActivity(
             showToast(R.string.item_picker_contact_no_command)
         }
 
-        val resultBundle = bundleOf(
-            EXTRA_ITEM_NAME to item.name,
-            EXTRA_ITEM_LABEL to item.label,
-            EXTRA_ITEM_STATE to state,
-            EXTRA_ITEM_MAPPED_STATE to mappedState,
-            EXTRA_ITEM_AS_COMMAND to asCommand
-        )
+        val resultBundle = Bundle().apply {
+            putString(EXTRA_ITEM_NAME, item.name)
+            putString(EXTRA_ITEM_LABEL, item.label)
+            putString(EXTRA_ITEM_STATE, state)
+            putString(EXTRA_ITEM_MAPPED_STATE, mappedState)
+            putBoolean(EXTRA_ITEM_AS_COMMAND, asCommand)
+        }
         val resultIntent = Intent().apply {
             @StringRes val blurbRes =
                 if (asCommand) R.string.item_picker_blurb_command else R.string.item_picker_blurb_update
