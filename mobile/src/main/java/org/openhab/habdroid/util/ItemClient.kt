@@ -20,10 +20,12 @@ import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.channels.produce
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -109,47 +111,23 @@ object ItemClient {
         }
     }
 
-    suspend fun listenForItemChange(
-        scope: CoroutineScope,
-        connection: Connection,
-        item: String,
-        callback: (topicPath: List<String>, payload: JSONObject) -> Unit
-    ) {
-        fun createSubscription() = connection.httpClient.makeSse(
-            // Support for both the "openhab" and the older "smarthome" root topic by using a wildcard
-            connection.httpClient.buildUrl("rest/events?topics=*/items/$item/command")
-        )
-        var eventSubscription = createSubscription()
+    // Emits pairs of 'item name' - 'item state'
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun listenForItemChange(scope: CoroutineScope, connection: Connection, itemName: String?) = scope.produce {
+        while (scope.isActive) {
+            val subscription = connection.httpClient.makeSse(
+                // Support for both the "openhab" and the older "smarthome" root topic by using a wildcard
+                connection.httpClient.buildUrl("rest/events?topics=*/items/${itemName ?: "*"}/command")
+            )
 
-        suspend fun restartSubscription() {
-            try {
-                eventSubscription.cancel()
-            } catch (e: Exception) {
-                Log.e(TAG, "Error cancelling SSE subscription for item $item", e)
-            }
-            delay(5.seconds)
-            eventSubscription = createSubscription()
-        }
-
-        var watchdogJob: Job? = null
-
-        fun resetAliveWatchdog() {
-            watchdogJob?.cancel()
-            watchdogJob = scope.launch {
-                delay(30.seconds) // ALIVE event is sent every 10 seconds
-                Log.d(TAG, "No events received for item $item, restarting subscription")
-                restartSubscription()
-            }
-        }
-        resetAliveWatchdog()
-
-        try {
             while (scope.isActive) {
                 try {
-                    val event = JSONObject(eventSubscription.getNextEvent())
-                    resetAliveWatchdog()
+                    // ALIVE event is sent every 10 seconds, so use a timeout somewhat larger than that
+                    val event = withTimeout(30.seconds) {
+                        JSONObject(subscription.getNextEvent())
+                    }
                     if (event.optString("type") == "ALIVE") {
-                        Log.d(TAG, "Got ALIVE event for item $item")
+                        Log.d(TAG, "Got ALIVE event for item $itemName")
                         continue
                     }
                     val topic = event.getString("topic")
@@ -160,20 +138,24 @@ object ItemClient {
                     // When an update for a group is sent, there's also one for the individual item.
                     // Therefore always take the element on index two.
                     if (topicPath.size !in 4..5) {
-                        throw JSONException("Unexpected topic path $topic for item $item")
+                        throw JSONException("Unexpected topic path $topic")
                     }
                     val payload = JSONObject(event.getString("payload"))
                     Log.d(TAG, "Got payload: $payload")
-                    callback(topicPath, payload)
+                    send(topicPath[2] to payload.getString("value"))
                 } catch (e: JSONException) {
-                    Log.e(TAG, "Failed parsing JSON of state change event for item $item", e)
+                    Log.e(TAG, "Failed parsing JSON of state change event for item $itemName", e)
                 } catch (e: HttpClient.SseFailureException) {
-                    Log.e(TAG, "SSE failure for item $item", e)
-                    restartSubscription()
+                    Log.e(TAG, "SSE failure for item $itemName", e)
+                    break // restart subscription
+                } catch (e: TimeoutCancellationException) {
+                    Log.d(TAG, "No events received for item $itemName, restarting subscription $scope")
+                    break // restart subscription
                 }
             }
-        } finally {
-            eventSubscription.cancel()
+
+            subscription.cancel()
+            delay(5.seconds)
         }
     }
 }

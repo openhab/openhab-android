@@ -308,7 +308,7 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
         suspend fun getNextEvent(): String = listener.channel.receive()
 
         fun cancel() {
-            listener.channel.close()
+            listener.channel.cancel()
             source.cancel()
         }
     }
