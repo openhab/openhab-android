@@ -34,11 +34,11 @@ if (!isFoss) {
 android {
     useLibrary "org.apache.http.legacy"
     namespace "org.openhab.habdroid"
+    compileSdk 36
 
     defaultConfig {
         applicationId "org.openhab.habdroid"
-        minSdkVersion 21
-        compileSdk 35
+        minSdkVersion 23
         targetSdkVersion 35
         versionCode 593
         versionName "3.20.3-beta"
@@ -157,7 +157,7 @@ dependencies {
     implementation libs.work.runtime.ktx
     fullImplementation libs.work.gcm
 
-    implementation libs.security.crypto
+    implementation libs.encrypted.prefs.ktx
 
     implementation libs.media3.exoplayer
     implementation libs.media3.ui
@@ -184,7 +184,6 @@ dependencies {
 
     implementation libs.androidchart
 
-    implementation platform(libs.firebase.bom)
     fullImplementation libs.firebase.messaging.ktx
     fullImplementation libs.firebase.crashlytics.ktx
 

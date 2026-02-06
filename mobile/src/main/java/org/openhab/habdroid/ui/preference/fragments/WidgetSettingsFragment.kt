@@ -27,7 +27,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.preference.EditTextPreference
@@ -221,8 +220,9 @@ class WidgetSettingsFragment :
 
         fun newInstance(id: Int): WidgetSettingsFragment {
             val f = WidgetSettingsFragment()
-            val args = bundleOf("id" to id)
-            f.arguments = args
+            f.arguments = Bundle().apply {
+                putInt("id", id)
+            }
             return f
         }
     }

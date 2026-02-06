@@ -28,7 +28,6 @@ import android.view.ViewStub
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.edit
-import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -304,11 +303,11 @@ abstract class AbstractItemPickerActivity :
 
         private lateinit var binding: BottomSheetItemPickerCommandBinding
 
-        fun createArguments(item: Item, entries: List<CommandEntry>, showCustom: Boolean) = bundleOf(
-            "item" to item,
-            "entries" to entries,
-            "show_custom" to showCustom
-        )
+        fun createArguments(item: Item, entries: List<CommandEntry>, showCustom: Boolean) = Bundle().apply {
+            putParcelable("item", item)
+            putParcelableArrayList("entries", ArrayList(entries))
+            putBoolean("show_custom", showCustom)
+        }
 
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
             binding = BottomSheetItemPickerCommandBinding.inflate(inflater, container, false)
