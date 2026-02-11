@@ -251,12 +251,6 @@
     <string name="send_device_info_category_schedule_based_explanation">Desto kortere det valgte intervallet er, jo større er den potensielle innvirkningen på enhetens batterilevetid. I tillegg følger kanskje ikke enheten det valgte intervallet nøyaktig, men forsinker oppdateringer for å redusere strømforbruket på tvers av programmer.</string>
     <string name="send_device_info_item_prefix_summary">Item-navnene på denne siden er prefikset med enhetsidentifikatoren \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Ingen prefiks er satt for Item-navn på denne siden. Du kan prefikse dem med enhetsidentifikatoren, som kan settes på hovedinnstillingssiden.</string>
-    <string name="send_device_info_foreground_service_title">Hendelsesovervåker</string>
-    <string name="send_device_info_foreground_service_summary">Overvåker hendelser assosiert med følgende Item\'er. Dette krever vedvarende varsling og kan øke batteriforbruket.</string>
-    <string name="send_device_info_foreground_service_summary_pre_o">Overvåk hendelser assosiert med følgende Item\'er. Dette krever vedvarende varsling og kan øke batteriforbruket. Dette er bare nødvendig for å sende ikke forstyrr-modusen.</string>
-    <string name="send_device_info_foreground_service_running_summary_one">Overvåk hendelser forbundet med %s</string>
-    <string name="send_device_info_foreground_service_running_summary_two">Overvåk hendelser forbundet med %1$s og %2$s</string>
-    <string name="send_device_info_foreground_service_running_summary_more">Overvåk hendelser forbundet med %1$s, %2$s med mer</string>
     <string name="settings_item_update_pref_howto_summary">Tapp her for å få tips om hvordan du setter opp denne funksjonen på serversiden</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">Siste oppdatering var \'%1$s\' (%2$s)</string>
@@ -307,7 +301,6 @@
     <string name="notification_channel_background_description">Brukes til å varsle om ventende bakgrunnsoppgaver, f.eks venter på nettverket for å sende batterinivå</string>
     <string name="notification_channel_background_error">Feil i bakgrunnsoppgaver</string>
     <string name="notification_channel_background_error_description">Brukes til å varsle om feil i bakgrunnsoppgaver, f.eks fikk ingen nettverk for å sende batterinivå</string>
-    <string name="notification_channel_background_foreground_service_description">Overvåk hendelser for å oppdatere Item\'er. Du kan trygt skjule denne kategorien.</string>
     <string name="notification_channel_messages_default_severity">Standard</string>
     <string name="notification_channel_messages_default_severity_description">Varsler sendt av serveren uten en definert alvorlighetsgrad</string>
     <string name="notification_channel_group_messages">Meldinger</string>

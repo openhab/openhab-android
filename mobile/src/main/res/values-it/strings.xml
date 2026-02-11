@@ -248,12 +248,6 @@
     <string name="send_device_info_category_schedule_based_explanation">Più breve è l\'intervallo scelto, maggiore è l\'impatto potenziale sulla durata della batteria del tuo dispositivo. Inoltre, il tuo dispositivo potrebbe non seguire esattamente l\'intervallo scelto, ma ritardare gli aggiornamenti per ridurre il consumo energetico delle app.</string>
     <string name="send_device_info_item_prefix_summary">I nomi degli Item in questa pagina hanno prefisso il tipo di dispositivo \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">In questa pagina non ci sono prefissi configurati per gli Item. È possibile aggiungere un prefisso con il tipo di dispositivo, che può essere impostato nelle impostazioni principali.</string>
-    <string name="send_device_info_foreground_service_title">Monitor eventi</string>
-    <string name="send_device_info_foreground_service_summary">Monitora gli eventi associati ai seguenti Items. Ciò richiede una notifica persistente e può aumentare l\'utilizzo della batteria.</string>
-    <string name="send_device_info_foreground_service_summary_pre_o">Monitora gli eventi associati ai seguenti Items. Ciò richiede una notifica persistente e può aumentare l\'utilizzo della batteria. Questo è richiesto solo per l’invio in modalità DND.</string>
-    <string name="send_device_info_foreground_service_running_summary_one">Monitora gli eventi associati a %s</string>
-    <string name="send_device_info_foreground_service_running_summary_two">Monitora gli eventi associati a %1$s e %2$s</string>
-    <string name="send_device_info_foreground_service_running_summary_more">Monitora gli eventi associati a %1$s, %2$s e altri</string>
     <string name="settings_item_update_pref_howto_summary">Premi qui per avere suggerimenti su come configurare questa funzionalità sul server</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">L\'ultimo aggiornamento è stato \'%1$s\' (%2$s)</string>
@@ -304,7 +298,6 @@
     <string name="notification_channel_background_description">Utilizzato per notificare attività in sospeso in background, ad esempio in attesa della rete per l’invio del livello della batteria</string>
     <string name="notification_channel_background_error">Errore nei task in background</string>
     <string name="notification_channel_background_error_description">Utilizzato per notificare errori nelle attività in background, ad esempio non hai una rete per inviare il livello della batteria</string>
-    <string name="notification_channel_background_foreground_service_description">Monitora gli eventi per aggiornare gli Items. Puoi nascondere senza conseguenze questa categoria.</string>
     <string name="notification_channel_messages_default_severity">Predefinito</string>
     <string name="notification_channel_messages_default_severity_description">Notifiche inviate dal server senza gravità definita</string>
     <string name="notification_channel_group_messages">Messaggi</string>

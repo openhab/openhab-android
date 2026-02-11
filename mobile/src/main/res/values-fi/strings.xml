@@ -200,12 +200,6 @@
     <string name="send_device_info_category_schedule_based_explanation">Lyhyemmällä aikavälillä on mahdollisesti suurempi vaikutus akun kestoon. Huomaa myös että laitteesi ei välttämättä tarkasti noudata valittua aikaväliä, vaan saattaa pidentää sitä vähentääkseen virran kulutusta.</string>
     <string name="send_device_info_item_prefix_summary">Tämän sivun Itemeillä on etuliitteenä laitteen tunnus \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Tämän sovin Itemeillä ei ole asetettu etuliitettä. Etuliitteeksi voit käyttää laitteen tunnusta, jonka voit asettaa asetusten pääsivulta.</string>
-    <string name="send_device_info_foreground_service_title">Tapahtumanäyttö</string>
-    <string name="send_device_info_foreground_service_summary">Seuraa seuraaviin Itemiin liittyviä tapahtumia. Tämä edellyttää jatkuvaa ilmoitusta ja saattaa lisätä akun käyttöä.</string>
-    <string name="send_device_info_foreground_service_summary_pre_o">Seuraa seuraaviin Itemiin liittyviä tapahtumia. Tämä edellyttää jatkuvaa ilmoitusta ja voi lisätä akun käyttöä. Tämä vaaditaan vain DND-tilan lähettämisessä.</string>
-    <string name="send_device_info_foreground_service_running_summary_one">Tarkkaile tapahtumia, jotka liittyvät %s</string>
-    <string name="send_device_info_foreground_service_running_summary_two">Tarkkaile %1$s ja %2$s liittyviä tapahtumia</string>
-    <string name="send_device_info_foreground_service_running_summary_more">Tarkkaile tapahtumia, jotka liittyvät %1$s, %2$s ja enemmän</string>
     <string name="settings_item_update_pref_howto_summary">Näpäytä tästä saadaksesi vinkkejä kuinka asennat tämän toiminnon palvelimelle</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">Viimeisin päivitys oli \'%1$s\' (%2$s)</string>
@@ -240,7 +234,6 @@
     <string name="notification_channel_background_description">Ilmoitukset jonossa olevista taustatehtävistä, esim. odotetaan verkkoa akun tason ilmoitukseen</string>
     <string name="notification_channel_background_error">Virhe taustatehtävissä</string>
     <string name="notification_channel_background_error_description">Ilmoitukset taustatehtävien virheistä, esim. ei verkkoa akun tason ilmoitukseen</string>
-    <string name="notification_channel_background_foreground_service_description">Tarkkaile tapahtumia päivittääksesi Itemit vastaavasti. Voit turvallisesti piilottaa tämän luokan.</string>
     <string name="notification_channel_messages_default_severity">Oletus</string>
     <string name="notification_channel_messages_default_severity_description">Palvelimen lähettämät ilmoitukset ilman vakavuusarvoa</string>
     <string name="notification_channel_group_messages">Viestit</string>

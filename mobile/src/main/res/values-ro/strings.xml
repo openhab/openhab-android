@@ -178,8 +178,6 @@
     <string name="send_device_info_category_schedule_based_explanation">Cu cât intervalul ales este mai scurt, cu atât mai mare este impactul potențial asupra duratei de viață a bateriei dispozitivului dvs. În plus, dispozitivul ar putea să nu urmeze exact intervalul ales, dar întârzie actualizările pentru a reduce consumul de energie al aplicațiilor.</string>
     <string name="send_device_info_item_prefix_summary">Numele unui Item de pe această pagină sunt prefixate cu identificatorul dispozitivului \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Nu este setat niciun prefix pentru numele unui Item de pe această pagină. Le puteți prefixa cu identificatorul dispozitivului, care poate fi setat pe pagina principală de setări.</string>
-    <string name="send_device_info_foreground_service_title">Monitorizare eveniment</string>
-    <string name="send_device_info_foreground_service_summary">Monitorizează evenimentele asociate cu următoarele Items. Acest lucru necesită o notificare persistentă și poate crește consumul bateriei.</string>
     <string name="settings_item_update_pref_howto_summary">Atingeți aici pentru a obține indicații despre cum puteți configura această caracteristică pe server</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <!-- %1$s: Alarm time, %2$s: App causing the update -->

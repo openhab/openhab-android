@@ -251,12 +251,6 @@
     <string name="send_device_info_category_schedule_based_explanation">Hoe korter het interval is, des te groter is de potentiële impact op de batterijduur van uw apparaat. Bovendien volgt uw apparaat het gekozen interval misschien niet exact, maar vertraagt het de updates om het energieverbruik van apps te verminderen.</string>
     <string name="send_device_info_item_prefix_summary">De Item-namen op deze pagina worden voorafgegaan door apparaat identificatie \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Er is geen voorvoegsel ingesteld voor de Item-namen op deze pagina. U kunt de toestel-id als voorvoegsel gebruiken, dit kan worden ingesteld op de pagina met de hoofdinstellingen.</string>
-    <string name="send_device_info_foreground_service_title">Gebeurtenis monitor</string>
-    <string name="send_device_info_foreground_service_summary">Monitor gebeurtenissen die zijn gerelateerd aan de volgende Items. Dit vereist een gepinde melding en kan het batterijgebruik verhogen.</string>
-    <string name="send_device_info_foreground_service_summary_pre_o">Monitor gebeurtenissen die zijn gerelateerd aan de volgende Items. Dit vereist een gepinde melding en kan het batterijgebruik verhogen. Dit is alleen nodig voor het verzenden van de niet storen modus.</string>
-    <string name="send_device_info_foreground_service_running_summary_one">Monitor gebeurtenissen die gekoppeld zijn aan %s</string>
-    <string name="send_device_info_foreground_service_running_summary_two">Monitor gebeurtenissen gerelateerd aan %1$s en %2$s</string>
-    <string name="send_device_info_foreground_service_running_summary_more">Monitor gebeurtenissen gerelateerd aan %1$s, %2$s en meer</string>
     <string name="settings_item_update_pref_howto_summary">Tik hier voor hints over hoe deze functie op de server kan worden ingesteld</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">Laatste update was \'%1$s\' (%2$s)</string>
@@ -307,7 +301,6 @@
     <string name="notification_channel_background_description">Gebruikt om te informeren over lopende achtergrondtaken, bijv. wachten op netwerk om batterijniveau te verzenden</string>
     <string name="notification_channel_background_error">Fout in achtergrondtaken</string>
     <string name="notification_channel_background_error_description">Gebruikt om te informeren over fouten in achtergrondtaken, b.v. geen netwerk om batterijniveau te verzenden</string>
-    <string name="notification_channel_background_foreground_service_description">Monitor gebeurtenissen om Items bij te werken. Je kunt deze categorie veilig verbergen.</string>
     <string name="notification_channel_messages_default_severity">Standaard</string>
     <string name="notification_channel_messages_default_severity_description">Meldingen verzonden door de server zonder gedefinieerde ernst</string>
     <string name="notification_channel_group_messages">Berichten</string>

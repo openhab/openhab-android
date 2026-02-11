@@ -208,12 +208,6 @@
     <string name="send_device_info_category_schedule_based_explanation">Quanto menor o intervalo escolhido, maior é o consumo da bateria do seu dispositivo. Além disso, seu dispositivo pode não seguir o intervalo escolhido exatamente, mas atrasar as atualizações para reduzir o consumo de bateria dos apps.</string>
     <string name="send_device_info_item_prefix_summary">Os nomes dos itens nesta página têm o prefixo com o identificador de dispositivo \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Nenhum prefixo foi definido para os nomes do Item nesta página. Você pode prefixar com o identificador do dispositivo, que pode ser definido na página de configurações.</string>
-    <string name="send_device_info_foreground_service_title">Monitor de eventos</string>
-    <string name="send_device_info_foreground_service_summary">Monitorar eventos associados aos seguintes Items. Isso requer uma notificação persistente e pode aumentar o uso da bateria.</string>
-    <string name="send_device_info_foreground_service_summary_pre_o">Monitorar eventos associados com os seguintes Items. Isto requer uma notificação persistente e pode aumentar o uso da bateria. Só é necessário para enviar no modo não perturbe.</string>
-    <string name="send_device_info_foreground_service_running_summary_one">Monitorar eventos associados a %s</string>
-    <string name="send_device_info_foreground_service_running_summary_two">Monitorar eventos associados a %1$s e %2$s</string>
-    <string name="send_device_info_foreground_service_running_summary_more">Monitorar eventos associados a %1$s, %2$s e mais</string>
     <string name="settings_item_update_pref_howto_summary">Toque aqui para obter dicas sobre como configurar esse recurso do servidor</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">Última atualização foi \'%1$s\' (%2$s)</string>
@@ -255,7 +249,6 @@
     <string name="notification_channel_background_description">Usado para notificar sobre tarefas em segundo plano pendentes, ex.: aguardando a rede para enviar o nível de bateria</string>
     <string name="notification_channel_background_error">Erro nas tarefas de segundo plano</string>
     <string name="notification_channel_background_error_description">Usado para notificar sobre erros em tarefas de segundo plano, ex: não tem conexão para enviar nível de bateria</string>
-    <string name="notification_channel_background_foreground_service_description">Monitorar eventos para atualizar de acordo com os Items. Você pode ocultar esta categoria com segurança.</string>
     <string name="notification_channel_messages_default_severity">Padrão</string>
     <string name="notification_channel_messages_default_severity_description">Notificações enviadas pelo servidor sem gravidade definida</string>
     <string name="notification_channel_group_messages">Mensagens</string>

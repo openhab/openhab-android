@@ -202,7 +202,6 @@
     <string name="send_device_info_category_event_based_title">Evenement baséiert</string>
     <string name="send_device_info_category_event_based_explanation">Des Items ginn baséierend op Evenementer geupdate, z.B. en neien Uruff</string>
     <string name="send_device_info_category_schedule_based_title">Baséierend op engem Zäitplang</string>
-    <string name="send_device_info_foreground_service_title">Iwwerwaachung vun Evenementer</string>
     <string name="settings_item_update_pref_howto_summary">Tipp hei fir Hiweiser zur Server säiteger Konfiguratioun vun dëser Funktionalitéit ze kréien</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="settings_alarm_clock">Erwächzäit</string>

@@ -203,12 +203,6 @@
     <string name="send_device_info_category_schedule_based_explanation">Im krótszy jest wybrany przedział, tym większy jest potencjalny wpływ na żywotność baterii urządzenia. Ponadto urządzenie może nie przestrzegać wybranego odstępu czasowego, a opóźniać aktualizacje by zmniejszyć zużycie energii we wszystkich aplikacjach.</string>
     <string name="send_device_info_item_prefix_summary">Nazwy elementów na tej stronie są poprzedzone identyfikatorem urządzenia \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Nie ustawiono prefiksu dla nazw elementów na tej stronie. Możesz nadać im przedrostek z identyfikatorem urządzenia (ustawianym na stronie głównej ustawień).</string>
-    <string name="send_device_info_foreground_service_title">Monitor zdarzeń</string>
-    <string name="send_device_info_foreground_service_summary">Monitoruj zdarzenia związane z następującymi elementami. Wymaga to stałego powiadomienia i może zwiększyć zużycie baterii.</string>
-    <string name="send_device_info_foreground_service_summary_pre_o">Monitoruj zdarzenia związane z następującymi elementami. Wymaga to stałego powiadomienia i może zwiększyć zużycie baterii. Jest to wymagane tylko do wysłania trybu DND.</string>
-    <string name="send_device_info_foreground_service_running_summary_one">Monitoruj zdarzenia związane z %s</string>
-    <string name="send_device_info_foreground_service_running_summary_two">Monitoruj zdarzenia związane z %1$s i %2$s</string>
-    <string name="send_device_info_foreground_service_running_summary_more">Monitoruj zdarzenia związane z %1$s, %2$s i więcej</string>
     <string name="settings_item_update_pref_howto_summary">Kliknij tutaj, aby uzyskać wskazówki, jak skonfigurować tę funkcję po stronie serwera</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">Ostatnia aktualizacja \'%1$s\' (%2$s)</string>
@@ -247,7 +241,6 @@
     <string name="notification_channel_background_description">Używane do powiadomienia o oczekujących zadaniach w tle, np. oczekiwanie na wysłanie stanu baterii przez sieć</string>
     <string name="notification_channel_background_error">Błąd w zadaniach w tle</string>
     <string name="notification_channel_background_error_description">Używane do powiadamiania o błędach w tle, np. brak sieci do wysłania stanu baterii</string>
-    <string name="notification_channel_background_foreground_service_description">Monitoruj zdarzenia, aby odpowiednio zaktualizować elementy. Możesz bezpiecznie ukryć tę kategorię.</string>
     <string name="notification_channel_messages_default_severity">Domyślny</string>
     <string name="notification_channel_messages_default_severity_description">Powiadomienia wysyłane przez serwer bez określonego poziomu</string>
     <string name="notification_channel_group_messages">Wiadomości</string>

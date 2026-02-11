@@ -107,6 +107,7 @@
     <string name="device_control_subtitle_location">Местоположение</string>
     <string name="device_control_subtitle_equipment">Оборудване</string>
     <string name="device_control_subtitle_location_equipment">Местоположение и оборудване</string>
+    <string name="screensaver_bright_screen">Светъл екран</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Гласови команди</string>
     <string name="voice_command">Гласова команда</string>
@@ -197,6 +198,7 @@
     <string name="settings_wifi_ssid_restrict">Ограничи локалните връзки до мрежи с тези имена</string>
     <string name="settings_bluetooth_devices">Свързани Bluetooth устройства</string>
     <string name="settings_bluetooth_devices_summary_off">Не изпращай свързаните Bluetooth устройства</string>
+    <string name="settings_background_tasks_permission_hint_pre_r">Тази функция изисква допълнителни права, за да работи. След като я включиш, ще бъдеш помолен да одобриш необходимите права.</string>
     <string name="settings_background_tasks_permission_allow">Разреши</string>
     <string name="notification_channel_messages_default_severity">По подразбиране</string>
     <string name="notification_channel_group_messages">Съобщения</string>
@@ -288,6 +290,7 @@
     <string name="nfc_activate">Активиране</string>
     <string name="nfc_action_current_color">Текущ цвят</string>
     <!-- Drawer -->
+    <string name="drawer_active_server_label">Избран сървър</string>
     <string name="mainmenu_openhab_voice_recognition">Разпознаване на глас</string>
     <!-- About -->
     <string name="about_title">Относно</string>

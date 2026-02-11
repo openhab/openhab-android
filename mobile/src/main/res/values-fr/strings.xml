@@ -226,12 +226,6 @@
     <string name="send_device_info_category_schedule_based_explanation">Plus l\'intervalle choisi est court, plus grand est l\'impact potentiel sur l\'autonomie de la batterie de votre appareil. De plus, votre appareil peut ne pas suivre exactement l\'intervalle choisi, préférant retarder les mises à jour pour réduire la consommation d\'énergie entre les applications.</string>
     <string name="send_device_info_item_prefix_summary">Les noms d\'Item sur cette page sont préfixés avec l\'identifiant de l\'appareil \'%s\'</string>
     <string name="send_device_info_item_prefix_summary_not_set">Aucun préfixe n\'est défini pour les noms d\'Item sur cette page. Vous pouvez les préfixer avec l\'identifiant de l\'appareil, pouvant être spécifié sur la page des paramètres principaux.</string>
-    <string name="send_device_info_foreground_service_title">Suivi d\'événement</string>
-    <string name="send_device_info_foreground_service_summary">Surveiller les événements associés aux Items suivants. Cela nécessite une notification permanente et peut augmenter l\'utilisation de la batterie.</string>
-    <string name="send_device_info_foreground_service_summary_pre_o">Surveiller les événements associés aux Items suivants. Cela nécessite une notification permanente et peut augmenter l\'utilisation de la batterie. Ceci n\'est nécessaire que pour l\'envoi du mode DND.</string>
-    <string name="send_device_info_foreground_service_running_summary_one">Surveiller les événements associés à %s</string>
-    <string name="send_device_info_foreground_service_running_summary_two">Surveiller les événements associés à %1$s et %2$s</string>
-    <string name="send_device_info_foreground_service_running_summary_more">Surveiller les événements associés à %1$s, %2$s et autres</string>
     <string name="settings_item_update_pref_howto_summary">Cliquez ici pour obtenir des conseils sur la façon de configurer cette fonctionnalité côté serveur</string>
     <!-- %1$s: Value of last update, %2$s: Timestamp of last update -->
     <string name="item_update_summary_success">La dernière mise à jour était \'%1$s\' (%2$s)</string>
@@ -282,7 +276,6 @@
     <string name="notification_channel_background_description">Utilisé pour notifier les tâches en arrière-plan en attente, par exemple, en attente de l\'envoi du niveau de batterie par le réseau</string>
     <string name="notification_channel_background_error">Erreur dans les tâches en arrière-plan</string>
     <string name="notification_channel_background_error_description">Utilisé pour notifier les erreurs dans les tâches en arrière-plan, par exemple, aucun réseau pour envoyer le niveau de la batterie</string>
-    <string name="notification_channel_background_foreground_service_description">Suivi des événements pour mettre à jour les Items en conséquence. Vous pouvez masquer cette catégorie en toute sécurité.</string>
     <string name="notification_channel_messages_default_severity">Défaut</string>
     <string name="notification_channel_messages_default_severity_description">Notifications envoyées par le serveur sans définition de gravité</string>
     <string name="notification_channel_group_messages">Messages</string>
