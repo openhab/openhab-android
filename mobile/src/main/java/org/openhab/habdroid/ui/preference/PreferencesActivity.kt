@@ -63,6 +63,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                         TileOverviewFragment()
                     }
                 }
+
                 intent.action == AppWidgetManager.ACTION_APPWIDGET_CONFIGURE -> {
                     val id = intent?.extras?.getInt(
                         AppWidgetManager.EXTRA_APPWIDGET_ID,
@@ -70,9 +71,11 @@ class PreferencesActivity : AbstractBaseActivity() {
                     ) ?: AppWidgetManager.INVALID_APPWIDGET_ID
                     WidgetSettingsFragment.newInstance(id)
                 }
+
                 intent.action == ACTION_DAY_DREAM -> {
                     DayDreamFragment()
                 }
+
                 else -> {
                     MainSettingsFragment()
                 }
@@ -105,6 +108,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 onBackPressedDispatcher.onBackPressed()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

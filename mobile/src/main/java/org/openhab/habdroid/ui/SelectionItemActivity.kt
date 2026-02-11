@@ -61,6 +61,7 @@ class SelectionItemActivity : AbstractBaseActivity() {
             finish()
             true
         }
+
         else -> {
             super.onOptionsItemSelected(item)
         }

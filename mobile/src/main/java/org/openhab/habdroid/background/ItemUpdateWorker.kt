@@ -132,10 +132,13 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
 
     private fun mapValueAccordingToItemTypeAndValue(value: ValueWithInfo, item: Item) = when {
         value.value == "TOGGLE" && item.canBeToggled() -> determineOppositeState(item)
+
         value.type == ValueType.Timestamp && item.isOfTypeOrGroupType(Item.Type.DateTime) && value.value != "UNDEF" ->
             convertToTimestamp(value)
+
         value.type == ValueType.MapUndefToOffForSwitchItems && item.isOfTypeOrGroupType(Item.Type.Switch) ->
             if (value.value == "UNDEF") "OFF" else "ON"
+
         else -> value.value
     }
 
@@ -144,15 +147,19 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
             // If shutter is (partially) closed, open it, else close it
             if (item.state?.asNumber?.value == 0F) "100" else "0"
         }
+
         item.isOfTypeOrGroupType(Item.Type.Contact) -> {
             if (item.state?.asString == "OPEN") "CLOSED" else "OPEN"
         }
+
         item.isOfTypeOrGroupType(Item.Type.Player) -> {
             if (item.state?.asString == "PAUSE") "PLAY" else "PAUSE"
         }
+
         item.state?.asBoolean == true -> {
             "OFF"
         }
+
         else -> {
             "ON"
         }

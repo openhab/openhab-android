@@ -64,6 +64,7 @@ object CloudMessagingHelper {
                 R.drawable.ic_bell_off_outline_grey_24dp,
                 false
             )
+
             // Cloud connection failed
             cloudFailure != null && cloudFailure !is NotACloudServerException -> {
                 val message = context.getString(
@@ -77,6 +78,7 @@ object CloudMessagingHelper {
                 )
                 PushNotificationStatus(message, R.drawable.ic_bell_off_outline_grey_24dp, true)
             }
+
             // Remote server is configured, but it's not a cloud instance
             cloudConnectionResult?.connection == null && ConnectionFactory.hasPrimaryRemoteConnection ->
                 PushNotificationStatus(
@@ -84,12 +86,14 @@ object CloudMessagingHelper {
                     R.drawable.ic_bell_off_outline_grey_24dp,
                     false
                 )
+
             // Registration isn't done yet
             !registrationDone -> PushNotificationStatus(
                 context.getString(R.string.info_openhab_gcm_in_progress),
                 R.drawable.ic_bell_outline_grey_24dp,
                 false
             )
+
             // Registration failed
             registrationFailureReason != null -> {
                 val gaa = GoogleApiAvailability.getInstance()
@@ -108,6 +112,7 @@ object CloudMessagingHelper {
                     )
                 }
             }
+
             // Push notifications are working
             else -> PushNotificationStatus(
                 context.getString(R.string.info_openhab_gcm_connected),

@@ -100,36 +100,44 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 Log.d(TAG, "Alarm clock changed")
                 scheduleWorker(context, PrefKeys.SEND_ALARM_CLOCK, true)
             }
+
             TelephonyManager.ACTION_PHONE_STATE_CHANGED -> {
                 Log.d(TAG, "Phone state changed")
                 scheduleWorker(context, PrefKeys.SEND_PHONE_STATE, true)
             }
+
             Intent.ACTION_POWER_CONNECTED, Intent.ACTION_POWER_DISCONNECTED,
             Intent.ACTION_BATTERY_LOW, Intent.ACTION_BATTERY_OKAY -> {
                 Log.d(TAG, "Battery or charging state changed: ${intent.action}")
                 scheduleWorker(context, PrefKeys.SEND_BATTERY_LEVEL, true)
                 scheduleWorker(context, PrefKeys.SEND_CHARGING_STATE, true)
             }
+
             WifiManager.NETWORK_STATE_CHANGED_ACTION -> {
                 Log.d(TAG, "Wifi state changed")
                 scheduleWorker(context, PrefKeys.SEND_WIFI_SSID, true)
             }
+
             BluetoothDevice.ACTION_ACL_CONNECTED, BluetoothDevice.ACTION_ACL_DISCONNECTED -> {
                 Log.d(TAG, "Bluetooth device connected")
                 scheduleWorker(context, PrefKeys.SEND_BLUETOOTH_DEVICES, true)
             }
+
             NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED -> {
                 Log.d(TAG, "DND mode changed")
                 scheduleWorker(context, PrefKeys.SEND_DND_MODE, true)
             }
+
             in GADGETBRIDGE_ACTIONS -> {
                 Log.d(TAG, "Gadgetbridge intent received")
                 scheduleWorker(context, PrefKeys.SEND_GADGETBRIDGE, true, intent)
             }
+
             Intent.ACTION_LOCALE_CHANGED -> {
                 Log.d(TAG, "Locale changed, recreate notification channels")
                 NotificationUpdateObserver.createNotificationChannels(context)
             }
+
             Intent.ACTION_BOOT_COMPLETED -> {
                 Log.d(TAG, "Boot completed")
                 WorkManager.getInstance(context).cancelAllWorkByTag(WORKER_TAG_ITEM_UPLOADS)
@@ -140,6 +148,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     }
                 }
             }
+
             ACTION_RETRY_UPLOAD -> {
                 intent.parcelableArrayList<RetryInfo>(EXTRA_RETRY_INFO_LIST)?.forEach { info ->
                     enqueueItemUpload(
@@ -156,7 +165,9 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     )
                 }
             }
+
             ACTION_CLEAR_UPLOAD -> WorkManager.getInstance(context).pruneWork()
+
             TaskerIntent.ACTION_QUERY_CONDITION, TaskerIntent.ACTION_FIRE_SETTING -> {
                 if (!context.getPrefs().isTaskerPluginEnabled()) {
                     Log.d(TAG, "Tasker plugin is disabled")
@@ -198,6 +209,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     resultCode = TaskerPlugin.Setting.RESULT_CODE_PENDING
                 }
             }
+
             ACTION_VOICE_RESULT -> {
                 val voiceCommand = intent.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
                     ?.elementAtOrNull(0)
@@ -241,6 +253,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String?) {
             when {
                 key == null -> return
+
                 key == PrefKeys.DEMO_MODE && prefs.isDemoModeEnabled() -> {
                     // Demo mode was enabled -> cancel all uploads and clear DB
                     // to clear out notifications
@@ -250,6 +263,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                         pruneWork()
                     }
                 }
+
                 // Demo mode was disabled -> reschedule uploads
                 (key == PrefKeys.DEMO_MODE && !prefs.isDemoModeEnabled()) ||
                     // Prefix has been changed -> reschedule uploads
@@ -258,8 +272,11 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     key == PrefKeys.PRIMARY_SERVER_ID -> {
                     KNOWN_KEYS.forEach { knowKey -> scheduleWorker(context, knowKey, true) }
                 }
+
                 key in KNOWN_KEYS -> scheduleWorker(context, key, true)
+
                 key == PrefKeys.SEND_DEVICE_INFO_SCHEDULE -> schedulePeriodicTrigger(context, true)
+
                 key == PrefKeys.FOSS_NOTIFICATIONS_ENABLED -> schedulePeriodicTrigger(context, false)
             }
         }
@@ -372,12 +389,16 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
         fun getRequiredPermissionsForTask(task: String): Array<String>? = when {
             task == PrefKeys.SEND_PHONE_STATE -> arrayOf(Manifest.permission.READ_PHONE_STATE)
+
             task == PrefKeys.SEND_WIFI_SSID && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ->
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+
             task == PrefKeys.SEND_WIFI_SSID && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ->
                 arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
+
             task == PrefKeys.SEND_BLUETOOTH_DEVICES && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ->
                 arrayOf(Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH)
+
             else -> null
         }
 
@@ -818,8 +839,11 @@ class BackgroundTasksManager : BroadcastReceiver() {
                             !LocationManagerCompat.isLocationEnabled(locationManager) -> {
                             "LOCATION_OFF"
                         }
+
                         requiredPermissions != null && !context.hasPermissions(requiredPermissions) -> "NO_PERMISSION"
+
                         info.networkId == -1 -> "UNDEF"
+
                         else -> {
                             // WifiInfo#getSSID() may surround the SSID with double quote marks
                             info.ssid.removeSurrounding("\"")

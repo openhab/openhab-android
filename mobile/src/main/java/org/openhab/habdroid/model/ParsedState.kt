@@ -71,7 +71,9 @@ data class ParsedState internal constructor(
         internal fun parseAsNumber(state: String, format: String?): NumberState? {
             return when (state) {
                 "ON" -> NumberState(100F)
+
                 "OFF" -> NumberState(0F)
+
                 else -> {
                     val spacePos = state.indexOf(' ')
                     val number = if (spacePos >= 0) state.substring(0, spacePos) else state
@@ -146,9 +148,11 @@ data class ParsedState internal constructor(
                 in 1f..100f, 0f -> {
                     stateAsFloat.toInt()
                 }
+
                 in 0f..1f -> {
                     1
                 }
+
                 else -> null
             }
         }

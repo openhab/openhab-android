@@ -111,10 +111,12 @@ class UrlInputPreference(context: Context, attrs: AttributeSet) : CustomInputTyp
                         urlIsValid = true
                         portSeemsInvalid = when {
                             url.isHttps -> url.port == 80 || url.port == 8080
+
                             isForRemoteServer -> {
                                 urlIsValid = false
                                 false
                             }
+
                             else -> url.port == 443 || url.port == 8443
                         }
                     } catch (e: IllegalArgumentException) {

@@ -230,10 +230,12 @@ class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageV
                     adjustViewBounds = false
                     scaleType = ScaleType.CENTER_INSIDE
                 }
+
                 ImageScalingType.ScaleToFit -> {
                     adjustViewBounds = false
                     scaleType = ScaleType.FIT_CENTER
                 }
+
                 ImageScalingType.ScaleToFitWithViewAdjustment,
                 ImageScalingType.ScaleToFitWithViewAdjustmentDownscaleOnly -> {
                     adjustViewBounds = true
@@ -368,6 +370,7 @@ class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageV
                         val conversionPolicy = when (originalScaleType ?: scaleType) {
                             ScaleType.FIT_CENTER, ScaleType.FIT_START,
                             ScaleType.FIT_END, ScaleType.FIT_XY -> ImageConversionPolicy.PreferTargetSize
+
                             else -> ImageConversionPolicy.PreferSourceSize
                         }
                         val fallbackColor = context.getIconFallbackColor(IconBackground.APP_THEME)

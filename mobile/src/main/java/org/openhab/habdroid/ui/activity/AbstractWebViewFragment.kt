@@ -219,10 +219,12 @@ abstract class AbstractWebViewFragment :
                 webView?.restoreState(savedInstanceState)
                 loadWebsite(savedUrl)
             }
+
             subpage != null -> {
                 Log.d(TAG, "Load subpage: $subpage")
                 loadWebsite(subpage)
             }
+
             else -> {
                 Log.d(TAG, "Load default website")
                 loadWebsite()
@@ -270,6 +272,7 @@ abstract class AbstractWebViewFragment :
             pinShortcut()
             true
         }
+
         else -> false
     }
 

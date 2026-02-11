@@ -103,6 +103,7 @@ class FcmRegistrationWorker(private val context: Context, params: WorkerParamete
                     return retryOrFail()
                 }
             }
+
             else -> Log.e(TAG, "Invalid action '$action'")
         }
 

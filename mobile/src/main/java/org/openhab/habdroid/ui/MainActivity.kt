@@ -444,9 +444,11 @@ class MainActivity :
                 launchVoiceRecognition()
                 true
             }
+
             R.id.mainmenu_debug_crash -> {
                 throw Exception("Crash menu item pressed")
             }
+
             R.id.mainmenu_debug_clear_mtm -> {
                 Log.d(TAG, "Clear MTM keystore")
                 val mtm = MemorizingTrustManager(this)
@@ -456,6 +458,7 @@ class MainActivity :
                 }
                 true
             }
+
             R.id.mainmenu_poll_notifications -> {
                 if (CloudMessagingHelper.needsPollingForNotifications(this)) {
                     launch {
@@ -464,6 +467,7 @@ class MainActivity :
                 }
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -486,21 +490,26 @@ class MainActivity :
             CrashReportingHelper.d(TAG, "onBackPressed()")
             when {
                 binding.drawerContainer.isDrawerOpen(binding.leftDrawer) -> binding.drawerContainer.closeDrawers()
+
                 controller.canGoBack() -> controller.goBack()
+
                 isFullscreenEnabled -> when {
                     lastSnackbar?.isShown != true -> showSnackbar(
                         SNACKBAR_TAG_PRESS_AGAIN_EXIT,
                         R.string.press_back_to_exit
                     )
+
                     lastSnackbar?.view?.tag?.toString() == SNACKBAR_TAG_PRESS_AGAIN_EXIT -> {
                         isEnabled = false
                         onBackPressedDispatcher.onBackPressed()
                     }
+
                     else -> showSnackbar(
                         SNACKBAR_TAG_PRESS_AGAIN_EXIT,
                         R.string.press_back_to_exit
                     )
                 }
+
                 else -> {
                     isEnabled = false
                     onBackPressedDispatcher.onBackPressed()
@@ -539,11 +548,13 @@ class MainActivity :
                 handleConnectionChange()
                 controller.updateConnection(newConnection, null, 0)
             }
+
             failureReason is WrongWifiException -> {
                 val activeConfig = ServerConfiguration.load(prefs, getSecretPrefs(), prefs.getActiveServerId())
                 val ssids = activeConfig?.wifiSsids?.joinToString(", ")
                 controller.indicateWrongWifi(getString(R.string.error_wifi_restricted, activeConfig?.name, ssids))
             }
+
             failureReason is NoUrlInformationException -> {
                 // Attempt resolving only if we're connected locally and
                 // no local connection is configured yet
@@ -570,12 +581,15 @@ class MainActivity :
                     controller.indicateMissingConfiguration(false, officialServer)
                 }
             }
+
             failureReason is NetworkNotAvailableException && !wifiManager.isWifiEnabled -> {
                 controller.indicateNoNetwork(getString(R.string.error_wifi_not_available), true)
             }
+
             failureReason is ConnectionNotInitializedException -> {
                 controller.updateConnection(null, null, 0)
             }
+
             else -> {
                 controller.indicateNoNetwork(getString(R.string.error_network_not_available), false)
                 scheduleRetry {
@@ -646,7 +660,9 @@ class MainActivity :
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
                 }
             }
+
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
+
             else -> null
         }
 
@@ -655,6 +671,7 @@ class MainActivity :
                 Log.d(TAG, "Cannot auto select server: No server with configured wifi")
                 return -1
             }
+
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
                 !LocationManagerCompat.isLocationEnabled(locationManager) -> {
                 Log.d(TAG, "Cannot auto select server: Location off")
@@ -664,6 +681,7 @@ class MainActivity :
                 )
                 return -1
             }
+
             requiredPermissions != null && !hasPermissions(requiredPermissions) -> {
                 Log.d(TAG, "Cannot auto select server: Missing permission ${requiredPermissions.contentToString()}")
                 showSnackbar(
@@ -675,10 +693,12 @@ class MainActivity :
                 }
                 return -1
             }
+
             ssid == prevSsid -> {
                 Log.d(TAG, "Cannot auto select server: SSID didn't change since the last check")
                 return -1
             }
+
             ssid.isNullOrEmpty() -> {
                 Log.d(TAG, "Cannot auto select server: SSID empty, probably not connected to wifi")
                 return -1
@@ -802,6 +822,7 @@ class MainActivity :
                     }
                     handlePendingAction()
                 }
+
                 is ServerProperties.Companion.PropsFailure -> {
                     handlePropertyFetchFailure(result)
                 }
@@ -884,11 +905,13 @@ class MainActivity :
                     executeOrStoreAction(PendingAction.OpenSitemapUrl(sitemapUrl, 0))
                 }
             }
+
             ACTION_NOTIFICATION_SELECTED -> {
                 CloudMessagingHelper.onNotificationSelected(this, intent)
                 val notificationId = intent.getStringExtra(EXTRA_PERSISTED_NOTIFICATION_ID).orEmpty()
                 executeActionIfPossible(PendingAction.OpenNotification(notificationId, true))
             }
+
             ACTION_HABPANEL_SELECTED, ACTION_MAIN_UI_SELECTED, ACTION_FRONTAIL_SELECTED -> {
                 val serverId = intent.getIntExtra(EXTRA_SERVER_ID, prefs.getActiveServerId())
                 val ui = when (intent.action) {
@@ -899,7 +922,9 @@ class MainActivity :
                 val subpage = intent.getStringExtra(EXTRA_SUBPAGE)
                 executeOrStoreAction(PendingAction.OpenWebViewUi(ui, serverId, subpage))
             }
+
             ACTION_VOICE_RECOGNITION_SELECTED -> executeOrStoreAction(PendingAction.LaunchVoiceRecognition())
+
             ACTION_SITEMAP_SELECTED -> {
                 val sitemapUrl = intent.getStringExtra(EXTRA_SITEMAP_URL) ?: return
                 val serverId = intent.getIntExtra(EXTRA_SERVER_ID, prefs.getActiveServerId())
@@ -979,34 +1004,41 @@ class MainActivity :
                     openNotifications(null, false)
                     handled = true
                 }
+
                 R.id.nfc -> {
                     val intent = Intent(this, NfcItemPickerActivity::class.java)
                     startActivity(intent)
                     handled = true
                 }
+
                 R.id.habpanel -> {
                     openWebViewUi(WebViewUi.HABPANEL, false, null)
                     handled = true
                 }
+
                 R.id.main_ui -> {
                     openWebViewUi(WebViewUi.MAIN_UI, false, null)
                     handled = true
                 }
+
                 R.id.frontail -> {
                     openWebViewUi(WebViewUi.FRONTAIL, false, null)
                     handled = true
                 }
+
                 R.id.settings -> {
                     val settingsIntent = Intent(this@MainActivity, PreferencesActivity::class.java)
                     settingsIntent.putExtra(PreferencesActivity.START_EXTRA_SERVER_PROPERTIES, serverProperties)
                     preferenceActivityCallback.launch(settingsIntent)
                     handled = true
                 }
+
                 R.id.about -> {
                     val aboutIntent = Intent(this, AboutActivity::class.java)
                     startActivity(aboutIntent)
                     handled = true
                 }
+
                 R.id.default_sitemap -> {
                     val sitemap = serverProperties?.sitemaps?.firstOrNull { s ->
                         s.name == prefs.getDefaultSitemap(connection)?.name
@@ -1222,18 +1254,22 @@ class MainActivity :
             chooseSitemap()
             true
         }
+
         action is PendingAction.OpenSitemapUrl && isStarted && serverProperties != null -> {
             executeActionForServer(action.serverId) { buildUrlAndOpenSitemap(action.url) }
         }
+
         action is PendingAction.OpenWebViewUi &&
             isStarted &&
             serverProperties?.hasWebViewUiInstalled(action.ui) == true -> {
             executeActionForServer(action.serverId) { openWebViewUi(action.ui, true, action.subpage) }
         }
+
         action is PendingAction.LaunchVoiceRecognition && serverProperties != null -> {
             launchVoiceRecognition()
             true
         }
+
         action is PendingAction.OpenNotification && isStarted -> {
             val conn = if (action.primary) {
                 ConnectionFactory.primaryCloudConnection
@@ -1247,6 +1283,7 @@ class MainActivity :
                 false
             }
         }
+
         else -> false
     }
 
@@ -1258,6 +1295,7 @@ class MainActivity :
             )
             true
         }
+
         serverId != prefs.getActiveServerId() -> {
             prefs.edit {
                 putActiveServerId(serverId)
@@ -1265,6 +1303,7 @@ class MainActivity :
             updateDrawerServerEntries()
             false
         }
+
         else -> {
             action()
             true
@@ -1276,10 +1315,13 @@ class MainActivity :
         val sitemaps = serverProperties?.sitemaps
         val result = when {
             sitemaps == null -> null
+
             // We only have one sitemap, use it
             sitemaps.size == 1 -> sitemaps[0]
+
             // Select configured sitemap if still present, nothing otherwise
             configuredSitemap.isNotEmpty() -> sitemaps.firstOrNull { sitemap -> sitemap.name == configuredSitemap }
+
             // Nothing configured -> can't auto-select anything
             else -> null
         }
@@ -1569,10 +1611,15 @@ class MainActivity :
                     }
                 }
             }
+
             "navigate" -> handleLink(commandContent, serverId)
+
             "close" -> uiCommandItemNotification?.dismiss()
+
             "back" -> onBackPressedCallback.handleOnBackPressed()
+
             "reload" -> recreate()
+
             else -> {
                 Log.d(TAG, "Command not implemented: $command")
             }

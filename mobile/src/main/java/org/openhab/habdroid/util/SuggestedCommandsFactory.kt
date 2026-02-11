@@ -58,6 +58,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
 
     private fun fill(item: Item, suggestedCommands: SuggestedCommands, forItemUpdate: Boolean) = when {
         item.readOnly -> {}
+
         item.isOfTypeOrGroupType(Item.Type.Color) -> {
             addOnOffCommands(suggestedCommands)
             addIncreaseDecreaseCommands(suggestedCommands)
@@ -67,6 +68,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             addCommonPercentCommands(suggestedCommands)
             suggestedCommands.shouldShowCustom = true
         }
+
         item.isOfTypeOrGroupType(Item.Type.Contact) -> {
             @Suppress("ControlFlowWithEmptyBody")
             if (forItemUpdate) {
@@ -77,6 +79,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
                 // Contact Items cannot receive commands
             }
         }
+
         item.isOfTypeOrGroupType(Item.Type.Dimmer) -> {
             addOnOffCommands(suggestedCommands)
             addIncreaseDecreaseCommands(suggestedCommands)
@@ -84,6 +87,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             suggestedCommands.inputTypeFlags = INPUT_TYPE_SINGED_DECIMAL_NUMBER
             suggestedCommands.shouldShowCustom = true
         }
+
         item.isOfTypeOrGroupType(Item.Type.Number) -> {
             // Don't suggest numbers that might be totally out of context if there's already
             // at least one command
@@ -94,6 +98,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             suggestedCommands.inputTypeFlags = INPUT_TYPE_SINGED_DECIMAL_NUMBER
             suggestedCommands.shouldShowCustom = true
         }
+
         item.isOfTypeOrGroupType(Item.Type.NumberWithDimension) -> {
             val numberState = item.state?.asNumber
             if (numberState != null) {
@@ -101,6 +106,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             }
             suggestedCommands.shouldShowCustom = true
         }
+
         item.isOfTypeOrGroupType(Item.Type.Player) -> {
             add(suggestedCommands, "PLAY", R.string.nfc_action_play)
             add(suggestedCommands, "PAUSE", R.string.nfc_action_pause)
@@ -110,6 +116,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             add(suggestedCommands, "REWIND", R.string.nfc_action_rewind)
             add(suggestedCommands, "FASTFORWARD", R.string.nfc_action_fastforward)
         }
+
         item.isOfTypeOrGroupType(Item.Type.Rollershutter) -> {
             add(suggestedCommands, "UP", R.string.nfc_action_up)
             add(suggestedCommands, "DOWN", R.string.nfc_action_down)
@@ -119,6 +126,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             addCommonPercentCommands(suggestedCommands)
             suggestedCommands.inputTypeFlags = INPUT_TYPE_DECIMAL_NUMBER
         }
+
         item.isOfTypeOrGroupType(Item.Type.StringItem) -> {
             if (showUndef) {
                 add(suggestedCommands, "", R.string.nfc_action_empty_string)
@@ -127,13 +135,16 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             item.state?.asString?.let { value -> add(suggestedCommands, value) }
             suggestedCommands.shouldShowCustom = true
         }
+
         item.isOfTypeOrGroupType(Item.Type.Switch) -> {
             addOnOffCommands(suggestedCommands)
         }
+
         showUndef -> {
             add(suggestedCommands, "UNDEF", R.string.nfc_action_undefined)
             suggestedCommands.shouldShowCustom = true
         }
+
         else -> {}
     }
 

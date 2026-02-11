@@ -47,6 +47,7 @@ class ColorItemActivity : AbstractBaseActivity() {
             finish()
             true
         }
+
         else -> {
             super.onOptionsItemSelected(item)
         }

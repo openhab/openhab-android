@@ -401,6 +401,7 @@ class PageConnectionHolderFragment :
                         load()
                         return
                     }
+
                     "ALIVE" -> {
                         // We ignore 'server alive' events
                         Log.d(TAG, "Got ALIVE event")

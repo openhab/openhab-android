@@ -469,6 +469,7 @@ fun Context.determineDataUsagePolicy(conn: Connection? = null): DataUsagePolicy 
                 autoPlayVideos = false
                 canDoRefreshes = false
             }
+
             dataSaverState == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_WHITELISTED && isMetered -> {
                 autoPlayVideos = false
             }
@@ -511,7 +512,9 @@ fun Context.getChartTheme(serverFlags: Int): CharSequence {
 
 fun Context.isDarkModeActive(): Boolean = when (getPrefs().getDayNightMode(this)) {
     AppCompatDelegate.MODE_NIGHT_NO -> false
+
     AppCompatDelegate.MODE_NIGHT_YES -> true
+
     else -> {
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         currentNightMode != Configuration.UI_MODE_NIGHT_NO
@@ -528,6 +531,7 @@ enum class IconBackground {
 @ColorInt
 fun Context.getIconFallbackColor(iconBackground: IconBackground) = when (iconBackground) {
     IconBackground.APP_THEME -> resolveThemedColor(R.attr.colorOnBackground)
+
     IconBackground.OS_THEME -> {
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         val isDark = currentNightMode != Configuration.UI_MODE_NIGHT_NO
@@ -538,7 +542,9 @@ fun Context.getIconFallbackColor(iconBackground: IconBackground) = when (iconBac
         }
         ContextCompat.getColor(this, colorRes)
     }
+
     IconBackground.LIGHT -> ContextCompat.getColor(this, R.color.on_background_default_theme_light)
+
     IconBackground.DARK -> ContextCompat.getColor(this, R.color.on_background_default_theme_dark)
 }
 
@@ -682,6 +688,7 @@ inline fun <reified T> Intent.parcelable(key: String): T? {
     setExtrasClassLoader(T::class.java.classLoader)
     return when {
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getParcelableExtra(key, T::class.java)
+
         else ->
             @Suppress("DEPRECATION")
             getParcelableExtra(key) as? T
@@ -692,6 +699,7 @@ inline fun <reified T> Intent.parcelableArrayList(key: String): List<T>? {
     setExtrasClassLoader(T::class.java.classLoader)
     return when {
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getParcelableArrayListExtra(key, T::class.java)
+
         else ->
             @Suppress("DEPRECATION")
             getParcelableArrayListExtra(key)
@@ -700,6 +708,7 @@ inline fun <reified T> Intent.parcelableArrayList(key: String): List<T>? {
 
 inline fun <reified T> Bundle.parcelable(key: String): T? = when {
     Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getParcelable(key, T::class.java)
+
     else ->
         @Suppress("DEPRECATION")
         getParcelable(key) as? T
@@ -707,6 +716,7 @@ inline fun <reified T> Bundle.parcelable(key: String): T? = when {
 
 inline fun <reified T> Bundle.parcelableArrayList(key: String): List<T>? = when {
     Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getParcelableArrayList(key, T::class.java)
+
     else ->
         @Suppress("DEPRECATION")
         getParcelableArrayList(key)
@@ -714,6 +724,7 @@ inline fun <reified T> Bundle.parcelableArrayList(key: String): List<T>? = when 
 
 inline fun <reified T : Serializable> Bundle.serializable(key: String): T? = when {
     Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getSerializable(key, T::class.java)
+
     else ->
         @Suppress("DEPRECATION")
         getSerializable(key) as? T

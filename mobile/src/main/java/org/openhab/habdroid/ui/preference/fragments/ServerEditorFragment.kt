@@ -96,6 +96,7 @@ class ServerEditorFragment :
             saveAndQuit()
             true
         }
+
         R.id.delete -> {
             PreferencesActivity.ConfirmationDialogFragment.show(
                 childFragmentManager,
@@ -105,6 +106,7 @@ class ServerEditorFragment :
             )
             true
         }
+
         else -> false
     }
 
@@ -135,6 +137,7 @@ class ServerEditorFragment :
             }
             parentFragmentManager.popBackStack() // close ourself
         }
+
         else -> {}
     }
 
@@ -325,12 +328,16 @@ class ServerEditorFragment :
         pref.summary = when {
             path == null || path.url.isEmpty() ->
                 getString(R.string.info_not_set)
+
             path.url.toHttpUrlOrNull()?.isHttps == false ->
                 insecureMessage(beautyUrl, R.string.settings_insecure_connection_no_https)
+
             !path.hasAuthentication() && config.sslClientCert == null ->
                 insecureMessage(beautyUrl, R.string.settings_insecure_connection_no_auth)
+
             isWeakPassword(path.password) ->
                 insecureMessage(beautyUrl, R.string.settings_openhab_password_summary_weak)
+
             else ->
                 getString(R.string.settings_connection_summary, beautyUrl)
         }

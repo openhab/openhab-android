@@ -101,12 +101,14 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                     setupWidget(context, data, id, AppWidgetManager.getInstance(context))
                     context.showToast(R.string.home_shortcut_success_pinning)
                 }
+
                 ACTION_UPDATE_WIDGET -> {
                     val data = getInfoForWidget(context, id)
                     if (data.command != null) {
                         BackgroundTasksManager.enqueueWidgetItemUpdateIfNeeded(context, data)
                     }
                 }
+
                 ACTION_EDIT_WIDGET -> {
                     Log.d(TAG, "Edit widget $id")
                     val openEditIntent = Intent(context, PreferencesActivity::class.java).apply {
@@ -398,8 +400,11 @@ open class ItemUpdateWidget : AppWidgetProvider() {
          */
         fun nearlyEquals(other: Any?): Boolean = when (other) {
             null -> false
+
             !is ItemUpdateWidgetData -> false
+
             this -> true
+
             else -> {
                 this.item == other.item &&
                     this.command.orEmpty() == other.command.orEmpty() &&

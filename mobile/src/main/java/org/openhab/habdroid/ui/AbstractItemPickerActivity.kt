@@ -270,7 +270,7 @@ abstract class AbstractItemPickerActivity :
     }
 
     protected fun updateViewVisibility(loading: Boolean, loadError: Boolean, showHint: Boolean) {
-        val showEmpty = showHint || !loading && (itemPickerAdapter.itemCount == 0 || loadError)
+        val showEmpty = showHint || (!loading && (itemPickerAdapter.itemCount == 0 || loadError))
         binding.list.isVisible = !showEmpty
         toolbarExtension?.isGone = showEmpty
         binding.empty.isVisible = showEmpty

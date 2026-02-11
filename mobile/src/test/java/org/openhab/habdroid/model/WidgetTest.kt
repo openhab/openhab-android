@@ -339,6 +339,7 @@ class WidgetTest {
                   'widgets': [ { 'widgetId': 'demo11', 'type': 'Switch' } ]
                 }
                 """
+
             2 ->
                 """
                 {
@@ -369,6 +370,7 @@ class WidgetTest {
                   },
                 }
                 """
+
             3 ->
                 """
                 {
@@ -469,6 +471,7 @@ class WidgetTest {
                   } ]
                 }
                 """
+
             else -> throw InvalidParameterException()
         }.trimIndent()
         return JSONObject(json)

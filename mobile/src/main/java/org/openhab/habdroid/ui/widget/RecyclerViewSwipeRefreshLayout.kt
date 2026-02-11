@@ -60,6 +60,7 @@ class RecyclerViewSwipeRefreshLayout(context: Context, attrs: AttributeSet) : Sw
                 isOrWasUpSwipe = false
                 childScrollableOnDown = canChildScrollUp()
             }
+
             MotionEvent.ACTION_MOVE -> {
                 val xDiff = abs(event.x - downX)
                 val yDiff = event.y - downY

@@ -109,8 +109,10 @@ fun SharedPreferences.wasNfcInfoHintShown(): Boolean = getBoolean(PrefKeys.NFC_I
 
 fun SharedPreferences.getDayNightMode(context: Context): Int = when (getStringOrNull(PrefKeys.THEME)) {
     context.getString(R.string.theme_value_light) -> AppCompatDelegate.MODE_NIGHT_NO
+
     context.getString(R.string.theme_value_dark), context.getString(R.string.theme_value_black) ->
         AppCompatDelegate.MODE_NIGHT_YES
+
     else -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
     } else {
@@ -164,9 +166,12 @@ enum class DeviceControlSubtitleMode {
 fun SharedPreferences.getDeviceControlSubtitle(context: Context): DeviceControlSubtitleMode =
     when (getStringOrNull(PrefKeys.DEVICE_CONTROL_SUBTITLE)) {
         context.getString(R.string.device_control_subtitle_equipment_value) -> DeviceControlSubtitleMode.EQUIPMENT
+
         context.getString(R.string.device_control_subtitle_location_equipment_value) ->
             DeviceControlSubtitleMode.LOCATION_AND_EQUIPMENT
+
         context.getString(R.string.device_control_subtitle_item_name_value) -> DeviceControlSubtitleMode.ITEM_NAME
+
         else -> DeviceControlSubtitleMode.LOCATION
     }
 
@@ -177,10 +182,13 @@ fun SharedPreferences.getDeviceControlSubtitle(context: Context): DeviceControlS
 fun SharedPreferences.getNotificationVibrationPattern(context: Context): LongArray =
     when (getStringOrNull(PrefKeys.NOTIFICATION_VIBRATION)) {
         context.getString(R.string.settings_notification_vibration_value_short) -> longArrayOf(0, 500, 500)
+
         context.getString(R.string.settings_notification_vibration_value_long) -> longArrayOf(0, 1000, 1000)
+
         context.getString(R.string.settings_notification_vibration_value_twice) -> {
             longArrayOf(0, 1000, 1000, 1000, 1000)
         }
+
         else -> longArrayOf(0)
     }
 

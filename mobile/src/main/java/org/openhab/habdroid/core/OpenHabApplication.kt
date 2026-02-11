@@ -198,10 +198,12 @@ class OpenHabApplication : MultiDexApplication() {
                     systemDataSaverStatus = getSystemDataSaverStatus(context)
                     Log.d(TAG, "Data saver changed to $systemDataSaverStatus")
                 }
+
                 PowerManager.ACTION_POWER_SAVE_MODE_CHANGED -> {
                     batterySaverActive = isBatterySaverActive(context)
                     Log.d(TAG, "Battery saver changed to $batterySaverActive")
                 }
+
                 else -> return
             }
             if (prevSystemDataSaverStatus != systemDataSaverStatus || wasBatterySaverActive != batterySaverActive) {

@@ -133,7 +133,9 @@ class ItemsControlsProviderService : ControlsProviderService() {
                     if (action.newState) "ON" else "OFF"
                 }
             }
+
             is FloatAction -> action.newValue.roundToInt().toString()
+
             else -> {
                 Log.e(TAG, "Unsupported action $action")
                 return ControlAction.RESPONSE_FAIL
@@ -245,12 +247,15 @@ class ItemsControlsProviderService : ControlsProviderService() {
 
             return when {
                 controlTemplate.templateType !in typesWithState -> null
+
                 !item.options.isNullOrEmpty() -> {
                     item.options
                         .firstOrNull { labeledValue -> labeledValue.value == item.state?.asString }
                         ?.label
                 }
+
                 item.isOfTypeOrGroupType(Item.Type.Number) -> item.state?.asNumber?.toString()
+
                 else -> item.state?.asString
             }
         }
@@ -262,12 +267,14 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 }
                 Pair(intent, item.hashCode())
             }
+
             !item.readOnly && item.isOfTypeOrGroupType(Item.Type.Color) -> {
                 val intent = Intent(context, ColorItemActivity::class.java).apply {
                     putExtra(ColorItemActivity.EXTRA_ITEM, item)
                 }
                 Pair(intent, item.hashCode())
             }
+
             item.linkToMore != null -> {
                 val intent = Intent(context, MainActivity::class.java).apply {
                     putExtra(MainActivity.EXTRA_LINK, item.linkToMore)
@@ -275,6 +282,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 }
                 Pair(intent, item.hashCode())
             }
+
             else -> {
                 val intent = Intent(context, MainActivity::class.java).apply {
                     putExtra(MainActivity.EXTRA_SERVER_ID, primaryServerId)
@@ -289,30 +297,38 @@ class ItemsControlsProviderService : ControlsProviderService() {
 
             return when {
                 isTypeWithoutTile -> null
+
                 item.readOnly -> ControlTemplate.getNoTemplateObject()
+
                 item.options != null -> {
                     // Open app when clicking on tile
                     ControlTemplate.getNoTemplateObject()
                 }
+
                 item.isOfTypeOrGroupType(Item.Type.Switch) -> ToggleTemplate(
                     item.name,
                     ControlButton(item.state?.asBoolean ?: false, context.getString(R.string.nfc_action_toggle))
                 )
+
                 item.isOfTypeOrGroupType(Item.Type.Dimmer) || item.isOfTypeOrGroupType(Item.Type.Color) ->
                     ToggleRangeTemplate(
                         "${item.name}_toggle",
                         ControlButton(item.state?.asBoolean ?: false, context.getString(R.string.nfc_action_toggle)),
                         createRangeTemplate(item, "%.0f%%")
                     )
+
                 item.isOfTypeOrGroupType(Item.Type.Rollershutter) -> createRangeTemplate(item, "%.0f%%")
+
                 item.isOfTypeOrGroupType(Item.Type.Number) -> createRangeTemplate(
                     item,
                     item.state?.asNumber?.unit?.let { "%.0f $it" } ?: "%.0f"
                 )
+
                 item.isOfTypeOrGroupType(Item.Type.Player) -> ToggleTemplate(
                     item.name,
                     ControlButton(item.state?.asString == "PLAY", context.getString(R.string.nfc_action_toggle))
                 )
+
                 else -> ControlTemplate.getNoTemplateObject()
             }
         }
@@ -350,77 +366,147 @@ class ItemsControlsProviderService : ControlsProviderService() {
 @RequiresApi(Build.VERSION_CODES.R)
 fun Item.getDeviceType() = when (category?.lowercase()?.substringAfterLast(':')) {
     "screen", "soundvolume", "receiver" -> DeviceTypes.TYPE_TV
+
     "lightbulb", "light", "slider" -> DeviceTypes.TYPE_LIGHT
+
     "lock" -> DeviceTypes.TYPE_LOCK
+
     "fan", "fan_box", "fan_ceiling" -> DeviceTypes.TYPE_FAN
+
     "blinds" -> DeviceTypes.TYPE_BLINDS
+
     "rollershutter" -> DeviceTypes.TYPE_BLINDS
+
     "window" -> DeviceTypes.TYPE_WINDOW
+
     "dryer" -> DeviceTypes.TYPE_DRYER
+
     "washingmachine" -> DeviceTypes.TYPE_WASHER
+
     "camera" -> DeviceTypes.TYPE_CAMERA
+
     "switch", "wallswitch" -> DeviceTypes.TYPE_SWITCH
+
     "lawnmower" -> DeviceTypes.TYPE_MOWER
+
     "humidity" -> DeviceTypes.TYPE_HUMIDIFIER
+
     "heating", "temperature" -> DeviceTypes.TYPE_HEATER
+
     "poweroutlet" -> DeviceTypes.TYPE_OUTLET
+
     "door", "frontdoor" -> DeviceTypes.TYPE_DOOR
+
     "alarm" -> DeviceTypes.TYPE_SECURITY_SYSTEM
+
     "water" -> DeviceTypes.TYPE_SHOWER
+
     "garage", "garagedoor", "garage_detached", "garage_detached_selected" -> DeviceTypes.TYPE_GARAGE
+
     else -> when {
         // Confident mappings of Item type or tag to device type
         isOfTypeOrGroupType(Item.Type.Rollershutter) -> DeviceTypes.TYPE_BLINDS
+
         Item.Tag.HeatingCoolingMode in tags -> DeviceTypes.TYPE_THERMOSTAT
+
         Item.Tag.TargetTemperature in tags -> DeviceTypes.TYPE_THERMOSTAT
+
         Item.Tag.Alarm in tags -> DeviceTypes.TYPE_SECURITY_SYSTEM
+
         Item.Tag.AlarmSystem in tags -> DeviceTypes.TYPE_SECURITY_SYSTEM
+
         Item.Tag.Blinds in tags -> DeviceTypes.TYPE_BLINDS
+
         Item.Tag.Boiler in tags -> DeviceTypes.TYPE_WATER_HEATER
+
         Item.Tag.Camera in tags -> DeviceTypes.TYPE_CAMERA
+
         Item.Tag.Car in tags -> DeviceTypes.TYPE_GARAGE
+
         Item.Tag.Carport in tags -> DeviceTypes.TYPE_GARAGE
+
         Item.Tag.CeilingFan in tags -> DeviceTypes.TYPE_FAN
+
         Item.Tag.CellarDoor in tags -> DeviceTypes.TYPE_DOOR
+
         Item.Tag.CleaningRobot in tags -> DeviceTypes.TYPE_VACUUM
+
         Item.Tag.Dishwasher in tags -> DeviceTypes.TYPE_DISHWASHER
+
         Item.Tag.Door in tags -> DeviceTypes.TYPE_DOOR
+
         Item.Tag.Doorbell in tags -> DeviceTypes.TYPE_DOORBELL
+
         Item.Tag.Dryer in tags -> DeviceTypes.TYPE_DRYER
+
         Item.Tag.Fan in tags -> DeviceTypes.TYPE_FAN
+
         Item.Tag.Freezer in tags -> DeviceTypes.TYPE_REFRIGERATOR
+
         Item.Tag.FrontDoor in tags -> DeviceTypes.TYPE_DOOR
+
         Item.Tag.Garage in tags -> DeviceTypes.TYPE_GARAGE
+
         Item.Tag.GarageDoor in tags -> DeviceTypes.TYPE_DOOR
+
         Item.Tag.Gate in tags -> DeviceTypes.TYPE_GATE
+
         Item.Tag.HVAC in tags -> DeviceTypes.TYPE_AIR_FRESHENER
+
         Item.Tag.Humidity in tags -> DeviceTypes.TYPE_HUMIDIFIER
+
         Item.Tag.InnerDoor in tags -> DeviceTypes.TYPE_DOOR
+
         Item.Tag.KitchenHood in tags -> DeviceTypes.TYPE_HOOD
+
         Item.Tag.LawnMower in tags -> DeviceTypes.TYPE_MOWER
+
         Item.Tag.Light in tags -> DeviceTypes.TYPE_LIGHT
+
         Item.Tag.LightStripe in tags -> DeviceTypes.TYPE_LIGHT
+
         Item.Tag.Lightbulb in tags -> DeviceTypes.TYPE_LIGHT
+
         Item.Tag.Lock in tags -> DeviceTypes.TYPE_LOCK
+
         Item.Tag.NetworkAppliance in tags -> DeviceTypes.TYPE_SET_TOP
+
         Item.Tag.Oven in tags -> DeviceTypes.TYPE_MULTICOOKER
+
         Item.Tag.PowerOutlet in tags -> DeviceTypes.TYPE_OUTLET
+
         Item.Tag.Projector in tags -> DeviceTypes.TYPE_TV
+
         Item.Tag.RadiatorControl in tags -> DeviceTypes.TYPE_RADIATOR
+
         Item.Tag.Receiver in tags -> DeviceTypes.TYPE_TV
+
         Item.Tag.Refrigerator in tags -> DeviceTypes.TYPE_REFRIGERATOR
+
         Item.Tag.RemoteControl in tags -> DeviceTypes.TYPE_REMOTE_CONTROL
+
         Item.Tag.Screen in tags -> DeviceTypes.TYPE_TV
+
         Item.Tag.SideDoor in tags -> DeviceTypes.TYPE_DOOR
+
         Item.Tag.Siren in tags -> DeviceTypes.TYPE_SECURITY_SYSTEM
+
         Item.Tag.Switch in tags -> DeviceTypes.TYPE_SWITCH
+
         Item.Tag.Television in tags -> DeviceTypes.TYPE_TV
+
         Item.Tag.Temperature in tags -> DeviceTypes.TYPE_THERMOSTAT
+
         Item.Tag.Valve in tags -> DeviceTypes.TYPE_VALVE
+
         Item.Tag.Veranda in tags -> DeviceTypes.TYPE_PERGOLA
+
         Item.Tag.WallSwitch in tags -> DeviceTypes.TYPE_SWITCH
+
         Item.Tag.WashingMachine in tags -> DeviceTypes.TYPE_WASHER
+
         Item.Tag.WhiteGood in tags -> DeviceTypes.TYPE_WASHER
+
         Item.Tag.Window in tags -> DeviceTypes.TYPE_WINDOW
 
         // Items tagged with 'Control' might have a second more suitable tag, e.g. 'Light'
@@ -428,16 +514,27 @@ fun Item.getDeviceType() = when (category?.lowercase()?.substringAfterLast(':'))
 
         // Fallback mappings of Item type or tag to device type
         Item.Tag.Bathroom in tags -> DeviceTypes.TYPE_SHOWER
+
         Item.Tag.BoilerRoom in tags -> DeviceTypes.TYPE_WATER_HEATER
+
         Item.Tag.ContactSensor in tags -> DeviceTypes.TYPE_GENERIC_OPEN_CLOSE
+
         Item.Tag.Kitchen in tags -> DeviceTypes.TYPE_WASHER
+
         Item.Tag.LaundryRoom in tags -> DeviceTypes.TYPE_WASHER
+
         Item.Tag.LivingRoom in tags -> DeviceTypes.TYPE_TV
+
         isOfTypeOrGroupType(Item.Type.Contact) -> DeviceTypes.TYPE_WINDOW
+
         isOfTypeOrGroupType(Item.Type.Player) -> DeviceTypes.TYPE_TV
+
         isOfTypeOrGroupType(Item.Type.Switch) -> DeviceTypes.TYPE_GENERIC_ON_OFF
+
         isOfTypeOrGroupType(Item.Type.Dimmer) -> DeviceTypes.TYPE_LIGHT
+
         isOfTypeOrGroupType(Item.Type.Color) -> DeviceTypes.TYPE_LIGHT
+
         isOfTypeOrGroupType(Item.Type.Image) -> DeviceTypes.TYPE_CAMERA
 
         else -> DeviceTypes.TYPE_UNKNOWN
