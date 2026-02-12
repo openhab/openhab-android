@@ -416,6 +416,10 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         }
 
         with(binding.chart.axisLeft) {
+            val seriesUsedForAxisFormatting = data.data
+                .firstOrNull { it.canBeUsedForAxisFormatting() }
+                ?: data.data[0]
+
             if (data.data.all { it.type in listOf(Item.Type.Switch, Item.Type.Contact) }) {
                 // states only
                 axisMinimum = -0.05F
@@ -429,7 +433,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
                 isShowSpecificPositions = false
                 isGranularityEnabled = false
 
-                data.data[0].state?.format?.let { format ->
+                seriesUsedForAxisFormatting.state?.format?.let { format ->
                     if (format.contains("%d")) {
                         granularity = 1F
                     } else {
@@ -439,10 +443,10 @@ class ChartWidgetActivity : AbstractBaseActivity() {
                         }
                     }
                 }
-            }
-            valueFormatter = object : IAxisValueFormatter {
-                override fun getFormattedValue(value: Float, axis: AxisBase?) =
-                    data.data[0].formatValue(value, this@ChartWidgetActivity)
+                valueFormatter = object : IAxisValueFormatter {
+                    override fun getFormattedValue(value: Float, axis: AxisBase?) =
+                        seriesUsedForAxisFormatting.formatValue(value, this@ChartWidgetActivity)
+                }
             }
         }
 
@@ -529,6 +533,11 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         val zoneId: ZoneId,
         val dataPoints: List<DataPoint>
     ) : Parcelable {
+        fun canBeUsedForAxisFormatting() = when (type) {
+            Item.Type.Switch, Item.Type.Contact -> true
+            else -> state != null
+        }
+
         fun formatValue(value: Float, context: Context) = when (type) {
             Item.Type.Switch -> context.getString(
                 if (value.roundToInt() > 0) R.string.nfc_action_on else R.string.nfc_action_off
