@@ -55,9 +55,12 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.core.location.LocationManagerCompat
 import androidx.core.text.inSpans
 import androidx.core.view.GravityCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.forEach
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -284,6 +287,23 @@ class MainActivity :
             manageVoiceRecognitionShortcut(isSpeechRecognizerAvailable)
             setVoiceWidgetComponentEnabledSetting(VoiceWidget::class.java, isSpeechRecognizerAvailable)
             setVoiceWidgetComponentEnabledSetting(VoiceWidgetWithIcon::class.java, isSpeechRecognizerAvailable)
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.leftDrawer) { v, insets ->
+            val insetsType =
+                WindowInsetsCompat.Type.statusBars() or
+                    WindowInsetsCompat.Type.navigationBars() or
+                    WindowInsetsCompat.Type.displayCutout()
+            val i = insets.getInsets(insetsType)
+
+            binding.leftDrawer.getHeaderView(0)?.updatePadding(top = i.top)
+            v.updatePadding(bottom = i.bottom)
+            if (v.layoutDirection == View.LAYOUT_DIRECTION_RTL) {
+                v.updatePadding(right = i.right)
+            } else {
+                v.updatePadding(left = i.left)
+            }
+            WindowInsetsCompat.CONSUMED
         }
     }
 
