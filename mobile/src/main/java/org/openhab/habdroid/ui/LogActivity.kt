@@ -133,20 +133,24 @@ class LogActivity :
                 fetchLog(true)
                 true
             }
+
             R.id.show_errors -> {
                 showErrorsOnly = !showErrorsOnly
                 onRefresh()
                 updateErrorsOnlyButtonState(item)
                 true
             }
+
             R.id.refresh -> {
                 onRefresh()
                 true
             }
+
             android.R.id.home -> {
                 finish()
                 super.onOptionsItemSelected(item)
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

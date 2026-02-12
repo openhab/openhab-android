@@ -61,6 +61,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                         val existing = latestInfoByTag[tag]
                         when (existing?.state) {
                             null -> latestInfoByTag[tag] = info
+
                             WorkInfo.State.SUCCEEDED, WorkInfo.State.FAILED -> {
                                 val ts = info.outputData.getLong(ItemUpdateWorker.OUTPUT_DATA_TIMESTAMP, 0)
                                 val existingTs = existing.outputData.getLong(ItemUpdateWorker.OUTPUT_DATA_TIMESTAMP, 0)
@@ -68,6 +69,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                                     latestInfoByTag[tag] = info
                                 }
                             }
+
                             else -> {}
                         }
                     }

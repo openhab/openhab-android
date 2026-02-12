@@ -255,9 +255,11 @@ data class Widget(
 
         internal fun determineWidgetState(state: String?, item: Item?): ParsedState? = when {
             state == null -> item?.state
+
             item?.isOfTypeOrGroupType(Item.Type.Number) == true ||
                 item?.isOfTypeOrGroupType(Item.Type.NumberWithDimension) == true ->
                 state.toParsedState(item.state?.asNumber?.format)
+
             else -> state.toParsedState()
         }
     }
@@ -322,25 +324,45 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
     childNodes.forEach { node ->
         when (node.nodeName) {
             "item" -> item = node.toItem()
+
             "linkedPage" -> linkedPage = node.toLinkedPage()
+
             "widget" -> childWidgetNodes.add(node)
+
             "type" -> type = node.textContent.toWidgetType()
+
             "widgetId" -> id = node.textContent
+
             "label" -> label = node.textContent
+
             "icon" -> icon = node.textContent
+
             "url" -> url = node.textContent
+
             "minValue" -> minValue = node.textContent.toFloat()
+
             "maxValue" -> maxValue = node.textContent.toFloat()
+
             "step" -> step = node.textContent.toFloat()
+
             "refresh" -> refresh = node.textContent.toInt()
+
             "period" -> period = node.textContent
+
             "service" -> service = node.textContent
+
             "height" -> height = node.textContent.toInt()
+
             "iconcolor" -> iconColor = node.textContent
+
             "valuecolor" -> valueColor = node.textContent
+
             "labelcolor" -> labelColor = node.textContent
+
             "encoding" -> encoding = node.textContent
+
             "switchSupport" -> switchSupport = node.textContent?.toBoolean() == true
+
             "mapping" -> {
                 var mappingCommand = ""
                 var mappingLabel = ""
@@ -352,6 +374,7 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
                 }
                 mappings.add(LabeledValue(mappingCommand, null, mappingLabel, null, 0, 0))
             }
+
             else -> {}
         }
     }

@@ -99,10 +99,14 @@ abstract class ContentController protected constructor(private val activity: Mai
      */
     val currentTitle get() = when {
         noConnectionFragment != null -> null
+
         temporaryPage is CloudNotificationListFragment ->
             (temporaryPage as CloudNotificationListFragment).getTitle(activity)
+
         temporaryPage is AbstractWebViewFragment -> (temporaryPage as AbstractWebViewFragment).title
+
         temporaryPage != null -> null
+
         else -> fragmentForTitle?.title
     }
 
@@ -713,11 +717,13 @@ abstract class ContentController protected constructor(private val activity: Mai
                         val preferencesIntent = Intent(activity, PreferencesActivity::class.java)
                         startActivity(preferencesIntent)
                     }
+
                     arguments?.getBoolean(KEY_WIFI_ENABLED) == true -> {
                         // If Wifi is enabled, primary button suggests retrying
                         ConnectionFactory.restartNetworkCheck()
                         activity?.recreate()
                     }
+
                     else -> {
                         // If Wifi is disabled, primary button suggests enabling Wifi
                         (activity as MainActivity?)?.enableWifiAndIndicateStartup()
@@ -733,6 +739,7 @@ abstract class ContentController protected constructor(private val activity: Mai
                             }
                         }
                     }
+
                     else -> {
                         // If connection issue, secondary button suggests opening status.openhab.org
                         "https://status.openhab.org".toUri().openInBrowser(requireContext())
@@ -757,6 +764,7 @@ abstract class ContentController protected constructor(private val activity: Mai
                         R.drawable.ic_home_search_outline_grey_340dp,
                         false
                     )
+
                     hasWifiEnabled -> buildArgs(
                         context.getString(R.string.no_remote_server),
                         R.string.try_again_button,
@@ -764,6 +772,7 @@ abstract class ContentController protected constructor(private val activity: Mai
                         R.drawable.ic_network_strength_off_outline_black_24dp,
                         false
                     )
+
                     else -> buildArgs(
                         context.getString(R.string.no_remote_server),
                         R.string.enable_wifi_button,

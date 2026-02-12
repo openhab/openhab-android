@@ -158,19 +158,23 @@ class ChartWidgetActivity : AbstractBaseActivity() {
                 onRefresh()
                 true
             }
+
             item.itemId == android.R.id.home -> {
                 finish()
                 super.onOptionsItemSelected(item)
             }
+
             // The dropdown menu is opened
             item.itemId == R.id.period -> {
                 true
             }
+
             DURATION_MENU_MAPPING.containsKey(item.itemId) -> {
                 period = DURATION_MENU_MAPPING[item.itemId]!!
                 onRefresh()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -529,9 +533,11 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             Item.Type.Switch -> context.getString(
                 if (value.roundToInt() > 0) R.string.nfc_action_on else R.string.nfc_action_off
             )
+
             Item.Type.Contact -> context.getString(
                 if (value.roundToInt() > 0) R.string.nfc_action_open else R.string.nfc_action_closed
             )
+
             else -> state.withValue(value).toString()
         }
     }
@@ -567,7 +573,9 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             val format = when (axisRangeSeconds) {
                 in 0..120 ->
                     if (needsDate) formatHoursAndMinutesWithSecondsAndDate else formatHoursAndMinutesWithSeconds
+
                 in labelCount * 24 * 3600..Int.MAX_VALUE -> formatDate
+
                 else -> if (needsDate) formatHoursAndMinutesWithDate else formatHoursAndMinutes
             }
             lastFormattedValue = value

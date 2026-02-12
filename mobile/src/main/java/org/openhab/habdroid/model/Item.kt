@@ -300,10 +300,12 @@ fun JSONObject.toItem(): Item {
             commandDescription.getJSONArray("commandOptions")
                 .map { obj -> obj.toLabeledValue("command", "label") }
         }
+
         stateDescription?.has("options") == true -> {
             stateDescription.getJSONArray("options")
                 .map { obj -> obj.toLabeledValue("value", "label") }
         }
+
         else -> {
             null
         }

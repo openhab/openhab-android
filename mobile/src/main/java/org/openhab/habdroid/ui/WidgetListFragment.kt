@@ -256,6 +256,7 @@ class WidgetListFragment :
                     }
                     return true
                 }
+
                 CONTEXT_MENU_ID_OPEN_IN_MAPS -> {
                     widget.item?.state?.asLocation?.toMapsUrl()?.toUri().openInBrowser(context)
                     return true
@@ -435,15 +436,18 @@ class WidgetListFragment :
                         }
                         return true
                     }
+
                     id == CONTEXT_MENU_ID_WRITE_DEVICE_ID -> {
                         callback(context.getPrefs().getStringOrEmpty(PrefKeys.DEV_ID), "", id)
                         return true
                     }
+
                     id < suggestedCommands.entries.size -> {
                         val entry = suggestedCommands.entries[id]
                         callback(entry.command, entry.label, id)
                         return true
                     }
+
                     else -> return false
                 }
             }

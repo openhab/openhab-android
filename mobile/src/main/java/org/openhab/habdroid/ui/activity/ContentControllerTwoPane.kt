@@ -52,11 +52,13 @@ class ContentControllerTwoPane(activity: MainActivity) : ContentController(activ
                 rightFragment = null
                 rightPair = null
             }
+
             sitemapFragment != null -> {
                 rightPair = if (pageStack.empty()) null else pageStack.peek()
                 leftFragment = fragmentForTitle
                 rightFragment = rightPair?.second
             }
+
             else -> {
                 leftFragment = defaultProgressFragment
                 rightFragment = null

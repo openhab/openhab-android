@@ -263,13 +263,16 @@ class UtilTest {
                 result.put(createTestJsonObject("demo", "Main Menu"))
                 result.put(createTestJsonObject("_default", "Home"))
             }
+
             2 -> {
                 result.put(createTestJsonObject("demo", "Main Menu"))
                 result.put(createTestJsonObject("home", "HOME"))
                 result.put(createTestJsonObject("test", null))
                 result.put(createTestJsonObject("_default", "Home"))
             }
+
             3 -> result.put(createTestJsonObject("_default", "Home"))
+
             else -> throw IllegalArgumentException("Wrong id")
         }
         return result

@@ -260,11 +260,16 @@ interface ConnectionManagerHelper {
 fun Map<Network, NetworkCapabilities>.toConnectionTypeList() = map { (network, caps) ->
     when {
         caps.hasTransport(TRANSPORT_VPN) -> ConnectionType.Vpn(network, caps)
+
         caps.hasTransport(TRANSPORT_WIFI) ||
             caps.hasTransport(TRANSPORT_WIFI_AWARE) -> ConnectionType.Wifi(network, caps)
+
         caps.hasTransport(TRANSPORT_BLUETOOTH) -> ConnectionType.Bluetooth(network, caps)
+
         caps.hasTransport(TRANSPORT_ETHERNET) -> ConnectionType.Ethernet(network, caps)
+
         caps.hasTransport(TRANSPORT_CELLULAR) -> ConnectionType.Mobile(network, caps)
+
         else -> ConnectionType.Unknown(network, caps)
     }
 }

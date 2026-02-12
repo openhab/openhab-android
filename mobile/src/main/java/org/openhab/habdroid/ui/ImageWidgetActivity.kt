@@ -96,12 +96,14 @@ class ImageWidgetActivity : AbstractBaseActivity() {
                 finish()
                 super.onOptionsItemSelected(item)
             }
+
             R.id.refresh -> {
                 launch {
                     loadImage()
                 }
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

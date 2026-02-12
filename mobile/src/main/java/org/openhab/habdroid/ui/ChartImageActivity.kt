@@ -106,22 +106,27 @@ class ChartImageActivity :
                 onRefresh()
                 true
             }
+
             item.itemId == R.id.show_legend -> {
                 showLegend = !showLegend
                 updateHasLegendButtonState(item)
                 true
             }
+
             item.itemId == android.R.id.home -> {
                 finish()
                 super.onOptionsItemSelected(item)
             }
+
             // The dropdown menu is opened
             item.itemId == R.id.period -> true
+
             periodForMenuItem(item.itemId) != null -> {
                 period = periodForMenuItem(item.itemId)!!
                 onRefresh()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

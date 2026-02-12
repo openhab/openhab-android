@@ -199,8 +199,10 @@ abstract class AbstractBaseActivity :
         @ColorInt val windowColor = when {
             currentNightMode == Configuration.UI_MODE_NIGHT_YES ->
                 resolveThemedColor(android.R.attr.windowBackground, black)
+
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ->
                 resolveThemedColor(android.R.attr.windowBackground, black)
+
             else -> black
         }
         @Suppress("DEPRECATION")

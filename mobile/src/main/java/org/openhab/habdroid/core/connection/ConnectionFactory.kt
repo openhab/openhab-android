@@ -430,8 +430,12 @@ class ConnectionFactory internal constructor(
                     is ConnectionManagerHelper.ConnectionType.Wifi -> {
                         val ssid = type.fetchSsid(context)
                         when {
-                            ssid.isNullOrEmpty() -> true // assume missing permissions
-                            restrictedSsids == null -> true // SSID restriction disabled
+                            ssid.isNullOrEmpty() -> true
+
+                            // assume missing permissions
+                            restrictedSsids == null -> true
+
+                            // SSID restriction disabled
                             !restrictedSsids.contains(ssid) -> {
                                 Log.d(
                                     TAG,
@@ -440,12 +444,17 @@ class ConnectionFactory internal constructor(
                                 hasWrongWifi = true
                                 false
                             }
+
                             else -> true
                         }
                     }
+
                     is ConnectionManagerHelper.ConnectionType.Bluetooth -> true
+
                     is ConnectionManagerHelper.ConnectionType.Ethernet -> true
+
                     is ConnectionManagerHelper.ConnectionType.Vpn -> true
+
                     else -> false
                 }
             }

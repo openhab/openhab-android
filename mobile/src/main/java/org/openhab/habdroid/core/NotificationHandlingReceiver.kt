@@ -36,6 +36,7 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
                 Log.d(TAG, "Dismissed notification $notificationId")
                 NotificationHelper(context).handleNotificationDismissed(notificationId)
             }
+
             ACTION_NOTIF_ACTION -> {
                 val cna = IntentCompat.getParcelableExtra(
                     intent,
@@ -52,9 +53,11 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
                 when (val action = cna.action) {
                     is CloudNotificationAction.Action.ItemCommandAction ->
                         BackgroundTasksManager.enqueueNotificationAction(context, action)
+
                     is CloudNotificationAction.Action.NoAction -> {
                         // no-op
                     }
+
                     else -> {
                         throw IllegalArgumentException("Got unexpected action: $action")
                     }
@@ -106,6 +109,7 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
                 )
             }
+
             is CloudNotificationAction.Action.UrlAction -> {
                 val intent = Intent(Intent.ACTION_VIEW, cnaAction.url.toUri()).apply {
                     flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP or
@@ -118,6 +122,7 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
                 )
             }
+
             else -> {
                 val intent = Intent(context, NotificationHandlingReceiver::class.java).apply {
                     action = ACTION_NOTIF_ACTION

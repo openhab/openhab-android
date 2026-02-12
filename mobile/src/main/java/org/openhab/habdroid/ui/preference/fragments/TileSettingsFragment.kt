@@ -91,29 +91,52 @@ class TileSettingsFragment :
             } else {
                 when (selectedIcon) {
                     "screen" -> R.string.tile_icon_tv_value
+
                     "lightbulb", "light", "slider" -> R.string.tile_icon_bulb_value
+
                     "lock" -> R.string.tile_icon_lock_value
+
                     "time" -> R.string.tile_icon_clock_value
+
                     "house", "presence", "group" -> R.string.tile_icon_house_value
+
                     "microphone", "recorder" -> R.string.tile_icon_microphone_value
+
                     "colorpicker", "colorlight", "colorwheel", "rbg" -> R.string.tile_icon_color_palette_value
+
                     "battery", "batterylevel", "lowbattery" -> R.string.tile_icon_battery_value
+
                     "zoom" -> R.string.tile_icon_magnifier_value
+
                     "garden" -> R.string.tile_icon_tree_value
+
                     "network" -> R.string.tile_icon_wifi_value
+
                     "shield" -> R.string.tile_icon_shield_value
+
                     "fan", "fan_box", "fan_ceiling" -> R.string.tile_icon_fan_value
+
                     "bedroom", "bedroom_blue", "bedroom_orange", "bedroom_red" -> R.string.tile_icon_bed_value
+
                     "settings" -> R.string.tile_icon_settings_value
+
                     "bath", "toilet" -> R.string.tile_icon_bath_value
+
                     "blinds", "rollershutter" -> R.string.tile_icon_roller_shutter_value
+
                     "camera" -> R.string.tile_icon_camera_value
+
                     "wallswitch" -> R.string.tile_icon_light_switch_value
+
                     "garage", "garagedoor", "garage_detached", "garage_detached_selected" ->
                         R.string.tile_icon_garage_value
+
                     "switch" -> R.string.tile_icon_switch_value
+
                     "text" -> R.string.tile_icon_text_value
+
                     "sofa" -> R.string.tile_icon_sofa_value
+
                     else -> when {
                         itemTags?.contains(Item.Tag.Light) == true -> R.string.tile_icon_bulb_value
                         itemTags?.contains(Item.Tag.Blinds) == true -> R.string.tile_icon_roller_shutter_value
@@ -164,6 +187,7 @@ class TileSettingsFragment :
             onLeaveAndSave()
             true
         }
+
         else -> false
     }
 

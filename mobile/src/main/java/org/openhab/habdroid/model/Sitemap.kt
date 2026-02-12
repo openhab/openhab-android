@@ -42,8 +42,11 @@ fun Node.toSitemap(): Sitemap? {
     childNodes.forEach { node ->
         when (node.nodeName) {
             "name" -> name = node.textContent
+
             "label" -> label = node.textContent
+
             "icon" -> icon = node.textContent
+
             "homepage" ->
                 node.childNodes.forEach { pageNode ->
                     if (pageNode.nodeName == "link") {

@@ -166,6 +166,7 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
         }
         when (caching) {
             CachingMode.AVOID_CACHE -> requestBuilder.cacheControl(CacheControl.FORCE_NETWORK)
+
             CachingMode.FORCE_CACHE_IF_POSSIBLE -> {
                 requestBuilder.cacheControl(
                     CacheControl.Builder()
@@ -173,6 +174,7 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
                         .build()
                 )
             }
+
             else -> {}
         }
         val request = requestBuilder.build()
@@ -200,9 +202,11 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
                                 HttpException(call.request(), url, response.message, response.code)
                             )
                         }
+
                         body == null -> {
                             cont.resumeWithException(HttpException(call.request(), url, "Empty body", 500))
                         }
+
                         else -> {
                             cont.resume(HttpResult(call.request(), url, body, response.code, response.headers))
                         }

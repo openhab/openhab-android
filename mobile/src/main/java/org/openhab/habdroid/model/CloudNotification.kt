@@ -138,9 +138,11 @@ fun JSONObject.toCloudMessage(): CloudMessage? {
                 mediaAttachmentUrl = payload?.optStringOrNull("media-attachment-url")
             )
         }
+
         "hideNotification" -> {
             CloudMessage.CloudHideNotificationRequest(id, tag)
         }
+
         else -> {
             Log.w(CloudMessage.TAG, "Got unknown message type $type")
             null
@@ -164,14 +166,18 @@ data class CloudNotificationAction internal constructor(val label: String, priva
         return when {
             split[0] == "command" && split.size == 3 ->
                 Action.ItemCommandAction(split[1], split[2])
+
             internalAction.startsWith("http://") || internalAction.startsWith("https://") ->
                 Action.UrlAction(internalAction)
+
             split[0] == "ui" && split.size == 3 -> {
                 Action.UiCommandAction("${split[1]}:${split[2]}")
             }
+
             split[0] == "ui" && split.size == 2 -> {
                 Action.UiCommandAction("navigate:${split[1]}")
             }
+
             else -> Action.NoAction
         }
     }

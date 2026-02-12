@@ -388,7 +388,9 @@ class WidgetAdapter(
                 widgetsById[widget.parentId]?.type == Widget.Type.Frame -> TYPE_NESTED_FRAME
                 else -> TYPE_FRAME
             }
+
             Widget.Type.Group -> TYPE_GROUP
+
             Widget.Type.Switch -> when {
                 widget.shouldRenderAsPlayer() -> TYPE_PLAYER
                 widget.mappings.isNotEmpty() -> determineSectionSwitchType(widget.mappings)
@@ -397,23 +399,38 @@ class WidgetAdapter(
                 widget.mappingsOrItemOptions.isNotEmpty() -> determineSectionSwitchType(widget.mappingsOrItemOptions)
                 else -> TYPE_SWITCH
             }
+
             Widget.Type.Text -> TYPE_TEXT
+
             Widget.Type.Slider -> TYPE_SLIDER
+
             Widget.Type.Image -> TYPE_IMAGE
+
             Widget.Type.Selection -> TYPE_SELECTION
+
             Widget.Type.Setpoint -> TYPE_SETPOINT
+
             Widget.Type.Chart -> TYPE_CHART
+
             Widget.Type.Video -> when {
                 "mjpeg".equals(widget.encoding, ignoreCase = true) -> TYPE_VIDEO_MJPEG
                 else -> TYPE_VIDEO
             }
+
             Widget.Type.Webview -> TYPE_WEB
+
             Widget.Type.Colorpicker -> TYPE_COLOR
+
             Widget.Type.Colortemperaturepicker -> TYPE_COLORTEMPERATURE
+
             Widget.Type.Mapview -> TYPE_LOCATION
+
             Widget.Type.Input -> if (widget.shouldUseDateTimePickerForInput()) TYPE_DATETIMEINPUT else TYPE_INPUT
+
             Widget.Type.Buttongrid -> TYPE_BUTTONGRID
+
             Widget.Type.Button -> TYPE_INVISIBLE
+
             else -> TYPE_GENERICITEM
         }
         return toInternalViewType(actualViewType, compactMode)
@@ -784,6 +801,7 @@ class WidgetAdapter(
                     val state = newValue.let { ParsedState.parseAsNumber(it, item.state?.asNumber?.format) }
                     connection.httpClient.sendItemUpdate(item, state)
                 }
+
                 else -> connection.httpClient.sendItemCommand(item, newValue)
             }
 
@@ -810,11 +828,15 @@ class WidgetAdapter(
                 text = when {
                     widget.inputHint == Widget.InputTypeHint.Date && dateTimeState != null ->
                         dateTimeState.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+
                     widget.inputHint == Widget.InputTypeHint.Time && dateTimeState != null ->
                         dateTimeState.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+
                     widget.inputHint == Widget.InputTypeHint.Datetime && dateTimeState != null ->
                         dateTimeState.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
+
                     !displayState.isNullOrEmpty() -> displayState
+
                     else -> dateTimeState?.toString()
                 }
                 isVisible = !text.isNullOrEmpty()

@@ -386,9 +386,12 @@ class MainSettingsFragment :
         pref.summary = getString(
             when {
                 !locked -> R.string.settings_screen_lock_nolock_summary
+
                 value == getString(R.string.settings_screen_lock_on_value) -> R.string.settings_screen_lock_on_summary
+
                 value == getString(R.string.settings_screen_lock_kiosk_value) ->
                     R.string.settings_screen_lock_kiosk_summary
+
                 else -> R.string.settings_screen_lock_off_summary
             }
         )

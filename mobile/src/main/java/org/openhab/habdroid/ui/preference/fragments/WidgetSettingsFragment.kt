@@ -123,6 +123,7 @@ class WidgetSettingsFragment :
             onLeaveAndSave()
             true
         }
+
         else -> false
     }
 
