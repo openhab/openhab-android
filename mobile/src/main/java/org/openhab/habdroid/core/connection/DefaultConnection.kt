@@ -51,22 +51,22 @@ open class DefaultConnection : AbstractConnection {
     }
 
     private suspend fun createConnectedSocket(socketAddress: InetSocketAddress, network: Network?): Socket? {
-        val s = Socket()
-        s.bindToNetworkIfPossible(network)
-
         var retries = 0
         while (retries < 10) {
             try {
-                withContext(Dispatchers.IO) {
-                    s.connect(socketAddress, 1000)
+                val s = withContext(Dispatchers.IO) {
+                    Socket().apply {
+                        bindToNetworkIfPossible(network)
+                        connect(socketAddress, 1000)
+                    }
                 }
                 Log.d(TAG, "Socket connected (attempt $retries)")
                 return s
-            } catch (e: SocketTimeoutException) {
+            } catch (_: SocketTimeoutException) {
                 Log.d(TAG, "Socket timeout after $retries retries")
                 retries += 5
             } catch (e: IOException) {
-                Log.d(TAG, "Socket creation failed (attempt  $retries)")
+                Log.d(TAG, "Socket creation failed (attempt  $retries): ${e.message}")
                 delay(200)
             }
 
