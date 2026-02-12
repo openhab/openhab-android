@@ -1,0 +1,12 @@
+## What's Changed
+* Gradle: clean up dependency and plugin version management by @MartinHorsfield in https://github.com/openhab/openhab-android/pull/3970
+* Don't reuse sockets when trying to create connection by @maniac103 in https://github.com/openhab/openhab-android/pull/3960
+* Fix chart axis format when graphing some groups by @maniac103 in https://github.com/openhab/openhab-android/pull/3961
+* Fix chart being partially obscured in landscape orientation by @maniac103 in https://github.com/openhab/openhab-android/pull/3962
+* Fix initial chart scaling slider position being off by @maniac103 in https://github.com/openhab/openhab-android/pull/3965
+* Improve navigation drawer layout in landscape orientation by @maniac103 in https://github.com/openhab/openhab-android/pull/3971
+
+## New Contributors
+* @MartinHorsfield made their first contribution in https://github.com/openhab/openhab-android/pull/3970
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.19.2-beta...3.19.3-beta
