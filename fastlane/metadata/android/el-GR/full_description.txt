@@ -1,8 +1,6 @@
 openHAB - "empowering the smart home" - Ανοικτού κώδικα, ανεξάρτητο κατασκευαστή και τεχνολογίας λογισμικό αυτοματοποίησης σπιτιού
 
 The builds on F-Droid have FCM removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
-Δοκιμάστε νέες δυνατότητες και να δώστε έγκαιρη ανατροφοδότηση!
-Μπορείτε να εγκαταστήσετε την έκδοση beta παράλληλα με την <a href="https://f-droid.org/packages/org.openhab.habdroid/">σταθερή έκδοση</a>.
 
 Το openHAB είναι μια πλατφόρμα ανοικτού λογισμικού βασισμένη στην Java που ενσωματώνει και συνδυάζει ένα ευρύ φάσμα διαφορετικών συστημάτων και τεχνολογιών έξυπνου σπιτιού σε μία ενιαία λύση.
 Όλες οι συσκευές είναι διαθέσιμες για τις μηχανές κανόνων αυτοματοποίησης και τις διαφορετικές διεπαφές χρήστη (UI) μέσα από το ενοποιημένο και αφαιρετικό επίπεδο.
