@@ -31,16 +31,17 @@ import java.net.SocketTimeoutException
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
+import kotlinx.coroutines.flow.first
 import kotlinx.parcelize.Parcelize
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.NotificationUpdateObserver.Companion.NOTIFICATION_ID_BACKGROUND_WORK_RUNNING
 import org.openhab.habdroid.core.connection.Connection
-import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.TaskerPlugin
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefixForVoice
 import org.openhab.habdroid.util.getPrefs
@@ -54,15 +55,15 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
         if (isImportant) {
             setForegroundAsync(getForegroundInfo())
         }
-        ConnectionFactory.waitForInitialization()
 
         Log.d(TAG, "Trying to get connection")
-        val connection = if (inputData.getBoolean(INPUT_DATA_PRIMARY_SERVER, false)) {
-            ConnectionFactory.primaryUsableConnection?.connection
+        val connectionFlow = if (inputData.getBoolean(INPUT_DATA_PRIMARY_SERVER, false)) {
+            applicationContext.getConnectionFactory().primaryFlow
         } else {
-            ConnectionFactory.activeUsableConnection?.connection
+            applicationContext.getConnectionFactory().activeFlow
         }
 
+        val connection = connectionFlow.first().conn?.connection
         val showToast = inputData.getBoolean(INPUT_DATA_SHOW_TOAST, false)
         val taskerIntent = inputData.getString(INPUT_DATA_TASKER_INTENT)
 

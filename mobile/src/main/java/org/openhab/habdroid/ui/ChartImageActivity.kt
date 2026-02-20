@@ -21,13 +21,13 @@ import android.view.MenuItem
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
-import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.databinding.ActivityChartimageBinding
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getChartTheme
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.parcelable
@@ -75,7 +75,7 @@ class ChartImageActivity :
     override fun onResume() {
         super.onResume()
 
-        connection = ConnectionFactory.activeUsableConnection?.connection
+        connection = getConnectionFactory().currentActive?.conn?.connection
         if (connection == null) {
             finish()
             return

@@ -36,10 +36,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import org.openhab.habdroid.R
-import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.DemoConnection
 import org.openhab.habdroid.databinding.ActivityItemPickerBinding
 import org.openhab.habdroid.databinding.BottomSheetItemPickerCommandBinding
@@ -49,6 +49,7 @@ import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.SuggestedCommandsFactory
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.parcelableArrayList
@@ -201,9 +202,7 @@ abstract class AbstractItemPickerActivity :
         itemPickerAdapter.clear()
 
         requestJob = launch {
-            ConnectionFactory.waitForInitialization()
-
-            val connection = ConnectionFactory.primaryUsableConnection?.connection
+            val connection = getConnectionFactory().primaryFlow.first().conn?.connection
             if (connection == null) {
                 updateViewVisibility(loading = false, loadError = true, showHint = false)
                 return@launch

@@ -29,13 +29,13 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
-import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.databinding.ActivityImageBinding
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.IconBackground
 import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.determineDataUsagePolicy
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getIconFallbackColor
 import org.openhab.habdroid.util.orDefaultIfEmpty
 
@@ -62,7 +62,7 @@ class ImageWidgetActivity : AbstractBaseActivity() {
     override fun onResume() {
         super.onResume()
 
-        connection = ConnectionFactory.activeUsableConnection?.connection
+        connection = getConnectionFactory().currentActive?.conn?.connection
         if (connection == null) {
             finish()
             return

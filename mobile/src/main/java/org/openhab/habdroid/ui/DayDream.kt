@@ -33,14 +33,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
-import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.databinding.DaydreamBinding
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.PrefKeys
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrNull
 
@@ -84,8 +85,7 @@ class DayDream :
     }
 
     private suspend fun listenForTextItem(item: String) {
-        ConnectionFactory.waitForInitialization()
-        val connection = ConnectionFactory.primaryUsableConnection?.connection ?: return
+        val connection = getConnectionFactory().primaryFlow.first().conn?.connection ?: return
 
         moveText()
         val initialText = try {

@@ -91,6 +91,7 @@ import org.json.JSONObject
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.core.connection.Connection
+import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.DefaultConnection
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
@@ -350,6 +351,8 @@ fun String.toJsonArrayOrNull() = try {
 fun Context.getPrefs(): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
 fun Context.getSecretPrefs(): SharedPreferences = (applicationContext as OpenHabApplication).secretPrefs
+
+fun Context.getConnectionFactory(): ConnectionFactory = (applicationContext as OpenHabApplication).connectionFactory
 
 /**
  * Shows an Toast and can be called from the background.

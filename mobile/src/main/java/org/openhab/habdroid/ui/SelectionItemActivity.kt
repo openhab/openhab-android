@@ -22,11 +22,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.openhab.habdroid.R
-import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.databinding.ActivitySelectionItemBinding
 import org.openhab.habdroid.databinding.SelectionItemBinding
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.LabeledValue
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.parcelable
 
@@ -96,7 +96,8 @@ class SelectionAdapter(context: Context, val item: Item) : RecyclerView.Adapter<
                 isChecked = option.value == adapter?.itemState
                 text = option.label
                 setOnClickListener {
-                    val connection = ConnectionFactory.primaryUsableConnection?.connection ?: return@setOnClickListener
+                    val connection = context.getConnectionFactory().currentPrimary?.conn?.connection
+                        ?: return@setOnClickListener
                     adapter?.itemState = option.value
                     adapter?.notifyDataSetChanged()
                     connection.httpClient.sendItemCommand(item, option.value)

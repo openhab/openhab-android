@@ -43,7 +43,6 @@ import java.util.Stack
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.core.connection.Connection
-import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.databinding.FragmentStatusBinding
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.Sitemap
@@ -58,6 +57,7 @@ import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getWifiManager
@@ -637,7 +637,7 @@ abstract class ContentController protected constructor(private val activity: Mai
 
     internal class NoNetworkFragment : StatusFragment() {
         override fun onClick(view: View) {
-            ConnectionFactory.restartNetworkCheck()
+            activity?.getConnectionFactory()?.restartNetworkCheck()
             activity?.recreate()
         }
 
@@ -720,7 +720,7 @@ abstract class ContentController protected constructor(private val activity: Mai
 
                     arguments?.getBoolean(KEY_WIFI_ENABLED) == true -> {
                         // If Wifi is enabled, primary button suggests retrying
-                        ConnectionFactory.restartNetworkCheck()
+                        activity?.getConnectionFactory()?.restartNetworkCheck()
                         activity?.recreate()
                     }
 
