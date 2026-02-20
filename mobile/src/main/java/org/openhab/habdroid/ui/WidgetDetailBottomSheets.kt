@@ -91,9 +91,9 @@ open class SliderBottomSheet :
 
     override suspend fun onValueUpdate(value: Float) {
         val item = widget.item ?: return
-        val state = widget.state?.asNumber.withValue(value)
-        Log.d(TAG, "Send state $state for ${item.name}")
-        connection?.httpClient?.sendItemUpdate(item, state)
+        val command = widget.state?.asNumber.withValue(value).toItemCommand(item) ?: return
+        Log.d(TAG, "Send state $command for ${item.name}")
+        connection?.httpClient?.sendItemCommand(item, command)
     }
 
     companion object {
@@ -115,9 +115,13 @@ class ColorTemperatureSliderBottomSheet :
 
     override suspend fun onValueUpdate(value: Float) {
         val item = widget.item ?: return
-        val state = widget.state?.asNumber?.toColorTemperatureInKelvin()?.withValue(value)
-        Log.d(TAG, "Send state $state for ${item.name}")
-        connection?.httpClient?.sendItemUpdate(item, state)
+        val command = widget.state?.asNumber
+            ?.toColorTemperatureInKelvin()
+            ?.withValue(value)
+            ?.toItemCommand(item)
+            ?: return
+        Log.d(TAG, "Send state $command for ${item.name}")
+        connection?.httpClient?.sendItemCommand(item, command)
     }
 
     override fun onLayoutChange(view: View, l: Int, t: Int, r: Int, b: Int, ol: Int, ot: Int, or: Int, ob: Int) {

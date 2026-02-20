@@ -76,6 +76,7 @@ import java.time.temporal.ChronoUnit
 import java.util.Locale
 import kotlin.math.min
 import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -458,13 +459,22 @@ class WidgetAdapter(
         internal var scope: CoroutineScope? = null
         internal var vhc: ViewHolderContext? = null
         private var started = false
+        protected var boundWidget: Widget? = null
+            private set
+        private var updateRevertJob: Job? = null
 
         protected val connection get() = requireHolderContext().connection
         protected val colorMapper get() = requireHolderContext().colorMapper
         protected val fragmentPresenter get() = requireHolderContext().fragmentPresenter
         protected val childWidgets get() = requireHolderContext().childWidgetGetter()
 
-        abstract fun bind(widget: Widget)
+        protected abstract fun bindImpl(widget: Widget)
+
+        fun bind(widget: Widget) {
+            updateRevertJob?.cancel()
+            bindImpl(widget)
+            boundWidget = widget
+        }
 
         fun start() {
             if (!started) {
@@ -501,6 +511,16 @@ class WidgetAdapter(
 
         protected fun requireHolderContext() = vhc ?: throw IllegalStateException("Holder not bound")
 
+        protected fun tryToUpdateItemWithCommand(command: String) {
+            val widget = boundWidget ?: return
+            connection.httpClient.sendItemCommand(widget.item, command)
+            updateRevertJob?.cancel()
+            updateRevertJob = scope?.launch {
+                delay(1.seconds)
+                bindImpl(widget)
+            }
+        }
+
         companion object {
             fun inflateView(
                 initData: ViewHolderInitData,
@@ -521,10 +541,8 @@ class WidgetAdapter(
         abstract val widgetContentView: View
         abstract val dataSaverBinding: WidgetlistDataSaverBinding
         abstract val iconTextBinding: WidgetlistIcontextForHeavyDataBinding
-        protected var boundWidget: Widget? = null
 
-        override fun bind(widget: Widget) {
-            boundWidget = widget
+        override fun bindImpl(widget: Widget) {
             val showLabelAndIcon = widget.label.isNotEmpty() &&
                 widget.labelSource == Widget.LabelSource.SitemapDefinition
             iconTextBinding.label.apply {
@@ -579,7 +597,7 @@ class WidgetAdapter(
                 stop()
             } else {
                 boundWidget?.let {
-                    bind(it)
+                    bindImpl(it)
                     start()
                 }
             }
@@ -594,14 +612,14 @@ class WidgetAdapter(
         ViewHolder(initData, R.layout.widgetlist_genericitem, R.layout.widgetlist_genericitem_compact) {
         private val binding = WidgetlistGenericitemBinding.bind(itemView)
 
-        override fun bind(widget: Widget) {
+        override fun bindImpl(widget: Widget) {
             binding.icontext.bindTo(widget, requireHolderContext())
         }
     }
 
     class InvisibleWidgetViewHolder internal constructor(initData: ViewHolderInitData) :
         ViewHolder(initData, R.layout.widgetlist_invisibleitem) {
-        override fun bind(widget: Widget) {
+        override fun bindImpl(widget: Widget) {
         }
     }
 
@@ -618,7 +636,7 @@ class WidgetAdapter(
             itemView.isClickable = false
         }
 
-        override fun bind(widget: Widget) {
+        override fun bindImpl(widget: Widget) {
             val label = widget.stateFromLabel?.let {
                 " [$it]"
             }.orEmpty()
@@ -664,19 +682,17 @@ class WidgetAdapter(
         ViewHolder(initData, R.layout.widgetlist_switchitem, R.layout.widgetlist_switchitem_compact) {
         private val binding = WidgetlistSwitchitemBinding.bind(itemView)
         private var isBinding = false
-        private var boundWidget: Widget? = null
 
         init {
             binding.toggle.setOnCheckedChangeListener { _, checked ->
                 if (!isBinding) {
-                    connection.httpClient.sendItemCommand(boundWidget?.item, if (checked) "ON" else "OFF")
+                    tryToUpdateItemWithCommand(if (checked) "ON" else "OFF")
                 }
             }
         }
 
-        override fun bind(widget: Widget) {
+        override fun bindImpl(widget: Widget) {
             isBinding = true
-            boundWidget = widget
 
             binding.icontext.bindTo(widget, requireHolderContext())
             binding.toggle.apply {
@@ -709,7 +725,6 @@ class WidgetAdapter(
         private val binding = WidgetlistInputitemBinding.bind(itemView)
         private var isBinding = false
         private var hasChanged = false
-        private var boundItem: Item? = null
 
         private var updateJob: Job? = null
         private var oldValue: String? = null
@@ -739,9 +754,8 @@ class WidgetAdapter(
             binding.input.suffixTextView.alpha = 0.5F
         }
 
-        override fun bind(widget: Widget) {
+        override fun bindImpl(widget: Widget) {
             isBinding = true
-            boundItem = widget.item
             updateJob?.cancel()
 
             binding.label.bindAsWidgetLabel(widget, requireHolderContext())
@@ -794,15 +808,15 @@ class WidgetAdapter(
                 binding.inputvalue.setText(oldValue)
             }
 
-            val item = boundItem
+            val item = boundWidget?.item
             when {
                 item?.isOfTypeOrGroupType(Item.Type.Number) == true ||
                     item?.isOfTypeOrGroupType(Item.Type.NumberWithDimension) == true -> {
                     val state = newValue.let { ParsedState.parseAsNumber(it, item.state?.asNumber?.format) }
-                    connection.httpClient.sendItemUpdate(item, state)
+                    state.toItemCommand(item)?.let { tryToUpdateItemWithCommand(it) }
                 }
 
-                else -> connection.httpClient.sendItemCommand(item, newValue)
+                else -> tryToUpdateItemWithCommand(newValue)
             }
 
             hasChanged = false
@@ -816,13 +830,11 @@ class WidgetAdapter(
             R.layout.widgetlist_datetimeinputitem_compact
         ) {
         private val binding = WidgetlistDatetimeinputitemBinding.bind(itemView)
-        private var boundWidget: Widget? = null
 
-        override fun bind(widget: Widget) {
+        override fun bindImpl(widget: Widget) {
             val displayState = widget.stateFromLabel?.replace("\n", "")
             val dateTimeState = widget.state?.asDateTime
 
-            boundWidget = widget
             binding.icontext.bindTo(widget, requireHolderContext())
             binding.icontext.value.apply {
                 text = when {
@@ -906,7 +918,7 @@ class WidgetAdapter(
         }
 
         private fun sendUpdate(widget: Widget, dateTime: LocalDateTime) {
-            connection.httpClient.sendItemUpdate(widget.item, dateTime)
+            dateTime.toItemCommand(widget.item)?.let { connection.httpClient.sendItemCommand(widget.item, it) }
         }
     }
 
@@ -914,7 +926,7 @@ class WidgetAdapter(
         ViewHolder(initData, R.layout.widgetlist_textitem, R.layout.widgetlist_textitem_compact) {
         private val binding = WidgetlistTextitemBinding.bind(itemView)
 
-        override fun bind(widget: Widget) {
+        override fun bindImpl(widget: Widget) {
             binding.icontext.bindTo(widget, requireHolderContext())
             binding.rightArrow.isGone = widget.linkedPage == null
         }
@@ -932,7 +944,7 @@ class WidgetAdapter(
         private val spareViews = mutableListOf<MaterialButton>()
         private val buttonViews = mutableMapOf<Position, MaterialButton>()
 
-        override fun bind(widget: Widget) {
+        override fun bindImpl(widget: Widget) {
             val showLabelAndIcon = widget.label.isNotEmpty() &&
                 widget.labelSource == Widget.LabelSource.SitemapDefinition
             binding.icontext.label.apply {
@@ -1061,14 +1073,12 @@ class WidgetAdapter(
         ViewHolder(initData, R.layout.widgetlist_slideritem, R.layout.widgetlist_slideritem_compact),
         WidgetSlider.UpdateListener {
         private val binding = WidgetlistSlideritemBinding.bind(itemView)
-        private var boundWidget: Widget? = null
 
         init {
             binding.seekbar.updateListener = this
         }
 
-        override fun bind(widget: Widget) {
-            boundWidget = widget
+        override fun bindImpl(widget: Widget) {
             binding.label.apply {
                 bindAsWidgetLabel(widget, requireHolderContext())
                 isGone = widget.label.isEmpty()
@@ -1101,11 +1111,12 @@ class WidgetAdapter(
 
         override suspend fun onValueUpdate(value: Float) {
             val widget = boundWidget ?: return
-            if (widget.item?.isOfTypeOrGroupType(Item.Type.Color) == true) {
-                connection.httpClient.sendItemCommand(widget.item, value.beautify())
+            val command = if (widget.item?.isOfTypeOrGroupType(Item.Type.Color) == true) {
+                value.beautify()
             } else {
-                connection.httpClient.sendItemUpdate(widget.item, widget.state?.asNumber.withValue(value))
+                widget.state?.asNumber.withValue(value).toItemCommand(widget.item)
             }
+            command?.let { tryToUpdateItemWithCommand(it) }
         }
     }
 
@@ -1190,10 +1201,8 @@ class WidgetAdapter(
             R.layout.widgetlist_selectionitem_compact
         ) {
         private val binding = WidgetlistSelectionitemBinding.bind(itemView)
-        private var boundWidget: Widget? = null
 
-        override fun bind(widget: Widget) {
-            boundWidget = widget
+        override fun bindImpl(widget: Widget) {
             binding.icontext.bindTo(widget, requireHolderContext())
 
             val stateString = widget.state?.asString
@@ -1222,7 +1231,6 @@ class WidgetAdapter(
         ).root
         private val spareViews = mutableListOf<View>()
         private val maxButtons = itemView.resources.getInteger(R.integer.section_switch_max_buttons)
-        private var boundWidget: Widget? = null
 
         init {
             overflowButton.setOnClickListener {
@@ -1231,9 +1239,7 @@ class WidgetAdapter(
             }
         }
 
-        override fun bind(widget: Widget) {
-            boundWidget = widget
-
+        override fun bindImpl(widget: Widget) {
             binding.label.bindAsWidgetLabel(widget, requireHolderContext())
             binding.value.bindAsWidgetValue(widget, requireHolderContext())
             binding.icon.bindAsWidgetIcon(widget, requireHolderContext())
@@ -1307,7 +1313,7 @@ class WidgetAdapter(
         override fun onClick(view: View) {
             val mapping = view.tag as LabeledValue
             if (mapping.valueRelease.isNullOrEmpty()) {
-                connection.httpClient.sendItemCommand(boundWidget?.item, mapping.value)
+                tryToUpdateItemWithCommand(mapping.value)
             }
         }
 
@@ -1319,7 +1325,7 @@ class WidgetAdapter(
                     MotionEvent.ACTION_UP -> mapping.valueRelease
                     else -> null
                 }
-                command?.let { connection.httpClient.sendItemCommand(boundWidget?.item, it) }
+                command?.let { tryToUpdateItemWithCommand(it) }
             }
             return false
         }
@@ -1349,7 +1355,6 @@ class WidgetAdapter(
         View.OnTouchListener {
         private val binding = WidgetlistSmallsectionswitchItemBinding.bind(itemView)
         private val toggles = listOf(binding.switchOne.root, binding.switchTwo.root)
-        private var boundItem: Item? = null
 
         init {
             toggles.forEach { t ->
@@ -1359,8 +1364,7 @@ class WidgetAdapter(
             }
         }
 
-        override fun bind(widget: Widget) {
-            boundItem = widget.item
+        override fun bindImpl(widget: Widget) {
             binding.icontext.bindTo(widget, requireHolderContext())
 
             val applyMapping = { button: MaterialButton, mapping: LabeledValue? ->
@@ -1380,7 +1384,7 @@ class WidgetAdapter(
             (view as MaterialButton).isChecked = true
             val mapping = view.tag as LabeledValue
             if (mapping.valueRelease.isNullOrEmpty()) {
-                connection.httpClient.sendItemCommand(boundItem, mapping.value)
+                tryToUpdateItemWithCommand(mapping.value)
             }
         }
 
@@ -1392,7 +1396,7 @@ class WidgetAdapter(
                     MotionEvent.ACTION_UP -> mapping.valueRelease
                     else -> null
                 }
-                command?.let { connection.httpClient.sendItemCommand(boundItem, it) }
+                command?.let { tryToUpdateItemWithCommand(it) }
             }
             return false
         }
@@ -1408,7 +1412,6 @@ class WidgetAdapter(
         View.OnClickListener,
         View.OnLongClickListener {
         private val binding = WidgetlistRollershutteritemBinding.bind(itemView)
-        private var boundWidget: Widget? = null
 
         data class UpDownButtonState(val item: Item?, val command: String, var inLongPress: Boolean = false)
 
@@ -1422,14 +1425,13 @@ class WidgetAdapter(
             }
         }
 
-        override fun bind(widget: Widget) {
+        override fun bindImpl(widget: Widget) {
             // Our long click handling causes the view to be rebound (due to new state),
             // make sure not to clear out our state in that case
             if (widget.item?.name != boundWidget?.item?.name) {
                 binding.buttons.upButton.tag = UpDownButtonState(widget.item, "UP")
                 binding.buttons.downButton.tag = UpDownButtonState(widget.item, "DOWN")
             }
-            boundWidget = widget
             binding.icontext.bindTo(widget, requireHolderContext())
         }
 
@@ -1457,7 +1459,6 @@ class WidgetAdapter(
         ViewHolder(initData, R.layout.widgetlist_playeritem, R.layout.widgetlist_playeritem_compact),
         View.OnClickListener {
         private val binding = WidgetlistPlayeritemBinding.bind(itemView)
-        private var boundItem: Item? = null
 
         init {
             val buttons = binding.buttons
@@ -1468,8 +1469,7 @@ class WidgetAdapter(
             buttons.nextButton.tag = "NEXT"
         }
 
-        override fun bind(widget: Widget) {
-            boundItem = widget.item
+        override fun bindImpl(widget: Widget) {
             binding.icontext.bindTo(widget, requireHolderContext())
 
             val isPlaying = widget.item?.state?.asString == "PLAY"
@@ -1488,14 +1488,13 @@ class WidgetAdapter(
 
         override fun onClick(view: View) {
             val command = view.tag as String
-            connection.httpClient.sendItemCommand(boundItem, command)
+            connection.httpClient.sendItemCommand(boundWidget?.item, command)
         }
     }
 
     class SetpointViewHolder internal constructor(initData: ViewHolderInitData) :
         ViewHolder(initData, R.layout.widgetlist_setpointitem, R.layout.widgetlist_setpointitem_compact) {
         private val binding = WidgetlistSetpointitemBinding.bind(itemView)
-        private var boundWidget: Widget? = null
 
         init {
             binding.icontext.value.setOnClickListener { openSelection() }
@@ -1504,8 +1503,7 @@ class WidgetAdapter(
             binding.downButton.setOnClickListener { handleUpDown(true) }
         }
 
-        override fun bind(widget: Widget) {
-            boundWidget = widget
+        override fun bindImpl(widget: Widget) {
             binding.icontext.bindTo(widget, requireHolderContext())
             binding.selectButton.isEnabled = !widget.readOnly
             binding.upButton.isEnabled = !widget.readOnly
@@ -1535,7 +1533,8 @@ class WidgetAdapter(
             }
 
             if (newValue >= widget.minValue && newValue <= widget.maxValue) {
-                connection.httpClient.sendItemUpdate(widget.item, state.withValue(newValue))
+                val command = state.withValue(newValue).toItemCommand(widget.item)
+                command?.let { connection.httpClient.sendItemCommand(widget.item, it) }
             }
         }
     }
@@ -1759,7 +1758,6 @@ class WidgetAdapter(
         View.OnClickListener,
         View.OnLongClickListener {
         private val binding = WidgetlistColoritemBinding.bind(itemView)
-        private var boundWidget: Widget? = null
 
         data class UpDownButtonState(
             val item: Item?,
@@ -1776,7 +1774,7 @@ class WidgetAdapter(
             binding.buttons.selectColorButton.setOnClickListener { handleRowClick() }
         }
 
-        override fun bind(widget: Widget) {
+        override fun bindImpl(widget: Widget) {
             // Our long click handling causes the view to be rebound (due to new state),
             // make sure not to clear out our state in that case
             if (widget.item?.name != boundWidget?.item?.name) {
@@ -1786,7 +1784,6 @@ class WidgetAdapter(
                 binding.buttons.downButton.tag = UpDownButtonState(widget.item, "OFF", "DECREASE")
             }
 
-            boundWidget = widget
             binding.icontext.bindTo(widget, requireHolderContext())
 
             val hsv = widget.state?.asHsv
@@ -1843,9 +1840,8 @@ class WidgetAdapter(
             R.layout.widgetlist_colortemperatureitem_compact
         ) {
         private val binding = WidgetlistColortemperatureitemBinding.bind(itemView)
-        private var boundWidget: Widget? = null
 
-        override fun bind(widget: Widget) {
+        override fun bindImpl(widget: Widget) {
             val drawable = (widget.state ?: widget.item?.state)
                 ?.asNumber
                 ?.toColorTemperatureInKelvin()
@@ -1854,7 +1850,6 @@ class WidgetAdapter(
                 ?.toColoredRoundedRect(binding.currentTemperature.context)
             binding.currentTemperature.setImageDrawable(drawable)
             binding.icontext.bindTo(widget, requireHolderContext())
-            boundWidget = widget
         }
 
         override fun handleRowClick() {
@@ -1897,8 +1892,8 @@ class WidgetAdapter(
         override val dataSaverBinding get() = binding.dataSaver
         override val iconTextBinding get() = binding.icontext
 
-        override fun bind(widget: Widget) {
-            super.bind(widget)
+        override fun bindImpl(widget: Widget) {
+            super.bindImpl(widget)
             binding.mapview.adjustForWidgetHeight(widget, 5)
             binding.noPosition.root.isVisible = !hasPositions
         }
@@ -2143,27 +2138,25 @@ fun MaterialButton.setTextAndIcon(
     }
 }
 
-fun HttpClient.sendItemUpdate(item: Item?, state: ParsedState.NumberState?) {
-    if (item == null || state == null) {
-        return
+fun ParsedState.NumberState?.toItemCommand(item: Item?): String? {
+    if (this == null || item == null) {
+        return null
     }
-    if (item.isOfTypeOrGroupType(Item.Type.NumberWithDimension)) {
+    return if (item.isOfTypeOrGroupType(Item.Type.NumberWithDimension)) {
         // For number items, include unit (if present) in command
-        sendItemCommand(item, state.toString(Locale.US))
+        toString(Locale.US)
     } else {
         // For all other items, send the plain value
-        sendItemCommand(item, state.formatValue())
+        formatValue()
     }
 }
 
-fun HttpClient.sendItemUpdate(item: Item?, state: LocalDateTime?) {
-    if (item == null || state == null) {
-        return
+fun LocalDateTime?.toItemCommand(item: Item?) =
+    if (this != null && item != null && item.isOfTypeOrGroupType(Item.Type.DateTime)) {
+        format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+    } else {
+        null
     }
-    if (item.isOfTypeOrGroupType(Item.Type.DateTime)) {
-        sendItemCommand(item, state.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
-    }
-}
 
 fun HttpClient.sendItemCommand(item: Item?, command: String): Job? {
     val url = item?.link ?: return null
