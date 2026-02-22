@@ -7,16 +7,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
+    android:orientation="horizontal"
     tools:viewBindingType="android.view.ViewGroup">
 
     <include
-        layout="@layout/widgetlist_icontext_compact" />
+        layout="@layout/widgetlist_icontext_compact"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="225dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_marginStart="16dp"
         android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp"
