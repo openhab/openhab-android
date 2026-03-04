@@ -20,8 +20,10 @@ import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -119,10 +121,33 @@ object ItemClient {
         )
         var eventSubscription = createSubscription()
 
+        suspend fun restartSubscription() {
+            try {
+                eventSubscription.cancel()
+            } catch (e: Exception) {
+                Log.e(TAG, "Error cancelling SSE subscription for item $item", e)
+            }
+            delay(5.seconds)
+            eventSubscription = createSubscription()
+        }
+
+        var watchdogJob: Job? = null
+
+        fun resetAliveWatchdog() {
+            watchdogJob?.cancel()
+            watchdogJob = scope.launch {
+                delay(30.seconds) // ALIVE event is sent every 10 seconds
+                Log.d(TAG, "No events received for item $item, restarting subscription")
+                restartSubscription()
+            }
+        }
+        resetAliveWatchdog()
+
         try {
             while (scope.isActive) {
                 try {
                     val event = JSONObject(eventSubscription.getNextEvent())
+                    resetAliveWatchdog()
                     if (event.optString("type") == "ALIVE") {
                         Log.d(TAG, "Got ALIVE event for item $item")
                         continue
@@ -144,9 +169,7 @@ object ItemClient {
                     Log.e(TAG, "Failed parsing JSON of state change event for item $item", e)
                 } catch (e: HttpClient.SseFailureException) {
                     Log.e(TAG, "SSE failure for item $item", e)
-                    eventSubscription.cancel()
-                    delay(5.seconds)
-                    eventSubscription = createSubscription()
+                    restartSubscription()
                 }
             }
         } finally {
