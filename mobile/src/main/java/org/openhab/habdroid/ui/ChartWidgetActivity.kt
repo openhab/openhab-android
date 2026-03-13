@@ -76,6 +76,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.databinding.ActivityChartBinding
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.ParsedState
+import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.util.HttpClient
@@ -96,7 +97,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
     private val dataCacheFragment get() =
         supportFragmentManager.findFragmentByTag("cache") as? ChartDataCacheFragment
     private var period: TemporalAmount = Duration.ofDays(1)
-    private var serverFlags: Int = 0
+    private val serverProperties: ServerProperties? get() = intent.parcelable(EXTRA_SERVER_PROPS)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,7 +112,6 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         }
 
         supportActionBar?.title = widget.label.orDefaultIfEmpty(getString(R.string.chart_activity_title))
-        serverFlags = intent.getIntExtra(EXTRA_SERVER_FLAGS, 0)
 
         if (savedInstanceState != null) {
             savedInstanceState.serializable<Period>(PERIOD)?.let { period = it }
@@ -280,7 +280,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
     private fun goToChartImageActivity() {
         val intent = Intent(this, ChartImageActivity::class.java)
             .putExtra(ChartImageActivity.EXTRA_WIDGET, widget)
-            .putExtra(ChartImageActivity.EXTRA_SERVER_FLAGS, serverFlags)
+            .putExtra(ChartImageActivity.EXTRA_SERVER_FLAGS, serverProperties?.flags ?: 0)
         finish()
         startActivity(intent)
     }
@@ -303,15 +303,16 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         } else {
             listOf(item)
         }
+        val serverTimeZoneId = serverProperties?.timezoneId?.let { ZoneId.of(it) }
         val timestamp = ZonedDateTime.now().let { zdt ->
-            val zoneId = intent.getStringExtra(EXTRA_SERVER_TIME_ZONE)?.let { ZoneId.of(it) }
-            if (zoneId != null) zdt.withZoneSameInstant(zoneId) else zdt
+            if (serverTimeZoneId != null) zdt.withZoneSameInstant(serverTimeZoneId) else zdt
         }
         val startTime = timestamp.minus(period)
+
         val allSeries = itemsForChart.map { item ->
             progressCb(item.label ?: item.name)
             try {
-                loadSeriesForItem(connection, item, startTime, serviceId)
+                loadSeriesForItem(connection, item, startTime, serverTimeZoneId, serviceId)
             } catch (e: NumberFormatException) {
                 throw StateParsingException(e, item)
             }
@@ -462,11 +463,21 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         connection: Connection,
         item: Item,
         startTime: ZonedDateTime,
+        serverTimeZoneId: ZoneId?,
         serviceId: String?
     ): Series {
+        // Timing of 'server provides its own time zone' and 'server understands ZDT format' luckily coincides
+        val startTimeParameter = if (serverTimeZoneId != null) {
+            // OH 5.x: start time parser understands ZonedDateTime format
+            startTime.toString()
+        } else {
+            // OH up to 4.x: start time parser only understands LocalDateTime format
+            startTime.toLocalDateTime().toString()
+        }
+
         val uriBuilder = Uri.Builder()
             .path("rest/persistence/items/${item.name}")
-            .appendQueryParameter("starttime", startTime.toString())
+            .appendQueryParameter("starttime", startTimeParameter)
             .appendQueryParameter("boundary", true)
             .appendQueryParameter("itemState", true)
         if (!serviceId.isNullOrEmpty()) {
@@ -730,7 +741,6 @@ class ChartWidgetActivity : AbstractBaseActivity() {
 
         private const val PERIOD = "period"
         const val EXTRA_WIDGET = "widget"
-        const val EXTRA_SERVER_FLAGS = "server_flags"
-        const val EXTRA_SERVER_TIME_ZONE = "server_timezone"
+        const val EXTRA_SERVER_PROPS = "server_properties"
     }
 }
