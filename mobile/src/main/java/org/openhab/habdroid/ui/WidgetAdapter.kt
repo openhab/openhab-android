@@ -2220,8 +2220,7 @@ fun Context.getChartDetailsActivityIntent(widget: Widget, serverProperties: Serv
     return if ((flags and ServerProperties.SERVER_FLAG_JSON_REST_API) != 0) {
         Intent(this, ChartWidgetActivity::class.java)
             .putExtra(ChartWidgetActivity.EXTRA_WIDGET, widget)
-            .putExtra(ChartWidgetActivity.EXTRA_SERVER_FLAGS, flags)
-            .putExtra(ChartWidgetActivity.EXTRA_SERVER_TIME_ZONE, serverProperties?.timezoneId)
+            .putExtra(ChartWidgetActivity.EXTRA_SERVER_PROPS, serverProperties)
     } else {
         Intent(this, ChartImageActivity::class.java)
             .putExtra(ChartImageActivity.EXTRA_WIDGET, widget)
