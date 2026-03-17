@@ -1,6 +1,8 @@
 openHAB - "empowering the smart home" - Birbirinden farklı sistemleri destekleyen ve sağlayan açık kaynak kodlu akıllı ev otomasyonu
 
 F-Droid'deki yapılarda FCM kaldırılmıştır ve bu nedenle openHAB Cloud'dan anında iletme bildirimleri alamaz. Bunun yerine, bu yapılarda bildirimler düzenli olarak yoklanır.
+Yeni özellikleri deneyin ve erken geri bildirimde bulunun!
+Beta sürümünü <a href="https://f-droid.org/packages/org.openhab.habdroid/">kararlı sürüm</a> ile birlikte kurabilirsiniz.
 
 openHAB, çok çeşitli akıllı ev sistemleri ve teknolojilerini tek bir çözümde entegre eden, Java tabanlı bir açık kaynaklı ev otomasyon platformudur.
 Birleşik soyutlama katmanının üstünde, tüm bağlı cihazlar genel otomasyon kural motorları ve farklı kullanıcı arayüzleri için kullanılabilir.
