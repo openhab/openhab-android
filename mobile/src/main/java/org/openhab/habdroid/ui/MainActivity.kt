@@ -62,6 +62,9 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -76,6 +79,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
@@ -126,6 +130,7 @@ import org.openhab.habdroid.util.areSitemapsShownInDrawer
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getConfiguredServerIds
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getCurrentWifiSsid
 import org.openhab.habdroid.util.getDefaultSitemap
 import org.openhab.habdroid.util.getGroupItems
@@ -148,9 +153,7 @@ import org.openhab.habdroid.util.registerExportedReceiver
 import org.openhab.habdroid.util.resolveThemedColor
 import org.openhab.habdroid.util.updateDefaultSitemap
 
-class MainActivity :
-    AbstractBaseActivity(),
-    ConnectionFactory.UpdateListener {
+class MainActivity : AbstractBaseActivity() {
     private lateinit var prefs: SharedPreferences
     private val onBackPressedCallback = MainOnBackPressedCallback()
     private var serviceResolveJob: Job? = null
@@ -164,6 +167,9 @@ class MainActivity :
     private var sitemapSelectionDialog: AlertDialog? = null
     var connection: Connection? = null
         private set
+    private var lastActiveConnectionResult: ConnectionFactory.ConnectionResult? = null
+    private var lastPrimaryConnectionResult: ConnectionFactory.ConnectionResult? = null
+    private var lastPrimaryCloudConnectionResult: ConnectionFactory.CloudConnectionResult? = null
 
     private var pendingAction: PendingAction? = null
     private lateinit var controller: ContentController
@@ -248,7 +254,7 @@ class MainActivity :
             serverProperties = savedInstanceState.parcelable(STATE_KEY_SERVER_PROPERTIES)
             val lastConnectionHash = savedInstanceState.getInt(STATE_KEY_CONNECTION_HASH)
             if (lastConnectionHash != -1) {
-                val c = ConnectionFactory.activeUsableConnection?.connection
+                val c = getConnectionFactory().currentActive?.conn?.connection
                 if (c != null && c.hashCode() == lastConnectionHash) {
                     connection = c
                 }
@@ -267,6 +273,8 @@ class MainActivity :
             }
 
             updateSitemapDrawerEntries()
+        } else {
+            controller.updateConnection(null, null, 0)
         }
 
         processIntent(intent)
@@ -305,6 +313,17 @@ class MainActivity :
             }
             WindowInsetsCompat.CONSUMED
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                getConnectionFactory().activeFlow.collectLatest { info ->
+                    if (info.conn != lastActiveConnectionResult) {
+                        lastActiveConnectionResult = info.conn
+                        info.conn?.let { onActiveConnectionChanged(it, info.hasLocal) }
+                    }
+                }
+            }
+        }
     }
 
     override fun inflateBinding(): CommonBinding {
@@ -324,19 +343,16 @@ class MainActivity :
         super.onStart()
         isStarted = true
 
-        ConnectionFactory.addListener(this)
-
         window.setFlags(
             if (prefs.isScreenTimerDisabled()) WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON else 0,
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
         )
 
         updateDrawerServerEntries()
-        onActiveConnectionChanged()
         // Make sure the connection to be used is up-to-date. There can be scenarios where the current connection
         // is e.g. a remote one just because the local server lookup timed out for whatever reason when we were last
         // started, and the user might have done changes to fix those timeouts since that time.
-        ConnectionFactory.restartNetworkCheck()
+        getConnectionFactory().restartNetworkCheck()
 
         if (connection != null && serverProperties == null) {
             controller.clearServerCommunicationFailure()
@@ -368,7 +384,6 @@ class MainActivity :
         CrashReportingHelper.d(TAG, "onStop()")
         isStarted = false
         super.onStop()
-        ConnectionFactory.removeListener(this)
         serviceResolveJob?.cancel()
         serviceResolveJob = null
         if (sitemapSelectionDialog?.isShowing == true) {
@@ -538,13 +553,12 @@ class MainActivity :
         }
     }
 
-    override fun onActiveConnectionChanged() {
-        CrashReportingHelper.d(TAG, "onActiveConnectionChanged()")
-        val result = ConnectionFactory.activeUsableConnection
-        val newConnection = result?.connection
-        val failureReason = result?.failureReason
+    private fun onActiveConnectionChanged(result: ConnectionFactory.ConnectionResult, hasLocal: Boolean) {
+        CrashReportingHelper.d(TAG, "onActiveConnectionChanged($result)")
+        val newConnection = result.connection
+        val failureReason = result.failureReason
 
-        if (ConnectionFactory.activeCloudConnection?.connection != null) {
+        if (newConnection != null) {
             manageNotificationShortcut(true)
         }
 
@@ -578,7 +592,7 @@ class MainActivity :
             failureReason is NoUrlInformationException -> {
                 // Attempt resolving only if we're connected locally and
                 // no local connection is configured yet
-                if (failureReason.wouldHaveUsedLocalConnection() && !ConnectionFactory.hasActiveLocalConnection) {
+                if (failureReason.wouldHaveUsedLocalConnection() && hasLocal) {
                     if (serviceResolveJob == null) {
                         val resolver = AsyncServiceResolver(
                             this,
@@ -613,7 +627,7 @@ class MainActivity :
             else -> {
                 controller.indicateNoNetwork(getString(R.string.error_network_not_available), false)
                 scheduleRetry {
-                    ConnectionFactory.restartNetworkCheck()
+                    getConnectionFactory().restartNetworkCheck()
                     recreate()
                 }
             }
@@ -640,17 +654,13 @@ class MainActivity :
         }
     }
 
-    override fun onPrimaryConnectionChanged() {
-        // no-op
-    }
-
-    override fun onActiveCloudConnectionChanged(connection: CloudConnection?) {
+    private fun onActiveCloudConnectionChanged(connection: CloudConnection?) {
         CrashReportingHelper.d(TAG, "onActiveCloudConnectionChanged()")
         updateDrawerItemVisibility()
         handlePendingAction()
     }
 
-    override fun onPrimaryCloudConnectionChanged(connection: CloudConnection?) {
+    private fun onPrimaryCloudConnectionChanged(connection: CloudConnection?) {
         CrashReportingHelper.d(TAG, "onPrimaryCloudConnectionChanged()")
         handlePendingAction()
         launch {
@@ -770,8 +780,8 @@ class MainActivity :
                 }
             }
         } else {
-            val hasLocalAndRemote =
-                ConnectionFactory.hasActiveLocalConnection && ConnectionFactory.hasActiveRemoteConnection
+            val activeInfo = getConnectionFactory().currentActive
+            val hasLocalAndRemote = activeInfo?.hasLocal == true && activeInfo.hasRemote
             val type = connection?.connectionType
             if (hasLocalAndRemote && type == Connection.TYPE_LOCAL) {
                 showSnackbar(
@@ -1185,7 +1195,7 @@ class MainActivity :
             drawerMenu.setGroupVisible(R.id.options, true)
 
             val notificationsItem = drawerMenu.findItem(R.id.notifications)
-            notificationsItem.isVisible = ConnectionFactory.activeCloudConnection?.connection != null
+            notificationsItem.isVisible = getConnectionFactory().currentActive?.cloud?.connection != null
 
             val habPanelItem = drawerMenu.findItem(R.id.habpanel)
             habPanelItem.isVisible = serverProperties?.hasWebViewUiInstalled(WebViewUi.HABPANEL) == true &&
@@ -1292,9 +1302,9 @@ class MainActivity :
 
         action is PendingAction.OpenNotification && isStarted -> {
             val conn = if (action.primary) {
-                ConnectionFactory.primaryCloudConnection
+                getConnectionFactory().currentPrimary?.cloud
             } else {
-                ConnectionFactory.activeCloudConnection
+                getConnectionFactory().currentActive?.cloud
             }
             if (conn?.connection != null) {
                 openNotifications(action.notificationId, action.primary)

@@ -17,12 +17,12 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.core.content.edit
+import kotlinx.coroutines.flow.first
 import org.json.JSONArray
 import org.json.JSONException
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.Connection
-import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.NotACloudServerException
 import org.openhab.habdroid.model.CloudMessage
 import org.openhab.habdroid.model.toCloudMessage
@@ -30,6 +30,7 @@ import org.openhab.habdroid.ui.CloudNotificationListFragment
 import org.openhab.habdroid.ui.preference.PushNotificationStatus
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
@@ -51,8 +52,7 @@ object CloudMessagingHelper {
         context.getPrefs().getBoolean(PrefKeys.FOSS_NOTIFICATIONS_ENABLED, false)
 
     suspend fun pollForNotifications(context: Context) {
-        ConnectionFactory.waitForInitialization()
-        val connection = ConnectionFactory.primaryCloudConnection?.connection
+        val connection = context.getConnectionFactory().primaryFlow.first().conn?.connection
         if (connection == null) {
             Log.d(TAG, "No connection for loading notifications")
             return
@@ -96,8 +96,7 @@ object CloudMessagingHelper {
     }
 
     suspend fun getPushNotificationStatus(context: Context): PushNotificationStatus {
-        ConnectionFactory.waitForInitialization()
-        val cloudFailure = ConnectionFactory.primaryCloudConnection?.failureReason
+        val cloudResult = context.getConnectionFactory().primaryFlow.first().cloud
         val prefs = context.getPrefs()
         return when {
             !prefs.getBoolean(PrefKeys.FOSS_NOTIFICATIONS_ENABLED, false) -> PushNotificationStatus(
@@ -112,19 +111,19 @@ object CloudMessagingHelper {
                 false
             )
 
-            ConnectionFactory.primaryCloudConnection?.connection != null -> PushNotificationStatus(
+            cloudResult?.connection != null -> PushNotificationStatus(
                 context.getString(R.string.push_notification_status_impaired),
                 R.drawable.ic_bell_ring_outline_grey_24dp,
                 false
             )
 
-            cloudFailure != null && cloudFailure !is NotACloudServerException -> {
+            cloudResult?.failureReason != null && cloudResult.failureReason !is NotACloudServerException -> {
                 val message = context.getString(
                     R.string.push_notification_status_http_error,
                     context.getHumanReadableErrorMessage(
-                        if (cloudFailure is HttpClient.HttpException) cloudFailure.originalUrl else "",
-                        if (cloudFailure is HttpClient.HttpException) cloudFailure.statusCode else 0,
-                        cloudFailure,
+                        (cloudResult.failureReason as? HttpClient.HttpException)?.originalUrl ?: "",
+                        (cloudResult.failureReason as? HttpClient.HttpException)?.statusCode ?: 0,
+                        cloudResult.failureReason,
                         true
                     )
                 )

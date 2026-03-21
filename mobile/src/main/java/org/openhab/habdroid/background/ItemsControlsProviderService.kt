@@ -37,11 +37,11 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.jdk9.flowPublish
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
-import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.toParsedState
@@ -53,6 +53,7 @@ import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.PrefKeys
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getDeviceControlSubtitle
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
@@ -62,8 +63,7 @@ import org.openhab.habdroid.util.orDefaultIfEmpty
 @RequiresApi(Build.VERSION_CODES.R)
 class ItemsControlsProviderService : ControlsProviderService() {
     override fun createPublisherForAllAvailable(): Flow.Publisher<Control> = flowPublish {
-        ConnectionFactory.waitForInitialization()
-        val connection = ConnectionFactory.primaryUsableConnection?.connection ?: return@flowPublish
+        val connection = getConnectionFactory().primaryFlow.first().conn?.connection ?: return@flowPublish
         val allItems = loadItems(connection) ?: return@flowPublish
         val factory = ItemControlFactory(this@ItemsControlsProviderService, allItems, false)
         allItems
@@ -72,8 +72,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
     }
 
     override fun createPublisherFor(itemNames: List<String>): Flow.Publisher<Control> = flowPublish {
-        ConnectionFactory.waitForInitialization()
-        val connection = ConnectionFactory.primaryUsableConnection?.connection ?: return@flowPublish
+        val connection = getConnectionFactory().primaryFlow.first().conn?.connection ?: return@flowPublish
         val allItems = loadItems(connection) ?: return@flowPublish
         val factory = ItemControlFactory(this@ItemsControlsProviderService, allItems, true)
         allItems.filterKeys { itemName -> itemName in itemNames }
@@ -93,8 +92,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
 
     override fun performControlAction(controlId: String, action: ControlAction, consumer: Consumer<Int>) {
         GlobalScope.launch {
-            ConnectionFactory.waitForInitialization()
-            val connection = ConnectionFactory.primaryUsableConnection?.connection
+            val connection = getConnectionFactory().primaryFlow.first().conn?.connection
             consumer.accept(performItemControl(connection, controlId, action))
         }
     }

@@ -31,19 +31,21 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.color.DynamicColors
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.background.tiles.getTileData
 import org.openhab.habdroid.core.CloudMessagingHelper
-import org.openhab.habdroid.core.connection.CloudConnection
-import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.ui.AbstractBaseActivity
@@ -55,6 +57,7 @@ import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getConfiguredServerIds
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getNextAvailableServerId
 import org.openhab.habdroid.util.getNotificationTone
@@ -67,9 +70,7 @@ import org.openhab.habdroid.util.isInstalled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import org.openhab.habdroid.util.parcelable
 
-class MainSettingsFragment :
-    AbstractSettingsFragment(),
-    ConnectionFactory.UpdateListener {
+class MainSettingsFragment : AbstractSettingsFragment() {
     override val titleResId: Int @StringRes get() = R.string.action_settings
 
     private var notificationPollingPref: NotificationPollingPreference? = null
@@ -87,21 +88,28 @@ class MainSettingsFragment :
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                requireContext().getConnectionFactory().primaryFlow.collectLatest {
+                    updateNotificationStatusSummaries()
+                }
+            }
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         updateScreenLockStateAndSummary(
             prefs.getStringOrFallbackIfEmpty(PrefKeys.SCREEN_LOCK, getString(R.string.settings_screen_lock_off_value))
         )
         populateServerPrefs()
-        ConnectionFactory.addListener(this)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             updateTileSummary()
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        ConnectionFactory.removeListener(this)
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -432,22 +440,6 @@ class MainSettingsFragment :
         return listOf("net.dinglisch.android.taskerm", "com.twofortyfouram.locale").any { pkg ->
             pm.isInstalled(pkg)
         }
-    }
-
-    override fun onActiveConnectionChanged() {
-        // no-op
-    }
-
-    override fun onPrimaryConnectionChanged() {
-        updateNotificationStatusSummaries()
-    }
-
-    override fun onActiveCloudConnectionChanged(connection: CloudConnection?) {
-        // no-op
-    }
-
-    override fun onPrimaryCloudConnectionChanged(connection: CloudConnection?) {
-        updateNotificationStatusSummaries()
     }
 
     companion object {

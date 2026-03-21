@@ -28,7 +28,6 @@ import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONException
 import org.openhab.habdroid.R
-import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.databinding.FragmentNotificationlistBinding
 import org.openhab.habdroid.model.CloudMessage
 import org.openhab.habdroid.model.ServerConfiguration
@@ -36,6 +35,7 @@ import org.openhab.habdroid.model.toCloudMessage
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getConfiguredServerIds
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getSecretPrefs
@@ -106,11 +106,12 @@ class CloudNotificationListFragment : Fragment() {
 
     private fun loadNotifications(clearExisting: Boolean) {
         val activity = activity as AbstractBaseActivity? ?: return
-        val conn = if (usePrimaryServer()) {
-            ConnectionFactory.primaryCloudConnection?.connection
+        val connInfo = if (usePrimaryServer()) {
+            activity.getConnectionFactory().currentPrimary
         } else {
-            ConnectionFactory.activeCloudConnection?.connection
+            activity.getConnectionFactory().currentActive
         }
+        val conn = connInfo?.conn?.connection
         if (conn == null) {
             updateViewVisibility(loading = false, loadError = true)
             return
