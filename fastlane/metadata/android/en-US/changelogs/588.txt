@@ -1,0 +1,3 @@
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.19.6-beta...3.19.7-beta
+
+- [Ignore alarms of eu.smartpatient.mytherapy](https://github.com/openhab/openhab-android/commit/26049de5764a95b657dda001249dab2d25ef07a0)
