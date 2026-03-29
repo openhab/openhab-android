@@ -1,8 +1,6 @@
 openHAB - "opolnomočenje pametnega doma" - odprtokodna domača avtomatika neodvisna od tehnologij in proizvajalcev
 
  Namesto tega te verzije pridobivajo obvestila z rednim poizvedovanjem.
-Preizkusite nove funkcionalnosti in nam posredujte povratne informacije!
-Beta verzijo lahko namestite poleg <a href="https://f-droid.org/packages/org.openhab.habdroid/">redne verzije</a>.
 
 openHAB je odprtokodna platforma za hišno avtomatiko, ki temelji na Javi, združuje širok nabor različnih sistemov za pametne hiše in tehnologije v eno rešitev.
 Na podlagi skupne abstrakcijske plasti je mogoče vse naprave povezati in upravljati s pravili in jih prikazati v različnih grafičnih vmesnikih.
