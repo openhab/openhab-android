@@ -56,7 +56,6 @@ import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.core.connection.Connection
-import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.databinding.FragmentWidgetlistBinding
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.Widget
@@ -267,7 +266,7 @@ class WidgetListFragment :
     }
 
     private fun populateContextMenu(widget: Widget, menu: ContextMenu) {
-        val activity = (activity as AbstractBaseActivity?) ?: return
+        val activity = (activity as MainActivity?) ?: return
         val suggestedCommands = suggestedCommandsFactory.fill(widget)
         val nfcSupported = NfcAdapter.getDefaultAdapter(activity) != null || Util.isEmulator()
         val hasCommandOptions = suggestedCommands.entries.isNotEmpty() || suggestedCommands.shouldShowCustom
@@ -285,12 +284,11 @@ class WidgetListFragment :
                 Menu.NONE,
                 R.string.analyse
             ).setOnMenuItemClickListener {
-                val mainActivity = activity as MainActivity
-                val intent = mainActivity.getChartDetailsActivityIntent(
+                val intent = activity.getChartDetailsActivityIntent(
                     widget,
-                    mainActivity.serverProperties
+                    activity.serverProperties
                 )
-                mainActivity.startActivity(intent)
+                activity.startActivity(intent)
                 return@setOnMenuItemClickListener true
             }
 
@@ -585,9 +583,9 @@ class WidgetListFragment :
         }
     }
 
-    private fun createShortcut(activity: AbstractBaseActivity, linkedPage: LinkedPage, whiteBackground: Boolean) =
+    private fun createShortcut(activity: MainActivity, linkedPage: LinkedPage, whiteBackground: Boolean) =
         activity.launch {
-            val connection = ConnectionFactory.activeUsableConnection?.connection ?: return@launch
+            val connection = activity.connection ?: return@launch
 
             /**
              *  Icon size is defined in {@link AdaptiveIconDrawable}. Foreground size of

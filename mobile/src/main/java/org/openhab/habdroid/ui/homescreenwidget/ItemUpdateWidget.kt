@@ -36,11 +36,11 @@ import java.io.IOException
 import java.io.InputStream
 import kotlin.math.min
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
-import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.IconFormat
 import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.model.Item
@@ -55,6 +55,7 @@ import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.dpToPixel
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getIconFallbackColor
 import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.getStringOrNull
@@ -169,9 +170,8 @@ open class ItemUpdateWidget : AppWidgetProvider() {
 
         GlobalScope.launch {
             val itemState = if (data.showState) {
-                ConnectionFactory.waitForInitialization()
                 try {
-                    ConnectionFactory.primaryUsableConnection?.connection?.let { connection ->
+                    context.getConnectionFactory().primaryFlow.first().conn?.connection?.let { connection ->
                         val item = ItemClient.loadItem(connection, data.item)
                         when {
                             item?.isOfTypeOrGroupType(Item.Type.Number) == true -> item.state?.asNumber?.toString()
@@ -269,8 +269,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                     cachedIcon.use { setIcon(it, cachedIconType == IconFormat.Svg) }
                 } else {
                     Log.d(TAG, "Download icon")
-                    ConnectionFactory.waitForInitialization()
-                    val connection = ConnectionFactory.primaryUsableConnection?.connection
+                    val connection = context.getConnectionFactory().primaryFlow.first().conn?.connection
                     if (connection == null) {
                         Log.d(TAG, "Got no connection")
                         return

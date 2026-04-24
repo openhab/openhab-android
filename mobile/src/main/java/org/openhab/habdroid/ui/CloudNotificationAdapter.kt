@@ -25,11 +25,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.databinding.NotificationlistItemBinding
 import org.openhab.habdroid.databinding.NotificationlistLoadingItemBinding
 import org.openhab.habdroid.model.CloudMessage
 import org.openhab.habdroid.util.determineDataUsagePolicy
+import org.openhab.habdroid.util.getConnectionFactory
 
 class CloudNotificationAdapter(context: Context, private val loadMoreListener: () -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -126,7 +126,7 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
                 isVisible = notification.message.isNotEmpty()
             }
 
-            val conn = ConnectionFactory.activeCloudConnection?.connection
+            val conn = itemView.context.getConnectionFactory().currentActive?.cloud?.connection
             if (conn == null) {
                 binding.notificationIcon.applyFallbackDrawable()
                 binding.notificationImage.isVisible = false

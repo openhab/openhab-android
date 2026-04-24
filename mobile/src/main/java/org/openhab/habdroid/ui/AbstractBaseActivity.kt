@@ -57,6 +57,7 @@ import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.applyUserSelectedTheme
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getScreenLockMode
 import org.openhab.habdroid.util.hasPermissions
@@ -123,7 +124,14 @@ abstract class AbstractBaseActivity :
     @CallSuper
     override fun onStart() {
         super.onStart()
+        getConnectionFactory().trustManager.bindDisplayActivity(this)
         promptForDevicePasswordIfRequired()
+    }
+
+    @CallSuper
+    override fun onStop() {
+        super.onStop()
+        getConnectionFactory().trustManager.unbindDisplayActivity(this)
     }
 
     @CallSuper

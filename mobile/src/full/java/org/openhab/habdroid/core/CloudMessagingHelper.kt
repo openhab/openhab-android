@@ -17,12 +17,13 @@ import android.content.Context
 import android.content.Intent
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import kotlinx.coroutines.flow.first
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
-import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.NotACloudServerException
 import org.openhab.habdroid.ui.preference.PushNotificationStatus
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
@@ -53,10 +54,9 @@ object CloudMessagingHelper {
     }
 
     suspend fun getPushNotificationStatus(context: Context): PushNotificationStatus {
-        ConnectionFactory.waitForInitialization()
+        val result = context.getConnectionFactory().primaryFlow.first()
         val prefs = context.getPrefs()
-        val cloudConnectionResult = ConnectionFactory.primaryCloudConnection
-        val cloudFailure = cloudConnectionResult?.failureReason
+        val cloudFailure = result.cloud?.failureReason
         return when {
             // No remote server is configured
             prefs.getRemoteUrl(prefs.getPrimaryServerId()).isEmpty() -> PushNotificationStatus(
@@ -80,7 +80,7 @@ object CloudMessagingHelper {
             }
 
             // Remote server is configured, but it's not a cloud instance
-            cloudConnectionResult?.connection == null && ConnectionFactory.hasPrimaryRemoteConnection ->
+            result.cloud?.connection == null && result.hasRemote ->
                 PushNotificationStatus(
                     context.getString(R.string.push_notification_status_remote_no_cloud),
                     R.drawable.ic_bell_off_outline_grey_24dp,

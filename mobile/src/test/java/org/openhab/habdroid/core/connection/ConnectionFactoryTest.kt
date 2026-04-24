@@ -30,6 +30,7 @@ import java.io.File
 import java.io.IOException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
@@ -85,6 +86,7 @@ class ConnectionFactoryTest {
     private lateinit var mockNetwork: Network
     private lateinit var mockNetworkCaps: NetworkCapabilities
     private val mockConnectionHelper = MockConnectionHelper()
+    private lateinit var connectionFactory: ConnectionFactory
 
     @Before
     @Throws(IOException::class)
@@ -115,7 +117,7 @@ class ConnectionFactoryTest {
         mockNetwork = mock {}
         mockNetworkCaps = mock {}
 
-        ConnectionFactory.initialize(mockContext, mockPrefs, mockConnectionHelper)
+        connectionFactory = ConnectionFactory(mockContext, mockPrefs, mockPrefs, mockConnectionHelper)
     }
 
     @Test
@@ -130,7 +132,7 @@ class ConnectionFactoryTest {
         updateAndWaitForConnections()
         assertTrue(
             "Should return a connection if remote url is set.",
-            ConnectionFactory.hasActiveRemoteConnection
+            connectionFactory.currentActive?.hasRemote == true
         )
     }
 
@@ -141,7 +143,7 @@ class ConnectionFactoryTest {
         updateAndWaitForConnections()
         assertFalse(
             "Should not return a remote connection if remote url isn't set.",
-            ConnectionFactory.hasActiveRemoteConnection
+            connectionFactory.currentActive?.hasRemote == true
         )
     }
 
@@ -152,7 +154,7 @@ class ConnectionFactoryTest {
         updateAndWaitForConnections()
         assertTrue(
             "Should return a local connection if local url is set.",
-            ConnectionFactory.hasActiveLocalConnection
+            connectionFactory.currentActive?.hasLocal == true
         )
     }
 
@@ -163,7 +165,7 @@ class ConnectionFactoryTest {
         updateAndWaitForConnections()
         assertFalse(
             "Should not return a local connection when local url isn't set.",
-            ConnectionFactory.hasActiveLocalConnection
+            connectionFactory.currentActive?.hasLocal == true
         )
     }
 
@@ -177,7 +179,7 @@ class ConnectionFactoryTest {
 
         fillInServers(remote = server.url("/").toString())
         updateAndWaitForConnections()
-        val conn = ConnectionFactory.activeCloudConnection?.connection
+        val conn = connectionFactory.currentActive?.cloud?.connection
 
         assertNotNull("Should return a cloud connection if remote url is set.", conn)
         assertEquals(CloudConnection::class.java, conn!!.javaClass)
@@ -201,7 +203,7 @@ class ConnectionFactoryTest {
         mockConnectionHelper.update(null)
         updateAndWaitForConnections()
         assertEquals(
-            ConnectionFactory.activeUsableConnection?.failureReason?.javaClass,
+            connectionFactory.currentActive?.conn?.failureReason?.javaClass,
             NetworkNotAvailableException::class.java
         )
     }
@@ -214,7 +216,7 @@ class ConnectionFactoryTest {
         updateAndWaitForConnections()
         assertEquals(
             "Unknown transport types should be used for remote connections",
-            ConnectionFactory.activeUsableConnection?.connection?.connectionType,
+            connectionFactory.currentActive?.conn?.connection?.connectionType,
             Connection.TYPE_REMOTE
         )
     }
@@ -230,7 +232,7 @@ class ConnectionFactoryTest {
         mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Wifi(mockNetwork, mockNetworkCaps))
         updateAndWaitForConnections()
 
-        val conn = ConnectionFactory.activeUsableConnection?.connection
+        val conn = connectionFactory.currentActive?.conn?.connection
 
         assertNotNull("Should return a connection in WIFI when only remote url is set.", conn)
         assertEquals(
@@ -253,7 +255,7 @@ class ConnectionFactoryTest {
         mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Wifi(mockNetwork, mockNetworkCaps))
         updateAndWaitForConnections()
 
-        val conn = ConnectionFactory.activeUsableConnection?.connection
+        val conn = connectionFactory.currentActive?.conn?.connection
 
         assertNotNull("Should return a connection in WIFI when a local url is set.", conn)
         assertEquals(
@@ -272,7 +274,7 @@ class ConnectionFactoryTest {
         mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Wifi(mockNetwork, mockNetworkCaps))
         updateAndWaitForConnections()
         assertEquals(
-            ConnectionFactory.activeUsableConnection?.failureReason?.javaClass,
+            connectionFactory.currentActive?.conn?.failureReason?.javaClass,
             NoUrlInformationException::class.java
         )
     }
@@ -306,9 +308,9 @@ class ConnectionFactoryTest {
     private fun updateAndWaitForConnections() {
         runBlocking {
             launch(Dispatchers.Main) {
-                ConnectionFactory.instance.updateConnections()
+                connectionFactory.updateConnections()
+                connectionFactory.activeFlow.first()
             }
-            ConnectionFactory.waitForInitialization()
         }
     }
 }
