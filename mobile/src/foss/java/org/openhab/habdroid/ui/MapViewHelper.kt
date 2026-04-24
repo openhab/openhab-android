@@ -83,6 +83,9 @@ object MapViewHelper {
         override fun bindAfterDataSaverCheck(widget: Widget) {
             super.bindAfterDataSaverCheck(widget)
             handler.post {
+                binding.mapview.overlays
+                    .filter { o -> o is Marker }
+                    .let { binding.mapview.overlays.removeAll(it) }
                 binding.mapview.applyPositionAndLabel(
                     boundWidget?.item,
                     binding.icontext.label.text,
