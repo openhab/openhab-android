@@ -57,6 +57,7 @@ import kotlinx.coroutines.launch
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
+import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.DemoConnection
 import org.openhab.habdroid.databinding.BottomSheetShortcutLabelBinding
 import org.openhab.habdroid.databinding.FragmentWebviewBinding
@@ -151,7 +152,9 @@ abstract class AbstractWebViewFragment :
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 requireContext().getConnectionFactory().activeFlow.collectLatest { info ->
-                    if (info.conn?.connection != null) {
+                    val usedConnection = webView?.tag as? Connection
+                    val newConnection = info.conn?.connection
+                    if (newConnection != null && newConnection != usedConnection) {
                         loadWebsite()
                     }
                 }
@@ -374,6 +377,7 @@ abstract class AbstractWebViewFragment :
                 handleError(request.url)
             }
         }
+        webView.tag = conn
         webView.loadUrl(url.toString())
     }
 
