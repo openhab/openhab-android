@@ -236,7 +236,7 @@ abstract class AbstractWebViewFragment :
                 loadWebsite(savedUrl)
             }
 
-            subpage != null -> {
+            subpage != null && subpage.startsWith("/") -> {
                 Log.d(TAG, "Load subpage: $subpage")
                 loadWebsite(subpage)
             }
