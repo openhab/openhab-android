@@ -1746,7 +1746,7 @@ class WidgetAdapter(
                 loadUrl(ConnectionWebViewClient.EMPTY_PAGE)
 
                 if (url != null) {
-                    setUpForConnection(connection, url)
+                    setUpForConnection(connection)
                     loadUrl(url.toString())
                 }
             }
