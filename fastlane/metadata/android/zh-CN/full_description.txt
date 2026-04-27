@@ -1,6 +1,8 @@
 openHAB - "智能化家居" - 开源家居自动化供应商与技术
 
 在 F-Droid 上的版本已删除 FCM ，因此无法从 openHAB Cloud 接收推送通知。 替代，在这些 builds 中进行定期轮询通知。
+尝试新功能并提供早期反馈！
+<a href="https://f-droid.org/packages/org.openhab.habdroid/">稳定版</a>可与测试版共存。
 
 openHAB 是一款基于 Java 的开源家居自动化平台，整合多种智能家居系统与技术。
 在统一抽象层上，所有连接设备均可通过自动规则引擎与不同的用户界面管理。

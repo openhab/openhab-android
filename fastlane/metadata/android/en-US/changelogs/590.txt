@@ -1,0 +1,6 @@
+## What's Changed
+* Refactor ConnectionFactory by @maniac103 in https://github.com/openhab/openhab-android/pull/3972
+* Revert to current widget state if sent command didn't affect it by @maniac103 in https://github.com/openhab/openhab-android/pull/3963
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.19.7-beta...3.20.0-beta
