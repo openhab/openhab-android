@@ -194,6 +194,6 @@ class MapBottomSheet :
 
     override fun onMarkerDragEnd(marker: Marker) {
         val newState = String.format(Locale.US, "%f,%f", marker.position.latitude, marker.position.longitude)
-        connection?.httpClient?.sendItemCommand(marker.tag as Item?, newState)
+        connection?.httpClient?.sendItemCommand(marker.tag as Item?, newState, sourceId)
     }
 }
