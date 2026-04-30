@@ -111,7 +111,7 @@ class CloudNotificationListFragment : Fragment() {
         } else {
             activity.getConnectionFactory().currentActive
         }
-        val conn = connInfo?.conn?.connection
+        val conn = connInfo?.cloud?.connection
         if (conn == null) {
             updateViewVisibility(loading = false, loadError = true)
             return
