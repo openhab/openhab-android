@@ -1,0 +1,5 @@
+## What's Changed
+* Fix some regressions from connection factory refactoring by @maniac103 in https://github.com/openhab/openhab-android/pull/3987
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.20.0-beta...3.20.1-beta
