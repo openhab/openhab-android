@@ -40,16 +40,6 @@
             app:iconEnabled="@drawable/ic_baseline_bluetooth_grey_24dp"
             app:iconDisabled="@drawable/ic_baseline_bluetooth_disabled_grey_24dp"
             app:singleLineTitle="false" />
-        <org.openhab.habdroid.ui.preference.widgets.ItemUpdatingPreference
-            android:defaultValue="false|Gadgetbridge"
-            android:key="send_gadgetbridge"
-            app:helpUrl="@string/settings_gadgetbridge_howto_url"
-            app:summaryEnabled="@string/settings_gadgetbridge_summary_on"
-            app:summaryDisabled="@string/settings_gadgetbridge_summary_off"
-            android:title="@string/settings_gadgetbridge"
-            app:iconEnabled="@drawable/ic_watch_outline_grey_24dp"
-            app:iconDisabled="@drawable/ic_watch_outline_grey_24dp"
-            app:singleLineTitle="false" />
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/send_device_info_category_schedule_based_title">

@@ -24,7 +24,6 @@ import org.openhab.habdroid.ui.preference.widgets.ItemUpdatingPreference
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPreference
 import org.openhab.habdroid.util.getPrefixForBgTasks
-import org.openhab.habdroid.util.isInstalled
 
 class SendDeviceInfoSettingsFragment : AbstractSettingsFragment() {
     override val titleResId: Int @StringRes get() = R.string.send_device_info_to_server_short
@@ -54,10 +53,6 @@ class SendDeviceInfoSettingsFragment : AbstractSettingsFragment() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             wifiSsidPref.setSummaryOnAndUpdate(getString(R.string.settings_wifi_ssid_summary_on_location_on))
-        }
-
-        if (activity?.packageManager?.isInstalled("nodomain.freeyourgadget.gadgetbridge") == false) {
-            preferenceScreen.removePreferenceRecursively(PrefKeys.SEND_GADGETBRIDGE)
         }
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
