@@ -54,7 +54,6 @@
         <package android:name="im.molly.app" />
         <package android:name="eu.smartpatient.mytherapy" />
         <package android:name="com.samsung.android.fmm" />
-        <package android:name="nodomain.freeyourgadget.gadgetbridge" />
         <intent>
             <action android:name="android.speech.RecognitionService" />
         </intent>
@@ -264,11 +263,6 @@
             <intent-filter>
                 <action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
                 <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="nodomain.freeyourgadget.gadgetbridge.FellAsleep" />
-                <action android:name="nodomain.freeyourgadget.gadgetbridge.WokeUp" />
-                <action android:name="nodomain.freeyourgadget.gadgetbridge.StartNonWear" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.LOCALE_CHANGED" />

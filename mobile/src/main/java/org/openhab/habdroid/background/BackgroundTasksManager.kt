@@ -128,11 +128,6 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 scheduleWorker(context, PrefKeys.SEND_DND_MODE, true)
             }
 
-            in GADGETBRIDGE_ACTIONS -> {
-                Log.d(TAG, "Gadgetbridge intent received")
-                scheduleWorker(context, PrefKeys.SEND_GADGETBRIDGE, true, intent)
-            }
-
             Intent.ACTION_LOCALE_CHANGED -> {
                 Log.d(TAG, "Locale changed, recreate notification channels")
                 NotificationUpdateObserver.createNotificationChannels(context)
@@ -305,13 +300,6 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
         fun buildWorkerTagForServer(id: Int) = "server-id-$id"
 
-        private const val GADGETBRIDGE_ACTION_PREFIX = "nodomain.freeyourgadget.gadgetbridge."
-        private val GADGETBRIDGE_ACTIONS = listOf(
-            "${GADGETBRIDGE_ACTION_PREFIX}FellAsleep",
-            "${GADGETBRIDGE_ACTION_PREFIX}WokeUp",
-            "${GADGETBRIDGE_ACTION_PREFIX}StartNonWear"
-        )
-
         internal val KNOWN_KEYS = listOf(
             PrefKeys.SEND_ALARM_CLOCK,
             PrefKeys.SEND_PHONE_STATE,
@@ -319,8 +307,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             PrefKeys.SEND_CHARGING_STATE,
             PrefKeys.SEND_WIFI_SSID,
             PrefKeys.SEND_BLUETOOTH_DEVICES,
-            PrefKeys.SEND_DND_MODE,
-            PrefKeys.SEND_GADGETBRIDGE
+            PrefKeys.SEND_DND_MODE
         )
         internal val KNOWN_PERIODIC_KEYS = listOf(
             PrefKeys.SEND_BATTERY_LEVEL,
@@ -372,11 +359,6 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     }
                     if (prefs.isItemUpdatePrefEnabled(PrefKeys.SEND_WIFI_SSID)) {
                         addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
-                    }
-                    if (prefs.isItemUpdatePrefEnabled(PrefKeys.SEND_GADGETBRIDGE)) {
-                        GADGETBRIDGE_ACTIONS.forEach { action ->
-                            addAction(action)
-                        }
                     }
                 }
                 // This broadcast is only sent to registered receivers, so we need that in any case
@@ -888,15 +870,6 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 }
 
                 ItemUpdateWorker.ValueWithInfo(state)
-            }
-            VALUE_GETTER_MAP[PrefKeys.SEND_GADGETBRIDGE] = { _, intent ->
-                if (intent == null) {
-                    Log.d(TAG, "VALUE_GETTER_MAP called without intent for key SEND_GADGETBRIDGE")
-                    null
-                } else {
-                    val state = intent.action?.removePrefix(GADGETBRIDGE_ACTION_PREFIX) ?: "UNDEF"
-                    ItemUpdateWorker.ValueWithInfo(state)
-                }
             }
         }
     }
