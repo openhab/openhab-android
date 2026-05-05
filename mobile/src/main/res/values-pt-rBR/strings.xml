@@ -234,9 +234,6 @@
     <string name="settings_dnd_mode">Modo Não perturbe</string>
     <string name="settings_dnd_mode_summary_on">Envia o modo Não perturbe para o Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Não enviar modo Não Pertube</string>
-    <string name="settings_gadgetbridge">Ações do dispositivo Gadgetbridge</string>
-    <string name="settings_gadgetbridge_summary_on">Envia ações do dispositivo Gadgetbridge para o item \'%1$s\'. Requer monitor de eventos para ligar.</string>
-    <string name="settings_gadgetbridge_summary_off">Não enviar ações do dispositivo Gadgetbridge</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Este recurso requer permissões adicionais para funcionar. Depois de habilitá-lo, você será solicitado para dar permissão.</string>
     <string name="settings_background_tasks_permission_hint">Este recurso requer permissões adicionais para funcionar. Depois de habilitá-lo, você será solicitado para dar permissão. Certifique-se de aprovar a permissão também para uso em segundo plano, já que as atualizações de Item também acontecem quando o app está em segundo plano.</string>
     <string name="settings_background_tasks_permission_denied_background_location">Algumas tarefas em segundo plano requerem que o acesso à localização seja definido como \"%s\" nas configurações do Android</string>
