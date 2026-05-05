@@ -248,9 +248,6 @@
     <string name="settings_dnd_mode">DND режим</string>
     <string name="settings_dnd_mode_summary_on">Отправляет DND режим в Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Не отправлять DND режим</string>
-    <string name="settings_gadgetbridge">Действия устройств Gadgetbridge</string>
-    <string name="settings_gadgetbridge_summary_on">Отправляет действия Gadgetbridge устройства на Item \'%1$s\'. Требуется включенный монитор событий.</string>
-    <string name="settings_gadgetbridge_summary_off">Не отправлять действия Gadgetbridge</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Эта функция требует дополнительных прав доступа. После ее включения, вам будет предложено одобрить разрешение.</string>
     <string name="settings_background_tasks_permission_hint">Эта функция требует дополнительных прав доступа. После ее включения, вам будет предложено одобрить разрешение. Пожалуйста, не забудьте одобрить разрешение на фоновое использование, так как обновления Item также происходит, когда приложение находится в фоновом режиме.</string>
     <string name="settings_background_tasks_permission_denied_background_location">Некоторый фоновые задачи требует доступа к местоположению, необходимо включить в \"%s\" в настройках Android</string>

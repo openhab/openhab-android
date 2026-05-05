@@ -285,9 +285,6 @@
     <string name="settings_dnd_mode">Ikke forstyrr-modus</string>
     <string name="settings_dnd_mode_summary_on">Sender ikke forstyrr-modus til Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Ikke send ikke forstyrr-modus</string>
-    <string name="settings_gadgetbridge">Gadgetbridge enhetshandlinger</string>
-    <string name="settings_gadgetbridge_summary_on">Sender Gadgetbridge enhetshandlinger til Item \'%1$s\'. Krever at hendelsesovervåking er aktivert.</string>
-    <string name="settings_gadgetbridge_summary_off">Ikke send Gadgetbridge enhetshandlinger</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Denne funksjonen krever ekstra tillatelser for å fungere. Etter aktivering vil du bli bedt om godkjenning av tillatelse.</string>
     <string name="settings_background_tasks_permission_hint">Denne funksjonen krever ekstra tillatelser for å fungere. Etter aktivering vil du bli bedt om godkjenning. Vennligst også godkjenn tillatelse for bakgrunnsbruk, siden Item oppdateringer også skjer mens programmet er i bakgrunnen.</string>
     <string name="settings_permission_denied">Noen funksjoner har blitt deaktivert på grunn av manglende tillatelser</string>

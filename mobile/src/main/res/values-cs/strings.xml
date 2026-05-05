@@ -266,9 +266,6 @@
     <string name="settings_dnd_mode">Režim Nerušit</string>
     <string name="settings_dnd_mode_summary_on">Odeslat stav režimu Nerušit do Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Neposílat stav režimu Nerušit</string>
-    <string name="settings_gadgetbridge">Akce zařízení Gadgetbridge</string>
-    <string name="settings_gadgetbridge_summary_on">Odešle akci zařízení Gadgetbridge do Item \'%1$s\'. Vyžaduje zapnutí monitoru událostí.</string>
-    <string name="settings_gadgetbridge_summary_off">Neposílat akce zařízení Gadgetbridge</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Tato funkce vyžaduje další oprávnění. Po její aktivaci budete požádáni o schválení oprávnění.</string>
     <string name="settings_background_tasks_permission_hint">Tato funkce vyžaduje další oprávnění. Po její aktivaci budete požádáni o schválení oprávnění. Přesvědčte se, zda jste povolili oprávnění také pro použití na pozadí, protože k aktualizaci Item dochází i v případě, že je aplikace na pozadí.</string>
     <string name="settings_permission_denied">Některé funkce byly zakázány kvůli chybějícím oprávněním</string>

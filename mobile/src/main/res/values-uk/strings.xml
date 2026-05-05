@@ -244,9 +244,6 @@
     <string name="settings_dnd_mode">Режим Не турбувати</string>
     <string name="settings_dnd_mode_summary_on">Надсилає режим Не турбувати до об\'єкту \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Не надсилати режим Не турбувати</string>
-    <string name="settings_gadgetbridge">Дії пристрою ґаджебридж</string>
-    <string name="settings_gadgetbridge_summary_on">Надсилає дії з пристрою Gadgetbridge до об’єкта %1$s. Потребує увімкнений монітор подій.</string>
-    <string name="settings_gadgetbridge_summary_off">Не надсилайте дії пристрою Gadgetbridge</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Ця функція потребує додаткових дозволів для роботи. Після ввімкнення вам буде запропоновано схвалити дозвіл.</string>
     <string name="settings_background_tasks_permission_hint">Ця функція потребує додаткових дозволів для роботи. Після ввімкнення вам буде запропоновано схвалити дозвіл. Будь ласка, переконайтеся, що дали дозвіл на використання у фоні, так як оновлення відбувається також у фоновому режимі.</string>
     <string name="settings_background_tasks_permission_denied_background_location">Деякі фонові задачі вимагають, щоб місцезнаходження було \"%s\" у налаштуваннях Android</string>

@@ -270,9 +270,6 @@
     <string name="settings_dnd_mode">DND 模式</string>
     <string name="settings_dnd_mode_summary_on">发送DND模式到项目%1$s</string>
     <string name="settings_dnd_mode_summary_off">不要发送 DND 模式</string>
-    <string name="settings_gadgetbridge">Gadgetbridge 设备操作</string>
-    <string name="settings_gadgetbridge_summary_on">将 Gadgetbridge 设备信息发送到项目 \'%1$s\'。需要打开事件监视器。</string>
-    <string name="settings_gadgetbridge_summary_off">不要发送 Gadgetbridge 设备信息</string>
     <string name="settings_background_tasks_permission_hint_pre_r">此功能需要额外的权限才能工作。启用后，将要求您批准权限。</string>
     <string name="settings_background_tasks_permission_hint">此功能需要额外的权限才能工作。启用后，将要求您批准权限。 请确保批准后台使用权限，因为当应用程序处于后台时项目也会更新。</string>
     <string name="settings_permission_denied">由于缺少权限，某些功能已被禁用</string>

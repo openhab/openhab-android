@@ -260,9 +260,6 @@
     <string name="settings_dnd_mode">Mode NPD</string>
     <string name="settings_dnd_mode_summary_on">Envoie le mode NPD à l\'Item \'%1$s\'</string>
     <string name="settings_dnd_mode_summary_off">Ne pas envoyer le mode NPD</string>
-    <string name="settings_gadgetbridge">Actions de l\'appareil Gadgetbridge</string>
-    <string name="settings_gadgetbridge_summary_on">Envoie des actions de l\'appareil Gadgetbridge à l\'Item \'%1$s\'. Nécessite que le moniteur d\'événement soit activé.</string>
-    <string name="settings_gadgetbridge_summary_off">Ne pas envoyer les actions de l\'appareil Gadgetbridge</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Cette fonctionnalité nécessite des autorisations supplémentaires pour fonctionner. Une fois activée, vous serez invité à approuver la permission.</string>
     <string name="settings_background_tasks_permission_hint">Cette fonctionnalité nécessite des autorisations supplémentaires pour fonctionner. Une fois activée, vous serez invité à approuver la permission. Veuillez vous assurer de l\'approuver également pour une utilisation en arrière-plan, car les mises à jour d\'Item se produisent aussi lorsque l\'application est en arrière-plan.</string>
     <string name="settings_permission_denied">Certaines fonctionnalités ont été désactivées en raison de permissions manquantes</string>

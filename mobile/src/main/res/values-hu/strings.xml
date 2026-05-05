@@ -284,9 +284,6 @@
     <string name="settings_dnd_mode">DND mód</string>
     <string name="settings_dnd_mode_summary_on">Küldje el a DND állapotát ennek a(z) \'%1$s\' elemnek</string>
     <string name="settings_dnd_mode_summary_off">Ne küldje el a DND állapotát</string>
-    <string name="settings_gadgetbridge">Kütyühíd (gadgetbridge) eszköz tevékenységek</string>
-    <string name="settings_gadgetbridge_summary_on">Kütyühíd (Gadgetbridge) eszköz tevékenység küldése a \'%1$s\' számára. Az eseményfigyelőt be kell kapcsolni.</string>
-    <string name="settings_gadgetbridge_summary_off">Ne küldje a kütyühíd eszköz eseményeket</string>
     <string name="settings_background_tasks_permission_hint_pre_r">Ez a funkció további engedélyeket igényel. Miután bekapcsolta, engedélyeznie kell a használatát.</string>
     <string name="settings_background_tasks_permission_hint">Ez a funkció további engedélyeket igényel. Miután bekapcsolta, engedélyeznie kell a használatát. Ellenőrizze, hogy a háttérben futó alkalmazás számára is engedélyezte azt, mivel az Elem frissítés a háttérben is megtörténhet.</string>
     <string name="settings_permission_denied">Néhány funkció ki lett kapcsolva, hiányzó engedélyek miatt</string>
