@@ -52,7 +52,7 @@ object CloudMessagingHelper {
         context.getPrefs().getBoolean(PrefKeys.FOSS_NOTIFICATIONS_ENABLED, false)
 
     suspend fun pollForNotifications(context: Context) {
-        val connection = context.getConnectionFactory().primaryFlow.first().conn?.connection
+        val connection = context.getConnectionFactory().primaryFlow.first().cloud?.connection
         if (connection == null) {
             Log.d(TAG, "No connection for loading notifications")
             return
