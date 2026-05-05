@@ -37,6 +37,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.jdk9.flowPublish
 import kotlinx.coroutines.launch
@@ -79,15 +80,13 @@ class ItemsControlsProviderService : ControlsProviderService() {
             .mapNotNull { factory.maybeCreateControl(it.value) }
             .forEach { control -> send(control) }
 
-        ItemClient.listenForItemChange(this, connection, "*") { topicPath, payload ->
-            val item = allItems[topicPath[2]]
-            if (item != null) {
-                val newItem = item.copy(state = payload.getString("value").toParsedState())
-                launch {
-                    factory.maybeCreateControl(newItem)?.let { control -> send(control) }
-                }
+        ItemClient.listenForItemChange(this, connection, null)
+            .consumeEach { (itemName, state) ->
+                allItems[itemName]
+                    ?.copy(state = state.toParsedState())
+                    ?.let { factory.maybeCreateControl(it) }
+                    ?.let { control -> send(control) }
             }
-        }
     }
 
     override fun performControlAction(controlId: String, action: ControlAction, consumer: Consumer<Int>) {

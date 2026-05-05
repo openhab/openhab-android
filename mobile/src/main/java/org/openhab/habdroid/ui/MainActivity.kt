@@ -78,6 +78,7 @@ import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -1606,11 +1607,11 @@ class MainActivity : AbstractBaseActivity() {
     }
 
     private suspend fun listenUiCommandItem(item: String) {
-        ItemClient.listenForItemChange(this, connection ?: return, item) { _, payload ->
-            val state = payload.getString("value")
-            Log.d(TAG, "Got state by event: $state")
-            handleUiCommand(state, prefs.getActiveServerId())
-        }
+        ItemClient.listenForItemChange(this, connection ?: return, item)
+            .consumeEach { (_, state) ->
+                Log.d(TAG, "Got state by event: $state")
+                handleUiCommand(state, prefs.getActiveServerId())
+            }
     }
 
     private fun handleUiCommand(command: String, serverId: Int) {

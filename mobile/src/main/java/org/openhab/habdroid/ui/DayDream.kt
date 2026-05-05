@@ -32,6 +32,7 @@ import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -95,11 +96,11 @@ class DayDream :
         }
         setText(initialText)
 
-        ItemClient.listenForItemChange(this, connection, item) { _, payload ->
-            val state = payload.getString("value")
-            Log.d(TAG, "Got state by event: $state")
-            setText(state)
-        }
+        ItemClient.listenForItemChange(this, connection, item)
+            .consumeEach { (_, state) ->
+                Log.d(TAG, "Got state by event: $state")
+                setText(state)
+            }
     }
 
     private fun setText(text: String) {
