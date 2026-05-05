@@ -1,0 +1,11 @@
+## What's Changed
+* Clear existing OSM markers before binding by @maniac103 in https://github.com/openhab/openhab-android/pull/3984
+* Use cloud connection in notification poller by @mueller-ma in https://github.com/openhab/openhab-android/pull/3990
+* Improve WebView authentication setup by @maniac103 in https://github.com/openhab/openhab-android/pull/3988
+* Restart SSE connection in listenForItemChange() when not alive by @mueller-ma in https://github.com/openhab/openhab-android/pull/3949
+* Fix FCM registration not happening by @maniac103 in https://github.com/openhab/openhab-android/pull/3989
+* Remove Gadgetbridge integration by @mueller-ma in https://github.com/openhab/openhab-android/pull/3991
+
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.20.1-beta...3.20.2-beta
