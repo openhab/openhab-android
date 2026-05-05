@@ -47,6 +47,8 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
     private val client: OkHttpClient
     private val baseUrl: HttpUrl? = baseUrl?.toHttpUrlOrNull()
 
+    val targetHost get() = baseUrl?.host
+
     @VisibleForTesting val authHeader: String? = if (!username.isNullOrEmpty()) {
         Credentials.basic(username, password.orEmpty(), StandardCharsets.UTF_8)
     } else {

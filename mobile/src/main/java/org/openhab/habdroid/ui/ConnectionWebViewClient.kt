@@ -45,7 +45,11 @@ import org.openhab.habdroid.util.openInBrowser
 
 open class ConnectionWebViewClient(val connection: Connection) : WebViewClient() {
     override fun onReceivedHttpAuthRequest(view: WebView, handler: HttpAuthHandler, host: String, realm: String) {
-        handler.proceed(connection.username, connection.password)
+        if (host == connection.httpClient.targetHost) {
+            handler.proceed(connection.username, connection.password)
+        } else {
+            super.onReceivedHttpAuthRequest(view, handler, host, realm)
+        }
     }
 
     override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
@@ -84,7 +88,7 @@ open class ConnectionWebViewClient(val connection: Connection) : WebViewClient()
         } else {
             Log.e(TAG, "Invalid certificate")
             handler.cancel()
-            val host = connection.httpClient.buildUrl("").host
+            val host = connection.httpClient.targetHost
             val errorMessage = when (error.primaryError) {
                 SslError.SSL_NOTYETVALID -> context.getString(R.string.error_certificate_not_valid_yet)
                 SslError.SSL_EXPIRED -> context.getString(R.string.error_certificate_expired)

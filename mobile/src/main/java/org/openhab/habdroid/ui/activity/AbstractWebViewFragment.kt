@@ -111,7 +111,6 @@ abstract class AbstractWebViewFragment :
     abstract val errorMessageRes: Int
     abstract val urlToLoad: String
     abstract val pathForError: String
-    open val avoidAuthentication = false
     abstract val lockDrawer: Boolean
     abstract val shortcutIcon: Int
     abstract val shortcutAction: String
@@ -237,7 +236,7 @@ abstract class AbstractWebViewFragment :
                 loadWebsite(savedUrl)
             }
 
-            subpage != null -> {
+            subpage != null && subpage.startsWith("/") -> {
                 Log.d(TAG, "Load subpage: $subpage")
                 loadWebsite(subpage)
             }
@@ -339,7 +338,7 @@ abstract class AbstractWebViewFragment :
         val webView = webView ?: return
         val url = modifyUrl(conn.httpClient.buildUrl(urlToLoad))
 
-        webView.setUpForConnection(conn, url, avoidAuthentication)
+        webView.setUpForConnection(conn)
         webView.setBackgroundColor(Color.TRANSPARENT)
 
         val jsInterface = if (ShortcutManagerCompat.isRequestPinShortcutSupported(requireContext())) {

@@ -25,7 +25,6 @@ class FrontailWebViewFragment : AbstractWebViewFragment() {
     override val errorMessageRes = R.string.frontail_error
     override val urlToLoad = "/"
     override val pathForError = "/"
-    override val avoidAuthentication = true
     override val lockDrawer = false
     override val shortcutIcon = R.mipmap.ic_shortcut_frontail
     override val shortcutAction = MainActivity.ACTION_FRONTAIL_SELECTED
