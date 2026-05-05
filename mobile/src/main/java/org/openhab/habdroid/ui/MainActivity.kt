@@ -93,7 +93,6 @@ import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.NotificationHelper
 import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.core.UpdateBroadcastReceiver
-import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.ConnectionNotInitializedException
@@ -169,7 +168,7 @@ class MainActivity : AbstractBaseActivity() {
     var connection: Connection? = null
         private set
     private var lastActiveConnectionResult: ConnectionFactory.ConnectionResult? = null
-    private var lastPrimaryConnectionResult: ConnectionFactory.ConnectionResult? = null
+    private var lastActiveCloudConnectionResult: ConnectionFactory.CloudConnectionResult? = null
     private var lastPrimaryCloudConnectionResult: ConnectionFactory.CloudConnectionResult? = null
 
     private var pendingAction: PendingAction? = null
@@ -321,6 +320,22 @@ class MainActivity : AbstractBaseActivity() {
                     if (info.conn != lastActiveConnectionResult) {
                         lastActiveConnectionResult = info.conn
                         info.conn?.let { onActiveConnectionChanged(it, info.hasLocal) }
+                    }
+                    if (info.cloud != lastActiveCloudConnectionResult) {
+                        lastActiveCloudConnectionResult = info.cloud
+                        updateDrawerItemVisibility()
+                        handlePendingAction()
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                getConnectionFactory().primaryFlow.collectLatest { info ->
+                    if (info.cloud != lastPrimaryCloudConnectionResult) {
+                        lastPrimaryCloudConnectionResult = info.cloud
+                        handlePendingAction()
+                        showPushNotificationWarningIfNeeded()
                     }
                 }
             }
@@ -652,20 +667,6 @@ class MainActivity : AbstractBaseActivity() {
             }
             Log.d(TAG, "runAfterDelay()")
             runAfterDelay()
-        }
-    }
-
-    private fun onActiveCloudConnectionChanged(connection: CloudConnection?) {
-        CrashReportingHelper.d(TAG, "onActiveCloudConnectionChanged()")
-        updateDrawerItemVisibility()
-        handlePendingAction()
-    }
-
-    private fun onPrimaryCloudConnectionChanged(connection: CloudConnection?) {
-        CrashReportingHelper.d(TAG, "onPrimaryCloudConnectionChanged()")
-        handlePendingAction()
-        launch {
-            showPushNotificationWarningIfNeeded()
         }
     }
 
