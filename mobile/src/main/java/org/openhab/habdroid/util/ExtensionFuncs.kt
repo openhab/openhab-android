@@ -514,9 +514,8 @@ fun Context.getChartTheme(serverFlags: Int): CharSequence {
 }
 
 fun Context.buildBaseSourceId(): String {
-    val deviceIdSuffix = getPrefs().getStringOrNull(PrefKeys.DEV_ID)
-        ?.let { "$$it" }
-        .orEmpty()
+    val deviceIdSuffix = getPrefs().getStringOrEmpty(PrefKeys.DEV_ID)
+        .let { if (it.isEmpty()) "" else "$$it" }
     return "org.openhab.android$deviceIdSuffix"
 }
 
