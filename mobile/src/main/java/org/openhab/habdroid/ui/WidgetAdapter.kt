@@ -513,9 +513,14 @@ class WidgetAdapter(
 
         protected fun requireHolderContext() = vhc ?: throw IllegalStateException("Holder not bound")
 
+        fun sendItemUpdateCommand(item: Item?, command: String): Job? {
+            val vhc = requireHolderContext()
+            return vhc.connection.httpClient.sendItemCommand(item, command, vhc.sourceId)
+        }
+
         protected fun tryToUpdateItemWithCommand(command: String) {
             val widget = boundWidget ?: return
-            connection.httpClient.sendItemCommand(widget.item, command, requireHolderContext().sourceId)
+            sendItemUpdateCommand(widget.item, command)
             updateRevertJob?.cancel()
             updateRevertJob = scope?.launch {
                 delay(1.seconds)
@@ -921,7 +926,7 @@ class WidgetAdapter(
 
         private fun sendUpdate(widget: Widget, dateTime: LocalDateTime) {
             dateTime.toItemCommand(widget.item)?.let {
-                connection.httpClient.sendItemCommand(widget.item, it, requireHolderContext().sourceId)
+                sendItemUpdateCommand(widget.item, it)
             }
         }
     }
@@ -1050,7 +1055,7 @@ class WidgetAdapter(
             val button = view.tag as Widget
             // When there's a releaseCommand, the command is sent on ACTION_DOWN
             if (button.releaseCommand.isNullOrEmpty() && button.command != null) {
-                connection.httpClient.sendItemCommand(button.item, button.command, requireHolderContext().sourceId)
+                sendItemUpdateCommand(button.item, button.command)
             }
         }
 
@@ -1065,7 +1070,7 @@ class WidgetAdapter(
                     else -> null
                 }
                 command?.let {
-                    connection.httpClient.sendItemCommand(button.item, it, requireHolderContext().sourceId)
+                    sendItemUpdateCommand(button.item, it)
                 }
             }
             // Don't return true here!
@@ -1108,11 +1113,7 @@ class WidgetAdapter(
                 return
             }
             if (widget.switchSupport) {
-                connection.httpClient.sendItemCommand(
-                    widget.item,
-                    if (binding.seekbar.value <= widget.minValue) "ON" else "OFF",
-                    requireHolderContext().sourceId
-                )
+                sendItemUpdateCommand(widget.item, if (binding.seekbar.value <= widget.minValue) "ON" else "OFF")
             }
         }
 
@@ -1428,7 +1429,7 @@ class WidgetAdapter(
                 b.setOnLongClickListener(this)
             }
             binding.buttons.stopButton.setOnClickListener {
-                connection.httpClient.sendItemCommand(boundWidget?.item, "STOP", requireHolderContext().sourceId)
+                sendItemUpdateCommand(boundWidget?.item, "STOP")
             }
         }
 
@@ -1445,18 +1446,14 @@ class WidgetAdapter(
         override fun onClick(view: View) {
             val buttonState = view.tag as UpDownButtonState
             val command = if (buttonState.inLongPress) "STOP" else buttonState.command
-            connection.httpClient.sendItemCommand(buttonState.item, command, requireHolderContext().sourceId)
+            sendItemUpdateCommand(buttonState.item, command)
             buttonState.inLongPress = false
         }
 
         override fun onLongClick(view: View): Boolean {
             val buttonState = view.tag as UpDownButtonState
             buttonState.inLongPress = true
-            connection.httpClient.sendItemCommand(
-                buttonState.item,
-                buttonState.command,
-                requireHolderContext().sourceId
-            )
+            sendItemUpdateCommand(buttonState.item, buttonState.command)
             return false
         }
 
@@ -1499,7 +1496,7 @@ class WidgetAdapter(
 
         override fun onClick(view: View) {
             val command = view.tag as String
-            connection.httpClient.sendItemCommand(boundWidget?.item, command, requireHolderContext().sourceId)
+            sendItemUpdateCommand(boundWidget?.item, command)
         }
     }
 
@@ -1545,7 +1542,7 @@ class WidgetAdapter(
 
             if (newValue >= widget.minValue && newValue <= widget.maxValue) {
                 state.withValue(newValue).toItemCommand(widget.item)?.let {
-                    connection.httpClient.sendItemCommand(widget.item, it, requireHolderContext().sourceId)
+                    sendItemUpdateCommand(widget.item, it)
                 }
             }
         }
@@ -1820,11 +1817,7 @@ class WidgetAdapter(
                 repeater.cancel()
             } else {
                 // short press
-                connection.httpClient.sendItemCommand(
-                    buttonState.item,
-                    buttonState.shortCommand,
-                    requireHolderContext().sourceId
-                )
+                sendItemUpdateCommand(buttonState.item, buttonState.shortCommand)
             }
             buttonState.repeatJob = null
         }
@@ -1834,11 +1827,7 @@ class WidgetAdapter(
             buttonState.repeatJob = scope?.launch {
                 while (isActive) {
                     delay(250)
-                    connection.httpClient.sendItemCommand(
-                        buttonState.item,
-                        buttonState.longCommand,
-                        requireHolderContext().sourceId
-                    )
+                    sendItemUpdateCommand(buttonState.item, buttonState.longCommand)
                 }
             }
             return false
