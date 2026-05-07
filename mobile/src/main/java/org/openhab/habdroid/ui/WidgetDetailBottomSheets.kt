@@ -50,6 +50,7 @@ import org.openhab.habdroid.util.parcelable
 
 open class AbstractWidgetBottomSheet : BottomSheetDialogFragment() {
     protected val widget get() = requireArguments().parcelable<Widget>("widget")!!
+    protected val sourceId get() = requireArguments().getString("sourceId")!!
     protected val connection get() = (parentFragment as ConnectionGetter).getConnection()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,7 +65,10 @@ open class AbstractWidgetBottomSheet : BottomSheetDialogFragment() {
     }
 
     companion object {
-        fun createArguments(widget: Widget): Bundle = bundleOf("widget" to widget)
+        fun createArguments(widget: Widget, sourceId: String) = bundleOf(
+            "widget" to widget,
+            "sourceId" to sourceId
+        )
     }
 
     interface ConnectionGetter {
@@ -93,7 +97,7 @@ open class SliderBottomSheet :
         val item = widget.item ?: return
         val command = widget.state?.asNumber.withValue(value).toItemCommand(item) ?: return
         Log.d(TAG, "Send state $command for ${item.name}")
-        connection?.httpClient?.sendItemCommand(item, command)
+        connection?.httpClient?.sendItemCommand(item, command, sourceId)
     }
 
     companion object {
@@ -121,7 +125,7 @@ class ColorTemperatureSliderBottomSheet :
             ?.toItemCommand(item)
             ?: return
         Log.d(TAG, "Send state $command for ${item.name}")
-        connection?.httpClient?.sendItemCommand(item, command)
+        connection?.httpClient?.sendItemCommand(item, command, sourceId)
     }
 
     override fun onLayoutChange(view: View, l: Int, t: Int, r: Int, b: Int, ol: Int, ot: Int, or: Int, ob: Int) {
@@ -164,7 +168,7 @@ class SelectionBottomSheet : AbstractWidgetBottomSheet() {
                 text = mapping.label
                 isChecked = stateString == mapping.value
                 setOnClickListener {
-                    connection?.httpClient?.sendItemCommand(widget.item, mapping.value)
+                    connection?.httpClient?.sendItemCommand(widget.item, mapping.value, sourceId)
                     dismissAllowingStateLoss()
                 }
                 isEnabled = !widget.readOnly
@@ -191,7 +195,7 @@ class ColorChooserBottomSheet : AbstractWidgetBottomSheet() {
     override fun onResume() {
         super.onResume()
         val scope = CoroutineScope(Dispatchers.Main + Job())
-        pickerHelper.attach(widget.item, scope, connection)
+        pickerHelper.attach(widget.item, scope, connection, sourceId)
         this.scope = scope
     }
 

@@ -261,6 +261,6 @@ class MapBottomSheet :
         } else {
             boundItem.members.firstOrNull { i -> i.name == marker.id }
         }
-        connection?.httpClient?.sendItemCommand(item, newState)
+        connection?.httpClient?.sendItemCommand(item, newState, sourceId)
     }
 }

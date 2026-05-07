@@ -513,6 +513,12 @@ fun Context.getChartTheme(serverFlags: Int): CharSequence {
     return tv.string
 }
 
+fun Context.buildBaseSourceId(): String {
+    val deviceIdSuffix = getPrefs().getStringOrEmpty(PrefKeys.DEV_ID)
+        .let { if (it.isEmpty()) "" else "$$it" }
+    return "org.openhab.android$deviceIdSuffix"
+}
+
 fun Context.isDarkModeActive(): Boolean = when (getPrefs().getDayNightMode(this)) {
     AppCompatDelegate.MODE_NIGHT_NO -> false
 

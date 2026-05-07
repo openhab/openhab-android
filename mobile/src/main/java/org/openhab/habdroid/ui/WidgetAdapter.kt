@@ -79,7 +79,6 @@ import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
@@ -154,6 +153,7 @@ class WidgetAdapter(
     context: Context,
     val serverProperties: ServerProperties,
     val connection: Connection,
+    private val sourceId: String,
     private val itemClickListener: ItemClickListener,
     private val fragmentPresenter: FragmentPresenter
 ) : RecyclerView.Adapter<WidgetAdapter.ViewHolder>(),
@@ -288,6 +288,7 @@ class WidgetAdapter(
             colorMapper,
             serverProperties,
             chartTheme,
+            sourceId,
             { widgetsByParentId[widget.id] }
         )
         holder.bind(widget)
@@ -448,6 +449,7 @@ class WidgetAdapter(
         val colorMapper: ColorMapper,
         val serverProperties: ServerProperties,
         val chartTheme: CharSequence?,
+        val sourceId: String,
         val childWidgetGetter: () -> List<Widget>?
     )
 
@@ -511,9 +513,14 @@ class WidgetAdapter(
 
         protected fun requireHolderContext() = vhc ?: throw IllegalStateException("Holder not bound")
 
+        fun sendItemUpdateCommand(item: Item?, command: String): Job? {
+            val vhc = requireHolderContext()
+            return vhc.connection.httpClient.sendItemCommand(item, command, vhc.sourceId)
+        }
+
         protected fun tryToUpdateItemWithCommand(command: String) {
             val widget = boundWidget ?: return
-            connection.httpClient.sendItemCommand(widget.item, command)
+            sendItemUpdateCommand(widget.item, command)
             updateRevertJob?.cancel()
             updateRevertJob = scope?.launch {
                 delay(1.seconds)
@@ -918,7 +925,9 @@ class WidgetAdapter(
         }
 
         private fun sendUpdate(widget: Widget, dateTime: LocalDateTime) {
-            dateTime.toItemCommand(widget.item)?.let { connection.httpClient.sendItemCommand(widget.item, it) }
+            dateTime.toItemCommand(widget.item)?.let {
+                sendItemUpdateCommand(widget.item, it)
+            }
         }
     }
 
@@ -1046,7 +1055,7 @@ class WidgetAdapter(
             val button = view.tag as Widget
             // When there's a releaseCommand, the command is sent on ACTION_DOWN
             if (button.releaseCommand.isNullOrEmpty() && button.command != null) {
-                connection.httpClient.sendItemCommand(button.item, button.command)
+                sendItemUpdateCommand(button.item, button.command)
             }
         }
 
@@ -1060,7 +1069,9 @@ class WidgetAdapter(
                     MotionEvent.ACTION_UP -> button.releaseCommand
                     else -> null
                 }
-                command?.let { connection.httpClient.sendItemCommand(button.item, it) }
+                command?.let {
+                    sendItemUpdateCommand(button.item, it)
+                }
             }
             // Don't return true here!
             // Even though we're handing this event, we want the click gesture to be handled normally
@@ -1102,10 +1113,7 @@ class WidgetAdapter(
                 return
             }
             if (widget.switchSupport) {
-                connection.httpClient.sendItemCommand(
-                    widget.item,
-                    if (binding.seekbar.value <= widget.minValue) "ON" else "OFF"
-                )
+                sendItemUpdateCommand(widget.item, if (binding.seekbar.value <= widget.minValue) "ON" else "OFF")
             }
         }
 
@@ -1421,7 +1429,7 @@ class WidgetAdapter(
                 b.setOnLongClickListener(this)
             }
             binding.buttons.stopButton.setOnClickListener {
-                connection.httpClient.sendItemCommand(boundWidget?.item, "STOP")
+                sendItemUpdateCommand(boundWidget?.item, "STOP")
             }
         }
 
@@ -1438,14 +1446,14 @@ class WidgetAdapter(
         override fun onClick(view: View) {
             val buttonState = view.tag as UpDownButtonState
             val command = if (buttonState.inLongPress) "STOP" else buttonState.command
-            connection.httpClient.sendItemCommand(buttonState.item, command)
+            sendItemUpdateCommand(buttonState.item, command)
             buttonState.inLongPress = false
         }
 
         override fun onLongClick(view: View): Boolean {
             val buttonState = view.tag as UpDownButtonState
             buttonState.inLongPress = true
-            connection.httpClient.sendItemCommand(buttonState.item, buttonState.command)
+            sendItemUpdateCommand(buttonState.item, buttonState.command)
             return false
         }
 
@@ -1488,7 +1496,7 @@ class WidgetAdapter(
 
         override fun onClick(view: View) {
             val command = view.tag as String
-            connection.httpClient.sendItemCommand(boundWidget?.item, command)
+            sendItemUpdateCommand(boundWidget?.item, command)
         }
     }
 
@@ -1533,8 +1541,9 @@ class WidgetAdapter(
             }
 
             if (newValue >= widget.minValue && newValue <= widget.maxValue) {
-                val command = state.withValue(newValue).toItemCommand(widget.item)
-                command?.let { connection.httpClient.sendItemCommand(widget.item, it) }
+                state.withValue(newValue).toItemCommand(widget.item)?.let {
+                    sendItemUpdateCommand(widget.item, it)
+                }
             }
         }
     }
@@ -1808,7 +1817,7 @@ class WidgetAdapter(
                 repeater.cancel()
             } else {
                 // short press
-                connection.httpClient.sendItemCommand(buttonState.item, buttonState.shortCommand)
+                sendItemUpdateCommand(buttonState.item, buttonState.shortCommand)
             }
             buttonState.repeatJob = null
         }
@@ -1818,7 +1827,7 @@ class WidgetAdapter(
             buttonState.repeatJob = scope?.launch {
                 while (isActive) {
                     delay(250)
-                    connection.httpClient.sendItemCommand(buttonState.item, buttonState.longCommand)
+                    sendItemUpdateCommand(buttonState.item, buttonState.longCommand)
                 }
             }
             return false
@@ -2157,18 +2166,6 @@ fun LocalDateTime?.toItemCommand(item: Item?) =
     } else {
         null
     }
-
-fun HttpClient.sendItemCommand(item: Item?, command: String): Job? {
-    val url = item?.link ?: return null
-    return GlobalScope.launch {
-        try {
-            post(url, command).close()
-            Log.d(WidgetAdapter.TAG, "Command '$command' was sent successfully to $url")
-        } catch (e: HttpClient.HttpException) {
-            Log.e(WidgetAdapter.TAG, "Sending command $command to $url failed: status ${e.statusCode}", e)
-        }
-    }
-}
 
 fun LabeledValue.toWidget(id: String, item: Item?): Widget = Widget(
     id = id,
