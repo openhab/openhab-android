@@ -52,13 +52,7 @@ class CarSession(
                     onPageListChanged()
 
                     val screenManager = carContext.getCarService(ScreenManager::class.java)
-                    screenManager.popToRoot()
-                    // At this point only the root screen is left, which we want to replace with the screen
-                    // we're going to create. As there's no direct way to do that, we push the new screen to the top
-                    // and replace the old root afterwards.
-                    val oldRoot = screenManager.top
-                    screenManager.push(createScreenForCurrentSitemap(it))
-                    screenManager.remove(oldRoot)
+                    screenManager.replaceRoot(createScreenForCurrentSitemap(it))
                 }
             }
         }
@@ -76,8 +70,7 @@ class CarSession(
 
     fun handleLoadFailure(reason: Throwable?) {
         val screenManager = carContext.getCarService(ScreenManager::class.java)
-        screenManager.popToRoot()
-        screenManager.push(createErrorScreen(null, reason))
+        screenManager.replaceRoot(createErrorScreen(null, reason))
     }
 
     override fun onCreateScreen(intent: Intent) = createScreenForCurrentSitemap(latestSitemapResult)
@@ -105,8 +98,7 @@ class CarSession(
                     SitemapSelectionScreen(carContext, sitemaps) { sitemap ->
                         carContext.getPrefs().updateDefaultCarSitemap(sitemap)
                         val screenManager = carContext.getCarService(ScreenManager::class.java)
-                        screenManager.popToRoot()
-                        screenManager.push(
+                        screenManager.replaceRoot(
                             createWidgetListScreen(sitemap.homepageLink, sitemap.name, sitemap.label, false)
                         )
                     }
@@ -147,6 +139,16 @@ class CarSession(
         Log.d(TAG, "Open widget list for page $page")
         val screen = createWidgetListScreen(page.link, page.id, page.title, true)
         screen.screenManager.push(screen)
+    }
+
+    private fun ScreenManager.replaceRoot(screen: Screen) {
+        popToRoot()
+        // At this point only the root screen is left, which we want to replace with the screen
+        // we're going to create. As there's no direct way to do that, we push the new screen to the top
+        // and replace the old root afterwards.
+        val oldRoot = top
+        push(screen)
+        remove(oldRoot)
     }
 
     companion object {
