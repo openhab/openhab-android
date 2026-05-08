@@ -26,16 +26,17 @@ class SelectionScreen(
     carContext: CarContext,
     private val title: String,
     private val options: List<SelectionListItem>,
-    private val selectedPosition: Int,
+    private val currentValue: String?,
     private val onItemSelected: (item: SelectionListItem) -> Unit
 ) : Screen(carContext) {
     override fun onGetTemplate(): Template {
+        val selectedPosition = options.indexOfFirst { currentValue == it.command }
         val itemsBuilder = ItemList.Builder()
             .setOnSelectedListener { index -> onItemSelected(options[index]) }
 
         if (selectedPosition < 0) {
             val noValueRow = Row.Builder()
-                .setTitle("-----")
+                .setTitle(currentValue ?: "-----")
                 .setEnabled(false)
                 .build()
             itemsBuilder.addItem(noValueRow)
