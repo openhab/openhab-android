@@ -220,8 +220,7 @@ class WidgetListScreen(
     }
 
     private fun openSelectionScreen(widget: Widget, options: List<SelectionListItem>) {
-        val selected = options.indexOfFirst { widget.state?.asString == it.command }
-        val screen = SelectionScreen(carContext, widget.label, options, selected) { item ->
+        val screen = SelectionScreen(carContext, widget.label, options, widget.state?.asString) { item ->
             onWidgetCommand(widget, item.command)
         }
         screenManager.push(screen)
