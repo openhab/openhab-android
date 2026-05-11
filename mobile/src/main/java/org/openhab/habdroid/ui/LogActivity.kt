@@ -38,9 +38,7 @@ import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getConfiguredServerIds
-import org.openhab.habdroid.util.getLocalUrl
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.getRemoteUrl
 import org.openhab.habdroid.util.getSecretPrefs
 
 class LogActivity :
@@ -208,28 +206,41 @@ class LogActivity :
             return@withContext logBuilder.toString()
         }
 
+        val redactions = mutableMapOf<String, String>()
+        getPrefs().getConfiguredServerIds()
+            .mapNotNull { ServerConfiguration.load(getPrefs(), getSecretPrefs(), it) }
+            .forEach { config ->
+                val toRedactableHost = { url: String? ->
+                    url?.toHttpUrlOrNull()?.host
+                        ?.takeIf { it.isNotEmpty() && !HttpClient.isMyOpenhab(it) }
+                }
+                toRedactableHost(config.localPath?.url)?.let {
+                    redactions[it] = "<openhab-local-address-${config.name}>"
+                }
+                toRedactableHost(config.remotePath?.url)?.let {
+                    redactions[it] = "<openhab-remote-address-${config.name}>"
+                }
+                config.localPath?.userName?.let { redactions[it] = "<local-user-${config.name}" }
+                config.remotePath?.userName?.let { redactions[it] = "<remote-user-${config.name}" }
+            }
+
         try {
             InputStreamReader(process.inputStream).use { reader ->
                 BufferedReader(reader).use { bufferedReader ->
-                    for (line in bufferedReader.readLines()) {
-                        logBuilder.append(line)
+                    bufferedReader.readLines().forEach { line ->
+                        var redacted = line
+                        redactions.forEach { (k, v) -> redacted = redacted.replace(k, v) }
+                        redacted = redacted.replaceAfter("addAndroidRegistration", "<redacted>")
+                        logBuilder.append(redacted)
                         logBuilder.append(separator)
                     }
                 }
             }
+            logBuilder.toString()
         } catch (e: Exception) {
             Log.e(TAG, "Error reading log", e)
-            return@withContext Log.getStackTraceString(e)
+            Log.getStackTraceString(e)
         }
-
-        var log = logBuilder.toString()
-        getPrefs().getConfiguredServerIds().forEach { id ->
-            val serverName = ServerConfiguration.load(getPrefs(), getSecretPrefs(), id)?.name ?: id.toString()
-            log = redactHost(log, getPrefs().getLocalUrl(id), "<openhab-local-address-$serverName>")
-            log = redactHost(log, getPrefs().getRemoteUrl(id), "<openhab-remote-address-$serverName>")
-        }
-        log = log.replaceAfter("addAndroidRegistration", "<redacted>")
-        log
     }
 
     private fun getDeviceInfo(): String {
@@ -245,11 +256,6 @@ class LogActivity :
             "Data usage policy: ${determineDataUsagePolicy()}, " +
             "data saver: ${(applicationContext as OpenHabApplication).systemDataSaverStatus}, " +
             "battery saver: ${(applicationContext as OpenHabApplication).batterySaverActive}\n"
-    }
-
-    private fun redactHost(text: String, url: String?, replacement: String): String {
-        val host = url?.toHttpUrlOrNull()?.host
-        return if (!host.isNullOrEmpty() && !HttpClient.isMyOpenhab(host)) text.replace(host, replacement) else text
     }
 
     companion object {
