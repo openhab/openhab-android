@@ -79,4 +79,27 @@ open class DefaultConnection : AbstractConnection {
         socket.bindToNetworkIfPossible(network)
         return socket
     }
+
+    override fun toString() =
+        "DefaultConnection[type=$connectionType, url=$baseUrl, user=$username, network=$network, metered=$isMetered]"
+
+    override fun equals(other: Any?): Boolean {
+        val rhs = other as? DefaultConnection ?: return false
+        return connectionType == rhs.connectionType &&
+            baseUrl == rhs.baseUrl &&
+            username == rhs.username &&
+            password == rhs.password &&
+            network?.networkHandle == rhs.network?.networkHandle &&
+            isMetered == rhs.isMetered
+    }
+
+    override fun hashCode(): Int {
+        var result = connectionType
+        result = 31 * result + (username?.hashCode() ?: 0)
+        result = 31 * result + (password?.hashCode() ?: 0)
+        result = 31 * result + baseUrl.hashCode()
+        result = 31 * result + isMetered.hashCode()
+        result = 31 * result + (network?.networkHandle?.hashCode() ?: 0)
+        return result
+    }
 }
