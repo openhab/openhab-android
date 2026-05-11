@@ -34,7 +34,7 @@ object CloudMessagingHelper {
     internal var registrationFailureReason: Throwable? = null
     private val TAG = CloudMessagingHelper::class.java.simpleName
 
-    fun onConnectionUpdated(context: Context, connection: CloudConnection?) {
+    fun onPrimaryConnectionUpdated(context: Context, connection: CloudConnection?) {
         registrationDone = false
         if (connection != null) {
             FcmRegistrationWorker.scheduleRegistration(context)

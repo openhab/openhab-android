@@ -33,8 +33,6 @@ import androidx.preference.PreferenceManager
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import java.security.GeneralSecurityException
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
@@ -102,11 +100,6 @@ class OpenHabApplication : MultiDexApplication() {
         AppCompatDelegate.setDefaultNightMode(getPrefs().getDayNightMode(this))
         BackgroundTasksManager.initialize(this)
 
-        connectionFactory.launch {
-            connectionFactory.primaryFlow
-                .map { it.cloud?.connection }
-                .collect { conn -> CloudMessagingHelper.onConnectionUpdated(this@OpenHabApplication, conn) }
-        }
         connectionFactory.start()
 
         dataSaverChangeListener.let { listener ->
