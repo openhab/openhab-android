@@ -64,13 +64,12 @@ open class DefaultConnection : AbstractConnection {
                 return s
             } catch (_: SocketTimeoutException) {
                 Log.d(TAG, "Socket timeout after $retries retries")
-                retries += 5
+                retries += 5 // Connect timeout is 1000ms, thus 5 * the retry timeout of 200ms
             } catch (e: IOException) {
                 Log.d(TAG, "Socket creation failed (attempt  $retries): ${e.message}")
                 delay(200)
+                retries++
             }
-
-            retries++
         }
         return null
     }
