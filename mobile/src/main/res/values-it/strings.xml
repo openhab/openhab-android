@@ -20,7 +20,7 @@
     <string name="ui_on_server">%1$s (%2$s)</string>
     <string name="app_notifications">Notifiche</string>
     <string name="habpanel_error">Si è verificato un errore caricando HABPanel</string>
-    <string name="main_ui_error">Errore nel caricamento dell\'interfaccia utente principale</string>
+    <string name="main_ui_error">Errore nel caricamento dell\'UI principale</string>
     <string name="frontail_error">Si è verificato un errore durante il caricamento di Frontail. Nota che non è disponibile tramite openHAB Cloud.</string>
     <string name="mainmenu_openhab_selectsitemap">Seleziona Sitemap predefinito</string>
     <string name="settings_clear_caches">Svuota cache</string>
