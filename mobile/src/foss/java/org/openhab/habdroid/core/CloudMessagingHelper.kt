@@ -41,7 +41,7 @@ object CloudMessagingHelper {
     private val TAG = CloudMessagingHelper::class.java.simpleName
 
     @Suppress("UNUSED_PARAMETER")
-    fun onConnectionUpdated(context: Context, connection: CloudConnection?) {}
+    fun onPrimaryConnectionUpdated(context: Context, connection: CloudConnection?) {}
 
     @Suppress("UNUSED_PARAMETER")
     fun onNotificationSelected(context: Context, intent: Intent) {}

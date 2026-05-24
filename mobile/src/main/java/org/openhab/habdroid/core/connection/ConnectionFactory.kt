@@ -43,6 +43,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.internal.tls.OkHostnameVerifier
 import okhttp3.logging.HttpLoggingInterceptor
+import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.PrefKeys
@@ -192,8 +193,9 @@ class ConnectionFactory internal constructor(
 
         launch {
             stateFlow.subscriptionCount.collect {
+                val comingBackFromBackground = subscriptionCount == 0 && it == 1
                 subscriptionCount = it
-                if (!triggerConnectionUpdateIfNeededAndPending() && it == 1) {
+                if (!triggerConnectionUpdateIfNeededAndPending() && comingBackFromBackground) {
                     // When coming back from background, re-do connectivity check for
                     // local connections, as the reachability of the local server might have
                     // changed since we went to background
@@ -419,6 +421,7 @@ class ConnectionFactory internal constructor(
                         primary?.remote?.toCloudConnection()
                     }
                     updateState(false, primaryCloud = CloudConnectionResult(result, null))
+                    CloudMessagingHelper.onPrimaryConnectionUpdated(context, result)
                 } catch (_: CancellationException) {
                     // ignored
                 } catch (e: Exception) {

@@ -20,7 +20,10 @@ import org.openhab.habdroid.core.connection.AbstractConnection.Companion.TAG
 import org.openhab.habdroid.util.HttpClient
 
 class CloudConnection internal constructor(baseConnection: AbstractConnection, val messagingSenderId: String) :
-    DefaultConnection(baseConnection, Connection.TYPE_CLOUD)
+    DefaultConnection(baseConnection, Connection.TYPE_CLOUD) {
+
+    override fun equals(other: Any?) = super.equals(other) && other is CloudConnection
+}
 
 /**
  * Creates a [CloudConnection] instance if possible.

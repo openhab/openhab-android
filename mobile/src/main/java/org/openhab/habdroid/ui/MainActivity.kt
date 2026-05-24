@@ -260,16 +260,24 @@ class MainActivity : AbstractBaseActivity() {
                 }
             }
 
-            controller.onRestoreInstanceState(savedInstanceState)
-            val lastControllerClass = savedInstanceState.getString(STATE_KEY_CONTROLLER_NAME)
-            if (controller.javaClass.canonicalName != lastControllerClass) {
-                // Our controller type changed, so we need to make the new controller aware of the
-                // page hierarchy. If the controller didn't change, the hierarchy will be restored
-                // via the fragment state restoration.
-                controller.recreateFragmentState()
-            }
-            if (savedInstanceState.getBoolean(STATE_KEY_SITEMAP_SELECTION_SHOWN)) {
-                showSitemapSelectionDialog()
+            // The interaction between PageConnectionHolderFragment and the WidgetListFragments requires a connection
+            // to be present for fragment restoration to be useful, so restore the fragment state if that's the case
+            // (most likely case: activity recreation due to configuration change) and skip restoring state if not
+            // (e.g. if app + activity restoring from instance state after having been terminated in background)
+            if (connection != null) {
+                controller.onRestoreInstanceState(savedInstanceState)
+                val lastControllerClass = savedInstanceState.getString(STATE_KEY_CONTROLLER_NAME)
+                if (controller.javaClass.canonicalName != lastControllerClass) {
+                    // Our controller type changed, so we need to make the new controller aware of the
+                    // page hierarchy. If the controller didn't change, the hierarchy will be restored
+                    // via the fragment state restoration.
+                    controller.recreateFragmentState()
+                }
+                if (savedInstanceState.getBoolean(STATE_KEY_SITEMAP_SELECTION_SHOWN)) {
+                    showSitemapSelectionDialog()
+                }
+            } else {
+                controller.updateConnection(null, null, 0)
             }
 
             updateSitemapDrawerEntries()

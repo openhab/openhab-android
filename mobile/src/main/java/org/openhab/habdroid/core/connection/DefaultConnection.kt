@@ -64,13 +64,12 @@ open class DefaultConnection : AbstractConnection {
                 return s
             } catch (_: SocketTimeoutException) {
                 Log.d(TAG, "Socket timeout after $retries retries")
-                retries += 5
+                retries += 5 // Connect timeout is 1000ms, thus 5 * the retry timeout of 200ms
             } catch (e: IOException) {
                 Log.d(TAG, "Socket creation failed (attempt  $retries): ${e.message}")
                 delay(200)
+                retries++
             }
-
-            retries++
         }
         return null
     }
@@ -78,5 +77,28 @@ open class DefaultConnection : AbstractConnection {
     override fun prepareSocket(socket: Socket): Socket {
         socket.bindToNetworkIfPossible(network)
         return socket
+    }
+
+    override fun toString() =
+        "DefaultConnection[type=$connectionType, url=$baseUrl, user=$username, network=$network, metered=$isMetered]"
+
+    override fun equals(other: Any?): Boolean {
+        val rhs = other as? DefaultConnection ?: return false
+        return connectionType == rhs.connectionType &&
+            baseUrl == rhs.baseUrl &&
+            username == rhs.username &&
+            password == rhs.password &&
+            network?.networkHandle == rhs.network?.networkHandle &&
+            isMetered == rhs.isMetered
+    }
+
+    override fun hashCode(): Int {
+        var result = connectionType
+        result = 31 * result + (username?.hashCode() ?: 0)
+        result = 31 * result + (password?.hashCode() ?: 0)
+        result = 31 * result + baseUrl.hashCode()
+        result = 31 * result + isMetered.hashCode()
+        result = 31 * result + (network?.networkHandle?.hashCode() ?: 0)
+        return result
     }
 }
