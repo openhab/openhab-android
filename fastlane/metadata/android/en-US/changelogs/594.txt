@@ -1,0 +1,5 @@
+## What's Changed
+* More connection factory fixups by @maniac103 in https://github.com/openhab/openhab-android/pull/3998
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.20.3-beta...3.20.4-beta
