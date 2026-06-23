@@ -435,6 +435,7 @@
     <string name="item_tag_location_bathroom">Баня</string>
     <string name="item_tag_location_bedroom">Спалня</string>
     <string name="item_tag_location_building">Сграда</string>
+    <string name="item_tag_location_cellar">Маза</string>
     <string name="item_tag_location_corridor">Коридор</string>
     <string name="item_tag_location_floor">Етаж</string>
     <string name="item_tag_location_garage">Гараж</string>
@@ -452,6 +453,7 @@
     <string name="item_tag_location_veranda">Веранда</string>
     <string name="item_tag_equipment_backdoor">Задна врата</string>
     <string name="item_tag_equipment_battery">Батерия</string>
+    <string name="item_tag_equipment_blinds">Щори</string>
     <string name="item_tag_equipment_boiler">Бойлер</string>
     <string name="item_tag_equipment_camera">Камера</string>
     <string name="item_tag_equipment_car">Автомобил</string>
