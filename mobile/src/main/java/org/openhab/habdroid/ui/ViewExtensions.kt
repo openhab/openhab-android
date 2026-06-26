@@ -44,7 +44,7 @@ fun SwipeRefreshLayout.applyColors() {
     setColorSchemeColors(*colors)
 }
 
-fun WebView.setUpForConnection(connection: Connection) {
+fun WebView.setUpForConnection(connection: Connection, url: HttpUrl) {
     with(settings) {
         domStorageEnabled = true
         @SuppressLint("SetJavaScriptEnabled")
@@ -52,7 +52,7 @@ fun WebView.setUpForConnection(connection: Connection) {
         mixedContentMode = MIXED_CONTENT_COMPATIBILITY_MODE
     }
 
-    webViewClient = ConnectionWebViewClient(connection)
+    webViewClient = ConnectionWebViewClient(connection, url.host)
 }
 
 fun ImageView.setupHelpIcon(url: String, contentDescriptionRes: Int) {
