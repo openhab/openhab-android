@@ -35,6 +35,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
+import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getActiveServerId
@@ -43,9 +44,10 @@ import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.isDemoModeEnabled
 import org.openhab.habdroid.util.openInBrowser
 
-open class ConnectionWebViewClient(val connection: Connection, private val targetHost: String?) : WebViewClient() {
+open class ConnectionWebViewClient(val connection: Connection) : WebViewClient() {
     override fun onReceivedHttpAuthRequest(view: WebView, handler: HttpAuthHandler, host: String, realm: String) {
-        if (host == targetHost) {
+        val proxyHost = (connection as? CloudConnection)?.proxyUrl?.host
+        if ((proxyHost != null && host == proxyHost) || host == connection.httpClient.targetHost) {
             handler.proceed(connection.username, connection.password)
         } else {
             super.onReceivedHttpAuthRequest(view, handler, host, realm)

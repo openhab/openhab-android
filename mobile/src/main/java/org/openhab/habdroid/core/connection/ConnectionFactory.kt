@@ -92,7 +92,14 @@ class ConnectionFactory internal constructor(
         val cloud: CloudConnectionResult?,
         val hasLocal: Boolean,
         val hasRemote: Boolean
-    )
+    ) {
+        val usableConnection get() = when {
+            conn?.connection == null -> null
+            conn.connection.connectionType != Connection.TYPE_REMOTE -> conn.connection
+            cloud?.connection == null -> conn.connection
+            else -> cloud.connection
+        }
+    }
 
     private data class StateHolder(
         val intermediate: Boolean,
