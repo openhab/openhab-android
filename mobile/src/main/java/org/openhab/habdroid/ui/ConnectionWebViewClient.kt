@@ -43,9 +43,9 @@ import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.isDemoModeEnabled
 import org.openhab.habdroid.util.openInBrowser
 
-open class ConnectionWebViewClient(val connection: Connection) : WebViewClient() {
+open class ConnectionWebViewClient(val connection: Connection, private val targetHost: String?) : WebViewClient() {
     override fun onReceivedHttpAuthRequest(view: WebView, handler: HttpAuthHandler, host: String, realm: String) {
-        if (host == connection.httpClient.targetHost) {
+        if (host == targetHost) {
             handler.proceed(connection.username, connection.password)
         } else {
             super.onReceivedHttpAuthRequest(view, handler, host, realm)

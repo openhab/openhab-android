@@ -338,7 +338,7 @@ abstract class AbstractWebViewFragment :
         val webView = webView ?: return
         val url = modifyUrl(conn.httpClient.buildUrl(urlToLoad))
 
-        webView.setUpForConnection(conn)
+        webView.setUpForConnection(conn, url)
         webView.setBackgroundColor(Color.TRANSPARENT)
 
         val jsInterface = if (ShortcutManagerCompat.isRequestPinShortcutSupported(requireContext())) {
@@ -348,7 +348,7 @@ abstract class AbstractWebViewFragment :
         }
         webView.addJavascriptInterface(jsInterface, "OHApp")
 
-        webView.webViewClient = object : ConnectionWebViewClient(conn) {
+        webView.webViewClient = object : ConnectionWebViewClient(conn, url.host) {
             private fun handleError(url: Uri) {
                 if (url.path == pathForError) {
                     updateViewVisibility(true, null)
