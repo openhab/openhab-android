@@ -777,8 +777,12 @@ class WidgetAdapter(
 
             val dataState = when {
                 widget.state == null -> ""
-                widget.inputHint == Widget.InputTypeHint.Number -> widget.state.asNumber?.formatValue()
+
+                widget.inputHint == Widget.InputTypeHint.Number ->
+                    widget.state.asNumber?.toString(Locale.getDefault(), true)
+
                 displayState.isNotEmpty() -> displayState
+
                 else -> widget.state.asString
             }
             binding.inputvalue.apply {
@@ -2153,7 +2157,7 @@ fun ParsedState.NumberState?.toItemCommand(item: Item?): String? {
     }
     return if (item.isOfTypeOrGroupType(Item.Type.NumberWithDimension)) {
         // For number items, include unit (if present) in command
-        toString(Locale.US)
+        toString(Locale.US, false)
     } else {
         // For all other items, send the plain value
         formatValue()

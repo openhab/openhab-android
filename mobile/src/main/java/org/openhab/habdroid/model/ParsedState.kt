@@ -173,18 +173,22 @@ data class ParsedState internal constructor(
         val unit: String? = null,
         val format: String? = null
     ) : Parcelable {
-        override fun toString() = toString(Locale.getDefault())
+        override fun toString() = toString(Locale.getDefault(), false)
 
         /**
          * Like [toString][.toString], but using a specific locale for formatting.
          */
-        fun toString(locale: Locale): String {
+        fun toString(locale: Locale, stripUnit: Boolean): String {
             if (!format.isNullOrEmpty()) {
-                val actualFormat = format
-                    .replace("%unit%", unit.orEmpty())
-                    // In case of 'one' unit, the unit is part of the format pattern, but not part of the value
-                    // sent by the server. Avoid ending the value with a space in that case.
-                    .trim()
+                val actualFormat = if (stripUnit) {
+                    format.split(" ").first()
+                } else {
+                    format
+                        .replace("%unit%", unit.orEmpty())
+                        // In case of 'one' unit, the unit is part of the format pattern, but not part of the value
+                        // sent by the server. Avoid ending the value with a space in that case.
+                        .trim()
+                }
                 try {
                     return String.format(locale, actualFormat, getActualValue())
                 } catch (e: IllegalFormatException) {
@@ -192,7 +196,7 @@ data class ParsedState internal constructor(
                     // -> ignore and fall back to our own formatting
                 }
             }
-            return if (unit == null) formatValue() else "${formatValue()} $unit"
+            return if (unit == null || stripUnit) formatValue() else "${formatValue()} $unit"
         }
 
         fun formatValue(): String = getActualValue().toString()
