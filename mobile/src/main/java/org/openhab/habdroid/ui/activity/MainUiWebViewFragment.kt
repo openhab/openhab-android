@@ -15,6 +15,8 @@ package org.openhab.habdroid.ui.activity
 
 import okhttp3.HttpUrl
 import org.openhab.habdroid.R
+import org.openhab.habdroid.core.connection.CloudConnection
+import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.loadActiveServerConfig
 
@@ -27,19 +29,21 @@ class MainUiWebViewFragment : AbstractWebViewFragment() {
     override val shortcutIcon = R.mipmap.ic_shortcut_main_ui
     override val shortcutAction = MainActivity.ACTION_MAIN_UI_SELECTED
 
-    override fun modifyUrl(orig: HttpUrl): HttpUrl {
-        var modified = orig
-        if (orig.host == "myopenhab.org") {
-            modified = modified.newBuilder()
-                .host("home.myopenhab.org")
-                .build()
+    override fun buildUrl(connection: Connection, url: String): HttpUrl {
+        val connectionUrl = connection.httpClient.buildUrl(url)
+        val urlBuilder = connectionUrl.newBuilder()
+        if (connection is CloudConnection && connectionUrl.host == connection.httpClient.targetHost) {
+            urlBuilder
+                .scheme(connection.proxyUrl.scheme)
+                .host(connection.proxyUrl.host)
+                .port(connection.proxyUrl.port)
         }
+
         val mainUiStartPage = context?.loadActiveServerConfig()?.mainUiStartPage
         if (!mainUiStartPage.isNullOrEmpty()) {
-            modified = modified.newBuilder()
-                .encodedPath(mainUiStartPage)
-                .build()
+            urlBuilder.encodedPath(mainUiStartPage)
         }
-        return modified
+
+        return urlBuilder.build()
     }
 }

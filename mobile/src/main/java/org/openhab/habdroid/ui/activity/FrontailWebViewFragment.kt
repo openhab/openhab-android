@@ -17,6 +17,7 @@ import android.util.Log
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
+import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.loadActiveServerConfig
 
@@ -29,20 +30,15 @@ class FrontailWebViewFragment : AbstractWebViewFragment() {
     override val shortcutIcon = R.mipmap.ic_shortcut_frontail
     override val shortcutAction = MainActivity.ACTION_FRONTAIL_SELECTED
 
-    override fun modifyUrl(orig: HttpUrl): HttpUrl {
+    override fun buildUrl(connection: Connection, url: String): HttpUrl {
+        val connectionUrl = connection.httpClient.buildUrl(url)
         val frontailUrl = context?.loadActiveServerConfig()?.frontailUrl?.toHttpUrlOrNull()
 
-        val builder = orig.newBuilder()
+        return connectionUrl.newBuilder()
             .scheme(frontailUrl?.scheme ?: "http")
             .port(frontailUrl?.port ?: 9001)
-
-        if (frontailUrl != null) {
-            builder.host(frontailUrl.host)
-        }
-
-        return builder.build().also {
-            Log.d(TAG, "Use url '$it'")
-        }
+            .host(frontailUrl?.host ?: connectionUrl.host)
+            .build()
     }
 
     companion object {

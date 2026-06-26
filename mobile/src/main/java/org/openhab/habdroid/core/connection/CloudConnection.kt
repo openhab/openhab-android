@@ -14,13 +14,18 @@
 package org.openhab.habdroid.core.connection
 
 import android.util.Log
+import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.core.connection.AbstractConnection.Companion.TAG
 import org.openhab.habdroid.util.HttpClient
 
-class CloudConnection internal constructor(baseConnection: AbstractConnection, val messagingSenderId: String) :
-    DefaultConnection(baseConnection, Connection.TYPE_CLOUD) {
+class CloudConnection internal constructor(
+    baseConnection: AbstractConnection,
+    val messagingSenderId: String,
+    val proxyUrl: HttpUrl
+) : DefaultConnection(baseConnection, Connection.TYPE_CLOUD) {
 
     override fun equals(other: Any?) = super.equals(other) && other is CloudConnection
 }
@@ -49,5 +54,17 @@ suspend fun AbstractConnection.toCloudConnection(): CloudConnection {
         throw NotACloudServerException()
     }
 
-    return CloudConnection(this, senderId)
+    val proxyUrl = try {
+        val bar = httpClient.get("api/v1/proxyurl").asText()
+        val json = JSONObject(bar.response)
+        json.getString("url").toHttpUrl()
+    } catch (e: HttpClient.HttpException) {
+        Log.d(TAG, "Error getting proxy URL from cloud server, falling back to base URL", e)
+        httpClient.buildUrl("/")
+    } catch (e: JSONException) {
+        Log.i(TAG, "Error parsing proxy URL endpoint response", e)
+        throw NotACloudServerException()
+    }
+
+    return CloudConnection(this, senderId, proxyUrl)
 }
