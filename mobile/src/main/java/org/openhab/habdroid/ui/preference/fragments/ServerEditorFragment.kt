@@ -45,6 +45,7 @@ import org.openhab.habdroid.util.getPreference
 import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.putPrimaryServerId
+import org.openhab.habdroid.util.updateDefaultCarSitemap
 import org.openhab.habdroid.util.updateDefaultSitemap
 
 class ServerEditorFragment :
@@ -215,6 +216,7 @@ class ServerEditorFragment :
         }
         clearDefaultSitemapPref.setOnPreferenceClickListener { preference ->
             preference.sharedPreferences!!.updateDefaultSitemap(null, null, config.id)
+            preference.sharedPreferences!!.updateDefaultCarSitemap(null, config.id)
             handleNoDefaultSitemap(preference)
             parentActivity.addResultFlag(PreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED)
             true
