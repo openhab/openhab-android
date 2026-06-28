@@ -23,7 +23,6 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.edit
-import androidx.core.os.bundleOf
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.preference.EditTextPreference
@@ -346,7 +345,9 @@ class ServerEditorFragment :
     companion object {
         fun newInstance(config: ServerConfiguration): ServerEditorFragment {
             val f = ServerEditorFragment()
-            f.arguments = bundleOf("config" to config)
+            f.arguments = Bundle().apply {
+                putParcelable("config", config)
+            }
             return f
         }
 

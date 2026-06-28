@@ -29,7 +29,6 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
-import androidx.core.os.bundleOf
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.preference.EditTextPreference
@@ -290,8 +289,9 @@ class TileSettingsFragment :
 
         fun newInstance(id: Int): TileSettingsFragment {
             val f = TileSettingsFragment()
-            val args = bundleOf("id" to id)
-            f.arguments = args
+            f.arguments = Bundle().apply {
+                putInt("id", id)
+            }
             return f
         }
     }

@@ -214,22 +214,13 @@ class HttpClient(client: OkHttpClient, baseUrl: String?, username: String?, pass
 
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body
-
-                    when {
-                        !response.isSuccessful -> {
-                            body?.close()
-                            cont.resumeWithException(
-                                HttpException(call.request(), url, response.message, response.code)
-                            )
-                        }
-
-                        body == null -> {
-                            cont.resumeWithException(HttpException(call.request(), url, "Empty body", 500))
-                        }
-
-                        else -> {
-                            cont.resume(HttpResult(call.request(), url, body, response.code, response.headers))
-                        }
+                    if (response.isSuccessful) {
+                        cont.resume(HttpResult(call.request(), url, body, response.code, response.headers))
+                    } else {
+                        body.close()
+                        cont.resumeWithException(
+                            HttpException(call.request(), url, response.message, response.code)
+                        )
                     }
                 }
             }

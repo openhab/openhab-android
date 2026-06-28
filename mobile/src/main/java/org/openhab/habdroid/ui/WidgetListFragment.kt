@@ -43,7 +43,6 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.net.toUri
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -551,7 +550,9 @@ class WidgetListFragment :
                 action = ItemUpdateWidget.ACTION_CREATE_WIDGET
                 putExtra(
                     ItemUpdateWidget.EXTRA_BUNDLE,
-                    bundleOf(ItemUpdateWidget.EXTRA_DATA to data)
+                    Bundle().apply {
+                        putParcelable(ItemUpdateWidget.EXTRA_DATA, data)
+                    }
                 )
             }
 
@@ -572,7 +573,9 @@ class WidgetListFragment :
             )
             appWidgetManager.requestPinAppWidget(
                 ComponentName(context, ItemUpdateWidget::class.java),
-                bundleOf(AppWidgetManager.EXTRA_APPWIDGET_PREVIEW to remoteViews),
+                Bundle().apply {
+                    putParcelable(AppWidgetManager.EXTRA_APPWIDGET_PREVIEW, remoteViews)
+                },
                 successCallback
             )
         } else {
@@ -682,11 +685,11 @@ class WidgetListFragment :
 
         fun withPage(pageUrl: String, pageTitle: String?, sourceId: String): WidgetListFragment {
             val fragment = WidgetListFragment()
-            fragment.arguments = bundleOf(
-                "displayPageUrl" to pageUrl,
-                "title" to pageTitle,
-                "sourceId" to sourceId
-            )
+            fragment.arguments = Bundle().apply {
+                putString("displayPageUrl", pageUrl)
+                putString("title", pageTitle)
+                putString("sourceId", sourceId)
+            }
             return fragment
         }
     }

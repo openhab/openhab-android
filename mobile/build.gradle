@@ -1,4 +1,4 @@
-import com.mikepenz.aboutlibraries.plugin.DuplicateMode
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 def taskRequests = getGradle().getStartParameter().getTaskRequests().toString()
 def isFoss = taskRequests.contains("Foss") || taskRequests.contains("foss")
@@ -23,7 +23,7 @@ apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-parcelize"
 apply plugin: "de.mobilej.unmock"
-apply plugin: "com.mikepenz.aboutlibraries.plugin"
+apply plugin: "com.mikepenz.aboutlibraries.plugin.android"
 apply plugin: "de.jjohannes.missing-metadata-guava"
 
 if (!isFoss) {
@@ -34,17 +34,17 @@ if (!isFoss) {
 android {
     useLibrary "org.apache.http.legacy"
     namespace "org.openhab.habdroid"
+    compileSdk = 36
 
     defaultConfig {
         applicationId "org.openhab.habdroid"
-        minSdkVersion 21
-        compileSdk 35
+        minSdkVersion 23
         targetSdkVersion 35
         versionCode 596
         versionName "3.20.6"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField "long", "TIMESTAMP", System.getenv("SOURCE_DATE_EPOCH") != null ? System.getenv("SOURCE_DATE_EPOCH").toLong() + "L" : System.currentTimeMillis() + "L"
+        buildConfigField "long", "TIMESTAMP", (System.getenv("SOURCE_DATE_EPOCH")?.toLong() ?: System.currentTimeMillis()) + "L"
     }
 
     buildTypes {
@@ -93,13 +93,12 @@ android {
         sourceCompatibility 1.8
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-        freeCompilerArgs += [
-            "-opt-in=kotlinx.coroutines.ObsoleteCoroutinesApi",
-            "-opt-in=kotlinx.coroutines.DelicateCoroutinesApi"
-        ]
-        allWarningsAsErrors = true
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_1_8
+            freeCompilerArgs = [ "-opt-in=kotlinx.coroutines.DelicateCoroutinesApi" ]
+            allWarningsAsErrors = true
+        }
     }
 
     lint {
@@ -113,11 +112,6 @@ android {
         buildConfig true
         viewBinding true
     }
-}
-
-aboutLibraries {
-    duplicationMode = DuplicateMode.MERGE
-    excludeFields = ["generated"]
 }
 
 unMock {
@@ -140,33 +134,31 @@ dependencies {
     implementation libs.kotlinx.coroutines.jdk9
     implementation libs.kotlinx.coroutines.android
 
-    implementation libs.core.ktx
-    implementation libs.activity.ktx
-    implementation libs.fragment.ktx
-    implementation libs.kotlin.stdlib.jdk8
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.activity.ktx
+    implementation libs.androidx.fragment.ktx
 
-    implementation libs.appcompat
-    implementation libs.legacy.support.v4
-    implementation libs.recyclerview
-    implementation libs.constraintlayout
-    implementation libs.preference.ktx
-    implementation libs.biometric
-    implementation libs.material
-    implementation libs.multidex
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.preference.ktx
+    implementation libs.androidx.recyclerview
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.swiperefreshlayout
+    implementation libs.androidx.biometric
+    implementation libs.androidx.multidex
+    implementation libs.androidx.work.runtime.ktx
+    implementation libs.google.material
 
-    implementation libs.work.runtime.ktx
-    fullImplementation libs.work.gcm
+    fullImplementation libs.androidx.work.gcm
 
-    implementation libs.security.crypto
+    implementation libs.encrypted.prefs.ktx
 
-    implementation libs.media3.exoplayer
-    implementation libs.media3.ui
-    implementation libs.media3.exoplayer.hls
+    implementation libs.androidx.media3.exoplayer
+    implementation libs.androidx.media3.ui
+    implementation libs.androidx.media3.exoplayer.hls
 
     implementation libs.jmdns
-
     implementation libs.okhttp
-    implementation libs.logging.interceptor
+    implementation libs.okhttp.logging.interceptor
     implementation libs.okhttp.sse
 
     implementation libs.colorpicker
@@ -174,17 +166,12 @@ dependencies {
     implementation libs.appintro
     implementation libs.photoview
     implementation libs.skeletonlayout
+    implementation libs.androidchart
+    implementation libs.material.about.library
+    implementation libs.aboutlibraries.core
 
     fullImplementation libs.play.services.maps
     fossImplementation libs.osmdroid.android
-
-    implementation libs.material.about.library
-    implementation libs.aboutlibraries.core
-    implementation libs.aboutlibraries
-
-    implementation libs.androidchart
-
-    implementation platform(libs.firebase.bom)
     fullImplementation libs.firebase.messaging.ktx
     fullImplementation libs.firebase.crashlytics.ktx
 

@@ -19,7 +19,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -194,7 +193,10 @@ class CloudNotificationListFragment : Fragment() {
 
         fun newInstance(highlightedId: String?, primaryServer: Boolean): CloudNotificationListFragment {
             val f = CloudNotificationListFragment()
-            f.arguments = bundleOf("highlightedId" to highlightedId, "primary" to primaryServer)
+            f.arguments = Bundle().apply {
+                putString("highlightedId", highlightedId)
+                putBoolean("primary", primaryServer)
+            }
             return f
         }
     }
