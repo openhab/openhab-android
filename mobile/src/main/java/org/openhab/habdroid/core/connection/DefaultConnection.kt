@@ -88,7 +88,7 @@ open class DefaultConnection : AbstractConnection {
             baseUrl == rhs.baseUrl &&
             username == rhs.username &&
             password == rhs.password &&
-            network?.networkHandle == rhs.network?.networkHandle &&
+            network == rhs.network &&
             isMetered == rhs.isMetered
     }
 
@@ -98,7 +98,7 @@ open class DefaultConnection : AbstractConnection {
         result = 31 * result + (password?.hashCode() ?: 0)
         result = 31 * result + baseUrl.hashCode()
         result = 31 * result + isMetered.hashCode()
-        result = 31 * result + (network?.networkHandle?.hashCode() ?: 0)
+        result = 31 * result + (network?.hashCode() ?: 0)
         return result
     }
 }
