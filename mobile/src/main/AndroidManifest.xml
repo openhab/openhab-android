@@ -54,6 +54,7 @@
         <package android:name="im.molly.app" />
         <package android:name="eu.smartpatient.mytherapy" />
         <package android:name="com.samsung.android.fmm" />
+        <package android:name="com.samsung.android.app.routines" />
         <intent>
             <action android:name="android.speech.RecognitionService" />
         </intent>
