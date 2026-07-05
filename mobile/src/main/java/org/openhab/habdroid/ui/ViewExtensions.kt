@@ -28,7 +28,6 @@ import androidx.appcompat.widget.TooltipCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.net.toUri
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import okhttp3.HttpUrl
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.openInBrowser
@@ -44,7 +43,7 @@ fun SwipeRefreshLayout.applyColors() {
     setColorSchemeColors(*colors)
 }
 
-fun WebView.setUpForConnection(connection: Connection, url: HttpUrl) {
+fun WebView.setUpForConnection(connection: Connection) {
     with(settings) {
         domStorageEnabled = true
         @SuppressLint("SetJavaScriptEnabled")
@@ -52,7 +51,7 @@ fun WebView.setUpForConnection(connection: Connection, url: HttpUrl) {
         mixedContentMode = MIXED_CONTENT_COMPATIBILITY_MODE
     }
 
-    webViewClient = ConnectionWebViewClient(connection, url.host)
+    webViewClient = ConnectionWebViewClient(connection)
 }
 
 fun ImageView.setupHelpIcon(url: String, contentDescriptionRes: Int) {

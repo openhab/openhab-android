@@ -328,7 +328,7 @@ abstract class AbstractWebViewFragment :
     fun canGoBack(): Boolean = webView?.canGoBack() == true
 
     private fun loadWebsite(urlToLoad: String = this.urlToLoad) {
-        val conn = requireContext().getConnectionFactory().currentActive?.conn?.connection
+        val conn = requireContext().getConnectionFactory().currentActive?.usableConnection
         if (conn == null) {
             updateViewVisibility(true, null)
             return
@@ -336,9 +336,10 @@ abstract class AbstractWebViewFragment :
         updateViewVisibility(false, 0)
 
         val webView = webView ?: return
-        val url = modifyUrl(conn.httpClient.buildUrl(urlToLoad))
+        val url = buildUrl(conn, urlToLoad)
 
-        webView.setUpForConnection(conn, url)
+        Log.d(TAG, "Loading web page $url")
+        webView.setUpForConnection(conn)
         webView.setBackgroundColor(Color.TRANSPARENT)
 
         val jsInterface = if (ShortcutManagerCompat.isRequestPinShortcutSupported(requireContext())) {
@@ -348,7 +349,7 @@ abstract class AbstractWebViewFragment :
         }
         webView.addJavascriptInterface(jsInterface, "OHApp")
 
-        webView.webViewClient = object : ConnectionWebViewClient(conn, url.host) {
+        webView.webViewClient = object : ConnectionWebViewClient(conn) {
             private fun handleError(url: Uri) {
                 if (url.path == pathForError) {
                     updateViewVisibility(true, null)
@@ -380,7 +381,7 @@ abstract class AbstractWebViewFragment :
         webView.loadUrl(url.toString())
     }
 
-    open fun modifyUrl(orig: HttpUrl): HttpUrl = orig
+    open fun buildUrl(connection: Connection, url: String): HttpUrl = connection.httpClient.buildUrl(url)
 
     /**
      * Change the visibility of the progress and error indicators and the WebView.
