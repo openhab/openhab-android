@@ -326,7 +326,8 @@ class BackgroundTasksManager : BroadcastReceiver() {
             "org.thoughtcrime.securesms",
             "im.molly.app",
             "com.samsung.android.fmm",
-            "eu.smartpatient.mytherapy"
+            "eu.smartpatient.mytherapy",
+            "com.samsung.android.app.routines"
         )
         private val VALUE_GETTER_MAP = HashMap<String, (Context, Intent?) -> ItemUpdateWorker.ValueWithInfo?>()
 
