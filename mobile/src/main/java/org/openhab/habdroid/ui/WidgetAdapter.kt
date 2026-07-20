@@ -1897,8 +1897,6 @@ class WidgetAdapter(
 
     abstract class AbstractMapViewHolder(initData: ViewHolderInitData) :
         HeavyDataViewHolder(initData, R.layout.widgetlist_mapitem) {
-        private val hasPositions
-            get() = boundWidget?.item?.state?.asLocation != null || boundWidget?.item?.members?.isNotEmpty() == true
 
         protected val binding = WidgetlistMapitemBinding.bind(itemView)
         override val widgetContentView get() = binding.mapview
@@ -1908,22 +1906,24 @@ class WidgetAdapter(
         override fun bindImpl(widget: Widget) {
             super.bindImpl(widget)
             binding.mapview.adjustForWidgetHeight(widget, 5)
-            binding.noPosition.root.isVisible = !hasPositions
+            binding.noPosition.root.isVisible = !widget.hasPositions()
         }
 
         @CallSuper
         override fun bindAfterDataSaverCheck(widget: Widget) {
-            binding.noPosition.root.isVisible = !hasPositions
-            binding.mapview.isVisible = hasPositions
+            binding.noPosition.root.isVisible = !widget.hasPositions()
+            binding.mapview.isVisible = widget.hasPositions()
         }
 
         override fun handleRowClick() {
-            if (hasPositions) {
+            if (boundWidget?.hasPositions() == true) {
                 openPopup()
             }
         }
 
         protected abstract fun openPopup()
+
+        private fun Widget.hasPositions() = item?.state?.asLocation != null || item?.members?.isNotEmpty() == true
     }
 
     @VisibleForTesting
