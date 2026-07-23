@@ -301,42 +301,50 @@ class ConnectionFactory internal constructor(
         }
     }
 
-    private fun updateHttpClientForClientCert(forceUpdate: Boolean) {
-        val clientCertAlias = if (prefs.isDemoModeEnabled()) {
-            // No client cert in demo mode
-            null
-        } else {
-            prefs.getStringOrNull(PrefKeys.buildServerKey(prefs.getActiveServerId(), PrefKeys.SSL_CLIENT_CERT_PREFIX))
-        }
-        val keyManagers = if (clientCertAlias != null) {
-            arrayOf<KeyManager>(ClientKeyManager(context, clientCertAlias))
-        } else {
-            null
-        }
-
-        // Updating the SSL socket factory is an expensive call;
-        // make sure to only do this if really needed.
-        if (!forceUpdate) {
-            if (clientCertAlias == null && lastClientCertAlias == null) {
-                // No change: no client cert at all
-                return
-            } else if (clientCertAlias != null && clientCertAlias == lastClientCertAlias) {
-                // No change: client cert stayed the same
-                return
-            }
-        }
-
-        try {
-            val sslContext = SSLContext.getInstance("TLS")
-            sslContext.init(keyManagers, arrayOf<TrustManager>(trustManager), null)
-            httpClient = httpClient.newBuilder()
-                .sslSocketFactory(sslContext.socketFactory, trustManager)
+private fun updateHttpClientForClientCert(forceUpdate: Boolean) {
+    val clientCertAlias = if (prefs.isDemoModeEnabled()) {
+        // No client cert in demo mode
+        null
+    } else {
+        prefs.getStringOrNull(PrefKeys.buildServerKey(prefs.getActiveServerId(), PrefKeys.SSL_CLIENT_CERT_PREFIX))
+    }
+    val keyManagers = if (clientCertAlias != null) {
+        arrayOf<KeyManager>(ClientKeyManager(context, clientCertAlias))
+    } else {
+        // Add a null check to ensure that the keyManagers variable is not null
+        if (keyManagers == null) {
+            Log.d(TAG, "No client certificate found, using default SSL socket factory")
+            return httpClient.newBuilder()
+                .sslSocketFactory(SSLContext.getDefault().socketFactory, trustManager)
                 .build()
-            lastClientCertAlias = clientCertAlias
-        } catch (e: Exception) {
-            Log.d(TAG, "Applying certificate trust settings failed", e)
+        } else {
+            keyManagers
         }
     }
+
+    // Updating the SSL socket factory is an expensive call;
+    // make sure to only do this if really needed.
+    if (!forceUpdate) {
+        if (clientCertAlias == null && lastClientCertAlias == null) {
+            // No change: no client cert at all
+            return
+        } else if (clientCertAlias != null && clientCertAlias == lastClientCertAlias) {
+            // No change: client cert stayed the same
+            return
+        }
+    }
+
+    try {
+        val sslContext = SSLContext.getInstance("TLS")
+        sslContext.init(keyManagers, arrayOf<TrustManager>(trustManager), null)
+        httpClient = httpClient.newBuilder()
+            .sslSocketFactory(sslContext.socketFactory, trustManager)
+            .build()
+        lastClientCertAlias = clientCertAlias
+    } catch (e: Exception) {
+        Log.d(TAG, "Applying certificate trust settings failed", e)
+    }
+}
 
     private fun updateState(
         isIntermediate: Boolean,
