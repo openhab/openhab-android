@@ -221,19 +221,12 @@ class ConnectionFactory internal constructor(
     fun start() {
         launch {
             connectionHelper.start()
-            updateConnections()
-        }
+updateConnections() {
+    if (connectionHelper != null) {
+        connectionHelper.shutdown();
+        updateHttpClientForClientCert();
     }
-
-    fun shutdown() {
-        connectionHelper.shutdown()
-    }
-
-    fun restartNetworkCheck() {
-override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
-    if (key == PrefKeys.DEBUG_MESSAGES) {
-        updateHttpClientForClientCert()
-    }
+}
 }
 
 private void updateHttpClientForClientCert() {
