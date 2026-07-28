@@ -230,13 +230,15 @@ class ConnectionFactory internal constructor(
     }
 
     fun restartNetworkCheck() {
-        triggerConnectionUpdateIfNeeded()
+override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
+    if (key == PrefKeys.DEBUG_MESSAGES) {
+        updateHttpClientForClientCert()
     }
+}
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
-        if (key == PrefKeys.DEBUG_MESSAGES) {
-            updateHttpLoggerSettings()
-        }
+private void updateHttpClientForClientCert() {
+    // Update the HTTP client to use a custom SSLContext
+}
         val serverId = prefs.getActiveServerId()
         if (key in UPDATE_TRIGGERING_KEYS ||
             CLIENT_CERT_UPDATE_TRIGGERING_PREFIXES.any { prefix -> key == PrefKeys.buildServerKey(serverId, prefix) }
