@@ -27,7 +27,8 @@ class CloudConnection internal constructor(
     val proxyUrl: HttpUrl
 ) : DefaultConnection(baseConnection, Connection.TYPE_CLOUD) {
 
-    override fun equals(other: Any?) = super.equals(other) && other is CloudConnection
+    override fun equals(other: Any?) =
+        super.equals(other) && other is CloudConnection && messagingSenderId == other.messagingSenderId
 }
 
 /**

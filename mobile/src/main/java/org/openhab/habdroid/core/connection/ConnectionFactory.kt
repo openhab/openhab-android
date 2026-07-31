@@ -345,8 +345,12 @@ class ConnectionFactory internal constructor(
         primaryCloud: CloudConnectionResult? = stateFlow.value.primaryCloud,
         activeCloud: CloudConnectionResult? = stateFlow.value.activeCloud
     ) {
+        val oldPrimaryCloud = stateFlow.value.primaryCloud?.connection
         val newState = StateHolder(isIntermediate, primary, active, primaryCloud, activeCloud)
         stateFlow.tryEmit(newState)
+        if (!isIntermediate && oldPrimaryCloud != primaryCloud?.connection) {
+            CloudMessagingHelper.onPrimaryConnectionUpdated(context, primaryCloud?.connection)
+        }
     }
 
     private fun triggerConnectionUpdateIfNeededAndPending(): Boolean {
@@ -428,7 +432,6 @@ class ConnectionFactory internal constructor(
                         primary?.remote?.toCloudConnection()
                     }
                     updateState(false, primaryCloud = CloudConnectionResult(result, null))
-                    CloudMessagingHelper.onPrimaryConnectionUpdated(context, result)
                 } catch (_: CancellationException) {
                     // ignored
                 } catch (e: Exception) {
