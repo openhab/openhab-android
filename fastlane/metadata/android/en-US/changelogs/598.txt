@@ -1,0 +1,11 @@
+## What's Changed
+* Ignore alarms from com.samsung.android.app.routines by @Wr0ngName in https://github.com/openhab/openhab-android/pull/4015
+* Respect state description pattern when formatting number input by @maniac103 in https://github.com/openhab/openhab-android/pull/4011
+* Stop hardcoding home.myopenhab.org by @maniac103 in https://github.com/openhab/openhab-android/pull/4010
+* Fix FCM registration by @maniac103 in https://github.com/openhab/openhab-android/pull/4026
+* Fix Mapview widgets wrongly shown as 'no position set' by @maniac103 in https://github.com/openhab/openhab-android/pull/4023
+
+## New Contributors
+* @Wr0ngName made their first contribution in https://github.com/openhab/openhab-android/pull/4015
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.20.7-release...3.21.0-beta
