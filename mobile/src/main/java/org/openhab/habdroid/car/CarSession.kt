@@ -39,7 +39,7 @@ class CarSession(
     private val onSendWidgetCommand: (widget: Widget, command: String, sourceId: String) -> Unit
 ) : Session() {
     private var latestSitemapResult: Result<List<Sitemap>>? = null
-    private val pageStack = mutableListOf<WidgetListScreen>()
+    private val pageStack = mutableListOf<WidgetGridScreen>()
     val pageUrls get() = pageStack.map { it.url }
 
     init {
@@ -88,7 +88,7 @@ class CarSession(
                         selectedSitemap.homepageLink,
                         selectedSitemap.name,
                         selectedSitemap.label,
-                        false
+                        0
                     )
 
                 sitemaps.isEmpty() ->
@@ -99,7 +99,7 @@ class CarSession(
                         carContext.getPrefs().updateDefaultCarSitemap(sitemap)
                         val screenManager = carContext.getCarService(ScreenManager::class.java)
                         screenManager.replaceRoot(
-                            createWidgetListScreen(sitemap.homepageLink, sitemap.name, sitemap.label, false)
+                            createWidgetListScreen(sitemap.homepageLink, sitemap.name, sitemap.label, 0)
                         )
                     }
             }
@@ -113,15 +113,15 @@ class CarSession(
             carContext.getConnectionFactory().restartNetworkCheck()
         }
 
-    private fun createWidgetListScreen(url: String, id: String, title: String, canGoBack: Boolean): WidgetListScreen {
-        val screen = WidgetListScreen(
+    private fun createWidgetListScreen(url: String, id: String, title: String, nestingDepth: Int): WidgetGridScreen {
+        val screen = WidgetGridScreen(
             carContext,
             url,
             id,
-            canGoBack,
+            nestingDepth,
             // Omit state portion of the label, as we can't update it anyway without it counting against the step limit
             title.substringBefore("[").trim(),
-            onPageSelected = { page -> openWidgetListScreen(page) },
+            onPageSelected = { page -> openWidgetListScreen(page, nestingDepth + 1) },
             onWidgetCommand = { widget, command -> onSendWidgetCommand(widget, command, buildSourceId(id)) }
         )
         pageStack += screen
@@ -135,9 +135,9 @@ class CarSession(
         return carContext.buildSitemapSourceId(sitemapName, pageId, "org.openhab.android.car")
     }
 
-    private fun openWidgetListScreen(page: LinkedPage) {
+    private fun openWidgetListScreen(page: LinkedPage, nestingDepth: Int) {
         Log.d(TAG, "Open widget list for page $page")
-        val screen = createWidgetListScreen(page.link, page.id, page.title, true)
+        val screen = createWidgetListScreen(page.link, page.id, page.title, nestingDepth)
         screen.screenManager.push(screen)
     }
 

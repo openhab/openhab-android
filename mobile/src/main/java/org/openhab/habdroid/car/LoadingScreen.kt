@@ -15,11 +15,11 @@ package org.openhab.habdroid.car
 
 import androidx.car.app.CarContext
 import androidx.car.app.Screen
-import androidx.car.app.model.ListTemplate
+import androidx.car.app.model.GridTemplate
 import androidx.car.app.model.Template
 
 class LoadingScreen(carContext: CarContext) : Screen(carContext) {
-    override fun onGetTemplate(): Template = ListTemplate.Builder()
+    override fun onGetTemplate(): Template = GridTemplate.Builder()
         .setLoading(true)
         .build()
 }
