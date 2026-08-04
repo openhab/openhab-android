@@ -127,6 +127,9 @@ class DayDream :
     }
 
     private fun moveTextIfRequired() {
+        if (!::binding.isInitialized) {
+            return
+        }
         binding.text.post {
             if (!binding.text.isFullyVisible()) {
                 moveText()
