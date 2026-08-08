@@ -15,13 +15,13 @@ package org.openhab.habdroid.background
 
 import android.content.Context
 import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SHORT_SERVICE
+import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
-import androidx.core.os.bundleOf
 import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.ForegroundInfo
@@ -216,10 +216,10 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
             applicationContext,
             taskerIntent,
             resultCode,
-            bundleOf(
-                TaskerItemPickerActivity.VAR_HTTP_CODE to httpCode,
-                TaskerPlugin.Setting.VARNAME_ERROR_MESSAGE to errorMessage
-            )
+            Bundle().apply {
+                putInt(TaskerItemPickerActivity.VAR_HTTP_CODE, httpCode)
+                putCharSequence(TaskerPlugin.Setting.VARNAME_ERROR_MESSAGE, errorMessage)
+            }
         )
     }
 

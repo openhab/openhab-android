@@ -25,8 +25,6 @@ import com.danielstone.materialaboutlibrary.items.MaterialAboutItemOnClickAction
 import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList
-import com.mikepenz.aboutlibraries.LibsBuilder
-import com.mikepenz.aboutlibraries.ui.LibsSupportFragment
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -85,7 +83,7 @@ class AboutActivity :
     private fun updateTitle() {
         val fm = supportFragmentManager
         val titleResId = when (fm.findFragmentById(R.id.activity_content)) {
-            is LibsSupportFragment -> R.string.title_activity_libraries
+            is AboutLibrariesFragment -> R.string.title_activity_libraries
             else -> R.string.about_title
         }
         setTitle(titleResId)
@@ -114,7 +112,7 @@ class AboutActivity :
             }
             appCard.addItem(
                 MaterialAboutActionItem.Builder()
-                    .text(R.string.version)
+                    .text(R.string.about_version)
                     .subText(BuildConfig.VERSION_NAME)
                     .icon(R.drawable.ic_update_grey_24dp)
                     .build()
@@ -153,12 +151,6 @@ class AboutActivity :
                     .text(R.string.title_activity_libraries)
                     .icon(R.drawable.ic_code_braces_grey_24dp)
                     .setOnClickAction {
-                        val f = LibsBuilder()
-                            .withLicenseShown(true)
-                            .withAboutIconShown(false)
-                            .withAboutVersionShown(false)
-                            .withAboutVersionShownCode(false)
-                            .supportFragment()
                         parentFragmentManager.commit {
                             setCustomAnimations(
                                 R.anim.slide_in_right,
@@ -166,7 +158,7 @@ class AboutActivity :
                                 R.anim.slide_in_left,
                                 R.anim.slide_out_right
                             )
-                            replace(R.id.activity_content, f)
+                            replace(R.id.activity_content, AboutLibrariesFragment())
                             addToBackStack(null)
                         }
                     }
