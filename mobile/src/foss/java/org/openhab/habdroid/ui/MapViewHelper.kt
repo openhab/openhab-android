@@ -24,8 +24,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import java.util.Locale
-import kotlin.math.max
-import kotlin.math.min
 import org.openhab.habdroid.R
 import org.openhab.habdroid.databinding.BottomSheetMapBinding
 import org.openhab.habdroid.model.Item
@@ -87,8 +85,7 @@ object MapViewHelper {
                     .filter { o -> o is Marker }
                     .let { binding.mapview.overlays.removeAll(it) }
                 binding.mapview.applyPositionAndLabel(
-                    boundWidget?.item,
-                    binding.icontext.label.text,
+                    widget,
                     15.0f,
                     allowDrag = false,
                     allowScroll = false
@@ -112,42 +109,26 @@ object MapViewHelper {
 }
 
 fun MapView.applyPositionAndLabel(
-    item: Item?,
-    itemLabel: CharSequence?,
+    widget: Widget,
     zoomLevel: Float,
     allowDrag: Boolean,
     allowScroll: Boolean,
     markerDragListener: Marker.OnMarkerDragListener? = null
 ) {
-    if (item == null) {
-        return
-    }
+    val item = widget.item ?: return
     val canDragMarker = allowDrag && !item.readOnly
     if (item.members.isNotEmpty()) {
-        val positions = ArrayList<GeoPoint>()
-        for (member in item.members) {
-            val position = member.state?.asLocation?.toGeoPoint()
-            if (position != null) {
-                setMarker(position, member, member.label, canDragMarker, markerDragListener)
-                positions.add(position)
-            }
-        }
+        val positionMap = item.members
+            .mapNotNull { m -> m.state?.asLocation?.toGeoPoint()?.let { m to it } }
+            .toMap()
 
-        if (positions.isNotEmpty()) {
-            var north = -90.0
-            var south = 90.0
-            var west = 180.0
-            var east = -180.0
-            for (position in positions) {
-                north = max(position.latitude, north)
-                south = min(position.latitude, south)
-
-                west = min(position.longitude, west)
-                east = max(position.longitude, east)
+        if (positionMap.isNotEmpty()) {
+            positionMap.forEach { (member, pos) ->
+                setMarker(pos, member, member.label, canDragMarker, markerDragListener)
             }
 
-            Log.d(MapViewHelper.TAG, "North $north, south $south, west $west, east $east")
-            val boundingBox = BoundingBox(north, east, south, west)
+            val boundingBox = BoundingBox.fromGeoPointsSafe(positionMap.values.toList())
+            Log.d(MapViewHelper.TAG, "Bounding box for ${positionMap.size} members: $boundingBox")
             val extraPixel = context.resources.dpToPixel(24f).toInt()
             try {
                 zoomToBoundingBox(boundingBox, false, extraPixel)
@@ -156,14 +137,14 @@ fun MapView.applyPositionAndLabel(
             }
 
             if (!allowScroll) {
-                setScrollableAreaLimitLongitude(west, east, extraPixel)
-                setScrollableAreaLimitLatitude(north, south, extraPixel)
+                setScrollableAreaLimitLongitude(boundingBox.lonWest, boundingBox.lonEast, extraPixel)
+                setScrollableAreaLimitLatitude(boundingBox.latNorth, boundingBox.latSouth, extraPixel)
             }
         }
     } else {
         val position = item.state?.asLocation?.toGeoPoint()
         if (position != null) {
-            setMarker(position, item, itemLabel, canDragMarker, markerDragListener)
+            setMarker(position, item, widget.label, canDragMarker, markerDragListener)
             controller.setZoom(zoomLevel.toDouble())
             controller.setCenter(position)
             if (!allowScroll) {
@@ -223,8 +204,7 @@ class MapBottomSheet :
         }
         handler.post {
             binding.mapview.applyPositionAndLabel(
-                widget.item,
-                widget.label,
+                widget,
                 16.0f,
                 allowDrag = true,
                 allowScroll = true,
