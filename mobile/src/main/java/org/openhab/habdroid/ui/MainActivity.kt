@@ -89,6 +89,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.background.PeriodicItemUpdateWorker
+import org.openhab.habdroid.background.SystemEventBroadcastReceiver
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.NotificationHelper
 import org.openhab.habdroid.core.OpenHabApplication
@@ -129,6 +130,7 @@ import org.openhab.habdroid.util.addToPrefs
 import org.openhab.habdroid.util.areSitemapsShownInDrawer
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getActiveServerId
+import org.openhab.habdroid.util.getBackgroundTasksManager
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getCurrentWifiSsid
@@ -180,7 +182,7 @@ class MainActivity : AbstractBaseActivity() {
     private var notificationPollingJob: Job? = null
     private var isStarted: Boolean = false
     private var shortcutManager: ShortcutManager? = null
-    private val backgroundTasksManager = BackgroundTasksManager()
+    private val systemEventReceiver = SystemEventBroadcastReceiver()
     private var inServerSelectionMode = false
     private var wifiSsidDuringLastOnStart: String? = null
 
@@ -434,9 +436,9 @@ class MainActivity : AbstractBaseActivity() {
         updateTitle()
         showMissingPermissionsWarningIfNeeded()
 
-        val intentFilter = BackgroundTasksManager.getIntentFilterForForeground(this)
+        val intentFilter = SystemEventBroadcastReceiver.getIntentFilterForForeground(this)
         if (intentFilter.countActions() != 0) {
-            registerExportedReceiver(backgroundTasksManager, intentFilter)
+            registerExportedReceiver(systemEventReceiver, intentFilter)
         }
 
         showDataSaverHintSnackbarIfNeeded()
@@ -455,7 +457,7 @@ class MainActivity : AbstractBaseActivity() {
         }
 
         try {
-            unregisterReceiver(backgroundTasksManager)
+            unregisterReceiver(systemEventReceiver)
         } catch (e: IllegalArgumentException) {
             // Receiver isn't registered
         }
@@ -954,7 +956,7 @@ class MainActivity : AbstractBaseActivity() {
         when (intent.action) {
             NfcAdapter.ACTION_NDEF_DISCOVERED, Intent.ACTION_VIEW -> {
                 val tag = intent.data?.toTagData()
-                BackgroundTasksManager.enqueueNfcUpdateIfNeeded(this, tag)
+                getBackgroundTasksManager().enqueueNfcUpdateIfNeeded(tag)
 
                 val sitemapUrl = tag?.sitemap
                 if (!sitemapUrl.isNullOrEmpty()) {

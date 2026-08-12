@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.background
 
+import android.app.Application
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationChannelGroup
@@ -35,9 +36,7 @@ import org.openhab.habdroid.util.getNotificationTone
 import org.openhab.habdroid.util.getNotificationVibrationPattern
 import org.openhab.habdroid.util.getPrefs
 
-internal class NotificationUpdateObserver(context: Context) : Observer<List<WorkInfo>> {
-    private val context: Context = context.applicationContext
-
+internal class NotificationUpdateObserver(private val context: Application) : Observer<List<WorkInfo>> {
     override fun onChanged(value: List<WorkInfo>) {
         // Find latest state for each tag
         val latestInfoByTag = HashMap<String, WorkInfo>()
@@ -284,9 +283,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
             }
 
             if (retryInfoList.isNotEmpty()) {
-                val retryIntent = Intent(context, BackgroundTasksManager::class.java)
-                    .setAction(BackgroundTasksManager.ACTION_RETRY_UPLOAD)
-                    .putExtra(BackgroundTasksManager.EXTRA_RETRY_INFO_LIST, retryInfoList)
+                val retryIntent = BackgroundTasksManager.buildRetryUploadIntent(context, retryInfoList)
                 val retryPendingIntent = PendingIntent.getBroadcast(
                     context,
                     0,
@@ -301,8 +298,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                     )
                 )
 
-                val clearIntent = Intent(context, BackgroundTasksManager::class.java)
-                    .setAction(BackgroundTasksManager.ACTION_CLEAR_UPLOAD)
+                val clearIntent = BackgroundTasksManager.buildClearUploadIntent(context)
                 val clearPendingIntent = PendingIntent.getBroadcast(
                     context,
                     0,

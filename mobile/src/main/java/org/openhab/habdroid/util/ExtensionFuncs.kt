@@ -89,6 +89,7 @@ import okhttp3.ResponseBody
 import org.json.JSONArray
 import org.json.JSONObject
 import org.openhab.habdroid.R
+import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
@@ -356,6 +357,9 @@ fun Context.getSecretPrefs(): SharedPreferences = (applicationContext as OpenHab
 fun Context.getConnectionFactory(): ConnectionFactory = (applicationContext as OpenHabApplication).connectionFactory
 
 fun Context.getWebViewManager(): WebViewManager = (applicationContext as OpenHabApplication).webViewManager
+
+fun Context.getBackgroundTasksManager(): BackgroundTasksManager =
+    (applicationContext as OpenHabApplication).backgroundTasksManager
 
 /**
  * Shows an Toast and can be called from the background.
