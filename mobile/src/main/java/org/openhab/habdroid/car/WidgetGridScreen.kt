@@ -288,7 +288,7 @@ class WidgetGridScreen(
                 "rollershutter" to WidgetType.Rollershutter,
                 "window" to WidgetType.Window,
                 "switch" to WidgetType.Switch,
-                "wallswitch" to  WidgetType.Switch,
+                "wallswitch" to WidgetType.Switch,
                 "power" to WidgetType.PowerOutlet,
                 "poweroutlet" to WidgetType.PowerOutlet,
                 "poweroutlet_eu" to WidgetType.PowerOutlet,
@@ -346,7 +346,7 @@ class WidgetGridScreen(
                 Item.Tag.Window to WidgetType.Window,
                 Item.Tag.PowerOutlet to WidgetType.PowerOutlet,
                 Item.Tag.Switch to WidgetType.Switch,
-                Item.Tag.WallSwitch to WidgetType.Switch,
+                Item.Tag.WallSwitch to WidgetType.Switch
             )
 
             tagToTypeMapping.forEach { (tag, type) ->
