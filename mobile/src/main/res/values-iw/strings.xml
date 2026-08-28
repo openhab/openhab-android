@@ -304,7 +304,6 @@
     <plurals name="summary_notification_text">
         <item quantity="one">%d התראה חדשה</item>
         <item quantity="two">%d התראות חדשות</item>
-        <item quantity="many">%d התראות חדשות</item>
         <item quantity="other">%d התראות חדשות</item>
     </plurals>
     <string name="push_notification_status_no_remote_configured">התראות לא זמינות: השרת המרוחק אינו מוגדר</string>
@@ -315,7 +314,6 @@
     <plurals name="item_update_error_title">
         <item quantity="one">לפריט %d לא היתה אפשרות להתעדכן</item>
         <item quantity="two">ל %d פריטים לא היתה אפשרות להתעדכן</item>
-        <item quantity="many">ל %d פריטים לא היתה אפשרות להתעדכן</item>
         <item quantity="other">ל %d פריטים לא היתה אפשרות להתעדכן</item>
     </plurals>
     <!-- %1$s: Item name, %2$s: HTTP error message -->
@@ -597,7 +595,6 @@
     <plurals name="tile_active_number">
         <item quantity="one">אריח פעיל %d</item>
         <item quantity="two">%d אריחים פעילים</item>
-        <item quantity="many">%d אריחים פעילים</item>
         <item quantity="other">%d אריחים פעילים</item>
     </plurals>
     <string name="tile_number">אריח %d</string>
