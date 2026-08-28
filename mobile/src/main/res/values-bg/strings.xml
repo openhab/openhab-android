@@ -74,7 +74,7 @@
     <string name="settings_notification_reset_settings">Нулирай категориите</string>
     <string name="settings_connection_summary">Свързан към %s</string>
     <!-- %1$s: URL, %2$s: Reason why connection is insecure -->
-    <string name="settings_insecure_connection_summary">Несигурно свърдано с %1$s: %2$s</string>
+    <string name="settings_insecure_connection_summary">Несигурно свързан с %1$s: %2$s</string>
     <string name="settings_insecure_connection_no_https">Адресът не започва с „https“</string>
     <string name="settings_insecure_connection_no_auth">Няма зададени потребителско име и парола</string>
     <string name="settings_screen_lock">Заключване на екрана</string>
