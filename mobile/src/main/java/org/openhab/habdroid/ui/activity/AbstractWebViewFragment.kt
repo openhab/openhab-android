@@ -65,6 +65,7 @@ import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.ui.AbstractBaseActivity
 import org.openhab.habdroid.ui.ConnectionWebViewClient
 import org.openhab.habdroid.ui.MainActivity
+import org.openhab.habdroid.ui.isolateForServer
 import org.openhab.habdroid.ui.setUpForConnection
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getConfiguredServerIds
@@ -169,6 +170,7 @@ abstract class AbstractWebViewFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        webView?.isolateForServer(requireContext().getPrefs().getActiveServerId())
         webView?.apply {
             // Make sure not to pass window insets into the WebView, we already handle them in the activity
             ViewCompat.setOnApplyWindowInsetsListener(this) { v, insets ->

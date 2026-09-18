@@ -12,6 +12,7 @@ kotlin-stdlib = "2.0.21"
 desugar-jdk-libs = "2.1.5"
 
 core-ktx = "1.15.0"
+webkit = "1.14.0"
 activity-ktx = "1.9.3"
 fragment-ktx = "1.8.6"
 appcompat = "1.7.0"
@@ -72,6 +73,7 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin-stdlib" }
 
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
+webkit = { module = "androidx.webkit:webkit", version.ref = "webkit" }
 activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity-ktx" }
 fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment-ktx" }
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
