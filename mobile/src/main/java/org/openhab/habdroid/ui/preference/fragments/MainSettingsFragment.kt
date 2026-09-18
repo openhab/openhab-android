@@ -49,7 +49,7 @@ import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.ui.AbstractBaseActivity
 import org.openhab.habdroid.ui.LogActivity
-import org.openhab.habdroid.ui.clearWebViewCaches
+import org.openhab.habdroid.ui.WebViewManager
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.preference.widgets.NotificationPollingPreference
@@ -364,7 +364,7 @@ class MainSettingsFragment : AbstractSettingsFragment() {
     }
 
     private fun clearCaches(context: Context) {
-        context.clearWebViewCaches()
+        WebViewManager.getInstance(context).clearCaches()
         // Get launch intent for application
         val restartIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
         restartIntent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

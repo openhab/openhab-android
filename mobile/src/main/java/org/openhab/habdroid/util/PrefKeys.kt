@@ -46,7 +46,6 @@ object PrefKeys {
     const val SHOW_ICONS = "show_icons"
     const val ICON_FORMAT = "iconFormatType"
     const val CLEAR_CACHE = "default_openhab_clear_cache"
-    const val WEBVIEW_LAST_SERVER_ID = "webview_last_server_id"
     const val CHART_SCALING = "chartScalingFactor"
     const val CHART_HQ = "default_openhab_chart_hq"
     const val UI_COMMAND_ITEM = "ui_command_item"

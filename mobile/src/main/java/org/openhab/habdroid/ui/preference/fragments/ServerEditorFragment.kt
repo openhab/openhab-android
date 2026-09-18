@@ -35,7 +35,7 @@ import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.model.toWifiSsids
-import org.openhab.habdroid.ui.deleteWebViewDataForServer
+import org.openhab.habdroid.ui.WebViewManager
 import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.preference.widgets.SslClientCertificatePreference
 import org.openhab.habdroid.ui.preference.widgets.WifiSsidInputPreference
@@ -132,7 +132,7 @@ class ServerEditorFragment :
     override fun onConfirmed(tag: String?) = when (tag) {
         "delete_server_confirmation" -> {
             config.removeFromPrefs(prefs, secretPrefs)
-            preferenceManager.context.deleteWebViewDataForServer(config.id)
+            WebViewManager.getInstance(preferenceManager.context).deleteDataForServer(config.id)
             WorkManager.getInstance(preferenceManager.context).apply {
                 cancelAllWorkByTag(BackgroundTasksManager.buildWorkerTagForServer(config.id))
                 pruneWork()
