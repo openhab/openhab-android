@@ -1305,6 +1305,13 @@ class MainActivity : AbstractBaseActivity() {
             executeActionForServer(action.serverId) { openWebViewUi(action.ui, true, action.subpage) }
         }
 
+        action is PendingAction.OpenWebViewUi &&
+            action.serverId == prefs.getActiveServerId() &&
+            serverProperties?.hasWebViewUiInstalled(action.ui) == false -> {
+            // Drop the action, otherwise it would switch back to this server once another server has this UI
+            true
+        }
+
         action is PendingAction.LaunchVoiceRecognition && serverProperties != null -> {
             launchVoiceRecognition()
             true
