@@ -54,6 +54,10 @@
     <string name="settings_openhab_demomode">Demo mode</string>
     <string name="settings_openhab_demomode_summary">If you don\'t have an openHAB server, enable demo mode to get an imagination of what openHAB is capable of.</string>
     <string name="start_page_title">Start page</string>
+    <string name="settings_hide_drawer">Hide side menu</string>
+    <string name="settings_hide_drawer_summary">Servers, UIs and settings stay reachable from the toolbar</string>
+    <string name="settings_main_ui_toolbar">Show toolbar in Main UI</string>
+    <string name="settings_main_ui_toolbar_summary">Keep the app toolbar with server name and menu visible while Main UI is shown</string>
     <string name="drawer_entries">Side menu entries</string>
     <string name="settings_openhab_theme">Theme</string>
     <string name="settings_openhab_fullscreen">Fullscreen</string>

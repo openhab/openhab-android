@@ -66,6 +66,7 @@ import org.openhab.habdroid.ui.AbstractBaseActivity
 import org.openhab.habdroid.ui.ConnectionWebViewClient
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.setUpForConnection
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getConnectionFactory
@@ -91,6 +92,8 @@ abstract class AbstractWebViewFragment :
     var title: String? = null
         private set
     var wantsActionBar = true
+        private set
+    var pageTitle: String? = null
         private set
 
     private val permissionRequester = registerForActivityResult(
@@ -210,6 +213,16 @@ abstract class AbstractWebViewFragment :
                             permissionRequester.launch(requestedPerms)
                         }
                     }
+                }
+
+                override fun onReceivedTitle(view: WebView?, title: String?) {
+                    // Main UI reports 'page - section - openHAB'
+                    pageTitle = title.orEmpty()
+                        .split(" - ")
+                        .filterNot { part -> part.equals("openHAB", ignoreCase = true) }
+                        .joinToString(" - ")
+                        .ifEmpty { null }
+                    mainActivity?.updateTitle()
                 }
 
                 override fun onConsoleMessage(message: ConsoleMessage): Boolean {
@@ -400,6 +413,9 @@ abstract class AbstractWebViewFragment :
     }
 
     private fun hideActionBar() {
+        if (context?.getPrefs()?.getBoolean(PrefKeys.MAIN_UI_TOOLBAR, false) == true) {
+            return
+        }
         wantsActionBar = false
         callback?.updateActionBarState()
     }

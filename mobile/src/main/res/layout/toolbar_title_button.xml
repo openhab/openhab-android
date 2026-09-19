@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.button.MaterialButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar_title_button"
+    style="@style/Widget.Material3.Button.TonalButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="start|center_vertical"
+    android:ellipsize="end"
+    android:maxLines="1"
+    app:icon="@drawable/ic_menu_down_grey_24dp"
+    app:iconGravity="end" />

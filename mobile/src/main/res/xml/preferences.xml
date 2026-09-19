@@ -84,6 +84,20 @@
             android:entries="@array/start_page"
             android:entryValues="@array/start_page_values"
             app:singleLineTitle="false" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="main_ui_toolbar"
+            android:title="@string/settings_main_ui_toolbar"
+            android:summary="@string/settings_main_ui_toolbar_summary"
+            android:widgetLayout="@layout/preference_material_switch"
+            app:singleLineTitle="false" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="hide_drawer"
+            android:title="@string/settings_hide_drawer"
+            android:summary="@string/settings_hide_drawer_summary"
+            android:widgetLayout="@layout/preference_material_switch"
+            app:singleLineTitle="false" />
         <Preference
             android:key="drawer_entries"
             android:title="@string/drawer_entries"

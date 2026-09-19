@@ -25,6 +25,7 @@ import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.content.res.ColorStateList
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.location.LocationManager
@@ -34,12 +35,15 @@ import android.os.Bundle
 import android.provider.Settings
 import android.speech.SpeechRecognizer
 import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
 import android.util.Base64
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
@@ -47,6 +51,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.core.content.IntentCompat
 import androidx.core.content.edit
@@ -55,6 +60,7 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.core.location.LocationManagerCompat
 import androidx.core.text.inSpans
 import androidx.core.view.GravityCompat
+import androidx.core.view.MenuCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.forEach
@@ -66,6 +72,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import de.duenndns.ssl.MemorizingTrustManager
@@ -172,6 +179,15 @@ class MainActivity : AbstractBaseActivity() {
     private var lastPrimaryCloudConnectionResult: ConnectionFactory.CloudConnectionResult? = null
 
     private var pendingAction: PendingAction? = null
+    private lateinit var titleButton: MaterialButton
+    private var serverConfigs = emptyList<ServerConfiguration>()
+
+    // Drawer item, UI and title
+    private val webViewUis = listOf(
+        Triple(R.id.main_ui, WebViewUi.MAIN_UI, R.string.mainmenu_openhab_main_ui),
+        Triple(R.id.habpanel, WebViewUi.HABPANEL, R.string.mainmenu_openhab_habpanel),
+        Triple(R.id.frontail, WebViewUi.FRONTAIL, R.string.mainmenu_openhab_frontail)
+    )
     private lateinit var controller: ContentController
     var serverProperties: ServerProperties? = null
         private set
@@ -193,6 +209,8 @@ class MainActivity : AbstractBaseActivity() {
     private val preferenceActivityCallback =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             CrashReportingHelper.d(TAG, "preferenceActivityCallback: $result")
+            updateTitle()
+            invalidateOptionsMenu()
             val data = result.data ?: return@registerForActivityResult
             if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED, false)) {
                 updateSitemapDrawerEntries()
@@ -240,6 +258,7 @@ class MainActivity : AbstractBaseActivity() {
         setProgressIndicatorVisible(false)
 
         setupDrawer()
+        setupTitleButton()
 
         viewPool = RecyclerView.RecycledViewPool()
 
@@ -470,6 +489,13 @@ class MainActivity : AbstractBaseActivity() {
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         CrashReportingHelper.d(TAG, "onPrepareOptionsMenu()")
+        val hideDrawer = prefs.getBoolean(PrefKeys.HIDE_DRAWER, false)
+        menu.findItem(R.id.mainmenu_settings).isVisible = hideDrawer || controller.currentWebViewUi != null
+        // Without drawer its entries are offered here
+        menu.findItem(R.id.mainmenu_notifications).isVisible =
+            hideDrawer && drawerMenu.findItem(R.id.notifications).isVisible
+        menu.findItem(R.id.mainmenu_nfc).isVisible = hideDrawer && drawerMenu.findItem(R.id.nfc).isVisible
+        menu.findItem(R.id.mainmenu_about).isVisible = hideDrawer
         menu.findItem(R.id.mainmenu_voice_recognition).isVisible =
             connection != null &&
             SpeechRecognizer.isRecognitionAvailable(this)
@@ -499,6 +525,26 @@ class MainActivity : AbstractBaseActivity() {
 
         // Handle menu items
         return when (item.itemId) {
+            R.id.mainmenu_settings -> {
+                openSettings()
+                true
+            }
+
+            R.id.mainmenu_notifications -> {
+                openNotifications(null, false)
+                true
+            }
+
+            R.id.mainmenu_nfc -> {
+                startActivity(Intent(this, NfcItemPickerActivity::class.java))
+                true
+            }
+
+            R.id.mainmenu_about -> {
+                startActivity(Intent(this, AboutActivity::class.java))
+                true
+            }
+
             R.id.mainmenu_voice_recognition -> {
                 launchVoiceRecognition()
                 true
@@ -1067,9 +1113,7 @@ class MainActivity : AbstractBaseActivity() {
                 }
 
                 R.id.settings -> {
-                    val settingsIntent = Intent(this@MainActivity, PreferencesActivity::class.java)
-                    settingsIntent.putExtra(PreferencesActivity.START_EXTRA_SERVER_PROPERTIES, serverProperties)
-                    preferenceActivityCallback.launch(settingsIntent)
+                    openSettings()
                     handled = true
                 }
 
@@ -1118,6 +1162,135 @@ class MainActivity : AbstractBaseActivity() {
         drawerHeaderBinding.serverSelector.setOnClickListener { updateDrawerMode(!inServerSelectionMode) }
     }
 
+    private fun openSettings() {
+        val settingsIntent = Intent(this, PreferencesActivity::class.java)
+        settingsIntent.putExtra(PreferencesActivity.START_EXTRA_SERVER_PROPERTIES, serverProperties)
+        preferenceActivityCallback.launch(settingsIntent)
+    }
+
+    private fun setupTitleButton() {
+        val toolbar = findViewById<ViewGroup>(R.id.openhab_toolbar)
+        titleButton = layoutInflater.inflate(R.layout.toolbar_title_button, toolbar, false) as MaterialButton
+        titleButton.setOnClickListener { v -> showServerPopup(v) }
+        toolbar.addView(titleButton)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        updateTitleButton()
+    }
+
+    override fun onTitleChanged(title: CharSequence?, color: Int) {
+        super.onTitleChanged(title, color)
+        if (::titleButton.isInitialized) {
+            updateTitleButton()
+        }
+    }
+
+    private fun updateTitleButton() {
+        val hasChoice = buildPopupEntries().size > 1
+        val activeServerId = prefs.getActiveServerId()
+        val serverName = serverConfigs.firstOrNull { config -> config.id == activeServerId }?.name
+        val currentUi = controller.currentWebViewUi
+        val uiTitle = webViewUis.firstOrNull { (_, ui, _) -> ui == currentUi }
+            ?.let { (_, _, titleRes) -> getString(titleRes) }
+            ?: controller.currentTitle
+        val titleParts = listOf(serverName, uiTitle?.toString(), controller.currentWebViewPageTitle)
+        titleButton.text = titleParts.filterNot { part -> part.isNullOrEmpty() }
+            .joinToString(" \u00b7 ")
+            .ifEmpty { getString(R.string.app_name) }
+        titleButton.isClickable = hasChoice
+        titleButton.icon = if (hasChoice) {
+            ContextCompat.getDrawable(this, R.drawable.ic_menu_down_grey_24dp)
+        } else {
+            null
+        }
+    }
+
+    private class PopupEntry(
+        val serverId: Int,
+        val serverName: String?,
+        val title: String,
+        val ui: WebViewUi? = null,
+        val sitemap: Sitemap? = null
+    )
+
+    /**
+     * One entry per server and UI. What's installed is only known for the active server,
+     * for the other ones offer sitemap and Main UI.
+     */
+    private fun buildPopupEntries(): List<PopupEntry> {
+        val activeServerId = prefs.getActiveServerId()
+        val serverNames = if (serverConfigs.size > 1) {
+            serverConfigs.associate { config -> config.id to config.name }
+        } else {
+            mapOf(activeServerId to null)
+        }
+        return serverNames.flatMap { (serverId, serverName) ->
+            val isActive = serverId == activeServerId
+            val uis = webViewUis.filter { (drawerItemId, ui, _) ->
+                if (isActive) drawerMenu.findItem(drawerItemId).isVisible else ui == WebViewUi.MAIN_UI
+            }
+            val sitemaps = if (isActive) serverProperties?.sitemaps.orEmpty() else emptyList()
+            val sitemapEntries = if (isActive && serverProperties != null && sitemaps.isEmpty()) {
+                emptyList()
+            } else if (sitemaps.isEmpty()) {
+                listOf(PopupEntry(serverId, serverName, getString(R.string.mainmenu_openhab_sitemaps)))
+            } else {
+                sitemaps.map { sitemap -> PopupEntry(serverId, serverName, sitemap.label, sitemap = sitemap) }
+            }
+            sitemapEntries + uis.map { (_, ui, titleRes) -> PopupEntry(serverId, serverName, getString(titleRes), ui) }
+        }
+    }
+
+    private fun showServerPopup(anchor: View) {
+        val activeServerId = prefs.getActiveServerId()
+        val currentUi = controller.currentWebViewUi
+        val entries = buildPopupEntries()
+        val serverIds = entries.map { entry -> entry.serverId }.distinct()
+
+        val popup = PopupMenu(this, anchor)
+        MenuCompat.setGroupDividerEnabled(popup.menu, true)
+        entries.forEachIndexed { index, entry ->
+            val title = if (entry.serverName != null) "${entry.serverName} \u00b7 ${entry.title}" else entry.title
+            val isCurrent = entry.serverId == activeServerId && when {
+                entry.ui != null -> entry.ui == currentUi
+                entry.sitemap != null -> controller.isShowingSitemap && entry.sitemap == controller.currentSitemap
+                else -> controller.isShowingSitemap
+            }
+            popup.menu.add(serverIds.indexOf(entry.serverId), index, index, title.highlightIf(isCurrent))
+        }
+
+        popup.setOnMenuItemClickListener { item ->
+            val entry = entries[item.itemId]
+            when {
+                entry.serverId != activeServerId -> {
+                    // Executed once the properties of the new server are loaded
+                    pendingAction = entry.ui?.let { ui -> PendingAction.OpenWebViewUi(ui, entry.serverId, null) }
+                    prefs.edit {
+                        putActiveServerId(entry.serverId)
+                    }
+                    updateServerNameInDrawer()
+                }
+
+                entry.ui != null && entry.ui != currentUi -> openWebViewUi(entry.ui, true, null)
+
+                entry.sitemap != null && entry.sitemap != controller.currentSitemap ->
+                    controller.openSitemap(entry.sitemap)
+
+                entry.ui == null && !controller.isShowingSitemap -> controller.closeFragment()
+            }
+            true
+        }
+        popup.show()
+    }
+
+    private fun String.highlightIf(highlight: Boolean): CharSequence = if (highlight) {
+        val color = resolveThemedColor(R.attr.colorPrimary)
+        SpannableStringBuilder().inSpans(StyleSpan(Typeface.BOLD), ForegroundColorSpan(color)) {
+            append(this@highlightIf)
+        }
+    } else {
+        this
+    }
+
     private fun updateDrawerServerEntries() {
         // Remove existing items from server group
         drawerMenu.getGroupItems(R.id.servers)
@@ -1125,10 +1298,12 @@ class MainActivity : AbstractBaseActivity() {
 
         // Add new items
         if (connection is DemoConnection) {
+            serverConfigs = emptyList()
             drawerHeaderBinding.drawerModeSwitcher.isGone = true
         } else {
             val configs = prefs.getConfiguredServerIds()
                 .mapNotNull { id -> ServerConfiguration.load(prefs, getSecretPrefs(), id) }
+            serverConfigs = configs
             configs.forEachIndexed { index, config -> drawerMenu.add(R.id.servers, config.id, index, config.name) }
             drawerHeaderBinding.drawerModeSwitcher.isGone = configs.size <= 1
         }
@@ -1226,6 +1401,9 @@ class MainActivity : AbstractBaseActivity() {
                 (NfcAdapter.getDefaultAdapter(this) != null || Util.isEmulator()) &&
                 prefs.getPrimaryServerId() == prefs.getActiveServerId() &&
                 prefs.getBoolean(PrefKeys.DRAWER_ENTRY_NFC, true)
+        }
+        if (::titleButton.isInitialized) {
+            updateTitleButton()
         }
     }
 
@@ -1410,13 +1588,13 @@ class MainActivity : AbstractBaseActivity() {
 
     private fun openNotifications(highlightedId: String?, primaryServer: Boolean) {
         controller.openNotifications(highlightedId, primaryServer)
-        drawerToggle.isDrawerIndicatorEnabled = false
+        updateNavigationIcon(false)
     }
 
     private fun openWebViewUi(ui: WebViewUi, isStackRoot: Boolean, subpage: String?) {
         hideSnackbar(SNACKBAR_TAG_SSE_ERROR)
         controller.showWebViewUi(ui, isStackRoot, subpage)
-        drawerToggle.isDrawerIndicatorEnabled = isStackRoot
+        updateNavigationIcon(isStackRoot)
     }
 
     private fun buildUrlAndOpenSitemap(partUrl: String) {
@@ -1432,7 +1610,17 @@ class MainActivity : AbstractBaseActivity() {
         val title = controller.currentTitle
         val activeServerName = ServerConfiguration.load(prefs, getSecretPrefs(), prefs.getActiveServerId())?.name
         setTitle(title.orDefaultIfEmpty(activeServerName.orEmpty()).orDefaultIfEmpty(getString(R.string.app_name)))
-        drawerToggle.isDrawerIndicatorEnabled = !controller.canGoBack()
+        updateNavigationIcon(!controller.canGoBack())
+    }
+
+    private fun updateNavigationIcon(isRoot: Boolean) {
+        val hideDrawer = prefs.getBoolean(PrefKeys.HIDE_DRAWER, false)
+        binding.drawerContainer.setDrawerLockMode(
+            if (hideDrawer) DrawerLayout.LOCK_MODE_LOCKED_CLOSED else DrawerLayout.LOCK_MODE_UNLOCKED
+        )
+        drawerToggle.isDrawerIndicatorEnabled = isRoot && !hideDrawer
+        // Without drawer there's no navigation icon on root pages
+        supportActionBar?.setDisplayHomeAsUpEnabled(!isRoot || !hideDrawer)
     }
 
     fun setProgressIndicatorVisible(visible: Boolean) {

@@ -84,7 +84,8 @@ abstract class ContentController protected constructor(private val activity: Mai
     protected var defaultProgressFragment: Fragment
     private val connectionFragment: PageConnectionHolderFragment
     private var temporaryPage: Fragment? = null
-    private var currentSitemap: Sitemap? = null
+    var currentSitemap: Sitemap? = null
+        private set
     protected var sitemapFragment: WidgetListFragment? = null
     protected val pageStack = Stack<Pair<LinkedPage, WidgetListFragment>>()
     private val pendingDataLoadUrls = HashSet<String>()
@@ -274,6 +275,14 @@ abstract class ContentController protected constructor(private val activity: Mai
             activity.setProgressIndicatorVisible(true)
         }
     }
+
+    val isShowingSitemap get() = temporaryPage == null && noConnectionFragment == null
+
+    val currentWebViewPageTitle get() = (temporaryPage as? AbstractWebViewFragment)?.pageTitle
+
+    val currentWebViewUi: WebViewUi?
+        get() = listOf(WebViewUi.HABPANEL, WebViewUi.MAIN_UI, WebViewUi.FRONTAIL)
+            .firstOrNull { ui -> ui.fragment.isInstance(temporaryPage) }
 
     fun showWebViewUi(ui: WebViewUi, isStackRoot: Boolean, subpage: String?) {
         val webViewFragment = ui.fragment.getDeclaredConstructor().newInstance()
