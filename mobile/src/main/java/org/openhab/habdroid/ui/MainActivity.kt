@@ -845,7 +845,14 @@ class MainActivity : AbstractBaseActivity() {
                 is ServerProperties.Companion.PropsSuccess -> {
                     serverProperties = result.props
                     updateDrawerServerEntries()
-                    if (result.props.sitemaps.isEmpty()) {
+                    val fallbackUi = listOf(WebViewUi.MAIN_UI, WebViewUi.HABPANEL)
+                        .firstOrNull { ui -> result.props.hasWebViewUiInstalled(ui) }
+                    if (result.props.sitemaps.isEmpty() && fallbackUi != null) {
+                        Log.d(TAG, "openHAB returned empty Sitemap list, fall back to web UI")
+                        if (pendingAction == null) {
+                            pendingAction = PendingAction.OpenWebViewUi(fallbackUi, prefs.getActiveServerId(), null)
+                        }
+                    } else if (result.props.sitemaps.isEmpty()) {
                         Log.e(TAG, "openHAB returned empty Sitemap list")
                         controller.indicateServerCommunicationFailure(getString(R.string.error_empty_sitemap_list))
                         scheduleRetry {
