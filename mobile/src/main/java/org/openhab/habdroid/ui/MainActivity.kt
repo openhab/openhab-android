@@ -1100,6 +1100,15 @@ class MainActivity : AbstractBaseActivity() {
                 }
             }
             if (item.groupId == R.id.servers) {
+                if (item.itemId != prefs.getActiveServerId()) {
+                    // Executed once the properties of the new server are loaded
+                    pendingAction = when (prefs.getStringOrNull(PrefKeys.START_PAGE)) {
+                        ACTION_HABPANEL_SELECTED -> PendingAction.OpenWebViewUi(WebViewUi.HABPANEL, item.itemId, null)
+                        ACTION_MAIN_UI_SELECTED -> PendingAction.OpenWebViewUi(WebViewUi.MAIN_UI, item.itemId, null)
+                        ACTION_FRONTAIL_SELECTED -> PendingAction.OpenWebViewUi(WebViewUi.FRONTAIL, item.itemId, null)
+                        else -> null
+                    }
+                }
                 prefs.edit {
                     putActiveServerId(item.itemId)
                 }
@@ -1303,6 +1312,13 @@ class MainActivity : AbstractBaseActivity() {
             isStarted &&
             serverProperties?.hasWebViewUiInstalled(action.ui) == true -> {
             executeActionForServer(action.serverId) { openWebViewUi(action.ui, true, action.subpage) }
+        }
+
+        action is PendingAction.OpenWebViewUi &&
+            action.serverId == prefs.getActiveServerId() &&
+            serverProperties?.hasWebViewUiInstalled(action.ui) == false -> {
+            // Drop the action, otherwise it would switch back to this server once another server has this UI
+            true
         }
 
         action is PendingAction.LaunchVoiceRecognition && serverProperties != null -> {
