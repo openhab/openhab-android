@@ -847,20 +847,29 @@ class MainActivity : AbstractBaseActivity() {
                     updateDrawerServerEntries()
                     val fallbackUi = listOf(WebViewUi.MAIN_UI, WebViewUi.HABPANEL)
                         .firstOrNull { ui -> result.props.hasWebViewUiInstalled(ui) }
-                    if (result.props.sitemaps.isEmpty() && fallbackUi != null) {
-                        Log.d(TAG, "openHAB returned empty Sitemap list, fall back to web UI")
-                        if (pendingAction == null) {
-                            pendingAction = PendingAction.OpenWebViewUi(fallbackUi, prefs.getActiveServerId(), null)
+                    when {
+                        result.props.sitemaps.isNotEmpty() -> {
+                            chooseSitemap()
+                            updateSitemapDrawerEntries()
                         }
-                    } else if (result.props.sitemaps.isEmpty()) {
-                        Log.e(TAG, "openHAB returned empty Sitemap list")
-                        controller.indicateServerCommunicationFailure(getString(R.string.error_empty_sitemap_list))
-                        scheduleRetry {
-                            retryServerPropertyQuery()
+
+                        fallbackUi != null -> {
+                            Log.d(TAG, "openHAB returned empty Sitemap list, fall back to web UI")
+                            if (pendingAction == null) {
+                                pendingAction =
+                                    PendingAction.OpenWebViewUi(fallbackUi, prefs.getActiveServerId(), null)
+                            }
                         }
-                    } else {
-                        chooseSitemap()
-                        updateSitemapDrawerEntries()
+
+                        else -> {
+                            Log.e(TAG, "openHAB returned empty Sitemap list")
+                            controller.indicateServerCommunicationFailure(
+                                getString(R.string.error_empty_sitemap_list)
+                            )
+                            scheduleRetry {
+                                retryServerPropertyQuery()
+                            }
+                        }
                     }
                     if (connection !is DemoConnection) {
                         prefs.edit {
