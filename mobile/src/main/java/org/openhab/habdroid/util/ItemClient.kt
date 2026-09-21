@@ -111,51 +111,57 @@ object ItemClient {
         }
     }
 
-    // Emits pairs of 'item name' - 'item state'
-    @OptIn(ExperimentalCoroutinesApi::class)
-    fun listenForItemChange(scope: CoroutineScope, connection: Connection, itemName: String?) = scope.produce {
-        while (scope.isActive) {
-            val subscription = connection.httpClient.makeSse(
-                // Support for both the "openhab" and the older "smarthome" root topic by using a wildcard
-                connection.httpClient.buildUrl("rest/events?topics=*/items/${itemName ?: "*"}/command")
-            )
-
-            while (scope.isActive) {
-                try {
-                    // ALIVE event is sent every 10 seconds, so use a timeout somewhat larger than that
-                    val event = withTimeout(30.seconds) {
-                        JSONObject(subscription.getNextEvent())
-                    }
-                    if (event.optString("type") == "ALIVE") {
-                        Log.d(TAG, "Got ALIVE event for item $itemName")
-                        continue
-                    }
-                    val topic = event.getString("topic")
-                    val topicPath = topic.split('/')
-                    // Possible formats:
-                    // - openhab/items/<item>/statechanged
-                    // - openhab/items/<group item>/<item>/statechanged
-                    // When an update for a group is sent, there's also one for the individual item.
-                    // Therefore always take the element on index two.
-                    if (topicPath.size !in 4..5) {
-                        throw JSONException("Unexpected topic path $topic")
-                    }
-                    val payload = JSONObject(event.getString("payload"))
-                    Log.d(TAG, "Got payload: $payload")
-                    send(topicPath[2] to payload.getString("value"))
-                } catch (e: JSONException) {
-                    Log.e(TAG, "Failed parsing JSON of state change event for item $itemName", e)
-                } catch (e: HttpClient.SseFailureException) {
-                    Log.e(TAG, "SSE failure for item $itemName", e)
-                    break // restart subscription
-                } catch (e: TimeoutCancellationException) {
-                    Log.d(TAG, "No events received for item $itemName, restarting subscription $scope")
-                    break // restart subscription
-                }
-            }
-
-            subscription.cancel()
-            delay(5.seconds)
-        }
+    enum class EventType(val event: String) {
+        StateChanged("statechanged"),
+        Command("command")
     }
+
+    // Emits pairs of 'item name' - 'item state/command'
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun listenForItemChange(scope: CoroutineScope, connection: Connection, itemName: String?, type: EventType) =
+        scope.produce {
+            while (scope.isActive) {
+                val subscription = connection.httpClient.makeSse(
+                    // Support for both the "openhab" and the older "smarthome" root topic by using a wildcard
+                    connection.httpClient.buildUrl("rest/events?topics=*/items/${itemName ?: "*"}/${type.event}")
+                )
+
+                while (scope.isActive) {
+                    try {
+                        // ALIVE event is sent every 10 seconds, so use a timeout somewhat larger than that
+                        val event = withTimeout(30.seconds) {
+                            JSONObject(subscription.getNextEvent())
+                        }
+                        if (event.optString("type") == "ALIVE") {
+                            Log.d(TAG, "Got ALIVE event for item $itemName")
+                            continue
+                        }
+                        val topic = event.getString("topic")
+                        val topicPath = topic.split('/')
+                        // Possible formats:
+                        // - openhab/items/<item>/statechanged
+                        // - openhab/items/<group item>/<item>/statechanged
+                        // When an update for a group is sent, there's also one for the individual item.
+                        // Therefore always take the element on index two.
+                        if (topicPath.size !in 4..5) {
+                            throw JSONException("Unexpected topic path $topic")
+                        }
+                        val payload = JSONObject(event.getString("payload"))
+                        Log.d(TAG, "Got payload: $payload")
+                        send(topicPath[2] to payload.getString("value"))
+                    } catch (e: JSONException) {
+                        Log.e(TAG, "Failed parsing JSON of state change event for item $itemName", e)
+                    } catch (e: HttpClient.SseFailureException) {
+                        Log.e(TAG, "SSE failure for item $itemName", e)
+                        break // restart subscription
+                    } catch (e: TimeoutCancellationException) {
+                        Log.d(TAG, "No events received for item $itemName, restarting subscription $scope")
+                        break // restart subscription
+                    }
+                }
+
+                subscription.cancel()
+                delay(5.seconds)
+            }
+        }
 }

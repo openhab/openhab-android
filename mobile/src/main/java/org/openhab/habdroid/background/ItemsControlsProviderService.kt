@@ -80,7 +80,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
             .mapNotNull { factory.maybeCreateControl(it.value) }
             .forEach { control -> send(control) }
 
-        ItemClient.listenForItemChange(this, connection, null)
+        ItemClient.listenForItemChange(this, connection, null, ItemClient.EventType.StateChanged)
             .consumeEach { (itemName, state) ->
                 allItems[itemName]
                     ?.copy(state = state.toParsedState())

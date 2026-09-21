@@ -96,7 +96,7 @@ class DayDream :
         }
         setText(initialText)
 
-        ItemClient.listenForItemChange(this, connection, item)
+        ItemClient.listenForItemChange(this, connection, item, ItemClient.EventType.StateChanged)
             .consumeEach { (_, state) ->
                 Log.d(TAG, "Got state by event: $state")
                 setText(state)

@@ -1648,7 +1648,7 @@ class MainActivity : AbstractBaseActivity() {
     }
 
     private suspend fun listenUiCommandItem(item: String) {
-        ItemClient.listenForItemChange(this, connection ?: return, item)
+        ItemClient.listenForItemChange(this, connection ?: return, item, ItemClient.EventType.Command)
             .consumeEach { (_, state) ->
                 Log.d(TAG, "Got state by event: $state")
                 handleUiCommand(state, prefs.getActiveServerId())
