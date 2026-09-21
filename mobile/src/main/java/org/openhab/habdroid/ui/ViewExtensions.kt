@@ -67,7 +67,7 @@ fun ImageView.setupHelpIcon(url: String, contentDescriptionRes: Int) {
 fun EditText.setKeyboardVisible(visible: Boolean) {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     if (visible) {
-        imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+        imm.showSoftInput(this, 0)
     } else {
         imm.hideSoftInputFromWindow(windowToken, 0)
     }

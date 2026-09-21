@@ -22,7 +22,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.core.os.bundleOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -65,10 +64,10 @@ open class AbstractWidgetBottomSheet : BottomSheetDialogFragment() {
     }
 
     companion object {
-        fun createArguments(widget: Widget, sourceId: String) = bundleOf(
-            "widget" to widget,
-            "sourceId" to sourceId
-        )
+        fun createArguments(widget: Widget, sourceId: String) = Bundle().apply {
+            putParcelable("widget", widget)
+            putString("sourceId", sourceId)
+        }
     }
 
     interface ConnectionGetter {
@@ -144,7 +143,7 @@ class ColorTemperatureSliderBottomSheet :
         val shader = LinearGradient(0F, 0F, width.toFloat(), height.toFloat(), colors, positions, Shader.TileMode.CLAMP)
 
         listOf("activeTrackPaint", "inactiveTrackPaint")
-            .map { Slider::class.java.superclass.getDeclaredField(it) }
+            .mapNotNull { Slider::class.java.superclass?.getDeclaredField(it) }
             .forEach { field ->
                 field.isAccessible = true
                 (field.get(slider) as Paint).shader = shader

@@ -18,6 +18,7 @@ import android.util.AttributeSet
 import android.util.Log
 import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.Slider
+import com.google.android.material.slider.TickVisibilityMode
 import kotlin.math.abs
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -90,7 +91,11 @@ class WidgetSlider(context: Context, attrs: AttributeSet?) :
                 "closestValue = $closestValue, closestDelta = $closestDelta"
         )
 
-        isTickVisible = stepCount <= 12
+        tickVisibilityMode = if (stepCount <= 12) {
+            TickVisibilityMode.TICK_VISIBILITY_AUTO_LIMIT
+        } else {
+            TickVisibilityMode.TICK_VISIBILITY_HIDDEN
+        }
         value = closestValue.toFloat()
     }
 

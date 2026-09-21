@@ -15,6 +15,7 @@ package org.openhab.habdroid.ui.preference.widgets
 
 import android.content.Context
 import android.os.Build
+import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -23,7 +24,6 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
-import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.preference.DialogPreference
 import androidx.preference.PreferenceDialogFragmentCompat
@@ -148,7 +148,10 @@ class DeviceIdentifierPreference(context: Context, attrs: AttributeSet) :
 
             fun newInstance(key: String, title: CharSequence?): PrefFragment {
                 val f = PrefFragment()
-                f.arguments = bundleOf(ARG_KEY to key, KEY_TITLE to title)
+                f.arguments = Bundle().apply {
+                    putString(ARG_KEY, key)
+                    putCharSequence(KEY_TITLE, title)
+                }
                 return f
             }
         }
