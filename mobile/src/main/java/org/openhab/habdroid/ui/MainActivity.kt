@@ -287,14 +287,14 @@ class MainActivity : AbstractBaseActivity() {
 
         processIntent(intent)
 
-        if (prefs.getBoolean(PrefKeys.FIRST_START, true) ||
+        /*if (prefs.getBoolean(PrefKeys.FIRST_START, true) ||
             prefs.getBoolean(PrefKeys.RECENTLY_RESTORED, false)
         ) {
             NotificationUpdateObserver.createNotificationChannels(this)
             Log.d(TAG, "Start intro")
             val intent = Intent(this, IntroActivity::class.java)
             startActivity(intent)
-        }
+        }*/
         UpdateBroadcastReceiver.updateComparableVersion(prefs.edit())
 
         val isSpeechRecognizerAvailable = SpeechRecognizer.isRecognitionAvailable(this)
