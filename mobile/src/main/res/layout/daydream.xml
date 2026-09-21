@@ -37,9 +37,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
+            android:visibility="gone"
             android:fontFamily="sans-serif-light"
             android:textAppearance="@style/TextAppearance.Material3.DisplayMedium"
-            tools:text="Temperature: 19 °C" />
+            tools:text="Temperature: 19 °C"
+            tools:visibility="visible" />
     </LinearLayout>
 
 
