@@ -38,6 +38,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.ConnectionManagerHelper
+import org.openhab.habdroid.ui.WebViewManager
 import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.getDayNightMode
 import org.openhab.habdroid.util.getPrefs
@@ -64,6 +65,10 @@ class OpenHabApplication : MultiDexApplication() {
 
     val connectionFactory: ConnectionFactory by lazy {
         ConnectionFactory(this, getPrefs(), secretPrefs, ConnectionManagerHelper.create(this))
+    }
+
+    val webViewManager: WebViewManager by lazy {
+        WebViewManager(this)
     }
 
     var systemDataSaverStatus: Int = ConnectivityManager.RESTRICT_BACKGROUND_STATUS_DISABLED

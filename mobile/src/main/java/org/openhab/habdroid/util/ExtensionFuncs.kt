@@ -96,6 +96,7 @@ import org.openhab.habdroid.core.connection.DefaultConnection
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.model.ServerProperties
+import org.openhab.habdroid.ui.WebViewManager
 import org.openhab.habdroid.util.Util.TAG
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
@@ -353,6 +354,8 @@ fun Context.getPrefs(): SharedPreferences = PreferenceManager.getDefaultSharedPr
 fun Context.getSecretPrefs(): SharedPreferences = (applicationContext as OpenHabApplication).secretPrefs
 
 fun Context.getConnectionFactory(): ConnectionFactory = (applicationContext as OpenHabApplication).connectionFactory
+
+fun Context.getWebViewManager(): WebViewManager = (applicationContext as OpenHabApplication).webViewManager
 
 /**
  * Shows an Toast and can be called from the background.

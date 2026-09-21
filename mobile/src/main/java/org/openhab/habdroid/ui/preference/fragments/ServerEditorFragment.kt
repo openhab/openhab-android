@@ -44,6 +44,7 @@ import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getPreference
 import org.openhab.habdroid.util.getPrimaryServerId
+import org.openhab.habdroid.util.getWebViewManager
 import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.putPrimaryServerId
 import org.openhab.habdroid.util.updateDefaultSitemap
@@ -132,7 +133,7 @@ class ServerEditorFragment :
     override fun onConfirmed(tag: String?) = when (tag) {
         "delete_server_confirmation" -> {
             config.removeFromPrefs(prefs, secretPrefs)
-            WebViewManager.getInstance(preferenceManager.context).deleteDataForServer(config.id)
+            preferenceManager.context.getWebViewManager().deleteDataForServer(config.id)
             WorkManager.getInstance(preferenceManager.context).apply {
                 cancelAllWorkByTag(BackgroundTasksManager.buildWorkerTagForServer(config.id))
                 pruneWork()

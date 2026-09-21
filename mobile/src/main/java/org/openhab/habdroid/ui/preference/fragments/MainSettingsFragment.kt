@@ -66,6 +66,7 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 import org.openhab.habdroid.util.getStringOrNull
+import org.openhab.habdroid.util.getWebViewManager
 import org.openhab.habdroid.util.isInstalled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import org.openhab.habdroid.util.parcelable
@@ -364,7 +365,7 @@ class MainSettingsFragment : AbstractSettingsFragment() {
     }
 
     private fun clearCaches(context: Context) {
-        WebViewManager.getInstance(context).clearCaches()
+        context.getWebViewManager().clearCaches()
         // Get launch intent for application
         val restartIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
         restartIntent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

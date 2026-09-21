@@ -13,13 +13,15 @@
 
 package org.openhab.habdroid.ui
 
-import android.content.Context
+import android.annotation.SuppressLint
+import android.app.Application
 import android.webkit.WebView
 import android.webkit.WebViewDatabase
 import androidx.webkit.Profile
 import androidx.webkit.ProfileStore
 import androidx.webkit.WebViewCompat
 import androidx.webkit.WebViewFeature
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getPrefs
 
@@ -27,9 +29,18 @@ import org.openhab.habdroid.util.getPrefs
  * Servers may share an origin (e.g. all myopenhab.org users, or the same local IP at different sites),
  * so HTTP cache, HTTP auth cache, cookies and DOM storage must not be shared between them.
  */
-class WebViewManager private constructor(private val appContext: Context) {
+@SuppressLint("RequiresFeature")
+class WebViewManager(private val appContext: Application) {
     private val hasProfileSupport = WebViewFeature.isFeatureSupported(WebViewFeature.MULTI_PROFILE)
-    private var lastServerId: Int? = null
+
+    init {
+        appContext.getPrefs().registerOnSharedPreferenceChangeListener { _, key ->
+            if (key == PrefKeys.ACTIVE_SERVER_ID && !hasProfileSupport) {
+                WebView(appContext).clearCache(true)
+                WebViewDatabase.getInstance(appContext).clearHttpAuthUsernamePassword()
+            }
+        }
+    }
 
     /**
      * Must be called before the WebView is used for anything else.
@@ -38,12 +49,7 @@ class WebViewManager private constructor(private val appContext: Context) {
         val serverId = appContext.getPrefs().getActiveServerId()
         if (hasProfileSupport) {
             WebViewCompat.setProfile(webView, buildProfileName(serverId))
-        } else if (serverId != lastServerId) {
-            // The HTTP cache is persisted, so it may hold data of another server on first use as well
-            webView.clearCache(true)
-            WebViewDatabase.getInstance(appContext).clearHttpAuthUsernamePassword()
         }
-        lastServerId = serverId
     }
 
     fun clearCaches() {
@@ -63,7 +69,7 @@ class WebViewManager private constructor(private val appContext: Context) {
         val store = ProfileStore.getInstance()
         try {
             store.deleteProfile(name)
-        } catch (e: IllegalStateException) {
+        } catch (_: IllegalStateException) {
             // Profile is in use by a WebView. Server IDs are reused, so don't leave the data for the next server.
             store.getProfile(name)?.let { profile ->
                 profile.cookieManager.removeAllCookies(null)
@@ -81,14 +87,4 @@ class WebViewManager private constructor(private val appContext: Context) {
     }
 
     private fun buildProfileName(serverId: Int) = "server_$serverId"
-
-    companion object {
-        private var instance: WebViewManager? = null
-
-        fun getInstance(context: Context): WebViewManager {
-            val inst = instance ?: WebViewManager(context.applicationContext)
-            instance = inst
-            return inst
-        }
-    }
 }
