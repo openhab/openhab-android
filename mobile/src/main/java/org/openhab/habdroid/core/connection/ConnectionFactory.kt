@@ -329,8 +329,47 @@ class ConnectionFactory internal constructor(
         try {
             val sslContext = SSLContext.getInstance("TLS")
             sslContext.init(keyManagers, arrayOf<TrustManager>(trustManager), null)
+            val socketFactory = object : javax.net.ssl.SSLSocketFactory() {
+                private val delegate = sslContext.socketFactory
+
+                private fun filterLegacyProtocols(socket: Socket): Socket {
+                    val sslSocket = socket as? javax.net.ssl.SSLSocket
+                        ?: throw IllegalStateException("TLS socket factory returned a non-SSL socket")
+                    sslSocket.enabledProtocols = filterLegacyTlsProtocols(sslSocket.enabledProtocols)
+                    return sslSocket
+                }
+
+                override fun getDefaultCipherSuites(): Array<String> = delegate.defaultCipherSuites
+
+                override fun getSupportedCipherSuites(): Array<String> = delegate.supportedCipherSuites
+
+                override fun createSocket(): Socket = filterLegacyProtocols(delegate.createSocket())
+
+                override fun createSocket(host: String, port: Int): Socket =
+                    filterLegacyProtocols(delegate.createSocket(host, port))
+
+                override fun createSocket(
+                    host: String,
+                    port: Int,
+                    localHost: java.net.InetAddress,
+                    localPort: Int
+                ): Socket = filterLegacyProtocols(delegate.createSocket(host, port, localHost, localPort))
+
+                override fun createSocket(host: java.net.InetAddress, port: Int): Socket =
+                    filterLegacyProtocols(delegate.createSocket(host, port))
+
+                override fun createSocket(
+                    address: java.net.InetAddress,
+                    port: Int,
+                    localAddress: java.net.InetAddress,
+                    localPort: Int
+                ): Socket = filterLegacyProtocols(delegate.createSocket(address, port, localAddress, localPort))
+
+                override fun createSocket(socket: Socket, host: String, port: Int, autoClose: Boolean): Socket =
+                    filterLegacyProtocols(delegate.createSocket(socket, host, port, autoClose))
+            }
             httpClient = httpClient.newBuilder()
-                .sslSocketFactory(sslContext.socketFactory, trustManager)
+                .sslSocketFactory(socketFactory, trustManager)
                 .build()
             lastClientCertAlias = clientCertAlias
         } catch (e: Exception) {
@@ -585,6 +624,18 @@ class ConnectionFactory internal constructor(
 
     companion object {
         private val TAG = ConnectionFactory::class.java.simpleName
+        private val LEGACY_TLS_PROTOCOLS = setOf("TLSv1", "TLSv1.0", "TLSv1.1")
+
+        @VisibleForTesting
+        internal fun filterLegacyTlsProtocols(protocols: Array<String>): Array<String> {
+            val filteredProtocols = protocols.filterNot { protocol ->
+                protocol.startsWith("SSL") || protocol in LEGACY_TLS_PROTOCOLS
+            }.toTypedArray()
+            check(filteredProtocols.isNotEmpty()) {
+                "TLS provider has no enabled protocols after legacy protocol filtering"
+            }
+            return filteredProtocols
+        }
         private val UPDATE_TRIGGERING_KEYS = listOf(
             PrefKeys.DEMO_MODE,
             PrefKeys.ACTIVE_SERVER_ID,

@@ -19,6 +19,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.openhab.habdroid.R
+import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getPrefs
 
@@ -125,5 +126,39 @@ class IntroTest {
             )
         )
         materialButton.perform(click())
+    }
+
+    @Test
+    fun filtersLegacyTlsProtocolsWhileRetainingSupportedAndFutureProtocols() {
+        val filteredProtocols = ConnectionFactory.filterLegacyTlsProtocols(
+            arrayOf(
+                "SSL",
+                "SSLv2",
+                "SSLv3",
+                "TLSv1",
+                "TLSv1.0",
+                "TLSv1.1",
+                "TLSv1.2",
+                "TLSv1.3",
+                "TLSv9.9"
+            )
+        )
+
+        org.junit.Assert.assertArrayEquals(
+            arrayOf("TLSv1.2", "TLSv1.3", "TLSv9.9"),
+            filteredProtocols
+        )
+    }
+
+    @Test
+    fun rejectsTlsConfigurationWhenOnlyLegacyProtocolsAreEnabled() {
+        try {
+            ConnectionFactory.filterLegacyTlsProtocols(
+                arrayOf("SSL", "SSLv3", "TLSv1", "TLSv1.0", "TLSv1.1")
+            )
+            org.junit.Assert.fail("Expected legacy-only TLS configuration to be rejected")
+        } catch (_: IllegalStateException) {
+            // The transport must fail closed rather than create a socket with no acceptable protocol.
+        }
     }
 }
