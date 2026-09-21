@@ -24,7 +24,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
-import android.webkit.WebView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
@@ -50,6 +49,7 @@ import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.ui.AbstractBaseActivity
 import org.openhab.habdroid.ui.LogActivity
+import org.openhab.habdroid.ui.WebViewManager
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.preference.widgets.NotificationPollingPreference
@@ -66,6 +66,7 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getStringOrFallbackIfEmpty
 import org.openhab.habdroid.util.getStringOrNull
+import org.openhab.habdroid.util.getWebViewManager
 import org.openhab.habdroid.util.isInstalled
 import org.openhab.habdroid.util.isTaskerPluginEnabled
 import org.openhab.habdroid.util.parcelable
@@ -364,7 +365,7 @@ class MainSettingsFragment : AbstractSettingsFragment() {
     }
 
     private fun clearCaches(context: Context) {
-        WebView(context).clearCache(true)
+        context.getWebViewManager().clearCaches()
         // Get launch intent for application
         val restartIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
         restartIntent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

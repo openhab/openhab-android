@@ -65,12 +65,14 @@ import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.ui.AbstractBaseActivity
 import org.openhab.habdroid.ui.ConnectionWebViewClient
 import org.openhab.habdroid.ui.MainActivity
+import org.openhab.habdroid.ui.WebViewManager
 import org.openhab.habdroid.ui.setUpForConnection
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
+import org.openhab.habdroid.util.getWebViewManager
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDarkModeActive
 import org.openhab.habdroid.util.orDefaultIfEmpty
@@ -169,6 +171,7 @@ abstract class AbstractWebViewFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        webView?.let { it.context.getWebViewManager().setUpForActiveServer(it) }
         webView?.apply {
             // Make sure not to pass window insets into the WebView, we already handle them in the activity
             ViewCompat.setOnApplyWindowInsetsListener(this) { v, insets ->

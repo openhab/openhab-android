@@ -141,6 +141,7 @@ dependencies {
     implementation libs.kotlinx.coroutines.android
 
     implementation libs.core.ktx
+    implementation libs.webkit
     implementation libs.activity.ktx
     implementation libs.fragment.ktx
     implementation libs.kotlin.stdlib.jdk8
