@@ -106,6 +106,7 @@ class OpenHabApplication : MultiDexApplication() {
         BackgroundTasksManager.initialize(this)
 
         connectionFactory.start()
+        webViewManager.start()
 
         dataSaverChangeListener.let { listener ->
             registerExportedReceiver(

@@ -15,6 +15,7 @@ package org.openhab.habdroid.ui
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.SharedPreferences
 import android.webkit.WebView
 import android.webkit.WebViewDatabase
 import androidx.webkit.Profile
@@ -31,15 +32,23 @@ import org.openhab.habdroid.util.getPrefs
  */
 @SuppressLint("RequiresFeature")
 class WebViewManager(private val appContext: Application) {
-    private val hasProfileSupport = WebViewFeature.isFeatureSupported(WebViewFeature.MULTI_PROFILE)
+    // Lazy, as this loads the WebView implementation
+    private val hasProfileSupport by lazy { WebViewFeature.isFeatureSupported(WebViewFeature.MULTI_PROFILE) }
 
-    init {
-        appContext.getPrefs().registerOnSharedPreferenceChangeListener { _, key ->
-            if (key == PrefKeys.ACTIVE_SERVER_ID && !hasProfileSupport) {
-                WebView(appContext).clearCache(true)
-                WebViewDatabase.getInstance(appContext).clearHttpAuthUsernamePassword()
-            }
+    // SharedPreferences only holds a weak reference to its listeners
+    private val prefsListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+        if (key == PrefKeys.ACTIVE_SERVER_ID && !hasProfileSupport) {
+            WebView(appContext).clearCache(true)
+            WebViewDatabase.getInstance(appContext).clearHttpAuthUsernamePassword()
         }
+    }
+
+    /**
+     * Must be called on app start: The HTTP cache is persisted, so a server change is missed otherwise
+     * if it happens before the first WebView usage.
+     */
+    fun start() {
+        appContext.getPrefs().registerOnSharedPreferenceChangeListener(prefsListener)
     }
 
     /**
