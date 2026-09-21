@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.ui
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.DrawableRes
@@ -96,9 +97,14 @@ class IntroActivity :
             }
         }
 
-        // Change bar color
-        setBarColor(resolveThemedColor(R.attr.colorPrimary))
-        setSeparatorColor(resolveThemedColor(R.attr.colorPrimaryDark))
+        setSeparatorColor(Color.TRANSPARENT)
+        setSkipTextAppearance(R.style.TextAppearance_AppCompat_Button)
+        setDoneTextAppearance(R.style.TextAppearance_AppCompat_Button)
+        setNextArrowColor(resolveThemedColor(R.attr.colorOnSurface))
+        setIndicatorColor(
+            resolveThemedColor(R.attr.colorControlNormal),
+            resolveThemedColor(R.attr.colorControlHighlight)
+        )
     }
 
     /**
