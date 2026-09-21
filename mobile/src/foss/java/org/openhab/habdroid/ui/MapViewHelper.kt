@@ -78,8 +78,8 @@ object MapViewHelper {
             }
         }
 
-        override fun bindAfterDataSaverCheck(widget: Widget) {
-            super.bindAfterDataSaverCheck(widget)
+        override fun bindAfterDataSaverCheck(widget: Widget, dataSaverActive: Boolean) {
+            super.bindAfterDataSaverCheck(widget, dataSaverActive)
             handler.post {
                 binding.mapview.overlays
                     .filter { o -> o is Marker }

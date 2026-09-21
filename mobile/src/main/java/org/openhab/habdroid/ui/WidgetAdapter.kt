@@ -561,7 +561,7 @@ class WidgetAdapter(
                 isVisible = showLabelAndIcon
             }
             if (!showDataSaverPlaceholderIfNeeded(widget, canBindWithoutDataTransfer(widget))) {
-                bindAfterDataSaverCheck(widget)
+                bindAfterDataSaverCheck(widget, false)
             }
         }
 
@@ -575,7 +575,7 @@ class WidgetAdapter(
             if (dataSaverActive) {
                 dataSaverBinding.dataSaverButton.setOnClickListener {
                     showDataSaverPlaceholderIfNeeded(widget, true)
-                    bindAfterDataSaverCheck(widget)
+                    bindAfterDataSaverCheck(widget, true)
                 }
 
                 @StringRes val typeResId = when (widget.type) {
@@ -610,7 +610,7 @@ class WidgetAdapter(
             }
         }
 
-        internal abstract fun bindAfterDataSaverCheck(widget: Widget)
+        internal abstract fun bindAfterDataSaverCheck(widget: Widget, dataSaverActive: Boolean)
 
         internal open fun canBindWithoutDataTransfer(widget: Widget): Boolean = false
     }
@@ -1152,7 +1152,7 @@ class WidgetAdapter(
                 binding.image.context.getIconFallbackColor(IconBackground.APP_THEME)
             )
 
-        override fun bindAfterDataSaverCheck(widget: Widget) {
+        override fun bindAfterDataSaverCheck(widget: Widget, dataSaverActive: Boolean) {
             val value = widget.state?.asString
 
             binding.image.apply {
@@ -1170,7 +1170,8 @@ class WidgetAdapter(
                     val dataString = value.substring(value.indexOf(",") + 1)
                     setBase64EncodedImage(dataString)
                 } else if (widget.url != null) {
-                    setImageUrl(connection, widget.url, refreshDelayInMs = widget.refresh)
+                    val refresh = if (dataSaverActive) 0 else widget.refresh
+                    setImageUrl(connection, widget.url, refreshDelayInMs = refresh)
                 } else {
                     setImageDrawable(null)
                 }
@@ -1570,7 +1571,7 @@ class WidgetAdapter(
             binding.chart.setOnClickListener(this)
         }
 
-        override fun bindAfterDataSaverCheck(widget: Widget) {
+        override fun bindAfterDataSaverCheck(widget: Widget, dataSaverActive: Boolean) {
             val item = widget.item
             if (item == null) {
                 Log.e(TAG, "Chart item is null")
@@ -1581,8 +1582,9 @@ class WidgetAdapter(
             val theme = requireHolderContext().chartTheme
             val chartUrl =
                 widget.toChartUrl(prefs, initData.parent.width, chartTheme = theme, density = density) ?: return
+            val refresh = if (dataSaverActive) 0 else widget.refresh
             Log.d(TAG, "Chart url = $chartUrl")
-            binding.chart.setImageUrl(connection, chartUrl, refreshDelayInMs = widget.refresh, forceLoad = true)
+            binding.chart.setImageUrl(connection, chartUrl, refreshDelayInMs = refresh, forceLoad = true)
         }
 
         override fun onStart() {
@@ -1625,7 +1627,7 @@ class WidgetAdapter(
         }
 
         @androidx.media3.common.util.UnstableApi
-        override fun bindAfterDataSaverCheck(widget: Widget) {
+        override fun bindAfterDataSaverCheck(widget: Widget, dataSaverActive: Boolean) {
             loadVideo(widget, false)
         }
 
@@ -1750,7 +1752,7 @@ class WidgetAdapter(
         }
 
         @SuppressLint("SetJavaScriptEnabled")
-        override fun bindAfterDataSaverCheck(widget: Widget) {
+        override fun bindAfterDataSaverCheck(widget: Widget, dataSaverActive: Boolean) {
             val url = widget.url?.let {
                 connection.httpClient.buildUrl(widget.url)
             }
@@ -1882,7 +1884,7 @@ class WidgetAdapter(
         override val iconTextBinding get() = binding.icontext
         private var streamer: MjpegStreamer? = null
 
-        override fun bindAfterDataSaverCheck(widget: Widget) {
+        override fun bindAfterDataSaverCheck(widget: Widget, dataSaverActive: Boolean) {
             streamer = widget.url?.let { MjpegStreamer(binding.player, connection, it) }
         }
 
@@ -1910,7 +1912,7 @@ class WidgetAdapter(
         }
 
         @CallSuper
-        override fun bindAfterDataSaverCheck(widget: Widget) {
+        override fun bindAfterDataSaverCheck(widget: Widget, dataSaverActive: Boolean) {
             binding.noPosition.root.isVisible = !widget.hasPositions()
             binding.mapview.isVisible = widget.hasPositions()
         }

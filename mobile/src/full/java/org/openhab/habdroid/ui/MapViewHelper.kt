@@ -45,8 +45,8 @@ object MapViewHelper {
             binding.mapview.onCreate(null)
         }
 
-        override fun bindAfterDataSaverCheck(widget: Widget) {
-            super.bindAfterDataSaverCheck(widget)
+        override fun bindAfterDataSaverCheck(widget: Widget, dataSaverActive: Boolean) {
+            super.bindAfterDataSaverCheck(widget, dataSaverActive)
             withLoadedMap { map ->
                 map.clear()
                 map.applyPositionAndLabel(widget, 15.0f, false)
