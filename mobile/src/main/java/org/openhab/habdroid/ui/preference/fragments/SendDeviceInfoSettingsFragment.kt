@@ -22,6 +22,7 @@ import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.preference.widgets.ItemUpdatingPreference
 import org.openhab.habdroid.util.PrefKeys
+import org.openhab.habdroid.util.getBackgroundTasksManager
 import org.openhab.habdroid.util.getPreference
 import org.openhab.habdroid.util.getPrefixForBgTasks
 
@@ -84,7 +85,7 @@ class SendDeviceInfoSettingsFragment : AbstractSettingsFragment() {
                 parentActivity.showSnackbar(permDeniedSnackbarTag, permDeniedSnackbarTextResId)
                 pref.setValue(checked = false)
             } else {
-                BackgroundTasksManager.scheduleWorker(parentActivity, prefKey, true)
+                parentActivity.getBackgroundTasksManager().scheduleWorker(prefKey, true)
             }
         }
         val launcher = registerForActivityResult(

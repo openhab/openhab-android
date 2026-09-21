@@ -243,7 +243,11 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".background.BackgroundTasksManager"
+            android:name=".background.InternalEventBroadcastReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <receiver
+            android:name=".background.SystemEventBroadcastReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -276,9 +280,7 @@
                 <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
             </intent-filter>
         </receiver>
-        <receiver
-            android:name=".background.CopyToClipboardReceiver"
-            android:exported="false" />
+
         <receiver
             android:name=".core.NotificationHandlingReceiver"
             android:exported="false" />

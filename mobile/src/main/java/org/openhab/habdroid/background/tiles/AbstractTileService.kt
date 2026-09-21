@@ -45,6 +45,7 @@ import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.ItemUpdateWorker
 import org.openhab.habdroid.background.tiles.AbstractTileService.Companion.getPrefKeyForId
 import org.openhab.habdroid.ui.preference.PreferencesActivity
+import org.openhab.habdroid.util.getBackgroundTasksManager
 import org.openhab.habdroid.util.getPrefs
 
 @RequiresApi(Build.VERSION_CODES.N)
@@ -111,11 +112,12 @@ abstract class AbstractTileService : TileService() {
         Log.d(TAG, "onClick()")
         val data = getPrefs().getTileData(id)
         if (data?.item?.isNotEmpty() == true && data.state.isNotEmpty()) {
+            val backgroundTasksManager = getBackgroundTasksManager()
             lifeCycleOwner.startListening()
             if (data.requireUnlock && isLocked) {
-                unlockAndRun { BackgroundTasksManager.enqueueTileUpdate(this, data, id) }
+                unlockAndRun { backgroundTasksManager.enqueueTileUpdate(data, id) }
             } else {
-                BackgroundTasksManager.enqueueTileUpdate(this, data, id)
+                backgroundTasksManager.enqueueTileUpdate(data, id)
             }
         } else {
             Intent(this, PreferencesActivity::class.java).apply {

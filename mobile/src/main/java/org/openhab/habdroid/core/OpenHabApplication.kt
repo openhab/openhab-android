@@ -71,6 +71,7 @@ class OpenHabApplication : MultiDexApplication() {
     var batterySaverActive: Boolean = false
         private set
 
+    val backgroundTasksManager = BackgroundTasksManager(this)
     private val dataSaverChangeListener = SystemDataSaverStateChangeReceiver()
     private val dataUsagePolicyListeners = mutableSetOf<OnDataUsagePolicyChangedListener>()
 
@@ -98,7 +99,7 @@ class OpenHabApplication : MultiDexApplication() {
 
         CrashReportingHelper.initialize(this)
         AppCompatDelegate.setDefaultNightMode(getPrefs().getDayNightMode(this))
-        BackgroundTasksManager.initialize(this)
+        backgroundTasksManager.initialize()
 
         connectionFactory.start()
 

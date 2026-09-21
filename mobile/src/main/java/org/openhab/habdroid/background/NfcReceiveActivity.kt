@@ -19,6 +19,7 @@ import android.nfc.NfcAdapter
 import android.os.Bundle
 import org.openhab.habdroid.model.toTagData
 import org.openhab.habdroid.ui.MainActivity
+import org.openhab.habdroid.util.getBackgroundTasksManager
 
 class NfcReceiveActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +33,7 @@ class NfcReceiveActivity : Activity() {
         if (intent.action == Intent.ACTION_VIEW || intent.action == NfcAdapter.ACTION_NDEF_DISCOVERED) {
             val tag = intent.data?.toTagData()
             val sitemap = tag?.sitemap
-            BackgroundTasksManager.enqueueNfcUpdateIfNeeded(this, tag)
+            getBackgroundTasksManager().enqueueNfcUpdateIfNeeded(tag)
             if (!sitemap.isNullOrEmpty()) {
                 val startMainIntent = Intent(this, MainActivity::class.java).apply {
                     action = MainActivity.ACTION_SITEMAP_SELECTED

@@ -35,7 +35,6 @@ import androidx.preference.ListPreference
 import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.snackbar.Snackbar
 import org.openhab.habdroid.R
-import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.model.toOH2IconResource
 import org.openhab.habdroid.ui.BasicItemPickerActivity
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
@@ -43,6 +42,7 @@ import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.preference.widgets.CustomInputTypePreference
 import org.openhab.habdroid.ui.preference.widgets.ItemAndStatePreference
 import org.openhab.habdroid.util.CacheManager
+import org.openhab.habdroid.util.getBackgroundTasksManager
 
 class WidgetSettingsFragment :
     AbstractSettingsFragment(),
@@ -197,7 +197,7 @@ class WidgetSettingsFragment :
 
         ItemUpdateWidget.saveInfoForWidget(context, newData, widgetId)
 
-        BackgroundTasksManager.schedulePeriodicTrigger(context, false)
+        context.getBackgroundTasksManager().schedulePeriodicTrigger(false)
 
         val updateIntent = Intent(context, ItemUpdateWidget::class.java).apply {
             action = AppWidgetManager.ACTION_APPWIDGET_UPDATE

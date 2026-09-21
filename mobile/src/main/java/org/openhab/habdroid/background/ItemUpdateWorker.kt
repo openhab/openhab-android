@@ -41,6 +41,7 @@ import org.openhab.habdroid.ui.TaskerItemPickerActivity
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.TaskerPlugin
+import org.openhab.habdroid.util.getBackgroundTasksManager
 import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefixForVoice
@@ -116,7 +117,7 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWo
                 )
             }
             sendTaskerSignalIfNeeded(taskerIntent, true, result.statusCode, null)
-            BackgroundTasksManager.getLastUpdateCache(applicationContext).edit {
+            applicationContext.getBackgroundTasksManager().lastUpdateCachePrefs.edit {
                 putString(itemName, value.value)
             }
             Result.success(buildOutputData(true, result.statusCode, valueToBeSent))

@@ -40,7 +40,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import org.openhab.habdroid.R
-import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.model.IconFormat
 import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.model.Item
@@ -55,6 +54,7 @@ import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.dpToPixel
+import org.openhab.habdroid.util.getBackgroundTasksManager
 import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getIconFallbackColor
 import org.openhab.habdroid.util.getStringOrEmpty
@@ -98,7 +98,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                         ?.parcelable<ItemUpdateWidgetData>(EXTRA_DATA)
                         ?: return
                     saveInfoForWidget(context, data, id)
-                    BackgroundTasksManager.schedulePeriodicTrigger(context, false)
+                    context.getBackgroundTasksManager().schedulePeriodicTrigger(false)
                     setupWidget(context, data, id, AppWidgetManager.getInstance(context))
                     context.showToast(R.string.home_shortcut_success_pinning)
                 }
@@ -106,7 +106,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
                 ACTION_UPDATE_WIDGET -> {
                     val data = getInfoForWidget(context, id)
                     if (data.command != null) {
-                        BackgroundTasksManager.enqueueWidgetItemUpdateIfNeeded(context, data)
+                        context.getBackgroundTasksManager().enqueueWidgetItemUpdateIfNeeded(data)
                     }
                 }
 
