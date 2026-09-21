@@ -14,7 +14,6 @@
 package org.openhab.habdroid.ui
 
 import android.animation.ObjectAnimator
-import android.content.res.Configuration
 import android.graphics.Rect
 import android.os.Build
 import android.service.dreams.DreamService
@@ -24,17 +23,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import androidx.core.view.isVisible
 import java.util.Locale
-import kotlin.coroutines.CoroutineContext
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
@@ -46,57 +47,81 @@ import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrNull
 
-class DayDream :
-    DreamService(),
-    CoroutineScope {
-    private val job = Job()
-    override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
-    private var moveTextJob: Job? = null
-    private lateinit var binding: DaydreamBinding
+class DayDream : DreamService() {
+    private var dreamScope: CoroutineScope? = null
+    private var binding: DaydreamBinding? = null
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+
         isInteractive = false
         isFullscreen = true
         isScreenBright = getPrefs().getBoolean(PrefKeys.DAY_DREAM_BRIGHT_SCREEN, true)
-        binding = DaydreamBinding.inflate(LayoutInflater.from(this))
+
+        val binding = DaydreamBinding.inflate(LayoutInflater.from(this)).also {
+            this.binding = it
+        }
+        binding.container.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+            dreamScope?.launch {
+                moveToRandomPosition()
+            }
+        }
+
         setContentView(binding.root)
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        binding = null
     }
 
     override fun onDreamingStarted() {
         super.onDreamingStarted()
-        val item = getPrefs().getStringOrNull(PrefKeys.DAY_DREAM_ITEM)
 
         setupDateView()
 
-        launch {
-            item?.let { listenForTextItem(it) }
+        val scope = CoroutineScope(Dispatchers.Main + SupervisorJob()).also {
+            this.dreamScope = it
+        }
+
+        getPrefs().getStringOrNull(PrefKeys.DAY_DREAM_ITEM)?.let { item ->
+            scope.launch {
+                listenForTextItem(item, scope)
+            }
+        }
+
+        scope.launch {
+            do {
+                moveToRandomPosition()
+                delay(if (BuildConfig.DEBUG) 10.seconds else 1.minutes)
+            } while (isActive)
         }
     }
 
+    override fun onDreamingStopped() {
+        super.onDreamingStopped()
+        dreamScope?.cancel()
+        dreamScope = null
+    }
+
     private fun setupDateView() {
+        val binding = binding ?: return
         val pattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEEE, MMMM d, yyyy")
         binding.date.format12Hour = pattern
         binding.date.format24Hour = pattern
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        moveTextIfRequired()
-    }
-
-    private suspend fun listenForTextItem(item: String) {
+    private suspend fun listenForTextItem(item: String, scope: CoroutineScope) {
         val connection = getConnectionFactory().primaryFlow.first().conn?.connection ?: return
 
-        moveText()
         val initialText = try {
             ItemClient.loadItem(connection, item)?.state?.asString.orEmpty()
-        } catch (e: HttpClient.HttpException) {
+        } catch (_: HttpClient.HttpException) {
             getString(R.string.screensaver_error_loading_item, item)
         }
         setText(initialText)
 
-        ItemClient.listenForItemChange(this, connection, item, ItemClient.EventType.StateChanged)
+        ItemClient.listenForItemChange(scope, connection, item, ItemClient.EventType.StateChanged)
             .consumeEach { (_, state) ->
                 Log.d(TAG, "Got state by event: $state")
                 setText(state)
@@ -104,33 +129,25 @@ class DayDream :
     }
 
     private fun setText(text: String) {
-        binding.text.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        val textView = binding?.text ?: return
+        textView.isVisible = text.isNotEmpty()
+        textView.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Html.fromHtml(text.replace("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT)
         } else {
             @Suppress("DEPRECATION")
             Html.fromHtml(text.replace("\n", "<br>"))
         }
-        moveTextIfRequired()
+        if (!textView.isFullyVisible()) {
+            moveToRandomPosition()
+        }
     }
 
-    private fun moveText() {
-        moveTextJob?.cancel()
+    private fun moveToRandomPosition() {
+        val binding = binding ?: return
         binding.wrapper.apply {
             fadeOut()
             moveViewToRandomPosition(binding.container)
             fadeIn()
-        }
-        moveTextJob = launch {
-            delay(if (BuildConfig.DEBUG) 10.seconds else 1.minutes)
-            moveText()
-        }
-    }
-
-    private fun moveTextIfRequired() {
-        binding.text.post {
-            if (!binding.text.isFullyVisible()) {
-                moveText()
-            }
         }
     }
 
@@ -169,11 +186,6 @@ class DayDream :
         val viewWidth = this.width
 
         return isVisible && rect.height() == viewHeight && rect.width() == viewWidth
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        job.cancel()
     }
 
     companion object {
