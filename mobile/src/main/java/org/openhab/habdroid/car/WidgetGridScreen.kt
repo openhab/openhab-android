@@ -113,7 +113,7 @@ class WidgetGridScreen(
         }
 
         val itemBuilder = GridItem.Builder()
-            .setTitle(widget.label)
+            .setTitle(widget.label.ifEmpty { widget.item?.name ?: "-" })
             .setImage(presentation.determineIcon(carContext), GridItem.IMAGE_TYPE_ICON)
 
         widget.stateFromLabel?.replace("\n", " ")?.let { itemBuilder.setText(it) }
