@@ -50,6 +50,9 @@ import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.preference.PreferenceManager
 import com.caverock.androidsvg.RenderOptions
 import com.caverock.androidsvg.SVG
@@ -753,4 +756,13 @@ inline fun <reified T : Serializable> Bundle.serializable(key: String): T? = whe
     else ->
         @Suppress("DEPRECATION")
         getSerializable(key) as? T
+}
+
+fun Lifecycle.onDestroy(callback: () -> Unit) {
+    addObserver(object : DefaultLifecycleObserver {
+        override fun onDestroy(owner: LifecycleOwner) {
+            callback()
+            owner.lifecycle.removeObserver(this)
+        }
+    })
 }

@@ -37,6 +37,7 @@ import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.getConnectionFactory
+import org.openhab.habdroid.util.onDestroy
 
 class CarService :
     CarAppService(),
@@ -87,6 +88,9 @@ class CarService :
             onPageListChanged = this::updateConnections,
             onSendWidgetCommand = this::sendWidgetCommand
         )
+        session.lifecycle.onDestroy {
+            sessions.remove(sessionInfo.sessionId)
+        }
         sessions[sessionInfo.sessionId] = session
         return session
     }

@@ -31,6 +31,7 @@ import org.openhab.habdroid.util.buildSitemapSourceId
 import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getDefaultCarSitemapName
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.onDestroy
 import org.openhab.habdroid.util.updateDefaultCarSitemap
 
 class CarSession(
@@ -124,6 +125,11 @@ class CarSession(
             onPageSelected = { page -> openWidgetListScreen(page, nestingDepth + 1) },
             onWidgetCommand = { widget, command -> onSendWidgetCommand(widget, command, buildSourceId(id)) }
         )
+        screen.lifecycle.onDestroy {
+            if (pageStack.remove(screen)) {
+                onPageListChanged
+            }
+        }
         pageStack += screen
         onPageListChanged()
         return screen
