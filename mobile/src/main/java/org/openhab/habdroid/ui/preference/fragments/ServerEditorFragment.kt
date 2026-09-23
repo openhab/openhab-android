@@ -35,7 +35,6 @@ import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.model.toWifiSsids
-import org.openhab.habdroid.ui.WebViewManager
 import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.preference.widgets.SslClientCertificatePreference
 import org.openhab.habdroid.ui.preference.widgets.WifiSsidInputPreference
