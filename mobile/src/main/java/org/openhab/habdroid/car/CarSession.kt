@@ -76,7 +76,7 @@ class CarSession(
 
     fun handleLoadFailure(reason: Throwable?) {
         val screenManager = carContext.getCarService(ScreenManager::class.java)
-        screenManager.replaceRoot(createErrorScreen(null, reason))
+        screenManager.replaceRoot(createErrorScreen(null, reason, true))
     }
 
     override fun onCreateScreen(intent: Intent) = createScreenForCurrentSitemap(latestSitemapResult)
@@ -95,17 +95,25 @@ class CarSession(
                     0
                 )
             } else {
-                createErrorScreen(carContext.getString(R.string.car_error_sitemap_not_found), null)
+                createErrorScreen(carContext.getString(R.string.car_error_sitemap_not_found), null, false)
             }
         }
 
-        else -> createErrorScreen(null, result.exceptionOrNull())
+        else -> createErrorScreen(null, result.exceptionOrNull(), true)
     }
 
-    private fun createErrorScreen(message: CharSequence?, reason: Throwable?) =
-        ErrorScreen(carContext, message, reason) {
-            carContext.getConnectionFactory().restartNetworkCheck()
+    private fun createErrorScreen(message: CharSequence?, reason: Throwable?, allowRetry: Boolean): ErrorScreen {
+        val actionLabel = carContext.getString(
+            if (allowRetry) R.string.car_error_retry_button else R.string.car_error_close_button
+        )
+        return ErrorScreen(carContext, message, reason, actionLabel) {
+            if (allowRetry) {
+                carContext.getConnectionFactory().restartNetworkCheck()
+            } else {
+                carContext.finishCarApp()
+            }
         }
+    }
 
     private fun createWidgetListScreen(url: String, id: String, title: String, nestingDepth: Int): WidgetGridScreen {
         val screen = WidgetGridScreen(

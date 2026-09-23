@@ -28,7 +28,8 @@ class ErrorScreen(
     carContext: CarContext,
     private val message: CharSequence?,
     private val reason: Throwable?,
-    private val retryHandler: () -> Unit
+    private val actionLabel: String,
+    private val actionHandler: () -> Unit
 ) : Screen(carContext) {
     override fun onGetTemplate(): Template {
         val header = Header.Builder()
@@ -48,14 +49,14 @@ class ErrorScreen(
             carContext.getString((errorMessageResId))
         }
 
-        val retryAction = Action.Builder()
-            .setTitle(carContext.getString(R.string.car_error_retry_button))
-            .setOnClickListener(retryHandler)
+        val action = Action.Builder()
+            .setTitle(actionLabel)
+            .setOnClickListener(actionHandler)
             .build()
 
         val messageBuilder = MessageTemplate.Builder(actualMessage)
             .setHeader(header)
-            .addAction(retryAction)
+            .addAction(action)
 
         reason?.let {
             messageBuilder
