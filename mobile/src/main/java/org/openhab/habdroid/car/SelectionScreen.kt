@@ -33,7 +33,7 @@ class SelectionScreen(
         val selectedPosition = options.indexOfFirst { currentValue == it.command }
         val firstOptionOffset = if (selectedPosition < 0) 1 else 0
         val itemsBuilder = ItemList.Builder()
-            .setOnSelectedListener { index -> onItemSelected(options[index + firstOptionOffset]) }
+            .setOnSelectedListener { index -> onItemSelected(options[index - firstOptionOffset]) }
 
         if (selectedPosition < 0) {
             val noValueRow = Row.Builder()
