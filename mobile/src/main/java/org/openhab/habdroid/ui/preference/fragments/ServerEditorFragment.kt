@@ -35,7 +35,6 @@ import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.model.toWifiSsids
-import org.openhab.habdroid.ui.WebViewManager
 import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.preference.widgets.SslClientCertificatePreference
 import org.openhab.habdroid.ui.preference.widgets.WifiSsidInputPreference
@@ -47,7 +46,6 @@ import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getWebViewManager
 import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.putPrimaryServerId
-import org.openhab.habdroid.util.updateDefaultCarSitemap
 import org.openhab.habdroid.util.updateDefaultSitemap
 
 class ServerEditorFragment :
@@ -219,7 +217,6 @@ class ServerEditorFragment :
         }
         clearDefaultSitemapPref.setOnPreferenceClickListener { preference ->
             preference.sharedPreferences!!.updateDefaultSitemap(null, null, config.id)
-            preference.sharedPreferences!!.updateDefaultCarSitemap(null, config.id)
             handleNoDefaultSitemap(preference)
             parentActivity.addResultFlag(PreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED)
             true

@@ -352,7 +352,8 @@
 
         <service
             android:name=".car.CarService"
-            android:exported="true">
+            android:exported="true"
+            android:enabled="false">
             <intent-filter>
                 <action android:name="androidx.car.app.CarAppService" />
                 <category android:name="androidx.car.app.category.IOT" />

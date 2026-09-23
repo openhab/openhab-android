@@ -32,29 +32,32 @@ import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getDefaultCarSitemapName
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.onDestroy
-import org.openhab.habdroid.util.updateDefaultCarSitemap
 
 class CarSession(
     sitemapsFlow: Flow<Result<List<Sitemap>>?>,
     private val onPageListChanged: () -> Unit,
     private val onSendWidgetCommand: (widget: Widget, command: String, sourceId: String) -> Unit
 ) : Session() {
-    private var latestSitemapResult: Result<List<Sitemap>>? = null
+    private var latestSitemapResult: Result<SitemapLookupResult>? = null
     private val pageStack = mutableListOf<WidgetGridScreen>()
     val pageUrls get() = pageStack.map { it.url }
 
     init {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                sitemapsFlow.collect {
-                    if (it != latestSitemapResult) {
-                        Log.d(TAG, "Got new sitemap result $it")
-                        latestSitemapResult = it
+                sitemapsFlow.collect { sitemapsResult ->
+                    val selectedSitemap = carContext.getPrefs().getDefaultCarSitemapName()
+                    val sitemapResult = sitemapsResult
+                        ?.map { SitemapLookupResult(it, selectedSitemap) }
+
+                    if (sitemapResult != latestSitemapResult) {
+                        Log.d(TAG, "Got new sitemap result $sitemapResult")
+                        latestSitemapResult = sitemapResult
                         pageStack.clear()
                         onPageListChanged()
 
                         val screenManager = carContext.getCarService(ScreenManager::class.java)
-                        screenManager.replaceRoot(createScreenForCurrentSitemap(it))
+                        screenManager.replaceRoot(createScreenForCurrentSitemap(sitemapResult))
                     }
                 }
             }
@@ -78,33 +81,21 @@ class CarSession(
 
     override fun onCreateScreen(intent: Intent) = createScreenForCurrentSitemap(latestSitemapResult)
 
-    private fun createScreenForCurrentSitemap(result: Result<List<Sitemap>>?): Screen = when {
+    private fun createScreenForCurrentSitemap(result: Result<SitemapLookupResult>?): Screen = when {
         result == null -> LoadingScreen(carContext)
 
         result.isSuccess -> {
-            val sitemaps = result.getOrThrow()
-            val lastSitemapName = carContext.getPrefs().getDefaultCarSitemapName()
-            val selectedSitemap = sitemaps.firstOrNull { it.name == lastSitemapName }
-            when {
-                selectedSitemap != null ->
-                    createWidgetListScreen(
-                        selectedSitemap.homepageLink,
-                        selectedSitemap.name,
-                        selectedSitemap.label,
-                        0
-                    )
-
-                sitemaps.isEmpty() ->
-                    createErrorScreen(carContext.getString(R.string.error_empty_sitemap_list), null)
-
-                else ->
-                    SitemapSelectionScreen(carContext, sitemaps) { sitemap ->
-                        carContext.getPrefs().updateDefaultCarSitemap(sitemap)
-                        val screenManager = carContext.getCarService(ScreenManager::class.java)
-                        screenManager.replaceRoot(
-                            createWidgetListScreen(sitemap.homepageLink, sitemap.name, sitemap.label, 0)
-                        )
-                    }
+            val (sitemaps, selectedSitemapName) = result.getOrThrow()
+            val selectedSitemap = sitemaps.firstOrNull { it.name == selectedSitemapName }
+            if (selectedSitemap != null) {
+                createWidgetListScreen(
+                    selectedSitemap.homepageLink,
+                    selectedSitemap.name,
+                    selectedSitemap.label,
+                    0
+                )
+            } else {
+                createErrorScreen(carContext.getString(R.string.car_error_sitemap_not_found), null)
             }
         }
 
@@ -158,6 +149,8 @@ class CarSession(
         push(screen)
         remove(oldRoot)
     }
+
+    private data class SitemapLookupResult(val sitemaps: List<Sitemap>, val selectedSitemapName: String?)
 
     companion object {
         const val TAG = "CarSession"

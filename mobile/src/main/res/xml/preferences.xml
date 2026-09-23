@@ -167,6 +167,12 @@
             android:icon="@drawable/ic_tag_text_outline_grey_24dp"
             android:title="@string/device_identifier_title"
             app:singleLineTitle="false" />
+        <org.openhab.habdroid.ui.preference.widgets.AndroidAutoSitemapPreference
+            android:key="android_auto_sitemap"
+            android:title="@string/android_auto_enabled_title"
+            android:icon="@drawable/ic_car_outline_grey_24dp"
+            app:summaryEnabled="@string/android_auto_enabled_summary_on"
+            app:summaryDisabled="@string/android_auto_enabled_summary_off" />
         <Preference
             android:key="send_device_info"
             android:dependency="default_openhab_demomode"

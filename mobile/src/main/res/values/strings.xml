@@ -652,6 +652,12 @@
     <string name="widget_type_color">Color</string>
 
     <!-- Android Auto -->
+    <string name="android_auto_enabled_title">Android Auto</string>
+    <string name="android_auto_enabled_summary_off">Android Auto support is disabled</string>
+    <string name="android_auto_enabled_summary_on">Android Auto uses sitemap \'%1$s\'</string>
+    <string name="android_auto_enable_switch_label">Enable Android Auto support</string>
+    <string name="android_auto_sitemap_selection_label">Used Sitemap</string>
+    <string name="car_error_sitemap_not_found">The selected Sitemap could not be found on the server. Please double-check the selection in the app settings.</string>
     <string name="car_action_rollershutter_open">Open</string>
     <string name="car_action_rollershutter_close">Close</string>
     <string name="car_action_rollershutter_stop">Stop</string>
