@@ -120,7 +120,7 @@ class CarSession(
         )
         screen.lifecycle.onDestroy {
             if (pageStack.remove(screen)) {
-                onPageListChanged
+                onPageListChanged()
             }
         }
         pageStack += screen
