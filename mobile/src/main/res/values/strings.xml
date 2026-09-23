@@ -669,6 +669,7 @@
     <string name="car_error_no_network">Network connection unavailable</string>
     <string name="car_error_sitemap_load_failure">Sitemap could not be loaded</string>
     <string name="car_error_retry_button">Retry</string>
+    <string name="car_error_close_button">Close</string>
     <string name="car_error_debug_header">Failure reason:</string>
     <string name="car_section_header_other_items">Other items</string>
 
