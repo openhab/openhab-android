@@ -58,7 +58,6 @@ class CarService :
         dispatcher.onServicePreSuperOnCreate()
         super.onCreate()
         connectionHolder.setCallback(this)
-        connectionHolder.onCreate(null)
         connectionHolder.onStart()
 
         lifecycleScope.launch {
