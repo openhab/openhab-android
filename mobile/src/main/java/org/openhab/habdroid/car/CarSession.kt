@@ -47,13 +47,15 @@ class CarSession(
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 sitemapsFlow.collect {
-                    Log.d(TAG, "Got new sitemap result $it")
-                    latestSitemapResult = it
-                    pageStack.clear()
-                    onPageListChanged()
+                    if (it != latestSitemapResult) {
+                        Log.d(TAG, "Got new sitemap result $it")
+                        latestSitemapResult = it
+                        pageStack.clear()
+                        onPageListChanged()
 
-                    val screenManager = carContext.getCarService(ScreenManager::class.java)
-                    screenManager.replaceRoot(createScreenForCurrentSitemap(it))
+                        val screenManager = carContext.getCarService(ScreenManager::class.java)
+                        screenManager.replaceRoot(createScreenForCurrentSitemap(it))
+                    }
                 }
             }
         }
