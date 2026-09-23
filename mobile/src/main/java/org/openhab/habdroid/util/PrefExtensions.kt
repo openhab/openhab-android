@@ -19,7 +19,6 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -32,6 +31,7 @@ import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.ui.preference.widgets.toItemUpdatePrefValue
+import org.openhab.habdroid.ui.preference.widgets.toSitemapInfo
 import org.openhab.habdroid.ui.widget.WidgetImageView
 
 enum class ScreenLockMode {
@@ -67,8 +67,8 @@ fun SharedPreferences.getDefaultSitemap(connection: Connection?, id: Int = getAc
     return ServerConfiguration.getDefaultSitemap(this, id)
 }
 
-fun SharedPreferences.getDefaultCarSitemapName(id: Int = getPrimaryServerId()): String? =
-    getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_CAR_SITEMAP_NAME_PREFIX))
+fun SharedPreferences.getDefaultCarSitemapName(): String? =
+    getStringOrNull(PrefKeys.CAR_SITEMAP_INFO)?.toSitemapInfo()?.name
 
 fun SharedPreferences.getIconFormat(): IconFormat {
     val serverProps = getInt(PrefKeys.PREV_SERVER_FLAGS, 0)
@@ -214,12 +214,6 @@ fun SharedPreferences.updateDefaultSitemap(connection: Connection?, sitemap: Sit
     }
     val defaultSitemap = sitemap?.let { DefaultSitemap(sitemap.name, sitemap.label) }
     ServerConfiguration.saveDefaultSitemap(this, id, defaultSitemap)
-}
-
-fun SharedPreferences.updateDefaultCarSitemap(sitemap: Sitemap?, id: Int = getPrimaryServerId()) {
-    edit {
-        putString(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_CAR_SITEMAP_NAME_PREFIX), sitemap?.name)
-    }
 }
 
 fun PreferenceFragmentCompat.getPreference(key: String): Preference =

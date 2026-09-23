@@ -24,12 +24,10 @@ import androidx.car.app.validation.HostValidator
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.sitemap.SitemapPageRepository
@@ -127,11 +125,8 @@ class CarService :
     private suspend fun initializeConnectionAndLoadData(connResult: ConnectionFactory.ConnectionResult?) = when {
         connResult == null -> null
 
-        connResult.connection != null -> {
-            val result = withContext(Dispatchers.IO) {
-                ServerProperties.fetch(connResult.connection)
-            }
-            when (result) {
+        connResult.connection != null ->
+            when (val result = ServerProperties.fetch(connResult.connection)) {
                 is ServerProperties.Companion.PropsSuccess -> {
                     Result.success(InitData(connResult.connection, result.props))
                 }
@@ -139,7 +134,6 @@ class CarService :
                 is ServerProperties.Companion.PropsFailure ->
                     Result.failure(result.error)
             }
-        }
 
         connResult.failureReason != null -> Result.failure(connResult.failureReason)
 
