@@ -15,6 +15,7 @@ package org.openhab.habdroid.car
 
 import androidx.car.app.CarContext
 import androidx.car.app.Screen
+import androidx.car.app.constraints.ConstraintManager
 import androidx.car.app.model.Action
 import androidx.car.app.model.Header
 import androidx.car.app.model.ItemList
@@ -35,8 +36,12 @@ class SitemapSelectionScreen(
             .setTitle(carContext.getString(R.string.mainmenu_openhab_selectsitemap))
             .build()
 
+        val maxItems = carContext.getCarService(ConstraintManager::class.java)
+            .getContentLimit(ConstraintManager.CONTENT_LIMIT_TYPE_LIST)
+
         val itemListBuilder = ItemList.Builder()
         sitemaps
+            .take(maxItems)
             .map {
                 Row.Builder()
                     .setTitle(it.label)

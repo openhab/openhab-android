@@ -57,6 +57,7 @@ class CarService :
         dispatcher.onServicePreSuperOnCreate()
         super.onCreate()
         connectionHolder.setCallback(this)
+        connectionHolder.onCreate(null)
         connectionHolder.onStart()
 
         lifecycleScope.launch {
@@ -77,6 +78,7 @@ class CarService :
     override fun onDestroy() {
         dispatcher.onServicePreSuperOnDestroy()
         connectionHolder.onStop()
+        connectionHolder.onDestroy()
         super.onDestroy()
     }
 

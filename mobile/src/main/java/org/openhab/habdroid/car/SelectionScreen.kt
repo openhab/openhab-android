@@ -31,8 +31,9 @@ class SelectionScreen(
 ) : Screen(carContext) {
     override fun onGetTemplate(): Template {
         val selectedPosition = options.indexOfFirst { currentValue == it.command }
+        val firstOptionOffset = if (selectedPosition < 0) 1 else 0
         val itemsBuilder = ItemList.Builder()
-            .setOnSelectedListener { index -> onItemSelected(options[index]) }
+            .setOnSelectedListener { index -> onItemSelected(options[index + firstOptionOffset]) }
 
         if (selectedPosition < 0) {
             val noValueRow = Row.Builder()

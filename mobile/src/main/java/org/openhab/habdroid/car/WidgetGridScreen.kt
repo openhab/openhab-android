@@ -15,6 +15,7 @@ package org.openhab.habdroid.car
 
 import androidx.car.app.CarContext
 import androidx.car.app.Screen
+import androidx.car.app.constraints.ConstraintManager
 import androidx.car.app.model.Action
 import androidx.car.app.model.CarColor
 import androidx.car.app.model.CarIcon
@@ -210,6 +211,7 @@ class WidgetGridScreen(
     private fun openActionListScreen(widget: Widget, actions: List<ActionListItem>) {
         val screen = ActionListScreen(carContext, widget.label, actions) { item ->
             onWidgetCommand(widget, item.command)
+            screenManager.pop()
         }
         screenManager.push(screen)
     }
@@ -217,6 +219,7 @@ class WidgetGridScreen(
     private fun openSelectionScreen(widget: Widget, options: List<SelectionListItem>) {
         val screen = SelectionScreen(carContext, widget.label, options, widget.state?.asString) { item ->
             onWidgetCommand(widget, item.command)
+            screenManager.pop()
         }
         screenManager.push(screen)
     }
@@ -231,9 +234,13 @@ class WidgetGridScreen(
 
         val templateBuilder = GridTemplate.Builder()
             .setHeader(headerBuilder.build())
+        val maxItems = carContext.getCarService(ConstraintManager::class.java)
+            .getContentLimit(ConstraintManager.CONTENT_LIMIT_TYPE_GRID)
 
         val widgetsToShow = widgets
             ?.filter { shouldShowWidget(it) }
+            ?.take(maxItems)
+
         if (widgetsToShow == null) {
             templateBuilder.setLoading(true)
         } else {
@@ -276,32 +283,7 @@ class WidgetGridScreen(
 
         fun guessType(): WidgetType {
             // First attempt: icon mapping
-            val iconToTypeMapping = mapOf(
-                "lightbulb" to WidgetType.Light,
-                "light" to WidgetType.Light,
-                "slider" to WidgetType.Light,
-                "lock" to WidgetType.DoorLock,
-                "fan" to WidgetType.Fan,
-                "fan_box" to WidgetType.Fan,
-                "fan_ceiling" to WidgetType.Fan,
-                "blinds" to WidgetType.Rollershutter,
-                "rollershutter" to WidgetType.Rollershutter,
-                "window" to WidgetType.Window,
-                "switch" to WidgetType.Switch,
-                "wallswitch" to WidgetType.Switch,
-                "power" to WidgetType.PowerOutlet,
-                "poweroutlet" to WidgetType.PowerOutlet,
-                "poweroutlet_eu" to WidgetType.PowerOutlet,
-                "door" to WidgetType.Door,
-                "frontdoor" to WidgetType.Door,
-                "alarm" to WidgetType.Alarm,
-                "garage" to WidgetType.Garage,
-                "garagedoor" to WidgetType.Garage,
-                "garage_detached" to WidgetType.Gate,
-                "garage_detached_selected" to WidgetType.Garage
-            )
-
-            iconToTypeMapping[widget.icon?.icon]?.let { type ->
+            ICON_TO_TYPE_MAPPING[widget.icon?.icon]?.let { type ->
                 return type
             }
 
@@ -313,43 +295,12 @@ class WidgetGridScreen(
             }
 
             // Second attempt: use category
-            iconToTypeMapping[item.category?.lowercase()?.substringAfterLast(':')]?.let { type ->
+            ICON_TO_TYPE_MAPPING[item.category?.lowercase()?.substringAfterLast(':')]?.let { type ->
                 return type
             }
 
             // Third attempt: use tags
-            val tagToTypeMapping = listOf(
-                Item.Tag.Blinds to WidgetType.Rollershutter,
-                Item.Tag.Car to WidgetType.Garage,
-                Item.Tag.Carport to WidgetType.Garage,
-                Item.Tag.Garage to WidgetType.Garage,
-                Item.Tag.GarageDoor to WidgetType.Garage,
-                Item.Tag.Light to WidgetType.Light,
-                Item.Tag.LightStripe to WidgetType.Light,
-                Item.Tag.Lightbulb to WidgetType.Light,
-                Item.Tag.Alarm to WidgetType.Alarm,
-                Item.Tag.AlarmSystem to WidgetType.Alarm,
-                Item.Tag.Siren to WidgetType.Alarm,
-                Item.Tag.CeilingFan to WidgetType.Fan,
-                Item.Tag.Fan to WidgetType.Fan,
-                // door tags - with least specific (Door) last
-                Item.Tag.CellarDoor to WidgetType.Door,
-                Item.Tag.FrontDoor to WidgetType.Door,
-                Item.Tag.InnerDoor to WidgetType.Door,
-                Item.Tag.SideDoor to WidgetType.Door,
-                Item.Tag.Gate to WidgetType.Gate,
-                Item.Tag.Door to WidgetType.Door,
-                Item.Tag.HeatingCoolingMode to WidgetType.Thermostat,
-                Item.Tag.TargetTemperature to WidgetType.Thermostat,
-                Item.Tag.Temperature to WidgetType.Thermostat,
-                Item.Tag.Lock to WidgetType.DoorLock,
-                Item.Tag.Window to WidgetType.Window,
-                Item.Tag.PowerOutlet to WidgetType.PowerOutlet,
-                Item.Tag.Switch to WidgetType.Switch,
-                Item.Tag.WallSwitch to WidgetType.Switch
-            )
-
-            tagToTypeMapping.forEach { (tag, type) ->
+            TAG_TO_TYPE_MAPPING.forEach { (tag, type) ->
                 if (item.tags.contains(tag)) return type
             }
 
@@ -407,6 +358,64 @@ class WidgetGridScreen(
             return CarIcon.Builder(icon)
                 .setTint(if (isActive) CarColor.PRIMARY else CarColor.SECONDARY)
                 .build()
+        }
+
+        companion object {
+            private val ICON_TO_TYPE_MAPPING = mapOf(
+                "lightbulb" to WidgetType.Light,
+                "light" to WidgetType.Light,
+                "slider" to WidgetType.Light,
+                "lock" to WidgetType.DoorLock,
+                "fan" to WidgetType.Fan,
+                "fan_box" to WidgetType.Fan,
+                "fan_ceiling" to WidgetType.Fan,
+                "blinds" to WidgetType.Rollershutter,
+                "rollershutter" to WidgetType.Rollershutter,
+                "window" to WidgetType.Window,
+                "switch" to WidgetType.Switch,
+                "wallswitch" to WidgetType.Switch,
+                "power" to WidgetType.PowerOutlet,
+                "poweroutlet" to WidgetType.PowerOutlet,
+                "poweroutlet_eu" to WidgetType.PowerOutlet,
+                "door" to WidgetType.Door,
+                "frontdoor" to WidgetType.Door,
+                "alarm" to WidgetType.Alarm,
+                "garage" to WidgetType.Garage,
+                "garagedoor" to WidgetType.Garage,
+                "garage_detached" to WidgetType.Gate,
+                "garage_detached_selected" to WidgetType.Garage
+            )
+
+            private val TAG_TO_TYPE_MAPPING = listOf(
+                Item.Tag.Blinds to WidgetType.Rollershutter,
+                Item.Tag.Car to WidgetType.Garage,
+                Item.Tag.Carport to WidgetType.Garage,
+                Item.Tag.Garage to WidgetType.Garage,
+                Item.Tag.GarageDoor to WidgetType.Garage,
+                Item.Tag.Light to WidgetType.Light,
+                Item.Tag.LightStripe to WidgetType.Light,
+                Item.Tag.Lightbulb to WidgetType.Light,
+                Item.Tag.Alarm to WidgetType.Alarm,
+                Item.Tag.AlarmSystem to WidgetType.Alarm,
+                Item.Tag.Siren to WidgetType.Alarm,
+                Item.Tag.CeilingFan to WidgetType.Fan,
+                Item.Tag.Fan to WidgetType.Fan,
+                // door tags - with least specific (Door) last
+                Item.Tag.CellarDoor to WidgetType.Door,
+                Item.Tag.FrontDoor to WidgetType.Door,
+                Item.Tag.InnerDoor to WidgetType.Door,
+                Item.Tag.SideDoor to WidgetType.Door,
+                Item.Tag.Gate to WidgetType.Gate,
+                Item.Tag.Door to WidgetType.Door,
+                Item.Tag.HeatingCoolingMode to WidgetType.Thermostat,
+                Item.Tag.TargetTemperature to WidgetType.Thermostat,
+                Item.Tag.Temperature to WidgetType.Thermostat,
+                Item.Tag.Lock to WidgetType.DoorLock,
+                Item.Tag.Window to WidgetType.Window,
+                Item.Tag.PowerOutlet to WidgetType.PowerOutlet,
+                Item.Tag.Switch to WidgetType.Switch,
+                Item.Tag.WallSwitch to WidgetType.Switch
+            )
         }
     }
 }
