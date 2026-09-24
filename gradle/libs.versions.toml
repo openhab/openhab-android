@@ -1,6 +1,6 @@
 [versions]
 android-gradle-plugin = "8.11.2"
-kotlin-gradle-plugin = "2.0.21"
+kotlin-gradle-plugin = "2.4.20"
 google-services = "4.4.2"
 firebase-crashlytics-gradle = "3.0.3"
 unmock-plugin = "0.8.0"
