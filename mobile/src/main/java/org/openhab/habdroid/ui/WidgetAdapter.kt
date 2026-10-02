@@ -19,6 +19,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.SystemClock
 import android.text.InputType.TYPE_CLASS_NUMBER
 import android.text.InputType.TYPE_CLASS_TEXT
 import android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
@@ -1619,6 +1620,7 @@ class WidgetAdapter(
         override val iconTextBinding get() = binding.icontext
 
         private val exoPlayer = ExoPlayer.Builder(itemView.context).build()
+        private var pausedAt: Long? = null
 
         init {
             binding.player.player = exoPlayer
@@ -1631,7 +1633,17 @@ class WidgetAdapter(
             loadVideo(widget, false)
         }
 
+        @androidx.media3.common.util.UnstableApi
         override fun onStart() {
+            val pausedSince = pausedAt?.let { SystemClock.elapsedRealtime() - it }
+            val widget = boundWidget
+            // Live streams would continue from where they were paused, so reload them to show current content
+            if (widget != null && widget.isHls() && exoPlayer.currentMediaItem != null &&
+                pausedSince != null && pausedSince > HLS_RESUME_GRACE_PERIOD_MS
+            ) {
+                loadVideo(widget, true)
+            }
+            pausedAt = null
             if (itemView.context.determineDataUsagePolicy(connection).autoPlayVideos) {
                 exoPlayer.play()
             }
@@ -1639,7 +1651,10 @@ class WidgetAdapter(
 
         override fun onStop() {
             exoPlayer.pause()
+            pausedAt = SystemClock.elapsedRealtime()
         }
+
+        private fun Widget.isHls() = encoding.equals("hls", ignoreCase = true)
 
         @androidx.media3.common.util.UnstableApi
         private fun loadVideo(widget: Widget, forceReload: Boolean) {
@@ -1647,7 +1662,7 @@ class WidgetAdapter(
             binding.videoPlayerError.isVisible = false
             binding.videoPlayerLoading.isVisible = true
 
-            val isHls = widget.encoding.equals("hls", ignoreCase = true)
+            val isHls = widget.isHls()
             val url = if (isHls) {
                 val state = widget.item?.state?.asString
                 if (state != null && widget.item.type == Item.Type.StringItem) {
@@ -1689,6 +1704,7 @@ class WidgetAdapter(
                 return
             }
 
+            pausedAt = null
             exoPlayer.setMediaSource(mediaSource)
             exoPlayer.prepare()
         }
@@ -1976,6 +1992,7 @@ class WidgetAdapter(
 
     companion object {
         internal val TAG = WidgetAdapter::class.java.simpleName
+        private const val HLS_RESUME_GRACE_PERIOD_MS = 10_000L
 
         private const val TYPE_GENERICITEM = 0
         private const val TYPE_FRAME = 1
