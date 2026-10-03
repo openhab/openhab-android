@@ -24,6 +24,7 @@ import org.openhab.habdroid.R
 /**
  * Preference that stores the name of an Item. The Item is selected via an item picker,
  * which has to be launched by the owning fragment from the click listener.
+ * If set, android:summary is shown when no Item is selected.
  */
 class ItemPreference(context: Context, attrs: AttributeSet?) : Preference(context, attrs) {
     var itemName: String? = null
@@ -49,7 +50,7 @@ class ItemPreference(context: Context, attrs: AttributeSet?) : Preference(contex
     }
 
     override fun getSummary(): CharSequence? = when {
-        itemName.isNullOrEmpty() -> context.getString(R.string.info_not_set)
+        itemName.isNullOrEmpty() -> super.getSummary() ?: context.getString(R.string.info_not_set)
         else -> itemName
     }
 

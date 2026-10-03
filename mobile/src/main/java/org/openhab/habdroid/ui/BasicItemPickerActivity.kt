@@ -36,6 +36,7 @@ class BasicItemPickerActivity(
         showNoCommand = intent.getBooleanExtra("show_no_command", showNoCommand)
         hideReadOnly = intent.getBooleanExtra("hide_read_only", hideReadOnly)
         selectItemOnly = intent.getBooleanExtra("select_item_only", selectItemOnly)
+        showOnlyGroups = intent.getBooleanExtra("show_only_groups", showOnlyGroups)
         super.onCreate(savedInstanceState)
     }
 

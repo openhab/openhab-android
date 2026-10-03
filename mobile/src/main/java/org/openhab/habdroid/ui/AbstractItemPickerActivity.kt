@@ -72,6 +72,7 @@ abstract class AbstractItemPickerActivity :
     protected abstract var hintButtonMessageId: Int
     protected abstract var hintIconId: Int
     protected var hideReadOnly = true
+    protected var showOnlyGroups = false
 
     private val suggestedCommandsFactory by lazy {
         SuggestedCommandsFactory(this, true)
@@ -230,6 +231,10 @@ abstract class AbstractItemPickerActivity :
                 }
                 if (hideReadOnly) {
                     items = items.filterNot { item -> item.readOnly }
+                }
+
+                if (showOnlyGroups) {
+                    items = items.filter { item -> item.type == Item.Type.Group }
                 }
 
                 if (forItemCommandOnly) {
