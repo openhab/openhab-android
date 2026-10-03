@@ -36,6 +36,7 @@ import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.withTimeout
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.AfterClass
@@ -276,6 +277,25 @@ class ConnectionFactoryTest {
         assertEquals(
             connectionFactory.currentActive?.conn?.failureReason?.javaClass,
             NoUrlInformationException::class.java
+        )
+    }
+
+    @Test
+    @Retry
+    fun testDemoModeOnStartup() {
+        whenever(mockPrefs.getBoolean(eq(PrefKeys.DEMO_MODE), any())) doReturn true
+        runBlocking {
+            withTimeout(5000) {
+                launch(Dispatchers.Main) {
+                    connectionFactory.updateConnections()
+                    connectionFactory.activeFlow.first()
+                }
+            }
+        }
+        assertEquals(
+            "Demo mode should provide a demo connection on startup",
+            DemoConnection::class.java,
+            connectionFactory.currentActive?.conn?.connection?.javaClass
         )
     }
 
