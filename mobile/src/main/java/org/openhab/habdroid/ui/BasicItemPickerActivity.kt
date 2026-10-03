@@ -28,12 +28,23 @@ class BasicItemPickerActivity(
     override var hintIconId: Int = 0
 ) : AbstractItemPickerActivity() {
     private var showNoCommand = false
+    private var selectItemOnly = false
+    override val forItemCommandOnly get() = !selectItemOnly
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initialHighlightItemName = intent.getStringExtra("item")
         showNoCommand = intent.getBooleanExtra("show_no_command", showNoCommand)
         hideReadOnly = intent.getBooleanExtra("hide_read_only", hideReadOnly)
+        selectItemOnly = intent.getBooleanExtra("select_item_only", selectItemOnly)
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onItemClicked(item: Item) {
+        if (selectItemOnly) {
+            finish(item, null)
+        } else {
+            super.onItemClicked(item)
+        }
     }
 
     override fun finish(item: Item, state: String?, mappedState: String?, tag: Any?) {
