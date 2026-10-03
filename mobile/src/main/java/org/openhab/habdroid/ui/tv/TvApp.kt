@@ -50,7 +50,15 @@ fun TvApp() {
         colors = SurfaceDefaults.colors(containerColor = MaterialTheme.colorScheme.background)
     ) {
         NavHost(navController = navController, startDestination = startDestination) {
-            composable(TvRoutes.SETUP) { PlaceholderScreen("Setup") }
+            composable(TvRoutes.SETUP) {
+                TvSetupScreen(
+                    onServerConfigured = {
+                        navController.navigate(TvRoutes.SITEMAP) {
+                            popUpTo(TvRoutes.SETUP) { inclusive = true }
+                        }
+                    }
+                )
+            }
             composable(TvRoutes.SITEMAP) { PlaceholderScreen("Sitemap") }
             composable(TvRoutes.SETTINGS) { PlaceholderScreen("Settings") }
         }

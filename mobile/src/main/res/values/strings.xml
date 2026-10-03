@@ -637,6 +637,14 @@
     <string name="create_home_screen_widget_not_supported">Please go to the widget menu on your home screen and create a widget from there</string>
     <string name="analyse">Analyze</string>
 
+    <!-- Android TV -->
+    <string name="tv_setup_title">Set up openHAB</string>
+    <string name="tv_setup_server_found">Found openHAB server at %s</string>
+    <string name="tv_setup_no_server_found">No openHAB server found in your network.</string>
+    <string name="tv_setup_use_server">Use this server</string>
+    <string name="tv_setup_search_again">Search again</string>
+    <string name="tv_setup_enter_manually">Enter server manually</string>
+
     <!-- Data saver -->
     <string name="data_saver_title">Data saver</string>
     <string name="data_saver_on">Sitemap elements that may require larger data transfers aren\'t loaded</string>
