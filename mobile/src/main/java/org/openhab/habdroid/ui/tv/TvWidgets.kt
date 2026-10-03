@@ -88,6 +88,7 @@ interface TvWidgetActions {
 fun TvWidgetList(
     widgets: List<Widget>,
     connection: Connection,
+    serverFlags: Int,
     actions: TvWidgetActions,
     listState: LazyListState,
     initialFocusRequester: FocusRequester,
@@ -113,7 +114,7 @@ fun TvWidgetList(
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         items(listWidgets, key = { widget -> widget.id }) { widget ->
-            val row = TvWidgetRowScope(widget, connection, actions, colorMapper)
+            val row = TvWidgetRowScope(widget, connection, serverFlags, actions, colorMapper)
             val focusModifier = if (widget.id == initialFocusId) {
                 Modifier.focusRequester(initialFocusRequester).focusGroup()
             } else {
@@ -145,6 +146,7 @@ private fun TvWidgetRowScope.Content(visibleWidgets: List<Widget>) {
         Widget.Type.Setpoint -> SetpointRow()
         Widget.Type.Slider, Widget.Type.Colortemperaturepicker -> SliderRow()
         Widget.Type.Group, Widget.Type.Text, Widget.Type.Default -> TextRow()
+        Widget.Type.Image, Widget.Type.Chart, Widget.Type.Video -> TvMediaRow(widget, connection, serverFlags)
         // Not usable with a D-pad (yet), so only show label and state
         else -> TextRow()
     }
@@ -153,6 +155,7 @@ private fun TvWidgetRowScope.Content(visibleWidgets: List<Widget>) {
 private class TvWidgetRowScope(
     val widget: Widget,
     val connection: Connection,
+    val serverFlags: Int,
     val actions: TvWidgetActions,
     val colorMapper: (String?) -> Color?
 ) {
