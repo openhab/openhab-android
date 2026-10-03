@@ -1,6 +1,8 @@
 openHAB - "empowering the smart home" - open source home automation indipendente da tecnologia e produttore
 
 Le build su F-Droid hanno rimosso FCM e quindi non saranno in grado di ricevere notifiche push da openHAB Cloud. Invece, le notifiche sono controllate su base regolare in questi compilati.
+Prova le nuove funzioni e dai un feedback quanto prima!
+È possibile installare la versione beta insieme alla <a href="https://f-droid.org/packages/org.openhab.habdroid/">versione stabile</a>.
 
 openHAB e' una piattaforma open-source basata su java, che integra e combina una vasta gamma di diversi smart home systems e tecnologie in un'unica soluzione.
 Usando un livello unificato di astrazione, tutti i dispositivi collegati sono disponibili per le regole di automazione e per diverse interfacce utente.

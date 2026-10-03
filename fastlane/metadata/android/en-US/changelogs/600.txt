@@ -1,0 +1,12 @@
+## What's Changed
+* Open start page after switching server by @stamateviorel in https://github.com/openhab/openhab-android/pull/4046
+* Fall back to web UI if there's no sitemap by @stamateviorel in https://github.com/openhab/openhab-android/pull/4047
+* Isolate WebView data per server by @stamateviorel in https://github.com/openhab/openhab-android/pull/4044
+* Fix intro navigation colors by @maniac103 in https://github.com/openhab/openhab-android/pull/4050
+* Fix icons sometimes not being loaded correctly by @maniac103 in https://github.com/openhab/openhab-android/pull/4054
+* Fix daydream implementation by @maniac103 in https://github.com/openhab/openhab-android/pull/4051
+
+## New Contributors
+* @stamateviorel made their first contribution in https://github.com/openhab/openhab-android/pull/4046
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.21.0-beta...3.22.0-beta

@@ -1,6 +1,8 @@
 openHAB - "memberdayakan rumah cerdas" - vendor dan agnostik teknologi open source otomatisasi rumah
 
 The builds on F-Droid have FCM removed and therefore won't be able to receive push notifications from openHAB Cloud. Instead, notifications are polled on a regular basis in these builds.
+Coba fitur-fitur baru dan berikan tanggapan lebih awal!
+Anda dapat memasang versi beta bersama <a href="https://f-droid.org/packages/org.openhab.habdroid/">versi stabil</a>.
 
 openHAB, platform otomatisasi rumah open source berbasis Java yang mengintegrasikan dan menggabungkan banyak macam sistem rumah cerdas dan teknologi-teknologi ke dalam solusi tunggal.
 On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.
