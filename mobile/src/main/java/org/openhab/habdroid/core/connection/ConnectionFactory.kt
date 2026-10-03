@@ -27,6 +27,7 @@ import java.security.Principal
 import java.security.PrivateKey
 import java.security.cert.X509Certificate
 import java.util.concurrent.CancellationException
+import java.util.concurrent.TimeUnit
 import javax.net.ssl.HttpsURLConnection
 import javax.net.ssl.KeyManager
 import javax.net.ssl.SSLContext
@@ -46,6 +47,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.util.CacheManager
+import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getPrimaryServerId
@@ -227,6 +229,18 @@ class ConnectionFactory internal constructor(
 
     fun shutdown() {
         connectionHelper.shutdown()
+    }
+
+    /**
+     * Creates a client for checking whether an openHAB server can be reached at the given URL,
+     * e.g. while setting up a server. Unknown certificates are handled by the [trustManager].
+     */
+    fun createProbeHttpClient(url: String, username: String?, password: String?): HttpClient {
+        val client = httpClient.newBuilder()
+            .cache(null)
+            .connectTimeout(PROBE_CONNECT_TIMEOUT_MS, TimeUnit.MILLISECONDS)
+            .build()
+        return HttpClient(client, url, username, password)
     }
 
     fun restartNetworkCheck() {
@@ -585,6 +599,7 @@ class ConnectionFactory internal constructor(
 
     companion object {
         private val TAG = ConnectionFactory::class.java.simpleName
+        private const val PROBE_CONNECT_TIMEOUT_MS = 3000L
         private val UPDATE_TRIGGERING_KEYS = listOf(
             PrefKeys.DEMO_MODE,
             PrefKeys.ACTIVE_SERVER_ID,
