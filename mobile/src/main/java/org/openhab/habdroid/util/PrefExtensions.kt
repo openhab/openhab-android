@@ -61,7 +61,7 @@ fun SharedPreferences.getRemoteUrl(id: Int = getActiveServerId()): String =
 
 fun SharedPreferences.getDefaultSitemap(connection: Connection?, id: Int = getActiveServerId()): DefaultSitemap? {
     if (connection is DemoConnection) {
-        return DefaultSitemap("demo", "demo")
+        return DefaultSitemap("home", "Smart Home")
     }
     return ServerConfiguration.getDefaultSitemap(this, id)
 }
