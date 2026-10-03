@@ -265,7 +265,8 @@ class ConnectionFactory internal constructor(
             activeConn = ServerConnections(conn, conn)
             primaryConn = activeConn
             val connResult = ConnectionResultWithSource(ConnectionResult(conn, null), activeConn)
-            updateState(false, connResult, connResult, CloudConnectionResult(null, null))
+            val cloudResult = CloudConnectionResult(null, null)
+            updateState(false, connResult, connResult, cloudResult, cloudResult)
         } else {
             val activeServer = prefs.getActiveServerId()
             activeConn = loadServerConnections(activeServer)
