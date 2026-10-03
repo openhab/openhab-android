@@ -134,11 +134,13 @@ private fun ServerDiscovery(onUseServer: (String) -> Unit, onEnterManually: () -
                     Text(stringResource(R.string.tv_setup_use_server))
                 }
             }
+
             DiscoveryState.NotFound -> {
                 Button(onClick = { attempt++ }, modifier = Modifier.focusRequester(primaryFocus)) {
                     Text(stringResource(R.string.tv_setup_search_again))
                 }
             }
+
             DiscoveryState.Searching -> {}
         }
         OutlinedButton(

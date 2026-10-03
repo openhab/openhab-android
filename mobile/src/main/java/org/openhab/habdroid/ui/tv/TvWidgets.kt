@@ -138,16 +138,25 @@ fun TvWidgetList(
 private fun TvWidgetRowScope.Content(visibleWidgets: List<Widget>) {
     when (widget.type) {
         Widget.Type.Frame -> FrameHeader()
+
         Widget.Type.Switch -> SwitchRow()
+
         Widget.Type.Button -> MappingsRow(listOfNotNull(widget.toButtonMapping()))
+
         Widget.Type.Buttongrid -> ButtonGridRow(
             visibleWidgets.filter { child -> child.parentId == widget.id && child.type == Widget.Type.Button }
         )
+
         Widget.Type.Selection -> SelectionRow()
+
         Widget.Type.Setpoint -> SetpointRow()
+
         Widget.Type.Slider, Widget.Type.Colortemperaturepicker -> SliderRow()
+
         Widget.Type.Group, Widget.Type.Text, Widget.Type.Default -> TextRow()
+
         Widget.Type.Image, Widget.Type.Chart, Widget.Type.Video -> TvMediaRow(widget, connection, serverFlags)
+
         // Not usable with a D-pad (yet), so only show label and state
         else -> TextRow()
     }
@@ -237,6 +246,7 @@ private fun TvWidgetRowScope.SwitchRow() {
     val item = widget.item
     when {
         widget.mappings.isNotEmpty() -> MappingsRow(widget.mappings)
+
         item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> OptionsRow(
             listOf(
                 TvOption(iconRes = R.drawable.ic_keyboard_arrow_up_themed_24dp, onClick = { send("UP") }),
@@ -244,6 +254,7 @@ private fun TvWidgetRowScope.SwitchRow() {
                 TvOption(iconRes = R.drawable.ic_keyboard_arrow_down_themed_24dp, onClick = { send("DOWN") })
             )
         )
+
         else -> {
             val isOn = widget.state?.asBoolean == true
             WidgetListItem(
