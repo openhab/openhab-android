@@ -29,7 +29,6 @@ androidx-webkit = "1.14.0" # Newer versions need min API 23 - TODO: update when 
 google-material = "1.14.0"
 play-services-maps = "20.0.0"
 photoview = "2.3.0"
-appintro = "6.3.1"
 skeletonlayout = "6.0.0"
 androidsvg = "1.4"
 colorpicker = "0.1.1"
@@ -89,7 +88,6 @@ androidx-webkit = { module = "androidx.webkit:webkit", version.ref = "androidx-w
 
 google-material = { module = "com.google.android.material:material", version.ref = "google-material" }
 photoview = { module = "com.github.chrisbanes:PhotoView", version.ref = "photoview" }
-appintro = { module = "com.github.AppIntro:AppIntro", version.ref = "appintro" }
 skeletonlayout = { module = "com.faltenreich:skeletonlayout", version.ref = "skeletonlayout" }
 androidsvg = { module = "com.caverock:androidsvg-aar", version.ref = "androidsvg" }
 colorpicker = { module = "com.github.chimbori:colorpicker", version.ref = "colorpicker" }

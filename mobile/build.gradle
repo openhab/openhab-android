@@ -162,7 +162,6 @@ dependencies {
 
     implementation libs.colorpicker
     implementation libs.androidsvg
-    implementation libs.appintro
     implementation libs.photoview
     implementation libs.skeletonlayout
     implementation libs.androidchart

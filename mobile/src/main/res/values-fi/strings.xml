@@ -392,17 +392,8 @@
     <string name="intro_welcome">Tervetuloa openHABiin</string>
     <string name="intro_welcome_back">Tervetuloa takaisin openHABiin</string>
     <string name="intro_app_restored">Lähes kaikki asetuksesi on palautettu, paitsi palvelimen tunnukset</string>
-    <string name="intro_whatis">Valmistaja- ja teknologiariippumaton avoimen lähdekoodin automaatio-ohjelmisto kotiasi varten</string>
     <string name="intro_voice_description">Hallitse kotiasi äänellä</string>
     <string name="intro_nfc">NFC</string>
-    <string name="intro_nfc_description">Itemin käyttö voidaan sitoa NFC tunnisteisiin painamalla Itemiä pitkään</string>
-    <string name="intro_quick_tile_description">Ohjaa kotiasi laitteen pika-asetuksista (alue, jossa ovat mm. Wi-Fi- ja Bluetooth-kytkimet)</string>
-    <string name="intro_send_device_info">Lähetä palvelimelle tietoja laitteesta</string>
-    <string name="intro_send_device_info_description">Mahdollistaa esimerkiksi valojen sytytyksen ajastetum hälytyksen soidessa</string>
-    <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">OHITA</string>
-    <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">VALMIS</string>
     <!-- Item picker -->
     <string name="item_picker_list_empty">Yhtään Itemiä ei löytynyt</string>
     <string name="item_picker_list_error">Virhe ladattaessa Itemejä</string>

@@ -10,6 +10,7 @@
     <dimen name="outlineButtonStrokeWidth">2dp</dimen>
     <dimen name="section_switch_icon">16dp</dimen>
     <dimen name="drawer_header_size">192dp</dimen>
+    <dimen name="intro_indicator_size">8dp</dimen>
 
     <integer name="section_switch_max_buttons">4</integer>
     <integer name="chart_x_label_count">5</integer>
