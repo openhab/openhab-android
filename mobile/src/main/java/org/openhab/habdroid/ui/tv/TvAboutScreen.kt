@@ -23,29 +23,44 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.ListItem
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
+import com.mikepenz.aboutlibraries.Libs
+import com.mikepenz.aboutlibraries.entity.Library
+import com.mikepenz.aboutlibraries.util.withContext
 import java.util.Calendar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 
 /**
- * About screen for TV: version and license
+ * About screen for TV: version, license and used libraries
  */
 @Composable
 fun TvAboutScreen() {
+    val context = LocalContext.current
     val year = remember { Calendar.getInstance().get(Calendar.YEAR).toString() }
+    val libraries by produceState(initialValue = emptyList<Library>()) {
+        value = withContext(Dispatchers.IO) {
+            Libs.Builder().withContext(context).build().libraries
+        }
+    }
     val firstItemFocus = remember { FocusRequester() }
 
     Column(modifier = Modifier.fillMaxSize().padding(start = 48.dp, end = 48.dp, top = 27.dp)) {
@@ -83,6 +98,29 @@ fun TvAboutScreen() {
                     onClick = {},
                     headlineContent = { Text(stringResource(R.string.about_license_title)) },
                     supportingContent = { Text(stringResource(R.string.about_license)) }
+                )
+            }
+            if (libraries.isNotEmpty()) {
+                item {
+                    Text(
+                        text = stringResource(R.string.title_activity_libraries),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 8.dp)
+                    )
+                }
+            }
+            // Every row is focusable, so the list can be scrolled with a D-pad
+            items(libraries, key = { library -> library.uniqueId }) { library ->
+                val details = listOfNotNull(
+                    library.artifactVersion,
+                    library.licenses.joinToString { license -> license.name }.takeIf { it.isNotEmpty() }
+                )
+                ListItem(
+                    selected = false,
+                    onClick = {},
+                    headlineContent = { Text(library.name) },
+                    supportingContent = { Text(details.joinToString(" \u00b7 ")) }
                 )
             }
         }
