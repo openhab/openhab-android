@@ -461,17 +461,8 @@
     <string name="intro_welcome">欢迎来到 openHAB</string>
     <string name="intro_welcome_back">欢迎回到 openHAB</string>
     <string name="intro_app_restored">除服务器凭据外，您的大多数设置已恢复</string>
-    <string name="intro_whatis">开源家居自动化供应商与技术</string>
     <string name="intro_voice_description">使用声音控制您的家居</string>
     <string name="intro_nfc">NFC</string>
-    <string name="intro_nfc_description">物品控制可通过长按物品写入 NFC 标签</string>
-    <string name="intro_quick_tile_description">快速设置您的设备用于控制您的家(例如放置Wi-Fi和蓝牙的开关)</string>
-    <string name="intro_send_device_info">发送设备信息至服务器</string>
-    <string name="intro_send_device_info_description">例如，当闹钟铃声响铃时打开灯</string>
-    <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">跳过</string>
-    <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">完成</string>
     <!-- Item picker -->
     <string name="item_picker_list_empty">未找到项目</string>
     <string name="item_picker_list_error">加载项目时出错</string>

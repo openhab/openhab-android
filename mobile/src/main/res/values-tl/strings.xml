@@ -94,11 +94,6 @@
     <!-- Intro strings -->
     <string name="app_intro">Panimula</string>
     <string name="intro_welcome">Maligayang pagdating sa openHAB</string>
-    <string name="intro_whatis">Isang vendor at teknolohiyang agnostika na may bukas na pinagmulan awtomasyong software para sainyong tirahan</string>
-    <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">Laktawan</string>
-    <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">Tapos na</string>
     <!-- Item picker -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->

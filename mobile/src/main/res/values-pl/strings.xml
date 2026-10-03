@@ -413,17 +413,8 @@
     <string name="intro_welcome">Witaj w openHAB</string>
     <string name="intro_welcome_back">Witaj ponownie w openHAB</string>
     <string name="intro_app_restored">Przywrócono większość twoich ustawień, poza danymi logowania do serwera</string>
-    <string name="intro_whatis">Otwarte oprogramowanie do automatyzacji Twojego domu</string>
     <string name="intro_voice_description">Kontroluj swój domu za pomocą głosu</string>
     <string name="intro_nfc">NFC</string>
-    <string name="intro_nfc_description">Item może być powiązana z tagiem NFC poprzez długie przyciśnięcie Item</string>
-    <string name="intro_quick_tile_description">Kontroluj swój dom w szybkich ustawieniach urządzenia (miejsce, które zawiera przełączniki np. Wi-Fi i Bluetooth)</string>
-    <string name="intro_send_device_info">Wyślij informacje o urządzeniu na swój serwer</string>
-    <string name="intro_send_device_info_description">Na przykład włącz światła gdy zadzwoni budzik</string>
-    <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">POMIŃ</string>
-    <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">GOTOWE</string>
     <!-- Item picker -->
     <string name="item_picker_list_empty">Nie znaleziono żadnych Itemów</string>
     <string name="item_picker_list_error">Wystąpił błąd podczas ładowania Itemów</string>

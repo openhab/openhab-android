@@ -200,13 +200,7 @@
     <!-- Intro strings -->
     <string name="app_intro">مقدمة</string>
     <string name="intro_welcome">مرحبا في openHAB</string>
-    <string name="intro_whatis">مهما تكن التكنلوجيا والمزود برنامج أتمتة مفتوح المصدر لأجل منزلك</string>
     <string name="intro_voice_description">تحكم ببيتك بصوتك</string>
-    <string name="intro_nfc_description">يمكن ربط عنصر التحكم إلى علامات NFC عن طريق الضغط على العنصر</string>
-    <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">تخطي</string>
-    <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">تم</string>
     <!-- Item picker -->
     <string name="item_picker_list_empty">لم يتم العثور على أي عنصر</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->

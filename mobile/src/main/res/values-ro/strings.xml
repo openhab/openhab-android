@@ -296,13 +296,7 @@
     <string name="intro_welcome">Bine ați venit la openHAB</string>
     <string name="intro_welcome_back">Bine ați revenit la openHAB</string>
     <string name="intro_app_restored">Majoritatea setărilor au fost restaurate, cu excepția datelor de acces la server</string>
-    <string name="intro_whatis">Un software open source de automatizare pentru locuința dumneavoastră, independent de producători și tehnologii</string>
     <string name="intro_voice_description">Controlați-vă locuința cu vocea</string>
-    <string name="intro_nfc_description">Controlul unui Item poate fi legat de NFC-tags apăsând lung pe Item</string>
-    <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">TRECI PESTE</string>
-    <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">GATA</string>
     <!-- Item picker -->
     <string name="item_picker_list_empty">Nu a fost găsit niciun Items</string>
     <string name="item_picker_list_error">A apărut o eroare la încărcarea unor Items</string>

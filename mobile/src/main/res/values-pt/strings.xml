@@ -238,12 +238,7 @@
     <!-- Intro strings -->
     <string name="app_intro">Introdução</string>
     <string name="intro_welcome">Bem-vindo ao openHAB</string>
-    <string name="intro_whatis">Um software agnóstico e vendedor de automatização de software aberto para a sua casa</string>
     <string name="intro_voice_description">Controle sua casa com sua voz</string>
-    <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">Seguinte</string>
-    <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">Concluído</string>
     <!-- Item picker -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->

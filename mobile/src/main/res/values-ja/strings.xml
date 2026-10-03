@@ -402,14 +402,8 @@
     <string name="intro_welcome">openHAB へようこそ</string>
     <string name="intro_welcome_back">openHAB へまたようこそ</string>
     <string name="intro_app_restored">サーバー資格情報を除き、ほとんどの設定が復元されました</string>
-    <string name="intro_whatis">ホーム用、ベンダーや技術に依存しないオープンソースのオートメーションソフトウェア</string>
     <string name="intro_voice_description">音声でホームをコントロール</string>
     <string name="intro_nfc">NFC</string>
-    <string name="intro_nfc_description">アイテムを長押しすると、アイテムのコントロールを NFC タグに接続できます</string>
-    <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">スキップ</string>
-    <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">完了</string>
     <!-- Item picker -->
     <string name="item_picker_list_empty">アイテムが見つかりません</string>
     <string name="item_picker_list_error">アイテムの読み込み中にエラーが発生しました</string>

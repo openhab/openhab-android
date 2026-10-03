@@ -433,17 +433,8 @@
     <string name="intro_welcome">Добро пожаловать в openHAB</string>
     <string name="intro_welcome_back">Добро пожаловать в openHAB</string>
     <string name="intro_app_restored">Большинство настроек восстановлены, за исключением учетных данных сервера</string>
-    <string name="intro_whatis">Поставщик технологий с открытым исходным кодом для автоматизации \"умного дома\"</string>
     <string name="intro_voice_description">Управляйте домом своим голосом</string>
     <string name="intro_nfc">NFC</string>
-    <string name="intro_nfc_description">Элемент управления может быть привязан к NFC тегам долгим нажатием на этот элемент</string>
-    <string name="intro_quick_tile_description">Управляйте своим домом из быстрых настроек устройства (место, в котором находятся переключатели, например Wi-Fi и Bluetooth)</string>
-    <string name="intro_send_device_info">Отправить информацию об устройстве на сервер</string>
-    <string name="intro_send_device_info_description">Например, включить свет при срабатывании будильника</string>
-    <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">ПРОПУСТИТЬ</string>
-    <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">ГОТОВО</string>
     <!-- Item picker -->
     <string name="item_picker_list_empty">Элементы не найдены</string>
     <string name="item_picker_list_error">Ошибка загрузки Items</string>

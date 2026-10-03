@@ -477,17 +477,8 @@
     <string name="intro_welcome">Üdvözöljük openHAB-ban</string>
     <string name="intro_welcome_back">Üdvözöljük újra openHAB-ban</string>
     <string name="intro_app_restored">A legtöbb beállítása visszaállítva, kivéve a szerver hitelesítő adatokat</string>
-    <string name="intro_whatis">Szállító- és technológia független nyílt forráskódú automatizálási szoftver az Ön otthonába</string>
     <string name="intro_voice_description">Irányítsd az otthonod a hangoddal</string>
     <string name="intro_nfc">NFC</string>
-    <string name="intro_nfc_description">Az elemek vezérlése az elem hosszú megnyomásával összeköthető egy NFC címkékhez</string>
-    <string name="intro_quick_tile_description">A gyors beállításokból is vezérelheti az okosotthonát (a Bluetooth és Wifi ki-be kapcsolásához használt gombok mellett)</string>
-    <string name="intro_send_device_info">Eszközadatok küldése a kiszolgálónak</string>
-    <string name="intro_send_device_info_description">Például kapcsolja fel a lámpát, amikor az ébresztő megszólal</string>
-    <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">Kihagyás</string>
-    <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">Kész</string>
     <!-- Item picker -->
     <string name="item_picker_list_empty">Elem nem található</string>
     <string name="item_picker_list_error">Hiba történt az elemek betöltése során</string>

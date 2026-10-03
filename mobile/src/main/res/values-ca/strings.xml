@@ -448,17 +448,8 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="intro_welcome">Us donem la benvinguda a l\'openHAB</string>
     <string name="intro_welcome_back">Us donem la benvinguda a l\'openHAB</string>
     <string name="intro_app_restored">La majoria de la vostra configuració s\'ha restaurat, excepte les credencials del servidor</string>
-    <string name="intro_whatis">Un programari d\'automatització de codi obert independent de proveïdors i tecnologia per a la vostra llar</string>
     <string name="intro_voice_description">Controleu casa vostra amb la veu</string>
     <string name="intro_nfc">NFC</string>
-    <string name="intro_nfc_description">El control d\'elements es pot vincular a les etiquetes NFC prement l\'element</string>
-    <string name="intro_quick_tile_description">Controla la teva llar des de la configuració ràpida del teu dispositiu (el lloc on es troben els commutadors, per exemple, Wi-Fi i Bluetooth)</string>
-    <string name="intro_send_device_info">Envia la informació del dispositiu al servidor</string>
-    <string name="intro_send_device_info_description">Per exemple, enceneu els vostres llums quan soni el despertador</string>
-    <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">OMET</string>
-    <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">FET</string>
     <!-- Item picker -->
     <string name="item_picker_list_empty">No s\'han trobat ítems</string>
     <string name="item_picker_list_error">S\'ha produït un error en carregar els Items</string>

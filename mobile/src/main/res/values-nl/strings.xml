@@ -478,17 +478,8 @@
     <string name="intro_welcome">Welkom bij openHAB</string>
     <string name="intro_welcome_back">Welkom terug bij openHAB</string>
     <string name="intro_app_restored">De meeste instellingen zijn hersteld, behalve de server inloggegevens</string>
-    <string name="intro_whatis">Leverancier en technologie onafhankelijke open source domotica software voor jouw huis</string>
     <string name="intro_voice_description">Bestuur uw huis met uw stem</string>
     <string name="intro_nfc">NFC</string>
-    <string name="intro_nfc_description">Item controle kan worden verbonden met NFC tags door lang op het Item te drukken</string>
-    <string name="intro_quick_tile_description">Beheer uw woning via de snelle instellingen van uw apparaat (de plek waar de schakelaars voor bijv. Wi-Fi en Bluetooth staan)</string>
-    <string name="intro_send_device_info">Apparaatinformatie verzenden naar uw server</string>
-    <string name="intro_send_device_info_description">Zet bijvoorbeeld je lampen aan als de wekker gaat</string>
-    <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">OVERSLAAN</string>
-    <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">GEREED</string>
     <!-- Item picker -->
     <string name="item_picker_list_empty">Geen Items gevonden</string>
     <string name="item_picker_list_error">Er is een fout opgetreden bij het laden van de Items</string>
