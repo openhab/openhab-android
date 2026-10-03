@@ -147,7 +147,10 @@ class IntroInfoFragment : Fragment() {
             dot.background = GradientDrawable().apply { shape = GradientDrawable.OVAL }
             container.addView(
                 dot,
-                LinearLayout.LayoutParams(size, size).apply { marginStart = size / 2; marginEnd = size / 2 }
+                LinearLayout.LayoutParams(size, size).apply {
+                    marginStart = size / 2
+                    marginEnd = size / 2
+                }
             )
         }
     }

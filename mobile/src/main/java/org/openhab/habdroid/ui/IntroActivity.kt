@@ -101,6 +101,7 @@ class IntroActivity : AppCompatActivity() {
                 viewModel.events.collect { event ->
                     when (event) {
                         IntroViewModel.Event.Connected -> replaceCurrentStep(IntroDoneFragment(), BACK_STACK_DONE)
+
                         IntroViewModel.Event.AuthRequired -> {
                             if (supportFragmentManager.findFragmentById(R.id.intro_container) !is IntroAuthFragment) {
                                 replaceCurrentStep(IntroAuthFragment(), BACK_STACK_AUTH)
@@ -129,10 +130,12 @@ class IntroActivity : AppCompatActivity() {
             .any { fm.getBackStackEntryAt(it).name == BACK_STACK_SELECT }
         when {
             hasSelectionEntry -> fm.popBackStack(BACK_STACK_SELECT, 0)
+
             fm.findFragmentById(R.id.intro_container) is IntroInfoFragment -> showStep(
                 IntroServerSelectFragment(),
                 BACK_STACK_SELECT
             )
+
             // Server selection is the first step, e.g. after restoring a backup
             else -> fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         }

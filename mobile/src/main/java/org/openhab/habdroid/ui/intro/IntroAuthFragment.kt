@@ -125,10 +125,14 @@ class IntroAuthFragment : Fragment() {
         val result = state.result
         val error = when {
             !state.usedCredentials || state.isRunning -> null
+
             state.credentialsRejected -> getString(R.string.intro_credentials_rejected)
+
             result is ServerProber.Result.Failed ->
                 requireContext().getHumanReadableErrorMessage(result.url, result.statusCode, result.error, false)
+
             result is ServerProber.Result.NotOpenHab -> getString(R.string.intro_attempt_not_openhab)
+
             else -> null
         }
         binding.error.isVisible = error != null
