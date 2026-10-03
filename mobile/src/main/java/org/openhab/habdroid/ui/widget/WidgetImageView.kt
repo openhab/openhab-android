@@ -128,7 +128,7 @@ class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageV
                 lastRefreshTimestamp = 0
             }
 
-            if (targetImageSize == 0) {
+            if (targetImageSize == 0 || !isAttachedToWindow) {
                 pendingRequest = PendingRequest.Http(client, actualUrl, timeoutMillis, forceLoad)
             } else {
                 doLoad(client, actualUrl, timeoutMillis, forceLoad)
@@ -155,15 +155,7 @@ class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageV
         override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
             super.onLayout(changed, left, top, right, bottom)
             targetImageSize = right - left - paddingLeft - paddingRight
-            pendingRequest?.let { r ->
-                pendingLoadJob = scope?.launch {
-                    when (r) {
-                        is PendingRequest.Http -> doLoad(r.client, r.url, r.timeoutMillis, r.forceLoad)
-                        is PendingRequest.Base64 -> applyLoadedBitmap(r.bitmap)
-                    }
-                    pendingRequest = null
-                }
-            }
+            executePendingRequestIfReady()
         }
 
         override fun setImageResource(resId: Int) {
@@ -203,13 +195,18 @@ class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageV
         override fun onAttachedToWindow() {
             super.onAttachedToWindow()
             scope = CoroutineScope(Dispatchers.Main + Job())
-            lastRequest?.let { request ->
-                if (!request.hasCompleted()) {
-                    // Make sure to have an up-to-date image if refresh is enabled by avoiding cache in that case
-                    // (when not doing so, we'd always load a stale image from cache until first refresh)
-                    request.execute(refreshInterval != 0L)
-                } else {
-                    scheduleNextRefreshIfNeeded()
+
+            if (pendingRequest != null) {
+                executePendingRequestIfReady()
+            } else {
+                lastRequest?.let { request ->
+                    if (!request.hasCompleted()) {
+                        // Make sure to have an up-to-date image if refresh is enabled by avoiding cache in that case
+                        // (when not doing so, we'd always load a stale image from cache until first refresh)
+                        request.execute(refreshInterval != 0L)
+                    } else {
+                        scheduleNextRefreshIfNeeded()
+                    }
                 }
             }
         }
@@ -266,6 +263,23 @@ class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageV
             lastRequest = null
             refreshInterval = 0
             loadProgressCallback?.invoke(false)
+        }
+
+        private fun executePendingRequestIfReady(): Boolean {
+            if (targetImageSize == 0 || !isAttachedToWindow) {
+                return false
+            }
+            val r = pendingRequest ?: return false
+
+            pendingLoadJob = scope?.launch {
+                when (r) {
+                    is PendingRequest.Http -> doLoad(r.client, r.url, r.timeoutMillis, r.forceLoad)
+                    is PendingRequest.Base64 -> applyLoadedBitmap(r.bitmap)
+                }
+                pendingRequest = null
+            }
+
+            return true
         }
 
         private fun doLoad(client: HttpClient, url: HttpUrl, timeoutMillis: Long, forceLoad: Boolean) {
