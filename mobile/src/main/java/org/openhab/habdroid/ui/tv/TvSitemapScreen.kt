@@ -63,14 +63,17 @@ fun TvSitemapScreen(onOpenSettings: () -> Unit, viewModel: TvSitemapViewModel = 
 
     when (val s = state) {
         TvSitemapViewModel.State.Loading -> CenteredMessage(stringResource(R.string.tv_loading))
+
         is TvSitemapViewModel.State.Error -> CenteredMessage(s.message) {
             RetryAndSettingsButtons(it, onRetry = { viewModel.retry() }, onOpenSettings = onOpenSettings)
         }
+
         is TvSitemapViewModel.State.NoSitemaps -> CenteredMessage(
             stringResource(R.string.tv_no_sitemaps, s.serverUrl ?: stringResource(R.string.openhab))
         ) {
             RetryAndSettingsButtons(it, onRetry = { viewModel.retry() }, onOpenSettings = onOpenSettings)
         }
+
         is TvSitemapViewModel.State.Page -> SitemapPage(s, viewModel, onOpenSettings)
     }
 }

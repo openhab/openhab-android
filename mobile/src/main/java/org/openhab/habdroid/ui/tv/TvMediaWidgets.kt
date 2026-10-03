@@ -147,9 +147,12 @@ private fun MediaContent(widget: Widget, connection: Connection, serverFlags: In
     val modifier = if (height != null) Modifier.fillMaxWidth().height(height) else Modifier.fillMaxSize()
     when {
         widget.type == Widget.Type.Chart -> ChartContent(widget, connection, serverFlags, modifier)
+
         widget.type == Widget.Type.Video && "mjpeg".equals(widget.encoding, ignoreCase = true) ->
             MjpegContent(widget, connection, modifier)
+
         widget.type == Widget.Type.Video -> VideoContent(widget, connection, modifier)
+
         else -> ImageContent(widget, connection, modifier)
     }
 }

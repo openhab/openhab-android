@@ -107,9 +107,11 @@ class TvSitemapViewModel(application: Application) :
         when {
             // The connection factory publishes a new connection if it's available now
             conn == null -> context.getConnectionFactory().restartNetworkCheck()
+
             serverProperties == null -> viewModelScope.launch {
                 onConnectionChanged(ConnectionFactory.ConnectionResult(conn, null))
             }
+
             else -> {
                 pageStack.lastOrNull()?.let { url -> repository.triggerUpdate(url, true) }
                 publishPage()
@@ -159,6 +161,7 @@ class TvSitemapViewModel(application: Application) :
         _state.value = State.Loading
         when (val propsResult = ServerProperties.fetch(conn)) {
             is ServerProperties.Companion.PropsSuccess -> serverProperties = propsResult.props
+
             is ServerProperties.Companion.PropsFailure -> {
                 _state.value = State.Error(
                     context.getHumanReadableErrorMessage(
