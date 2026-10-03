@@ -12,10 +12,8 @@
  */
 package org.openhab.habdroid.ui.tv
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
@@ -24,7 +22,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.SurfaceDefaults
-import androidx.tv.material3.Text
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getPrefs
 
@@ -32,6 +29,7 @@ object TvRoutes {
     const val SETUP = "setup"
     const val SITEMAP = "sitemap"
     const val SETTINGS = "settings"
+    const val ABOUT = "about"
 }
 
 @Composable
@@ -59,15 +57,13 @@ fun TvApp() {
                     }
                 )
             }
-            composable(TvRoutes.SITEMAP) { TvSitemapScreen() }
-            composable(TvRoutes.SETTINGS) { PlaceholderScreen("Settings") }
+            composable(TvRoutes.SITEMAP) {
+                TvSitemapScreen(onOpenSettings = { navController.navigate(TvRoutes.SETTINGS) })
+            }
+            composable(TvRoutes.SETTINGS) {
+                TvSettingsScreen(onOpenAbout = { navController.navigate(TvRoutes.ABOUT) })
+            }
+            composable(TvRoutes.ABOUT) { TvAboutScreen() }
         }
-    }
-}
-
-@Composable
-private fun PlaceholderScreen(title: String) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text = title, style = MaterialTheme.typography.displaySmall)
     }
 }

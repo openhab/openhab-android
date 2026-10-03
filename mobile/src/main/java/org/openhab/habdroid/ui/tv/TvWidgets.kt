@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -402,9 +403,9 @@ private fun TvWidgetRowScope.SelectionRow() {
         }
     )
     if (showDialog) {
-        SelectionDialog(
+        TvSelectionDialog(
             title = widget.label,
-            options = options,
+            options = options.map { option -> option.value to option.label },
             selectedValue = widget.state?.asString,
             onSelected = { value ->
                 showDialog = false
@@ -415,15 +416,20 @@ private fun TvWidgetRowScope.SelectionRow() {
     }
 }
 
+/**
+ * Dialog to select one of multiple options, given as pairs of value and label
+ */
 @Composable
-private fun SelectionDialog(
+fun TvSelectionDialog(
     title: String,
-    options: List<LabeledValue>,
+    options: List<Pair<String, String>>,
     selectedValue: String?,
     onSelected: (String) -> Unit,
     onDismiss: () -> Unit
 ) {
     val initialFocus = remember { FocusRequester() }
+    // Focus the selected option, or the first one if none is selected
+    val initialFocusIndex = options.indexOfFirst { (value, _) -> value == selectedValue }.coerceAtLeast(0)
     Dialog(onDismissRequest = onDismiss) {
         Surface(
             shape = RoundedCornerShape(16.dp),
@@ -433,18 +439,16 @@ private fun SelectionDialog(
                 Text(text = title, style = MaterialTheme.typography.headlineSmall)
                 Spacer(modifier = Modifier.height(16.dp))
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    items(options) { option ->
-                        val isSelected = option.value == selectedValue
-                        val focusModifier = if (isSelected || (selectedValue == null && option == options.first())) {
-                            Modifier.focusRequester(initialFocus)
-                        } else {
-                            Modifier
-                        }
+                    itemsIndexed(options) { index, (value, label) ->
                         ListItem(
-                            selected = isSelected,
-                            onClick = { onSelected(option.value) },
-                            headlineContent = { Text(option.label) },
-                            modifier = focusModifier
+                            selected = value == selectedValue,
+                            onClick = { onSelected(value) },
+                            headlineContent = { Text(label) },
+                            modifier = if (index == initialFocusIndex) {
+                                Modifier.focusRequester(initialFocus)
+                            } else {
+                                Modifier
+                            }
                         )
                     }
                 }

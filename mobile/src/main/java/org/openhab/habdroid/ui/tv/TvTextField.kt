@@ -65,7 +65,8 @@ fun TvTextField(
     label: String,
     modifier: Modifier = Modifier,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    visualTransformation: VisualTransformation = VisualTransformation.None
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    onEditingFinished: () -> Unit = {}
 ) {
     var editing by remember { mutableStateOf(false) }
     val textFieldFocus = remember { FocusRequester() }
@@ -117,8 +118,9 @@ fun TvTextField(
                     .focusRequester(textFieldFocus)
                     .focusProperties { canFocus = editing }
                     .onFocusChanged { state ->
-                        if (!state.isFocused) {
+                        if (!state.isFocused && editing) {
                             editing = false
+                            onEditingFinished()
                         }
                     }
                     // BasicTextField consumes up and down keys, but they aren't needed in a single line text field
