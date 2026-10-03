@@ -103,6 +103,7 @@ private fun SitemapPage(page: TvSitemapViewModel.State.Page, viewModel: TvSitema
                 TvWidgetList(
                     widgets = widgets,
                     connection = page.connection,
+                    serverFlags = page.serverFlags,
                     actions = actions,
                     listState = listState,
                     initialFocusRequester = widgetFocusRequester,

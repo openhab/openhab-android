@@ -57,6 +57,7 @@ class TvSitemapViewModel(application: Application) :
             val title: String,
             val widgets: List<Widget>?,
             val connection: Connection,
+            val serverFlags: Int,
             val canGoBack: Boolean
         ) : State
     }
@@ -186,6 +187,7 @@ class TvSitemapViewModel(application: Application) :
             title = data?.title ?: sitemap?.label.orEmpty(),
             widgets = data?.widgets,
             connection = conn,
+            serverFlags = serverProperties?.flags ?: 0,
             canGoBack = pageStack.size > 1
         )
     }
