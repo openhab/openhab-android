@@ -307,8 +307,7 @@ class MainActivity : AbstractBaseActivity() {
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.leftDrawer) { v, insets ->
             val insetsType =
-                WindowInsetsCompat.Type.statusBars() or
-                    WindowInsetsCompat.Type.navigationBars() or
+                WindowInsetsCompat.Type.systemBars() or
                     WindowInsetsCompat.Type.displayCutout()
             val i = insets.getInsets(insetsType)
 
