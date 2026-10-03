@@ -86,18 +86,34 @@ class TvSitemapViewModel(application: Application) :
         }
     }
 
-    fun start() = repository.start()
+    fun start() {
+        repository.start()
+        // The default sitemap might have been changed in the settings
+        val conn = connection ?: return
+        val selectedSitemap = selectSitemap(conn) ?: return
+        if (selectedSitemap.name != sitemap?.name) {
+            sitemap = selectedSitemap
+            pageStack.clear()
+            pages.clear()
+            pageStack.add(selectedSitemap.homepageLink)
+            updateTrackedPage()
+        }
+    }
 
     fun stop() = repository.stop()
 
     fun retry() {
         val conn = connection
-        if (conn == null || serverProperties == null) {
-            _state.value = State.Loading
-            context.getConnectionFactory().restartNetworkCheck()
-        } else {
-            pageStack.lastOrNull()?.let { url -> repository.triggerUpdate(url, true) }
-            publishPage()
+        when {
+            // The connection factory publishes a new connection if it's available now
+            conn == null -> context.getConnectionFactory().restartNetworkCheck()
+            serverProperties == null -> viewModelScope.launch {
+                onConnectionChanged(ConnectionFactory.ConnectionResult(conn, null))
+            }
+            else -> {
+                pageStack.lastOrNull()?.let { url -> repository.triggerUpdate(url, true) }
+                publishPage()
+            }
         }
     }
 
@@ -124,15 +140,21 @@ class TvSitemapViewModel(application: Application) :
     }
 
     private suspend fun onConnectionChanged(result: ConnectionFactory.ConnectionResult?) {
+        Log.d(TAG, "onConnectionChanged($result)")
         val conn = result?.connection
+        // Forget everything loaded from the previous connection
+        connection = conn
+        serverProperties = null
+        sitemap = null
+        pageStack.clear()
+        pages.clear()
+        repository.updateActiveConnections(emptyList(), conn)
+
         if (conn == null) {
-            connection = null
-            repository.updateActiveConnections(emptyList(), null)
             val url = context.loadActiveServerConfig()?.localPath?.url
             _state.value = State.Error(context.getString(R.string.tv_error_connection_failed, url.orEmpty()))
             return
         }
-        connection = conn
 
         _state.value = State.Loading
         when (val propsResult = ServerProperties.fetch(conn)) {
@@ -152,10 +174,7 @@ class TvSitemapViewModel(application: Application) :
 
         val selectedSitemap = selectSitemap(conn)
         sitemap = selectedSitemap
-        pageStack.clear()
-        pages.clear()
         if (selectedSitemap == null) {
-            repository.updateActiveConnections(emptyList(), conn)
             _state.value = State.NoSitemaps(context.loadActiveServerConfig()?.localPath?.url)
             return
         }
