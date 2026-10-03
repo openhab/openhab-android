@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:clipToPadding="false"
+    android:padding="?attr/dialogPreferredPadding">
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/enabled"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/android_auto_enable_switch_label"/>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:indeterminate="true"
+        android:padding="16dp"
+        tools:visibility="gone"
+        app:indicatorSize="64dp"
+        app:trackThickness="4dp" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/sitemap_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:textAppearance="?textAppearanceCaption"
+        android:text="@string/android_auto_sitemap_selection_label" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/sitemap_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+</LinearLayout>

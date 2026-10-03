@@ -50,6 +50,9 @@ import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.preference.PreferenceManager
 import com.caverock.androidsvg.RenderOptions
 import com.caverock.androidsvg.SVG
@@ -516,10 +519,23 @@ fun Context.getChartTheme(serverFlags: Int): CharSequence {
     return tv.string
 }
 
-fun Context.buildBaseSourceId(): String {
-    val deviceIdSuffix = getPrefs().getStringOrEmpty(PrefKeys.DEV_ID)
-        .let { if (it.isEmpty()) "" else "$$it" }
-    return "org.openhab.android$deviceIdSuffix"
+fun Context.buildBaseSourceId(packageName: String = "org.openhab.android"): String {
+    val deviceId = getPrefs().getStringOrEmpty(PrefKeys.DEV_ID)
+    return if (deviceId.isEmpty()) {
+        packageName
+    } else {
+        "$packageName$$deviceId"
+    }
+}
+
+fun Context.buildSitemapSourceId(
+    sitemapName: String,
+    pageId: String?,
+    packageName: String = "org.openhab.android"
+): String {
+    val baseSourceId = buildBaseSourceId(packageName)
+    val pageSuffix = if (pageId != null) ":$pageId" else ""
+    return "org.openhab.ui.basic$$sitemapName$pageSuffix=>$baseSourceId"
 }
 
 fun Context.isDarkModeActive(): Boolean = when (getPrefs().getDayNightMode(this)) {
@@ -740,4 +756,13 @@ inline fun <reified T : Serializable> Bundle.serializable(key: String): T? = whe
     else ->
         @Suppress("DEPRECATION")
         getSerializable(key) as? T
+}
+
+fun Lifecycle.onDestroy(callback: () -> Unit) {
+    addObserver(object : DefaultLifecycleObserver {
+        override fun onDestroy(owner: LifecycleOwner) {
+            callback()
+            owner.lifecycle.removeObserver(this)
+        }
+    })
 }
