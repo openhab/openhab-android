@@ -1664,7 +1664,14 @@ class WidgetAdapter(
                 ProgressiveMediaSource.Factory(this)
             }
 
-            val mediaItem = url?.let { MediaItem.fromUri(it) }
+            val absoluteUrl = try {
+                url?.let { connection.httpClient.buildUrl(it).toString() }
+            } catch (e: IllegalArgumentException) {
+                Log.e(TAG, "Invalid video URL '$url'", e)
+                handleError()
+                return
+            }
+            val mediaItem = absoluteUrl?.let { MediaItem.fromUri(it) }
             val mediaSource = mediaItem?.let { factory.createMediaSource(it) }
 
             if (exoPlayer.currentMediaItem == mediaItem && !forceReload) {
