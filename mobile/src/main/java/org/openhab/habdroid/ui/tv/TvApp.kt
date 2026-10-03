@@ -59,7 +59,7 @@ fun TvApp() {
                     }
                 )
             }
-            composable(TvRoutes.SITEMAP) { PlaceholderScreen("Sitemap") }
+            composable(TvRoutes.SITEMAP) { TvSitemapScreen() }
             composable(TvRoutes.SETTINGS) { PlaceholderScreen("Settings") }
         }
     }
