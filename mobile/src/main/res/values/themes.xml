@@ -86,6 +86,10 @@
         <item name="colorPrimaryDark">@android:color/background_light</item>
     </style>
 
+    <style name="openHAB.Tv" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
+
     <style name="Theme.MaterialComponents.TranslucentBase">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>

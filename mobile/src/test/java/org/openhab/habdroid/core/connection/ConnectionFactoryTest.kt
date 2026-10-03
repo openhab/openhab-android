@@ -14,8 +14,10 @@
 package org.openhab.habdroid.core.connection
 
 import android.app.Application
+import android.app.UiModeManager
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.wifi.WifiManager
@@ -132,6 +134,22 @@ class ConnectionFactoryTest {
         updateAndWaitForConnections()
         assertTrue(
             "Should return a connection if remote url is set.",
+            connectionFactory.currentActive?.hasRemote == true
+        )
+    }
+
+    @Test
+    @Retry
+    fun testGetConnectionRemoteOnTv() {
+        val mockUiModeManager = mock<UiModeManager> {
+            on { currentModeType } doReturn Configuration.UI_MODE_TYPE_TELEVISION
+        }
+        whenever(mockContext.getSystemService(Context.UI_MODE_SERVICE)) doReturn mockUiModeManager
+
+        fillInServers(remote = "https://myopenhab.org")
+        updateAndWaitForConnections()
+        assertFalse(
+            "Should not return a remote connection on TV.",
             connectionFactory.currentActive?.hasRemote == true
         )
     }

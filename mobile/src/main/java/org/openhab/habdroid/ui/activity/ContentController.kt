@@ -42,6 +42,7 @@ import java.util.Stack
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.core.connection.Connection
+import org.openhab.habdroid.core.sitemap.SitemapPageRepository
 import org.openhab.habdroid.databinding.FragmentStatusBinding
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.Sitemap
@@ -75,7 +76,7 @@ import org.openhab.habdroid.util.resolveThemedColor
  */
 abstract class ContentController protected constructor(private val activity: MainActivity) :
     FragmentLifecycleCallbacks(),
-    PageConnectionHolderFragment.ParentCallback,
+    SitemapPageRepository.Callback,
     AbstractWebViewFragment.ParentCallback {
     protected val fm: FragmentManager = activity.supportFragmentManager
 
