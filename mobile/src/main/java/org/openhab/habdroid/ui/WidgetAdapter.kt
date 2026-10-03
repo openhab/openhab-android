@@ -52,6 +52,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
+import androidx.media3.common.Player
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
@@ -1622,6 +1623,7 @@ class WidgetAdapter(
         init {
             binding.player.player = exoPlayer
             binding.videoPlayerErrorButton.setOnClickListener(this)
+            exoPlayer.addAnalyticsListener(this)
         }
 
         @androidx.media3.common.util.UnstableApi
@@ -1675,6 +1677,7 @@ class WidgetAdapter(
             val mediaSource = mediaItem?.let { factory.createMediaSource(it) }
 
             if (exoPlayer.currentMediaItem == mediaItem && !forceReload) {
+                binding.videoPlayerLoading.isVisible = exoPlayer.playbackState != Player.STATE_READY
                 exoPlayer.play()
                 return
             }
@@ -1682,12 +1685,19 @@ class WidgetAdapter(
             exoPlayer.stop()
             exoPlayer.clearMediaItems()
             if (mediaSource == null) {
+                binding.videoPlayerLoading.isVisible = false
                 return
             }
 
             exoPlayer.setMediaSource(mediaSource)
             exoPlayer.prepare()
-            exoPlayer.addAnalyticsListener(this)
+        }
+
+        @androidx.media3.common.util.UnstableApi
+        override fun onPlaybackStateChanged(eventTime: AnalyticsListener.EventTime, state: Int) {
+            if (state == Player.STATE_READY) {
+                binding.videoPlayerLoading.isVisible = false
+            }
         }
 
         @androidx.media3.common.util.UnstableApi
