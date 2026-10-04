@@ -1,0 +1,7 @@
+## What's Changed
+* Resolve relative video URLs against the server URL by @mueller-ma in https://github.com/openhab/openhab-android/pull/4057
+* Hide video loading indicator once playback is ready by @mueller-ma in https://github.com/openhab/openhab-android/pull/4058
+* Update library dependencies by @maniac103 in https://github.com/openhab/openhab-android/pull/4002
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.22.0-beta...3.22.1-beta
