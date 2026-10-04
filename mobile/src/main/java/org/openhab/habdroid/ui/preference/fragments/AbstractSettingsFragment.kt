@@ -33,6 +33,7 @@ abstract class AbstractSettingsFragment : PreferenceFragmentCompat() {
     override fun onStart() {
         super.onStart()
         parentActivity.supportActionBar?.setTitle(titleResId)
+        parentActivity.setAppBarLiftOnScrollTarget(listView)
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference) {
