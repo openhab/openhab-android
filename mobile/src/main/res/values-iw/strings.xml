@@ -481,17 +481,8 @@
     <string name="intro_welcome">ברוכים הבאים ל openHAB</string>
     <string name="intro_welcome_back">ברוך שובך ל openHAB</string>
     <string name="intro_app_restored">רוב ההגדרות שלך שוחזרו למעט אישורי שרת</string>
-    <string name="intro_whatis">תוכנת קוד פתוח, בלתי תלויה בייצרנים וטכנולוגיות, לאוטומציה שליטה ובקרה לבית שלך</string>
     <string name="intro_voice_description">שלוט בביתך בעזרת הקול שלך</string>
     <string name="intro_nfc">NFC תקשורת לטווח קצר</string>
-    <string name="intro_nfc_description">השליטה בפריט יכולה להיות משוייכת לתגית NFC באמצעות לחיצה ממושכת על הפריט</string>
-    <string name="intro_quick_tile_description">שלוט בביתך מחלונית ההגדרות המהירות של המכשיר שלך (המקום בו שולטים על Bluetooth ורשת אלחוטית)</string>
-    <string name="intro_send_device_info">שלח מידע על המכשיר לשרת</string>
-    <string name="intro_send_device_info_description">לדוגמא להדליק את האורות כשהשעון המעורר מצלצל</string>
-    <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">דלג</string>
-    <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">סיים</string>
     <!-- Item picker -->
     <string name="item_picker_list_empty">לא נמצאו פריטים</string>
     <string name="item_picker_list_error">אירעה שגיאה בעת טעינת הפריטים</string>

@@ -481,17 +481,8 @@
     <string name="intro_welcome">Velkommen til openHAB</string>
     <string name="intro_welcome_back">Velkommen tilbake til openHAB</string>
     <string name="intro_app_restored">De fleste av innstillingene dine er gjenopprettet, bortsett fra server-legitimasjonen</string>
-    <string name="intro_whatis">En leverandør og teknologiuavhengig - åpen kildekode - automatiseringsprogramvare for hjemmet ditt</string>
     <string name="intro_voice_description">Styr hjemmet ditt med stemmen</string>
     <string name="intro_nfc">NFC</string>
-    <string name="intro_nfc_description">Element-kontrollen kan bindes til NFC koder ved å holde inne knappen til elementet</string>
-    <string name="intro_quick_tile_description">Kontroller hjemmet ditt fra hurtiginnstillingene for enheten din (stedet som inneholder bryterne for f.eks. Wi-Fi og Bluetooth)</string>
-    <string name="intro_send_device_info">Send enhetsinformasjon til serveren din</string>
-    <string name="intro_send_device_info_description">For eksempel slå på lyset når alarmklokken ringer</string>
-    <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">HOPP OVER</string>
-    <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">UTFØRT</string>
     <!-- Item picker -->
     <string name="item_picker_list_empty">Ingen artikler funnet</string>
     <string name="item_picker_list_error">Det oppstod en feil under lasting av objekt</string>

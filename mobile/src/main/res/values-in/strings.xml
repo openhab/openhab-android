@@ -199,13 +199,7 @@
     <string name="swipe_to_refresh_description">Aplikasi juga menyegarkan secara otomatis, umumnya Anda tidak perlu melakukan secara manual</string>
     <!-- Intro strings -->
     <string name="intro_welcome">Selamat Datang di openHAB</string>
-    <string name="intro_whatis">Sebuah vendor dan teknologi agnostik perangkat lunak open source otomasi untuk rumah Anda</string>
     <string name="intro_voice_description">Kendalikan rumah Anda dengan suara Anda</string>
-    <string name="intro_nfc_description">Kendali item dapat disambungkan kepada tag NFC dengan tekan dan tahan Item</string>
-    <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">LEWATI</string>
-    <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">SELESAI</string>
     <!-- Item picker -->
     <string name="item_picker_list_empty">Tidak ada item yang ditemukan</string>
     <string name="item_picker_list_error">Terjadi sebuah kesalahan saat memuat Item-item</string>

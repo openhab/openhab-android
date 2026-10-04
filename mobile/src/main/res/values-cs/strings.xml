@@ -463,17 +463,8 @@
     <string name="intro_welcome">Vítejte v openHAB</string>
     <string name="intro_welcome_back">Vítejte zpět v openHAB</string>
     <string name="intro_app_restored">Většina vašich nastavení byla obnovena, s výjimkou přihlašovacích údajů na server</string>
-    <string name="intro_whatis">Open source program pro domácí automatizaci</string>
     <string name="intro_voice_description">Ovládejte svůj domov hlasem</string>
     <string name="intro_nfc">NFC</string>
-    <string name="intro_nfc_description">Ovládání Item můžete přiřadit k NFC tagu dlouhým podržením Item</string>
-    <string name="intro_quick_tile_description">Ovládejte svůj domov z rychlého nastavení zařízení (místo, kde jsou přepínače např. pro Wi-Fi a Bluetooth)</string>
-    <string name="intro_send_device_info">Odesílat informace o zařízení na server</string>
-    <string name="intro_send_device_info_description">Například zapněte světla když zazvoní budík</string>
-    <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">PŘESKOČIT</string>
-    <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">HOTOVO</string>
     <!-- Item picker -->
     <string name="item_picker_list_empty">Žádné Items nebyly nalezeny</string>
     <string name="item_picker_list_error">Při načítání Items došlo k chybě</string>
