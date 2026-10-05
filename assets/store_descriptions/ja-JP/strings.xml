@@ -4,11 +4,11 @@
     <whatis>openHAB は、Java ベースのオープンソース ホームオートメーション プラットフォームで、広大な範囲の異なるスマートホームシステムや技術を組み合わせたり統合して 1 つのソリューションにします。</whatis>
     <rules>統一された抽象レイヤーの上で、包括的な自動化ルールエンジンと異なるユーザーインターフェイスの、すべての接続されてたデバイスが利用できます。</rules>
     <supported>サポートされている製品</supported>
-    <bindings>200 以上の特定のアドオンは、ブランド、デバイス ・技術・通信プロトコルをサポートします。 例えば、Z-Wave、Philips Hue、アマゾンエコー、Chromecast、Sonos です。 利用可能なアドオンやサポートされているデバイス、および機能は: https://www.openhab.org/addons/</bindings>
+    <bindings>200 以上の特定のアドオンは、ブランド、デバイス ・技術・通信プロトコルをサポートします。例えば、Z-Wave、Philips Hue、アマゾンエコー、Chromecast、Sonos です。利用可能なアドオンやサポートされているデバイス、および機能は: https://www.openhab.org/addons/</bindings>
     <automation_apps>アプリは Tasker と Locale 用のアクションプラグインが含まれています.</automation_apps>
 
     <oss_community>オープンソース コミュニティ</oss_community>
-    <forum>openHAB オープンソース イニシアチブは、その活気に満ちたコミュニティを強く支持します。 登録ユーザー数が13,000を超えるフォーラムは、ガイダンス、ヘルプ、インスピレーションが見つかる場所です。 </forum>
+    <forum>openHAB オープンソース イニシアチブは、その活気に満ちたコミュニティを強く支持します。登録ユーザー数が13,000を超えるフォーラムは、ガイダンス、ヘルプ、インスピレーションが見つかる場所です。 </forum>
 
     <report_issues/>
     <translation/>
@@ -22,5 +22,5 @@
     <fdroid_privacy_policy/>
     <beta>新しい機能をお試しの上、フィードバックしてください!</beta>
     <play_beta>安定版の他にベータ版をインストールできます.</play_beta>
-    <changelog_play_beta>バグ修正と安定性の改善。 変更履歴は https://github.com/openhab/openhab-android/releases をご覧ください。</changelog_play_beta>
+    <changelog_play_beta>バグ修正と安定性の改善。変更履歴は https://github.com/openhab/openhab-android/releases をご覧ください。</changelog_play_beta>
 </strings>
