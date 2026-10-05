@@ -385,15 +385,13 @@ class WidgetListFragment :
             menu.add(Menu.NONE, CONTEXT_MENU_ID_COPY_ITEM_NAME, Menu.NONE, R.string.show_and_copy_item_name)
                 .setOnMenuItemClickListener {
                     val itemName = widget.item.name
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                        // Avoid duplicate notifications
-                        // https://developer.android.com/develop/ui/views/touch-and-input/copy-paste?hl=en#duplicate-notifications
-                        Snackbar.make(
-                            activity.layoutForSnackbar,
-                            activity.getString(R.string.copied_item_name, itemName),
-                            Snackbar.LENGTH_LONG
-                        ).show()
-                    }
+                    // Always show the Snackbar, even on Android 13+: The system clipboard overlay doesn't
+                    // reliably show the copied text, but the menu entry promises to show the Item name.
+                    Snackbar.make(
+                        activity.layoutForSnackbar,
+                        activity.getString(R.string.copied_item_name, itemName),
+                        Snackbar.LENGTH_LONG
+                    ).show()
                     val clipboardManager = activity.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                     val clipData = ClipData.newPlainText(activity.getString(R.string.app_name), itemName)
                     clipboardManager.setPrimaryClip(clipData)
