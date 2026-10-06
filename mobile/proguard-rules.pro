@@ -13,7 +13,8 @@
 -dontwarn "org.openjsse.net.ssl.OpenJSSE"
 -dontwarn "org.slf4j.impl.StaticLoggerBinder"
 
-# R8 doesn't keep Parcelable creators in full mode, kotlin-parcelize classes crash on unparcel otherwise
--keepclassmembers class * implements android.os.Parcelable {
-    public static final ** CREATOR;
+# Firebase finds its component registrars through the manifest and instantiates them by reflection;
+# the consumer rule shipped before firebase-components 18.0.1 keeps the class but not the constructor
+-keep class * implements com.google.firebase.components.ComponentRegistrar {
+    <init>();
 }
