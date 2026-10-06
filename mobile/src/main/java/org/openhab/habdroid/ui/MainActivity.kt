@@ -103,14 +103,21 @@ import org.openhab.habdroid.core.connection.WrongWifiException
 import org.openhab.habdroid.databinding.ActivityMainBinding
 import org.openhab.habdroid.databinding.DrawerHeaderBinding
 import org.openhab.habdroid.model.CloudNotificationId
+import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.model.WebViewUi
 import org.openhab.habdroid.model.sortedWithDefaultName
+import org.openhab.habdroid.model.toOH2IconResource
 import org.openhab.habdroid.model.toTagData
 import org.openhab.habdroid.ui.activity.ContentController
+import org.openhab.habdroid.ui.activity.MainUiWebViewFragment
+import org.openhab.habdroid.ui.bridge.BridgeIcon
+import org.openhab.habdroid.ui.bridge.BridgeMenuItem
+import org.openhab.habdroid.ui.bridge.BridgeMenuSection
+import org.openhab.habdroid.ui.bridge.IconFontDrawable
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
 import org.openhab.habdroid.ui.preference.PreferencesActivity
@@ -172,6 +179,11 @@ class MainActivity : AbstractBaseActivity() {
     private var lastPrimaryCloudConnectionResult: ConnectionFactory.CloudConnectionResult? = null
 
     private var pendingAction: PendingAction? = null
+    private val mainUiMenuItems = mutableMapOf<Int, BridgeMenuItem>()
+    private val mainUiMenuIds = mutableListOf<Int>()
+
+    // Server entries use the server id as item id and View.generateViewId() starts at 1: use an own range
+    private var nextMainUiMenuId = MAIN_UI_MENU_ID_BASE
     private lateinit var controller: ContentController
     var serverProperties: ServerProperties? = null
         private set
@@ -1055,6 +1067,10 @@ class MainActivity : AbstractBaseActivity() {
         binding.leftDrawer.setNavigationItemSelectedListener { item ->
             binding.drawerContainer.closeDrawers()
             var handled = false
+            mainUiMenuItems[item.itemId]?.let { entry ->
+                openMainUiMenuItem(entry)
+                handled = true
+            }
             when (item.itemId) {
                 R.id.notifications -> {
                     openNotifications(null, false)
@@ -1143,6 +1159,84 @@ class MainActivity : AbstractBaseActivity() {
         drawerHeaderBinding.serverSelector.setOnClickListener { updateDrawerMode(!inServerSelectionMode) }
     }
 
+    /**
+     * Shows what Main UI's sidebar would show, as sent via the bridge. null removes the entries.
+     */
+    fun setMainUiMenu(sections: List<BridgeMenuSection>?) {
+        // Everything added here has an id in the own range (resource ids are 0x7f......, server ids are small);
+        // removing a sub menu's item removes its entries too
+        (0 until drawerMenu.size())
+            .map { index -> drawerMenu.getItem(index) }
+            .filter { item -> item.itemId in MAIN_UI_MENU_ID_BASE until MAIN_UI_MENU_ID_BASE + MAIN_UI_MENU_ID_COUNT }
+            .forEach { item -> drawerMenu.removeItem(item.itemId) }
+        mainUiMenuIds.clear()
+        mainUiMenuItems.clear()
+        if (sections == null) {
+            return
+        }
+        // The shim may report an entry twice (once before the translations are loaded, without a link),
+        // the last one wins and untranslated leftovers are dropped
+        val seen = mutableSetOf<String>()
+        val uniqueSections = sections.asReversed().map { section ->
+            section.copy(
+                items = section.items.asReversed()
+                    .filterNot { it.path == null && it.id != "unlock" && I18N_KEY.matches(it.label) }
+                    .filter { seen.add(it.path ?: it.id) }
+                    .asReversed()
+            )
+        }.asReversed().filter { it.items.isNotEmpty() }
+        Log.d(TAG, "Main UI menu: ${sections.size} sections, ${uniqueSections.size} shown")
+
+        // After the app's own entries: those use the system category, which sorts last, so use it too
+        var order = Menu.CATEGORY_SYSTEM or MAIN_UI_MENU_ORDER_BASE
+        uniqueSections.forEachIndexed { index, section ->
+            val groupId = nextMainUiMenuId++
+            // One header for the whole block, untitled sections are only separated by a divider
+            val title = section.title ?: if (index == 0) getString(R.string.mainmenu_main_ui_section) else null
+            val target: Menu = if (title != null) {
+                val subMenuId = nextMainUiMenuId++
+                mainUiMenuIds.add(subMenuId)
+                drawerMenu.addSubMenu(Menu.NONE, subMenuId, order++, title)
+            } else {
+                drawerMenu
+            }
+            fun addEntry(entry: BridgeMenuItem, indent: String) {
+                val id = nextMainUiMenuId++
+                mainUiMenuItems[id] = entry
+                if (target === drawerMenu) {
+                    mainUiMenuIds.add(id)
+                }
+                val item = target.add(groupId, id, order++, indent + entry.label)
+                item.isCheckable = true
+                item.isChecked = entry.active
+                loadBridgeIcon(entry.icon, item)
+                entry.children.forEach { child -> addEntry(child, "$indent    ") }
+            }
+            section.items.forEach { entry -> addEntry(entry, "") }
+        }
+        updateDrawerItemVisibility()
+    }
+
+    private fun openMainUiMenuItem(entry: BridgeMenuItem) {
+        val fragment = controller.currentWebViewFragment
+        when {
+            fragment is MainUiWebViewFragment && entry.path != null -> fragment.navigateInPage(entry.path)
+            fragment is MainUiWebViewFragment -> fragment.activateMenuItemInPage(entry.id)
+            else -> openWebViewUi(WebViewUi.MAIN_UI, true, entry.path)
+        }
+    }
+
+    private fun loadBridgeIcon(icon: BridgeIcon?, item: MenuItem) {
+        val name = icon?.md ?: icon?.name
+        // Main UI icon formats: oh:<set>:<name>, a bare openHAB icon name, f7:<name>, material:<name>
+        if (name != null && (name.startsWith("oh:") || ':' !in name)) {
+            loadDrawerIcon(name.toOH2IconResource(), item)
+            return
+        }
+        val fontIcon = name?.let { IconFontDrawable.create(this, it, drawerIconTintList) }
+        item.icon = fontIcon ?: applyDrawerIconTint(ContextCompat.getDrawable(this, R.drawable.ic_openhab_appicon_24dp))
+    }
+
     private fun updateDrawerServerEntries() {
         // Remove existing items from server group
         drawerMenu.getGroupItems(R.id.servers)
@@ -1214,6 +1308,10 @@ class MainActivity : AbstractBaseActivity() {
     private fun updateDrawerItemVisibility() {
         val serverItems = drawerMenu.getGroupItems(R.id.servers)
         drawerMenu.setGroupVisible(R.id.servers, serverItems.size > 1 && inServerSelectionMode)
+        // The Main UI entries aren't in a fixed group, so hide them one by one while servers are shown
+        (mainUiMenuIds + mainUiMenuItems.keys).forEach { id ->
+            drawerMenu.findItem(id)?.isVisible = !inServerSelectionMode
+        }
 
         if (serverProperties?.sitemaps?.isNotEmpty() == true && !inServerSelectionMode) {
             drawerMenu.setGroupVisible(R.id.sitemaps, true)
@@ -1265,19 +1363,21 @@ class MainActivity : AbstractBaseActivity() {
         updateDrawerItemVisibility()
     }
 
-    private fun loadSitemapIcon(sitemap: Sitemap, item: MenuItem) {
+    private fun loadSitemapIcon(sitemap: Sitemap, item: MenuItem) = loadDrawerIcon(sitemap.icon, item)
+
+    private fun loadDrawerIcon(icon: IconResource?, item: MenuItem) {
         val defaultIcon = ContextCompat.getDrawable(this, R.drawable.ic_openhab_appicon_24dp)
         item.icon = applyDrawerIconTint(defaultIcon)
         val conn = connection
 
-        if (sitemap.icon == null || conn == null) {
+        if (icon == null || conn == null) {
             return
         }
         launch {
             val context = this@MainActivity
             try {
                 item.icon = conn.httpClient
-                    .get(sitemap.icon.toUrl(context, context.determineDataUsagePolicy(conn).loadIconsWithState))
+                    .get(icon.toUrl(context, context.determineDataUsagePolicy(conn).loadIconsWithState))
                     .asBitmap(
                         defaultIcon!!.intrinsicWidth,
                         getIconFallbackColor(IconBackground.APP_THEME),
@@ -1286,7 +1386,7 @@ class MainActivity : AbstractBaseActivity() {
                     .response
                     .toDrawable(resources)
             } catch (e: HttpClient.HttpException) {
-                Log.w(TAG, "Could not fetch icon for sitemap ${sitemap.name}")
+                Log.w(TAG, "Could not fetch icon $icon")
             }
         }
     }
@@ -1811,6 +1911,11 @@ class MainActivity : AbstractBaseActivity() {
         const val SNACKBAR_TAG_SHORTCUT_INFO = "shortcutInfo"
         const val SNACKBAR_TAG_SERVER_MISSING = "serverMissing"
         const val SNACKBAR_TAG_SWITCHED_SERVER = "switchedServer"
+
+        private const val MAIN_UI_MENU_ORDER_BASE = 1000
+        private const val MAIN_UI_MENU_ID_BASE = 0x00F00000
+        private const val MAIN_UI_MENU_ID_COUNT = 0x00100000
+        private val I18N_KEY = Regex("^[a-z]+(\\.[A-Za-z]+)+$")
 
         private const val STATE_KEY_SERVER_PROPERTIES = "serverProperties"
         private const val STATE_KEY_SITEMAP_SELECTION_SHOWN = "isSitemapSelectionDialogShown"

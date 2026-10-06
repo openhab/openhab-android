@@ -28,6 +28,7 @@ class MainUiWebViewFragment : AbstractWebViewFragment() {
     override val lockDrawer = true
     override val shortcutIcon = R.mipmap.ic_shortcut_main_ui
     override val shortcutAction = MainActivity.ACTION_MAIN_UI_SELECTED
+    override val useBridge = true
 
     override fun buildUrl(connection: Connection, url: String): HttpUrl {
         val connectionUrl = connection.httpClient.buildUrl(url)

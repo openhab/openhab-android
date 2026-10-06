@@ -15,6 +15,7 @@ package org.openhab.habdroid.ui.activity
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -35,6 +36,7 @@ import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.edit
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -56,6 +58,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.DemoConnection
@@ -66,7 +71,14 @@ import org.openhab.habdroid.ui.AbstractBaseActivity
 import org.openhab.habdroid.ui.ConnectionWebViewClient
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.WebViewManager
+import org.openhab.habdroid.ui.bridge.BridgeHello
+import org.openhab.habdroid.ui.bridge.BridgeMenuSection
+import org.openhab.habdroid.ui.bridge.BridgeNavState
+import org.openhab.habdroid.ui.bridge.BridgeNavbarState
+import org.openhab.habdroid.ui.bridge.IconFontDrawable
+import org.openhab.habdroid.ui.bridge.MainUiBridge
 import org.openhab.habdroid.ui.setUpForConnection
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getConnectionFactory
@@ -76,12 +88,14 @@ import org.openhab.habdroid.util.getWebViewManager
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDarkModeActive
 import org.openhab.habdroid.util.orDefaultIfEmpty
+import org.openhab.habdroid.util.resolveThemedColor
 import org.openhab.habdroid.util.toRelativeUrl
 
 abstract class AbstractWebViewFragment :
     Fragment(),
     CoroutineScope,
-    MenuProvider {
+    MenuProvider,
+    MainUiBridge.Listener {
     private val job = Job()
     override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
     private var binding: FragmentWebviewBinding? = null
@@ -116,6 +130,13 @@ abstract class AbstractWebViewFragment :
     abstract val lockDrawer: Boolean
     abstract val shortcutIcon: Int
     abstract val shortcutAction: String
+
+    /** Talk to the page via the Main UI bridge: the app draws the top bar and shows the page's menu */
+    open val useBridge = false
+    private var bridge: MainUiBridge? = null
+    private var bridgeNavbar: BridgeNavbarState? = null
+    private var bridgeNav: BridgeNavState? = null
+    private val bridgeActionIds = mutableMapOf<Int, String>()
     private val shortcutInfo: ShortcutInfoCompat
         get() {
             val context = requireContext()
@@ -253,6 +274,9 @@ abstract class AbstractWebViewFragment :
 
     override fun onDestroyView() {
         super.onDestroyView()
+        bridge?.destroy()
+        bridge = null
+        mainActivity?.setMainUiMenu(null)
         webView?.destroy()
         binding = null
     }
@@ -284,9 +308,28 @@ abstract class AbstractWebViewFragment :
         if (ShortcutManagerCompat.isRequestPinShortcutSupported(requireContext())) {
             inflater.inflate(R.menu.webview_menu, menu)
         }
+        bridgeActionIds.clear()
+        val context = requireContext()
+        val iconTint = ColorStateList.valueOf(context.resolveThemedColor(R.attr.colorControlNormal))
+        bridgeNavbar?.actions?.forEachIndexed { index, action ->
+            val id = BRIDGE_ACTION_ID_BASE + index
+            bridgeActionIds[id] = action.id
+            // An icon-only page button carries its glyph name as label; the glyph is what to show
+            val iconName = action.icon?.md ?: action.icon?.name
+            menu.add(Menu.NONE, id, index, action.label).apply {
+                isEnabled = !action.disabled
+                icon = iconName?.let { IconFontDrawable.create(context, it, iconTint) }
+                setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            }
+        }
     }
 
     override fun onMenuItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        in bridgeActionIds -> {
+            bridgeActionIds[item.itemId]?.let { bridge?.activateNavbarAction(it) }
+            true
+        }
+
         R.id.webview_add_shortcut -> {
             pinShortcut()
             true
@@ -317,6 +360,14 @@ abstract class AbstractWebViewFragment :
     }
 
     fun goBack(): Boolean {
+        // With the bridge, Main UI decides what back means (close a popup, previous page, ...)
+        if (bridgeActive()) {
+            if (!bridgeCanGoBack()) {
+                return false
+            }
+            bridge?.back()
+            return true
+        }
         if (webView?.canGoBack() == true) {
             val oldUrl = webView?.url
             do {
@@ -328,7 +379,16 @@ abstract class AbstractWebViewFragment :
         return false
     }
 
-    fun canGoBack(): Boolean = webView?.canGoBack() == true
+    fun canGoBack(): Boolean = if (bridgeActive()) bridgeCanGoBack() else webView?.canGoBack() == true
+
+    /** The page reports its own navigation state, so the toolbar follows the page instead of the fragment stack */
+    val isBridgeActive get() = bridgeActive()
+
+    private fun bridgeActive() = bridge?.hello?.impl.let { it == "mainui" || it == "shim" }
+
+    // Only what the page shows: a back button in its bar, or an open popup. The history isn't a signal,
+    // Main UI's home page can have the root route behind it without showing a back button.
+    private fun bridgeCanGoBack() = bridgeNavbar?.hasBack == true || bridgeNav?.modal == true
 
     private fun loadWebsite(urlToLoad: String = this.urlToLoad) {
         val conn = requireContext().getConnectionFactory().currentActive?.usableConnection
@@ -344,6 +404,14 @@ abstract class AbstractWebViewFragment :
         Log.d(TAG, "Loading web page $url")
         webView.setUpForConnection(conn)
         webView.setBackgroundColor(Color.TRANSPARENT)
+
+        val prefs = requireContext().getPrefs()
+        if (useBridge && MainUiBridge.isSupported() && prefs.getBoolean(PrefKeys.MAIN_UI_BRIDGE, true)) {
+            val bridge = bridge ?: MainUiBridge(requireContext(), this).also { bridge = it }
+            // Only the front page gets the pages put back, a subpage was asked for explicitly
+            val restore = if (urlToLoad == this.urlToLoad) loadStoredRoute() else null
+            bridge.install(webView, url, restore?.first, restore?.second)
+        }
 
         val jsInterface = if (ShortcutManagerCompat.isRequestPinShortcutSupported(requireContext())) {
             OHAppInterfaceWithPin(requireContext(), this)
@@ -403,12 +471,97 @@ abstract class AbstractWebViewFragment :
     }
 
     private fun hideActionBar() {
+        // With the bridge the app draws the page's bar itself. The shim neuters OHApp.goFullscreen(), but whether
+        // that override sticks depends on the WebView version (the Java object may be injected after it).
+        if (bridge != null) {
+            return
+        }
         wantsActionBar = false
         callback?.updateActionBarState()
     }
 
     private fun closeFragment() {
         callback?.closeFragment()
+    }
+
+    fun navigateInPage(path: String) {
+        if (bridgeNav?.modal == true) {
+            bridge?.closeModals()
+        }
+        bridge?.navigate(path)
+    }
+
+    fun activateMenuItemInPage(id: String) {
+        bridge?.activateMenuItem(id)
+    }
+
+    override fun onBridgeHello(hello: BridgeHello) {
+        Log.d(TAG, "Bridge: ${hello.impl} ${hello.version.orEmpty()} accepted ${hello.accepted}")
+        if ("navbar" !in hello.accepted) {
+            bridgeNavbar = null
+            requireActivity().invalidateMenu()
+        }
+        if ("menu" !in hello.accepted) {
+            mainActivity?.setMainUiMenu(null)
+        }
+    }
+
+    override fun onBridgeNavChanged(state: BridgeNavState) {
+        bridgeNav = state
+        storeRoute(state)
+        refreshToolbar()
+    }
+
+    override fun onBridgeNavbarChanged(state: BridgeNavbarState) {
+        bridgeNavbar = state
+        refreshToolbar()
+        requireActivity().invalidateMenu()
+    }
+
+    /** Title and back arrow follow the page, the activity's own title update is only used for the arrow */
+    private fun refreshToolbar() {
+        mainActivity?.updateTitle()
+        bridgeNavbar?.title?.takeIf { it.isNotEmpty() }?.let { mainActivity?.supportActionBar?.title = it }
+    }
+
+    override fun onBridgeMenuChanged(sections: List<BridgeMenuSection>) {
+        mainActivity?.setMainUiMenu(sections)
+    }
+
+    override fun onBridgeConnectionChanged(sseConnected: Boolean) {
+        Log.d(TAG, "Bridge: SSE connected = $sseConnected")
+    }
+
+    override fun bridgeCredentials(): Pair<String, String>? {
+        val conn = webView?.tag as? Connection ?: return null
+        val username = conn.username ?: return null
+        val password = conn.password ?: return null
+        return username to password
+    }
+
+    private fun routeKey(): String {
+        val serverId = requireContext().getPrefs().getActiveServerId()
+        return PrefKeys.buildServerKey(serverId, PrefKeys.BRIDGE_ROUTE_PREFIX)
+    }
+
+    private fun storeRoute(state: BridgeNavState) {
+        val json = JSONObject()
+            .put("history", JSONArray(state.history))
+            .put("props", state.props?.let { JSONArray(it) })
+        requireContext().getPrefs().edit { putString(routeKey(), json.toString()) }
+    }
+
+    private fun loadStoredRoute(): Pair<List<String>, List<String>?>? {
+        val stored = requireContext().getPrefs().getString(routeKey(), null) ?: return null
+        return try {
+            val json = JSONObject(stored)
+            val history = json.optJSONArray("history") ?: return null
+            val props = json.optJSONArray("props")
+            (0 until history.length()).map { history.getString(it) } to
+                props?.let { arr -> (0 until arr.length()).map { arr.getString(it) } }
+        } catch (e: JSONException) {
+            null
+        }
     }
 
     open class OHAppInterface(private val context: Context, private val fragment: AbstractWebViewFragment) {
@@ -476,6 +629,8 @@ abstract class AbstractWebViewFragment :
             .filter { (_, perms) -> perms.all { perm -> androidPermissions.contains(perm) } }
             .keys
             .toTypedArray()
+
+        private const val BRIDGE_ACTION_ID_BASE = 0x00E00000
 
         private const val KEY_CURRENT_URL = "url"
         const val KEY_IS_STACK_ROOT = "is_stack_root"

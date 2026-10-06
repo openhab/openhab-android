@@ -36,11 +36,13 @@ object PrefKeys {
     const val RESTRICT_TO_SSID_PREFIX = "restrict_to_ssid_"
     const val FRONTAIL_URL_PREFIX = "frontail_url_"
     const val MAIN_UI_START_PAGE_PREFIX = "main_ui_start_page_"
+    const val BRIDGE_ROUTE_PREFIX = "bridge_route_"
     const val CLEAR_DEFAULT_SITEMAP = "clear_default_sitemap"
 
     fun buildServerKey(id: Int, prefix: String) = "$prefix$id"
 
     const val START_PAGE = "start_page"
+    const val MAIN_UI_BRIDGE = "main_ui_bridge"
     const val SHOW_SITEMAPS_IN_DRAWER = "show_sitemaps"
     const val SITEMAP_COMPACT_MODE = "sitemap_compact_mode"
     const val SHOW_ICONS = "show_icons"
