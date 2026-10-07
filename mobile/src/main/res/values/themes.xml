@@ -90,6 +90,11 @@
         <item name="android:windowBackground">@android:color/black</item>
     </style>
 
+    <style name="openHAB.Tv.Translucent">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
     <style name="Theme.MaterialComponents.TranslucentBase">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>

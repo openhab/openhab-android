@@ -15,6 +15,7 @@ package org.openhab.habdroid.ui.tv
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import org.openhab.habdroid.util.getConnectionFactory
 
 /**
  * Entry point of the app on TV devices. The TV UI only supports sitemaps and is fully usable with a D-pad.
@@ -27,5 +28,16 @@ class TvMainActivity : ComponentActivity() {
                 TvApp()
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Allows asking the user whether to trust an unknown certificate, otherwise the connection hangs forever
+        getConnectionFactory().trustManager.bindDisplayActivity(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        getConnectionFactory().trustManager.unbindDisplayActivity(this)
     }
 }
