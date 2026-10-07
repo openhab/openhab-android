@@ -115,6 +115,7 @@ import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
 import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.preference.widgets.toItemUpdatePrefValue
+import org.openhab.habdroid.ui.tv.TvMainActivity
 import org.openhab.habdroid.util.AsyncServiceResolver
 import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.HttpClient
@@ -145,6 +146,7 @@ import org.openhab.habdroid.util.getWifiManager
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isScreenTimerDisabled
+import org.openhab.habdroid.util.isTv
 import org.openhab.habdroid.util.openInAppStore
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.parcelable
@@ -221,6 +223,13 @@ class MainActivity : AbstractBaseActivity() {
         prefs = getPrefs()
 
         super.onCreate(savedInstanceState)
+
+        if (isTv()) {
+            // Some TV launchers, e.g. on Fire TV, use the regular launcher intent
+            startActivity(Intent(this, TvMainActivity::class.java))
+            finish()
+            return
+        }
 
         val controllerClassName = resources.getString(R.string.controller_class)
         try {

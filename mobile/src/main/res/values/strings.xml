@@ -637,6 +637,22 @@
     <string name="create_home_screen_widget_not_supported">Please go to the widget menu on your home screen and create a widget from there</string>
     <string name="analyse">Analyze</string>
 
+    <!-- Android TV -->
+    <string name="tv_setup_title">Set up openHAB</string>
+    <string name="tv_setup_server_found">Found openHAB server at %s</string>
+    <string name="tv_setup_no_server_found">No openHAB server found in your network.</string>
+    <string name="tv_setup_use_server">Use this server</string>
+    <string name="tv_setup_search_again">Search again</string>
+    <string name="tv_setup_enter_manually">Enter server manually</string>
+    <string name="tv_settings_server">Server</string>
+    <string name="tv_settings_sitemap">Sitemap</string>
+    <string name="tv_loading">Loading\u2026</string>
+    <string name="tv_error_connection_failed">Could not connect to the openHAB server at %s.</string>
+    <string name="tv_select_sitemap">Select Sitemap</string>
+    <string name="tv_no_sitemap_selected">No Sitemap selected</string>
+    <string name="tv_select_sitemap_hint">You can change the Sitemap later in the settings.</string>
+    <string name="tv_no_sitemaps">No sitemaps found. This app only supports sitemaps. To use Main UI, open %s in a web browser.</string>
+
     <!-- Data saver -->
     <string name="data_saver_title">Data saver</string>
     <string name="data_saver_on">Sitemap elements that may require larger data transfers aren\'t loaded</string>

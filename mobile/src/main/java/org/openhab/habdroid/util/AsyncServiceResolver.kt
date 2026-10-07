@@ -126,5 +126,6 @@ class AsyncServiceResolver(context: Context, private val serviceType: String, pr
 
         private const val DEFAULT_DISCOVERY_TIMEOUT = 3000L
         const val OPENHAB_SERVICE_TYPE = "_openhab-server-ssl._tcp.local."
+        const val OPENHAB_HTTP_SERVICE_TYPE = "_openhab-server._tcp.local."
     }
 }

@@ -21,6 +21,7 @@ buildscript {
 
 apply plugin: "com.android.application"
 apply plugin: "kotlin-parcelize"
+apply plugin: "org.jetbrains.kotlin.plugin.compose"
 apply plugin: "de.mobilej.unmock"
 apply plugin: "com.mikepenz.aboutlibraries.plugin.android"
 apply plugin: "de.jjohannes.missing-metadata-guava"
@@ -110,6 +111,7 @@ android {
     buildFeatures {
         buildConfig true
         viewBinding true
+        compose true
     }
 }
 
@@ -168,6 +170,18 @@ dependencies {
     implementation libs.androidchart
     implementation libs.material.about.library
     implementation libs.aboutlibraries.core
+
+    // Android TV UI
+    implementation platform(libs.androidx.compose.bom)
+    implementation libs.androidx.compose.ui
+    implementation libs.androidx.compose.foundation
+    implementation libs.androidx.compose.ui.tooling.preview
+    debugImplementation libs.androidx.compose.ui.tooling
+    implementation libs.androidx.activity.compose
+    implementation libs.androidx.tv.material
+    implementation libs.androidx.navigation.compose
+    implementation libs.androidx.lifecycle.viewmodel.compose
+    implementation libs.androidx.lifecycle.runtime.compose
 
     fullImplementation libs.play.services.maps
     fossImplementation libs.osmdroid.android

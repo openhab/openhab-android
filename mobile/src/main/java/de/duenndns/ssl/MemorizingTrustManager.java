@@ -44,6 +44,7 @@ import android.util.SparseArray;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.background.NotificationUpdateObserver;
+import org.openhab.habdroid.ui.tv.TvCertificateActivity;
 import org.openhab.habdroid.util.ExtensionFuncsKt;
 
 import java.io.File;
@@ -87,12 +88,15 @@ import javax.net.ssl.X509TrustManager;
  */
 public class MemorizingTrustManager implements X509TrustManager {
     final static String DECISION_INTENT = "de.duenndns.ssl.DECISION";
-    final static String DECISION_INTENT_ID     = DECISION_INTENT + ".decisionId";
+    public final static String DECISION_INTENT_ID     = DECISION_INTENT + ".decisionId";
     final static String DECISION_INTENT_CERT   = DECISION_INTENT + ".cert";
+    // Short version of the message and the SHA-256 fingerprint of the certificate, used on TV
+    public final static String DECISION_INTENT_SUMMARY     = DECISION_INTENT + ".summary";
+    public final static String DECISION_INTENT_FINGERPRINT = DECISION_INTENT + ".fingerprint";
     final static String DECISION_INTENT_CHOICE = DECISION_INTENT + ".decisionChoice";
 
     private final static Logger LOGGER = Logger.getLogger(MemorizingTrustManager.class.getName());
-    final static String DECISION_TITLE_ID      = DECISION_INTENT + ".titleId";
+    public final static String DECISION_TITLE_ID      = DECISION_INTENT + ".titleId";
     private final static int NOTIFICATION_ID = 100509;
 
     static String KEYSTORE_DIR = "KeyStore";
@@ -522,20 +526,22 @@ public class MemorizingTrustManager implements X509TrustManager {
         si.append("\n");
     }
 
-    private CharSequence certChainMessage(final X509Certificate[] chain, CertificateException cause) {
+    private String certChainReason(CertificateException cause) {
         Throwable e = cause;
-        LOGGER.log(Level.FINE, "certChainMessage for " + e);
-        SpannableStringBuilder si = new SpannableStringBuilder();
         if (isPathException(e))
-            si.append(master.getString(R.string.mtm_trust_anchor));
-        else if (isExpiredException(e))
-            si.append(master.getString(R.string.mtm_cert_expired));
-        else {
-            // get to the cause
-            while (e.getCause() != null)
-                e = e.getCause();
-            si.append(e.getLocalizedMessage());
-        }
+            return master.getString(R.string.mtm_trust_anchor);
+        if (isExpiredException(e))
+            return master.getString(R.string.mtm_cert_expired);
+        // get to the cause
+        while (e.getCause() != null)
+            e = e.getCause();
+        return e.getLocalizedMessage();
+    }
+
+    private CharSequence certChainMessage(final X509Certificate[] chain, CertificateException cause) {
+        LOGGER.log(Level.FINE, "certChainMessage for " + cause);
+        SpannableStringBuilder si = new SpannableStringBuilder();
+        si.append(certChainReason(cause));
         si.append("\n\n");
         si.append(master.getString(R.string.mtm_connect_anyway));
         si.append("\n\n");
@@ -550,11 +556,8 @@ public class MemorizingTrustManager implements X509TrustManager {
         return si;
     }
 
-    private CharSequence hostNameMessage(X509Certificate cert, String hostname) {
-        SpannableStringBuilder si = new SpannableStringBuilder();
-
-        si.append(master.getString(R.string.mtm_hostname_mismatch, hostname));
-        si.append("\n\n");
+    private static String certNames(X509Certificate cert, boolean withType) {
+        StringBuilder si = new StringBuilder();
         try {
             Collection<List<?>> sans = cert.getSubjectAlternativeNames();
             if (sans == null) {
@@ -563,9 +566,11 @@ public class MemorizingTrustManager implements X509TrustManager {
             } else for (List<?> altName : sans) {
                 Object name = altName.get(1);
                 if (name instanceof String) {
-                    si.append("[");
-                    si.append(altName.get(0).toString());
-                    si.append("] ");
+                    if (withType) {
+                        si.append("[");
+                        si.append(altName.get(0).toString());
+                        si.append("] ");
+                    }
                     si.append((String) name);
                     si.append("\n");
                 }
@@ -576,6 +581,15 @@ public class MemorizingTrustManager implements X509TrustManager {
             si.append(e.getLocalizedMessage());
             si.append(">\n");
         }
+        return si.toString();
+    }
+
+    private CharSequence hostNameMessage(X509Certificate cert, String hostname) {
+        SpannableStringBuilder si = new SpannableStringBuilder();
+
+        si.append(master.getString(R.string.mtm_hostname_mismatch, hostname));
+        si.append("\n\n");
+        si.append(certNames(cert, true));
         si.append("\n");
         si.append(master.getString(R.string.mtm_connect_anyway));
         si.append("\n\n");
@@ -656,19 +670,24 @@ public class MemorizingTrustManager implements X509TrustManager {
         return (foregroundAct != null) ? foregroundAct : master;
     }
 
-    int interact(final CharSequence message, final int titleId) {
+    int interact(final CharSequence message, final int titleId, final String summary, final String fingerprint) {
         /* prepare the MTMDecision blocker object */
         MTMDecision choice = new MTMDecision();
         final int myId = createDecisionId(choice);
 
         masterHandler.post(new Runnable() {
             public void run() {
-                Intent ni = new Intent(master, MemorizingActivity.class);
+                Class<? extends Activity> activityClass = ExtensionFuncsKt.isTv(master)
+                    ? TvCertificateActivity.class
+                    : MemorizingActivity.class;
+                Intent ni = new Intent(master, activityClass);
                 ni.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ni.setData(Uri.parse(MemorizingTrustManager.class.getName() + "/" + myId));
                 ni.putExtra(DECISION_INTENT_ID, myId);
                 ni.putExtra(DECISION_INTENT_CERT, message);
                 ni.putExtra(DECISION_TITLE_ID, titleId);
+                ni.putExtra(DECISION_INTENT_SUMMARY, summary);
+                ni.putExtra(DECISION_INTENT_FINGERPRINT, fingerprint);
 
                 // we try to directly start the activity and fall back to
                 // making a notification. If no foreground activity is set
@@ -697,7 +716,9 @@ public class MemorizingTrustManager implements X509TrustManager {
     void interactCert(final X509Certificate[] chain, String authType, CertificateException cause)
             throws CertificateException
     {
-        switch (interact(certChainMessage(chain, cause), R.string.mtm_accept_cert)) {
+        String summary = certChainReason(cause);
+        String fingerprint = certHash(chain[0], "SHA-256");
+        switch (interact(certChainMessage(chain, cause), R.string.mtm_accept_cert, summary, fingerprint)) {
             case MTMDecision.DECISION_ALWAYS:
                 storeCert(chain[0]); // only store the server cert, not the whole chain
             case MTMDecision.DECISION_ONCE:
@@ -709,7 +730,9 @@ public class MemorizingTrustManager implements X509TrustManager {
 
     boolean interactHostname(X509Certificate cert, String hostname)
     {
-        switch (interact(hostNameMessage(cert, hostname), R.string.mtm_accept_servername)) {
+        String summary = master.getString(R.string.mtm_hostname_mismatch, hostname) + "\n" + certNames(cert, false).trim();
+        String fingerprint = certHash(cert, "SHA-256");
+        switch (interact(hostNameMessage(cert, hostname), R.string.mtm_accept_servername, summary, fingerprint)) {
             case MTMDecision.DECISION_ALWAYS:
                 storeCert(hostname, cert);
             case MTMDecision.DECISION_ONCE:
@@ -719,7 +742,7 @@ public class MemorizingTrustManager implements X509TrustManager {
         }
     }
 
-    protected static void interactResult(int decisionId, int choice) {
+    public static void interactResult(int decisionId, int choice) {
         MTMDecision d;
         synchronized(openDecisions) {
             d = openDecisions.get(decisionId);

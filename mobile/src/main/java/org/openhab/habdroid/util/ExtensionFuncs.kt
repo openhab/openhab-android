@@ -16,6 +16,7 @@ package org.openhab.habdroid.util
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.PendingIntent
+import android.app.UiModeManager
 import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -531,6 +532,14 @@ fun Context.isDarkModeActive(): Boolean = when (getPrefs().getDayNightMode(this)
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         currentNightMode != Configuration.UI_MODE_NIGHT_NO
     }
+}
+
+/**
+ * Whether the app is running on a TV device, e.g. Android TV or Fire TV
+ */
+fun Context.isTv(): Boolean {
+    val uiModeManager = getSystemService(Context.UI_MODE_SERVICE) as UiModeManager?
+    return uiModeManager?.currentModeType == Configuration.UI_MODE_TYPE_TELEVISION
 }
 
 enum class IconBackground {
