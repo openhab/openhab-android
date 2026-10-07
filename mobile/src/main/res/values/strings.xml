@@ -648,6 +648,9 @@
     <string name="tv_settings_sitemap">Sitemap</string>
     <string name="tv_loading">Loading\u2026</string>
     <string name="tv_error_connection_failed">Could not connect to the openHAB server at %s.</string>
+    <string name="tv_select_sitemap">Select Sitemap</string>
+    <string name="tv_no_sitemap_selected">No Sitemap selected</string>
+    <string name="tv_select_sitemap_hint">You can change the Sitemap later in the settings.</string>
     <string name="tv_no_sitemaps">No sitemaps found. This app only supports sitemaps. To use Main UI, open %s in a web browser.</string>
 
     <!-- Data saver -->
