@@ -126,7 +126,7 @@ fun TvSettingsScreen(onOpenAbout: () -> Unit) {
                     onClick = { showSitemapDialog = true },
                     headlineContent = { Text(stringResource(R.string.tv_settings_sitemap)) },
                     supportingContent = {
-                        Text(config?.defaultSitemap?.label ?: stringResource(R.string.settings_no_default_sitemap))
+                        Text(config?.defaultSitemap?.label ?: stringResource(R.string.tv_no_sitemap_selected))
                     }
                 )
             }

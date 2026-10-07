@@ -23,7 +23,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -42,12 +44,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.tv.material3.Button
 import androidx.tv.material3.Icon
+import androidx.tv.material3.ListItem
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.OutlinedButton
 import androidx.tv.material3.OutlinedIconButton
 import androidx.tv.material3.Text
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Item
+import org.openhab.habdroid.model.Sitemap
 
 @Composable
 fun TvSitemapScreen(onOpenSettings: () -> Unit, viewModel: TvSitemapViewModel = viewModel()) {
@@ -73,6 +77,8 @@ fun TvSitemapScreen(onOpenSettings: () -> Unit, viewModel: TvSitemapViewModel = 
         ) {
             RetryAndSettingsButtons(it, onRetry = { viewModel.retry() }, onOpenSettings = onOpenSettings)
         }
+
+        is TvSitemapViewModel.State.SelectSitemap -> SitemapSelection(s.sitemaps, onSelected = viewModel::selectSitemap)
 
         is TvSitemapViewModel.State.Page -> SitemapPage(s, viewModel, onOpenSettings)
     }
@@ -137,6 +143,33 @@ private fun SitemapPage(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun SitemapSelection(sitemaps: List<Sitemap>, onSelected: (Sitemap) -> Unit) {
+    val firstItemFocus = remember { FocusRequester() }
+    Column(modifier = Modifier.fillMaxSize().padding(start = 48.dp, end = 48.dp, top = 27.dp)) {
+        Text(
+            text = stringResource(R.string.tv_select_sitemap),
+            style = MaterialTheme.typography.headlineMedium
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(text = stringResource(R.string.tv_select_sitemap_hint), style = MaterialTheme.typography.bodyLarge)
+        Spacer(modifier = Modifier.height(24.dp))
+        LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.widthIn(max = 720.dp)) {
+            itemsIndexed(sitemaps, key = { _, sitemap -> sitemap.name }) { index, sitemap ->
+                ListItem(
+                    selected = false,
+                    onClick = { onSelected(sitemap) },
+                    headlineContent = { Text(sitemap.label) },
+                    modifier = if (index == 0) Modifier.focusRequester(firstItemFocus) else Modifier
+                )
+            }
+        }
+    }
+    LaunchedEffect(sitemaps) {
+        firstItemFocus.requestFocusWhenAttached()
     }
 }
 

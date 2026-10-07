@@ -38,6 +38,7 @@ import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.loadActiveServerConfig
+import org.openhab.habdroid.util.updateDefaultSitemap
 
 /**
  * Loads the default sitemap of the active server and keeps track of the pages the user navigated to.
@@ -51,6 +52,8 @@ class TvSitemapViewModel(application: Application) :
         data class Error(val message: String) : State
 
         data class NoSitemaps(val serverUrl: String?) : State
+
+        data class SelectSitemap(val sitemaps: List<Sitemap>) : State
 
         data class Page(
             val url: String,
@@ -90,14 +93,18 @@ class TvSitemapViewModel(application: Application) :
         repository.start()
         // The default sitemap might have been changed in the settings
         val conn = connection ?: return
-        val selectedSitemap = selectSitemap(conn) ?: return
+        val selectedSitemap = findDefaultSitemap(conn) ?: return
         if (selectedSitemap.name != sitemap?.name) {
-            sitemap = selectedSitemap
-            pageStack.clear()
-            pages.clear()
-            pageStack.add(selectedSitemap.homepageLink)
-            updateTrackedPage()
+            showSitemap(selectedSitemap)
         }
+    }
+
+    /**
+     * Show the given sitemap and remember it as default sitemap
+     */
+    fun selectSitemap(selectedSitemap: Sitemap) {
+        context.getPrefs().updateDefaultSitemap(connection, selectedSitemap)
+        showSitemap(selectedSitemap)
     }
 
     fun stop() = repository.stop()
@@ -175,22 +182,34 @@ class TvSitemapViewModel(application: Application) :
             }
         }
 
-        val selectedSitemap = selectSitemap(conn)
-        sitemap = selectedSitemap
-        if (selectedSitemap == null) {
-            _state.value = State.NoSitemaps(context.loadActiveServerConfig()?.localPath?.url)
-            return
+        val sitemaps = serverProperties?.sitemaps.orEmpty()
+        val selectedSitemap = findDefaultSitemap(conn) ?: sitemaps.singleOrNull()
+        when {
+            selectedSitemap != null -> showSitemap(selectedSitemap)
+
+            sitemaps.isEmpty() -> {
+                _state.value = State.NoSitemaps(context.loadActiveServerConfig()?.localPath?.url)
+            }
+
+            // Let the user choose instead of picking one of multiple sitemaps
+            else -> _state.value = State.SelectSitemap(sitemaps.sortedWithDefaultName(""))
         }
-        pageStack.add(selectedSitemap.homepageLink)
-        updateTrackedPage()
     }
 
     /**
-     * Use the configured default sitemap, or the first one in alphabetical order if none is configured
+     * @return The configured default sitemap, or null if none is configured or it doesn't exist on the server
      */
-    private fun selectSitemap(conn: Connection): Sitemap? {
-        val defaultSitemapName = context.getPrefs().getDefaultSitemap(conn)?.name.orEmpty()
-        return serverProperties?.sitemaps?.sortedWithDefaultName(defaultSitemapName)?.firstOrNull()
+    private fun findDefaultSitemap(conn: Connection): Sitemap? {
+        val defaultSitemapName = context.getPrefs().getDefaultSitemap(conn)?.name ?: return null
+        return serverProperties?.sitemaps?.firstOrNull { sitemap -> sitemap.name == defaultSitemapName }
+    }
+
+    private fun showSitemap(selectedSitemap: Sitemap) {
+        sitemap = selectedSitemap
+        pageStack.clear()
+        pages.clear()
+        pageStack.add(selectedSitemap.homepageLink)
+        updateTrackedPage()
     }
 
     private fun updateTrackedPage() {
