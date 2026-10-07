@@ -1,0 +1,4 @@
+## What's Changed
+* Fix crash at startup by @stamateviorel in https://github.com/openhab/openhab-android/pull/4074
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.22.1-beta...3.22.3-beta
