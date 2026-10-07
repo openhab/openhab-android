@@ -12,6 +12,8 @@
  */
 package org.openhab.habdroid.ui.tv
 
+import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -43,6 +45,14 @@ import androidx.tv.material3.Button
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.OutlinedButton
 import androidx.tv.material3.Text
+import java.io.IOException
+import java.net.Inet4Address
+import java.net.InetSocketAddress
+import java.net.Socket
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import okhttp3.HttpUrl
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
@@ -111,12 +121,10 @@ private fun ServerDiscovery(onUseServer: (String) -> Unit, onEnterManually: () -
 
     LaunchedEffect(attempt) {
         state = DiscoveryState.Searching
-        val info = AsyncServiceResolver(context, AsyncServiceResolver.OPENHAB_SERVICE_TYPE, this).resolve()
-        state = if (info != null) {
-            DiscoveryState.Found("https://${info.hostAddresses[0]}:${info.port}")
-        } else {
-            DiscoveryState.NotFound
-        }
+        // Prefer an encrypted connection and fall back to an unencrypted one
+        val url = discoverReachableServer(context, AsyncServiceResolver.OPENHAB_SERVICE_TYPE, "https", this)
+            ?: discoverReachableServer(context, AsyncServiceResolver.OPENHAB_HTTP_SERVICE_TYPE, "http", this)
+        state = if (url != null) DiscoveryState.Found(url) else DiscoveryState.NotFound
     }
 
     val message = when (val s = state) {
@@ -153,6 +161,45 @@ private fun ServerDiscovery(onUseServer: (String) -> Unit, onEnterManually: () -
 
     LaunchedEffect(state) {
         primaryFocus.requestFocusWhenAttached()
+    }
+}
+
+/**
+ * @return URL of the first address of the discovered server that accepts connections, or null if none was found
+ */
+private suspend fun discoverReachableServer(
+    context: Context,
+    serviceType: String,
+    scheme: String,
+    scope: CoroutineScope
+): String? {
+    val info = AsyncServiceResolver(context, serviceType, scope).resolve() ?: return null
+    // Link-local IPv6 addresses need a zone ID, which can't be part of a URL
+    val address = info.inetAddresses
+        .filterNot { address -> address.isLinkLocalAddress }
+        .sortedBy { address -> address !is Inet4Address }
+        .firstOrNull { address -> isReachable(InetSocketAddress(address, info.port)) }
+    if (address == null) {
+        Log.d(TAG, "Discovered $serviceType at ${info.hostAddresses.contentToString()}, but it isn't reachable")
+        return null
+    }
+    // HttpUrl adds brackets to IPv6 addresses
+    return HttpUrl.Builder()
+        .scheme(scheme)
+        .host(address.hostAddress!!)
+        .port(info.port)
+        .build()
+        .toString()
+        .removeSuffix("/")
+}
+
+private suspend fun isReachable(address: InetSocketAddress): Boolean = withContext(Dispatchers.IO) {
+    try {
+        Socket().use { socket -> socket.connect(address, 2000) }
+        true
+    } catch (e: IOException) {
+        Log.d(TAG, "$address isn't reachable", e)
+        false
     }
 }
 
@@ -203,3 +250,5 @@ private fun ManualServerEntry(onSave: (String, String?, String?) -> Unit, onCanc
         urlFocus.requestFocusWhenAttached()
     }
 }
+
+private const val TAG = "TvSetupScreen"
