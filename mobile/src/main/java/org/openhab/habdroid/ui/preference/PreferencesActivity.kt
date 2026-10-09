@@ -21,8 +21,10 @@ import android.os.Build
 import android.os.Bundle
 import android.service.quicksettings.TileService
 import android.view.MenuItem
+import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
@@ -43,6 +45,7 @@ import org.openhab.habdroid.util.parcelable
  */
 class PreferencesActivity : AbstractBaseActivity() {
     private lateinit var resultIntent: Intent
+    private lateinit var binding: ActivityPrefsBinding
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,7 +92,7 @@ class PreferencesActivity : AbstractBaseActivity() {
     }
 
     override fun inflateBinding(): CommonBinding {
-        val binding = ActivityPrefsBinding.inflate(layoutInflater)
+        binding = ActivityPrefsBinding.inflate(layoutInflater)
         return CommonBinding(binding.root, binding.appBar, binding.coordinator, binding.activityContent)
     }
 
@@ -110,6 +113,16 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    fun setAppBarLiftOnScrollTarget(view: View) {
+        // Without an explicit target, AppBarLayout evaluates the lift state against the fragment container
+        // on every relayout (e.g. when a preference changes), which never scrolls and thus drops the lifted state
+        val appBar = binding.appBar.root
+        appBar.setLiftOnScrollTargetView(view)
+        // The app bar is laid out before the list restores its scroll position (e.g. when navigating back),
+        // so sync the lifted state once layout is done
+        view.doOnPreDraw { appBar.isLifted = view.canScrollVertically(-1) }
     }
 
     fun handleThemeChange() {
