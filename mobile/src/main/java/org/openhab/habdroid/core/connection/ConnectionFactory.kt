@@ -176,11 +176,11 @@ class ConnectionFactory internal constructor(
 
         // For video widgets
         SSLContext.getInstance("TLS").apply {
-            init(null, MemorizingTrustManager.getInstanceList(context), null)
+            // Use the same trust manager instance for both, so that the hostname verifier knows about
+            // certificates the user accepted during the certificate check
+            init(null, arrayOf<TrustManager>(trustManager.hostnameAwareTrustManager), null)
             HttpsURLConnection.setDefaultSSLSocketFactory(socketFactory)
-            val mtmHostnameVerifier = MemorizingTrustManager(context)
-                .wrapHostnameVerifier(OkHostnameVerifier)
-            HttpsURLConnection.setDefaultHostnameVerifier(mtmHostnameVerifier)
+            HttpsURLConnection.setDefaultHostnameVerifier(trustManager.wrapHostnameVerifier(OkHostnameVerifier))
         }
 
         // Relax per-host connection limit, as the default limit (max 5 connections per host) is
@@ -329,9 +329,10 @@ class ConnectionFactory internal constructor(
 
         try {
             val sslContext = SSLContext.getInstance("TLS")
-            sslContext.init(keyManagers, arrayOf<TrustManager>(trustManager), null)
+            val hostnameAwareTrustManager = trustManager.hostnameAwareTrustManager
+            sslContext.init(keyManagers, arrayOf<TrustManager>(hostnameAwareTrustManager), null)
             httpClient = httpClient.newBuilder()
-                .sslSocketFactory(sslContext.socketFactory, trustManager)
+                .sslSocketFactory(sslContext.socketFactory, hostnameAwareTrustManager)
                 .build()
             lastClientCertAlias = clientCertAlias
         } catch (e: Exception) {
