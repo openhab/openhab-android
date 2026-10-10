@@ -24,6 +24,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
@@ -91,8 +92,10 @@ class WearConnectionManager(
     private var connectJob: Job? = null
 
     init {
+        // Connect right away, so tiles and complications don't see an unconfigured state
+        reconnect()
         scope.launch {
-            configRepository.settings.collect { reconnect() }
+            configRepository.settings.drop(1).collect { reconnect() }
         }
     }
 

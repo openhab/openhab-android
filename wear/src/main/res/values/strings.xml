@@ -43,6 +43,12 @@
     <string name="color_pink">Pink</string>
     <string name="color_white">White</string>
 
+    <!-- Tile -->
+    <string name="tile_label">Sitemap</string>
+    <string name="tile_not_configured">Set up openHAB on your phone</string>
+    <string name="tile_not_connected">Unable to connect to openHAB</string>
+    <string name="tile_no_widgets">Add switches to the start page of the sitemap to show them here</string>
+
     <!-- Voice -->
     <string name="voice_command">Voice command</string>
     <string name="voice_prompt">Say a command</string>

@@ -43,6 +43,20 @@
             android:theme="@style/openHAB.Wear" />
 
         <service
+            android:name=".tile.SitemapTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_openhab_monochrome_24dp"
+            android:label="@string/tile_label"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview" />
+        </service>
+
+        <service
             android:name=".config.WearConfigListenerService"
             android:exported="true">
             <intent-filter>
