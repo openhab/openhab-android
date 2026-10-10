@@ -19,6 +19,7 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
@@ -37,8 +38,15 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
 import androidx.fragment.app.commit
 import androidx.fragment.app.commitNow
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.faltenreich.skeletonlayout.SkeletonLayout
 import java.util.Stack
+import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.OpenHabApplication
 import org.openhab.habdroid.core.connection.Connection
@@ -619,6 +627,8 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     internal class CommunicationFailureFragment : StatusFragment() {
+        override val showsRetryCountdown = true
+
         override fun onClick(view: View) {
             (activity as MainActivity).retryServerPropertyQuery()
         }
@@ -650,6 +660,8 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     internal class NoNetworkFragment : StatusFragment() {
+        override val showsRetryCountdown = true
+
         override fun onClick(view: View) {
             activity?.getConnectionFactory()?.restartNetworkCheck()
             activity?.recreate()
@@ -807,6 +819,8 @@ abstract class ContentController protected constructor(private val activity: Mai
     internal abstract class StatusFragment :
         Fragment(),
         View.OnClickListener {
+        protected open val showsRetryCountdown = false
+
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
             val arguments = requireArguments()
             val binding = FragmentStatusBinding.inflate(inflater, container, false)
@@ -840,7 +854,41 @@ abstract class ContentController protected constructor(private val activity: Mai
                 }
             }
 
+            if (showsRetryCountdown) {
+                observeRetryCountdown(binding)
+            }
+
             return binding.root
+        }
+
+        private fun observeRetryCountdown(binding: FragmentStatusBinding) {
+            val scheduledRetry = (activity as? MainActivity)?.scheduledRetry ?: return
+            binding.retryProgress.max = RETRY_PROGRESS_MAX
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    scheduledRetry.collectLatest { retry ->
+                        binding.retryHint.isVisible = retry != null
+                        binding.retryProgress.isVisible = retry != null
+                        while (retry != null) {
+                            val now = SystemClock.elapsedRealtime()
+                            val remainingMillis = (retry.runsAt - now).coerceAtLeast(0)
+                            val remainingSeconds = ((remainingMillis + 999) / 1000).toInt()
+                            binding.retryHint.text = resources.getQuantityString(
+                                R.plurals.retry_automatically_in,
+                                remainingSeconds,
+                                remainingSeconds
+                            )
+                            val totalMillis = (retry.runsAt - retry.scheduledAt).coerceAtLeast(1)
+                            binding.retryProgress.progress =
+                                ((totalMillis - remainingMillis) * RETRY_PROGRESS_MAX / totalMillis).toInt()
+                            if (remainingMillis == 0L) {
+                                break
+                            }
+                            delay(RETRY_PROGRESS_UPDATE_INTERVAL)
+                        }
+                    }
+                }
+            }
         }
 
         companion object {
@@ -851,6 +899,8 @@ abstract class ContentController protected constructor(private val activity: Mai
             internal const val KEY_PROGRESS = "progress"
             internal const val KEY_RESOLVE_ATTEMPTED = "resolveAttempted"
             internal const val KEY_WIFI_ENABLED = "wifiEnabled"
+            private const val RETRY_PROGRESS_MAX = 1000
+            private val RETRY_PROGRESS_UPDATE_INTERVAL = 100.milliseconds
 
             internal fun buildArgs(
                 message: CharSequence,
