@@ -40,6 +40,7 @@ import org.openhab.habdroid.databinding.BottomSheetSelectionItemRadioButtonBindi
 import org.openhab.habdroid.databinding.BottomSheetSetpointBinding
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.toColorTemperatureInKelvin
+import org.openhab.habdroid.model.toItemCommand
 import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.ui.widget.WidgetSlider
 import org.openhab.habdroid.util.ColorPickerHelper

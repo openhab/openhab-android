@@ -220,3 +220,5 @@ fun InputStream.svgToBitmap(
 } catch (e: Exception) {
     throw IOException("SVG decoding failed", e)
 }
+
+fun Float.beautify() = if (this == this.toInt().toFloat()) this.toInt().toString() else this.toString()
