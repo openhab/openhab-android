@@ -31,7 +31,6 @@
     <string name="settings_openhab_password">Salasana</string>
     <string name="settings_openhab_password_summary_weak">Heikko salasana asetettu</string>
     <string name="settings_openhab_password_summary_strong">Vahva salasana asetettu</string>
-    <string name="settings_openhab_api_token_hint">Jos käytät API tokenia, kirjoita se käyttäjänimi kenttään ja jätä salasanakenttä tyhjäksi</string>
     <string name="settings_openhab_sslclientcert">Asiakkaan SSL sertifikaatti</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Näpäytä tästä nähdäksesi muutamia vinkkejä ja ohjeita kuinka asennat asiakkaan SSL todennuksen</string>
     <string name="settings_openhab_sslclientcert_not_supported">Laitteesi ei tue asiakkaan SSL sertifikaattia</string>

@@ -37,7 +37,6 @@
     <string name="settings_openhab_password">סיסמה</string>
     <string name="settings_openhab_password_summary_weak">סיסמא חלשה</string>
     <string name="settings_openhab_password_summary_strong">סיסמא חזקה</string>
-    <string name="settings_openhab_api_token_hint">אם הנך משתמש ב-API token, הזן אותו בשדה שם המשתמש והשאר את שדה הסיסמה ריק</string>
     <string name="settings_openhab_sslclientcert">תעודת לקוח SSL</string>
     <string name="settings_openhab_sslclientcert_howto_summary">הקש כאן כדי לקבל כמה רמזים והסברים על איך להגדיר אימות תעודת לקוח SSL</string>
     <string name="settings_openhab_sslclientcert_not_supported">אישורי לקוח SSL אינם נתמכים על ידי המכשיר שלך</string>

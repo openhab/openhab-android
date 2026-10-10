@@ -34,7 +34,6 @@
     <string name="settings_openhab_password">密码</string>
     <string name="settings_openhab_password_summary_weak">弱密码</string>
     <string name="settings_openhab_password_summary_strong">强密码</string>
-    <string name="settings_openhab_api_token_hint">如果您正在使用 API token 令牌，请在用户名字段中输入此令牌并密码字段留空</string>
     <string name="settings_openhab_sslclientcert">SSL 客户端证书</string>
     <string name="settings_openhab_sslclientcert_howto_summary">点击此处获取设置 SSL 客户端证书认证的信息</string>
     <string name="settings_openhab_sslclientcert_not_supported">您的设备不支持 SSL 客户端证书</string>

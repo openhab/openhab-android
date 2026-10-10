@@ -12,6 +12,15 @@
         android:icon="@drawable/ic_earth_grey_24dp"
         app:isForRemoteServer="true"
         app:singleLineTitle="false" />
+    <ListPreference
+        android:key="auth_method"
+        android:persistent="false"
+        android:title="@string/settings_openhab_auth_method"
+        android:summary="%s"
+        android:entries="@array/authMethodNames"
+        android:entryValues="@array/authMethodValues"
+        android:icon="@drawable/ic_lock_outline_grey_24dp"
+        app:singleLineTitle="false" />
     <org.openhab.habdroid.ui.preference.widgets.CustomInputTypePreference
         android:defaultValue="@string/empty_string"
         android:persistent="false"
@@ -33,8 +42,22 @@
         android:icon="@drawable/ic_shield_key_outline_grey_24dp"
         app:singleLineTitle="false" />
     <org.openhab.habdroid.ui.preference.widgets.InfoPreference
+        android:key="basic_auth_hint"
+        app:infoUrl="https://www.openhab.org/docs/configuration/restdocs.html#authentication"
+        android:summary="@string/settings_openhab_basic_auth_info"
+        app:singleLineTitle="false" />
+    <org.openhab.habdroid.ui.preference.widgets.CustomInputTypePreference
+        android:defaultValue="@string/empty_string"
+        android:persistent="false"
+        android:inputType="textPassword"
+        android:key="api_token"
+        android:title="@string/settings_openhab_api_token"
+        app:whitespaceBehavior="trim"
+        android:icon="@drawable/ic_shield_key_outline_grey_24dp"
+        app:singleLineTitle="false" />
+    <org.openhab.habdroid.ui.preference.widgets.InfoPreference
         android:key="api_token_hint"
         app:infoUrl="https://www.openhab.org/docs/configuration/restdocs.html#authentication"
-        android:summary="@string/settings_openhab_api_token_hint"
+        android:summary="@string/settings_openhab_api_token_info"
         app:singleLineTitle="false" />
 </androidx.preference.PreferenceScreen>

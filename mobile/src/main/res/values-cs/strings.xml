@@ -33,7 +33,6 @@
     <string name="settings_openhab_password">Heslo</string>
     <string name="settings_openhab_password_summary_weak">Slabé heslo</string>
     <string name="settings_openhab_password_summary_strong">Silné heslo</string>
-    <string name="settings_openhab_api_token_hint">Pokud používáte API token, zadejte jej do pole pro uživatelské jméno a pole s heslem ponechte prázdné</string>
     <string name="settings_openhab_sslclientcert">Klientský certifikát SSL</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Klepnutím sem získáte informace o tom, jak nastavit ověřování klientských certifikátů SSL</string>
     <string name="settings_openhab_sslclientcert_not_supported">Certifikáty SSL klienta nejsou podporována vaším zařízením</string>

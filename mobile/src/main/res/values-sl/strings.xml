@@ -28,7 +28,6 @@
     <string name="settings_openhab_password">Geslo</string>
     <string name="settings_openhab_password_summary_weak">Šibko geslo</string>
     <string name="settings_openhab_password_summary_strong">Močno geslo</string>
-    <string name="settings_openhab_api_token_hint">V kolikor uporabljate API žeton, ga vnesite v polje za uporabniško ime in pustite polje za geslo prazno</string>
     <string name="settings_openhab_sslclientcert">SSL certifikat klienta</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Povezava na namige in pojasnila kako vzpostaviti avtentikacijo s pomočjo SSL certifikata klienta</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL certifikati klienta niso podprti na vaši napravi</string>

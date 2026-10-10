@@ -34,7 +34,6 @@
     <string name="settings_openhab_password">Contrasenya</string>
     <string name="settings_openhab_password_summary_weak">La contrasenya és dèbil</string>
     <string name="settings_openhab_password_summary_strong">La contrasenya és forta</string>
-    <string name="settings_openhab_api_token_hint">Si utilitzeu un API token, introduïu-lo al camp del nom d\'usuari i deixeu el camp de la contrasenya buit</string>
     <string name="settings_openhab_sslclientcert">Certificat SSL de client</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Toqueu aquí per a obtenir alguns consells i explicacions sobre com configurar l\'autenticació amb certificat SSL de client</string>
     <string name="settings_openhab_sslclientcert_not_supported">Els certificats SSL de client no estan suportats per al teu dispositiu</string>
