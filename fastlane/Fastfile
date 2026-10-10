@@ -35,6 +35,22 @@ platform :android do
       apk: "$HOME/apks_to_deploy/openhab-android.apk"
     )
   end
+
+  desc "Deploy a new version of the Wear OS app to the Google Play"
+  lane :deployWear do
+    upload_to_play_store(
+      track: 'wear:production',
+      apk: "$HOME/apks_to_deploy/openhab-android-wear.apk"
+    )
+  end
+
+  desc "Deploy a new beta version of the Wear OS app to the Google Play"
+  lane :betaDeployWear do
+    upload_to_play_store(
+      track: 'wear:beta',
+      apk: "$HOME/apks_to_deploy/openhab-android-wear.apk"
+    )
+  end
 end
 
 # More information about multiple platforms in fastlane: https://docs.fastlane.tools/advanced/#control-configuration-by-lane-and-by-platform
