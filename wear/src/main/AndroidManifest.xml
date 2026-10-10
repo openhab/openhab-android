@@ -57,6 +57,43 @@
         </service>
 
         <service
+            android:name=".complication.ItemComplicationService"
+            android:exported="true"
+            android:icon="@drawable/ic_openhab_monochrome_24dp"
+            android:label="@string/complication_label"
+            android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
+            <intent-filter>
+                <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST" />
+            </intent-filter>
+            <meta-data
+                android:name="android.support.wearable.complications.SUPPORTED_TYPES"
+                android:value="SHORT_TEXT,LONG_TEXT,RANGED_VALUE" />
+            <meta-data
+                android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
+                android:value="300" />
+            <meta-data
+                android:name="android.support.wearable.complications.PROVIDER_CONFIG_ACTION"
+                android:value="org.openhab.habdroid.wear.COMPLICATION_CONFIG" />
+        </service>
+
+        <activity
+            android:name=".complication.ComplicationConfigActivity"
+            android:exported="true"
+            android:label="@string/complication_choose_item"
+            android:taskAffinity=""
+            android:theme="@style/openHAB.Wear">
+            <intent-filter>
+                <action android:name="org.openhab.habdroid.wear.COMPLICATION_CONFIG" />
+                <category android:name="android.support.wearable.complications.category.PROVIDER_CONFIG" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".complication.ComplicationTapReceiver"
+            android:exported="false" />
+
+        <service
             android:name=".config.WearConfigListenerService"
             android:exported="true">
             <intent-filter>
