@@ -14,6 +14,7 @@
 package org.openhab.habdroid.ui.preference.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -21,18 +22,29 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.edit
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.work.WorkManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.launch
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import org.json.JSONArray
+import org.json.JSONException
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
+import org.openhab.habdroid.core.connection.Connection
+import org.openhab.habdroid.core.wear.WearHelper
+import org.openhab.habdroid.model.DefaultSitemap
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
+import org.openhab.habdroid.model.ServerProperties
+import org.openhab.habdroid.model.sortedWithDefaultName
 import org.openhab.habdroid.model.toWifiSsids
 import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.preference.widgets.SslClientCertificatePreference
@@ -40,9 +52,12 @@ import org.openhab.habdroid.ui.preference.widgets.WifiSsidInputPreference
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getConfiguredServerIds
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getPreference
 import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getWebViewManager
+import org.openhab.habdroid.util.map
+import org.openhab.habdroid.util.optStringOrNull
 import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.putPrimaryServerId
 import org.openhab.habdroid.util.updateDefaultSitemap
@@ -221,6 +236,8 @@ class ServerEditorFragment :
             true
         }
 
+        setupWearPreferences()
+
         val wifiSsidPref = getPreference("wifi_ssid") as WifiSsidInputPreference
         if (prefs.getConfiguredServerIds().isEmpty()) {
             preferenceScreen.removePreferenceRecursively(PrefKeys.PRIMARY_SERVER_PREF)
@@ -306,6 +323,106 @@ class ServerEditorFragment :
         }
     }
 
+    /**
+     * Only the primary server is used on the watch
+     */
+    private fun setupWearPreferences() {
+        val wearCategory = getPreference(PREF_WEAR)
+        val sitemapPref = getPreference(PREF_WEAR_SITEMAP)
+        val groupPref = getPreference(PREF_WEAR_COMPLICATION_GROUP)
+        if (WearHelper.IS_SUPPORTED && config.id == prefs.getPrimaryServerId()) {
+            lifecycleScope.launch {
+                wearCategory.isVisible = WearHelper.hasWatchWithApp(preferenceManager.context)
+            }
+        }
+        updateWearSummaries()
+
+        sitemapPref.setOnPreferenceClickListener {
+            loadFromPrimaryServer { connection ->
+                val props = ServerProperties.fetch(connection) as? ServerProperties.Companion.PropsSuccess
+                    ?: return@loadFromPrimaryServer null
+                val sitemaps = props.props.sitemaps.sortedWithDefaultName(config.defaultSitemap?.name.orEmpty())
+                val options = listOf(null to getString(R.string.settings_wear_sitemap_default)) +
+                    sitemaps.map { sitemap -> DefaultSitemap(sitemap.name, sitemap.label) to sitemap.label }
+                showWearChoiceDialog(R.string.settings_wear_sitemap, options, config.wearSitemap) { selected ->
+                    config = ServerConfiguration.createFrom(config, wearSitemap = selected)
+                }
+            }
+            true
+        }
+
+        groupPref.setOnPreferenceClickListener {
+            loadFromPrimaryServer { connection ->
+                val response = connection.httpClient
+                    .get("rest/items?type=Group&fields=name,label")
+                    .asText()
+                    .response
+                val groups = JSONArray(response)
+                    .map { group -> group.getString("name") to group.optStringOrNull("label") }
+                    .sortedBy { (name, label) -> (label ?: name).lowercase() }
+                val options = listOf(null to getString(R.string.settings_wear_complication_group_all)) +
+                    groups.map { (name, label) -> name to (label?.let { "$it ($name)" } ?: name) }
+                showWearChoiceDialog(
+                    R.string.settings_wear_complication_group,
+                    options,
+                    config.wearComplicationGroup
+                ) { selected ->
+                    config = ServerConfiguration.createFrom(config, wearComplicationGroup = selected)
+                }
+            }
+            true
+        }
+    }
+
+    private fun updateWearSummaries() {
+        getPreference(PREF_WEAR_SITEMAP).summary =
+            config.wearSitemap?.label ?: getString(R.string.settings_wear_sitemap_default)
+        getPreference(PREF_WEAR_COMPLICATION_GROUP).summary = config.wearComplicationGroup
+            ?.let { group -> getString(R.string.settings_wear_complication_group_summary, group) }
+            ?: getString(R.string.settings_wear_complication_group_all)
+    }
+
+    /**
+     * Loads data from the primary server, which is the server shown on the watch
+     *
+     * @param block Loads the data and shows it, returns null if loading failed
+     */
+    private fun loadFromPrimaryServer(block: suspend (Connection) -> Unit?) {
+        val connection = preferenceManager.context.getConnectionFactory().currentPrimary?.conn?.connection
+        lifecycleScope.launch {
+            val result = try {
+                connection?.let { block(it) }
+            } catch (e: HttpClient.HttpException) {
+                Log.d(TAG, "Loading data for Wear OS failed", e)
+                null
+            } catch (e: JSONException) {
+                Log.d(TAG, "Parsing data for Wear OS failed", e)
+                null
+            }
+            if (result == null) {
+                parentActivity.showSnackbar(SNACKBAR_TAG_WEAR_LOAD_FAILED, R.string.settings_wear_load_failed)
+            }
+        }
+    }
+
+    private fun <T> showWearChoiceDialog(
+        @StringRes titleResId: Int,
+        options: List<Pair<T?, String>>,
+        selected: T?,
+        onSelected: (T?) -> Unit
+    ) {
+        val selectedIndex = options.indexOfFirst { (value, _) -> value == selected }.coerceAtLeast(0)
+        MaterialAlertDialogBuilder(preferenceManager.context)
+            .setTitle(titleResId)
+            .setSingleChoiceItems(options.map { (_, label) -> label }.toTypedArray(), selectedIndex) { dialog, which ->
+                onSelected(options[which].first)
+                updateWearSummaries()
+                dialog.dismiss()
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
+    }
+
     private fun handleNoDefaultSitemap(pref: Preference) {
         pref.isEnabled = false
         pref.setSummary(R.string.settings_no_default_sitemap)
@@ -345,6 +462,12 @@ class ServerEditorFragment :
     }
 
     companion object {
+        private val TAG = ServerEditorFragment::class.java.simpleName
+        private const val PREF_WEAR = "wear"
+        private const val PREF_WEAR_SITEMAP = "wear_sitemap"
+        private const val PREF_WEAR_COMPLICATION_GROUP = "wear_complication_group"
+        private const val SNACKBAR_TAG_WEAR_LOAD_FAILED = "wear_load_failed"
+
         fun newInstance(config: ServerConfiguration): ServerEditorFragment {
             val f = ServerEditorFragment()
             f.arguments = Bundle().apply {

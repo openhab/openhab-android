@@ -19,7 +19,10 @@ import android.nfc.NfcAdapter
 import android.os.Bundle
 import org.openhab.habdroid.model.toTagData
 import org.openhab.habdroid.ui.MainActivity
+import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.util.getBackgroundTasksManager
+import org.openhab.habdroid.util.getConfiguredServerIds
+import org.openhab.habdroid.util.getPrefs
 
 class NfcReceiveActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +33,15 @@ class NfcReceiveActivity : Activity() {
             return
         }
 
-        if (intent.action == NfcAdapter.ACTION_NDEF_DISCOVERED) {
+        if (intent.action == Intent.ACTION_VIEW && intent.data?.host == WEAR_SETUP_HOST) {
+            // Opened by the Wear OS app to set up a server
+            val startIntent = if (getPrefs().getConfiguredServerIds().isEmpty()) {
+                Intent(this, MainActivity::class.java)
+            } else {
+                Intent(this, PreferencesActivity::class.java).setAction(PreferencesActivity.ACTION_WEAR_SETUP)
+            }
+            startActivity(startIntent)
+        } else if (intent.action == NfcAdapter.ACTION_NDEF_DISCOVERED) {
             val tag = intent.data?.toTagData()
             val sitemap = tag?.sitemap
             getBackgroundTasksManager().enqueueNfcUpdateIfNeeded(tag)
@@ -44,5 +55,9 @@ class NfcReceiveActivity : Activity() {
         }
 
         finishAndRemoveTask()
+    }
+
+    companion object {
+        private const val WEAR_SETUP_HOST = "wear-setup"
     }
 }
