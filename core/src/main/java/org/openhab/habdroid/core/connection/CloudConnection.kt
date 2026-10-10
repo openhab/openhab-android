@@ -21,11 +21,8 @@ import org.json.JSONObject
 import org.openhab.habdroid.core.connection.AbstractConnection.Companion.TAG
 import org.openhab.habdroid.util.HttpClient
 
-class CloudConnection constructor(
-    baseConnection: AbstractConnection,
-    val messagingSenderId: String,
-    val proxyUrl: HttpUrl
-) : DefaultConnection(baseConnection, Connection.TYPE_CLOUD) {
+class CloudConnection(baseConnection: AbstractConnection, val messagingSenderId: String, val proxyUrl: HttpUrl) :
+    DefaultConnection(baseConnection, Connection.TYPE_CLOUD) {
 
     override fun equals(other: Any?) =
         super.equals(other) && other is CloudConnection && messagingSenderId == other.messagingSenderId

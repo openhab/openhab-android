@@ -27,7 +27,7 @@ import org.openhab.habdroid.util.optStringOrNull
 import org.w3c.dom.Node
 
 @Parcelize
-data class Item constructor(
+data class Item(
     val name: String,
     private val rawLabel: String?,
     val category: String?,

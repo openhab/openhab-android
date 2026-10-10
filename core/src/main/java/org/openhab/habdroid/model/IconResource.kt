@@ -30,13 +30,12 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrNull
 
 @Parcelize
-data class IconResource constructor(val icon: String, val isOh2: Boolean, val customState: String) : Parcelable {
+data class IconResource(val icon: String, val isOh2: Boolean, val customState: String) : Parcelable {
     fun toUrl(context: Context, includeState: Boolean): String {
         val iconSize = context.resources.getDimensionPixelSize(R.dimen.widgetlist_icon_size)
         return toUrl(includeState, context.getPrefs().getIconFormat(), iconSize)
     }
 
-    @VisibleForTesting
     fun toUrl(includeState: Boolean, iconFormat: IconFormat, desiredSizePixels: Int): String {
         if (!isOh2) {
             return "images/$icon.png"
