@@ -49,6 +49,11 @@
     <string name="tile_not_connected">Unable to connect to openHAB</string>
     <string name="tile_no_widgets">Add switches to the start page of the sitemap to show them here</string>
 
+    <!-- Complication -->
+    <string name="complication_label">Item state</string>
+    <string name="complication_preview_label">Temperature</string>
+    <string name="complication_choose_item">Choose item</string>
+
     <!-- Voice -->
     <string name="voice_command">Voice command</string>
     <string name="voice_prompt">Say a command</string>
