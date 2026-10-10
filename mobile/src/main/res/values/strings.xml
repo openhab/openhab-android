@@ -498,6 +498,10 @@
     <string name="settings_troubleshooting_title">Troubleshooting</string>
     <string name="undo">Undo</string>
     <string name="try_again_button">Try again</string>
+    <plurals name="retry_automatically_in">
+        <item quantity="one">Trying again automatically in %d second</item>
+        <item quantity="other">Trying again automatically in %d seconds</item>
+    </plurals>
     <string name="enable_wifi_button">Turn on Wi-Fi</string>
     <string name="switch_wifi_button">Connect to other Wi-Fi</string>
     <string name="go_to_settings_button">Go to settings</string>
