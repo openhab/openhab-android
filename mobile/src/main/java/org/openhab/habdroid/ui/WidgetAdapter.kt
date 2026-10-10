@@ -124,6 +124,7 @@ import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.toColorTemperatureInKelvin
+import org.openhab.habdroid.model.toItemCommand
 import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.ui.widget.ContextMenuAwareRecyclerView
 import org.openhab.habdroid.ui.widget.WidgetImageView
@@ -2180,26 +2181,6 @@ fun MaterialButton.setTextAndIcon(
         }
     }
 }
-
-fun ParsedState.NumberState?.toItemCommand(item: Item?): String? {
-    if (this == null || item == null) {
-        return null
-    }
-    return if (item.isOfTypeOrGroupType(Item.Type.NumberWithDimension)) {
-        // For number items, include unit (if present) in command
-        toString(Locale.US, false)
-    } else {
-        // For all other items, send the plain value
-        formatValue()
-    }
-}
-
-fun LocalDateTime?.toItemCommand(item: Item?) =
-    if (this != null && item != null && item.isOfTypeOrGroupType(Item.Type.DateTime)) {
-        format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-    } else {
-        null
-    }
 
 fun LabeledValue.toWidget(id: String, item: Item?): Widget = Widget(
     id = id,

@@ -508,8 +508,6 @@ fun ServiceInfo.addToPrefs(context: Context) {
 /**
  * Removes trailing `.0` from float
  */
-fun Float.beautify() = if (this == this.toInt().toFloat()) this.toInt().toString() else this.toString()
-
 fun Menu.getGroupItems(groupId: Int): List<MenuItem> = (0 until size())
     .map { index -> getItem(index) }
     .filter { item -> item.groupId == groupId }
