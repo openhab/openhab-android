@@ -84,6 +84,13 @@
     <string name="settings_no_default_sitemap">No default Sitemap selected</string>
     <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Current default Sitemap: %1$s</string>
+    <string name="settings_wear">Wear OS</string>
+    <string name="settings_wear_sitemap">Sitemap on watch</string>
+    <string name="settings_wear_sitemap_default">Same as default Sitemap</string>
+    <string name="settings_wear_complication_group">Items for complications</string>
+    <string name="settings_wear_complication_group_all">All items</string>
+    <string name="settings_wear_complication_group_summary">Members of %1$s</string>
+    <string name="settings_wear_load_failed">Unable to load data from the server</string>
     <string name="settings_main_ui_start_page">Main UI start page</string>
     <string name="settings_ui_command_item_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#ui-command-item</string>
     <string name="settings_ui_command_item">UI command Item</string>

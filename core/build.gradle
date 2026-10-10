@@ -29,6 +29,10 @@ android {
     lint {
         abortOnError false
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 repositories {
@@ -48,4 +52,7 @@ dependencies {
     api libs.okhttp
     api libs.okhttp.sse
     api libs.androidsvg
+
+    testImplementation libs.junit
+    testImplementation libs.json
 }

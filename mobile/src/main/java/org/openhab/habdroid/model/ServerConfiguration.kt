@@ -39,7 +39,9 @@ data class ServerConfiguration(
     val wifiSsids: Set<String>?,
     val restrictToWifiSsids: Boolean,
     val frontailUrl: String?,
-    val mainUiStartPage: String?
+    val mainUiStartPage: String?,
+    val wearSitemap: DefaultSitemap? = null,
+    val wearComplicationGroup: String? = null
 ) : Parcelable {
     fun saveToPrefs(prefs: SharedPreferences, secretPrefs: SharedPreferences) {
         Log.d(TAG, "saveToPrefs: ${this.toRedactedString()}")
@@ -51,6 +53,9 @@ data class ServerConfiguration(
             putString(PrefKeys.buildServerKey(id, PrefKeys.REMOTE_URL_PREFIX), remotePath?.url)
             putString(PrefKeys.buildServerKey(id, PrefKeys.FRONTAIL_URL_PREFIX), frontailUrl)
             putString(PrefKeys.buildServerKey(id, PrefKeys.MAIN_UI_START_PAGE_PREFIX), mainUiStartPage)
+            putString(PrefKeys.buildServerKey(id, PrefKeys.WEAR_SITEMAP_NAME_PREFIX), wearSitemap?.name)
+            putString(PrefKeys.buildServerKey(id, PrefKeys.WEAR_SITEMAP_LABEL_PREFIX), wearSitemap?.label)
+            putString(PrefKeys.buildServerKey(id, PrefKeys.WEAR_COMPLICATION_GROUP_PREFIX), wearComplicationGroup)
             putString(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX), sslClientCert)
             putStringSet(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX), wifiSsids)
             putBoolean(PrefKeys.buildServerKey(id, PrefKeys.RESTRICT_TO_SSID_PREFIX), restrictToWifiSsids)
@@ -83,6 +88,9 @@ data class ServerConfiguration(
             remove(PrefKeys.buildServerKey(id, PrefKeys.REMOTE_URL_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.FRONTAIL_URL_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.MAIN_UI_START_PAGE_PREFIX))
+            remove(PrefKeys.buildServerKey(id, PrefKeys.WEAR_SITEMAP_NAME_PREFIX))
+            remove(PrefKeys.buildServerKey(id, PrefKeys.WEAR_SITEMAP_LABEL_PREFIX))
+            remove(PrefKeys.buildServerKey(id, PrefKeys.WEAR_COMPLICATION_GROUP_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_NAME_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_LABEL_PREFIX))
@@ -155,6 +163,17 @@ data class ServerConfiguration(
                 prefs.getBoolean(PrefKeys.buildServerKey(id, PrefKeys.RESTRICT_TO_SSID_PREFIX), false)
             val frontailUrl = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.FRONTAIL_URL_PREFIX))
             val mainUiStartPage = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.MAIN_UI_START_PAGE_PREFIX))
+            val wearSitemapName = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.WEAR_SITEMAP_NAME_PREFIX))
+            val wearSitemapLabel = prefs.getStringOrNull(
+                PrefKeys.buildServerKey(id, PrefKeys.WEAR_SITEMAP_LABEL_PREFIX)
+            )
+            val wearSitemap = if (wearSitemapName != null && wearSitemapLabel != null) {
+                DefaultSitemap(wearSitemapName, wearSitemapLabel)
+            } else {
+                null
+            }
+            val wearComplicationGroup =
+                prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.WEAR_COMPLICATION_GROUP_PREFIX))
 
             val config = ServerConfiguration(
                 id,
@@ -166,7 +185,9 @@ data class ServerConfiguration(
                 wifiSsids,
                 restrictToWifiSsids,
                 frontailUrl,
-                mainUiStartPage
+                mainUiStartPage,
+                wearSitemap,
+                wearComplicationGroup
             )
             Log.d(TAG, "load: ${config.toRedactedString()}")
             return config
@@ -202,7 +223,9 @@ data class ServerConfiguration(
             wifiSsids: Set<String>? = config.wifiSsids,
             restrictToWifiSsids: Boolean = config.restrictToWifiSsids,
             frontailUrl: String? = config.frontailUrl,
-            mainUiStartPage: String? = config.mainUiStartPage
+            mainUiStartPage: String? = config.mainUiStartPage,
+            wearSitemap: DefaultSitemap? = config.wearSitemap,
+            wearComplicationGroup: String? = config.wearComplicationGroup
         ) = ServerConfiguration(
             id,
             name,
@@ -213,7 +236,9 @@ data class ServerConfiguration(
             wifiSsids,
             restrictToWifiSsids,
             frontailUrl,
-            mainUiStartPage
+            mainUiStartPage,
+            wearSitemap,
+            wearComplicationGroup
         )
     }
 }

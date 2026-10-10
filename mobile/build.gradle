@@ -189,6 +189,8 @@ dependencies {
     fossImplementation libs.osmdroid.android
     fullImplementation libs.firebase.messaging.ktx
     fullImplementation libs.firebase.crashlytics.ktx
+    fullImplementation libs.play.services.wearable
+    fullImplementation libs.kotlinx.coroutines.play.services
 
     fossImplementation libs.acra.mail
     fossImplementation libs.acra.notification
