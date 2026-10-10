@@ -6,6 +6,7 @@
     <string name="setup_open_on_phone">Open on phone</string>
     <string name="setup_demo">Try demo server</string>
     <string name="continue_on_phone">Continue on phone</string>
+    <string name="phone_not_reachable">Phone not reachable</string>
 
     <!-- Errors -->
     <string name="error_title">openHAB</string>

@@ -41,7 +41,9 @@ import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.CircularProgressIndicator
+import androidx.wear.compose.material3.ConfirmationDialogDefaults
 import androidx.wear.compose.material3.EdgeButton
+import androidx.wear.compose.material3.FailureConfirmationDialog
 import androidx.wear.compose.material3.FilledTonalButton
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.ListHeader
@@ -52,6 +54,7 @@ import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.SwitchButton
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TimeText
+import androidx.wear.compose.material3.confirmationDialogCurvedText
 import androidx.wear.compose.material3.openOnPhoneDialogCurvedText
 import androidx.wear.remote.interactions.RemoteActivityHelper
 import kotlinx.coroutines.guava.await
@@ -116,9 +119,7 @@ private fun MessageScreen(
 fun SetupScreen() {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    var showOpenOnPhone by remember { mutableStateOf(false) }
-    val continueText = stringResource(R.string.continue_on_phone)
-    val curvedTextStyle = OpenOnPhoneDialogDefaults.curvedTextStyle
+    var openOnPhoneResult by remember { mutableStateOf<Boolean?>(null) }
 
     MessageScreen(
         title = stringResource(R.string.setup_title),
@@ -126,7 +127,7 @@ fun SetupScreen() {
         edgeButton = {
             EdgeButton(onClick = {
                 scope.launch {
-                    showOpenOnPhone = context.openSetupOnPhone()
+                    openOnPhoneResult = context.openSetupOnPhone()
                 }
             }) {
                 Text(stringResource(R.string.setup_open_on_phone))
@@ -142,10 +143,29 @@ fun SetupScreen() {
         }
     }
 
+    OpenOnPhoneResultDialog(openOnPhoneResult, onDismissRequest = { openOnPhoneResult = null })
+}
+
+/**
+ * Tells the user to continue on the phone, or that the phone isn't reachable
+ *
+ * @param result Result of [openSetupOnPhone], null to hide the dialog
+ */
+@Composable
+private fun OpenOnPhoneResultDialog(result: Boolean?, onDismissRequest: () -> Unit) {
+    val continueText = stringResource(R.string.continue_on_phone)
+    val failedText = stringResource(R.string.phone_not_reachable)
+    val openOnPhoneTextStyle = OpenOnPhoneDialogDefaults.curvedTextStyle
+    val failureTextStyle = ConfirmationDialogDefaults.curvedTextStyle
     OpenOnPhoneDialog(
-        visible = showOpenOnPhone,
-        onDismissRequest = { showOpenOnPhone = false },
-        curvedText = { openOnPhoneDialogCurvedText(text = continueText, style = curvedTextStyle) }
+        visible = result == true,
+        onDismissRequest = onDismissRequest,
+        curvedText = { openOnPhoneDialogCurvedText(text = continueText, style = openOnPhoneTextStyle) }
+    )
+    FailureConfirmationDialog(
+        visible = result == false,
+        onDismissRequest = onDismissRequest,
+        curvedText = { confirmationDialogCurvedText(failedText, failureTextStyle) }
     )
 }
 
@@ -224,9 +244,7 @@ fun SettingsScreen(viewModel: SitemapViewModel) {
     val repository = context.wearApplication.configRepository
     val settings by repository.settings.collectAsStateWithLifecycle()
     val connectionState by context.wearApplication.connectionManager.state.collectAsStateWithLifecycle()
-    var showOpenOnPhone by remember { mutableStateOf(false) }
-    val continueText = stringResource(R.string.continue_on_phone)
-    val curvedTextStyle = OpenOnPhoneDialogDefaults.curvedTextStyle
+    var openOnPhoneResult by remember { mutableStateOf<Boolean?>(null) }
     val listState = rememberTransformingLazyColumnState()
 
     ScreenScaffold(scrollState = listState) { contentPadding ->
@@ -270,7 +288,7 @@ fun SettingsScreen(viewModel: SitemapViewModel) {
             }
             item {
                 FilledTonalButton(
-                    onClick = { scope.launch { showOpenOnPhone = context.openSetupOnPhone() } },
+                    onClick = { scope.launch { openOnPhoneResult = context.openSetupOnPhone() } },
                     label = { Text(stringResource(R.string.settings_edit_on_phone)) },
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -278,9 +296,5 @@ fun SettingsScreen(viewModel: SitemapViewModel) {
         }
     }
 
-    OpenOnPhoneDialog(
-        visible = showOpenOnPhone,
-        onDismissRequest = { showOpenOnPhone = false },
-        curvedText = { openOnPhoneDialogCurvedText(text = continueText, style = curvedTextStyle) }
-    )
+    OpenOnPhoneResultDialog(openOnPhoneResult, onDismissRequest = { openOnPhoneResult = null })
 }
