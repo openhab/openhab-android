@@ -31,6 +31,7 @@ import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.wear.connection.WearConnectionManager
 import org.openhab.habdroid.wear.connection.WearConnectionManager.ConnectionError
+import org.openhab.habdroid.wear.tile.SitemapTileService
 import org.openhab.habdroid.wear.util.buildSourceId
 import org.openhab.habdroid.wear.util.findWearSitemap
 import org.openhab.habdroid.wear.wearApplication
@@ -104,6 +105,8 @@ class SitemapViewModel(application: Application) :
         Log.d(TAG, "Send command $command to ${item?.name}")
         val sitemap = (state.value as? State.Ready)?.sitemap
         connection?.httpClient?.sendItemCommand(item, command, buildSourceId(sitemap, visiblePage))
+        // The tile might show the item
+        SitemapTileService.requestUpdate(getApplication())
     }
 
     private fun onConnectionStateChanged(connectionState: WearConnectionManager.State) {
