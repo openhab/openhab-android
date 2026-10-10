@@ -27,13 +27,13 @@ import kotlinx.parcelize.Parcelize
 import org.openhab.habdroid.util.asColorTemperatureToKelvin
 
 @Parcelize
-data class HsvState constructor(val hue: Float, val saturation: Float, val value: Float) : Parcelable {
+data class HsvState(val hue: Float, val saturation: Float, val value: Float) : Parcelable {
     fun toColor(includeValue: Boolean = true): Int =
         Color.HSVToColor(floatArrayOf(hue, saturation, if (includeValue) value else 100F))
 }
 
 @Parcelize
-data class ParsedState constructor(
+data class ParsedState(
     val asString: String,
     val asBoolean: Boolean,
     val asNumber: NumberState?,
@@ -165,7 +165,7 @@ data class ParsedState constructor(
     }
 
     @Parcelize
-    data class NumberState constructor(val value: Float, val unit: String? = null, val format: String? = null) :
+    data class NumberState(val value: Float, val unit: String? = null, val format: String? = null) :
         Parcelable {
         override fun toString() = toString(Locale.getDefault(), false)
 

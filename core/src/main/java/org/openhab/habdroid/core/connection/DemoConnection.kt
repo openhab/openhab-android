@@ -16,7 +16,7 @@ package org.openhab.habdroid.core.connection
 import okhttp3.OkHttpClient
 import org.openhab.habdroid.model.ServerPath
 
-class DemoConnection constructor(httpClient: OkHttpClient) :
+class DemoConnection(httpClient: OkHttpClient) :
     AbstractConnection(httpClient, Connection.TYPE_REMOTE, ServerPath("https://demo.openhab.org", null, null)) {
 
     override fun equals(other: Any?) = other is DemoConnection

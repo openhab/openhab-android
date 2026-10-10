@@ -25,7 +25,7 @@ import org.w3c.dom.Document
 import org.w3c.dom.Node
 
 @Parcelize
-data class Sitemap constructor(val name: String, val label: String, val icon: IconResource?, val homepageLink: String) :
+data class Sitemap(val name: String, val label: String, val icon: IconResource?, val homepageLink: String) :
     Parcelable
 
 fun Node.toSitemap(): Sitemap? {

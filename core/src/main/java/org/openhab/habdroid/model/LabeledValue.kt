@@ -20,7 +20,7 @@ import org.json.JSONObject
 import org.openhab.habdroid.util.optStringOrNull
 
 @Parcelize
-data class LabeledValue constructor(
+data class LabeledValue(
     val value: String,
     val valueRelease: String?,
     val label: String,
