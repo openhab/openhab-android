@@ -21,7 +21,7 @@ import org.json.JSONObject
 import org.openhab.habdroid.core.connection.AbstractConnection.Companion.TAG
 import org.openhab.habdroid.util.HttpClient
 
-class CloudConnection internal constructor(
+class CloudConnection constructor(
     baseConnection: AbstractConnection,
     val messagingSenderId: String,
     val proxyUrl: HttpUrl

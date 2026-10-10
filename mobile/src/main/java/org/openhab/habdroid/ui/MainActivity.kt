@@ -108,6 +108,7 @@ import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.model.WebViewUi
+import org.openhab.habdroid.model.hasWebViewUiInstalled
 import org.openhab.habdroid.model.sortedWithDefaultName
 import org.openhab.habdroid.model.toTagData
 import org.openhab.habdroid.ui.activity.ContentController
@@ -1278,15 +1279,16 @@ class MainActivity : AbstractBaseActivity() {
         val defaultIcon = ContextCompat.getDrawable(this, R.drawable.ic_openhab_appicon_24dp)
         item.icon = applyDrawerIconTint(defaultIcon)
         val conn = connection
+        val icon = sitemap.icon
 
-        if (sitemap.icon == null || conn == null) {
+        if (icon == null || conn == null) {
             return
         }
         launch {
             val context = this@MainActivity
             try {
                 item.icon = conn.httpClient
-                    .get(sitemap.icon.toUrl(context, context.determineDataUsagePolicy(conn).loadIconsWithState))
+                    .get(icon.toUrl(context, context.determineDataUsagePolicy(conn).loadIconsWithState))
                     .asBitmap(
                         defaultIcon!!.intrinsicWidth,
                         getIconFallbackColor(IconBackground.APP_THEME),

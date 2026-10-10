@@ -27,15 +27,13 @@ import kotlinx.parcelize.Parcelize
 import org.openhab.habdroid.util.asColorTemperatureToKelvin
 
 @Parcelize
-@ConsistentCopyVisibility
-data class HsvState internal constructor(val hue: Float, val saturation: Float, val value: Float) : Parcelable {
+data class HsvState constructor(val hue: Float, val saturation: Float, val value: Float) : Parcelable {
     fun toColor(includeValue: Boolean = true): Int =
         Color.HSVToColor(floatArrayOf(hue, saturation, if (includeValue) value else 100F))
 }
 
 @Parcelize
-@ConsistentCopyVisibility
-data class ParsedState internal constructor(
+data class ParsedState constructor(
     val asString: String,
     val asBoolean: Boolean,
     val asNumber: NumberState?,
@@ -49,7 +47,7 @@ data class ParsedState internal constructor(
     override fun hashCode() = asString.hashCode()
 
     companion object {
-        internal fun parseAsBoolean(state: String): Boolean {
+        fun parseAsBoolean(state: String): Boolean {
             // If state is ON for switches return True
             if (state == "ON") {
                 return true
@@ -68,7 +66,7 @@ data class ParsedState internal constructor(
             return false
         }
 
-        internal fun parseAsNumber(state: String, format: String?): NumberState? {
+        fun parseAsNumber(state: String, format: String?): NumberState? {
             return when (state) {
                 "ON" -> NumberState(100F)
 
@@ -94,7 +92,7 @@ data class ParsedState internal constructor(
             }
         }
 
-        internal fun parseAsHsv(state: String): HsvState? {
+        fun parseAsHsv(state: String): HsvState? {
             val stateSplit = state.split(",")
             if (stateSplit.size == 3) { // We need exactly 3 numbers to operate this
                 try {
@@ -110,7 +108,7 @@ data class ParsedState internal constructor(
             return null
         }
 
-        internal fun parseAsLocation(state: String): Location? {
+        fun parseAsLocation(state: String): Location? {
             val splitState = state.split(",")
             // Valid states are either "latitude,longitude" or "latitude,longitude,elevation",
             if (splitState.size == 2 || splitState.size == 3) {
@@ -134,7 +132,7 @@ data class ParsedState internal constructor(
             return null
         }
 
-        internal fun parseAsBrightness(state: String): Int? {
+        fun parseAsBrightness(state: String): Int? {
             val hsbMatcher = HSB_PATTERN.matcher(state)
             if (hsbMatcher.find()) {
                 try {
@@ -159,7 +157,7 @@ data class ParsedState internal constructor(
 
         private val HSB_PATTERN = Pattern.compile("^([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+)$")
 
-        internal fun parseAsDateTime(state: String): LocalDateTime? = try {
+        fun parseAsDateTime(state: String): LocalDateTime? = try {
             LocalDateTime.parse(state.split(".")[0], DateTimeFormatter.ISO_LOCAL_DATE_TIME)
         } catch (e: DateTimeParseException) {
             null
@@ -167,12 +165,8 @@ data class ParsedState internal constructor(
     }
 
     @Parcelize
-    @ConsistentCopyVisibility
-    data class NumberState internal constructor(
-        val value: Float,
-        val unit: String? = null,
-        val format: String? = null
-    ) : Parcelable {
+    data class NumberState constructor(val value: Float, val unit: String? = null, val format: String? = null) :
+        Parcelable {
         override fun toString() = toString(Locale.getDefault(), false)
 
         /**

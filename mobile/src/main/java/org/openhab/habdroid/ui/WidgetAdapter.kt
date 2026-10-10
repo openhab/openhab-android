@@ -776,15 +776,16 @@ class WidgetAdapter(
 
             val displayState = widget.stateFromLabel?.replace("\n", "") ?: ""
 
+            val widgetState = widget.state
             val dataState = when {
-                widget.state == null -> ""
+                widgetState == null -> ""
 
                 widget.inputHint == Widget.InputTypeHint.Number ->
-                    widget.state.asNumber?.toString(Locale.getDefault(), true)
+                    widgetState.asNumber?.toString(Locale.getDefault(), true)
 
                 displayState.isNotEmpty() -> displayState
 
-                else -> widget.state.asString
+                else -> widgetState.asString
             }
             binding.inputvalue.apply {
                 setText(dataState)
@@ -1059,8 +1060,9 @@ class WidgetAdapter(
         override fun onClick(view: View) {
             val button = view.tag as Widget
             // When there's a releaseCommand, the command is sent on ACTION_DOWN
-            if (button.releaseCommand.isNullOrEmpty() && button.command != null) {
-                sendItemUpdateCommand(button.item, button.command)
+            val command = button.command
+            if (button.releaseCommand.isNullOrEmpty() && command != null) {
+                sendItemUpdateCommand(button.item, command)
             }
         }
 
@@ -1147,11 +1149,13 @@ class WidgetAdapter(
             binding.image.setOnClickListener(this)
         }
 
-        override fun canBindWithoutDataTransfer(widget: Widget): Boolean = widget.url == null ||
-            CacheManager.getInstance(itemView.context).isBitmapCached(
-                connection.httpClient.buildUrl(widget.url),
+        override fun canBindWithoutDataTransfer(widget: Widget): Boolean {
+            val url = widget.url ?: return true
+            return CacheManager.getInstance(itemView.context).isBitmapCached(
+                connection.httpClient.buildUrl(url),
                 binding.image.context.getIconFallbackColor(IconBackground.APP_THEME)
             )
+        }
 
         override fun bindAfterDataSaverCheck(widget: Widget) {
             val value = widget.state?.asString
@@ -1167,11 +1171,12 @@ class WidgetAdapter(
                 )
                 setImageScalingType(prefs.getImageWidgetScalingType())
 
+                val url = widget.url
                 if (value != null && value.matches("data:image/.*;base64,.*".toRegex())) {
                     val dataString = value.substring(value.indexOf(",") + 1)
                     setBase64EncodedImage(dataString)
-                } else if (widget.url != null) {
-                    setImageUrl(connection, widget.url, refreshDelayInMs = widget.refresh)
+                } else if (url != null) {
+                    setImageUrl(connection, url, refreshDelayInMs = widget.refresh)
                 } else {
                     setImageDrawable(null)
                 }
@@ -1197,9 +1202,11 @@ class WidgetAdapter(
                     putExtra(ImageWidgetActivity.WIDGET_LABEL, widget.label)
                     putExtra(ImageWidgetActivity.WIDGET_REFRESH, widget.refresh)
                 }
+                val link = widget.item?.link
+                val url = widget.url
                 when {
-                    widget.item?.link != null -> intent.putExtra(ImageWidgetActivity.WIDGET_LINK, widget.item.link)
-                    widget.url != null -> intent.putExtra(ImageWidgetActivity.WIDGET_URL, widget.url)
+                    link != null -> intent.putExtra(ImageWidgetActivity.WIDGET_LINK, link)
+                    url != null -> intent.putExtra(ImageWidgetActivity.WIDGET_URL, url)
                     else -> return@let
                 }
                 context.startActivity(intent)
@@ -1650,7 +1657,7 @@ class WidgetAdapter(
             val isHls = widget.encoding.equals("hls", ignoreCase = true)
             val url = if (isHls) {
                 val state = widget.item?.state?.asString
-                if (state != null && widget.item.type == Item.Type.StringItem) {
+                if (state != null && widget.item?.type == Item.Type.StringItem) {
                     state
                 } else {
                     widget.url
@@ -1769,7 +1776,7 @@ class WidgetAdapter(
         @SuppressLint("SetJavaScriptEnabled")
         override fun bindAfterDataSaverCheck(widget: Widget) {
             val url = widget.url?.let {
-                connection.httpClient.buildUrl(widget.url)
+                connection.httpClient.buildUrl(it)
             }
             binding.webview.apply {
                 adjustForWidgetHeight(widget, 0)
@@ -2030,12 +2037,10 @@ fun Widget.shouldUseDateTimePickerForInput(): Boolean {
 }
 
 fun Widget.shouldUseSliderUpdatesDuringMove(): Boolean {
-    if (releaseOnly != null) {
+    releaseOnly?.let { releaseOnly ->
         return !releaseOnly
     }
-    if (item == null) {
-        return false
-    }
+    val item = item ?: return false
     if (
         item.isOfTypeOrGroupType(Item.Type.Dimmer) ||
         item.isOfTypeOrGroupType(Item.Type.Number) ||
@@ -2097,13 +2102,14 @@ fun WidgetImageView.bindAsWidgetIcon(widget: Widget, vhc: WidgetAdapter.ViewHold
     if (!showIcon) {
         return
     }
-    if (widget.icon == null) {
+    val icon = widget.icon
+    if (icon == null) {
         setImageDrawable(null)
         return
     }
     setImageUrl(
         vhc.connection,
-        widget.icon.toUrl(context, context.determineDataUsagePolicy(vhc.connection).loadIconsWithState)
+        icon.toUrl(context, context.determineDataUsagePolicy(vhc.connection).loadIconsWithState)
     )
     val color = vhc.colorMapper.mapColor(widget.iconColor)
     if (color != null) {

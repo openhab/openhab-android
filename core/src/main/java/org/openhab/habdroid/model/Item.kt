@@ -18,7 +18,7 @@ import java.util.Locale
 import kotlinx.parcelize.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
-import org.openhab.habdroid.R
+import org.openhab.habdroid.core.R
 import org.openhab.habdroid.util.forEach
 import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.mapString
@@ -27,8 +27,7 @@ import org.openhab.habdroid.util.optStringOrNull
 import org.w3c.dom.Node
 
 @Parcelize
-@ConsistentCopyVisibility
-data class Item internal constructor(
+data class Item constructor(
     val name: String,
     private val rawLabel: String?,
     val category: String?,

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="item_tag_location_garage">Garaż</string>
+    <string name="item_tag_location_house">Dom</string>
+    <string name="item_tag_equipment_battery">Bateria</string>
+    <string name="item_tag_equipment_camera">Kamera</string>
+    <string name="item_tag_equipment_lock">Zamek do drzwi</string>
+</resources>

@@ -23,19 +23,14 @@ import java.util.Locale
 import kotlinx.parcelize.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
-import org.openhab.habdroid.R
+import org.openhab.habdroid.core.R
 import org.openhab.habdroid.util.appendQueryParameter
 import org.openhab.habdroid.util.getIconFormat
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrNull
 
 @Parcelize
-@ConsistentCopyVisibility
-data class IconResource internal constructor(
-    internal val icon: String,
-    internal val isOh2: Boolean,
-    internal val customState: String
-) : Parcelable {
+data class IconResource constructor(val icon: String, val isOh2: Boolean, val customState: String) : Parcelable {
     fun toUrl(context: Context, includeState: Boolean): String {
         val iconSize = context.resources.getDimensionPixelSize(R.dimen.widgetlist_icon_size)
         return toUrl(includeState, context.getPrefs().getIconFormat(), iconSize)
@@ -166,7 +161,7 @@ fun String?.toOH1IconResource(): IconResource? =
 fun String?.toOH2IconResource(): IconResource? =
     if (isNullOrEmpty() || isNoneIcon()) null else IconResource(this, true, "")
 
-internal fun String?.toOH2WidgetIconResource(
+fun String?.toOH2WidgetIconResource(
     item: Item?,
     type: Widget.Type,
     hasMappings: Boolean,

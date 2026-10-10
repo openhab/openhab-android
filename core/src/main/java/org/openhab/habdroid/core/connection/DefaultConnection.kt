@@ -28,16 +28,16 @@ import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.util.bindToNetworkIfPossible
 
 open class DefaultConnection : AbstractConnection {
-    internal var network: Network? = null
-    internal var isMetered = false
+    var network: Network? = null
+    var isMetered = false
 
-    internal constructor(
+    constructor(
         httpClient: OkHttpClient,
         connectionType: Int,
         path: ServerPath
     ) : super(httpClient, connectionType, path)
 
-    internal constructor(baseConnection: AbstractConnection, connectionType: Int) :
+    constructor(baseConnection: AbstractConnection, connectionType: Int) :
         super(baseConnection, connectionType)
 
     suspend fun isReachableViaNetwork(network: Network?): Boolean {
