@@ -28,7 +28,6 @@
     <string name="settings_openhab_password">パスワード</string>
     <string name="settings_openhab_password_summary_weak">脆弱なパスワードです</string>
     <string name="settings_openhab_password_summary_strong">強力なパスワードです</string>
-    <string name="settings_openhab_api_token_hint">API トークンを使用している場合は、ユーザー名フィールドに入力し、パスワードフィールドを空白のままにします。</string>
     <string name="settings_openhab_sslclientcert">SSL クライアント証明書</string>
     <string name="settings_openhab_sslclientcert_howto_summary">ここをタップすると SSL クライアント証明書認証を設定する方法について、いくつかのヒントや説明を得ることができます</string>
     <string name="settings_openhab_sslclientcert_not_supported">お使いのデバイスで SSL クライアント証明書はサポートされていません</string>
