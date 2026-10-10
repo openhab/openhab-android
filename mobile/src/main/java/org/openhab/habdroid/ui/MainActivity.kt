@@ -31,6 +31,7 @@ import android.location.LocationManager
 import android.nfc.NfcAdapter
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.provider.Settings
 import android.speech.SpeechRecognizer
 import android.text.SpannableStringBuilder
@@ -80,6 +81,9 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -177,6 +181,12 @@ class MainActivity : AbstractBaseActivity() {
         private set
     private var propsRequestJob: Job? = null
     private var retryJob: Job? = null
+    private val scheduledRetryFlow = MutableStateFlow<ScheduledRetry?>(null)
+
+    /**
+     * The currently scheduled automatic retry, or null if none is scheduled
+     */
+    val scheduledRetry: StateFlow<ScheduledRetry?> = scheduledRetryFlow.asStateFlow()
     private var notificationPollingJob: Job? = null
     private var isStarted: Boolean = false
     private var shortcutManager: ShortcutManager? = null
@@ -667,8 +677,11 @@ class MainActivity : AbstractBaseActivity() {
 
     fun scheduleRetry(runAfterDelay: () -> Unit) {
         retryJob?.cancel(CancellationException("scheduleRetry() was called"))
-        retryJob = launch {
-            delay(30.seconds)
+        val retryDelay = 30.seconds
+        val now = SystemClock.elapsedRealtime()
+        scheduledRetryFlow.value = ScheduledRetry(now, now + retryDelay.inWholeMilliseconds)
+        val job = launch {
+            delay(retryDelay)
             if (!isStarted) {
                 Log.e(TAG, "Would have runAfterDelay(), but not started anymore")
                 return@launch
@@ -676,6 +689,13 @@ class MainActivity : AbstractBaseActivity() {
             Log.d(TAG, "runAfterDelay()")
             runAfterDelay()
         }
+        job.invokeOnCompletion {
+            // Completion of a cancelled job may be delivered after a new retry has been scheduled
+            if (retryJob === job) {
+                scheduledRetryFlow.value = null
+            }
+        }
+        retryJob = job
     }
 
     /**
@@ -1781,6 +1801,11 @@ class MainActivity : AbstractBaseActivity() {
 
         class OpenNotification(val notificationId: String, val primary: Boolean) : PendingAction()
     }
+
+    /**
+     * Timestamps are based on [SystemClock.elapsedRealtime]
+     */
+    data class ScheduledRetry(val scheduledAt: Long, val runsAt: Long)
 
     companion object {
         const val ACTION_LINK_OPENED = "org.openhab.habdroid.action.LINK_OPENED"
