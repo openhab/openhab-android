@@ -131,6 +131,8 @@ repositories {
 dependencies {
     coreLibraryDesugaring libs.desugar.jdk.libs
 
+    implementation project(":core")
+
     implementation libs.kotlinx.coroutines.core
     implementation libs.kotlinx.coroutines.jdk9
     implementation libs.kotlinx.coroutines.android

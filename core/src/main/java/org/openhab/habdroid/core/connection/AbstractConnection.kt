@@ -37,7 +37,7 @@ abstract class AbstractConnection : Connection {
             prepareSocket(Socket(host, port, clientAddress, clientPort))
     }
 
-    internal constructor(
+    constructor(
         httpClient: OkHttpClient,
         connectionType: Int,
         path: ServerPath
@@ -53,7 +53,7 @@ abstract class AbstractConnection : Connection {
         this.httpClient = HttpClient(httpClientWithSocketFactory, baseUrl, username, password)
     }
 
-    internal constructor(base: AbstractConnection, connectionType: Int) {
+    constructor(base: AbstractConnection, connectionType: Int) {
         username = base.username
         password = base.password
         baseUrl = base.baseUrl
@@ -64,6 +64,6 @@ abstract class AbstractConnection : Connection {
     open fun prepareSocket(socket: Socket) = socket
 
     companion object {
-        internal val TAG = AbstractConnection::class.java.simpleName
+        val TAG = AbstractConnection::class.java.simpleName
     }
 }

@@ -38,8 +38,6 @@ data class ServerProperties(val flags: Int, val timezoneId: String?, val sitemap
 
     fun hasSseSupport(): Boolean = flags and SERVER_FLAG_SSE_SUPPORT != 0
 
-    fun hasWebViewUiInstalled(ui: WebViewUi): Boolean = if (ui.serverFlag == 0) true else flags and ui.serverFlag != 0
-
     fun hasInvisibleWidgetSupport(): Boolean = flags and SERVER_FLAG_SITEMAP_HAS_INVISIBLE_WIDGETS != 0
 
     companion object {

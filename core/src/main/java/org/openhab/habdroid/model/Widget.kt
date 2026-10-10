@@ -247,11 +247,11 @@ data class Widget(
             )
         }
 
-        internal fun sanitizeRefreshRate(refresh: Int) = if (refresh in 1..99) 100 else refresh
+        fun sanitizeRefreshRate(refresh: Int) = if (refresh in 1..99) 100 else refresh
 
-        internal fun sanitizePeriod(period: String?) = if (period.isNullOrEmpty()) "D" else period
+        fun sanitizePeriod(period: String?) = if (period.isNullOrEmpty()) "D" else period
 
-        internal fun determineWidgetState(state: String?, item: Item?): ParsedState? = when {
+        fun determineWidgetState(state: String?, item: Item?): ParsedState? = when {
             state == null -> item?.state
 
             item?.isOfTypeOrGroupType(Item.Type.Number) == true ||

@@ -29,31 +29,6 @@ import org.openhab.habdroid.util.putPrimaryServerId
 import org.openhab.habdroid.util.toNormalizedUrl
 
 @Parcelize
-data class ServerPath(val url: String, val userName: String?, val password: String?) : Parcelable {
-    // If the user name is longer than 50 chars, assume it's an API token and therefore no password is required.
-    fun hasAuthentication() = !userName.isNullOrEmpty() && (!password.isNullOrEmpty() || userName.length > 50)
-
-    companion object {
-        internal fun load(
-            prefs: SharedPreferences,
-            secretPrefs: SharedPreferences,
-            serverId: Int,
-            urlKeyPrefix: String,
-            userNamePrefix: String,
-            passwordPrefix: String
-        ): ServerPath? {
-            val url = prefs.getStringOrNull(PrefKeys.buildServerKey(serverId, urlKeyPrefix)).toNormalizedUrl()
-                ?: return null
-            return ServerPath(
-                url,
-                secretPrefs.getStringOrNull(PrefKeys.buildServerKey(serverId, userNamePrefix)),
-                secretPrefs.getStringOrNull(PrefKeys.buildServerKey(serverId, passwordPrefix))
-            )
-        }
-    }
-}
-
-@Parcelize
 data class ServerConfiguration(
     val id: Int,
     val name: String,
