@@ -59,8 +59,10 @@ class ConnectionSettingsFragment : AbstractSettingsFragment() {
 
         val initialAuthMethod = when {
             path.isApiToken() -> AuthMethod.TOKEN
+
             path.url.isNotEmpty() && path.userName.isNullOrEmpty() && path.password.isNullOrEmpty() ->
                 AuthMethod.NONE
+
             else -> AuthMethod.BASIC
         }
         authMethodPreference = preferenceScreen.findPreference("auth_method")!!
