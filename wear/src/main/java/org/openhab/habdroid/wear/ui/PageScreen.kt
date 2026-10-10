@@ -14,9 +14,13 @@
 package org.openhab.habdroid.wear.ui
 
 import android.content.Intent
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -78,7 +82,15 @@ fun PageScreen(
         override fun sendCommand(item: Item?, command: String) = viewModel.sendCommand(item, command)
     }
 
-    val content: @Composable (androidx.compose.foundation.layout.PaddingValues) -> Unit = { contentPadding ->
+    val widgets = page?.widgets
+    val content: @Composable (PaddingValues) -> Unit = content@{ contentPadding ->
+        if (widgets == null) {
+            // Not part of the list, as the list would keep the progress indicator centered after loading
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+            return@content
+        }
         TransformingLazyColumn(state = listState, contentPadding = contentPadding) {
             item {
                 ListHeader(
@@ -86,29 +98,24 @@ fun PageScreen(
                     transformation = SurfaceTransformation(transformationSpec)
                 ) {
                     Text(
-                        text = page?.title?.takeIf { it.isNotEmpty() } ?: state.sitemap.label,
+                        text = page.title?.takeIf { it.isNotEmpty() } ?: state.sitemap.label,
                         textAlign = TextAlign.Center,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
                 }
             }
-            val widgets = page?.widgets
-            if (widgets == null) {
-                item { CircularProgressIndicator() }
-            } else {
-                val rows = buildWidgetRows(widgets)
-                if (rows.isEmpty()) {
-                    item { Text(stringResource(R.string.page_empty), textAlign = TextAlign.Center) }
-                }
-                items(rows, key = { row -> row.widget.id }) { row ->
-                    WidgetRow(
-                        row = row,
-                        scope = WidgetScope(state.connection, state.serverFlags, actions),
-                        modifier = Modifier.fillMaxWidth().transformedHeight(this, transformationSpec),
-                        transformation = SurfaceTransformation(transformationSpec)
-                    )
-                }
+            val rows = buildWidgetRows(widgets)
+            if (rows.isEmpty()) {
+                item { Text(stringResource(R.string.page_empty), textAlign = TextAlign.Center) }
+            }
+            items(rows, key = { row -> row.widget.id }) { row ->
+                WidgetRow(
+                    row = row,
+                    scope = WidgetScope(state.connection, state.serverFlags, actions),
+                    modifier = Modifier.fillMaxWidth().transformedHeight(this, transformationSpec),
+                    transformation = SurfaceTransformation(transformationSpec)
+                )
             }
             if (isRoot) {
                 item {
