@@ -30,7 +30,6 @@
     <string name="settings_openhab_password">Hasło</string>
     <string name="settings_openhab_password_summary_weak">Ustawiono słabe hasło</string>
     <string name="settings_openhab_password_summary_strong">Ustawiono mocne hasło</string>
-    <string name="settings_openhab_api_token_hint">Jeśli używasz tokenu API, wprowadź go w polu nazwy użytkownika i zostaw pole hasła puste</string>
     <string name="settings_openhab_sslclientcert">Certyfikat klienta SSL</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Naciśnij tutaj, aby uzyskać kilka wskazówek i wyjaśnień o tym, jak skonfigurować autoryzację certyfikatu klienta SSL</string>
     <string name="settings_openhab_sslclientcert_not_supported">Certyfikaty SSL klienta nie są obsługiwane na twoim urządzeniu</string>

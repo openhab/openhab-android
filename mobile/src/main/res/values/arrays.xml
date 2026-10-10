@@ -41,6 +41,18 @@
         <item>@string/settings_openhab_icon_format_svg</item>
     </string-array>
 
+    <string-array name="authMethodNames">
+        <item>@string/settings_openhab_auth_method_none</item>
+        <item>@string/settings_openhab_auth_method_basic</item>
+        <item>@string/settings_openhab_auth_method_token</item>
+    </string-array>
+
+    <string-array name="authMethodValues">
+        <item>none</item>
+        <item>basic</item>
+        <item>token</item>
+    </string-array>
+
     <string-array name="iconTypeValues">
         <item>@string/settings_openhab_icon_format_value_png</item>
         <item>@string/settings_openhab_icon_format_value_svg</item>

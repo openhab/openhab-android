@@ -337,7 +337,7 @@ class ServerEditorFragment :
             !path.hasAuthentication() && config.sslClientCert == null ->
                 insecureMessage(beautyUrl, R.string.settings_insecure_connection_no_auth)
 
-            isWeakPassword(path.password) ->
+            path.hasAuthentication() && !path.isApiToken() && isWeakPassword(path.password) ->
                 insecureMessage(beautyUrl, R.string.settings_openhab_password_summary_weak)
 
             else ->

@@ -33,7 +33,6 @@
     <string name="settings_openhab_password">Mot de passe</string>
     <string name="settings_openhab_password_summary_weak">Mot de passe peu sûr</string>
     <string name="settings_openhab_password_summary_strong">Mot de passe fort</string>
-    <string name="settings_openhab_api_token_hint">Si vous utilisez un jeton API, saisissez-le dans le champ du nom d\'utilisateur et laissez le champ de mot de passe vide</string>
     <string name="settings_openhab_sslclientcert">Certificat SSL client</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Taper ici pour avoir de l\'aide sur comment configurer l\'authentification par certificat SSL</string>
     <string name="settings_openhab_sslclientcert_not_supported">Les certificats clients SSL ne sont pas pris en charge par votre appareil</string>
