@@ -90,15 +90,27 @@ class PreferencesActivity : AbstractBaseActivity() {
                 add(R.id.activity_content, fragment)
             }
             if (intent.action == ACTION_WEAR_SETUP) {
-                // The watch shows the primary server
-                ServerConfiguration.load(getPrefs(), getSecretPrefs(), getPrefs().getPrimaryServerId())?.let { config ->
-                    openSubScreen(ServerEditorFragment.newInstance(config))
-                }
+                openPrimaryServerEditor()
             }
         } else {
             resultIntent = savedInstanceState.parcelable<Intent>(STATE_KEY_RESULT) ?: Intent()
         }
         setResult(RESULT_OK, resultIntent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        if (intent.action == ACTION_WEAR_SETUP) {
+            openPrimaryServerEditor()
+        }
+    }
+
+    /**
+     * Opens the settings of the primary server, which is the server shown on the watch
+     */
+    private fun openPrimaryServerEditor() {
+        val config = ServerConfiguration.load(getPrefs(), getSecretPrefs(), getPrefs().getPrimaryServerId()) ?: return
+        openSubScreen(ServerEditorFragment.newInstance(config))
     }
 
     override fun inflateBinding(): CommonBinding {
