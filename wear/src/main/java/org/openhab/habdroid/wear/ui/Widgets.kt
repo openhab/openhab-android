@@ -36,6 +36,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.Button
@@ -50,6 +51,8 @@ import androidx.wear.compose.material3.Slider
 import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.SwitchButton
 import androidx.wear.compose.material3.Text
+import java.util.Locale
+import kotlin.math.ceil
 import kotlin.math.roundToInt
 import kotlinx.coroutines.delay
 import org.openhab.habdroid.core.connection.Connection
@@ -92,8 +95,7 @@ data class WidgetRowData(val widget: Widget, val children: List<Widget> = emptyL
 private const val MAX_INLINE_MAPPINGS = 3
 
 private const val SLIDER_COMMAND_DELAY_MILLIS = 300L
-private const val MAX_SLIDER_STEPS = 100
-private const val MAX_SEGMENTED_STEPS = 10
+private const val MAX_SLIDER_SEGMENTS = 10
 private const val COLOR_TEMPERATURE_STEP = 100f
 private const val MIN_COLOR_TEMPERATURE = 1000f
 private val DEFAULT_COLOR_TEMPERATURE_RANGE = 2000f..6500f
@@ -260,7 +262,13 @@ private fun MappingsRow(widget: Widget, scope: WidgetScope, mappings: List<Label
                     colors = if (selected) ButtonDefaults.buttonColors() else ButtonDefaults.filledTonalButtonColors(),
                     contentPadding = CompactButtonDefaults.ContentPadding
                 ) {
-                    Text(mapping.label, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(
+                        text = mapping.label,
+                        textAlign = TextAlign.Center,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.fillMaxWidth()
+                    )
                 }
             }
         }
@@ -315,7 +323,13 @@ private fun ButtonGridRow(widget: Widget, buttons: List<Widget>, scope: WidgetSc
                             modifier = Modifier.weight(1f),
                             contentPadding = CompactButtonDefaults.ContentPadding
                         ) {
-                            Text(entry.label, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                            Text(
+                                text = entry.label,
+                                textAlign = TextAlign.Center,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier.fillMaxWidth()
+                            )
                         }
                     }
                 }
@@ -363,8 +377,11 @@ private fun SliderRow(widget: Widget, scope: WidgetScope, modifier: Modifier) {
         if (isColorTemperature) state?.toColorTemperatureInKelvin() else state
     }
     val range = if (isColorTemperature) widget.colorTemperatureRange() else widget.minValue..widget.maxValue
-    val step = if (isColorTemperature) COLOR_TEMPERATURE_STEP else widget.step.takeIf { it > 0 } ?: 1f
-    val steps = (((range.endInclusive - range.start) / step).roundToInt() - 1).coerceIn(0, MAX_SLIDER_STEPS)
+    val itemStep = if (isColorTemperature) COLOR_TEMPERATURE_STEP else widget.step.takeIf { it > 0 } ?: 1f
+    // The slider can only be changed with buttons, so combine small steps to limit the number of taps
+    val units = (range.endInclusive - range.start) / itemStep
+    val step = if (units > MAX_SLIDER_SEGMENTS) itemStep * ceil(units / MAX_SLIDER_SEGMENTS) else itemStep
+    val steps = (((range.endInclusive - range.start) / step).roundToInt() - 1).coerceAtLeast(0)
     val serverValue = (numberState?.value ?: widget.state?.asBrightness?.toFloat() ?: range.start)
         .coerceIn(range.start, range.endInclusive)
     var value by remember(widget.id, serverValue) { mutableFloatStateOf(serverValue) }
@@ -393,7 +410,7 @@ private fun SliderRow(widget: Widget, scope: WidgetScope, modifier: Modifier) {
             val state = if (value == serverValue && widget.stateFromLabel != null) {
                 widget.stateFromLabel
             } else {
-                numberState.withValue(value).toString()
+                widget.formatValue(value, itemStep, numberState?.unit)
             }
             WidgetState(widget, state)
         }
@@ -402,7 +419,6 @@ private fun SliderRow(widget: Widget, scope: WidgetScope, modifier: Modifier) {
             onValueChange = { newValue -> value = newValue },
             steps = steps,
             valueRange = range,
-            segmented = steps <= MAX_SEGMENTED_STEPS,
             modifier = Modifier.fillMaxWidth()
         )
     }
@@ -421,6 +437,22 @@ private fun Widget.colorTemperatureRange(): ClosedFloatingPointRange<Float> {
     } else {
         DEFAULT_COLOR_TEMPERATURE_RANGE
     }
+}
+
+/**
+ * Formats a value with the precision of the step, as the format of the item might round it
+ */
+fun Widget.formatValue(value: Float, step: Float, unit: String?): String {
+    val decimals = step.toBigDecimal().stripTrailingZeros().scale().coerceAtLeast(0)
+    val number = String.format(Locale.getDefault(), "%.${decimals}f", value)
+    val actualUnit = unit ?: if (item?.isOfTypeOrGroupType(Item.Type.Dimmer) == true ||
+        item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true
+    ) {
+        "%"
+    } else {
+        null
+    }
+    return if (actualUnit.isNullOrEmpty()) number else "$number $actualUnit"
 }
 
 fun Widget.numberCommand(value: Float): String? = if (item?.isOfTypeOrGroupType(Item.Type.Color) == true) {
