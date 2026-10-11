@@ -37,7 +37,10 @@ class NfcReceiveActivity : Activity() {
             val startIntent = if (getPrefs().getConfiguredServerIds().isEmpty()) {
                 Intent(this, MainActivity::class.java)
             } else {
-                Intent(this, PreferencesActivity::class.java).setAction(PreferencesActivity.ACTION_WEAR_SETUP)
+                Intent(this, PreferencesActivity::class.java)
+                    .setAction(PreferencesActivity.ACTION_WEAR_SETUP)
+                    // Deliver the intent to open settings instead of only bringing them to the front
+                    .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             }
             startActivity(startIntent)
         } else if (intent.action == Intent.ACTION_VIEW || intent.action == NfcAdapter.ACTION_NDEF_DISCOVERED) {
