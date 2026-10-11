@@ -16,7 +16,9 @@ package org.openhab.habdroid.wear.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
@@ -171,13 +173,19 @@ fun ColorScreen(widget: Widget, onCommand: (String) -> Unit) {
                 )
             }
             item {
-                Slider(
-                    value = brightness,
-                    onValueChange = { newValue -> brightness = newValue },
-                    steps = 9,
-                    valueRange = 0f..100f,
-                    modifier = Modifier.fillMaxWidth()
-                )
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 2.dp)) {
+                        Text(stringResource(R.string.color_brightness), modifier = Modifier.weight(1f))
+                        Text("${brightness.roundToInt()} %")
+                    }
+                    Slider(
+                        value = brightness,
+                        onValueChange = { newValue -> brightness = newValue },
+                        steps = 9,
+                        valueRange = 0f..100f,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
             items(presetColors) { (labelRes, hue) ->
                 val color = Color(android.graphics.Color.HSVToColor(floatArrayOf(hue, 1f, 1f)))

@@ -16,11 +16,14 @@ package org.openhab.habdroid.wear.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -39,6 +42,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ButtonGroup
@@ -46,6 +50,7 @@ import androidx.wear.compose.material3.CompactButtonDefaults
 import androidx.wear.compose.material3.FilledTonalButton
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.ListHeader
+import androidx.wear.compose.material3.LocalContentColor
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Slider
 import androidx.wear.compose.material3.SurfaceTransformation
@@ -56,6 +61,7 @@ import kotlin.math.ceil
 import kotlin.math.roundToInt
 import kotlinx.coroutines.delay
 import org.openhab.habdroid.core.connection.Connection
+import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.LabeledValue
 import org.openhab.habdroid.model.ServerProperties
@@ -92,6 +98,37 @@ data class WidgetRowData(val widget: Widget, val children: List<Widget> = emptyL
  */
 private const val MAX_INLINE_MAPPINGS = 3
 
+/**
+ * Maximum number of mappings with short labels, e.g. "<<" and ">>" of a player, shown as buttons
+ */
+private const val MAX_INLINE_SHORT_MAPPINGS = 5
+private const val MAX_SHORT_MAPPING_LABEL_LENGTH = 3
+
+private fun List<LabeledValue>.canBeShownInline() = size in 1..MAX_INLINE_MAPPINGS ||
+    (size in 1..MAX_INLINE_SHORT_MAPPINGS && all { mapping -> mapping.label.length <= MAX_SHORT_MAPPING_LABEL_LENGTH })
+
+/**
+ * Text of a small button. The text is shrunk to avoid breaking words.
+ */
+@Composable
+private fun ButtonText(text: String) {
+    BasicText(
+        text = text,
+        style = MaterialTheme.typography.labelMedium.copy(
+            color = LocalContentColor.current,
+            textAlign = TextAlign.Center
+        ),
+        // A single line, as words might be broken otherwise
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        autoSize = TextAutoSize.StepBased(
+            minFontSize = 7.sp,
+            maxFontSize = MaterialTheme.typography.labelMedium.fontSize
+        ),
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
 private const val SLIDER_COMMAND_DELAY_MILLIS = 300L
 private const val MAX_SLIDER_SEGMENTS = 10
 private const val COLOR_TEMPERATURE_STEP = 100f
@@ -124,11 +161,14 @@ fun WidgetRow(row: WidgetRowData, scope: WidgetScope, modifier: Modifier, transf
         Widget.Type.Frame -> FrameHeader(widget, modifier, transformation)
 
         Widget.Type.Switch -> when {
-            widget.mappings.size in 1..MAX_INLINE_MAPPINGS -> MappingsRow(widget, scope, widget.mappings, modifier)
+            widget.mappings.canBeShownInline() -> MappingsRow(widget, scope, widget.mappings, modifier)
             widget.mappings.isNotEmpty() -> SelectionRow(widget, scope, modifier, transformation)
             item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> RollershutterRow(widget, scope, modifier)
+            item?.isOfTypeOrGroupType(Item.Type.Player) == true -> PlayerRow(widget, scope, modifier)
             else -> SwitchRow(widget, scope, modifier, transformation)
         }
+
+        Widget.Type.Default if item?.isOfTypeOrGroupType(Item.Type.Player) == true -> PlayerRow(widget, scope, modifier)
 
         Widget.Type.Button -> ButtonRow(widget, scope, modifier, transformation)
 
@@ -260,13 +300,7 @@ private fun MappingsRow(widget: Widget, scope: WidgetScope, mappings: List<Label
                     colors = if (selected) ButtonDefaults.buttonColors() else ButtonDefaults.filledTonalButtonColors(),
                     contentPadding = CompactButtonDefaults.ContentPadding
                 ) {
-                    Text(
-                        text = mapping.label,
-                        textAlign = TextAlign.Center,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    ButtonText(mapping.label)
                 }
             }
         }
@@ -280,6 +314,21 @@ private fun RollershutterRow(widget: Widget, scope: WidgetScope, modifier: Modif
         "STOP" to (R.drawable.ic_stop_24dp to R.string.rollershutter_stop),
         "DOWN" to (R.drawable.ic_arrow_down_24dp to R.string.rollershutter_down)
     )
+    IconButtonRow(widget, scope, modifier, commands)
+}
+
+/**
+ * Label with a row of icon buttons that send commands
+ *
+ * @param commands Command with icon and content description
+ */
+@Composable
+private fun IconButtonRow(
+    widget: Widget,
+    scope: WidgetScope,
+    modifier: Modifier,
+    commands: List<Pair<String, Pair<Int, Int>>>
+) {
     LabeledButtonGroup(widget, modifier) {
         ButtonGroup(modifier = Modifier.fillMaxWidth()) {
             commands.forEach { (command, resources) ->
@@ -300,34 +349,64 @@ private fun RollershutterRow(widget: Widget, scope: WidgetScope, modifier: Modif
 }
 
 @Composable
+private fun PlayerRow(widget: Widget, scope: WidgetScope, modifier: Modifier) {
+    val isPlaying = widget.item?.state?.asString == "PLAY"
+    val commands = listOf(
+        "PREVIOUS" to (R.drawable.ic_skip_previous_24dp to R.string.player_previous),
+        if (isPlaying) {
+            "PAUSE" to (R.drawable.ic_pause_24dp to R.string.player_pause)
+        } else {
+            "PLAY" to (R.drawable.ic_play_24dp to R.string.player_play)
+        },
+        "NEXT" to (R.drawable.ic_skip_next_24dp to R.string.player_next)
+    )
+    IconButtonRow(widget, scope, modifier, commands)
+}
+
+@Composable
 private fun ButtonGridRow(widget: Widget, buttons: List<Widget>, scope: WidgetScope, modifier: Modifier) {
     // Button grids either have Button child widgets (openHAB 4.2+) or mappings with row and column
-    data class GridButton(val row: Int, val column: Int, val label: String, val command: String, val item: Item?)
+    data class GridButton(
+        val row: Int,
+        val column: Int,
+        val label: String,
+        val icon: IconResource?,
+        val command: String,
+        val item: Item?
+    )
 
     val entries = buttons.mapNotNull { button ->
         val command = button.command ?: return@mapNotNull null
-        GridButton(button.row ?: 0, button.column ?: 0, button.label, command, button.item ?: widget.item)
+        GridButton(button.row ?: 0, button.column ?: 0, button.label, button.icon, command, button.item ?: widget.item)
     } + widget.mappings.map { mapping ->
-        GridButton(mapping.row, mapping.column, mapping.label, mapping.value, widget.item)
+        GridButton(mapping.row, mapping.column, mapping.label, mapping.icon, mapping.value, widget.item)
     }
+    val columns = entries.map { entry -> entry.column }
+    val columnRange = (columns.minOrNull() ?: 0)..(columns.maxOrNull() ?: 0)
 
     LabeledButtonGroup(widget, modifier) {
         Column {
             entries.groupBy { entry -> entry.row }.toSortedMap().values.forEach { rowEntries ->
                 ButtonGroup(modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp)) {
-                    rowEntries.sortedBy { entry -> entry.column }.forEach { entry ->
+                    // Keep the buttons in their columns, e.g. for arrow keys of a remote control
+                    columnRange.forEach { column ->
+                        val entry = rowEntries.firstOrNull { entry -> entry.column == column }
+                        if (entry == null) {
+                            Box(modifier = Modifier.weight(1f))
+                            return@forEach
+                        }
                         FilledTonalButton(
                             onClick = { scope.actions.sendCommand(entry.item, entry.command) },
                             modifier = Modifier.weight(1f),
-                            contentPadding = CompactButtonDefaults.ContentPadding
+                            contentPadding = PaddingValues(horizontal = 2.dp)
                         ) {
-                            Text(
-                                text = entry.label,
-                                textAlign = TextAlign.Center,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                                modifier = Modifier.fillMaxWidth()
-                            )
+                            if (entry.icon != null) {
+                                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                                    WidgetIcon(entry.icon, scope.connection, scope.serverFlags)
+                                }
+                            } else {
+                                ButtonText(entry.label)
+                            }
                         }
                     }
                 }
