@@ -14,6 +14,8 @@
 package org.openhab.habdroid.wear.connection
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.Network
 import android.util.Log
 import java.security.cert.CertPathValidatorException
 import java.util.concurrent.TimeUnit
@@ -94,6 +96,19 @@ class WearConnectionManager(
     init {
         // Connect right away, so tiles and complications don't see an unconfigured state
         reconnect()
+        // Try again if connecting failed, e.g. because there was no network
+        context.getSystemService(ConnectivityManager::class.java).registerDefaultNetworkCallback(
+            object : ConnectivityManager.NetworkCallback() {
+                override fun onAvailable(network: Network) {
+                    scope.launch {
+                        if (state.value is State.Failed) {
+                            Log.d(TAG, "Network $network available, reconnect")
+                            reconnect()
+                        }
+                    }
+                }
+            }
+        )
         scope.launch {
             configRepository.settings.drop(1).collect { reconnect() }
         }
