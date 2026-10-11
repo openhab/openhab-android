@@ -333,7 +333,7 @@ class ServerEditorFragment :
         val groupPref = getPreference(PREF_WEAR_COMPLICATION_GROUP)
         if (WearHelper.IS_SUPPORTED && config.id == prefs.getPrimaryServerId()) {
             lifecycleScope.launch {
-                wearCategory.isVisible = WearHelper.hasWatchWithApp(preferenceManager.context)
+                wearCategory.isVisible = WearHelper.hasWatch(preferenceManager.context)
             }
         }
         updateWearSummaries()
