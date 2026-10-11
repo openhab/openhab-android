@@ -17,8 +17,14 @@ import android.app.Application
 import android.content.Context
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import org.openhab.habdroid.wear.complication.ItemComplicationService
 import org.openhab.habdroid.wear.config.WearConfigRepository
 import org.openhab.habdroid.wear.connection.WearConnectionManager
+import org.openhab.habdroid.wear.tile.SitemapTileService
 
 class WearApplication : Application() {
     val appScope: CoroutineScope = MainScope()
@@ -27,6 +33,18 @@ class WearApplication : Application() {
 
     val connectionManager: WearConnectionManager by lazy {
         WearConnectionManager(this, configRepository, appScope)
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        appScope.launch {
+            // Tiles and complications show data of the configured server, so reload them if the config changes
+            configRepository.settings.drop(1).collectLatest {
+                connectionManager.state.first { state -> state !is WearConnectionManager.State.Connecting }
+                SitemapTileService.requestUpdate(this@WearApplication)
+                ItemComplicationService.requestUpdate(this@WearApplication)
+            }
+        }
     }
 }
 

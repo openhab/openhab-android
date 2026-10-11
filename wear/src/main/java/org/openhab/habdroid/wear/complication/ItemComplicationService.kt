@@ -118,7 +118,6 @@ class ItemComplicationService : SuspendingComplicationDataSourceService() {
         return if (item.isOfTypeOrGroupType(Item.Type.Switch)) {
             val intent = Intent(this, ComplicationTapReceiver::class.java)
                 .putExtra(ComplicationTapReceiver.EXTRA_ITEM_NAME, item.name)
-                .putExtra(ComplicationTapReceiver.EXTRA_COMPLICATION_ID, complicationId)
             PendingIntent.getBroadcast(this, complicationId, intent, flags)
         } else {
             val intent = Intent(this, WearMainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -131,16 +130,10 @@ class ItemComplicationService : SuspendingComplicationDataSourceService() {
     companion object {
         private val TAG = ItemComplicationService::class.java.simpleName
 
-        fun requestUpdate(context: Context, vararg complicationIds: Int) {
-            val requester = ComplicationDataSourceUpdateRequester.create(
-                context,
-                ComponentName(context, ItemComplicationService::class.java)
-            )
-            if (complicationIds.isEmpty()) {
-                requester.requestUpdateAll()
-            } else {
-                requester.requestUpdate(*complicationIds)
-            }
+        fun requestUpdate(context: Context) {
+            ComplicationDataSourceUpdateRequester
+                .create(context, ComponentName(context, ItemComplicationService::class.java))
+                .requestUpdateAll()
         }
     }
 }

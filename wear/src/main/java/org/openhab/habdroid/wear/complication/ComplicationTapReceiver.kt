@@ -20,6 +20,7 @@ import android.util.Log
 import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.wear.tile.SitemapTileService
 import org.openhab.habdroid.wear.util.buildSourceId
 import org.openhab.habdroid.wear.util.loadItem
 import org.openhab.habdroid.wear.wearApplication
@@ -30,7 +31,6 @@ import org.openhab.habdroid.wear.wearApplication
 class ComplicationTapReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val itemName = intent.getStringExtra(EXTRA_ITEM_NAME) ?: return
-        val complicationId = intent.getIntExtra(EXTRA_COMPLICATION_ID, -1)
         val pendingResult = goAsync()
         val app = context.wearApplication
         app.appScope.launch {
@@ -46,9 +46,9 @@ class ComplicationTapReceiver : BroadcastReceiver() {
             } catch (e: JSONException) {
                 Log.w(TAG, "Parsing $itemName failed", e)
             } finally {
-                if (complicationId >= 0) {
-                    ItemComplicationService.requestUpdate(context, complicationId)
-                }
+                // Other complications or the tile might show the same item
+                ItemComplicationService.requestUpdate(context)
+                SitemapTileService.requestUpdate(context)
                 pendingResult.finish()
             }
         }
@@ -57,6 +57,5 @@ class ComplicationTapReceiver : BroadcastReceiver() {
     companion object {
         private val TAG = ComplicationTapReceiver::class.java.simpleName
         const val EXTRA_ITEM_NAME = "item_name"
-        const val EXTRA_COMPLICATION_ID = "complication_id"
     }
 }
