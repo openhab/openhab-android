@@ -116,7 +116,11 @@ fun SetpointScreen(widget: Widget, onCommand: (String) -> Unit) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(widget.label, style = MaterialTheme.typography.labelMedium, textAlign = TextAlign.Center)
                     Text(
-                        text = widget.state?.asNumber.withValue(value).toString(),
+                        text = if (value == serverValue && widget.stateFromLabel != null) {
+                            widget.stateFromLabel.orEmpty()
+                        } else {
+                            widget.formatValue(value, step, widget.state?.asNumber?.unit)
+                        },
                         style = MaterialTheme.typography.displaySmall,
                         textAlign = TextAlign.Center
                     )
