@@ -31,9 +31,14 @@
     <string name="rollershutter_up">Up</string>
     <string name="rollershutter_stop">Stop</string>
     <string name="rollershutter_down">Down</string>
+    <string name="player_previous">Previous</string>
+    <string name="player_play">Play</string>
+    <string name="player_pause">Pause</string>
+    <string name="player_next">Next</string>
     <string name="increase">Increase</string>
     <string name="decrease">Decrease</string>
     <string name="color_power">Power</string>
+    <string name="color_brightness">Brightness</string>
     <string name="color_red">Red</string>
     <string name="color_orange">Orange</string>
     <string name="color_yellow">Yellow</string>
