@@ -14,6 +14,7 @@
 package org.openhab.habdroid.wear.ui
 
 import android.graphics.BitmapFactory
+import android.location.Location
 import android.util.Base64
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -137,6 +138,10 @@ private fun ButtonText(text: String) {
     )
 }
 
+private val UNSUPPORTED_TYPES = setOf(Widget.Type.Video, Widget.Type.Webview)
+
+private fun Location.format() = String.format(Locale.getDefault(), "%.5f, %.5f", latitude, longitude)
+
 private const val SLIDER_COMMAND_DELAY_MILLIS = 300L
 private const val MAX_SLIDER_SEGMENTS = 10
 private const val COLOR_TEMPERATURE_STEP = 100f
@@ -149,8 +154,14 @@ fun buildWidgetRows(widgets: List<Widget>): List<WidgetRowData> {
         .filter { widget -> widget.type == Widget.Type.Buttongrid }
         .map { widget -> widget.id }
         .toSet()
-    return visibleWidgets
+    val shownWidgets = visibleWidgets
         .filterNot { widget -> widget.type == Widget.Type.Button && widget.parentId in buttonGridIds }
+        // Videos and web pages can't be shown, so they would be empty rows without a label
+        .filterNot { widget -> widget.type in UNSUPPORTED_TYPES && widget.label.isEmpty() }
+    val parentIds = shownWidgets.mapNotNull { widget -> widget.parentId }.toSet()
+    return shownWidgets
+        // Hide frames without widgets, e.g. if they only contain a video
+        .filterNot { widget -> widget.type == Widget.Type.Frame && widget.id !in parentIds }
         .map { widget ->
             val children = if (widget.type == Widget.Type.Buttongrid) {
                 visibleWidgets.filter { child -> child.parentId == widget.id && child.type == Widget.Type.Button }
@@ -196,6 +207,8 @@ fun WidgetRow(row: WidgetRowData, scope: WidgetScope, modifier: Modifier, transf
 
         Widget.Type.Chart -> ChartRow(widget, scope, modifier)
 
+        Widget.Type.Mapview -> TextRow(widget, scope, modifier, transformation, widget.state?.asLocation?.format())
+
         // Group, Text, Default and widgets that can't be used on a watch, e.g. Webview or Mapview
         else -> TextRow(widget, scope, modifier, transformation)
     }
@@ -233,22 +246,28 @@ private fun WidgetState(widget: Widget, state: String? = widget.stateFromLabel) 
 }
 
 @Composable
-private fun TextRow(widget: Widget, scope: WidgetScope, modifier: Modifier, transformation: SurfaceTransformation) {
+private fun TextRow(
+    widget: Widget,
+    scope: WidgetScope,
+    modifier: Modifier,
+    transformation: SurfaceTransformation,
+    state: String? = widget.stateFromLabel
+) {
     val linkedPage = widget.linkedPage
+    val colors = if (linkedPage !=
+        null
+    ) {
+        ButtonDefaults.filledTonalButtonColors()
+    } else {
+        ButtonDefaults.childButtonColors()
+    }
     Button(
         onClick = { linkedPage?.let { page -> scope.actions.openPage(page.link) } },
-        enabled = true,
         modifier = modifier,
-        colors = if (linkedPage !=
-            null
-        ) {
-            ButtonDefaults.filledTonalButtonColors()
-        } else {
-            ButtonDefaults.childButtonColors()
-        },
+        colors = colors,
         transformation = transformation,
         icon = { WidgetIcon(widget.icon, scope.connection, scope.serverFlags) },
-        secondaryLabel = widget.stateFromLabel?.takeIf { it.isNotEmpty() }?.let { { WidgetState(widget) } },
+        secondaryLabel = state?.takeIf { it.isNotEmpty() }?.let { { WidgetState(widget, state) } },
         label = { WidgetLabel(widget) }
     )
 }
