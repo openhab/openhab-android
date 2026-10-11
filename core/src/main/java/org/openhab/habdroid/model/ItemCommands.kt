@@ -22,8 +22,9 @@ fun ParsedState.NumberState?.toItemCommand(item: Item?): String? {
         return null
     }
     return if (item.isOfTypeOrGroupType(Item.Type.NumberWithDimension)) {
-        // For number items, include unit (if present) in command
-        toString(Locale.US, false)
+        // For number items, include unit (if present) in command. Don't use the state format, as it might round
+        // the value, e.g. a setpoint with a step of 0.5 and a format of %.0f
+        copy(format = null).toString(Locale.US, false)
     } else {
         // For all other items, send the plain value
         formatValue()
