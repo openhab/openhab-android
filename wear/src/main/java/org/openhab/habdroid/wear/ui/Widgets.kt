@@ -13,6 +13,9 @@
 
 package org.openhab.habdroid.wear.ui
 
+import android.graphics.BitmapFactory
+import android.util.Base64
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +37,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -558,6 +564,18 @@ private fun ColorRow(widget: Widget, scope: WidgetScope, modifier: Modifier, tra
 
 @Composable
 private fun ImageRow(widget: Widget, scope: WidgetScope, modifier: Modifier) {
+    // Image items contain the image as data URL in their state
+    val dataUrl = widget.item?.state?.asString?.takeIf { state -> state.matches(DATA_URL_REGEX) }
+    val dataBitmap = remember(dataUrl) { dataUrl?.decodeDataUrl() }
+    if (dataBitmap != null) {
+        Image(
+            bitmap = dataBitmap,
+            contentDescription = widget.label,
+            contentScale = ContentScale.FillWidth,
+            modifier = modifier.clip(MaterialTheme.shapes.medium)
+        )
+        return
+    }
     val url = widget.url ?: widget.item?.link ?: return
     val widthPixels = with(LocalDensity.current) { LocalConfiguration.current.screenWidthDp.dp.roundToPx() }
     RemoteImage(
@@ -568,6 +586,15 @@ private fun ImageRow(widget: Widget, scope: WidgetScope, modifier: Modifier) {
         contentDescription = widget.label,
         modifier = modifier.clip(MaterialTheme.shapes.medium)
     )
+}
+
+private val DATA_URL_REGEX = "data:image/.*;base64,.*".toRegex()
+
+private fun String.decodeDataUrl(): ImageBitmap? = try {
+    val bytes = Base64.decode(substringAfter(","), Base64.DEFAULT)
+    BitmapFactory.decodeByteArray(bytes, 0, bytes.size)?.asImageBitmap()
+} catch (_: IllegalArgumentException) {
+    null
 }
 
 @Composable
