@@ -25,5 +25,5 @@ object WearHelper {
     fun start(context: Context) {}
 
     @Suppress("UNUSED_PARAMETER")
-    suspend fun hasWatchWithApp(context: Context): Boolean = false
+    suspend fun hasWatch(context: Context): Boolean = false
 }

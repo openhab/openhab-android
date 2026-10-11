@@ -90,14 +90,15 @@ object WearHelper {
     }
 
     /**
-     * @return true if a watch with the openHAB app is paired, even if it isn't connected right now
+     * @return true if a watch with the openHAB app is known or a watch is connected
      */
-    suspend fun hasWatchWithApp(context: Context): Boolean = try {
-        Wearable.getCapabilityClient(context)
+    suspend fun hasWatch(context: Context): Boolean = try {
+        val watchesWithApp = Wearable.getCapabilityClient(context)
             .getCapability(WearConfig.CAPABILITY_WEAR_APP, CapabilityClient.FILTER_ALL)
             .await()
             .nodes
-            .isNotEmpty()
+        // The capability isn't always reported, so also check for connected watches
+        watchesWithApp.isNotEmpty() || Wearable.getNodeClient(context).connectedNodes.await().isNotEmpty()
     } catch (e: Exception) {
         Log.d(TAG, "Unable to check for watches", e)
         false
