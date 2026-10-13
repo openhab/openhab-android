@@ -103,6 +103,7 @@ import org.openhab.habdroid.core.connection.NoUrlInformationException
 import org.openhab.habdroid.core.connection.WrongWifiException
 import org.openhab.habdroid.databinding.ActivityMainBinding
 import org.openhab.habdroid.databinding.DrawerHeaderBinding
+import org.openhab.habdroid.model.CloudMessage
 import org.openhab.habdroid.model.CloudNotificationId
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.ServerConfiguration
@@ -180,6 +181,7 @@ class MainActivity : AbstractBaseActivity() {
     private var propsRequestJob: Job? = null
     private var retryJob: Job? = null
     private var notificationPollingJob: Job? = null
+    private var newNotificationsJob: Job? = null
     private var isStarted: Boolean = false
     private var shortcutManager: ShortcutManager? = null
     private val systemEventReceiver = SystemEventBroadcastReceiver()
@@ -441,12 +443,18 @@ class MainActivity : AbstractBaseActivity() {
         }
 
         showDataSaverHintSnackbarIfNeeded()
+
+        newNotificationsJob = launch {
+            NotificationHelper.newNotifications.collect { showNewCloudNotification(it) }
+        }
     }
 
     override fun onPause() {
         CrashReportingHelper.d(TAG, "onPause()")
         super.onPause()
         retryJob?.cancel(CancellationException("onPause() was called"))
+        newNotificationsJob?.cancel()
+        newNotificationsJob = null
 
         val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         try {
@@ -1434,6 +1442,23 @@ class MainActivity : AbstractBaseActivity() {
             .show()
     }
 
+    private fun showNewCloudNotification(notification: CloudMessage.CloudNotification) {
+        if (controller.reloadNotificationsIfShown()) {
+            return
+        }
+        val text = listOf(notification.title, notification.message)
+            .filter { it.isNotEmpty() }
+            .joinToString(": ")
+        showSnackbar(
+            SNACKBAR_TAG_NEW_NOTIFICATION,
+            text,
+            Snackbar.LENGTH_LONG,
+            R.string.notification_show
+        ) {
+            openNotifications(notification.id.persistedId, true)
+        }
+    }
+
     private fun openNotifications(highlightedId: String?, primaryServer: Boolean) {
         controller.openNotifications(highlightedId, primaryServer)
         drawerToggle.isDrawerIndicatorEnabled = false
@@ -1812,6 +1837,7 @@ class MainActivity : AbstractBaseActivity() {
         const val SNACKBAR_TAG_SHORTCUT_INFO = "shortcutInfo"
         const val SNACKBAR_TAG_SERVER_MISSING = "serverMissing"
         const val SNACKBAR_TAG_SWITCHED_SERVER = "switchedServer"
+        const val SNACKBAR_TAG_NEW_NOTIFICATION = "newNotification"
 
         private const val STATE_KEY_SERVER_PROPERTIES = "serverProperties"
         private const val STATE_KEY_SITEMAP_SELECTION_SHOWN = "isSitemapSelectionDialogShown"
