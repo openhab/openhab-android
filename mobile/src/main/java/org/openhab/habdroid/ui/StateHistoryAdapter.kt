@@ -54,10 +54,10 @@ class StateHistoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun submit(data: ChartWidgetActivity.ChartData) {
-        zoneId = data.timestamp.zone
-        showSeriesName = data.data.size > 1
-        val entries = data.data
+    fun submit(allSeries: List<PersistenceDataLoader.Series>, zoneId: ZoneId) {
+        this.zoneId = zoneId
+        showSeriesName = allSeries.size > 1
+        val entries = allSeries
             .flatMap { series ->
                 // Persistence strategies like 'everyMinute' store the same state over and over,
                 // only keep the points where the state actually changed
@@ -118,7 +118,7 @@ class StateHistoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             val timestamp: Instant,
             val until: Instant?,
             val state: String,
-            val series: ChartWidgetActivity.Series
+            val series: PersistenceDataLoader.Series
         ) : Row()
     }
 
