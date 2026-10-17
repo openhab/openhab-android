@@ -54,3 +54,28 @@ jobs:
         with:
           api-level: 29
           script: ./gradlew :mobile:connected${{ matrix.flavor }}DebugAndroidTest
+
+  build-wear:
+    strategy:
+      fail-fast: false
+      matrix:
+        flavor: [Beta, Stable]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt'
+          java-version: 17
+          cache: gradle
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v4.3.1
+
+      - name: Build
+        run: ./gradlew :wear:assemble${{ matrix.flavor }}
+
+      - name: Unit tests
+        run: ./gradlew :core:testReleaseUnitTest

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="item_tag_location_garage">ガレージ</string>
+    <string name="item_tag_location_house">家</string>
+    <string name="item_tag_equipment_battery">バッテリー</string>
+    <string name="item_tag_equipment_camera">カメラ</string>
+    <string name="item_tag_equipment_lock">錠</string>
+</resources>

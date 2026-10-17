@@ -542,10 +542,4 @@
     <string name="tile_icon_lamp_outdoor">Ulkovalaisin</string>
     <!-- Tile icon values -->
     <!-- Item tag type labels -->
-    <string name="item_tag_location_garage">Autotalli</string>
-    <string name="item_tag_location_house">Talo</string>
-    <string name="item_tag_equipment_battery">Akku</string>
-    <string name="item_tag_equipment_camera">Kamera</string>
-    <string name="item_tag_equipment_fan">Tuuletin</string>
-    <string name="item_tag_equipment_lock">Lukko</string>
 </resources>

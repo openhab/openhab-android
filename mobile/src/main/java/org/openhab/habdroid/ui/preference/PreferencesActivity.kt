@@ -29,13 +29,18 @@ import androidx.fragment.app.commit
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.databinding.ActivityPrefsBinding
+import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.ui.AbstractBaseActivity
 import org.openhab.habdroid.ui.preference.fragments.AbstractSettingsFragment
 import org.openhab.habdroid.ui.preference.fragments.DayDreamFragment
 import org.openhab.habdroid.ui.preference.fragments.MainSettingsFragment
+import org.openhab.habdroid.ui.preference.fragments.ServerEditorFragment
 import org.openhab.habdroid.ui.preference.fragments.TileOverviewFragment
 import org.openhab.habdroid.ui.preference.fragments.TileSettingsFragment
 import org.openhab.habdroid.ui.preference.fragments.WidgetSettingsFragment
+import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getPrimaryServerId
+import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.parcelable
 
 /**
@@ -82,10 +87,28 @@ class PreferencesActivity : AbstractBaseActivity() {
             supportFragmentManager.commit {
                 add(R.id.activity_content, fragment)
             }
+            if (intent.action == ACTION_WEAR_SETUP) {
+                openPrimaryServerEditor()
+            }
         } else {
             resultIntent = savedInstanceState.parcelable<Intent>(STATE_KEY_RESULT) ?: Intent()
         }
         setResult(RESULT_OK, resultIntent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        if (intent.action == ACTION_WEAR_SETUP) {
+            openPrimaryServerEditor()
+        }
+    }
+
+    /**
+     * Opens the settings of the primary server, which is the server shown on the watch
+     */
+    private fun openPrimaryServerEditor() {
+        val config = ServerConfiguration.load(getPrefs(), getSecretPrefs(), getPrefs().getPrimaryServerId()) ?: return
+        openSubScreen(ServerEditorFragment.newInstance(config))
     }
 
     override fun inflateBinding(): CommonBinding {
@@ -185,6 +208,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
     companion object {
         const val ACTION_DAY_DREAM = "day_dream"
+        const val ACTION_WEAR_SETUP = "wear_setup"
         const val RESULT_EXTRA_THEME_CHANGED = "theme_changed"
         const val RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared"
         const val RESULT_EXTRA_SITEMAP_DRAWER_CHANGED = "sitemap_drawer_changed"

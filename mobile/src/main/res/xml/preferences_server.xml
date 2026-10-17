@@ -68,4 +68,20 @@
         android:title="@string/frontail_url_title"
         app:isForRemoteServer="false"
         app:singleLineTitle="false" />
+    <PreferenceCategory
+        android:key="wear"
+        android:title="@string/settings_wear"
+        app:isPreferenceVisible="false"
+        app:singleLineTitle="false">
+        <Preference
+            android:key="wear_sitemap"
+            android:persistent="false"
+            android:title="@string/settings_wear_sitemap"
+            app:singleLineTitle="false" />
+        <Preference
+            android:key="wear_complication_group"
+            android:persistent="false"
+            android:title="@string/settings_wear_complication_group"
+            app:singleLineTitle="false" />
+    </PreferenceCategory>
 </PreferenceScreen>

@@ -1,0 +1,103 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+apply plugin: "com.android.application"
+apply plugin: "org.jetbrains.kotlin.plugin.compose"
+
+// The version is maintained in the phone app and released together with it
+def mobileGradle = file("../mobile/build.gradle").text
+def mobileVersionCode = (mobileGradle =~ /versionCode (\d+)/)[0][1].toInteger()
+def mobileVersionName = (mobileGradle =~ /versionName "(.*)"/)[0][1]
+
+android {
+    namespace "org.openhab.habdroid.wear"
+    compileSdk = 37
+
+    defaultConfig {
+        // Must match the phone app to be able to use the Wearable Data Layer
+        applicationId "org.openhab.habdroid"
+        minSdkVersion 30
+        targetSdkVersion 35
+        // Play requires unique version codes across the phone and the watch app
+        versionCode 1000000 + mobileVersionCode
+        versionName mobileVersionName
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+    }
+
+    flavorDimensions "release"
+    productFlavors {
+        stable { dimension "release" }
+        beta {
+            dimension "release"
+            applicationIdSuffix ".beta"
+        }
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        targetCompatibility 11
+        sourceCompatibility 11
+    }
+
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_11
+            freeCompilerArgs = [ "-opt-in=kotlinx.coroutines.DelicateCoroutinesApi" ]
+            allWarningsAsErrors = true
+        }
+    }
+
+    lint {
+        abortOnError false
+    }
+
+    androidResources { generateLocaleConfig true }
+
+    buildFeatures {
+        buildConfig true
+        compose true
+    }
+}
+
+repositories {
+    mavenCentral()
+    google()
+}
+
+dependencies {
+    coreLibraryDesugaring libs.desugar.jdk.libs
+
+    implementation project(":core")
+
+    implementation libs.kotlinx.coroutines.play.services
+    implementation libs.kotlinx.coroutines.guava
+    implementation libs.encrypted.prefs.ktx
+    implementation libs.okhttp.logging.interceptor
+
+    implementation libs.play.services.wearable
+    implementation libs.androidx.wear.remote.interactions
+
+    implementation platform(libs.androidx.compose.bom)
+    implementation libs.androidx.compose.ui
+    implementation libs.androidx.compose.foundation
+    implementation libs.androidx.compose.ui.tooling.preview
+    debugImplementation libs.androidx.compose.ui.tooling
+    implementation libs.androidx.activity.compose
+    implementation libs.androidx.lifecycle.viewmodel.compose
+    implementation libs.androidx.lifecycle.runtime.compose
+    implementation libs.androidx.wear.compose.material3
+    implementation libs.androidx.wear.compose.foundation
+    implementation libs.androidx.wear.compose.navigation
+    implementation libs.androidx.wear.tooling.preview
+
+    implementation libs.androidx.wear.tiles
+    implementation libs.androidx.wear.protolayout
+    implementation libs.androidx.wear.protolayout.material3
+    implementation libs.androidx.wear.complications.data.source.ktx
+}
