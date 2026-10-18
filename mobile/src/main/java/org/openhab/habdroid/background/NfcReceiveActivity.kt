@@ -29,7 +29,7 @@ class NfcReceiveActivity : Activity() {
             return
         }
 
-        if (intent.action == Intent.ACTION_VIEW || intent.action == NfcAdapter.ACTION_NDEF_DISCOVERED) {
+        if (intent.action == NfcAdapter.ACTION_NDEF_DISCOVERED) {
             val tag = intent.data?.toTagData()
             val sitemap = tag?.sitemap
             BackgroundTasksManager.enqueueNfcUpdateIfNeeded(this, tag)
