@@ -1,0 +1,5 @@
+## What's Changed
+* Only handle openhab:// URIs from NFC tags in NfcReceiveActivity by @mueller-ma in https://github.com/openhab/openhab-android/pull/4088
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.22.3-beta...3.22.4-beta
