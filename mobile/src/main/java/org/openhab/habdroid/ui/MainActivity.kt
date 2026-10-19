@@ -26,6 +26,7 @@ import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.Icon
 import android.location.LocationManager
 import android.nfc.NfcAdapter
@@ -112,6 +113,9 @@ import org.openhab.habdroid.model.WebViewUi
 import org.openhab.habdroid.model.sortedWithDefaultName
 import org.openhab.habdroid.model.toTagData
 import org.openhab.habdroid.ui.activity.ContentController
+import org.openhab.habdroid.ui.bridge.MainUiBridge
+import org.openhab.habdroid.ui.bridge.MainUiMenu
+import org.openhab.habdroid.ui.bridge.MenuEntry
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
 import org.openhab.habdroid.ui.preference.PreferencesActivity
@@ -184,6 +188,12 @@ class MainActivity : AbstractBaseActivity() {
     private var shortcutManager: ShortcutManager? = null
     private val systemEventReceiver = SystemEventBroadcastReceiver()
     private var inServerSelectionMode = false
+    private var mainUiMenu: MainUiMenu? = null
+    private val mainUiMenuGroupIds = mutableListOf<Int>()
+    private val mainUiMenuItemIds = mutableListOf<Int>()
+    private val mainUiMenuEntries = mutableMapOf<Int, MenuEntry>()
+    private val mainUiMenuToggles = mutableMapOf<Int, String>()
+    private val expandedMainUiMenuEntries = mutableSetOf<String>()
     private var wifiSsidDuringLastOnStart: String? = null
 
     private var uiCommandItemJob: Job? = null
@@ -488,7 +498,7 @@ class MainActivity : AbstractBaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         CrashReportingHelper.d(TAG, "onOptionsItemSelected()")
         // Handle back navigation arrow
-        if (item.itemId == android.R.id.home && controller.canGoBack()) {
+        if (item.itemId == android.R.id.home && controller.showsUpButton()) {
             controller.goBack()
             return true
         }
@@ -1054,6 +1064,9 @@ class MainActivity : AbstractBaseActivity() {
         drawerMenu.forEach { item -> item.icon = applyDrawerIconTint(item.icon) }
 
         binding.leftDrawer.setNavigationItemSelectedListener { item ->
+            if (item.groupId in mainUiMenuGroupIds) {
+                return@setNavigationItemSelectedListener onMainUiMenuItemSelected(item)
+            }
             binding.drawerContainer.closeDrawers()
             var handled = false
             when (item.itemId) {
@@ -1155,7 +1168,9 @@ class MainActivity : AbstractBaseActivity() {
         } else {
             val configs = prefs.getConfiguredServerIds()
                 .mapNotNull { id -> ServerConfiguration.load(prefs, getSecretPrefs(), id) }
-            configs.forEachIndexed { index, config -> drawerMenu.add(R.id.servers, config.id, index, config.name) }
+            configs.forEachIndexed { index, config ->
+                drawerMenu.add(R.id.servers, config.id, APP_DRAWER_ITEM_ORDER + index, config.name)
+            }
             drawerHeaderBinding.drawerModeSwitcher.isGone = configs.size <= 1
         }
         drawerHeaderBinding.serverNameLabel.isGone = drawerHeaderBinding.drawerModeSwitcher.isGone
@@ -1183,7 +1198,12 @@ class MainActivity : AbstractBaseActivity() {
 
         if (prefs.areSitemapsShownInDrawer()) {
             sitemaps.forEachIndexed { index, sitemap ->
-                val item = drawerMenu.add(R.id.sitemaps, sitemap.name.hashCode(), index, sitemap.label)
+                val item = drawerMenu.add(
+                    R.id.sitemaps,
+                    sitemap.name.hashCode(),
+                    APP_DRAWER_ITEM_ORDER + index,
+                    sitemap.label
+                )
                 loadSitemapIcon(sitemap, item)
             }
         } else {
@@ -1215,6 +1235,7 @@ class MainActivity : AbstractBaseActivity() {
     private fun updateDrawerItemVisibility() {
         val serverItems = drawerMenu.getGroupItems(R.id.servers)
         drawerMenu.setGroupVisible(R.id.servers, serverItems.size > 1 && inServerSelectionMode)
+        mainUiMenuGroupIds.forEach { groupId -> drawerMenu.setGroupVisible(groupId, !inServerSelectionMode) }
 
         if (serverProperties?.sitemaps?.isNotEmpty() == true && !inServerSelectionMode) {
             drawerMenu.setGroupVisible(R.id.sitemaps, true)
@@ -1264,6 +1285,78 @@ class MainActivity : AbstractBaseActivity() {
             if (inServerSelectionMode) R.drawable.ic_menu_up_24dp else R.drawable.ic_menu_down_24dp
         )
         updateDrawerItemVisibility()
+    }
+
+    /**
+     * Shows the entries of Main UI's sidebar at the top of the drawer, or removes them if [menu] is null.
+     */
+    fun setMainUiMenu(menu: MainUiMenu?) {
+        mainUiMenu = menu
+        updateMainUiMenu()
+    }
+
+    private fun updateMainUiMenu() {
+        mainUiMenuGroupIds.forEach { groupId -> drawerMenu.removeGroup(groupId) }
+        mainUiMenuEntries.clear()
+        mainUiMenuToggles.clear()
+        val menu = mainUiMenu ?: return
+
+        val iconColor = getIconFallbackColor(IconBackground.APP_THEME)
+        val iconSize = resources.getDimensionPixelSize(R.dimen.main_ui_icon_size)
+        var order = 0
+        var itemCount = 0
+        fun nextItemId() = mainUiMenuItemIds.getOrNull(itemCount++)
+            ?: View.generateViewId().also { mainUiMenuItemIds.add(it) }
+
+        menu.sections.forEachIndexed { index, section ->
+            val groupId = mainUiMenuGroupIds.getOrNull(index)
+                ?: View.generateViewId().also { mainUiMenuGroupIds.add(it) }
+            val target = if (section.title.isNullOrEmpty()) {
+                drawerMenu
+            } else {
+                drawerMenu.addSubMenu(groupId, nextItemId(), order++, section.title)
+            }
+
+            fun addEntry(entry: MenuEntry) {
+                val item = target.add(groupId, nextItemId(), order++, entry.label)
+                mainUiMenuEntries[item.itemId] = entry
+                item.isCheckable = entry.active
+                item.isChecked = entry.active
+                item.icon = entry.icon
+                    ?.let { icon -> menu.icons.get(icon, iconColor, iconSize) { updateMainUiMenu() } }
+                    ?: GradientDrawable().apply { setSize(iconSize, iconSize) }
+            }
+
+            section.items.forEach { entry ->
+                addEntry(entry)
+                entry.children.forEach { child -> addEntry(child) }
+                if (entry.more.isNotEmpty()) {
+                    val expanded = entry.id in expandedMainUiMenuEntries
+                    if (expanded) {
+                        entry.more.forEach { child -> addEntry(child) }
+                    }
+                    val toggleTitle = if (expanded) R.string.main_ui_menu_show_less else R.string.main_ui_menu_show_all
+                    val toggle = target.add(groupId, nextItemId(), order++, toggleTitle)
+                    mainUiMenuToggles[toggle.itemId] = entry.id
+                }
+            }
+        }
+        updateDrawerItemVisibility()
+    }
+
+    private fun onMainUiMenuItemSelected(item: MenuItem): Boolean {
+        mainUiMenuToggles[item.itemId]?.let { entryId ->
+            if (!expandedMainUiMenuEntries.remove(entryId)) {
+                expandedMainUiMenuEntries.add(entryId)
+            }
+            // Menu views aren't updated in a click handler, so defer the menu update
+            launch { updateMainUiMenu() }
+            return true
+        }
+        val entry = mainUiMenuEntries[item.itemId] ?: return false
+        binding.drawerContainer.closeDrawers()
+        mainUiMenu?.onSelected?.invoke(entry)
+        return true
     }
 
     private fun loadSitemapIcon(sitemap: Sitemap, item: MenuItem) {
@@ -1328,7 +1421,9 @@ class MainActivity : AbstractBaseActivity() {
         action is PendingAction.OpenWebViewUi &&
             isStarted &&
             serverProperties?.hasWebViewUiInstalled(action.ui) == true -> {
-            executeActionForServer(action.serverId) { openWebViewUi(action.ui, true, action.subpage) }
+            executeActionForServer(action.serverId) {
+                openWebViewUi(action.ui, true, action.subpage, action.bridgeCommand)
+            }
         }
 
         action is PendingAction.OpenWebViewUi &&
@@ -1439,9 +1534,9 @@ class MainActivity : AbstractBaseActivity() {
         drawerToggle.isDrawerIndicatorEnabled = false
     }
 
-    private fun openWebViewUi(ui: WebViewUi, isStackRoot: Boolean, subpage: String?) {
+    private fun openWebViewUi(ui: WebViewUi, isStackRoot: Boolean, subpage: String?, bridgeCommand: String? = null) {
         hideSnackbar(SNACKBAR_TAG_SSE_ERROR)
-        controller.showWebViewUi(ui, isStackRoot, subpage)
+        controller.showWebViewUi(ui, isStackRoot, subpage, bridgeCommand)
         drawerToggle.isDrawerIndicatorEnabled = isStackRoot
     }
 
@@ -1458,7 +1553,7 @@ class MainActivity : AbstractBaseActivity() {
         val title = controller.currentTitle
         val activeServerName = ServerConfiguration.load(prefs, getSecretPrefs(), prefs.getActiveServerId())?.name
         setTitle(title.orDefaultIfEmpty(activeServerName.orEmpty()).orDefaultIfEmpty(getString(R.string.app_name)))
-        drawerToggle.isDrawerIndicatorEnabled = !controller.canGoBack()
+        drawerToggle.isDrawerIndicatorEnabled = !controller.showsUpButton()
     }
 
     fun setProgressIndicatorVisible(visible: Boolean) {
@@ -1685,9 +1780,27 @@ class MainActivity : AbstractBaseActivity() {
                 }
             }
 
-            "navigate" -> handleLink(commandContent, serverId)
+            "navigate" -> {
+                val isSitemapLink = commandContent.removePrefix("/").startsWith("basicui/app")
+                if (isSitemapLink || !runMainUiCommand(command, serverId)) {
+                    handleLink(commandContent, serverId)
+                }
+            }
 
-            "close" -> uiCommandItemNotification?.dismiss()
+            "popup", "popover", "sheet" -> when {
+                runMainUiCommand(command, serverId) -> {}
+
+                MainUiBridge.isSupported() -> executeOrStoreAction(
+                    PendingAction.OpenWebViewUi(WebViewUi.MAIN_UI, serverId, null, command)
+                )
+
+                else -> Log.d(TAG, "Command not supported without Main UI bridge: $command")
+            }
+
+            "close" -> {
+                uiCommandItemNotification?.dismiss()
+                runMainUiCommand(command, serverId)
+            }
 
             "back" -> onBackPressedCallback.handleOnBackPressed()
 
@@ -1697,6 +1810,18 @@ class MainActivity : AbstractBaseActivity() {
                 Log.d(TAG, "Command not implemented: $command")
             }
         }
+    }
+
+    /**
+     * Runs [command] in Main UI if it is shown for [serverId].
+     *
+     * @return false if Main UI isn't shown or can't run the command.
+     */
+    private fun runMainUiCommand(command: String, serverId: Int): Boolean {
+        if (serverId != prefs.getActiveServerId()) {
+            return false
+        }
+        return controller.currentMainUiFragment?.runCommand(command) == true
     }
 
     private fun manageHabPanelShortcut(visible: Boolean) {
@@ -1776,7 +1901,12 @@ class MainActivity : AbstractBaseActivity() {
 
         class OpenSitemapUrl(val url: String, val serverId: Int) : PendingAction()
 
-        class OpenWebViewUi(val ui: WebViewUi, val serverId: Int, val subpage: String?) : PendingAction()
+        class OpenWebViewUi(
+            val ui: WebViewUi,
+            val serverId: Int,
+            val subpage: String?,
+            val bridgeCommand: String? = null
+        ) : PendingAction()
 
         class LaunchVoiceRecognition : PendingAction()
 
@@ -1797,6 +1927,9 @@ class MainActivity : AbstractBaseActivity() {
         const val EXTRA_LINK = "link"
         const val EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId"
         const val EXTRA_UI_COMMAND = "uiCommand"
+
+        // Puts entries of the app after those of Main UI's sidebar
+        private const val APP_DRAWER_ITEM_ORDER = 10000
         const val EXTRA_CLOUD_NOTIFICATION_ID = "cloudNotificationId"
 
         const val SNACKBAR_TAG_DEMO_MODE_ACTIVE = "demoModeActive"
