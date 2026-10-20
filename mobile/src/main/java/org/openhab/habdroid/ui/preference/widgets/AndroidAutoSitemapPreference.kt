@@ -143,8 +143,8 @@ class AndroidAutoSitemapPreference(context: Context, attrs: AttributeSet) :
                         updateVisibilities(true)
                         updateOkButtonState()
                     }
-                    sitemapsResult.onFailure { cause ->
-                        // TODO: error
+                    sitemapsResult.onFailure {
+                        binding.errorMessage.isVisible = true
                     }
                     sitemapLoadJob = null
                 }

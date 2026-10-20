@@ -26,6 +26,20 @@
         app:trackThickness="4dp" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/error_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone"
+        android:gravity="center_vertical"
+        android:drawableStart="@drawable/ic_info_outline_grey_24dp"
+        android:drawablePadding="4dp"
+        android:drawableTint="?colorError"
+        android:textAppearance="?textAppearanceBodyMedium"
+        android:text="@string/car_error_sitemap_list_load_failure" />
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/sitemap_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
