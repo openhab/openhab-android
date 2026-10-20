@@ -304,6 +304,11 @@
     <!-- Used in the widget preview -->
     <!-- %1$s: Item label, %2$s: State-->
     <!-- Data saver -->
+    <!-- Android Auto -->
+    <string name="car_action_rollershutter_stop">Durdur</string>
+    <string name="car_action_player_play">Oynat</string>
+    <string name="car_action_player_pause">Duraklat</string>
+    <string name="car_error_retry_button">Yeniden Dene</string>
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->

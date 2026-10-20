@@ -254,6 +254,10 @@
     <!-- Data saver -->
     <string name="widget_type_video">Vídeo</string>
     <string name="widget_type_color">Cor</string>
+    <!-- Android Auto -->
+    <string name="car_action_rollershutter_stop">Parar</string>
+    <string name="car_action_player_play">Reproduzir</string>
+    <string name="car_action_player_pause">Pausa</string>
     <!-- Tiles -->
     <string name="tile_item_picker_title">Selecione um Item</string>
     <string name="tile_disabled">Desligado</string>

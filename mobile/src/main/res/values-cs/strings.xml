@@ -560,6 +560,11 @@
     <string name="widget_type_mapview">Mapa</string>
     <string name="widget_type_chart">Graf</string>
     <string name="widget_type_color">Barva</string>
+    <!-- Android Auto -->
+    <string name="car_action_rollershutter_stop">Zastavit</string>
+    <string name="car_action_player_play">Přehrát</string>
+    <string name="car_action_player_pause">Pozastavit</string>
+    <string name="car_error_retry_button">Opakovat</string>
     <!-- Tiles -->
     <string name="tile">Dlaždice</string>
     <string name="tiles_for_quick_settings">Dlaždice pro rychlé nastavení</string>

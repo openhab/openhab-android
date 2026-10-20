@@ -466,6 +466,11 @@
     <string name="widget_type_video">Video</string>
     <string name="widget_type_mapview">Kartta</string>
     <string name="widget_type_chart">Kuvaaja</string>
+    <!-- Android Auto -->
+    <string name="car_action_rollershutter_stop">Pysäytä</string>
+    <string name="car_action_player_play">Toista</string>
+    <string name="car_action_player_pause">Tauko</string>
+    <string name="car_error_retry_button">Yritä uudelleen</string>
     <!-- Tiles -->
     <string name="tile">Laatta</string>
     <string name="tiles_for_quick_settings">Pika-asetuslaatat</string>

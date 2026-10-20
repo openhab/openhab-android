@@ -536,6 +536,11 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="widget_type_video">Vídeo</string>
     <string name="widget_type_mapview">Mapa</string>
     <string name="widget_type_chart">Gràfic</string>
+    <!-- Android Auto -->
+    <string name="car_action_rollershutter_stop">Atura</string>
+    <string name="car_action_player_play">Reprodueix</string>
+    <string name="car_action_player_pause">Pausa</string>
+    <string name="car_error_retry_button">Reintenta</string>
     <!-- Tiles -->
     <string name="tile">Mosaic</string>
     <string name="tiles_for_quick_settings">Mosaic per a una configuració ràpida</string>

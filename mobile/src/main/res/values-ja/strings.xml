@@ -466,6 +466,11 @@
     <string name="widget_type_video">ビデオ</string>
     <string name="widget_type_mapview">マップ</string>
     <string name="widget_type_chart">チャート</string>
+    <!-- Android Auto -->
+    <string name="car_action_rollershutter_stop">停止</string>
+    <string name="car_action_player_play">再生</string>
+    <string name="car_action_player_pause">一時停止</string>
+    <string name="car_error_retry_button">リトライ</string>
     <!-- Tiles -->
     <string name="tile">タイル</string>
     <string name="tiles_for_quick_settings">クイック設定のタイル</string>

@@ -558,6 +558,11 @@
     <string name="widget_type_mapview">地图</string>
     <string name="widget_type_chart">图表</string>
     <string name="widget_type_color">颜色</string>
+    <!-- Android Auto -->
+    <string name="car_action_rollershutter_stop">停止</string>
+    <string name="car_action_player_play">播放</string>
+    <string name="car_action_player_pause">暂停</string>
+    <string name="car_error_retry_button">重试</string>
     <!-- Tiles -->
     <string name="tile">Tile</string>
     <string name="tiles_for_quick_settings">快速设置 Tiles</string>

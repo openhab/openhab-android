@@ -474,6 +474,11 @@
     <string name="widget_type_mapview">Kaart</string>
     <string name="widget_type_chart">Diagramm</string>
     <string name="widget_type_color">Faarf</string>
+    <!-- Android Auto -->
+    <string name="car_action_rollershutter_stop">Stopp</string>
+    <string name="car_action_player_play">Play</string>
+    <string name="car_action_player_pause">Paus</string>
+    <string name="car_error_retry_button">Nach emol probéieren</string>
     <!-- Tiles -->
     <string name="tile">Block</string>
     <string name="tiles_for_quick_settings">Bléck fir schnell Astellungen</string>

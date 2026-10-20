@@ -171,6 +171,7 @@
     <!-- %1$s: Item label, %2$s: State-->
     <!-- Data saver -->
     <string name="widget_type_video">Βίντεο</string>
+    <!-- Android Auto -->
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->

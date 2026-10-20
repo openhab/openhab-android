@@ -522,6 +522,11 @@
     <string name="widget_type_mapview">Карта</string>
     <string name="widget_type_chart">График</string>
     <string name="widget_type_color">Цвет</string>
+    <!-- Android Auto -->
+    <string name="car_action_rollershutter_stop">Остановить</string>
+    <string name="car_action_player_play">Воспроизвести</string>
+    <string name="car_action_player_pause">Пауза</string>
+    <string name="car_error_retry_button">Повтор</string>
     <!-- Tiles -->
     <string name="tile">Плитка</string>
     <string name="tiles_for_quick_settings">Плитки для быстрых настроек</string>

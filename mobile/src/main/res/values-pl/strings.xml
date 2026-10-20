@@ -501,6 +501,11 @@
     <string name="widget_type_video">Wideo</string>
     <string name="widget_type_mapview">Mapa</string>
     <string name="widget_type_chart">Wykres</string>
+    <!-- Android Auto -->
+    <string name="car_action_rollershutter_stop">Zatrzymaj</string>
+    <string name="car_action_player_play">Odtwórz</string>
+    <string name="car_action_player_pause">Pauza</string>
+    <string name="car_error_retry_button">Ponów</string>
     <!-- Tiles -->
     <string name="tile">Kafelka</string>
     <string name="tiles_for_quick_settings">Kafelki szybkich ustawień</string>

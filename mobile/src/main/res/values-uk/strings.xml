@@ -523,6 +523,11 @@
     <string name="widget_type_mapview">Карта</string>
     <string name="widget_type_chart">Діаграма</string>
     <string name="widget_type_color">Колір</string>
+    <!-- Android Auto -->
+    <string name="car_action_rollershutter_stop">Стоп</string>
+    <string name="car_action_player_play">Відтворити</string>
+    <string name="car_action_player_pause">Пауза</string>
+    <string name="car_error_retry_button">Повторити</string>
     <!-- Tiles -->
     <string name="tile">Плитка</string>
     <string name="tiles_for_quick_settings">Плитки для швидких налаштувань</string>

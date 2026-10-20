@@ -219,6 +219,8 @@
     <!-- %1$s: Item label, %2$s: State-->
     <!-- Data saver -->
     <string name="widget_type_video">فيديو</string>
+    <!-- Android Auto -->
+    <string name="car_error_retry_button">اعد المحاولة</string>
     <!-- Tiles -->
     <string name="tile_enable">تشغيل</string>
     <!-- Tile icon names -->

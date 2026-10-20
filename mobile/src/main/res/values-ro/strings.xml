@@ -336,6 +336,11 @@
     <string name="item_update_success_message_rewind">%s se derulează înapoi</string>
     <string name="item_update_success_message_fastforward">%s se derulează înainte</string>
     <!-- Data saver -->
+    <!-- Android Auto -->
+    <string name="car_action_rollershutter_stop">Oprește</string>
+    <string name="car_action_player_play">Redare</string>
+    <string name="car_action_player_pause">Pauză</string>
+    <string name="car_error_retry_button">Reîncearcă</string>
     <!-- Tiles -->
     <string name="tile_item_picker_title">Selectaţi un Item</string>
     <string name="tile_enable">Porneşte</string>
