@@ -391,6 +391,11 @@
     <string name="widget_type_mapview">Карта</string>
     <string name="widget_type_chart">Графика</string>
     <string name="widget_type_color">Цвят</string>
+    <!-- Android Auto -->
+    <string name="car_action_rollershutter_stop">Спри</string>
+    <string name="car_action_player_play">Възпроизведи</string>
+    <string name="car_action_player_pause">Почивка</string>
+    <string name="car_error_retry_button">Опитай отново</string>
     <!-- Tiles -->
     <string name="tile_disabled">Изключено</string>
     <string name="tile_enable">Включи</string>
