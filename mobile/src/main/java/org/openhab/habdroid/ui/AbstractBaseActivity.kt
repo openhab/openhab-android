@@ -35,6 +35,7 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -157,6 +158,14 @@ abstract class AbstractBaseActivity :
 
     private fun enableDrawingBehindStatusBar() {
         EdgeToEdgeUtils.applyEdgeToEdge(window, true)
+        // Keep the status bar fully transparent, but give it the RGB value of the app bar background. In desktop
+        // windowing on Android 14 the caption bar derives its button color from the status bar color's luminance,
+        // so plain transparent (black) results in white buttons on a light app bar.
+        @Suppress("DEPRECATION")
+        window.statusBarColor = ColorUtils.setAlphaComponent(
+            resolveThemedColor(com.google.android.material.R.attr.colorSurface, 0),
+            0
+        )
         // Set up a listener to get the window insets so we can apply it to our views. It's important this listener
         // is applied to the toolbar for a combination of reasons:
         // 1) toolbar must be set fitsSystemWindows=true, as otherwise AppBarLayout does its own insets management,
@@ -182,8 +191,7 @@ abstract class AbstractBaseActivity :
             Insets.NONE
         } else {
             val insetsType =
-                WindowInsetsCompat.Type.statusBars() or
-                    WindowInsetsCompat.Type.navigationBars() or
+                WindowInsetsCompat.Type.systemBars() or
                     WindowInsetsCompat.Type.displayCutout()
             lastInsets?.getInsets(insetsType) ?: Insets.NONE
         }
