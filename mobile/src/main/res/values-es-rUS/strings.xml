@@ -575,6 +575,11 @@
     <string name="widget_type_mapview">Mapa</string>
     <string name="widget_type_chart">Gráfica</string>
     <string name="widget_type_color">Color</string>
+    <!-- Android Auto -->
+    <string name="car_action_rollershutter_stop">Parar</string>
+    <string name="car_action_player_play">Reproducir</string>
+    <string name="car_action_player_pause">Pausar</string>
+    <string name="car_error_retry_button">Reintentar</string>
     <!-- Tiles -->
     <string name="tile">Baldosa</string>
     <string name="tiles_for_quick_settings">Baldosas para ajustes rápidos</string>
