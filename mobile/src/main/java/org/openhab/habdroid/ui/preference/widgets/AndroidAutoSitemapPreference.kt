@@ -14,8 +14,8 @@
 package org.openhab.habdroid.ui.preference.widgets
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.content.res.TypedArray
+import android.os.Bundle
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +23,6 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
@@ -245,7 +244,9 @@ class AndroidAutoSitemapPreference(context: Context, attrs: AttributeSet) :
         companion object {
             fun newInstance(key: String): PrefDialogFragment {
                 val f = PrefDialogFragment()
-                f.arguments = bundleOf(ARG_KEY to key)
+                f.arguments = Bundle().apply {
+                    putString(ARG_KEY, key)
+                }
                 return f
             }
         }
