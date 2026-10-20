@@ -220,6 +220,11 @@
     <!-- Used in the widget preview -->
     <!-- %1$s: Item label, %2$s: State-->
     <!-- Data saver -->
+    <!-- Android Auto -->
+    <string name="car_action_rollershutter_stop">Berhenti</string>
+    <string name="car_action_player_play">Putar</string>
+    <string name="car_action_player_pause">Jeda</string>
+    <string name="car_error_retry_button">Coba lagi</string>
     <!-- Tiles -->
     <!-- Tile icon names -->
     <!-- Tile icon values -->
