@@ -1,0 +1,6 @@
+## What's Changed
+* Implement support for Android Auto by @maniac103 in https://github.com/openhab/openhab-android/pull/3993
+* Support brotli compression by @mueller-ma in https://github.com/openhab/openhab-android/pull/4090
+* Respect caption bar insets in desktop windowing by @mueller-ma in https://github.com/openhab/openhab-android/pull/4064
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.22.4-beta...3.22.5-beta
