@@ -1,0 +1,5 @@
+## What's Changed
+* Always build stable flavor for Play Store App Bundle by @mueller-ma in https://github.com/openhab/openhab-android/pull/4092
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.22.5-beta...3.22.6-beta
