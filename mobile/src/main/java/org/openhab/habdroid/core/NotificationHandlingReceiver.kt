@@ -21,11 +21,11 @@ import android.util.Log
 import androidx.core.content.IntentCompat
 import androidx.core.net.toUri
 import org.openhab.habdroid.BuildConfig
-import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.model.CloudNotificationAction
 import org.openhab.habdroid.model.CloudNotificationId
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.PendingIntent_Immutable
+import org.openhab.habdroid.util.getBackgroundTasksManager
 
 class NotificationHandlingReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -52,7 +52,7 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
 
                 when (val action = cna.action) {
                     is CloudNotificationAction.Action.ItemCommandAction ->
-                        BackgroundTasksManager.enqueueNotificationAction(context, action)
+                        context.getBackgroundTasksManager().enqueueNotificationAction(action)
 
                     is CloudNotificationAction.Action.NoAction -> {
                         // no-op

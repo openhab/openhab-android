@@ -19,6 +19,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
+import org.openhab.habdroid.util.getBackgroundTasksManager
 
 class PeriodicItemUpdateWorker(val context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
     override suspend fun doWork(): Result {
@@ -32,7 +33,7 @@ class PeriodicItemUpdateWorker(val context: Context, params: WorkerParameters) :
 
         suspend fun doPeriodicWork(context: Context) {
             Log.d(TAG, "doPeriodicWork()")
-            BackgroundTasksManager.scheduleUpdatesForAllKeys(context)
+            context.getBackgroundTasksManager().scheduleUpdatesForAllKeys()
             ItemUpdateWidget.updateAllWidgets(context)
             if (CloudMessagingHelper.needsPollingForNotifications(context)) {
                 CloudMessagingHelper.pollForNotifications(context)

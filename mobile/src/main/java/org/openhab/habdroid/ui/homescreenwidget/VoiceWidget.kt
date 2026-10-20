@@ -38,7 +38,12 @@ open class VoiceWidget : AppWidgetProvider() {
 
             Log.d(TAG, "Build voice recognition intent")
             val intent = BackgroundTasksManager.buildVoiceRecognitionIntent(context, true)
-            val pendingIntent = PendingIntent.getActivity(context, 6, intent, PendingIntent_Immutable)
+            val pendingIntent = PendingIntent.getActivity(
+                context,
+                6,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
+            )
             views.setOnClickPendingIntent(android.R.id.background, pendingIntent)
 
             setupOpenhabIcon(context, views)
