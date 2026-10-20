@@ -44,6 +44,7 @@ import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.background.tiles.getTileData
+import org.openhab.habdroid.car.CarService
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerProperties
@@ -137,6 +138,7 @@ class MainSettingsFragment : AbstractSettingsFragment() {
         val tilePref = getPreference(PrefKeys.SUBSCREEN_TILE)
         val deviceControlPref = getPreference(PrefKeys.SUBSCREEN_DEVICE_CONTROL)
         val crashReporting = getPreference(PrefKeys.CRASH_REPORTING)
+        val androidAuto = getPreference(PrefKeys.CAR_SITEMAP_INFO)
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             val dataSaverPref = getPreference(PrefKeys.DATA_SAVER) as SwitchPreferenceCompat
@@ -291,6 +293,11 @@ class MainSettingsFragment : AbstractSettingsFragment() {
             true
         }
 
+        androidAuto.setOnPreferenceChangeListener { _, newValue ->
+            updateCarServiceEnabledState(newValue != null)
+            true
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             tilePref.setOnPreferenceClickListener {
                 parentActivity.openSubScreen(TileOverviewFragment())
@@ -404,6 +411,17 @@ class MainSettingsFragment : AbstractSettingsFragment() {
                 else -> R.string.settings_screen_lock_off_summary
             }
         )
+    }
+
+    private fun updateCarServiceEnabledState(enabled: Boolean) {
+        val pm = requireContext().packageManager
+        val carServiceComponent = ComponentName(requireContext(), CarService::class.java)
+        val state = if (enabled) {
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+        } else {
+            PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+        }
+        pm.setComponentEnabledSetting(carServiceComponent, state, PackageManager.DONT_KILL_APP)
     }
 
     private fun updateRingtonePreferenceSummary(pref: Preference, newValue: Uri?) {
