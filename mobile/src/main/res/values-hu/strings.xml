@@ -575,6 +575,11 @@
     <string name="widget_type_mapview">Térkép</string>
     <string name="widget_type_chart">Grafikon</string>
     <string name="widget_type_color">Szín</string>
+    <!-- Android Auto -->
+    <string name="car_action_rollershutter_stop">Megállítás</string>
+    <string name="car_action_player_play">Lejátszás</string>
+    <string name="car_action_player_pause">Szünet</string>
+    <string name="car_error_retry_button">Újra</string>
     <!-- Tiles -->
     <string name="tile">Csempe</string>
     <string name="tiles_for_quick_settings">Csempék a gyors beállításokhoz</string>
