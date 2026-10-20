@@ -132,10 +132,7 @@ class WidgetGridScreen(
             }
 
             is WidgetPresentation.PageLinkPresentation -> {
-                // https://developers.google.com/cars/design/create-apps/apps-for-drivers/plan-task-flows#steps-refreshes
-                // says that we must not use more than 5 navigation steps, and we need to keep room for a final
-                // selection screen, so we limit page depth to 3 steps
-                if (nestingDepth < 2) {
+                if (!maxNestingDepthReached()) {
                     itemBuilder.setOnClickListener { onPageSelected(presentation.page) }
                 }
             }
@@ -222,6 +219,17 @@ class WidgetGridScreen(
             screenManager.pop()
         }
         screenManager.push(screen)
+    }
+
+    private fun maxNestingDepthReached(): Boolean {
+        // https://developers.google.com/cars/design/create-apps/apps-for-drivers/plan-task-flows#steps-refreshes
+        // says that we must not use more than 5 navigation steps
+        val maxScreenCount = 5
+        // loading screen used as stable root, plus first screen starting at depth 0
+        val usedScreenCount = nestingDepth + 2
+        val potentialScreensNeeded = 2 // action or selection list, plus command confirmation
+
+        return usedScreenCount + potentialScreensNeeded <= maxScreenCount
     }
 
     override fun onGetTemplate(): Template {

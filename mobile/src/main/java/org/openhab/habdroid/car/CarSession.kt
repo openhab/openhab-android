@@ -57,7 +57,8 @@ class CarSession(
                         onPageListChanged()
 
                         val screenManager = carContext.getCarService(ScreenManager::class.java)
-                        screenManager.replaceRoot(createScreenForCurrentSitemap(sitemapResult))
+                        screenManager.popToRoot()
+                        screenManager.push(createScreenForCurrentSitemap(sitemapResult))
                     }
                 }
             }
@@ -76,10 +77,11 @@ class CarSession(
 
     fun handleLoadFailure(reason: Throwable?) {
         val screenManager = carContext.getCarService(ScreenManager::class.java)
-        screenManager.replaceRoot(createErrorScreen(null, reason, true))
+        screenManager.popToRoot()
+        screenManager.push(createErrorScreen(null, reason, true))
     }
 
-    override fun onCreateScreen(intent: Intent) = createScreenForCurrentSitemap(latestSitemapResult)
+    override fun onCreateScreen(intent: Intent) = LoadingScreen(carContext)
 
     private fun createScreenForCurrentSitemap(result: Result<SitemapLookupResult>?): Screen = when {
         result == null -> LoadingScreen(carContext)
@@ -146,16 +148,6 @@ class CarSession(
         Log.d(TAG, "Open widget list for page $page")
         val screen = createWidgetListScreen(page.link, page.id, page.title, nestingDepth)
         screen.screenManager.push(screen)
-    }
-
-    private fun ScreenManager.replaceRoot(screen: Screen) {
-        popToRoot()
-        // At this point only the root screen is left, which we want to replace with the screen
-        // we're going to create. As there's no direct way to do that, we push the new screen to the top
-        // and replace the old root afterwards.
-        val oldRoot = top
-        push(screen)
-        remove(oldRoot)
     }
 
     private data class SitemapLookupResult(val sitemaps: List<Sitemap>, val selectedSitemapName: String?)
