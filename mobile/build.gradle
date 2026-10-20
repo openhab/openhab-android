@@ -157,6 +157,7 @@ dependencies {
 
     implementation libs.jmdns
     implementation libs.okhttp
+    implementation libs.okhttp.brotli
     implementation libs.okhttp.logging.interceptor
     implementation libs.okhttp.sse
 

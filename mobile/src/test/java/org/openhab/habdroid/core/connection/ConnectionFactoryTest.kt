@@ -37,8 +37,12 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import kotlinx.coroutines.withTimeout
+import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import okhttp3.mockwebserver.RecordedRequest
+import okio.Buffer
+import okio.ByteString.Companion.decodeBase64
 import org.junit.AfterClass
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -194,6 +198,37 @@ class ConnectionFactoryTest {
             "12345",
             conn.messagingSenderId
         )
+
+        server.shutdown()
+    }
+
+    @Test
+    @Retry
+    fun testBrotliCompressedResponse() {
+        var acceptEncoding: String? = null
+        val server = MockWebServer()
+        server.dispatcher = object : Dispatcher() {
+            override fun dispatch(request: RecordedRequest): MockResponse {
+                if (request.path != "/brotli") {
+                    return MockResponse().setResponseCode(404)
+                }
+                acceptEncoding = request.getHeader("Accept-Encoding")
+                // {"name":"brotli"}, compressed with brotli
+                val body = Buffer().write("CwiAeyJuYW1lIjoiYnJvdGxpIn0D".decodeBase64()!!)
+                return MockResponse().setHeader("Content-Encoding", "br").setBody(body)
+            }
+        }
+        server.start()
+
+        fillInServers(remote = server.url("/").toString())
+        mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Wifi(mockNetwork, mockNetworkCaps))
+        updateAndWaitForConnections()
+        val conn = connectionFactory.currentActive?.conn?.connection
+        assertNotNull(conn)
+
+        val text = runBlocking { conn!!.httpClient.get("brotli").asText().response }
+        assertEquals("br, gzip", acceptEncoding)
+        assertEquals("{\"name\":\"brotli\"}", text)
 
         server.shutdown()
     }
