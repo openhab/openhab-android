@@ -460,6 +460,11 @@
     <string name="widget_type_mapview">Karta</string>
     <string name="widget_type_chart">Diagram</string>
     <string name="widget_type_color">Färg</string>
+    <!-- Android Auto -->
+    <string name="car_action_rollershutter_stop">Stopp</string>
+    <string name="car_action_player_play">Spela</string>
+    <string name="car_action_player_pause">Pausa</string>
+    <string name="car_error_retry_button">Försök igen</string>
     <!-- Tiles -->
     <string name="tile_disabled">Avstängd</string>
     <string name="tile_enable">Sätt på</string>
