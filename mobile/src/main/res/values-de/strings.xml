@@ -586,6 +586,11 @@
     <string name="widget_type_mapview">Karte</string>
     <string name="widget_type_chart">Diagramm</string>
     <string name="widget_type_color">Farbe</string>
+    <!-- Android Auto -->
+    <string name="car_action_rollershutter_stop">Stop</string>
+    <string name="car_action_player_play">Wiedergabe</string>
+    <string name="car_action_player_pause">Pause</string>
+    <string name="car_error_retry_button">Erneut versuchen</string>
     <!-- Tiles -->
     <string name="tile">Kachel</string>
     <string name="tiles_for_quick_settings">Kacheln für Schnelleinstellungen</string>
