@@ -78,14 +78,16 @@ jobs:
           tag: ${{ github.ref }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
 
+      # The Play Store beta track uses the same package id as the stable track,
+      # so always build the stable flavor. The beta flavor (".beta" suffix) is only for F-Droid and GitHub.
       - name: Build App Bundle
-        run: bash gradlew :mobile:bundleFull${{ env.releaseFlavor }}Release
+        run: bash gradlew :mobile:bundleFullStableRelease
 
       - uses: r0adkll/sign-android-release@v1.0.4
         name: Sign App Bundle
         id: sign_aab
         with:
-          releaseDirectory: mobile/build/outputs/bundle/full${{ env.releaseFlavor }}Release
+          releaseDirectory: mobile/build/outputs/bundle/fullStableRelease
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: "sign"
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
