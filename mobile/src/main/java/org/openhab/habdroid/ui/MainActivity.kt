@@ -422,7 +422,7 @@ class MainActivity : AbstractBaseActivity() {
         CrashReportingHelper.d(TAG, "onResume()")
         super.onResume()
 
-        onBackPressedCallback.isEnabled = true
+        updateBackPressedCallbackState()
 
         val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         if (nfcAdapter != null) {
@@ -554,20 +554,13 @@ class MainActivity : AbstractBaseActivity() {
                 controller.canGoBack() -> controller.goBack()
 
                 isFullscreenEnabled -> when {
-                    lastSnackbar?.isShown != true -> showSnackbar(
-                        SNACKBAR_TAG_PRESS_AGAIN_EXIT,
-                        R.string.press_back_to_exit
-                    )
-
-                    lastSnackbar?.view?.tag?.toString() == SNACKBAR_TAG_PRESS_AGAIN_EXIT -> {
+                    lastSnackbar?.isShown == true &&
+                        lastSnackbar?.view?.tag?.toString() == SNACKBAR_TAG_PRESS_AGAIN_EXIT -> {
                         isEnabled = false
                         onBackPressedDispatcher.onBackPressed()
                     }
 
-                    else -> showSnackbar(
-                        SNACKBAR_TAG_PRESS_AGAIN_EXIT,
-                        R.string.press_back_to_exit
-                    )
+                    else -> showPressBackAgainToExitSnackbar()
                 }
 
                 else -> {
@@ -1007,6 +1000,7 @@ class MainActivity : AbstractBaseActivity() {
             addDrawerListener(
                 object : DrawerLayout.SimpleDrawerListener() {
                     override fun onDrawerOpened(drawerView: View) {
+                        updateBackPressedCallbackState()
                         val loadedProperties = serverProperties ?: return
                         val connection = connection ?: return
                         if (propsRequestJob?.isActive == true) {
@@ -1032,6 +1026,7 @@ class MainActivity : AbstractBaseActivity() {
                     override fun onDrawerClosed(drawerView: View) {
                         super.onDrawerClosed(drawerView)
                         updateDrawerMode(false)
+                        updateBackPressedCallbackState()
                     }
                 }
             )
@@ -1459,6 +1454,28 @@ class MainActivity : AbstractBaseActivity() {
         val activeServerName = ServerConfiguration.load(prefs, getSecretPrefs(), prefs.getActiveServerId())?.name
         setTitle(title.orDefaultIfEmpty(activeServerName.orEmpty()).orDefaultIfEmpty(getString(R.string.app_name)))
         drawerToggle.isDrawerIndicatorEnabled = !controller.canGoBack()
+        updateBackPressedCallbackState()
+    }
+
+    /**
+     * Only intercept back navigation if we're going to consume it. Otherwise the system can't
+     * show the predictive back animation.
+     */
+    fun updateBackPressedCallbackState() {
+        val isExitSnackbarShown = lastSnackbar?.view?.tag == SNACKBAR_TAG_PRESS_AGAIN_EXIT &&
+            lastSnackbar?.isShownOrQueued == true
+        onBackPressedCallback.isEnabled = binding.drawerContainer.isDrawerOpen(binding.leftDrawer) ||
+            controller.canGoBack() ||
+            (isFullscreenEnabled && !isExitSnackbarShown)
+    }
+
+    private fun showPressBackAgainToExitSnackbar() {
+        showSnackbar(
+            SNACKBAR_TAG_PRESS_AGAIN_EXIT,
+            R.string.press_back_to_exit,
+            onDismissListener = { updateBackPressedCallbackState() }
+        )
+        updateBackPressedCallbackState()
     }
 
     fun setProgressIndicatorVisible(visible: Boolean) {
