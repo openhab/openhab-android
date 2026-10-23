@@ -111,7 +111,6 @@
     <string name="app_shortcut_disabled_notifications">リモートサーバーに接続できません</string>
     <string name="app_shortcut_disabled_voice_recognition">お使いのデバイスは音声認識アプリがインストールされていません</string>
     <string name="no_position_set">位置が設定されていません</string>
-    <string name="show_and_copy_item_name">アイテム名の表示とコピー</string>
     <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">%sをコピーしました</string>
     <!-- Error messages -->

@@ -382,7 +382,7 @@ class WidgetListFragment :
         }
 
         widget.item?.let {
-            menu.add(Menu.NONE, CONTEXT_MENU_ID_COPY_ITEM_NAME, Menu.NONE, R.string.show_and_copy_item_name)
+            menu.add(Menu.NONE, CONTEXT_MENU_ID_COPY_ITEM_NAME, Menu.NONE, R.string.copy_item_name)
                 .setOnMenuItemClickListener {
                     val itemName = widget.item.name
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {

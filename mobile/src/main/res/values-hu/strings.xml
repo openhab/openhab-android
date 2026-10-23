@@ -155,7 +155,6 @@
     <string name="app_shortcut_disabled_notifications">A távoli szerver nem érhető el</string>
     <string name="app_shortcut_disabled_voice_recognition">Ez az eszköz nem rendelkezik hangfelismerő alkalmazással</string>
     <string name="no_position_set">Nincs művelet beállítva</string>
-    <string name="show_and_copy_item_name">Mutassa meg és másolja az Elem nevét</string>
     <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">\"%s\" másolva</string>
     <!-- Error messages -->
