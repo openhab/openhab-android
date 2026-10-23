@@ -594,6 +594,13 @@ class MainActivity : AbstractBaseActivity() {
 
         retryJob?.cancel(CancellationException("onAvailableConnectionChanged() was called"))
 
+        // Loading the new server properties opens the sitemap, which would replace the web UI on screen
+        if (pendingAction == null) {
+            pendingAction = controller.shownWebViewUi?.let { ui ->
+                PendingAction.OpenWebViewUi(ui, prefs.getActiveServerId(), null)
+            }
+        }
+
         connection = newConnection
         hideSnackbar(SNACKBAR_TAG_CONNECTION_ESTABLISHED)
         hideSnackbar(SNACKBAR_TAG_SSE_ERROR)
