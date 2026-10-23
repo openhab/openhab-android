@@ -191,7 +191,6 @@ In addition: Please omit "openHAB" or "My" from class names.
 Service | Shown as | Task | Desired result | How to fix
 :----|:----|:----|:----|:----
 GitHub Action | Build App | Runs full build and unit test suite | Must pass | Look at the check output and try to run the test locally.
-Stickler CI | stickler-ci | Runs ktlint to ensure the Kotlin Style Guide is followed | Must pass | Look at the check output.
 GitHub Action | Validate strings | Checks for common mistakes in strings.xml, e.g. wrong spelling of "openHAB" | Must pass | Look at the check output.
 Developer Certificate of Origin | DCO | Checks if commits are signed-of-by | Must pass | `git commit -s --amed` and `git push -f`
 WIP | WIP | Checks if the PR name contains "WIP" (Work in progress) | Must pass | Remove "WIP" from the PR title when you're done.
