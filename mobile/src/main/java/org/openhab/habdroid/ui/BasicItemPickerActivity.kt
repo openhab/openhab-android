@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import org.openhab.habdroid.R
@@ -32,10 +33,10 @@ class BasicItemPickerActivity(
     override val forItemCommandOnly get() = !selectItemOnly
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        initialHighlightItemName = intent.getStringExtra("item")
-        showNoCommand = intent.getBooleanExtra("show_no_command", showNoCommand)
-        hideReadOnly = intent.getBooleanExtra("hide_read_only", hideReadOnly)
-        selectItemOnly = intent.getBooleanExtra("select_item_only", selectItemOnly)
+        initialHighlightItemName = intent.getStringExtra(EXTRA_ITEM)
+        showNoCommand = intent.getBooleanExtra(EXTRA_SHOW_NO_COMMAND, showNoCommand)
+        hideReadOnly = intent.getBooleanExtra(EXTRA_HIDE_READ_ONLY, hideReadOnly)
+        selectItemOnly = intent.getBooleanExtra(EXTRA_SELECT_ITEM_ONLY, selectItemOnly)
         super.onCreate(savedInstanceState)
     }
 
@@ -67,6 +68,32 @@ class BasicItemPickerActivity(
     ) {
         if (showNoCommand) {
             entries.add(CommandEntry(null, getString(R.string.widget_no_command)))
+        }
+    }
+
+    companion object {
+        private const val EXTRA_ITEM = "item"
+        private const val EXTRA_SHOW_NO_COMMAND = "show_no_command"
+        private const val EXTRA_HIDE_READ_ONLY = "hide_read_only"
+        private const val EXTRA_SELECT_ITEM_ONLY = "select_item_only"
+
+        /**
+         * @param initialItem Name of the Item that should be highlighted initially
+         * @param showNoCommand Whether to offer "no command" as additional command
+         * @param hideReadOnly Whether to hide read-only Items
+         * @param selectItemOnly Return the Item directly when clicked instead of asking for a command
+         */
+        fun createIntent(
+            context: Context,
+            initialItem: String?,
+            showNoCommand: Boolean = false,
+            hideReadOnly: Boolean = true,
+            selectItemOnly: Boolean = false
+        ) = Intent(context, BasicItemPickerActivity::class.java).apply {
+            putExtra(EXTRA_ITEM, initialItem)
+            putExtra(EXTRA_SHOW_NO_COMMAND, showNoCommand)
+            putExtra(EXTRA_HIDE_READ_ONLY, hideReadOnly)
+            putExtra(EXTRA_SELECT_ITEM_ONLY, selectItemOnly)
         }
     }
 }

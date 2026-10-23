@@ -13,7 +13,6 @@
 
 package org.openhab.habdroid.ui.preference.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
@@ -37,11 +36,12 @@ class DayDreamFragment : AbstractSettingsFragment() {
         addPreferencesFromResource(R.xml.preferences_day_dream)
         itemPref = findPreference(PrefKeys.DAY_DREAM_ITEM)!!
         itemPref.setOnPreferenceClickListener {
-            val intent = Intent(it.context, BasicItemPickerActivity::class.java).apply {
-                putExtra("item", itemPref.itemName)
-                putExtra("select_item_only", true)
-                putExtra("hide_read_only", false)
-            }
+            val intent = BasicItemPickerActivity.createIntent(
+                it.context,
+                itemPref.itemName,
+                hideReadOnly = false,
+                selectItemOnly = true
+            )
             itemPickerCallback.launch(intent)
             true
         }
