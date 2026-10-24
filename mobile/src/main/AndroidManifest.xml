@@ -313,6 +313,21 @@
             android:exported="false" />
 
         <activity
+            android:name=".ui.WearSetupActivity"
+            android:theme="@android:style/Theme.NoDisplay"
+            android:noHistory="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="openhab" android:host="wear-setup" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".background.NfcReceiveActivity"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.NoDisplay"
