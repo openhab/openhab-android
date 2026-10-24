@@ -121,7 +121,8 @@ fun WearApp(viewModel: SitemapViewModel) {
                 }
             }
             composable(Routes.SETTINGS) {
-                SettingsScreen(viewModel)
+                // Go back to the sitemap, so the user sees the reconnection
+                SettingsScreen(viewModel, onReconnect = { navController.popBackStack() })
             }
         }
     }

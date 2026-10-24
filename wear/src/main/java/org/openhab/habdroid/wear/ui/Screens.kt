@@ -238,7 +238,7 @@ fun NoSitemapsScreen(onRetry: () -> Unit) {
 }
 
 @Composable
-fun SettingsScreen(viewModel: SitemapViewModel) {
+fun SettingsScreen(viewModel: SitemapViewModel, onReconnect: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val repository = context.wearApplication.configRepository
@@ -264,7 +264,10 @@ fun SettingsScreen(viewModel: SitemapViewModel) {
                     else -> stringResource(R.string.settings_connected_remote)
                 }
                 Button(
-                    onClick = { viewModel.retry() },
+                    onClick = {
+                        viewModel.retry()
+                        onReconnect()
+                    },
                     label = { Text(stringResource(R.string.settings_connection)) },
                     secondaryLabel = { Text(summary) },
                     colors = ButtonDefaults.filledTonalButtonColors(),
