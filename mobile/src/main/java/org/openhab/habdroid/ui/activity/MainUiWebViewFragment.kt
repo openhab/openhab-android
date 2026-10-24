@@ -23,8 +23,6 @@ import android.view.MenuItem
 import android.view.View
 import android.webkit.WebView
 import okhttp3.HttpUrl
-import org.json.JSONException
-import org.json.JSONObject
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
@@ -111,20 +109,14 @@ class MainUiWebViewFragment :
             pendingCommand = arguments?.getString(KEY_BRIDGE_COMMAND)
         } else {
             navStateServerId = savedInstanceState.getInt(KEY_NAV_STATE_SERVER_ID, -1)
-            navState = savedInstanceState.getString(KEY_NAV_STATE)?.let { json ->
-                try {
-                    NavState.fromJson(JSONObject(json))
-                } catch (e: JSONException) {
-                    null
-                }
-            }
+            navState = savedInstanceState.getString(KEY_NAV_STATE)?.let { MainUiBridgeProtocol.parseNavState(it) }
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         navState?.let {
-            outState.putString(KEY_NAV_STATE, it.toJson().toString())
+            outState.putString(KEY_NAV_STATE, MainUiBridgeProtocol.buildNavState(it))
             outState.putInt(KEY_NAV_STATE_SERVER_ID, navStateServerId)
         }
     }

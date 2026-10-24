@@ -115,20 +115,35 @@ object MainUiBridgeProtocol {
                 accepted = payload.optJSONArray("accepted")?.mapString { it }.orEmpty()
             )
 
-            "nav.changed" -> Incoming.NavChanged(NavState.fromJson(payload))
+            "nav.changed" -> Incoming.NavChanged(payload.toNavState())
 
             "connection.state" -> Incoming.ConnectionState(payload.getBoolean("sseConnected"))
 
-            "navbar.state" -> Incoming.NavbarChanged(NavbarState.fromJson(payload))
+            "navbar.state" -> Incoming.NavbarChanged(payload.toNavbarState())
 
             "menu.state" -> Incoming.MenuChanged(
-                payload.getJSONArray("sections").map { MenuSection.fromJson(it) }
+                payload.getJSONArray("sections").map { it.toMenuSection() }
             )
 
             "auth.getCredentials" -> Incoming.CredentialsRequest(message.getString("id"))
 
             else -> Incoming.Other(type)
         }
+    } catch (e: JSONException) {
+        null
+    }
+
+    fun buildNavState(state: NavState): String {
+        val json = JSONObject()
+            .put("path", state.path)
+            .put("history", JSONArray(state.history))
+            .put("modal", state.modal)
+        state.props?.let { json.put("props", JSONArray(it.map { p -> JSONObject(p) })) }
+        return json.toString()
+    }
+
+    fun parseNavState(json: String): NavState? = try {
+        JSONObject(json).toNavState()
     } catch (e: JSONException) {
         null
     }
@@ -169,178 +184,53 @@ enum class PageImpl {
     }
 }
 
-/**
- * The page on screen and the pages behind it, as sent in `nav.changed`.
- *
- * @param props What each page in [history] was opened with, as JSON objects. The app never looks inside, it
- * only hands them back in `initialProps`.
- */
-data class NavState(val path: String, val history: List<String>, val props: List<String>?, val modal: Boolean) {
-    fun toJson(): JSONObject {
-        val json = JSONObject()
-            .put("path", path)
-            .put("history", JSONArray(history))
-            .put("modal", modal)
-        props?.let { json.put("props", JSONArray(it.map { p -> JSONObject(p) })) }
-        return json
-    }
-
-    companion object {
-        @Throws(JSONException::class)
-        fun fromJson(json: JSONObject): NavState {
-            val history = json.getJSONArray("history").mapString { it }
-            val props = json.optJSONArray("props")
-                ?.map { it.toString() }
-                ?.takeIf { it.size == history.size }
-            return NavState(json.getString("path"), history, props, json.optBoolean("modal"))
-        }
-    }
+@Throws(JSONException::class)
+private fun JSONObject.toNavState(): NavState {
+    val history = getJSONArray("history").mapString { it }
+    val props = optJSONArray("props")
+        ?.map { it.toString() }
+        ?.takeIf { it.size == history.size }
+    return NavState(getString("path"), history, props, optBoolean("modal"))
 }
 
-/**
- * A router command in Main UI's old `handleCommand` string form, as used by the UI command item and by `ui:`
- * notification actions.
- */
-sealed class MainUiCommand {
-    data class Navigate(val path: String) : MainUiCommand()
-
-    data class OpenModal(val kind: String, val target: String) : MainUiCommand()
-
-    data object CloseModals : MainUiCommand()
-
-    data object Back : MainUiCommand()
-
-    data object Reload : MainUiCommand()
-
-    companion object {
-        fun parse(command: String): MainUiCommand? {
-            val prefix = command.substringBefore(":")
-            val content = command.substringAfter(":", "")
-            return when (prefix) {
-                "navigate" -> content.takeIf { it.isNotEmpty() }?.let { Navigate("/" + it.removePrefix("/")) }
-                "popup", "popover", "sheet" -> content.takeIf { it.isNotEmpty() }?.let { OpenModal(prefix, it) }
-                "close" -> CloseModals
-                "back" -> Back
-                "reload" -> Reload
-                else -> null
-            }
-        }
-    }
+private fun JSONObject.toBridgeIcon(): BridgeIcon? {
+    fun opt(key: String) = optStringOrNull(key)?.takeIf { it.isNotEmpty() }
+    val icon = BridgeIcon(opt("name"), opt("md"), opt("svg"))
+    return icon.takeIf { it.androidName != null || it.svg != null }
 }
 
-/**
- * An icon in Main UI's format, e.g. `f7:gear_alt_fill`, `material:settings`, `oh:classic:light` or
- * `iconify:mdi:lightbulb`.
- *
- * @param name The icon Main UI shows on the iOS and Aurora themes.
- * @param md The icon Main UI shows on the Material theme, when it differs.
- * @param svg SVG markup, only when there is no name.
- */
-data class BridgeIcon(val name: String?, val md: String?, val svg: String?) {
-    /**
-     * The icon to show on Android, which matches Main UI's Material theme.
-     */
-    val androidName get() = md ?: name
+@Throws(JSONException::class)
+private fun JSONObject.toNavbarState() = NavbarState(
+    title = optString("title"),
+    hidden = optBoolean("hidden"),
+    back = optJSONObject("back")?.optString("label"),
+    leading = optJSONArray("leading")?.map { it.toNavbarAction() }.orEmpty(),
+    trailing = optJSONArray("trailing")?.map { it.toNavbarAction() }.orEmpty()
+)
 
-    companion object {
-        fun fromJson(json: JSONObject?): BridgeIcon? {
-            json ?: return null
-            fun opt(key: String) = json.optStringOrNull(key)?.takeIf { it.isNotEmpty() }
-            val icon = BridgeIcon(opt("name"), opt("md"), opt("svg"))
-            return icon.takeIf { it.androidName != null || it.svg != null }
-        }
-    }
-}
+@Throws(JSONException::class)
+private fun JSONObject.toNavbarAction() = NavbarAction(
+    id = getString("id"),
+    label = optString("label"),
+    icon = optJSONObject("icon")?.toBridgeIcon(),
+    disabled = optBoolean("disabled")
+)
 
-/**
- * Main UI's top bar, as sent in `navbar.state`.
- *
- * @param back Null when there is nothing to go back to, otherwise the label of the back button, which may be empty.
- */
-data class NavbarState(
-    val title: String,
-    val hidden: Boolean,
-    val back: String?,
-    val leading: List<NavbarAction>,
-    val trailing: List<NavbarAction>
-) {
-    companion object {
-        @Throws(JSONException::class)
-        fun fromJson(json: JSONObject) = NavbarState(
-            title = json.optString("title"),
-            hidden = json.optBoolean("hidden"),
-            back = json.optJSONObject("back")?.optString("label"),
-            leading = json.optJSONArray("leading")?.map { NavbarAction.fromJson(it) }.orEmpty(),
-            trailing = json.optJSONArray("trailing")?.map { NavbarAction.fromJson(it) }.orEmpty()
-        )
-    }
-}
+@Throws(JSONException::class)
+private fun JSONObject.toMenuSection() = MenuSection(
+    id = getString("id"),
+    title = optStringOrNull("title"),
+    items = getJSONArray("items").map { it.toMenuEntry() }
+)
 
-data class NavbarAction(val id: String, val label: String, val icon: BridgeIcon?, val disabled: Boolean) {
-    /**
-     * The label, or for buttons that only show an icon, a label made from the icon's name, e.g. "Add location" for
-     * `material:add_location`. The app needs one for the overflow menu and for accessibility.
-     */
-    val displayLabel: String get() {
-        if (label.isNotEmpty()) {
-            return label
-        }
-        val iconName = icon?.androidName?.substringAfterLast(':') ?: return ""
-        return iconName.replace('_', ' ').trim().replaceFirstChar { it.uppercaseChar() }
-    }
-
-    companion object {
-        @Throws(JSONException::class)
-        fun fromJson(json: JSONObject) = NavbarAction(
-            id = json.getString("id"),
-            label = json.optString("label"),
-            icon = BridgeIcon.fromJson(json.optJSONObject("icon")),
-            disabled = json.optBoolean("disabled")
-        )
-    }
-}
-
-/**
- * A section of Main UI's sidebar, as sent in `menu.state`.
- */
-data class MenuSection(val id: String, val title: String?, val items: List<MenuEntry>) {
-    companion object {
-        @Throws(JSONException::class)
-        fun fromJson(json: JSONObject) = MenuSection(
-            id = json.getString("id"),
-            title = json.optStringOrNull("title"),
-            items = json.getJSONArray("items").map { MenuEntry.fromJson(it) }
-        )
-    }
-}
-
-/**
- * @param path Selecting the entry navigates there. Entries without one do something in Main UI instead, which
- * `menu.activate` triggers.
- * @param children The entries the sidebar shows under this one.
- * @param more The rest, which the sidebar shows under "Show all".
- */
-data class MenuEntry(
-    val id: String,
-    val label: String,
-    val footer: String?,
-    val icon: BridgeIcon?,
-    val path: String?,
-    val active: Boolean,
-    val children: List<MenuEntry>,
-    val more: List<MenuEntry>
-) {
-    companion object {
-        @Throws(JSONException::class)
-        fun fromJson(json: JSONObject): MenuEntry = MenuEntry(
-            id = json.getString("id"),
-            label = json.getString("label"),
-            footer = json.optStringOrNull("footer"),
-            icon = BridgeIcon.fromJson(json.optJSONObject("icon")),
-            path = json.optStringOrNull("path"),
-            active = json.optBoolean("active"),
-            children = json.optJSONArray("children")?.map { fromJson(it) }.orEmpty(),
-            more = json.optJSONArray("more")?.map { fromJson(it) }.orEmpty()
-        )
-    }
-}
+@Throws(JSONException::class)
+private fun JSONObject.toMenuEntry(): MenuEntry = MenuEntry(
+    id = getString("id"),
+    label = getString("label"),
+    footer = optStringOrNull("footer"),
+    icon = optJSONObject("icon")?.toBridgeIcon(),
+    path = optStringOrNull("path"),
+    active = optBoolean("active"),
+    children = optJSONArray("children")?.map { it.toMenuEntry() }.orEmpty(),
+    more = optJSONArray("more")?.map { it.toMenuEntry() }.orEmpty()
+)

@@ -46,14 +46,14 @@ class MainUiBridgeProtocolTest {
 
     @Test
     fun navStateWithMismatchedPropsDropsProps() {
-        val state = NavState.fromJson(JSONObject("""{"path":"/","history":["/"],"props":[{},{}]}"""))
+        val state = MainUiBridgeProtocol.parseNavState("""{"path":"/","history":["/"],"props":[{},{}]}""")!!
         assertNull(state.props)
     }
 
     @Test
     fun navStateRoundTrip() {
         val state = NavState("/page/a", listOf("/", "/page/a"), listOf("{}", """{"deep":true}"""), true)
-        assertEquals(state, NavState.fromJson(JSONObject(state.toJson().toString())))
+        assertEquals(state, MainUiBridgeProtocol.parseNavState(MainUiBridgeProtocol.buildNavState(state)))
     }
 
     @Test
