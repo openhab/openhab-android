@@ -586,10 +586,27 @@
     <string name="widget_type_chart">Grafico</string>
     <string name="widget_type_color">Colore</string>
     <!-- Android Auto -->
+    <string name="android_auto_enabled_title">Android Auto</string>
+    <string name="android_auto_enabled_summary_off">Il supporto Android Auto è disabilitato</string>
+    <string name="android_auto_enabled_summary_on">Android Auto utilizza la sitemap \'%1$s\'</string>
+    <string name="android_auto_enable_switch_label">Abilita supporto per Android Auto</string>
+    <string name="android_auto_sitemap_selection_label">Sitemap usata</string>
+    <string name="car_error_sitemap_not_found">La Sitemap selezionata non è stata trovata sul server. Si prega di ricontrollare la selezione nelle impostazioni dell\'app.</string>
+    <string name="car_action_rollershutter_open">Aperto</string>
+    <string name="car_action_rollershutter_close">Chiuso</string>
     <string name="car_action_rollershutter_stop">Ferma</string>
+    <string name="car_action_player_prev">Traccia precedente</string>
     <string name="car_action_player_play">Riproduci</string>
     <string name="car_action_player_pause">Pausa</string>
+    <string name="car_action_player_next">Traccia successiva</string>
+    <string name="car_error_server_unreachable">openHAB server non può essere raggiunto</string>
+    <string name="car_error_no_network">Connessione alla rete non disponibile</string>
+    <string name="car_error_sitemap_load_failure">Sitemap non può essere caricata</string>
+    <string name="car_error_sitemap_list_load_failure">Impossibile caricare la lista Sitemap</string>
     <string name="car_error_retry_button">Riprova</string>
+    <string name="car_error_close_button">Chiuso</string>
+    <string name="car_error_debug_header">Motivo errore:</string>
+    <string name="car_section_header_other_items">Altri item</string>
     <!-- Tiles -->
     <string name="tile">Riquadro</string>
     <string name="tiles_for_quick_settings">Tile per configurazione veloce</string>
