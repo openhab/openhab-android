@@ -43,6 +43,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
@@ -183,6 +184,7 @@ private fun ImageContent(widget: Widget, connection: Connection, modifier: Modif
 @Composable
 private fun ChartContent(widget: Widget, connection: Connection, serverFlags: Int, modifier: Modifier) {
     val context = LocalContext.current
+    val densityDpi = LocalConfiguration.current.densityDpi
     // TV always uses a dark theme
     val chartTheme = if (serverFlags and ServerProperties.SERVER_FLAG_TRANSPARENT_CHARTS == 0) {
         "dark"
@@ -195,7 +197,7 @@ private fun ChartContent(widget: Widget, connection: Connection, serverFlags: In
             constraints.maxWidth,
             height = constraints.maxHeight,
             chartTheme = chartTheme,
-            density = context.resources.configuration.densityDpi
+            density = densityDpi
         )
         val bitmap = rememberRemoteBitmap(url, connection, constraints.maxWidth, widget.refresh)
         BitmapContent(bitmap, Modifier.fillMaxSize())

@@ -51,12 +51,14 @@ import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.type
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.core.content.res.use
+import androidx.core.graphics.toColorInt
 import androidx.tv.material3.Icon
 import androidx.tv.material3.ListItem
 import androidx.tv.material3.LocalContentColor
@@ -637,16 +639,16 @@ private fun SliderTrack(fraction: Float) {
  */
 @Composable
 private fun rememberTvColorMapper(): (String?) -> Color? {
-    val context = LocalContext.current
-    return remember(context) {
-        val names = context.resources.getStringArray(R.array.valueColorNames)
-        val values = context.resources.obtainTypedArray(R.array.valueColorsDarkBackground)
-        val colorMap = names.mapIndexed { index, name -> name to Color(values.getColor(index, 0)) }.toMap()
-        values.recycle()
+    val resources = LocalResources.current
+    return remember(resources) {
+        val names = resources.getStringArray(R.array.valueColorNames)
+        val colorMap = resources.obtainTypedArray(R.array.valueColorsDarkBackground).use { values ->
+            names.mapIndexed { index, name -> name to Color(values.getColor(index, 0)) }.toMap()
+        }
         val mapper: (String?) -> Color? = { name ->
             when {
                 name == null -> null
-                name.startsWith("#") -> runCatching { Color(android.graphics.Color.parseColor(name)) }.getOrNull()
+                name.startsWith("#") -> runCatching { Color(name.toColorInt()) }.getOrNull()
                 name == "primary" -> null
                 else -> colorMap[name]
             }
