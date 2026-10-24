@@ -39,6 +39,13 @@ class ColorPickerHelper(private val colorPicker: ColorPickerView, private val sl
     private var connection: Connection? = null
     private var sourceId: String? = null
 
+    /**
+     * If set, commands aren't sent, but the latest one is kept in [pendingCommand]
+     */
+    var deferUpdates = false
+    var pendingCommand: String? = null
+        private set
+
     init {
         colorPicker.addOnColorChangedListener(this)
         colorPicker.addOnColorSelectedListener(this)
@@ -102,6 +109,10 @@ class ColorPickerHelper(private val colorPicker: ColorPickerView, private val sl
             val hsv = FloatArray(3)
             Color.RGBToHSV(Color.red(newColor), Color.green(newColor), Color.blue(newColor), hsv)
             val newColorValue = String.format(Locale.US, "%.0f,%.0f,%.0f", hsv[0], hsv[1] * 100, brightness.toFloat())
+            if (deferUpdates) {
+                pendingCommand = newColorValue
+                return@launch
+            }
             connection?.httpClient?.sendItemCommand(
                 boundItem,
                 newColorValue,

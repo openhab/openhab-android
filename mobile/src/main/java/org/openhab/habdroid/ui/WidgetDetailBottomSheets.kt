@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.ui
 
+import android.content.DialogInterface
 import android.graphics.LinearGradient
 import android.graphics.Paint
 import android.graphics.Shader
@@ -95,8 +96,22 @@ open class SliderBottomSheet :
     override suspend fun onValueUpdate(value: Float) {
         val item = widget.item ?: return
         val command = widget.state?.asNumber.withValue(value).toItemCommand(item) ?: return
-        Log.d(TAG, "Send state $command for ${item.name}")
-        connection?.httpClient?.sendItemCommand(item, command, sourceId)
+        sendCommandAfterConfirmation(command)
+    }
+
+    protected fun sendCommandAfterConfirmation(command: String) {
+        val widget = widget
+        val item = widget.item ?: return
+        val connection = connection
+        val sourceId = sourceId
+        requireContext().confirmWidgetCommandIfNeeded(
+            widget,
+            onConfirmed = {
+                Log.d(TAG, "Send state $command for ${item.name}")
+                connection?.httpClient?.sendItemCommand(item, command, sourceId)
+            },
+            onCanceled = { binding.slider.bindToWidget(widget, false) }
+        )
     }
 
     companion object {
@@ -123,8 +138,7 @@ class ColorTemperatureSliderBottomSheet :
             ?.withValue(value)
             ?.toItemCommand(item)
             ?: return
-        Log.d(TAG, "Send state $command for ${item.name}")
-        connection?.httpClient?.sendItemCommand(item, command, sourceId)
+        sendCommandAfterConfirmation(command)
     }
 
     override fun onLayoutChange(view: View, l: Int, t: Int, r: Int, b: Int, ol: Int, ot: Int, or: Int, ob: Int) {
@@ -149,10 +163,6 @@ class ColorTemperatureSliderBottomSheet :
                 (field.get(slider) as Paint).shader = shader
             }
     }
-
-    companion object {
-        private val TAG = SliderBottomSheet::class.java.simpleName
-    }
 }
 
 class SelectionBottomSheet : AbstractWidgetBottomSheet() {
@@ -167,8 +177,17 @@ class SelectionBottomSheet : AbstractWidgetBottomSheet() {
                 text = mapping.label
                 isChecked = stateString == mapping.value
                 setOnClickListener {
-                    connection?.httpClient?.sendItemCommand(widget.item, mapping.value, sourceId)
-                    dismissAllowingStateLoss()
+                    val widget = widget
+                    val connection = connection
+                    val sourceId = sourceId
+                    context.confirmWidgetCommandIfNeeded(
+                        widget,
+                        onConfirmed = {
+                            connection?.httpClient?.sendItemCommand(widget.item, mapping.value, sourceId)
+                            dismissAllowingStateLoss()
+                        },
+                        onCanceled = { restoreSelection(stateString) }
+                    )
                 }
                 isEnabled = !widget.readOnly
             }
@@ -176,6 +195,15 @@ class SelectionBottomSheet : AbstractWidgetBottomSheet() {
         }
         binding.title.text = widget.label
         return binding.root
+    }
+
+    private fun restoreSelection(stateString: String?) {
+        val selected = widget.mappingsOrItemOptions.firstOrNull { it.value == stateString }
+        if (selected != null) {
+            binding.group.check(selected.hashCode())
+        } else {
+            binding.group.clearCheck()
+        }
     }
 }
 
@@ -195,7 +223,24 @@ class ColorChooserBottomSheet : AbstractWidgetBottomSheet() {
         super.onResume()
         val scope = CoroutineScope(Dispatchers.Main + Job())
         pickerHelper.attach(widget.item, scope, connection, sourceId)
+        // Commands need to be confirmed, so only send the last selected color when closing the sheet
+        pickerHelper.deferUpdates = widget.commandConfirmMessage != null
         this.scope = scope
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        val command = pickerHelper.pendingCommand ?: return
+        val activity = activity ?: return
+        if (activity.isChangingConfigurations) {
+            return
+        }
+        val widget = widget
+        val connection = connection
+        val sourceId = sourceId
+        activity.confirmWidgetCommandIfNeeded(widget, onConfirmed = {
+            connection?.httpClient?.sendItemCommand(widget.item, command, sourceId)
+        })
     }
 
     override fun onPause() {
