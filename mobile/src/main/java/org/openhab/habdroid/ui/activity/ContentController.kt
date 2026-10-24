@@ -276,11 +276,15 @@ abstract class ContentController protected constructor(private val activity: Mai
         }
     }
 
-    fun showWebViewUi(ui: WebViewUi, isStackRoot: Boolean, subpage: String?) {
+    /**
+     * @param bridgeCommand A command to run in Main UI once it is loaded, see [MainUiWebViewFragment.runCommand].
+     */
+    fun showWebViewUi(ui: WebViewUi, isStackRoot: Boolean, subpage: String?, bridgeCommand: String? = null) {
         val webViewFragment = ui.fragment.getDeclaredConstructor().newInstance()
         webViewFragment.arguments = Bundle().apply {
             putBoolean(KEY_IS_STACK_ROOT, isStackRoot)
             putString(KEY_SUBPAGE, subpage)
+            putString(MainUiWebViewFragment.KEY_BRIDGE_COMMAND, bridgeCommand)
         }
         webViewFragment.setCallback(this)
         showTemporaryPage(webViewFragment)
@@ -426,6 +430,8 @@ abstract class ContentController protected constructor(private val activity: Mai
         connectionFragment.triggerUpdate(pageUrl, forceReload)
     }
 
+    val currentMainUiFragment get() = temporaryPage as? MainUiWebViewFragment
+
     /**
      * Checks whether the controller currently can consume the back key
      *
@@ -439,6 +445,11 @@ abstract class ContentController protected constructor(private val activity: Mai
             temporaryPage != null || !pageStack.empty()
         }
     }
+
+    /**
+     * Checks whether the app bar shows an up button instead of the drawer button
+     */
+    fun showsUpButton(): Boolean = (temporaryPage as? AbstractWebViewFragment)?.showsUpButton ?: canGoBack()
 
     /**
      * Consumes the back key

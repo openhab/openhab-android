@@ -15,6 +15,7 @@ package org.openhab.habdroid.ui.activity
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -85,13 +86,13 @@ abstract class AbstractWebViewFragment :
     private val job = Job()
     override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
     private var binding: FragmentWebviewBinding? = null
-    private val webView get() = binding?.webview
+    protected val webView get() = binding?.webview
     private var callback: ParentCallback? = null
-    private val mainActivity get() = context as MainActivity?
+    protected val mainActivity get() = context as MainActivity?
     var isStackRoot = false
         private set
     var title: String? = null
-        private set
+        protected set
     var wantsActionBar = true
         private set
 
@@ -236,7 +237,7 @@ abstract class AbstractWebViewFragment :
                 val savedUrl = savedInstanceState.getString(KEY_CURRENT_URL, urlToLoad)
                 Log.d(TAG, "Load website from savedInstanceState: $savedUrl")
                 webView?.restoreState(savedInstanceState)
-                loadWebsite(savedUrl)
+                loadWebsite(urlForRestoredState(savedUrl))
             }
 
             subpage != null && subpage.startsWith("/") -> {
@@ -316,7 +317,7 @@ abstract class AbstractWebViewFragment :
         mainActivity?.showSnackbar(MainActivity.SNACKBAR_TAG_SHORTCUT_INFO, textResId, duration)
     }
 
-    fun goBack(): Boolean {
+    open fun goBack(): Boolean {
         if (webView?.canGoBack() == true) {
             val oldUrl = webView?.url
             do {
@@ -328,7 +329,27 @@ abstract class AbstractWebViewFragment :
         return false
     }
 
-    fun canGoBack(): Boolean = webView?.canGoBack() == true
+    open fun canGoBack(): Boolean = webView?.canGoBack() == true
+
+    /**
+     * Whether the app bar shows an up button instead of the drawer button, or null to decide by [canGoBack].
+     */
+    open val showsUpButton: Boolean? get() = null
+
+    /**
+     * @param savedUrl The URL the web view showed when the state was saved.
+     * @return The URL to load when the fragment is restored.
+     */
+    protected open fun urlForRestoredState(savedUrl: String) = savedUrl
+
+    protected open fun setUpJavascriptInterfaces(webView: WebView, url: HttpUrl, appInterface: OHAppInterface) {
+        webView.addJavascriptInterface(appInterface, "OHApp")
+    }
+
+    /**
+     * Called when the web view starts loading a page in the main frame.
+     */
+    protected open fun onPageStarted() {}
 
     private fun loadWebsite(urlToLoad: String = this.urlToLoad) {
         val conn = requireContext().getConnectionFactory().currentActive?.usableConnection
@@ -350,9 +371,14 @@ abstract class AbstractWebViewFragment :
         } else {
             OHAppInterface(requireContext(), this)
         }
-        webView.addJavascriptInterface(jsInterface, "OHApp")
+        setUpJavascriptInterfaces(webView, url, jsInterface)
 
         webView.webViewClient = object : ConnectionWebViewClient(conn) {
+            override fun onPageStarted(view: WebView, url: String?, favicon: Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+                this@AbstractWebViewFragment.onPageStarted()
+            }
+
             private fun handleError(url: Uri) {
                 if (url.path == pathForError) {
                     updateViewVisibility(true, null)
@@ -402,10 +428,19 @@ abstract class AbstractWebViewFragment :
         }
     }
 
-    private fun hideActionBar() {
-        wantsActionBar = false
-        callback?.updateActionBarState()
+    private fun hideActionBar() = setActionBarWanted(false)
+
+    protected fun setActionBarWanted(wanted: Boolean) {
+        if (wantsActionBar != wanted) {
+            wantsActionBar = wanted
+            callback?.updateActionBarState()
+        }
     }
+
+    /**
+     * The connection the web view uses.
+     */
+    protected val webViewConnection get() = webView?.tag as? Connection
 
     private fun closeFragment() {
         callback?.closeFragment()

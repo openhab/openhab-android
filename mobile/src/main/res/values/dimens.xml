@@ -11,6 +11,7 @@
     <dimen name="section_switch_icon">16dp</dimen>
     <dimen name="drawer_header_size">192dp</dimen>
     <dimen name="list_item_background_corner_radius">8dp</dimen>
+    <dimen name="main_ui_icon_size">24dp</dimen>
 
     <integer name="section_switch_max_buttons">4</integer>
     <integer name="chart_x_label_count">5</integer>

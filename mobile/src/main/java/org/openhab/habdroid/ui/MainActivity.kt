@@ -24,8 +24,6 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
-import android.content.res.ColorStateList
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.location.LocationManager
 import android.nfc.NfcAdapter
@@ -47,19 +45,13 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.core.content.IntentCompat
 import androidx.core.content.edit
-import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.graphics.drawable.toDrawable
 import androidx.core.location.LocationManagerCompat
 import androidx.core.text.inSpans
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.forEach
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Lifecycle
@@ -102,32 +94,27 @@ import org.openhab.habdroid.core.connection.NetworkNotAvailableException
 import org.openhab.habdroid.core.connection.NoUrlInformationException
 import org.openhab.habdroid.core.connection.WrongWifiException
 import org.openhab.habdroid.databinding.ActivityMainBinding
-import org.openhab.habdroid.databinding.DrawerHeaderBinding
 import org.openhab.habdroid.model.CloudNotificationId
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.model.WebViewUi
-import org.openhab.habdroid.model.sortedWithDefaultName
 import org.openhab.habdroid.model.toTagData
 import org.openhab.habdroid.ui.activity.ContentController
+import org.openhab.habdroid.ui.bridge.MainUiBridge
+import org.openhab.habdroid.ui.bridge.MainUiMenu
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
 import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.preference.widgets.toItemUpdatePrefValue
 import org.openhab.habdroid.util.AsyncServiceResolver
 import org.openhab.habdroid.util.CrashReportingHelper
-import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.IconBackground
-import org.openhab.habdroid.util.ImageConversionPolicy
 import org.openhab.habdroid.util.ItemClient
 import org.openhab.habdroid.util.PendingIntent_Immutable
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.ScreenLockMode
-import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.addToPrefs
-import org.openhab.habdroid.util.areSitemapsShownInDrawer
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getBackgroundTasksManager
@@ -135,9 +122,7 @@ import org.openhab.habdroid.util.getConfiguredServerIds
 import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getCurrentWifiSsid
 import org.openhab.habdroid.util.getDefaultSitemap
-import org.openhab.habdroid.util.getGroupItems
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
-import org.openhab.habdroid.util.getIconFallbackColor
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getRemoteUrl
@@ -160,10 +145,8 @@ class MainActivity : AbstractBaseActivity() {
     private val onBackPressedCallback = MainOnBackPressedCallback()
     private var serviceResolveJob: Job? = null
     internal lateinit var binding: ActivityMainBinding
-    private lateinit var drawerHeaderBinding: DrawerHeaderBinding
-    private lateinit var drawerMenu: Menu
+    private lateinit var drawerController: DrawerController
     private lateinit var drawerToggle: ActionBarDrawerToggle
-    private var drawerIconTintList: ColorStateList? = null
     lateinit var viewPool: RecyclerView.RecycledViewPool
         private set
     private var sitemapSelectionDialog: AlertDialog? = null
@@ -183,7 +166,6 @@ class MainActivity : AbstractBaseActivity() {
     private var isStarted: Boolean = false
     private var shortcutManager: ShortcutManager? = null
     private val systemEventReceiver = SystemEventBroadcastReceiver()
-    private var inServerSelectionMode = false
     private var wifiSsidDuringLastOnStart: String? = null
 
     private var uiCommandItemJob: Job? = null
@@ -197,11 +179,11 @@ class MainActivity : AbstractBaseActivity() {
             CrashReportingHelper.d(TAG, "preferenceActivityCallback: $result")
             val data = result.data ?: return@registerForActivityResult
             if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED, false)) {
-                updateSitemapDrawerEntries()
+                drawerController.updateSitemapEntries()
                 executeOrStoreAction(PendingAction.ChooseSitemap())
             }
             if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_DRAWER_CHANGED, false)) {
-                updateSitemapDrawerEntries()
+                drawerController.updateSitemapEntries()
             }
             if (
                 data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_THEME_CHANGED, false) ||
@@ -282,7 +264,7 @@ class MainActivity : AbstractBaseActivity() {
                 controller.updateConnection(null, null, 0)
             }
 
-            updateSitemapDrawerEntries()
+            drawerController.updateSitemapEntries()
         } else {
             controller.updateConnection(null, null, 0)
         }
@@ -332,7 +314,7 @@ class MainActivity : AbstractBaseActivity() {
                     }
                     if (info.cloud != lastActiveCloudConnectionResult) {
                         lastActiveCloudConnectionResult = info.cloud
-                        updateDrawerItemVisibility()
+                        drawerController.updateItemVisibility()
                         handlePendingAction()
                     }
                 }
@@ -373,7 +355,7 @@ class MainActivity : AbstractBaseActivity() {
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
         )
 
-        updateDrawerServerEntries()
+        drawerController.updateServerEntries()
         // Make sure the connection to be used is up-to-date. There can be scenarios where the current connection
         // is e.g. a remote one just because the local server lookup timed out for whatever reason when we were last
         // started, and the user might have done changes to fix those timeouts since that time.
@@ -488,7 +470,7 @@ class MainActivity : AbstractBaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         CrashReportingHelper.d(TAG, "onOptionsItemSelected()")
         // Handle back navigation arrow
-        if (item.itemId == android.R.id.home && controller.canGoBack()) {
+        if (item.itemId == android.R.id.home && controller.showsUpButton()) {
             controller.goBack()
             return true
         }
@@ -588,7 +570,7 @@ class MainActivity : AbstractBaseActivity() {
         }
 
         if (newConnection != null && newConnection === connection) {
-            updateDrawerItemVisibility()
+            drawerController.updateItemVisibility()
             return
         }
 
@@ -659,9 +641,9 @@ class MainActivity : AbstractBaseActivity() {
         }
 
         viewPool.clear()
-        updateSitemapDrawerEntries()
-        updateDrawerItemVisibility()
-        updateDrawerServerEntries()
+        drawerController.updateSitemapEntries()
+        drawerController.updateItemVisibility()
+        drawerController.updateServerEntries()
         invalidateOptionsMenu()
         updateTitle()
     }
@@ -845,13 +827,13 @@ class MainActivity : AbstractBaseActivity() {
             when (result) {
                 is ServerProperties.Companion.PropsSuccess -> {
                     serverProperties = result.props
-                    updateDrawerServerEntries()
+                    drawerController.updateServerEntries()
                     val fallbackUi = listOf(WebViewUi.MAIN_UI, WebViewUi.HABPANEL)
                         .firstOrNull { ui -> result.props.hasWebViewUiInstalled(ui) }
                     when {
                         result.props.sitemaps.isNotEmpty() -> {
                             chooseSitemap()
-                            updateSitemapDrawerEntries()
+                            drawerController.updateSitemapEntries()
                         }
 
                         fallbackUi != null -> {
@@ -1019,7 +1001,7 @@ class MainActivity : AbstractBaseActivity() {
                             when (result) {
                                 is ServerProperties.Companion.PropsSuccess -> {
                                     serverProperties = result.props
-                                    updateSitemapDrawerEntries()
+                                    drawerController.updateSitemapEntries()
                                 }
 
                                 is ServerProperties.Companion.PropsFailure -> {
@@ -1031,7 +1013,7 @@ class MainActivity : AbstractBaseActivity() {
 
                     override fun onDrawerClosed(drawerView: View) {
                         super.onDrawerClosed(drawerView)
-                        updateDrawerMode(false)
+                        drawerController.setServerSelectionMode(false)
                     }
                 }
             )
@@ -1041,20 +1023,7 @@ class MainActivity : AbstractBaseActivity() {
             setStatusBarBackgroundColor(resolveThemedColor(R.attr.colorSurface))
         }
 
-        binding.leftDrawer.apply {
-            inflateMenu(R.menu.left_drawer)
-            drawerMenu = menu
-            // We only want to tint the menu icons, but not our loaded sitemap icons. NavigationView
-            // unfortunately doesn't support this directly, so we tint the icon drawables manually
-            // instead of letting NavigationView do it.
-            drawerIconTintList = itemIconTintList
-            itemIconTintList = null
-        }
-
-        drawerMenu.forEach { item -> item.icon = applyDrawerIconTint(item.icon) }
-
-        binding.leftDrawer.setNavigationItemSelectedListener { item ->
-            binding.drawerContainer.closeDrawers()
+        drawerController = DrawerController(this) { item ->
             var handled = false
             when (item.itemId) {
                 R.id.notifications -> {
@@ -1129,176 +1098,10 @@ class MainActivity : AbstractBaseActivity() {
                 prefs.edit {
                     putActiveServerId(item.itemId)
                 }
-                updateServerNameInDrawer()
-                // Menu views aren't updated in a click handler, so defer the menu update
-                launch {
-                    updateDrawerMode(false)
-                }
                 handled = true
             }
             handled
         }
-
-        val headerView = binding.leftDrawer.getHeaderView(0)
-        drawerHeaderBinding = DrawerHeaderBinding.bind(headerView)
-        drawerHeaderBinding.serverSelector.setOnClickListener { updateDrawerMode(!inServerSelectionMode) }
-    }
-
-    private fun updateDrawerServerEntries() {
-        // Remove existing items from server group
-        drawerMenu.getGroupItems(R.id.servers)
-            .forEach { item -> drawerMenu.removeItem(item.itemId) }
-
-        // Add new items
-        if (connection is DemoConnection) {
-            drawerHeaderBinding.drawerModeSwitcher.isGone = true
-        } else {
-            val configs = prefs.getConfiguredServerIds()
-                .mapNotNull { id -> ServerConfiguration.load(prefs, getSecretPrefs(), id) }
-            configs.forEachIndexed { index, config -> drawerMenu.add(R.id.servers, config.id, index, config.name) }
-            drawerHeaderBinding.drawerModeSwitcher.isGone = configs.size <= 1
-        }
-        drawerHeaderBinding.serverNameLabel.isGone = drawerHeaderBinding.drawerModeSwitcher.isGone
-        drawerHeaderBinding.serverSelector.isClickable = drawerHeaderBinding.drawerModeSwitcher.isVisible
-        if (!drawerHeaderBinding.serverSelector.isClickable) {
-            inServerSelectionMode = false
-        }
-
-        updateServerNameInDrawer()
-        updateDrawerItemVisibility()
-    }
-
-    private fun updateSitemapDrawerEntries() {
-        val defaultSitemapItem = drawerMenu.findItem(R.id.default_sitemap)
-        val sitemaps = serverProperties?.sitemaps
-            ?.sortedWithDefaultName(prefs.getDefaultSitemap(connection)?.name.orEmpty())
-
-        drawerMenu.getGroupItems(R.id.sitemaps)
-            .filter { item -> item !== defaultSitemapItem }
-            .forEach { item -> drawerMenu.removeItem(item.itemId) }
-
-        if (sitemaps?.isNotEmpty() != true) {
-            return
-        }
-
-        if (prefs.areSitemapsShownInDrawer()) {
-            sitemaps.forEachIndexed { index, sitemap ->
-                val item = drawerMenu.add(R.id.sitemaps, sitemap.name.hashCode(), index, sitemap.label)
-                loadSitemapIcon(sitemap, item)
-            }
-        } else {
-            val sitemap = serverProperties?.sitemaps?.firstOrNull { s ->
-                s.name == prefs.getDefaultSitemap(connection)?.name.orEmpty()
-            }
-            if (sitemap != null) {
-                defaultSitemapItem.title = sitemap.label
-                loadSitemapIcon(sitemap, defaultSitemapItem)
-            } else {
-                defaultSitemapItem.title = getString(R.string.mainmenu_openhab_selectsitemap)
-                defaultSitemapItem.icon =
-                    applyDrawerIconTint(ContextCompat.getDrawable(this, R.drawable.ic_openhab_appicon_24dp))
-            }
-        }
-
-        updateDrawerItemVisibility()
-    }
-
-    private fun updateServerNameInDrawer() {
-        if (connection is DemoConnection) {
-            drawerHeaderBinding.serverName.text = getString(R.string.settings_openhab_demomode)
-        } else {
-            val activeConfig = ServerConfiguration.load(prefs, getSecretPrefs(), prefs.getActiveServerId())
-            drawerHeaderBinding.serverName.text = activeConfig?.name
-        }
-    }
-
-    private fun updateDrawerItemVisibility() {
-        val serverItems = drawerMenu.getGroupItems(R.id.servers)
-        drawerMenu.setGroupVisible(R.id.servers, serverItems.size > 1 && inServerSelectionMode)
-
-        if (serverProperties?.sitemaps?.isNotEmpty() == true && !inServerSelectionMode) {
-            drawerMenu.setGroupVisible(R.id.sitemaps, true)
-
-            val defaultSitemapItem = drawerMenu.findItem(R.id.default_sitemap)
-            defaultSitemapItem.isVisible = !prefs.areSitemapsShownInDrawer()
-        } else {
-            drawerMenu.setGroupVisible(R.id.sitemaps, false)
-        }
-
-        if (inServerSelectionMode) {
-            drawerMenu.setGroupVisible(R.id.options, false)
-        } else {
-            drawerMenu.setGroupVisible(R.id.options, true)
-
-            val notificationsItem = drawerMenu.findItem(R.id.notifications)
-            notificationsItem.isVisible = getConnectionFactory().currentActive?.cloud?.connection != null
-
-            val habPanelItem = drawerMenu.findItem(R.id.habpanel)
-            habPanelItem.isVisible = serverProperties?.hasWebViewUiInstalled(WebViewUi.HABPANEL) == true &&
-                prefs.getBoolean(PrefKeys.DRAWER_ENTRY_HABPANEL, true)
-            manageHabPanelShortcut(serverProperties?.hasWebViewUiInstalled(WebViewUi.HABPANEL) == true)
-
-            val mainUiItem = drawerMenu.findItem(R.id.main_ui)
-            mainUiItem.isVisible = serverProperties?.hasWebViewUiInstalled(WebViewUi.MAIN_UI) == true &&
-                prefs.getBoolean(PrefKeys.DRAWER_ENTRY_MAIN_UI, true)
-
-            val frontailItem = drawerMenu.findItem(R.id.frontail)
-            frontailItem.isVisible = serverProperties != null &&
-                connection?.connectionType == Connection.TYPE_LOCAL &&
-                prefs.getBoolean(PrefKeys.DRAWER_ENTRY_FRONTAIL, false)
-
-            val nfcItem = drawerMenu.findItem(R.id.nfc)
-            nfcItem.isVisible = serverProperties != null &&
-                (NfcAdapter.getDefaultAdapter(this) != null || Util.isEmulator()) &&
-                prefs.getPrimaryServerId() == prefs.getActiveServerId() &&
-                prefs.getBoolean(PrefKeys.DRAWER_ENTRY_NFC, true)
-        }
-    }
-
-    private fun updateDrawerMode(inServerMode: Boolean) {
-        if (inServerMode == inServerSelectionMode) {
-            return
-        }
-        inServerSelectionMode = inServerMode
-        drawerHeaderBinding.drawerModeSwitcher.setImageResource(
-            if (inServerSelectionMode) R.drawable.ic_menu_up_24dp else R.drawable.ic_menu_down_24dp
-        )
-        updateDrawerItemVisibility()
-    }
-
-    private fun loadSitemapIcon(sitemap: Sitemap, item: MenuItem) {
-        val defaultIcon = ContextCompat.getDrawable(this, R.drawable.ic_openhab_appicon_24dp)
-        item.icon = applyDrawerIconTint(defaultIcon)
-        val conn = connection
-
-        if (sitemap.icon == null || conn == null) {
-            return
-        }
-        launch {
-            val context = this@MainActivity
-            try {
-                item.icon = conn.httpClient
-                    .get(sitemap.icon.toUrl(context, context.determineDataUsagePolicy(conn).loadIconsWithState))
-                    .asBitmap(
-                        defaultIcon!!.intrinsicWidth,
-                        getIconFallbackColor(IconBackground.APP_THEME),
-                        ImageConversionPolicy.ForceTargetSize
-                    )
-                    .response
-                    .toDrawable(resources)
-            } catch (e: HttpClient.HttpException) {
-                Log.w(TAG, "Could not fetch icon for sitemap ${sitemap.name}")
-            }
-        }
-    }
-
-    private fun applyDrawerIconTint(icon: Drawable?): Drawable? {
-        if (icon == null) {
-            return null
-        }
-        val wrapped = DrawableCompat.wrap(icon.mutate())
-        DrawableCompat.setTintList(wrapped, drawerIconTintList)
-        return wrapped
     }
 
     private fun executeOrStoreAction(action: PendingAction) {
@@ -1328,7 +1131,9 @@ class MainActivity : AbstractBaseActivity() {
         action is PendingAction.OpenWebViewUi &&
             isStarted &&
             serverProperties?.hasWebViewUiInstalled(action.ui) == true -> {
-            executeActionForServer(action.serverId) { openWebViewUi(action.ui, true, action.subpage) }
+            executeActionForServer(action.serverId) {
+                openWebViewUi(action.ui, true, action.subpage, action.bridgeCommand)
+            }
         }
 
         action is PendingAction.OpenWebViewUi &&
@@ -1373,7 +1178,7 @@ class MainActivity : AbstractBaseActivity() {
             prefs.edit {
                 putActiveServerId(serverId)
             }
-            updateDrawerServerEntries()
+            drawerController.updateServerEntries()
             false
         }
 
@@ -1406,7 +1211,7 @@ class MainActivity : AbstractBaseActivity() {
         } else if (result != null && (configuredSitemap.isEmpty() || configuredSitemap != result.name)) {
             // update result
             prefs.updateDefaultSitemap(connection, result)
-            updateSitemapDrawerEntries()
+            drawerController.updateSitemapEntries()
         }
 
         return result
@@ -1429,7 +1234,7 @@ class MainActivity : AbstractBaseActivity() {
                 Log.d(TAG, "Selected sitemap $sitemap")
                 prefs.updateDefaultSitemap(connection, sitemap)
                 controller.openSitemap(sitemap)
-                updateSitemapDrawerEntries()
+                drawerController.updateSitemapEntries()
             }
             .show()
     }
@@ -1439,9 +1244,9 @@ class MainActivity : AbstractBaseActivity() {
         drawerToggle.isDrawerIndicatorEnabled = false
     }
 
-    private fun openWebViewUi(ui: WebViewUi, isStackRoot: Boolean, subpage: String?) {
+    private fun openWebViewUi(ui: WebViewUi, isStackRoot: Boolean, subpage: String?, bridgeCommand: String? = null) {
         hideSnackbar(SNACKBAR_TAG_SSE_ERROR)
-        controller.showWebViewUi(ui, isStackRoot, subpage)
+        controller.showWebViewUi(ui, isStackRoot, subpage, bridgeCommand)
         drawerToggle.isDrawerIndicatorEnabled = isStackRoot
     }
 
@@ -1458,7 +1263,7 @@ class MainActivity : AbstractBaseActivity() {
         val title = controller.currentTitle
         val activeServerName = ServerConfiguration.load(prefs, getSecretPrefs(), prefs.getActiveServerId())?.name
         setTitle(title.orDefaultIfEmpty(activeServerName.orEmpty()).orDefaultIfEmpty(getString(R.string.app_name)))
-        drawerToggle.isDrawerIndicatorEnabled = !controller.canGoBack()
+        drawerToggle.isDrawerIndicatorEnabled = !controller.showsUpButton()
     }
 
     fun setProgressIndicatorVisible(visible: Boolean) {
@@ -1529,6 +1334,11 @@ class MainActivity : AbstractBaseActivity() {
     fun setDrawerLocked(locked: Boolean) {
         binding.drawerContainer.isSwipeDisabled = locked
     }
+
+    /**
+     * Shows the entries of Main UI's sidebar at the top of the drawer, or removes them if [menu] is null.
+     */
+    fun setMainUiMenu(menu: MainUiMenu?) = drawerController.setMainUiMenu(menu)
 
     private fun handlePropertyFetchFailure(result: ServerProperties.Companion.PropsFailure) {
         Log.e(TAG, "Error: ${result.error}", result.error)
@@ -1685,9 +1495,27 @@ class MainActivity : AbstractBaseActivity() {
                 }
             }
 
-            "navigate" -> handleLink(commandContent, serverId)
+            "navigate" -> {
+                val isSitemapLink = commandContent.removePrefix("/").startsWith("basicui/app")
+                if (isSitemapLink || !runMainUiCommand(command, serverId)) {
+                    handleLink(commandContent, serverId)
+                }
+            }
 
-            "close" -> uiCommandItemNotification?.dismiss()
+            "popup", "popover", "sheet" -> when {
+                runMainUiCommand(command, serverId) -> {}
+
+                MainUiBridge.isSupported() -> executeOrStoreAction(
+                    PendingAction.OpenWebViewUi(WebViewUi.MAIN_UI, serverId, null, command)
+                )
+
+                else -> Log.d(TAG, "Command not supported without Main UI bridge: $command")
+            }
+
+            "close" -> {
+                uiCommandItemNotification?.dismiss()
+                runMainUiCommand(command, serverId)
+            }
 
             "back" -> onBackPressedCallback.handleOnBackPressed()
 
@@ -1699,7 +1527,19 @@ class MainActivity : AbstractBaseActivity() {
         }
     }
 
-    private fun manageHabPanelShortcut(visible: Boolean) {
+    /**
+     * Runs [command] in Main UI if it is shown for [serverId].
+     *
+     * @return false if Main UI isn't shown or can't run the command.
+     */
+    private fun runMainUiCommand(command: String, serverId: Int): Boolean {
+        if (serverId != prefs.getActiveServerId()) {
+            return false
+        }
+        return controller.currentMainUiFragment?.runCommand(command) == true
+    }
+
+    internal fun manageHabPanelShortcut(visible: Boolean) {
         manageShortcut(
             visible,
             "habpanel",
@@ -1776,7 +1616,12 @@ class MainActivity : AbstractBaseActivity() {
 
         class OpenSitemapUrl(val url: String, val serverId: Int) : PendingAction()
 
-        class OpenWebViewUi(val ui: WebViewUi, val serverId: Int, val subpage: String?) : PendingAction()
+        class OpenWebViewUi(
+            val ui: WebViewUi,
+            val serverId: Int,
+            val subpage: String?,
+            val bridgeCommand: String? = null
+        ) : PendingAction()
 
         class LaunchVoiceRecognition : PendingAction()
 
