@@ -54,6 +54,10 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
             notifyItemRemoved(items.size)
         } else if (!this.hasMoreItems && hasMoreItems) {
             notifyItemInserted(items.size)
+        } else if (hasMoreItems) {
+            // Rebind the loading indicator, as it might still be visible if the loaded page didn't contain
+            // enough (or any) relevant items to push it off screen. Otherwise loading would stall.
+            notifyItemChanged(items.size)
         }
         this.hasMoreItems = hasMoreItems
         waitingForMoreData = false
