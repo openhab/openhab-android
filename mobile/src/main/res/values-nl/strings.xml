@@ -156,7 +156,6 @@
     <string name="app_shortcut_disabled_notifications">Uw externe server is niet beschikbaar</string>
     <string name="app_shortcut_disabled_voice_recognition">Op dit apparaat is geen app voor spraakherkenning geïnstalleerd</string>
     <string name="no_position_set">Geen positie ingesteld</string>
-    <string name="show_and_copy_item_name">Item naam tonen en kopiëren</string>
     <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">Gekopieerd \"%s\"</string>
     <!-- Error messages -->
