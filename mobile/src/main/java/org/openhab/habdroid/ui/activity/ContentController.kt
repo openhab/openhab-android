@@ -85,6 +85,15 @@ abstract class ContentController protected constructor(private val activity: Mai
     protected var defaultProgressFragment: Fragment
     private val connectionFragment: PageConnectionHolderFragment
     private var temporaryPage: Fragment? = null
+
+    /**
+     * The web UI shown as temporary page, or null if a sitemap or something else is on screen
+     */
+    val shownWebViewUi: WebViewUi? get() {
+        val fragment = temporaryPage as? AbstractWebViewFragment ?: return null
+        return listOf(WebViewUi.MAIN_UI, WebViewUi.HABPANEL, WebViewUi.FRONTAIL)
+            .firstOrNull { ui -> ui.fragment == fragment::class.java }
+    }
     private var currentSitemap: Sitemap? = null
     protected var sitemapFragment: WidgetListFragment? = null
     protected val pageStack = Stack<Pair<LinkedPage, WidgetListFragment>>()
