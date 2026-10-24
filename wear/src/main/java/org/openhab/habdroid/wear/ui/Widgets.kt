@@ -180,10 +180,10 @@ fun WidgetRow(row: WidgetRowData, scope: WidgetScope, modifier: Modifier, transf
         Widget.Type.Frame -> FrameHeader(widget, modifier, transformation)
 
         Widget.Type.Switch -> when {
+            widget.isPlayer() -> PlayerRow(widget, scope, modifier)
             widget.mappings.canBeShownInline() -> MappingsRow(widget, scope, widget.mappings, modifier)
             widget.mappings.isNotEmpty() -> SelectionRow(widget, scope, modifier, transformation)
             item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> RollershutterRow(widget, scope, modifier)
-            item?.isOfTypeOrGroupType(Item.Type.Player) == true -> PlayerRow(widget, scope, modifier)
             else -> SwitchRow(widget, scope, modifier, transformation)
         }
 
@@ -374,6 +374,12 @@ private fun IconButtonRow(
         }
     }
 }
+
+/**
+ * Player items are sent as switches with the player commands as mappings
+ */
+private fun Widget.isPlayer() = item?.isOfTypeOrGroupType(Item.Type.Player) == true &&
+    (mappings.isEmpty() || mappings.map { mapping -> mapping.value } == listOf("PREVIOUS", "PAUSE", "PLAY", "NEXT"))
 
 @Composable
 private fun PlayerRow(widget: Widget, scope: WidgetScope, modifier: Modifier) {
