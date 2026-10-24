@@ -142,7 +142,6 @@
     <string name="app_shortcut_disabled_notifications">您的远程服务器不可用</string>
     <string name="app_shortcut_disabled_voice_recognition">您的设备未安装语音识别程序</string>
     <string name="no_position_set">未设置位置</string>
-    <string name="show_and_copy_item_name">显示并复制项目名称</string>
     <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">已复制 %s</string>
     <!-- Error messages -->
