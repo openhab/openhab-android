@@ -59,6 +59,7 @@ import org.openhab.habdroid.util.getDeviceControlSubtitle
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getSecretPrefs
+import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.orDefaultIfEmpty
 
 @RequiresApi(Build.VERSION_CODES.R)
@@ -67,7 +68,10 @@ class ItemsControlsProviderService : ControlsProviderService() {
         val connection = getConnectionFactory().primaryFlow.first().conn?.connection ?: return@flowPublish
         val allItems = loadItems(connection) ?: return@flowPublish
         val factory = ItemControlFactory(this@ItemsControlsProviderService, allItems, false)
+        val groupName = getPrefs().getStringOrNull(PrefKeys.DEVICE_CONTROL_GROUP)
+        val groupMembers = groupName?.let { collectGroupMembers(allItems.values, it) }
         allItems
+            .filterKeys { itemName -> groupMembers == null || itemName in groupMembers }
             .mapNotNull { factory.maybeCreateControl(it.value) }
             .forEach { control -> send(control) }
     }
@@ -109,6 +113,23 @@ class ItemsControlsProviderService : ControlsProviderService() {
             Log.e(TAG, "Could not load items", e)
             return null
         }
+    }
+
+    /**
+     * Returns the names of all direct and indirect members of the given group
+     */
+    private fun collectGroupMembers(items: Collection<Item>, groupName: String): Set<String> {
+        val membersByGroup = items
+            .flatMap { item -> item.groupNames.map { group -> group to item.name } }
+            .groupBy({ it.first }, { it.second })
+        val result = mutableSetOf<String>()
+        val pending = ArrayDeque(listOf(groupName))
+        while (pending.isNotEmpty()) {
+            membersByGroup[pending.removeFirst()]
+                ?.filter { member -> result.add(member) }
+                ?.let { newMembers -> pending.addAll(newMembers) }
+        }
+        return result
     }
 
     private suspend fun performItemControl(connection: Connection?, itemName: String, action: ControlAction): Int {

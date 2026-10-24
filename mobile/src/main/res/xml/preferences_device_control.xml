@@ -12,6 +12,11 @@
         android:entries="@array/device_control_subtitle"
         android:entryValues="@array/device_control_subtitle_values"
         app:singleLineTitle="false" />
+    <org.openhab.habdroid.ui.preference.widgets.ItemPreference
+        android:key="device_control_group"
+        android:title="@string/device_control_group"
+        android:summary="@string/device_control_group_not_set"
+        app:singleLineTitle="false" />
     <SwitchPreferenceCompat
         android:key="device_control_auth_required"
         android:title="@string/tile_require_unlock"
