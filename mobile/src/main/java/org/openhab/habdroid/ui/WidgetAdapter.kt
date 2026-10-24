@@ -537,10 +537,12 @@ class WidgetAdapter(
          * If the user cancels, the view is rebound to revert any UI change made by the user.
          */
         protected fun confirmCommandIfNeeded(widget: Widget? = boundWidget, action: () -> Unit) {
-            widget ?: return
-            itemView.context.confirmWidgetCommandIfNeeded(widget, action) {
-                boundWidget?.let { bindImpl(it) }
-            }
+            if (widget == null) return
+            itemView.context.confirmWidgetCommandIfNeeded(
+                widget = widget,
+                onConfirmed = action,
+                onCanceled = { boundWidget?.let { bindImpl(it) } }
+            )
         }
 
         /**
@@ -577,7 +579,12 @@ class WidgetAdapter(
                     )
                 }
 
-                MotionEvent.ACTION_UP -> if (pressConfirmPending) releaseAfterConfirm = release else release()
+                MotionEvent.ACTION_UP ->
+                    if (pressConfirmPending) {
+                        releaseAfterConfirm = release
+                    } else {
+                        release()
+                    }
 
                 // Showing the confirmation dialog may cancel the touch gesture
                 MotionEvent.ACTION_CANCEL -> if (pressConfirmPending) releaseAfterConfirm = release
