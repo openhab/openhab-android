@@ -15,7 +15,14 @@ package org.openhab.habdroid.ui.tv
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import org.openhab.habdroid.R
+import org.openhab.habdroid.model.ServerConfiguration
+import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.util.getConnectionFactory
+import org.openhab.habdroid.util.getNextAvailableServerId
+import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getSecretPrefs
+import org.openhab.habdroid.util.loadActiveServerConfig
 
 /**
  * Entry point of the app on TV devices. The TV UI only supports sitemaps and is fully usable with a D-pad.
@@ -25,8 +32,44 @@ class TvMainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TvTheme {
-                TvApp()
+                TvApp(onAddServer = ::addServer, onSaveServer = ::saveServer)
             }
+        }
+    }
+
+    /**
+     * Add the first server during the setup
+     */
+    private fun addServer(url: String, userName: String?, password: String?) {
+        val prefs = getPrefs()
+        val config = ServerConfiguration(
+            prefs.getNextAvailableServerId(),
+            getString(R.string.openhab),
+            ServerPath(url, userName, password),
+            null,
+            null,
+            null,
+            null,
+            false,
+            null,
+            null
+        )
+        config.saveToPrefs(prefs, getSecretPrefs())
+    }
+
+    /**
+     * Update URL and credentials of the active server. Invalid URLs are ignored.
+     */
+    private fun saveServer(url: String, userName: String, password: String) {
+        val config = loadActiveServerConfig() ?: return
+        val trimmedUrl = url.trim()
+        if (!trimmedUrl.startsWith("http://") && !trimmedUrl.startsWith("https://")) {
+            return
+        }
+        val path = ServerPath(trimmedUrl, userName.ifEmpty { null }, password.ifEmpty { null })
+        if (path != config.localPath) {
+            ServerConfiguration.createFrom(config, localPath = path)
+                .saveToPrefs(getPrefs(), getSecretPrefs())
         }
     }
 

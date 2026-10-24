@@ -43,19 +43,17 @@ import androidx.tv.material3.Text
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.DefaultSitemap
 import org.openhab.habdroid.model.ServerConfiguration
-import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.loadActiveServerConfig
 
 /**
  * Settings that are relevant on TV: server and credentials, sitemap and about
  */
 @Composable
-fun TvSettingsScreen(onOpenAbout: () -> Unit) {
+fun TvSettingsScreen(onSaveServer: (url: String, userName: String, password: String) -> Unit, onOpenAbout: () -> Unit) {
     val context = LocalContext.current
     var showSitemapDialog by remember { mutableStateOf(false) }
     // Incremented after changes to reload the configuration
@@ -68,15 +66,7 @@ fun TvSettingsScreen(onOpenAbout: () -> Unit) {
     var password by remember(config) { mutableStateOf(config?.localPath?.password.orEmpty()) }
     // Save once the user finished editing a field, so the connection isn't updated on every key press
     val saveServer: () -> Unit = {
-        val trimmedUrl = url.trim()
-        val isValidUrl = trimmedUrl.startsWith("http://") || trimmedUrl.startsWith("https://")
-        if (config != null && isValidUrl) {
-            val path = ServerPath(trimmedUrl, userName.ifEmpty { null }, password.ifEmpty { null })
-            if (path != config.localPath) {
-                ServerConfiguration.createFrom(config, localPath = path)
-                    .saveToPrefs(context.getPrefs(), context.getSecretPrefs())
-            }
-        }
+        onSaveServer(url, userName, password)
         // Reload the stored values, which also reverts an invalid URL
         configVersion++
     }

@@ -33,7 +33,10 @@ object TvRoutes {
 }
 
 @Composable
-fun TvApp() {
+fun TvApp(
+    onAddServer: (url: String, userName: String?, password: String?) -> Unit,
+    onSaveServer: (url: String, userName: String, password: String) -> Unit
+) {
     val context = LocalContext.current
     val navController = rememberNavController()
     val startDestination = if (context.getPrefs().getConfiguredServerIds().isEmpty()) {
@@ -50,7 +53,8 @@ fun TvApp() {
         NavHost(navController = navController, startDestination = startDestination) {
             composable(TvRoutes.SETUP) {
                 TvSetupScreen(
-                    onServerConfigured = {
+                    onSaveServer = { url, userName, password ->
+                        onAddServer(url, userName, password)
                         navController.navigate(TvRoutes.SITEMAP) {
                             popUpTo(TvRoutes.SETUP) { inclusive = true }
                         }
@@ -61,7 +65,10 @@ fun TvApp() {
                 TvSitemapScreen(onOpenSettings = { navController.navigate(TvRoutes.SETTINGS) })
             }
             composable(TvRoutes.SETTINGS) {
-                TvSettingsScreen(onOpenAbout = { navController.navigate(TvRoutes.ABOUT) })
+                TvSettingsScreen(
+                    onSaveServer = onSaveServer,
+                    onOpenAbout = { navController.navigate(TvRoutes.ABOUT) }
+                )
             }
             composable(TvRoutes.ABOUT) { TvAboutScreen() }
         }

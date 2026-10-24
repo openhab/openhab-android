@@ -32,7 +32,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -45,38 +44,17 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.OutlinedButton
 import androidx.tv.material3.Text
 import org.openhab.habdroid.R
-import org.openhab.habdroid.model.ServerConfiguration
-import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.ui.tv.TvSetupViewModel.DiscoveryState
-import org.openhab.habdroid.util.getNextAvailableServerId
-import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.getSecretPrefs
 
 /**
  * First run setup: discover the local openHAB server via mDNS or enter it manually.
  */
 @Composable
-fun TvSetupScreen(onServerConfigured: () -> Unit, viewModel: TvSetupViewModel = viewModel()) {
-    val context = LocalContext.current
+fun TvSetupScreen(
+    onSaveServer: (url: String, userName: String?, password: String?) -> Unit,
+    viewModel: TvSetupViewModel = viewModel()
+) {
     var manualEntry by rememberSaveable { mutableStateOf(false) }
-
-    val saveServer = { url: String, userName: String?, password: String? ->
-        val prefs = context.getPrefs()
-        val config = ServerConfiguration(
-            prefs.getNextAvailableServerId(),
-            context.getString(R.string.openhab),
-            ServerPath(url, userName, password),
-            null,
-            null,
-            null,
-            null,
-            false,
-            null,
-            null
-        )
-        config.saveToPrefs(prefs, context.getSecretPrefs())
-        onServerConfigured()
-    }
 
     Column(
         modifier = Modifier
@@ -87,12 +65,12 @@ fun TvSetupScreen(onServerConfigured: () -> Unit, viewModel: TvSetupViewModel = 
         Text(text = stringResource(R.string.tv_setup_title), style = MaterialTheme.typography.displaySmall)
         Spacer(modifier = Modifier.height(32.dp))
         if (manualEntry) {
-            ManualServerEntry(onSave = saveServer, onCancel = { manualEntry = false })
+            ManualServerEntry(onSave = onSaveServer, onCancel = { manualEntry = false })
         } else {
             val state by viewModel.state.collectAsStateWithLifecycle()
             ServerDiscovery(
                 state = state,
-                onUseServer = { url -> saveServer(url, null, null) },
+                onUseServer = { url -> onSaveServer(url, null, null) },
                 onSearchAgain = viewModel::discover,
                 onEnterManually = { manualEntry = true }
             )
