@@ -33,7 +33,6 @@
     <string name="settings_openhab_password">Parola</string>
     <string name="settings_openhab_password_summary_weak">Ati ales o parola slaba</string>
     <string name="settings_openhab_password_summary_strong">Ati ales o parola puternica</string>
-    <string name="settings_openhab_api_token_hint">Dacă folosiți un token API, introduceți-l în câmpul nume de utilizator și lăsați câmpul parolă necompletat</string>
     <string name="settings_openhab_sslclientcert">Certificat SSL client</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Apasati aici pentru cateva instructiuni si explicatii descpre cum se seteaza autentificarea clientului prin certificat SSL</string>
     <string name="settings_openhab_sslclientcert_not_supported">Certificatele client SSL nu sunt acceptate de dispozitiv</string>

@@ -28,7 +28,6 @@
     <string name="settings_openhab_password">Mật khẩu</string>
     <string name="settings_openhab_password_summary_weak">Mật khẩu bảo mật thấp</string>
     <string name="settings_openhab_password_summary_strong">Mật khẩu bảo mật tốt</string>
-    <string name="settings_openhab_api_token_hint">Nếu bạn đang sử dụng một mã API, hãy nhập nó vào trường tên người dùng và để trống trường mật khẩu</string>
     <string name="settings_openhab_sslclientcert">Chứng thực SSL khách</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Bấm vào đây để có được một số gợi ý và lời giải thích làm thế nào để thiết lập chứng thực SSL cho máy khách</string>
     <string name="settings_openhab_sslclientcert_not_supported">Các chứng chỉ khách SSL không được thiết bị của bạn hỗ trợ</string>

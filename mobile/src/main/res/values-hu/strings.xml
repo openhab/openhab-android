@@ -37,7 +37,6 @@
     <string name="settings_openhab_password">Jelszó</string>
     <string name="settings_openhab_password_summary_weak">Gyenge jelszó</string>
     <string name="settings_openhab_password_summary_strong">Erős jelszó</string>
-    <string name="settings_openhab_api_token_hint">Ha API tokent használ, üsse be a felhasználó név mezőbe és a jelszó mezőt hagyja üresen</string>
     <string name="settings_openhab_sslclientcert">SSL ügyfél-tanúsítvány</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Koppintson ide, hogy többet tudhasson meg a SSL ügyféltanúsítvány-hitelesítés beállításáról</string>
     <string name="settings_openhab_sslclientcert_not_supported">Hungarian</string>

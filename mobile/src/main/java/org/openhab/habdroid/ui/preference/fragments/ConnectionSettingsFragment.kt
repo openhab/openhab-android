@@ -20,18 +20,24 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.preference.EditTextPreference
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.ServerPath
+import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.parcelable
 
 class ConnectionSettingsFragment : AbstractSettingsFragment() {
     override val titleResId: Int @StringRes get() = requireArguments().getInt("title")
 
     private lateinit var urlPreference: EditTextPreference
+    private lateinit var authMethodPreference: ListPreference
     private lateinit var userNamePreference: EditTextPreference
     private lateinit var passwordPreference: EditTextPreference
+    private lateinit var apiTokenPreference: EditTextPreference
+    private lateinit var apiTokenInfoPreference: Preference
+    private lateinit var basicAuthInfoPreference: Preference
     private lateinit var parent: ServerEditorFragment
     private lateinit var path: ServerPath
 
@@ -51,12 +57,32 @@ class ConnectionSettingsFragment : AbstractSettingsFragment() {
             getString(requireArguments().getInt("urlsummary"), actualValue)
         }
 
-        userNamePreference = initEditor("username", path.userName, R.drawable.ic_person_outline_grey_24dp) { value ->
+        val initialAuthMethod = when {
+            path.isApiToken() -> AuthMethod.TOKEN
+
+            path.url.isNotEmpty() && path.userName.isNullOrEmpty() && path.password.isNullOrEmpty() ->
+                AuthMethod.NONE
+
+            else -> AuthMethod.BASIC
+        }
+        authMethodPreference = preferenceScreen.findPreference("auth_method")!!
+        authMethodPreference.value = initialAuthMethod.value
+        authMethodPreference.setOnPreferenceChangeListener { pref, newValue ->
+            onValuesChanged(pref, newValue as String)
+            true
+        }
+
+        val isApiToken = initialAuthMethod == AuthMethod.TOKEN
+        userNamePreference = initEditor(
+            "username",
+            path.userName.takeUnless { isApiToken },
+            R.drawable.ic_person_outline_grey_24dp
+        ) { value ->
             if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set)
         }
         passwordPreference = initEditor(
             "password",
-            path.password,
+            path.password.takeUnless { isApiToken },
             R.drawable.ic_shield_key_outline_grey_24dp
         ) { value ->
             getString(
@@ -67,8 +93,25 @@ class ConnectionSettingsFragment : AbstractSettingsFragment() {
                 }
             )
         }
+        apiTokenPreference = initEditor(
+            "api_token",
+            path.userName.takeIf { isApiToken },
+            R.drawable.ic_shield_key_outline_grey_24dp
+        ) { value ->
+            getString(
+                if (value.isNullOrEmpty()) R.string.info_not_set else R.string.settings_openhab_api_token_summary_set
+            )
+        }
+        apiTokenInfoPreference = preferenceScreen.findPreference("api_token_hint")!!
+        basicAuthInfoPreference = preferenceScreen.findPreference("basic_auth_hint")!!
 
-        updateIconColors(urlPreference.text, userNamePreference.text, passwordPreference.text)
+        updateAuthMethodVisibility(initialAuthMethod, urlPreference.text)
+        updateIconColors(
+            urlPreference.text,
+            userNamePreference.text,
+            passwordPreference.text,
+            apiTokenPreference.text
+        )
     }
 
     private fun initEditor(
@@ -81,24 +124,51 @@ class ConnectionSettingsFragment : AbstractSettingsFragment() {
         preference.icon = DrawableCompat.wrap(ContextCompat.getDrawable(preference.context, iconResId)!!)
         preference.text = initialValue
         preference.setOnPreferenceChangeListener { pref, newValue ->
-            val url = if (pref === urlPreference) newValue as String else urlPreference.text
-            val userName = if (pref === userNamePreference) newValue as String else userNamePreference.text
-            val password = if (pref === passwordPreference) newValue as String else passwordPreference.text
-
-            updateIconColors(url, userName, password)
             pref.summary = summaryGenerator(newValue as String)
-
-            if (url != null) {
-                val path = ServerPath(url, userName, password)
-                parent.onPathChanged(requireArguments().getString("key", ""), path)
-            }
+            onValuesChanged(pref, newValue)
             true
         }
         preference.summary = summaryGenerator(initialValue)
         return preference
     }
 
-    private fun updateIconColors(url: String?, userName: String?, password: String?) {
+    private fun updateAuthMethodVisibility(authMethod: AuthMethod, url: String?) {
+        // myopenHAB uses the credentials of the myopenHAB account, no server setting is required
+        val isMyOpenhab = url?.toHttpUrlOrNull()?.host?.let { HttpClient.isMyOpenhab(it) } == true
+        userNamePreference.isVisible = authMethod == AuthMethod.BASIC
+        passwordPreference.isVisible = authMethod == AuthMethod.BASIC
+        basicAuthInfoPreference.isVisible = authMethod == AuthMethod.BASIC && !isMyOpenhab
+        apiTokenPreference.isVisible = authMethod == AuthMethod.TOKEN
+        apiTokenInfoPreference.isVisible = authMethod == AuthMethod.TOKEN
+    }
+
+    /**
+     * Called from the preference change listeners, i.e. before the new value is stored in the changed preference.
+     */
+    private fun onValuesChanged(changedPref: Preference, newValue: String) {
+        fun valueOf(pref: Preference, currentValue: String?) = if (pref === changedPref) newValue else currentValue
+
+        val url = valueOf(urlPreference, urlPreference.text)
+        val authMethod = AuthMethod.fromValue(valueOf(authMethodPreference, authMethodPreference.value))
+        val userName = valueOf(userNamePreference, userNamePreference.text)
+        val password = valueOf(passwordPreference, passwordPreference.text)
+        val apiToken = valueOf(apiTokenPreference, apiTokenPreference.text)
+
+        updateAuthMethodVisibility(authMethod, url)
+        updateIconColors(url, userName, password, apiToken)
+
+        if (url != null) {
+            // Values of hidden preferences are kept to allow switching back, but they aren't part of the path
+            val path = when (authMethod) {
+                AuthMethod.NONE -> ServerPath(url, null, null)
+                AuthMethod.BASIC -> ServerPath(url, userName, password)
+                AuthMethod.TOKEN -> ServerPath(url, apiToken, null)
+            }
+            parent.onPathChanged(requireArguments().getString("key", ""), path)
+        }
+    }
+
+    private fun updateIconColors(url: String?, userName: String?, password: String?, apiToken: String?) {
         updateIconColor(urlPreference) {
             when {
                 url?.toHttpUrlOrNull()?.isHttps == true -> R.color.pref_icon_green
@@ -118,6 +188,13 @@ class ConnectionSettingsFragment : AbstractSettingsFragment() {
                 url.isNullOrEmpty() -> null
                 password.isNullOrEmpty() -> R.color.pref_icon_red
                 isWeakPassword(password) -> R.color.pref_icon_orange
+                else -> R.color.pref_icon_green
+            }
+        }
+        updateIconColor(apiTokenPreference) {
+            when {
+                url.isNullOrEmpty() -> null
+                apiToken.isNullOrEmpty() -> R.color.pref_icon_red
                 else -> R.color.pref_icon_green
             }
         }
@@ -154,6 +231,16 @@ class ConnectionSettingsFragment : AbstractSettingsFragment() {
             parent.parentFragmentManager.putFragment(args, "parent", parent)
             f.arguments = args
             return f
+        }
+    }
+
+    private enum class AuthMethod(val value: String) {
+        NONE("none"),
+        BASIC("basic"),
+        TOKEN("token");
+
+        companion object {
+            fun fromValue(value: String?) = entries.firstOrNull { it.value == value } ?: BASIC
         }
     }
 }

@@ -37,7 +37,6 @@
     <string name="settings_openhab_password">Passord</string>
     <string name="settings_openhab_password_summary_weak">Svakt passord valgt</string>
     <string name="settings_openhab_password_summary_strong">Sterkt passord valgt</string>
-    <string name="settings_openhab_api_token_hint">Hvis du bruker en API-token, skriv den inn i feltet for brukernavn og la passordfeltet stå tomt</string>
     <string name="settings_openhab_sslclientcert">SSL klientsertifikat</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Trykk her for å få hint og forklaring på hvordan å sette opp SSL klientsertifikat autentisering</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL klientsertifikater er ikke støttet av din enhet</string>

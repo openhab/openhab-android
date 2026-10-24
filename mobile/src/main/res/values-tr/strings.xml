@@ -30,7 +30,6 @@
     <string name="settings_openhab_password">Şifre</string>
     <string name="settings_openhab_password_summary_weak">Zayıf şifre ayarlandı</string>
     <string name="settings_openhab_password_summary_strong">Güçlü şifre ayarlandı</string>
-    <string name="settings_openhab_api_token_hint">Bir API anahtarı kullanıyorsanız, bunu kullanıcı adı alanına girin ve şifre alanını boş bırakın</string>
     <string name="settings_openhab_sslclientcert">SSL müşteri sertifikası</string>
     <string name="settings_openhab_sslclientcert_howto_summary">SSL müşteri sertifikası yetkilendirilmesi kurulu hakkında ipuçları ve açıklamalar için buraya tıklayınız</string>
     <string name="settings_openhab_sslclientcert_not_supported">SSL istemci sertifikaları cihazınız tarafından desteklenmiyor</string>
