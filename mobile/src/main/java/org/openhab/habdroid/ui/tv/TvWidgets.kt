@@ -53,6 +53,7 @@ import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -533,13 +534,25 @@ private fun TvWidgetRowScope.ValueRow(showTrack: Boolean) {
         },
         leadingContent = { TvWidgetIcon(widget.icon, connection) },
         trailingContent = {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Left and right change the value of a setpoint
                 if (!showTrack) {
-                    Text(text = "\u2212  ", style = MaterialTheme.typography.bodyLarge)
+                    Icon(
+                        painter = painterResource(R.drawable.ic_remove_themed_24dp),
+                        contentDescription = stringResource(R.string.content_description_decrease_item_value),
+                        modifier = Modifier.size(20.dp)
+                    )
                 }
                 displayValue?.let { Text(text = it, color = valueColor, style = MaterialTheme.typography.bodyLarge) }
                 if (!showTrack) {
-                    Text(text = "  +", style = MaterialTheme.typography.bodyLarge)
+                    Icon(
+                        painter = painterResource(R.drawable.ic_add_themed_24dp),
+                        contentDescription = stringResource(R.string.content_description_increase_item_value),
+                        modifier = Modifier.size(20.dp)
+                    )
                 }
             }
         },
