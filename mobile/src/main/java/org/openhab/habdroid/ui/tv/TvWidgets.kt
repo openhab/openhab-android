@@ -74,6 +74,7 @@ import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.LabeledValue
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
+import org.openhab.habdroid.ui.shouldRenderAsPlayer
 import org.openhab.habdroid.ui.toItemCommand
 import org.openhab.habdroid.util.beautify
 
@@ -251,6 +252,8 @@ private fun TvWidgetRowScope.TextRow() {
 private fun TvWidgetRowScope.SwitchRow() {
     val item = widget.item
     when {
+        widget.shouldRenderAsPlayer() -> PlayerRow()
+
         widget.mappings.isNotEmpty() -> MappingsRow(widget.mappings)
 
         item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> OptionsRow(
@@ -269,6 +272,40 @@ private fun TvWidgetRowScope.SwitchRow() {
             )
         }
     }
+}
+
+@Composable
+private fun TvWidgetRowScope.PlayerRow() {
+    val isPlaying = widget.item?.state?.asString == "PLAY"
+    OptionsRow(
+        options = listOf(
+            TvOption(
+                iconRes = R.drawable.ic_previous_track_themed_24dp,
+                contentDescription = stringResource(R.string.content_description_player_previous),
+                onClick = { send("PREVIOUS") }
+            ),
+            if (isPlaying) {
+                TvOption(
+                    iconRes = R.drawable.ic_pause_themed_24dp,
+                    contentDescription = stringResource(R.string.content_description_player_pause),
+                    onClick = { send("PAUSE") }
+                )
+            } else {
+                TvOption(
+                    iconRes = R.drawable.ic_play_themed_24dp,
+                    contentDescription = stringResource(R.string.content_description_player_play),
+                    onClick = { send("PLAY") }
+                )
+            },
+            TvOption(
+                iconRes = R.drawable.ic_next_track_themed_24dp,
+                contentDescription = stringResource(R.string.content_description_player_next),
+                onClick = { send("NEXT") }
+            )
+        ),
+        // Highlight play/pause by default
+        defaultHighlightedIndex = 1
+    )
 }
 
 @Composable
@@ -323,6 +360,7 @@ private fun Widget.toButtonMapping(): LabeledValue? {
 private class TvOption(
     val label: String? = null,
     val iconRes: Int? = null,
+    val contentDescription: String? = null,
     val selected: Boolean = false,
     val onClick: () -> Unit
 )
@@ -333,9 +371,14 @@ private class TvOption(
  * option. The option matching the current state is filled.
  */
 @Composable
-private fun TvWidgetRowScope.OptionsRow(options: List<TvOption>, showLabel: Boolean = true) {
+private fun TvWidgetRowScope.OptionsRow(
+    options: List<TvOption>,
+    showLabel: Boolean = true,
+    defaultHighlightedIndex: Int = 0
+) {
     var highlightedIndex by remember(options.size) {
-        mutableIntStateOf(options.indexOfFirst { option -> option.selected }.coerceAtLeast(0))
+        val selectedIndex = options.indexOfFirst { option -> option.selected }
+        mutableIntStateOf(if (selectedIndex >= 0) selectedIndex else defaultHighlightedIndex)
     }
     var isFocused by remember { mutableStateOf(false) }
 
@@ -397,7 +440,7 @@ private fun OptionChip(option: TvOption, isHighlighted: Boolean) {
         if (option.iconRes != null) {
             Icon(
                 painter = painterResource(option.iconRes),
-                contentDescription = null,
+                contentDescription = option.contentDescription,
                 tint = contentColor,
                 modifier = Modifier.size(24.dp)
             )
