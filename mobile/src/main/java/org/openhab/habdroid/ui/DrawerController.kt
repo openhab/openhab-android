@@ -20,7 +20,6 @@ import android.nfc.NfcAdapter
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.drawable.toDrawable
@@ -70,6 +69,7 @@ class DrawerController(private val activity: MainActivity, private val onItemSel
     private var mainUiMenu: MainUiMenu? = null
     private val mainUiMenuGroupIds = mutableListOf<Int>()
     private val mainUiMenuItemIds = mutableListOf<Int>()
+    private var nextMainUiMenuId = MAIN_UI_MENU_FIRST_ID
     private val mainUiMenuEntries = mutableMapOf<Int, MenuEntry>()
     private val mainUiMenuToggles = mutableMapOf<Int, String>()
     private val expandedMainUiMenuEntries = mutableSetOf<String>()
@@ -259,11 +259,11 @@ class DrawerController(private val activity: MainActivity, private val onItemSel
         var order = 0
         var itemCount = 0
         fun nextItemId() = mainUiMenuItemIds.getOrNull(itemCount++)
-            ?: View.generateViewId().also { mainUiMenuItemIds.add(it) }
+            ?: nextMainUiMenuId++.also { mainUiMenuItemIds.add(it) }
 
         menu.sections.forEachIndexed { index, section ->
             val groupId = mainUiMenuGroupIds.getOrNull(index)
-                ?: View.generateViewId().also { mainUiMenuGroupIds.add(it) }
+                ?: nextMainUiMenuId++.also { mainUiMenuGroupIds.add(it) }
             val target = if (section.title.isNullOrEmpty()) {
                 drawerMenu
             } else {
@@ -351,5 +351,8 @@ class DrawerController(private val activity: MainActivity, private val onItemSel
 
         // Puts entries of the app after those of Main UI's sidebar
         private const val APP_DRAWER_ITEM_ORDER = 10000
+
+        // IDs of Main UI's entries must not collide with the server entries, which use the server ID
+        private const val MAIN_UI_MENU_FIRST_ID = 0x01000000
     }
 }
