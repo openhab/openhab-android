@@ -15,6 +15,7 @@ package org.openhab.habdroid.wear.ui
 
 import android.content.Intent
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,6 +39,7 @@ import androidx.wear.compose.material3.EdgeButton
 import androidx.wear.compose.material3.FilledTonalButton
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.ListHeader
+import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
@@ -97,12 +99,29 @@ fun PageScreen(
                     modifier = Modifier.transformedHeight(this, transformationSpec),
                     transformation = SurfaceTransformation(transformationSpec)
                 ) {
-                    Text(
-                        text = page.title?.takeIf { it.isNotEmpty() } ?: state.sitemap.label,
-                        textAlign = TextAlign.Center,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
+                    // Show the state part of the title ("Label [state]") below the label, like a Text widget
+                    val title = page.title?.takeIf { it.isNotEmpty() } ?: state.sitemap.label
+                    val label = title.substringBefore("[").trim()
+                    val titleState = title.removePrefix(label).trim()
+                        .takeIf { it.startsWith("[") && it.endsWith("]") }
+                        ?.removeSurrounding("[", "]")
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = label,
+                            textAlign = TextAlign.Center,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        if (!titleState.isNullOrEmpty()) {
+                            Text(
+                                text = titleState,
+                                style = MaterialTheme.typography.bodySmall,
+                                textAlign = TextAlign.Center,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                    }
                 }
             }
             val rows = buildWidgetRows(widgets)
