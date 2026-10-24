@@ -15,7 +15,12 @@ sdk_dir=${ANDROID_HOME:-$(sed -n 's/^sdk.dir=//p' "$repo_root/local.properties" 
 ADB="${sdk_dir:+$sdk_dir/platform-tools/}adb"
 
 dump_ui() {
-    "$ADB" shell uiautomator dump /sdcard/ui.xml >/dev/null
+    # Remove the previous dump, so a failed dump (e.g. while an animation runs) isn't mistaken for the current UI
+    "$ADB" shell rm -f /sdcard/ui.xml
+    for _ in 1 2 3; do
+        "$ADB" shell uiautomator dump /sdcard/ui.xml 2>/dev/null | grep -q "dumped to" && break
+        sleep 1
+    done
     "$ADB" shell cat /sdcard/ui.xml
 }
 
@@ -29,7 +34,9 @@ for m in re.finditer(r"(?:text|content-desc)=\"([^\"]+)\"[^>]*?bounds=\"([^\"]+)
     tap)
         coords=$(dump_ui | python3 -c '
 import re, sys
-m = re.search(r"(?:text|content-desc)=\"" + re.escape(sys.argv[1]) + r"\"[^>]*?bounds=\"\[(\d+),(\d+)\]\[(\d+),(\d+)\]\"", sys.stdin.read())
+# Skip invisible elements without height, e.g. hidden texts in web views
+m = next((m for m in re.finditer(r"(?:text|content-desc)=\"" + re.escape(sys.argv[1]) + r"\"[^>]*?bounds=\"\[(\d+),(\d+)\]\[(\d+),(\d+)\]\"", sys.stdin.read())
+          if int(m[4]) > int(m[2])), None)
 if not m:
     sys.exit("Element not found: " + sys.argv[1])
 print((int(m[1]) + int(m[3])) // 2, (int(m[2]) + int(m[4])) // 2)' "$2")
