@@ -119,7 +119,6 @@
     <string name="app_shortcut_disabled_notifications">Uzak sunucunuz uygun değil</string>
     <string name="app_shortcut_disabled_voice_recognition">Aygıtınızda yüklü bir ses tanıma uygulaması yok</string>
     <string name="no_position_set">Konum ayarlanmadı</string>
-    <string name="show_and_copy_item_name">Öğe adını göster ve kopyala</string>
     <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">%s kopyalandı</string>
     <!-- Error messages -->
