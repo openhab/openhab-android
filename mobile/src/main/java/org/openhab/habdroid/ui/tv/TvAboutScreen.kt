@@ -63,7 +63,11 @@ fun TvAboutScreen() {
     }
     val firstItemFocus = remember { FocusRequester() }
 
-    Column(modifier = Modifier.fillMaxSize().padding(start = 48.dp, end = 48.dp, top = 27.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(start = 48.dp, end = 48.dp, top = 27.dp)
+    ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Image(
                 painter = painterResource(R.drawable.ic_openhab_appicon_340dp),
@@ -111,7 +115,10 @@ fun TvAboutScreen() {
                 }
             }
             // Every row is focusable, so the list can be scrolled with a D-pad
-            items(libraries, key = { library -> library.uniqueId }) { library ->
+            items(
+                items = libraries,
+                key = { library -> library.uniqueId }
+            ) { library ->
                 val details = listOfNotNull(
                     library.artifactVersion,
                     library.licenses.joinToString { license -> license.name }.takeIf { it.isNotEmpty() }

@@ -81,7 +81,11 @@ fun TvSettingsScreen(onOpenAbout: () -> Unit) {
         configVersion++
     }
 
-    Column(modifier = Modifier.fillMaxSize().padding(start = 48.dp, end = 48.dp, top = 27.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(start = 48.dp, end = 48.dp, top = 27.dp)
+    ) {
         Text(
             text = stringResource(R.string.mainmenu_openhab_preferences),
             style = MaterialTheme.typography.headlineMedium
@@ -96,7 +100,9 @@ fun TvSettingsScreen(onOpenAbout: () -> Unit) {
                     label = stringResource(R.string.tv_settings_server),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri, imeAction = ImeAction.Done),
                     onEditingFinished = saveServer,
-                    modifier = Modifier.padding(horizontal = 16.dp).focusRequester(firstItemFocus)
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .focusRequester(firstItemFocus)
                 )
             }
             item {

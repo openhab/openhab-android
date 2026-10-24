@@ -98,7 +98,9 @@ private fun CertificateDecision(title: String, summary: String, fingerprint: Str
     BackHandler { onDecision(MTMDecision.DECISION_ABORT) }
 
     Box(
-        modifier = Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.5f)),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black.copy(alpha = 0.5f)),
         contentAlignment = Alignment.Center
     ) {
         // Surface provides the content color for the texts

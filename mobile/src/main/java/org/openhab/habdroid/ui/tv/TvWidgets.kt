@@ -114,10 +114,15 @@ fun TvWidgetList(
         contentPadding = PaddingValues(bottom = 48.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        items(listWidgets, key = { widget -> widget.id }) { widget ->
+        items(
+            items = listWidgets,
+            key = { widget -> widget.id }
+        ) { widget ->
             val row = TvWidgetRowScope(widget, connection, serverFlags, actions, colorMapper)
             val focusModifier = if (widget.id == initialFocusId) {
-                Modifier.focusRequester(initialFocusRequester).focusGroup()
+                Modifier
+                    .focusRequester(initialFocusRequester)
+                    .focusGroup()
             } else {
                 Modifier
             }
@@ -446,7 +451,11 @@ fun TvSelectionDialog(
             shape = RoundedCornerShape(16.dp),
             colors = SurfaceDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
         ) {
-            Column(modifier = Modifier.padding(24.dp).width(480.dp)) {
+            Column(
+                modifier = Modifier
+                    .padding(24.dp)
+                    .width(480.dp)
+            ) {
                 Text(text = title, style = MaterialTheme.typography.headlineSmall)
                 Spacer(modifier = Modifier.height(16.dp))
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(4.dp)) {

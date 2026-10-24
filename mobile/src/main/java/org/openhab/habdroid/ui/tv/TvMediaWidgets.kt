@@ -144,7 +144,13 @@ fun TvMediaRow(widget: Widget, connection: Connection, serverFlags: Int) {
 
 @Composable
 private fun MediaContent(widget: Widget, connection: Connection, serverFlags: Int, height: Dp?) {
-    val modifier = if (height != null) Modifier.fillMaxWidth().height(height) else Modifier.fillMaxSize()
+    val modifier = if (height != null) {
+        Modifier
+            .fillMaxWidth()
+            .height(height)
+    } else {
+        Modifier.fillMaxSize()
+    }
     when {
         widget.type == Widget.Type.Chart -> ChartContent(widget, connection, serverFlags, modifier)
 

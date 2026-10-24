@@ -102,7 +102,11 @@ private fun SitemapPage(
     val listStates = remember { mutableMapOf<String, LazyListState>() }
     val focusedWidgetIds = remember { mutableMapOf<String, String>() }
 
-    Column(modifier = Modifier.fillMaxSize().padding(start = 48.dp, end = 48.dp, top = 27.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(start = 48.dp, end = 48.dp, top = 27.dp)
+    ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = page.title, style = MaterialTheme.typography.headlineMedium, modifier = Modifier.weight(1f))
             OutlinedIconButton(onClick = onOpenSettings) {
@@ -133,7 +137,9 @@ private fun SitemapPage(
                     initialFocusRequester = widgetFocusRequester,
                     initialFocusId = initialFocusId,
                     onWidgetFocused = { id -> focusedWidgetIds[page.url] = id },
-                    modifier = Modifier.focusRequester(listFocusRequester).focusGroup()
+                    modifier = Modifier
+                        .focusRequester(listFocusRequester)
+                        .focusGroup()
                 )
                 LaunchedEffect(Unit) {
                     // The previously focused widget might not exist anymore
@@ -149,7 +155,11 @@ private fun SitemapPage(
 @Composable
 private fun SitemapSelection(sitemaps: List<Sitemap>, onSelected: (Sitemap) -> Unit) {
     val firstItemFocus = remember { FocusRequester() }
-    Column(modifier = Modifier.fillMaxSize().padding(start = 48.dp, end = 48.dp, top = 27.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(start = 48.dp, end = 48.dp, top = 27.dp)
+    ) {
         Text(
             text = stringResource(R.string.tv_select_sitemap),
             style = MaterialTheme.typography.headlineMedium
@@ -158,7 +168,10 @@ private fun SitemapSelection(sitemaps: List<Sitemap>, onSelected: (Sitemap) -> U
         Text(text = stringResource(R.string.tv_select_sitemap_hint), style = MaterialTheme.typography.bodyLarge)
         Spacer(modifier = Modifier.height(24.dp))
         LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.widthIn(max = 720.dp)) {
-            itemsIndexed(sitemaps, key = { _, sitemap -> sitemap.name }) { index, sitemap ->
+            itemsIndexed(
+                items = sitemaps,
+                key = { _, sitemap -> sitemap.name }
+            ) { index, sitemap ->
                 ListItem(
                     selected = false,
                     onClick = { onSelected(sitemap) },
@@ -177,7 +190,9 @@ private fun SitemapSelection(sitemaps: List<Sitemap>, onSelected: (Sitemap) -> U
 private fun CenteredMessage(message: String, action: (@Composable (Modifier) -> Unit)? = null) {
     val focusRequester = remember { FocusRequester() }
     Column(
-        modifier = Modifier.fillMaxSize().padding(48.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(48.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
