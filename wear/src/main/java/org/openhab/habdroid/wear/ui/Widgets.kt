@@ -146,6 +146,12 @@ private const val SLIDER_COMMAND_DELAY_MILLIS = 300L
 private const val MAX_SLIDER_SEGMENTS = 10
 private const val COLOR_TEMPERATURE_STEP = 100f
 private const val MIN_COLOR_TEMPERATURE = 1000f
+
+/**
+ * Width of a typical phone screen, which charts are laid out for
+ */
+private const val CHART_REFERENCE_WIDTH_DP = 400
+
 private val DEFAULT_COLOR_TEMPERATURE_RANGE = 2000f..6500f
 
 fun buildWidgetRows(widgets: List<Widget>): List<WidgetRowData> {
@@ -628,7 +634,8 @@ private fun String.decodeDataUrl(): ImageBitmap? = try {
 private fun ChartRow(widget: Widget, scope: WidgetScope, modifier: Modifier) {
     val context = LocalContext.current
     val density = LocalDensity.current
-    val widthPixels = with(density) { LocalConfiguration.current.screenWidthDp.dp.roundToPx() }
+    val screenWidthDp = LocalConfiguration.current.screenWidthDp
+    val widthPixels = with(density) { screenWidthDp.dp.roundToPx() }
     val theme = if (scope.serverFlags and ServerProperties.SERVER_FLAG_TRANSPARENT_CHARTS != 0) {
         "black_transparent"
     } else {
@@ -640,7 +647,8 @@ private fun ChartRow(widget: Widget, scope: WidgetScope, modifier: Modifier) {
         requestHighResCharts = prefs.shouldRequestHighResChart(),
         width = widthPixels,
         chartTheme = theme,
-        density = context.resources.displayMetrics.densityDpi,
+        // Lower the density, so that the chart is laid out like on a phone screen instead of using large fonts
+        density = context.resources.displayMetrics.densityDpi * screenWidthDp / CHART_REFERENCE_WIDTH_DP,
         forcedLegend = false
     ) ?: return
     Column(modifier = modifier) {
