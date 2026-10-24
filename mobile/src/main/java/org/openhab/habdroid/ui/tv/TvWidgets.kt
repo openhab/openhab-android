@@ -31,6 +31,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -161,6 +162,8 @@ private fun TvWidgetRowScope.Content(visibleWidgets: List<Widget>) {
         Widget.Type.Setpoint -> SetpointRow()
 
         Widget.Type.Slider, Widget.Type.Colortemperaturepicker -> SliderRow()
+
+        Widget.Type.Colorpicker -> ColorRow()
 
         Widget.Type.Group, Widget.Type.Text, Widget.Type.Default -> TextRow()
 
@@ -523,6 +526,34 @@ fun TvSelectionDialog(
     }
     LaunchedEffect(Unit) {
         initialFocus.requestFocusWhenAttached()
+    }
+}
+
+@Composable
+private fun TvWidgetRowScope.ColorRow() {
+    var showDialog by remember { mutableStateOf(false) }
+    val color = widget.state?.asHsv
+    WidgetListItem(
+        onClick = { showDialog = true },
+        trailingContent = {
+            if (color != null) {
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(CircleShape)
+                        .background(Color(color.toColor()))
+                        .border(2.dp, LocalContentColor.current.copy(alpha = 0.5f), CircleShape)
+                )
+            }
+        }
+    )
+    if (showDialog) {
+        TvColorDialog(
+            title = widget.label,
+            initialColor = color,
+            onColorChanged = { command -> send(command) },
+            onDismiss = { showDialog = false }
+        )
     }
 }
 
