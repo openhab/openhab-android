@@ -340,13 +340,7 @@
     <!-- Intro strings -->
     <string name="app_intro">Въведение</string>
     <string name="intro_welcome">Добре дошъл при openHAB</string>
-    <string name="intro_whatis">Независим от определен доставчик и технология софтуер с отворен код за автоматизация на твоя дом</string>
     <string name="intro_voice_description">Управлявайте гласово вашия дом</string>
-    <string name="intro_send_device_info">Изпращай информация за това устройство до твоя сървър</string>
-    <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">Пропусни</string>
-    <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">Готово</string>
     <!-- Item picker -->
     <string name="item_picker_dialog_title">Избери действия</string>
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->

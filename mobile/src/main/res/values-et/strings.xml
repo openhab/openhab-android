@@ -162,10 +162,6 @@
     <string name="got_it">Selge!</string>
     <!-- Intro strings -->
     <string name="app_intro">Tutvustus</string>
-    <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">JÄTA VAHELE</string>
-    <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">VALMIS</string>
     <!-- Item picker -->
     <string name="item_picker_list_empty">Ühtegi ühikut ei leitud</string>
     <string name="item_picker_list_error">Üksuste laadimisel ilmnes viga</string>

@@ -83,9 +83,6 @@
     <!-- Content description for images -->
     <!-- Intro strings -->
     <string name="intro_welcome">Sveiki atvykę į openHAB</string>
-    <string name="intro_whatis">Nepriklausomas atviro kodo išmanių namų sprendimas</string>
-    <!-- Intro "SKIP" button -->
-    <!-- Intro "DONE" button -->
     <!-- Item picker -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->
     <!-- %1$s: Item label, %2$s: Item name, %3$s: State -->

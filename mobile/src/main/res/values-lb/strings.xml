@@ -390,15 +390,8 @@
     <string name="intro_welcome">Wëllkomm bei openHAB</string>
     <string name="intro_welcome_back">Wëllkomm zeréck bei openHAB</string>
     <string name="intro_app_restored">Bis op d‘ Server Login Informatiounen, sinn di meescht vun dengen Astellungen sinn erëm hiergestallt</string>
-    <string name="intro_whatis">Eng Verkeefer an Technik agnostescht Open-Source Automatiséierungs Software fir Äert Haus</string>
     <string name="intro_voice_description">Kontrolléiert Äert Haus mat Ärer Stemm</string>
     <string name="intro_nfc">NFC</string>
-    <string name="intro_nfc_description">D‘ Kontroll vum Item kann un en NFC Tag gebonne ginn an deem een laang op den Item dréckt</string>
-    <string name="intro_send_device_info">Informatiounen iwwert d‘ Gerät un de Server schécken</string>
-    <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">Iwwersprangen</string>
-    <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">Fäerdeg</string>
     <!-- Item picker -->
     <string name="item_picker_list_empty">Keen Item fonnt</string>
     <string name="item_picker_list_error">E Feeler ass beim lueden vun den Items opgetrueden</string>

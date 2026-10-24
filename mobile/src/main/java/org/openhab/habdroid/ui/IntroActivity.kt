@@ -13,118 +13,168 @@
 
 package org.openhab.habdroid.ui
 
-import android.graphics.Color
+import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
-import com.github.appintro.AppIntro
-import com.github.appintro.AppIntroFragment
-import kotlin.coroutines.CoroutineContext
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
-import org.openhab.habdroid.util.AsyncServiceResolver
+import org.openhab.habdroid.ui.intro.IntroAuthFragment
+import org.openhab.habdroid.ui.intro.IntroDoneFragment
+import org.openhab.habdroid.ui.intro.IntroInfoFragment
+import org.openhab.habdroid.ui.intro.IntroServerSelectFragment
+import org.openhab.habdroid.ui.intro.IntroViewModel
 import org.openhab.habdroid.util.PrefKeys
-import org.openhab.habdroid.util.addToPrefs
 import org.openhab.habdroid.util.applyUserSelectedTheme
 import org.openhab.habdroid.util.getConfiguredServerIds
+import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.resolveThemedColor
-import org.openhab.habdroid.util.resolveThemedColorToResource
+import org.openhab.habdroid.util.hasPermissions
 
-class IntroActivity :
-    AppIntro(),
-    CoroutineScope {
-    private val job = Job()
-    override val coroutineContext: CoroutineContext get() = Dispatchers.Main + job
+/**
+ * Introduces openHAB and guides the user through connecting to a server:
+ * 1. Some pages about openHAB and the app, while servers are discovered in the background
+ * 2. Choose a discovered server or enter an address
+ *    and try to connect to it
+ * 3. Sign in, if required
+ * 4. Done
+ */
+class IntroActivity : AppCompatActivity() {
+    private val viewModel: IntroViewModel by viewModels()
+
+    private val notificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { finish() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         applyUserSelectedTheme()
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_intro)
 
-        if (getPrefs().getBoolean(PrefKeys.RECENTLY_RESTORED, false)) {
-            Log.d(TAG, "Show restore intro")
-            addSlide(
-                R.string.intro_welcome_back,
-                R.string.intro_app_restored,
-                R.drawable.ic_openhab_appicon_340dp
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.intro_container)) { v, insets ->
+            val i = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or
+                    WindowInsetsCompat.Type.displayCutout() or
+                    WindowInsetsCompat.Type.ime()
             )
-        } else {
-            Log.d(TAG, "Show regular intro")
-            addSlide(
-                R.string.intro_welcome,
-                R.string.intro_whatis,
-                R.drawable.ic_openhab_appicon_340dp
-            )
-            addSlide(
-                R.string.mainmenu_openhab_voice_recognition,
-                R.string.intro_voice_description,
-                R.drawable.ic_twotone_keyboard_voice_themed_340dp
-            )
-            addSlide(
-                R.string.intro_nfc,
-                R.string.intro_nfc_description,
-                R.drawable.ic_nfc_themed_340dp
-            )
-            addSlide(
-                R.string.tiles_for_quick_settings,
-                R.string.intro_quick_tile_description,
-                R.drawable.ic_twotone_library_books_themed_340dp
-            )
-            addSlide(
-                R.string.intro_send_device_info,
-                R.string.intro_send_device_info_description,
-                R.drawable.ic_twotone_access_alarm_themed_340dp
-            )
+            v.updatePadding(left = i.left, top = i.top, right = i.right, bottom = i.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
 
-            if (getPrefs().getConfiguredServerIds().isEmpty()) {
-                Log.d(TAG, "Starting discovery")
-                val resolver = AsyncServiceResolver(
-                    this,
-                    AsyncServiceResolver.OPENHAB_SERVICE_TYPE,
-                    this
-                )
-                launch {
-                    resolver.resolve()?.addToPrefs(this@IntroActivity)
-                }
-            } else {
-                Log.d(TAG, "Don't start discovery, because there's already at least one server configured")
+        val isRestore = viewModel.restoredServer != null
+        if (savedInstanceState == null) {
+            Log.d(TAG, if (isRestore) "Show restore intro" else "Show regular intro")
+            supportFragmentManager.commit {
+                replace(R.id.intro_container, if (isRestore) IntroServerSelectFragment() else IntroInfoFragment())
             }
         }
 
-        setSeparatorColor(Color.TRANSPARENT)
-        setSkipTextAppearance(R.style.TextAppearance_AppCompat_Button)
-        setDoneTextAppearance(R.style.TextAppearance_AppCompat_Button)
-        setNextArrowColor(resolveThemedColor(R.attr.colorOnSurface))
-        setIndicatorColor(
-            resolveThemedColor(R.attr.colorControlNormal),
-            resolveThemedColor(R.attr.colorControlHighlight)
-        )
+        if (!isRestore && getPrefs().getConfiguredServerIds().isEmpty()) {
+            viewModel.startDiscovery()
+        } else {
+            Log.d(TAG, "Don't start discovery, because there's already at least one server configured")
+        }
+
+        supportFragmentManager.addOnBackStackChangedListener {
+            val current = supportFragmentManager.findFragmentById(R.id.intro_container)
+            if (current is IntroServerSelectFragment || current is IntroInfoFragment) {
+                viewModel.cancelProbe()
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.events.collect { event ->
+                    when (event) {
+                        IntroViewModel.Event.Connected -> replaceCurrentStep(IntroDoneFragment(), BACK_STACK_DONE)
+
+                        IntroViewModel.Event.AuthRequired -> {
+                            if (supportFragmentManager.findFragmentById(R.id.intro_container) !is IntroAuthFragment) {
+                                replaceCurrentStep(IntroAuthFragment(), BACK_STACK_AUTH)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Show dialogs for unknown certificates while connecting to the server
+        getConnectionFactory().trustManager.bindDisplayActivity(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        getConnectionFactory().trustManager.unbindDisplayActivity(this)
+    }
+
+    fun showServerSelection() {
+        val fm = supportFragmentManager
+        val hasSelectionEntry = (0 until fm.backStackEntryCount)
+            .any { fm.getBackStackEntryAt(it).name == BACK_STACK_SELECT }
+        when {
+            hasSelectionEntry -> fm.popBackStack(BACK_STACK_SELECT, 0)
+
+            fm.findFragmentById(R.id.intro_container) is IntroInfoFragment -> showStep(
+                IntroServerSelectFragment(),
+                BACK_STACK_SELECT
+            )
+
+            // Server selection is the first step, e.g. after restoring a backup
+            else -> fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        }
     }
 
     /**
-     * Must be overridden to ensure that the intro will be closed when clicking on "SKIP"
-     * @param currentFragment
+     * Shows the next step and removes the auth step from the back stack,
+     * so that going back leads to the server selection.
      */
-    override fun onSkipPressed(currentFragment: Fragment?) {
-        Log.d(TAG, "onSkipPressed()")
-        super.onSkipPressed(currentFragment)
-        finish()
+    private fun replaceCurrentStep(fragment: Fragment, name: String) {
+        val fm = supportFragmentManager
+        val hasAuthEntry = (0 until fm.backStackEntryCount).any { fm.getBackStackEntryAt(it).name == BACK_STACK_AUTH }
+        if (hasAuthEntry) {
+            fm.popBackStack(BACK_STACK_AUTH, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        }
+        showStep(fragment, name)
     }
 
-    /**
-     * Must be overridden to ensure that the intro will be closed when clicking on "DONE"
-     * @param currentFragment
-     */
-    override fun onDonePressed(currentFragment: Fragment?) {
-        Log.d(TAG, "onDonePressed()")
-        super.onDonePressed(currentFragment)
-        finish()
+    private fun showStep(fragment: Fragment, name: String) {
+        supportFragmentManager.commit {
+            setCustomAnimations(
+                android.R.animator.fade_in,
+                android.R.animator.fade_out,
+                android.R.animator.fade_in,
+                android.R.animator.fade_out
+            )
+            replace(R.id.intro_container, fragment)
+            addToBackStack(name)
+        }
+    }
+
+    fun finishWithNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            !hasPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS))
+        ) {
+            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        } else {
+            finish()
+        }
     }
 
     override fun finish() {
@@ -136,29 +186,10 @@ class IntroActivity :
         super.finish()
     }
 
-    /**
-     * Add slide with fixed fonts and colors
-     * @param title
-     * @param description
-     * @param imageDrawable
-     */
-    private fun addSlide(@StringRes title: Int, @StringRes description: Int, @DrawableRes imageDrawable: Int) {
-        val colorTextRes = resolveThemedColorToResource(R.attr.colorOnBackground)
-        val colorBackgroundRes = resolveThemedColorToResource(android.R.attr.colorBackground)
-
-        addSlide(
-            AppIntroFragment.createInstance(
-                title = getString(title),
-                description = getString(description),
-                imageDrawable = imageDrawable,
-                backgroundColorRes = colorBackgroundRes,
-                titleColorRes = colorTextRes,
-                descriptionColorRes = colorTextRes
-            )
-        )
-    }
-
     companion object {
         private val TAG = IntroActivity::class.java.simpleName
+        private const val BACK_STACK_SELECT = "select"
+        private const val BACK_STACK_AUTH = "auth"
+        private const val BACK_STACK_DONE = "done"
     }
 }

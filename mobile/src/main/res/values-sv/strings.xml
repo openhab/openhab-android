@@ -383,17 +383,8 @@
     <string name="intro_welcome">Välkommen till openHAB</string>
     <string name="intro_welcome_back">Välkommen tillbaka till openHAB</string>
     <string name="intro_app_restored">De flesta av dina inställningar har återställts, förutom serverautentiseringsuppgifter</string>
-    <string name="intro_whatis">En mjukvara för att automatisera ditt hem med öppen källkod, helt oberoende av tillverkare eller teknologi</string>
     <string name="intro_voice_description">Kontrollera ditt hem med din röst</string>
     <string name="intro_nfc">NFC</string>
-    <string name="intro_nfc_description">Långtryck på en en Item för att knyta den till NFS-taggar</string>
-    <string name="intro_quick_tile_description">Styr ditt hem från enhetens snabbinställningar (den plats som håller växlarna för t.ex. Wi-Fi och Bluetooth)</string>
-    <string name="intro_send_device_info">Skicka enhetsinformation till din server</string>
-    <string name="intro_send_device_info_description">Till exempel tända lamporna när väckarklockan ringer</string>
-    <!-- Intro "SKIP" button -->
-    <string name="app_intro_skip_button">HOPPA ÖVER</string>
-    <!-- Intro "DONE" button -->
-    <string name="app_intro_done_button">FÄRDIGT</string>
     <!-- Item picker -->
     <string name="item_picker_list_empty">Inga objekt hittades</string>
     <string name="item_picker_list_error">Ett fel inträffade vid inläsning av objekt</string>
