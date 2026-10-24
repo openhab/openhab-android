@@ -157,7 +157,6 @@
     <string name="app_shortcut_disabled_notifications">Server remoto non è disponibile</string>
     <string name="app_shortcut_disabled_voice_recognition">Il tuo dispositivo non ha un\'app di riconoscimento vocale installata</string>
     <string name="no_position_set">Nessuna posizione impostata</string>
-    <string name="show_and_copy_item_name">Mostra e copia il nome Item</string>
     <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">Copiato \"%s\"</string>
     <!-- Error messages -->
