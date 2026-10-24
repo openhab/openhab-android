@@ -181,7 +181,6 @@ class MainActivity : AbstractBaseActivity() {
     private var propsRequestJob: Job? = null
     private var retryJob: Job? = null
     private var notificationPollingJob: Job? = null
-    private var newNotificationsJob: Job? = null
     private var isStarted: Boolean = false
     private var shortcutManager: ShortcutManager? = null
     private val systemEventReceiver = SystemEventBroadcastReceiver()
@@ -351,6 +350,11 @@ class MainActivity : AbstractBaseActivity() {
                 }
             }
         }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                NotificationHelper.newNotifications.collect { showNewCloudNotification(it) }
+            }
+        }
     }
 
     override fun inflateBinding(): CommonBinding {
@@ -443,18 +447,12 @@ class MainActivity : AbstractBaseActivity() {
         }
 
         showDataSaverHintSnackbarIfNeeded()
-
-        newNotificationsJob = launch {
-            NotificationHelper.newNotifications.collect { showNewCloudNotification(it) }
-        }
     }
 
     override fun onPause() {
         CrashReportingHelper.d(TAG, "onPause()")
         super.onPause()
         retryJob?.cancel(CancellationException("onPause() was called"))
-        newNotificationsJob?.cancel()
-        newNotificationsJob = null
 
         val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         try {
