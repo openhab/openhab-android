@@ -26,6 +26,9 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.first
 import org.openhab.habdroid.R
 import org.openhab.habdroid.background.NotificationUpdateObserver
@@ -86,6 +89,7 @@ class NotificationHelper(private val context: Context) {
         val n = makeNotification(message)
         notificationManager.notify(message.id.notificationId, n)
         updateGroupNotification()
+        newNotificationsFlow.tryEmit(message)
     }
 
     fun handleNotificationDismissed(notificationId: Int) {
@@ -293,6 +297,15 @@ class NotificationHelper(private val context: Context) {
 
     companion object {
         private val TAG = NotificationHelper::class.java.simpleName
+
+        private val newNotificationsFlow = MutableSharedFlow<CloudMessage.CloudNotification>(
+            extraBufferCapacity = 10
+        )
+
+        /**
+         * Emits every cloud notification that has been shown, so that a visible UI can display it as well.
+         */
+        val newNotifications: SharedFlow<CloudMessage.CloudNotification> = newNotificationsFlow.asSharedFlow()
 
         private fun getChannelId(tag: String?) = if (tag.isNullOrEmpty()) {
             NotificationUpdateObserver.CHANNEL_ID_MESSAGE_DEFAULT

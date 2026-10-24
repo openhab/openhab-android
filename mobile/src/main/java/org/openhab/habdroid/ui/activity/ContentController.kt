@@ -391,6 +391,17 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     /**
+     * Reload the notification list if it's currently shown
+     *
+     * @return true if the notification list is shown
+     */
+    fun reloadNotificationsIfShown(): Boolean {
+        val page = temporaryPage as? CloudNotificationListFragment ?: return false
+        page.reload()
+        return true
+    }
+
+    /**
      * Recreate all UI state
      * To be called from the activity's onCreate callback if the used controller changes
      */
