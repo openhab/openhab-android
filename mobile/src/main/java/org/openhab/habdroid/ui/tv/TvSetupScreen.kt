@@ -12,8 +12,6 @@
  */
 package org.openhab.habdroid.ui.tv
 
-import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,7 +24,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -41,37 +38,25 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.tv.material3.Button
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.OutlinedButton
 import androidx.tv.material3.Text
-import java.io.IOException
-import java.net.Inet4Address
-import java.net.InetSocketAddress
-import java.net.Socket
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import okhttp3.HttpUrl
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
-import org.openhab.habdroid.util.AsyncServiceResolver
+import org.openhab.habdroid.ui.tv.TvSetupViewModel.DiscoveryState
 import org.openhab.habdroid.util.getNextAvailableServerId
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getSecretPrefs
-
-private sealed class DiscoveryState {
-    data object Searching : DiscoveryState()
-    data class Found(val url: String) : DiscoveryState()
-    data object NotFound : DiscoveryState()
-}
 
 /**
  * First run setup: discover the local openHAB server via mDNS or enter it manually.
  */
 @Composable
-fun TvSetupScreen(onServerConfigured: () -> Unit) {
+fun TvSetupScreen(onServerConfigured: () -> Unit, viewModel: TvSetupViewModel = viewModel()) {
     val context = LocalContext.current
     var manualEntry by rememberSaveable { mutableStateOf(false) }
 
@@ -104,8 +89,11 @@ fun TvSetupScreen(onServerConfigured: () -> Unit) {
         if (manualEntry) {
             ManualServerEntry(onSave = saveServer, onCancel = { manualEntry = false })
         } else {
+            val state by viewModel.state.collectAsStateWithLifecycle()
             ServerDiscovery(
+                state = state,
                 onUseServer = { url -> saveServer(url, null, null) },
+                onSearchAgain = viewModel::discover,
                 onEnterManually = { manualEntry = true }
             )
         }
@@ -113,38 +101,32 @@ fun TvSetupScreen(onServerConfigured: () -> Unit) {
 }
 
 @Composable
-private fun ServerDiscovery(onUseServer: (String) -> Unit, onEnterManually: () -> Unit) {
-    val context = LocalContext.current
-    var state by remember { mutableStateOf<DiscoveryState>(DiscoveryState.Searching) }
-    var attempt by remember { mutableIntStateOf(0) }
+private fun ServerDiscovery(
+    state: DiscoveryState,
+    onUseServer: (String) -> Unit,
+    onSearchAgain: () -> Unit,
+    onEnterManually: () -> Unit
+) {
     val primaryFocus = remember { FocusRequester() }
 
-    LaunchedEffect(attempt) {
-        state = DiscoveryState.Searching
-        // Prefer an encrypted connection and fall back to an unencrypted one
-        val url = discoverReachableServer(context, AsyncServiceResolver.OPENHAB_SERVICE_TYPE, "https", this)
-            ?: discoverReachableServer(context, AsyncServiceResolver.OPENHAB_HTTP_SERVICE_TYPE, "http", this)
-        state = if (url != null) DiscoveryState.Found(url) else DiscoveryState.NotFound
-    }
-
-    val message = when (val s = state) {
+    val message = when (state) {
         DiscoveryState.Searching -> stringResource(R.string.resolving_openhab)
-        is DiscoveryState.Found -> stringResource(R.string.tv_setup_server_found, s.url)
+        is DiscoveryState.Found -> stringResource(R.string.tv_setup_server_found, state.url)
         DiscoveryState.NotFound -> stringResource(R.string.tv_setup_no_server_found)
     }
     Text(text = message, style = MaterialTheme.typography.titleLarge)
     Spacer(modifier = Modifier.height(32.dp))
 
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-        when (val s = state) {
+        when (state) {
             is DiscoveryState.Found -> {
-                Button(onClick = { onUseServer(s.url) }, modifier = Modifier.focusRequester(primaryFocus)) {
+                Button(onClick = { onUseServer(state.url) }, modifier = Modifier.focusRequester(primaryFocus)) {
                     Text(stringResource(R.string.tv_setup_use_server))
                 }
             }
 
             DiscoveryState.NotFound -> {
-                Button(onClick = { attempt++ }, modifier = Modifier.focusRequester(primaryFocus)) {
+                Button(onClick = onSearchAgain, modifier = Modifier.focusRequester(primaryFocus)) {
                     Text(stringResource(R.string.tv_setup_search_again))
                 }
             }
@@ -161,45 +143,6 @@ private fun ServerDiscovery(onUseServer: (String) -> Unit, onEnterManually: () -
 
     LaunchedEffect(state) {
         primaryFocus.requestFocusWhenAttached()
-    }
-}
-
-/**
- * @return URL of the first address of the discovered server that accepts connections, or null if none was found
- */
-private suspend fun discoverReachableServer(
-    context: Context,
-    serviceType: String,
-    scheme: String,
-    scope: CoroutineScope
-): String? {
-    val info = AsyncServiceResolver(context, serviceType, scope).resolve() ?: return null
-    // Link-local IPv6 addresses need a zone ID, which can't be part of a URL
-    val address = info.inetAddresses
-        .filterNot { address -> address.isLinkLocalAddress }
-        .sortedBy { address -> address !is Inet4Address }
-        .firstOrNull { address -> isReachable(InetSocketAddress(address, info.port)) }
-    if (address == null) {
-        Log.d(TAG, "Discovered $serviceType at ${info.hostAddresses.contentToString()}, but it isn't reachable")
-        return null
-    }
-    // HttpUrl adds brackets to IPv6 addresses
-    return HttpUrl.Builder()
-        .scheme(scheme)
-        .host(address.hostAddress!!)
-        .port(info.port)
-        .build()
-        .toString()
-        .removeSuffix("/")
-}
-
-private suspend fun isReachable(address: InetSocketAddress): Boolean = withContext(Dispatchers.IO) {
-    try {
-        Socket().use { socket -> socket.connect(address, 2000) }
-        true
-    } catch (e: IOException) {
-        Log.d(TAG, "$address isn't reachable", e)
-        false
     }
 }
 
@@ -250,5 +193,3 @@ private fun ManualServerEntry(onSave: (String, String?, String?) -> Unit, onCanc
         urlFocus.requestFocusWhenAttached()
     }
 }
-
-private const val TAG = "TvSetupScreen"
