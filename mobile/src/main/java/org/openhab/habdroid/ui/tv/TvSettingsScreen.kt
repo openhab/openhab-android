@@ -18,8 +18,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -82,57 +83,50 @@ fun TvSettingsScreen(onSaveServer: (url: String, userName: String, password: Str
         )
         Spacer(modifier = Modifier.height(24.dp))
 
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            item {
-                TvTextField(
-                    value = url,
-                    onValueChange = { url = it },
-                    label = stringResource(R.string.tv_settings_server),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri, imeAction = ImeAction.Done),
-                    onEditingFinished = saveServer,
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .focusRequester(firstItemFocus)
-                )
-            }
-            item {
-                TvTextField(
-                    value = userName,
-                    onValueChange = { userName = it },
-                    label = stringResource(R.string.settings_openhab_username),
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                    onEditingFinished = saveServer,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-            }
-            item {
-                TvTextField(
-                    value = password,
-                    onValueChange = { password = it },
-                    label = stringResource(R.string.settings_openhab_password),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
-                    visualTransformation = PasswordVisualTransformation(),
-                    onEditingFinished = saveServer,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-            }
-            item {
-                ListItem(
-                    selected = false,
-                    onClick = { showSitemapDialog = true },
-                    headlineContent = { Text(stringResource(R.string.tv_settings_sitemap)) },
-                    supportingContent = {
-                        Text(config?.defaultSitemap?.label ?: stringResource(R.string.tv_no_sitemap_selected))
-                    }
-                )
-            }
-            item {
-                ListItem(
-                    selected = false,
-                    onClick = onOpenAbout,
-                    headlineContent = { Text(stringResource(R.string.about_title)) }
-                )
-            }
+        Column(
+            modifier = Modifier.verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            TvTextField(
+                value = url,
+                onValueChange = { url = it },
+                label = stringResource(R.string.tv_settings_server),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri, imeAction = ImeAction.Done),
+                onEditingFinished = saveServer,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .focusRequester(firstItemFocus)
+            )
+            TvTextField(
+                value = userName,
+                onValueChange = { userName = it },
+                label = stringResource(R.string.settings_openhab_username),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                onEditingFinished = saveServer,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+            TvTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = stringResource(R.string.settings_openhab_password),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
+                visualTransformation = PasswordVisualTransformation(),
+                onEditingFinished = saveServer,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+            ListItem(
+                selected = false,
+                onClick = { showSitemapDialog = true },
+                headlineContent = { Text(stringResource(R.string.tv_settings_sitemap)) },
+                supportingContent = {
+                    Text(config?.defaultSitemap?.label ?: stringResource(R.string.tv_no_sitemap_selected))
+                }
+            )
+            ListItem(
+                selected = false,
+                onClick = onOpenAbout,
+                headlineContent = { Text(stringResource(R.string.about_title)) }
+            )
         }
     }
 
