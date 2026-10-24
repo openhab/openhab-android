@@ -24,7 +24,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
@@ -116,13 +115,7 @@ class PreferencesActivity : AbstractBaseActivity() {
     }
 
     fun setAppBarLiftOnScrollTarget(view: View) {
-        // Without an explicit target, AppBarLayout evaluates the lift state against the fragment container
-        // on every relayout (e.g. when a preference changes), which never scrolls and thus drops the lifted state
-        val appBar = binding.appBar.root
-        appBar.setLiftOnScrollTargetView(view)
-        // The app bar is laid out before the list restores its scroll position (e.g. when navigating back),
-        // so sync the lifted state once layout is done
-        view.doOnPreDraw { appBar.isLifted = view.canScrollVertically(-1) }
+        binding.appBar.root.setLiftOnScrollTargetView(view)
     }
 
     fun handleThemeChange() {
