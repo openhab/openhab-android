@@ -14,6 +14,9 @@ description: Install, launch and drive the openHAB Android app on an emulator or
   ```
   If none is running, list the AVDs with `$SDK/emulator/emulator -list-avds` and start one in the background
   with `$SDK/emulator/emulator -avd <name>`.
+- If more than one emulator or device is connected, select one with `export ANDROID_SERIAL=<serial>` (e.g.
+  `emulator-5554`). It's used by `adb`, `ui.sh` and the Gradle install tasks, which otherwise install on all
+  connected devices.
 
 ## Install and launch
 
