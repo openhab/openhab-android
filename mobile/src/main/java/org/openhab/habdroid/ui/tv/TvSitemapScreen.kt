@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -66,7 +67,7 @@ fun TvSitemapScreen(onOpenSettings: () -> Unit, viewModel: TvSitemapViewModel = 
     }
 
     when (val s = state) {
-        TvSitemapViewModel.State.Loading -> CenteredMessage(stringResource(R.string.tv_loading))
+        TvSitemapViewModel.State.Loading -> CenteredMessage(stringResource(R.string.tv_loading), showProgress = true)
 
         is TvSitemapViewModel.State.Error -> CenteredMessage(s.message) {
             RetryAndSettingsButtons(it, onRetry = { viewModel.retry() }, onOpenSettings = onOpenSettings)
@@ -120,7 +121,7 @@ private fun SitemapPage(
         Spacer(modifier = Modifier.height(16.dp))
         val widgets = page.widgets
         if (widgets == null) {
-            CenteredMessage(stringResource(R.string.tv_loading))
+            CenteredMessage(stringResource(R.string.tv_loading), showProgress = true)
         } else {
             // Restore scroll position and focus when navigating back to a page
             key(page.url) {
@@ -187,7 +188,11 @@ private fun SitemapSelection(sitemaps: List<Sitemap>, onSelected: (Sitemap) -> U
 }
 
 @Composable
-private fun CenteredMessage(message: String, action: (@Composable (Modifier) -> Unit)? = null) {
+private fun CenteredMessage(
+    message: String,
+    showProgress: Boolean = false,
+    action: (@Composable (Modifier) -> Unit)? = null
+) {
     val focusRequester = remember { FocusRequester() }
     Column(
         modifier = Modifier
@@ -196,6 +201,10 @@ private fun CenteredMessage(message: String, action: (@Composable (Modifier) -> 
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        if (showProgress) {
+            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+            Spacer(modifier = Modifier.height(24.dp))
+        }
         Text(
             text = message,
             style = MaterialTheme.typography.titleLarge,
