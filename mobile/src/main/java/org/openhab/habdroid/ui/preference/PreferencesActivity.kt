@@ -21,6 +21,7 @@ import android.os.Build
 import android.os.Bundle
 import android.service.quicksettings.TileService
 import android.view.MenuItem
+import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
@@ -43,6 +44,7 @@ import org.openhab.habdroid.util.parcelable
  */
 class PreferencesActivity : AbstractBaseActivity() {
     private lateinit var resultIntent: Intent
+    private lateinit var binding: ActivityPrefsBinding
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,7 +91,7 @@ class PreferencesActivity : AbstractBaseActivity() {
     }
 
     override fun inflateBinding(): CommonBinding {
-        val binding = ActivityPrefsBinding.inflate(layoutInflater)
+        binding = ActivityPrefsBinding.inflate(layoutInflater)
         return CommonBinding(binding.root, binding.appBar, binding.coordinator, binding.activityContent)
     }
 
@@ -110,6 +112,10 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    fun setAppBarLiftOnScrollTarget(view: View) {
+        binding.appBar.root.setLiftOnScrollTargetView(view)
     }
 
     fun handleThemeChange() {
