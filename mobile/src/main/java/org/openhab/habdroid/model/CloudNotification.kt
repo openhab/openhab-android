@@ -28,6 +28,7 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.core.connection.Connection
+import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.IconBackground
 import org.openhab.habdroid.util.ImageConversionPolicy
@@ -58,10 +59,22 @@ sealed class CloudMessage : Parcelable {
         val onClickAction: CloudNotificationAction?,
         val mediaAttachmentUrl: String?
     ) : CloudMessage() {
+        fun getCachedImage(context: Context): Bitmap? {
+            if (mediaAttachmentUrl == null) {
+                return null
+            }
+            return CacheManager.getInstance(context).getCachedNotificationImage(id.persistedId, createdTimestamp)
+        }
+
         suspend fun loadImage(connection: Connection, context: Context, size: Int): Bitmap? {
             if (mediaAttachmentUrl == null) {
                 return null
             }
+            val cacheManager = CacheManager.getInstance(context)
+            cacheManager.getCachedNotificationImage(id.persistedId, createdTimestamp)?.let { cached ->
+                return cached
+            }
+            val targetSize = if (size > 0) size else context.resources.displayMetrics.widthPixels
             val itemStateFromMedia = if (mediaAttachmentUrl.startsWith("item:")) {
                 val itemName = mediaAttachmentUrl.removePrefix("item:")
                 val item = try {
@@ -74,26 +87,31 @@ sealed class CloudMessage : Parcelable {
             } else {
                 null
             }
-            if (itemStateFromMedia != null && itemStateFromMedia.toHttpUrlOrNull() == null) {
+            val loadedBitmap = if (itemStateFromMedia != null && itemStateFromMedia.toHttpUrlOrNull() == null) {
                 // media attachment is an item, but item state is not a URL -> interpret as base64 encoded image
-                return try {
+                try {
                     val dataString = itemStateFromMedia.substring(itemStateFromMedia.indexOf(",") + 1)
                     val data = Base64.decode(dataString, Base64.DEFAULT)
                     BitmapFactory.decodeByteArray(data, 0, data.size)
                 } catch (e: IllegalArgumentException) {
                     null
                 }
+            } else {
+                val fallbackColor = context.getIconFallbackColor(IconBackground.APP_THEME)
+                try {
+                    connection.httpClient
+                        .get(itemStateFromMedia ?: mediaAttachmentUrl)
+                        .asBitmap(targetSize, fallbackColor, ImageConversionPolicy.PreferTargetSize)
+                        .response
+                } catch (e: HttpClient.HttpException) {
+                    Log.e(TAG, "Error loading image", e)
+                    null
+                }
             }
-            val fallbackColor = context.getIconFallbackColor(IconBackground.APP_THEME)
-            return try {
-                connection.httpClient
-                    .get(itemStateFromMedia ?: mediaAttachmentUrl)
-                    .asBitmap(size, fallbackColor, ImageConversionPolicy.PreferTargetSize)
-                    .response
-            } catch (e: HttpClient.HttpException) {
-                Log.e(TAG, "Error loading image", e)
-                null
+            if (loadedBitmap != null) {
+                cacheManager.saveNotificationImage(id.persistedId, loadedBitmap, createdTimestamp)
             }
+            return loadedBitmap
         }
     }
 
