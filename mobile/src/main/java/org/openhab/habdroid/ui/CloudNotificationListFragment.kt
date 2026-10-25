@@ -22,6 +22,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.chip.Chip
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.json.JSONArray
@@ -83,7 +84,7 @@ class CloudNotificationListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = CloudNotificationAdapter(view.context) { loadNotifications(false) }
+        adapter = CloudNotificationAdapter(view.context, usePrimaryServer()) { loadNotifications(false) }
         layoutManager = LinearLayoutManager(view.context)
 
         recyclerView.layoutManager = layoutManager
@@ -117,6 +118,8 @@ class CloudNotificationListFragment : Fragment() {
         }
         if (clearExisting) {
             adapter.clear()
+            binding.tagFilterGroup.removeAllViews()
+            binding.tagFilterScroll.isVisible = false
             loadOffset = 0
             updateViewVisibility(loading = true, loadError = false)
         }
@@ -134,6 +137,7 @@ class CloudNotificationListFragment : Fragment() {
                 Log.d(TAG, "Notifications request success, got ${allItems.size} items")
                 loadOffset += allItems.size
                 adapter.addLoadedItems(filteredItems, allItems.size == PAGE_SIZE)
+                updateTagFilterChips()
                 handleInitialHighlight()
                 updateViewVisibility(loading = false, loadError = false)
             } catch (e: JSONException) {
@@ -144,6 +148,43 @@ class CloudNotificationListFragment : Fragment() {
                 Log.e(TAG, "Notifications request failure", e)
             }
         }
+    }
+
+    private fun updateTagFilterChips() {
+        val ctx = context ?: return
+        val tagCounts = adapter.getTagCounts()
+        val group = binding.tagFilterGroup
+        group.setOnCheckedStateChangeListener(null)
+        group.removeAllViews()
+        if (tagCounts.isEmpty()) {
+            binding.tagFilterScroll.isVisible = false
+            return
+        }
+        val activeTag = adapter.currentTagFilter
+        val allChip = Chip(ctx).apply {
+            id = View.generateViewId()
+            text = "${getString(R.string.app_notifications)} (${adapter.getTotalNotificationCount()})"
+            isCheckable = true
+            isChecked = activeTag == null
+            tag = null
+        }
+        group.addView(allChip)
+        for ((tagName, count) in tagCounts) {
+            val chip = Chip(ctx).apply {
+                id = View.generateViewId()
+                text = "$tagName ($count)"
+                isCheckable = true
+                isChecked = activeTag == tagName
+                tag = tagName
+            }
+            group.addView(chip)
+        }
+        group.setOnCheckedStateChangeListener { chipGroup, checkedIds ->
+            val checkedId = checkedIds.firstOrNull()
+            val selectedChip = checkedId?.let { chipGroup.findViewById<Chip>(it) }
+            adapter.currentTagFilter = selectedChip?.tag as? String
+        }
+        binding.tagFilterScroll.isVisible = true
     }
 
     private fun handleInitialHighlight() {
@@ -159,8 +200,9 @@ class CloudNotificationListFragment : Fragment() {
     }
 
     private fun updateViewVisibility(loading: Boolean, loadError: Boolean) {
-        val showEmpty = !loading && (adapter.itemCount == 0 || loadError)
+        val showEmpty = !loading && (adapter.getTotalNotificationCount() == 0 || loadError)
         binding.list.isVisible = !showEmpty
+        binding.tagFilterScroll.isVisible = !showEmpty && !loading && adapter.getTagCounts().isNotEmpty()
         binding.empty.isVisible = showEmpty
         binding.skeletonLayout.isVisible = loading
         binding.emptyMessage.setText(
