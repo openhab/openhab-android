@@ -39,6 +39,7 @@ import org.openhab.habdroid.databinding.NotificationlistItemBinding
 import org.openhab.habdroid.databinding.NotificationlistLoadingItemBinding
 import org.openhab.habdroid.model.CloudMessage
 import org.openhab.habdroid.model.CloudNotificationAction
+import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getBackgroundTasksManager
 import org.openhab.habdroid.util.getConnectionFactory
@@ -264,7 +265,11 @@ class CloudNotificationAdapter(
                 binding.notificationImageCard.isGone = true
                 binding.notificationImageCard.setOnClickListener(null)
             } else {
-                val cachedBitmap = notification.getCachedImage(ctx)
+                val cacheManager = CacheManager.getInstance(ctx)
+                val cachedBitmap = cacheManager.getCachedNotificationImage(
+                    notification.id.persistedId,
+                    notification.createdTimestamp
+                )
                 if (cachedBitmap != null) {
                     binding.notificationImage.setImageBitmap(cachedBitmap)
                     binding.notificationImageCard.isVisible = true
@@ -277,6 +282,13 @@ class CloudNotificationAdapter(
                     val targetWidth = ctx.resources.displayMetrics.widthPixels
                     imageLoadJob = CoroutineScope(Dispatchers.IO + Job()).launch {
                         val bitmap = notification.loadImage(conn, ctx, targetWidth)
+                        if (bitmap != null) {
+                            cacheManager.saveNotificationImage(
+                                notification.id.persistedId,
+                                bitmap,
+                                notification.createdTimestamp
+                            )
+                        }
                         withContext(Dispatchers.Main) {
                             if (bitmap != null) {
                                 binding.notificationImage.setImageBitmap(bitmap)

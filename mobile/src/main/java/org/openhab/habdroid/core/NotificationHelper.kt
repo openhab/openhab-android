@@ -34,6 +34,7 @@ import org.openhab.habdroid.model.CloudMessage
 import org.openhab.habdroid.model.CloudNotificationId
 import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.ui.MainActivity
+import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.IconBackground
 import org.openhab.habdroid.util.ImageConversionPolicy
@@ -180,7 +181,12 @@ class NotificationHelper(private val context: Context) {
 
         val messageImage = if (message.mediaAttachmentUrl != null) {
             connection?.let {
-                message.loadImage(it, context, context.resources.displayMetrics.widthPixels)
+                val image = message.loadImage(it, context, context.resources.displayMetrics.widthPixels)
+                if (image != null) {
+                    CacheManager.getInstance(context)
+                        .saveNotificationImage(message.id.persistedId, image, message.createdTimestamp)
+                }
+                image
             }
         } else {
             null
