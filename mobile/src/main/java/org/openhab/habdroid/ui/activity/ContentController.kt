@@ -62,6 +62,7 @@ import org.openhab.habdroid.util.buildSitemapSourceId
 import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.getWifiManager
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.openInBrowser
@@ -85,14 +86,26 @@ abstract class ContentController protected constructor(private val activity: Mai
     protected var defaultProgressFragment: Fragment
     private val connectionFragment: PageConnectionHolderFragment
     private var temporaryPage: Fragment? = null
+    private var previousWebUi: WebViewUi? = null
+    private var previousWebUiIsStackRoot: Boolean = false
+    private var previousWebUiSubpage: String? = null
+
+    private fun clearPreviousPageRecord() {
+        previousWebUi = null
+        previousWebUiIsStackRoot = false
+        previousWebUiSubpage = null
+    }
+
+    val isTemporaryPageShowing get() = temporaryPage != null
 
     /**
      * The web UI shown as temporary page, or null if a sitemap or something else is on screen
      */
-    val shownWebViewUi: WebViewUi? get() {
-        val fragment = temporaryPage as? AbstractWebViewFragment ?: return null
-        return listOf(WebViewUi.MAIN_UI, WebViewUi.HABPANEL, WebViewUi.FRONTAIL)
-            .firstOrNull { ui -> ui.fragment == fragment::class.java }
+    val shownWebViewUi: WebViewUi? get() = when (temporaryPage) {
+        is MainUiWebViewFragment -> WebViewUi.MAIN_UI
+        is HabpanelWebViewFragment -> WebViewUi.HABPANEL
+        is FrontailWebViewFragment -> WebViewUi.FRONTAIL
+        else -> null
     }
     private var currentSitemap: Sitemap? = null
     protected var sitemapFragment: WidgetListFragment? = null
@@ -174,6 +187,15 @@ abstract class ContentController protected constructor(private val activity: Mai
         temporaryPage?.let { page ->
             fm.putFragment(state, STATE_KEY_TEMPORARY_PAGE, page)
         }
+        val prevUiName = when (previousWebUi) {
+            WebViewUi.MAIN_UI -> "main_ui"
+            WebViewUi.HABPANEL -> "habpanel"
+            WebViewUi.FRONTAIL -> "frontail"
+            else -> null
+        }
+        state.putString(STATE_KEY_PREVIOUS_WEB_UI, prevUiName)
+        state.putBoolean(STATE_KEY_PREVIOUS_WEB_UI_IS_STACK_ROOT, previousWebUiIsStackRoot)
+        state.putString(STATE_KEY_PREVIOUS_WEB_UI_SUBPAGE, previousWebUiSubpage)
         noConnectionFragment?.let { page ->
             if (page.isAdded) {
                 fm.putFragment(state, STATE_KEY_ERROR_FRAGMENT, page)
@@ -206,6 +228,14 @@ abstract class ContentController protected constructor(private val activity: Mai
         }
         temporaryPage = fm.getFragment(state, STATE_KEY_TEMPORARY_PAGE)
         (temporaryPage as? AbstractWebViewFragment)?.setCallback(this)
+        previousWebUi = when (state.getString(STATE_KEY_PREVIOUS_WEB_UI)) {
+            "main_ui" -> WebViewUi.MAIN_UI
+            "habpanel" -> WebViewUi.HABPANEL
+            "frontail" -> WebViewUi.FRONTAIL
+            else -> null
+        }
+        previousWebUiIsStackRoot = state.getBoolean(STATE_KEY_PREVIOUS_WEB_UI_IS_STACK_ROOT, false)
+        previousWebUiSubpage = state.getString(STATE_KEY_PREVIOUS_WEB_UI_SUBPAGE)
         noConnectionFragment = fm.getFragment(state, STATE_KEY_ERROR_FRAGMENT)
 
         updateConnectionState()
@@ -220,6 +250,11 @@ abstract class ContentController protected constructor(private val activity: Mai
     fun openSitemap(sitemap: Sitemap) {
         CrashReportingHelper.d(TAG, "openSitemap()", remoteOnly = true)
         Log.d(TAG, "Opening sitemap $sitemap (current: $currentSitemap)")
+        if (temporaryPage is CloudNotificationListFragment) {
+            currentSitemap = sitemap
+            return
+        }
+        clearPreviousPageRecord()
         currentSitemap = sitemap
         // First clear the old fragment stack to show the progress spinner...
         pageStack.clear()
@@ -286,6 +321,10 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     fun showWebViewUi(ui: WebViewUi, isStackRoot: Boolean, subpage: String?) {
+        clearPreviousPageRecord()
+        if (isStackRoot) {
+            pageStack.clear()
+        }
         val webViewFragment = ui.fragment.getDeclaredConstructor().newInstance()
         webViewFragment.arguments = Bundle().apply {
             putBoolean(KEY_IS_STACK_ROOT, isStackRoot)
@@ -396,6 +435,14 @@ abstract class ContentController protected constructor(private val activity: Mai
      * @param highlightedId ID of notification to be highlighted initially
      */
     fun openNotifications(highlightedId: String?, primaryServer: Boolean) {
+        if (temporaryPage is AbstractWebViewFragment) {
+            val webView = temporaryPage as AbstractWebViewFragment
+            previousWebUi = shownWebViewUi
+            previousWebUiIsStackRoot = webView.isStackRoot
+            previousWebUiSubpage = webView.currentSubpage
+        } else if (temporaryPage == null) {
+            clearPreviousPageRecord()
+        }
         showTemporaryPage(CloudNotificationListFragment.newInstance(highlightedId, primaryServer))
     }
 
@@ -461,6 +508,9 @@ abstract class ContentController protected constructor(private val activity: Mai
                 return true
             }
         }
+        if (temporaryPage is CloudNotificationListFragment && dismissNotifications()) {
+            return true
+        }
         if (temporaryPage != null) {
             if ((temporaryPage as? AbstractWebViewFragment)?.isStackRoot == true) {
                 return false
@@ -484,6 +534,9 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     override fun closeFragment() {
+        if (temporaryPage is CloudNotificationListFragment && dismissNotifications()) {
+            return
+        }
         if (temporaryPage != null) {
             temporaryPage = null
             activity.updateTitle()
@@ -491,6 +544,41 @@ abstract class ContentController protected constructor(private val activity: Mai
             updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
             updateConnectionState()
         }
+    }
+
+    private fun dismissNotifications(): Boolean {
+        val prevUi = previousWebUi
+        val prevIsStackRoot = previousWebUiIsStackRoot
+        val prevSubpage = previousWebUiSubpage
+
+        clearPreviousPageRecord()
+
+        val startPage = activity.getPrefs().getStringOrNull(PrefKeys.START_PAGE)
+        val defaultWebUi = when (startPage) {
+            MainActivity.ACTION_MAIN_UI_SELECTED -> WebViewUi.MAIN_UI
+            MainActivity.ACTION_HABPANEL_SELECTED -> WebViewUi.HABPANEL
+            MainActivity.ACTION_FRONTAIL_SELECTED -> WebViewUi.FRONTAIL
+            else -> null
+        }
+
+        if (prevUi != null) {
+            showWebViewUi(
+                ui = prevUi,
+                isStackRoot = prevIsStackRoot || (prevUi == defaultWebUi),
+                subpage = prevSubpage
+            )
+            return true
+        }
+
+        if (defaultWebUi != null) {
+            val serverProps = activity.serverProperties
+            if (serverProps == null || serverProps.hasWebViewUiInstalled(defaultWebUi)) {
+                showWebViewUi(defaultWebUi, isStackRoot = true, null)
+                return true
+            }
+        }
+
+        return false
     }
 
     override fun onPageUpdated(pageUrl: String, pageTitle: String?, widgets: List<Widget>) {
@@ -583,6 +671,7 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     private fun resetState() {
+        clearPreviousPageRecord()
         currentSitemap = null
         sitemapFragment = null
         pageStack.clear()
@@ -920,6 +1009,9 @@ abstract class ContentController protected constructor(private val activity: Mai
         private const val STATE_KEY_PROGRESS_FRAGMENT = "progressFragment"
         private const val STATE_KEY_ERROR_FRAGMENT = "errorFragment"
         private const val STATE_KEY_TEMPORARY_PAGE = "temporaryPage"
+        private const val STATE_KEY_PREVIOUS_WEB_UI = "previousWebUi"
+        private const val STATE_KEY_PREVIOUS_WEB_UI_IS_STACK_ROOT = "previousWebUiIsStackRoot"
+        private const val STATE_KEY_PREVIOUS_WEB_UI_SUBPAGE = "previousWebUiSubpage"
 
         private fun makeStateKeyForPage(page: LinkedPage) = "pageFragment-${page.link}"
 

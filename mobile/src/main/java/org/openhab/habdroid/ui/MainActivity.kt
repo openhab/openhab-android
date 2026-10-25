@@ -596,7 +596,13 @@ class MainActivity : AbstractBaseActivity() {
 
         // Loading the new server properties opens the sitemap, which would replace the web UI on screen
         if (pendingAction == null) {
-            pendingAction = controller.shownWebViewUi?.let { ui ->
+            val startPageUi = when (prefs.getStringOrNull(PrefKeys.START_PAGE)) {
+                ACTION_HABPANEL_SELECTED -> WebViewUi.HABPANEL
+                ACTION_MAIN_UI_SELECTED -> WebViewUi.MAIN_UI
+                ACTION_FRONTAIL_SELECTED -> WebViewUi.FRONTAIL
+                else -> null
+            }
+            pendingAction = (controller.shownWebViewUi ?: startPageUi)?.let { ui ->
                 PendingAction.OpenWebViewUi(ui, prefs.getActiveServerId(), null)
             }
         }
@@ -774,6 +780,15 @@ class MainActivity : AbstractBaseActivity() {
         prefs.edit {
             putActiveServerId(serverForCurrentWifi.id)
         }
+        val defaultWebUi = when (prefs.getStringOrNull(PrefKeys.START_PAGE)) {
+            ACTION_HABPANEL_SELECTED -> PendingAction.OpenWebViewUi(WebViewUi.HABPANEL, serverForCurrentWifi.id, null)
+            ACTION_MAIN_UI_SELECTED -> PendingAction.OpenWebViewUi(WebViewUi.MAIN_UI, serverForCurrentWifi.id, null)
+            ACTION_FRONTAIL_SELECTED -> PendingAction.OpenWebViewUi(WebViewUi.FRONTAIL, serverForCurrentWifi.id, null)
+            else -> null
+        }
+        if (defaultWebUi != null) {
+            pendingAction = defaultWebUi
+        }
         showSnackbar(
             SNACKBAR_TAG_SWITCHED_SERVER,
             getString(R.string.settings_multi_server_wifi_ssid_switched, serverForCurrentWifi.name),
@@ -853,9 +868,23 @@ class MainActivity : AbstractBaseActivity() {
                 is ServerProperties.Companion.PropsSuccess -> {
                     serverProperties = result.props
                     updateDrawerServerEntries()
+                    val defaultWebUi = when (prefs.getStringOrNull(PrefKeys.START_PAGE)) {
+                        ACTION_HABPANEL_SELECTED -> WebViewUi.HABPANEL
+                        ACTION_MAIN_UI_SELECTED -> WebViewUi.MAIN_UI
+                        ACTION_FRONTAIL_SELECTED -> WebViewUi.FRONTAIL
+                        else -> null
+                    }
                     val fallbackUi = listOf(WebViewUi.MAIN_UI, WebViewUi.HABPANEL)
                         .firstOrNull { ui -> result.props.hasWebViewUiInstalled(ui) }
                     when {
+                        defaultWebUi != null && result.props.hasWebViewUiInstalled(defaultWebUi) -> {
+                            updateSitemapDrawerEntries()
+                            if (pendingAction == null && controller.shownWebViewUi != defaultWebUi && !controller.isTemporaryPageShowing) {
+                                pendingAction =
+                                    PendingAction.OpenWebViewUi(defaultWebUi, prefs.getActiveServerId(), null)
+                            }
+                        }
+
                         result.props.sitemaps.isNotEmpty() -> {
                             chooseSitemap()
                             updateSitemapDrawerEntries()
