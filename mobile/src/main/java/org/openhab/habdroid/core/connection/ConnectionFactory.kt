@@ -53,7 +53,6 @@ import org.openhab.habdroid.util.getPrimaryServerId
 import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isDemoModeEnabled
-import org.openhab.habdroid.util.isTv
 
 /**
  * A factory class, which is the main entry point to get a Connection to a specific openHAB
@@ -290,9 +289,7 @@ class ConnectionFactory internal constructor(
         val config = ServerConfiguration.load(prefs, secretPrefs, serverId) ?: return null
         val local = config.localPath?.let { path -> DefaultConnection(httpClient, Connection.TYPE_LOCAL, path) }
         // Only local connections are supported on TV
-        val remote = config.remotePath
-            ?.takeUnless { context.isTv() }
-            ?.let { path -> DefaultConnection(httpClient, Connection.TYPE_REMOTE, path) }
+        val remote = config.remotePath?.let { path -> DefaultConnection(httpClient, Connection.TYPE_REMOTE, path) }
         return ServerConnections(local, remote)
     }
 
