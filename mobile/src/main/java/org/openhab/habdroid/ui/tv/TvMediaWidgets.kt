@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -229,20 +230,29 @@ private fun ChartContent(widget: Widget, connection: Connection, serverFlags: In
             sizeInPixels = constraints.maxWidth,
             refreshMs = widget.refresh
         )
-        BitmapContent(bitmap, Modifier.fillMaxSize())
+        BitmapContent(
+            bitmap = bitmap,
+            modifier = Modifier.fillMaxSize()
+        )
     }
 }
 
 @Composable
 private fun BitmapContent(bitmap: ImageBitmap?, modifier: Modifier) {
     Box(modifier = modifier) {
-        bitmap?.let {
+        if (bitmap != null) {
             Image(
-                bitmap = it,
+                bitmap = bitmap,
                 contentDescription = null,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier.fillMaxSize()
             )
+        } else {
+            Box(modifier = modifier) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
         }
     }
 }
