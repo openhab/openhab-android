@@ -216,7 +216,7 @@ private fun ChartContent(widget: Widget, connection: Connection, serverFlags: In
     }
     BoxWithConstraints(modifier = modifier) {
         val url = widget.toChartUrl(
-            scalingFactor = 1F,
+            scalingFactor = 2F,
             requestHighResCharts = true,
             width = constraints.maxWidth,
             height = constraints.maxHeight,
