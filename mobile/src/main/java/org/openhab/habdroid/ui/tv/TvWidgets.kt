@@ -264,11 +264,12 @@ private fun TvWidgetRowScope.SwitchRow() {
         widget.mappings.isNotEmpty() -> MappingsRow(widget.mappings)
 
         item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> OptionsRow(
-            listOf(
+            options = listOf(
                 TvOption(iconRes = R.drawable.ic_keyboard_arrow_up_themed_24dp, onClick = { send("UP") }),
                 TvOption(iconRes = R.drawable.ic_stop_24dp, onClick = { send("STOP") }),
                 TvOption(iconRes = R.drawable.ic_keyboard_arrow_down_themed_24dp, onClick = { send("DOWN") })
-            )
+            ),
+            showState = true
         )
 
         else -> {
@@ -381,6 +382,7 @@ private class TvOption(
 private fun TvWidgetRowScope.OptionsRow(
     options: List<TvOption>,
     showLabel: Boolean = true,
+    showState: Boolean = false,
     defaultHighlightedIndex: Int = 0
 ) {
     var highlightedIndex by remember(options.size) {
@@ -405,7 +407,14 @@ private fun TvWidgetRowScope.OptionsRow(
             }
         },
         trailingContent = {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (showState) {
+                    StateText()
+                    Spacer(modifier = Modifier.size(16.dp))
+                }
                 options.forEachIndexed { index, option ->
                     OptionChip(option, isHighlighted = isFocused && index == highlightedIndex)
                 }
