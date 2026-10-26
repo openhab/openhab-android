@@ -15,15 +15,16 @@ package org.openhab.habdroid.ui.tv
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.SurfaceDefaults
-import org.openhab.habdroid.util.getConfiguredServerIds
-import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.core.connection.Connection
+import org.openhab.habdroid.model.DefaultSitemap
+import org.openhab.habdroid.model.ServerConfiguration
+import org.openhab.habdroid.model.ServerPath
 
 object TvRoutes {
     const val SETUP = "setup"
@@ -34,16 +35,13 @@ object TvRoutes {
 
 @Composable
 fun TvApp(
-    onAddServer: (url: String, userName: String?, password: String?) -> Unit,
-    onSaveServer: (url: String, userName: String, password: String) -> Unit
+    config: ServerConfiguration?,
+    connectionProvider: () -> Connection?,
+    onSaveServerPath: (ServerPath) -> Unit,
+    onSaveDefaultSitemap: (DefaultSitemap) -> Unit
 ) {
-    val context = LocalContext.current
     val navController = rememberNavController()
-    val startDestination = if (context.getPrefs().getConfiguredServerIds().isEmpty()) {
-        TvRoutes.SETUP
-    } else {
-        TvRoutes.SITEMAP
-    }
+    val startDestination = if (config == null) TvRoutes.SETUP else TvRoutes.SITEMAP
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -55,8 +53,8 @@ fun TvApp(
         ) {
             composable(TvRoutes.SETUP) {
                 TvSetupScreen(
-                    onSaveServer = { url, userName, password ->
-                        onAddServer(url, userName, password)
+                    onSavePath = { path ->
+                        onSaveServerPath(path)
                         navController.navigate(TvRoutes.SITEMAP) {
                             popUpTo(TvRoutes.SETUP) { inclusive = true }
                         }
@@ -65,12 +63,17 @@ fun TvApp(
             }
             composable(TvRoutes.SITEMAP) {
                 TvSitemapScreen(
+                    config = config,
+                    onSaveDefaultSitemap = onSaveDefaultSitemap,
                     onOpenSettings = { navController.navigate(TvRoutes.SETTINGS) }
                 )
             }
             composable(TvRoutes.SETTINGS) {
                 TvSettingsScreen(
-                    onSaveServer = onSaveServer,
+                    config = config,
+                    connectionProvider = connectionProvider,
+                    onSavePath = onSaveServerPath,
+                    onSaveDefaultSitemap = onSaveDefaultSitemap,
                     onOpenAbout = { navController.navigate(TvRoutes.ABOUT) }
                 )
             }

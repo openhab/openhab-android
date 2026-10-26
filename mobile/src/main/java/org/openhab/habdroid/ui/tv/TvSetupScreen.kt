@@ -45,16 +45,14 @@ import androidx.tv.material3.OutlinedButton
 import androidx.tv.material3.Text
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
+import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.ui.tv.TvSetupViewModel.DiscoveryState
 
 /**
  * First run setup: discover the local openHAB server via mDNS or enter it manually.
  */
 @Composable
-fun TvSetupScreen(
-    onSaveServer: (url: String, userName: String?, password: String?) -> Unit,
-    viewModel: TvSetupViewModel = viewModel()
-) {
+fun TvSetupScreen(onSavePath: (ServerPath) -> Unit, viewModel: TvSetupViewModel = viewModel()) {
     var manualEntry by rememberSaveable { mutableStateOf(false) }
 
     Column(
@@ -70,14 +68,14 @@ fun TvSetupScreen(
         Spacer(modifier = Modifier.height(32.dp))
         if (manualEntry) {
             ManualServerEntry(
-                onSave = onSaveServer,
+                onSave = { url, userName, password -> onSavePath(ServerPath(url, userName, password)) },
                 onCancel = { manualEntry = false }
             )
         } else {
             val state by viewModel.state.collectAsStateWithLifecycle()
             ServerDiscovery(
                 state = state,
-                onUseServer = { url -> onSaveServer(url, null, null) },
+                onUseServer = { url -> onSavePath(ServerPath(url, null, null)) },
                 onSearchAgain = viewModel::discover,
                 onEnterManually = { manualEntry = true }
             )

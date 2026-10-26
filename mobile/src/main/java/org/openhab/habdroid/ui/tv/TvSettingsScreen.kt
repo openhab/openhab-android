@@ -24,7 +24,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
@@ -32,7 +31,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -41,35 +39,41 @@ import androidx.compose.ui.unit.dp
 import androidx.tv.material3.ListItem
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
+import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.DefaultSitemap
 import org.openhab.habdroid.model.ServerConfiguration
+import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
-import org.openhab.habdroid.util.getConnectionFactory
-import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.loadActiveServerConfig
 
 /**
  * Settings that are relevant on TV: server and credentials, sitemap and about
  */
 @Composable
-fun TvSettingsScreen(onSaveServer: (url: String, userName: String, password: String) -> Unit, onOpenAbout: () -> Unit) {
-    val context = LocalContext.current
+fun TvSettingsScreen(
+    config: ServerConfiguration?,
+    connectionProvider: () -> Connection?,
+    onSavePath: (ServerPath) -> Unit,
+    onSaveDefaultSitemap: (DefaultSitemap) -> Unit,
+    onOpenAbout: () -> Unit
+) {
     var showSitemapDialog by remember { mutableStateOf(false) }
-    // Incremented after changes to reload the configuration
-    var configVersion by remember { mutableIntStateOf(0) }
-    val config = remember(configVersion) { context.loadActiveServerConfig() }
     val firstItemFocus = remember { FocusRequester() }
 
     var url by remember(config) { mutableStateOf(config?.localPath?.url.orEmpty()) }
     var userName by remember(config) { mutableStateOf(config?.localPath?.userName.orEmpty()) }
     var password by remember(config) { mutableStateOf(config?.localPath?.password.orEmpty()) }
-    // Save once the user finished editing a field, so the connection isn't updated on every key press
+
     val saveServer: () -> Unit = {
-        onSaveServer(url, userName, password)
-        // Reload the stored values, which also reverts an invalid URL
-        configVersion++
+        val trimmedUrl = url.trim().toHttpUrlOrNull()
+        val urlValid = trimmedUrl != null && (trimmedUrl.scheme == "http" || trimmedUrl.scheme == "https")
+        // FIXME: display error
+        if (urlValid) {
+            val newPath = ServerPath(url, userName, password)
+            onSavePath(newPath)
+        }
     }
 
     Column(
@@ -142,7 +146,7 @@ fun TvSettingsScreen(onSaveServer: (url: String, userName: String, password: Str
 
     if (showSitemapDialog && config != null) {
         val sitemaps by produceState<List<Sitemap>?>(initialValue = null) {
-            val connection = context.getConnectionFactory().currentActive?.conn?.connection
+            val connection = connectionProvider()
             value = when (val result = connection?.let { ServerProperties.fetch(it) }) {
                 is ServerProperties.Companion.PropsSuccess -> result.props.sitemaps
                 else -> emptyList()
@@ -155,12 +159,7 @@ fun TvSettingsScreen(onSaveServer: (url: String, userName: String, password: Str
                 selectedValue = config.defaultSitemap?.name,
                 onSelected = { name ->
                     val sitemap = list.first { sitemap -> sitemap.name == name }
-                    ServerConfiguration.saveDefaultSitemap(
-                        context.getPrefs(),
-                        config.id,
-                        DefaultSitemap(sitemap.name, sitemap.label)
-                    )
-                    configVersion++
+                    onSaveDefaultSitemap(DefaultSitemap(sitemap.name, sitemap.label))
                     showSitemapDialog = false
                 },
                 onDismiss = { showSitemapDialog = false }

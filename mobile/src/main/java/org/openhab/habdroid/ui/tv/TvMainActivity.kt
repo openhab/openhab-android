@@ -15,6 +15,10 @@ package org.openhab.habdroid.ui.tv
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerPath
@@ -32,48 +36,50 @@ class TvMainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TvTheme {
+                var configVersion by remember { mutableIntStateOf(0) }
+                val serverConfig = remember(configVersion) {
+                    loadActiveServerConfig()
+                }
+
                 TvApp(
-                    onAddServer = ::addServer,
-                    onSaveServer = ::saveServer
+                    config = serverConfig,
+                    connectionProvider = { getConnectionFactory().currentActive?.conn?.connection },
+                    onSaveServerPath = { path ->
+                        saveServer(path)
+                        configVersion++
+                    },
+                    onSaveDefaultSitemap = { sitemap ->
+                        serverConfig?.id?.let { configId ->
+                            ServerConfiguration.saveDefaultSitemap(getPrefs(), configId, sitemap)
+                            configVersion++
+                        }
+                    }
                 )
             }
         }
     }
 
-    /**
-     * Add the first server during the setup
-     */
-    private fun addServer(url: String, userName: String?, password: String?) {
+    private fun saveServer(path: ServerPath) {
         val prefs = getPrefs()
-        val config = ServerConfiguration(
-            prefs.getNextAvailableServerId(),
-            getString(R.string.openhab),
-            ServerPath(url, userName, password),
-            null,
-            null,
-            null,
-            null,
-            false,
-            null,
-            null
-        )
-        config.saveToPrefs(prefs, getSecretPrefs())
-    }
+        val existing = loadActiveServerConfig()
+        val newConfig = if (existing != null) {
+            ServerConfiguration.createFrom(existing, localPath = path)
+        } else {
+            ServerConfiguration(
+                prefs.getNextAvailableServerId(),
+                getString(R.string.openhab),
+                path,
+                null,
+                null,
+                null,
+                null,
+                false,
+                null,
+                null
+            )
+        }
 
-    /**
-     * Update URL and credentials of the active server. Invalid URLs are ignored.
-     */
-    private fun saveServer(url: String, userName: String, password: String) {
-        val config = loadActiveServerConfig() ?: return
-        val trimmedUrl = url.trim()
-        if (!trimmedUrl.startsWith("http://") && !trimmedUrl.startsWith("https://")) {
-            return
-        }
-        val path = ServerPath(trimmedUrl, userName.ifEmpty { null }, password.ifEmpty { null })
-        if (path != config.localPath) {
-            ServerConfiguration.createFrom(config, localPath = path)
-                .saveToPrefs(getPrefs(), getSecretPrefs())
-        }
+        newConfig.saveToPrefs(prefs, getSecretPrefs())
     }
 
     override fun onStart() {
