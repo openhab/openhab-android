@@ -32,7 +32,10 @@ class TvMainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TvTheme {
-                TvApp(onAddServer = ::addServer, onSaveServer = ::saveServer)
+                TvApp(
+                    onAddServer = ::addServer,
+                    onSaveServer = ::saveServer
+                )
             }
         }
     }

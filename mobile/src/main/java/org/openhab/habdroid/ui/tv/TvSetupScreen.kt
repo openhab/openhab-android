@@ -43,6 +43,7 @@ import androidx.tv.material3.Button
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.OutlinedButton
 import androidx.tv.material3.Text
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.tv.TvSetupViewModel.DiscoveryState
 
@@ -62,10 +63,16 @@ fun TvSetupScreen(
             .padding(horizontal = 96.dp, vertical = 48.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = stringResource(R.string.tv_setup_title), style = MaterialTheme.typography.displaySmall)
+        Text(
+            text = stringResource(R.string.tv_setup_title),
+            style = MaterialTheme.typography.displaySmall
+        )
         Spacer(modifier = Modifier.height(32.dp))
         if (manualEntry) {
-            ManualServerEntry(onSave = onSaveServer, onCancel = { manualEntry = false })
+            ManualServerEntry(
+                onSave = onSaveServer,
+                onCancel = { manualEntry = false }
+            )
         } else {
             val state by viewModel.state.collectAsStateWithLifecycle()
             ServerDiscovery(
@@ -92,19 +99,30 @@ private fun ServerDiscovery(
         is DiscoveryState.Found -> stringResource(R.string.tv_setup_server_found, state.url)
         DiscoveryState.NotFound -> stringResource(R.string.tv_setup_no_server_found)
     }
-    Text(text = message, style = MaterialTheme.typography.titleLarge)
+    Text(
+        text = message,
+        style = MaterialTheme.typography.titleLarge
+    )
     Spacer(modifier = Modifier.height(32.dp))
 
-    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
         when (state) {
             is DiscoveryState.Found -> {
-                Button(onClick = { onUseServer(state.url) }, modifier = Modifier.focusRequester(primaryFocus)) {
+                Button(
+                    onClick = { onUseServer(state.url) },
+                    modifier = Modifier.focusRequester(primaryFocus)
+                ) {
                     Text(stringResource(R.string.tv_setup_use_server))
                 }
             }
 
             DiscoveryState.NotFound -> {
-                Button(onClick = onSearchAgain, modifier = Modifier.focusRequester(primaryFocus)) {
+                Button(
+                    onClick = onSearchAgain,
+                    modifier = Modifier.focusRequester(primaryFocus)
+                ) {
                     Text(stringResource(R.string.tv_setup_search_again))
                 }
             }
@@ -131,12 +149,18 @@ private fun ManualServerEntry(onSave: (String, String?, String?) -> Unit, onCanc
     var password by rememberSaveable { mutableStateOf("") }
     val urlFocus = remember { FocusRequester() }
 
-    Column(modifier = Modifier.width(640.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+    Column(
+        modifier = Modifier.width(640.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
         TvTextField(
             value = url,
             onValueChange = { url = it },
             label = stringResource(R.string.settings_openhab_url),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri, imeAction = ImeAction.Next),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Uri,
+                imeAction = ImeAction.Next
+            ),
             modifier = Modifier.focusRequester(urlFocus)
         )
         TvTextField(
@@ -149,15 +173,25 @@ private fun ManualServerEntry(onSave: (String, String?, String?) -> Unit, onCanc
             value = password,
             onValueChange = { password = it },
             label = stringResource(R.string.settings_openhab_password),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Done
+            ),
             visualTransformation = PasswordVisualTransformation()
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            val trimmedUrl = url.trim().toHttpUrlOrNull()
+            val urlValid = trimmedUrl != null && (trimmedUrl.scheme == "http" || trimmedUrl.scheme == "https")
+
             Button(
-                onClick = { onSave(url.trim(), userName.ifEmpty { null }, password.ifEmpty { null }) },
-                enabled = url.trim().let { it.startsWith("http://") || it.startsWith("https://") } &&
-                    url.trim().length > "https://".length
+                onClick = {
+                    onSave(trimmedUrl.toString(), userName.ifEmpty { null }, password.ifEmpty { null })
+                },
+                enabled = urlValid
             ) {
                 Text(stringResource(R.string.save))
             }

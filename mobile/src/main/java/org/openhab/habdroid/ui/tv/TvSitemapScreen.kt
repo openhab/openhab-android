@@ -52,6 +52,7 @@ import androidx.tv.material3.OutlinedIconButton
 import androidx.tv.material3.Text
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Item
+import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.Sitemap
 
 @Composable
@@ -67,38 +68,57 @@ fun TvSitemapScreen(onOpenSettings: () -> Unit, viewModel: TvSitemapViewModel = 
     }
 
     when (val s = state) {
-        TvSitemapViewModel.State.Loading -> CenteredMessage(stringResource(R.string.tv_loading), showProgress = true)
+        TvSitemapViewModel.State.Loading ->
+            CenteredMessage(
+                message = stringResource(R.string.tv_loading),
+                showProgress = true
+            )
 
-        is TvSitemapViewModel.State.Error -> CenteredMessage(s.message) {
-            RetryAndSettingsButtons(it, onRetry = { viewModel.retry() }, onOpenSettings = onOpenSettings)
-        }
+        is TvSitemapViewModel.State.Error ->
+            CenteredMessage(
+                message = s.message
+            ) { modifier ->
+                RetryAndSettingsButtons(
+                    modifier = modifier,
+                    onRetry = viewModel::retry,
+                    onOpenSettings = onOpenSettings
+                )
+            }
 
-        is TvSitemapViewModel.State.NoSitemaps -> CenteredMessage(
-            stringResource(R.string.tv_no_sitemaps, s.serverUrl ?: stringResource(R.string.openhab))
-        ) {
-            RetryAndSettingsButtons(it, onRetry = { viewModel.retry() }, onOpenSettings = onOpenSettings)
-        }
+        is TvSitemapViewModel.State.NoSitemaps ->
+            CenteredMessage(
+                message = stringResource(R.string.tv_no_sitemaps, s.serverUrl ?: stringResource(R.string.openhab))
+            ) { modifier ->
+                RetryAndSettingsButtons(
+                    modifier = modifier,
+                    onRetry = viewModel::retry,
+                    onOpenSettings = onOpenSettings
+                )
+            }
 
-        is TvSitemapViewModel.State.SelectSitemap -> SitemapSelection(s.sitemaps, onSelected = viewModel::selectSitemap)
+        is TvSitemapViewModel.State.SelectSitemap ->
+            SitemapSelection(
+                sitemaps = s.sitemaps,
+                onSelected = viewModel::selectSitemap
+            )
 
-        is TvSitemapViewModel.State.Page -> SitemapPage(s, viewModel, onOpenSettings)
+        is TvSitemapViewModel.State.Page ->
+            SitemapPage(
+                page = s,
+                onOpenPage = viewModel::openPage,
+                onSendCommand = viewModel::sendCommand,
+                onOpenSettings = onOpenSettings
+            )
     }
 }
 
 @Composable
 private fun SitemapPage(
     page: TvSitemapViewModel.State.Page,
-    viewModel: TvSitemapViewModel,
+    onOpenPage: (LinkedPage) -> Unit,
+    onSendCommand: (item: Item?, command: String) -> Unit,
     onOpenSettings: () -> Unit
 ) {
-    val actions = remember(viewModel) {
-        object : TvWidgetActions {
-            override fun openPage(url: String) = viewModel.openPage(url)
-
-            override fun sendCommand(item: Item?, command: String) = viewModel.sendCommand(item, command)
-        }
-    }
-
     // Scroll position and focused widget per page URL
     val listStates = remember { mutableMapOf<String, LazyListState>() }
     val focusedWidgetIds = remember { mutableMapOf<String, String>() }
@@ -108,8 +128,14 @@ private fun SitemapPage(
             .fillMaxSize()
             .padding(start = 48.dp, end = 48.dp, top = 27.dp)
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = page.title, style = MaterialTheme.typography.headlineMedium, modifier = Modifier.weight(1f))
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = page.title,
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.weight(1f)
+            )
             OutlinedIconButton(onClick = onOpenSettings) {
                 Icon(
                     painter = painterResource(R.drawable.ic_settings_outline_grey_24dp),
@@ -118,10 +144,14 @@ private fun SitemapPage(
                 )
             }
         }
+
         Spacer(modifier = Modifier.height(16.dp))
-        val widgets = page.widgets
-        if (widgets == null) {
-            CenteredMessage(stringResource(R.string.tv_loading), showProgress = true)
+
+        if (page.widgets == null) {
+            CenteredMessage(
+                message = stringResource(R.string.tv_loading),
+                showProgress = true
+            )
         } else {
             // Restore scroll position and focus when navigating back to a page
             key(page.url) {
@@ -129,14 +159,16 @@ private fun SitemapPage(
                 val initialFocusId = remember { focusedWidgetIds[page.url] }
                 val listFocusRequester = remember { FocusRequester() }
                 val widgetFocusRequester = remember { FocusRequester() }
+
                 TvWidgetList(
-                    widgets = widgets,
+                    widgets = page.widgets,
                     connection = page.connection,
                     serverFlags = page.serverFlags,
-                    actions = actions,
                     listState = listState,
                     initialFocusRequester = widgetFocusRequester,
                     initialFocusId = initialFocusId,
+                    onOpenPage = onOpenPage,
+                    onSendCommand = onSendCommand,
                     onWidgetFocused = { id -> focusedWidgetIds[page.url] = id },
                     modifier = Modifier
                         .focusRequester(listFocusRequester)
@@ -166,9 +198,15 @@ private fun SitemapSelection(sitemaps: List<Sitemap>, onSelected: (Sitemap) -> U
             style = MaterialTheme.typography.headlineMedium
         )
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = stringResource(R.string.tv_select_sitemap_hint), style = MaterialTheme.typography.bodyLarge)
+        Text(
+            text = stringResource(R.string.tv_select_sitemap_hint),
+            style = MaterialTheme.typography.bodyLarge
+        )
         Spacer(modifier = Modifier.height(24.dp))
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.widthIn(max = 720.dp)) {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.widthIn(max = 720.dp)
+        ) {
             itemsIndexed(
                 items = sitemaps,
                 key = { _, sitemap -> sitemap.name }
@@ -223,8 +261,13 @@ private fun CenteredMessage(
 
 @Composable
 private fun RetryAndSettingsButtons(modifier: Modifier, onRetry: () -> Unit, onOpenSettings: () -> Unit) {
-    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-        Button(onClick = onRetry, modifier = modifier) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Button(
+            onClick = onRetry,
+            modifier = modifier
+        ) {
             Text(stringResource(R.string.retry))
         }
         OutlinedButton(onClick = onOpenSettings) {

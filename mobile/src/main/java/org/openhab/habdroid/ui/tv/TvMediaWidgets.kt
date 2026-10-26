@@ -67,6 +67,7 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import java.io.IOException
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -93,6 +94,7 @@ fun TvMediaRow(widget: Widget, connection: Connection, serverFlags: Int) {
     var showFullscreen by remember { mutableStateOf(false) }
     val colors = MaterialTheme.colorScheme
     val shape = RoundedCornerShape(12.dp)
+
     // Use a dark background when focused, as transparent charts use light text
     Surface(
         onClick = { showFullscreen = true },
@@ -109,7 +111,9 @@ fun TvMediaRow(widget: Widget, connection: Connection, serverFlags: Int) {
         ),
         scale = ClickableSurfaceDefaults.scale(focusedScale = 1.02f)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
             if (widget.label.isNotEmpty()) {
                 Text(
                     text = widget.label,
@@ -135,8 +139,16 @@ fun TvMediaRow(widget: Widget, connection: Connection, serverFlags: Int) {
                 ),
                 scale = ClickableSurfaceDefaults.scale(focusedScale = 1f)
             ) {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    MediaContent(widget, connection, serverFlags, null)
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    MediaContent(
+                        widget = widget,
+                        connection = connection,
+                        serverFlags = serverFlags,
+                        height = null
+                    )
                 }
             }
         }
@@ -152,13 +164,14 @@ private fun MediaContent(widget: Widget, connection: Connection, serverFlags: In
     } else {
         Modifier.fillMaxSize()
     }
-    when {
-        widget.type == Widget.Type.Chart -> ChartContent(widget, connection, serverFlags, modifier)
 
-        widget.type == Widget.Type.Video && "mjpeg".equals(widget.encoding, ignoreCase = true) ->
+    when (widget.type) {
+        Widget.Type.Chart -> ChartContent(widget, connection, serverFlags, modifier)
+
+        Widget.Type.Video if "mjpeg".equals(widget.encoding, ignoreCase = true) ->
             MjpegContent(widget, connection, modifier)
 
-        widget.type == Widget.Type.Video -> VideoContent(widget, connection, modifier)
+        Widget.Type.Video -> VideoContent(widget, connection, modifier)
 
         else -> ImageContent(widget, connection, modifier)
     }
@@ -172,18 +185,28 @@ private fun ImageContent(widget: Widget, connection: Connection, modifier: Modif
             val data = Base64.decode(state.substring(state.indexOf(",") + 1), Base64.DEFAULT)
             BitmapFactory.decodeByteArray(data, 0, data.size)?.asImageBitmap()
         }
-        BitmapContent(bitmap, modifier)
+        BitmapContent(
+            bitmap = bitmap,
+            modifier = modifier
+        )
     } else {
         BoxWithConstraints(modifier = modifier) {
-            val bitmap = rememberRemoteBitmap(widget.url, connection, constraints.maxWidth, widget.refresh)
-            BitmapContent(bitmap, Modifier.fillMaxSize())
+            val bitmap = rememberRemoteBitmap(
+                url = widget.url,
+                connection = connection,
+                sizeInPixels = constraints.maxWidth,
+                refreshMs = widget.refresh
+            )
+            BitmapContent(
+                bitmap = bitmap,
+                modifier = Modifier.fillMaxSize()
+            )
         }
     }
 }
 
 @Composable
 private fun ChartContent(widget: Widget, connection: Connection, serverFlags: Int, modifier: Modifier) {
-    val context = LocalContext.current
     val densityDpi = LocalConfiguration.current.densityDpi
     // TV always uses a dark theme
     val chartTheme = if (serverFlags and ServerProperties.SERVER_FLAG_TRANSPARENT_CHARTS == 0) {
@@ -193,13 +216,19 @@ private fun ChartContent(widget: Widget, connection: Connection, serverFlags: In
     }
     BoxWithConstraints(modifier = modifier) {
         val url = widget.toChartUrl(
-            context.getPrefs(),
-            constraints.maxWidth,
+            scalingFactor = 1F,
+            requestHighResCharts = true,
+            width = constraints.maxWidth,
             height = constraints.maxHeight,
             chartTheme = chartTheme,
             density = densityDpi
         )
-        val bitmap = rememberRemoteBitmap(url, connection, constraints.maxWidth, widget.refresh)
+        val bitmap = rememberRemoteBitmap(
+            url = url,
+            connection = connection,
+            sizeInPixels = constraints.maxWidth,
+            refreshMs = widget.refresh
+        )
         BitmapContent(bitmap, Modifier.fillMaxSize())
     }
 }
@@ -232,7 +261,7 @@ private fun rememberRemoteBitmap(
         if (url == null) {
             return@produceState
         }
-        while (isActive) {
+        do {
             try {
                 value = connection.httpClient
                     .get(url, caching = HttpClient.CachingMode.AVOID_CACHE)
@@ -242,11 +271,8 @@ private fun rememberRemoteBitmap(
             } catch (e: HttpClient.HttpException) {
                 Log.w(TAG, "Loading $url failed", e)
             }
-            if (refreshMs <= 0) {
-                break
-            }
-            delay(refreshMs.toLong())
-        }
+            delay(refreshMs.milliseconds)
+        } while (isActive && refreshMs > 0)
     }
     return bitmap
 }
@@ -277,7 +303,10 @@ private fun MjpegContent(widget: Widget, connection: Connection, modifier: Modif
             }
         }
     }
-    BitmapContent(frame, modifier)
+    BitmapContent(
+        bitmap = frame,
+        modifier = modifier
+    )
 }
 
 @OptIn(UnstableApi::class)
@@ -301,7 +330,10 @@ private fun VideoContent(widget: Widget, connection: Connection, modifier: Modif
     }
 
     if (absoluteUrl == null || hasError) {
-        Box(modifier = modifier, contentAlignment = Alignment.Center) {
+        Box(
+            modifier = modifier,
+            contentAlignment = Alignment.Center
+        ) {
             val label = widget.label.orDefaultIfEmpty(stringResource(R.string.widget_type_video))
             Text(stringResource(R.string.error_video_player, label))
         }
@@ -347,7 +379,10 @@ private fun VideoContent(widget: Widget, connection: Connection, modifier: Modif
             player.release()
         }
     }
-    Box(modifier = modifier, contentAlignment = Alignment.Center) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center
+    ) {
         // Use a TextureView, as a SurfaceView isn't shown correctly inside of scaled Compose layers
         AndroidView(
             factory = { viewContext -> TextureView(viewContext).also { view -> player.setVideoTextureView(view) } },

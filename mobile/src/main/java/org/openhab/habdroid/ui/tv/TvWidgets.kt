@@ -75,17 +75,12 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.LabeledValue
+import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.ui.shouldRenderAsPlayer
 import org.openhab.habdroid.ui.toItemCommand
 import org.openhab.habdroid.util.beautify
-
-interface TvWidgetActions {
-    fun openPage(url: String)
-
-    fun sendCommand(item: Item?, command: String)
-}
 
 /**
  * Renders the widgets of a sitemap page. Every row is focusable, so the whole page can be scrolled with a D-pad.
@@ -95,11 +90,12 @@ fun TvWidgetList(
     widgets: List<Widget>,
     connection: Connection,
     serverFlags: Int,
-    actions: TvWidgetActions,
     listState: LazyListState,
     initialFocusRequester: FocusRequester,
     initialFocusId: String?,
     onWidgetFocused: (String) -> Unit,
+    onOpenPage: (LinkedPage) -> Unit,
+    onSendCommand: (item: Item?, command: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val colorMapper = rememberTvColorMapper()
@@ -123,7 +119,7 @@ fun TvWidgetList(
             items = listWidgets,
             key = { widget -> widget.id }
         ) { widget ->
-            val row = TvWidgetRowScope(widget, connection, serverFlags, actions, colorMapper)
+            val row = TvWidgetRowScope(widget, connection, serverFlags, onOpenPage, onSendCommand, colorMapper)
             val focusModifier = if (widget.id == initialFocusId) {
                 Modifier
                     .focusRequester(initialFocusRequester)
@@ -165,12 +161,12 @@ private fun TvWidgetRowScope.Content(visibleWidgets: List<Widget>) {
 
         Widget.Type.Colorpicker -> ColorRow()
 
-        Widget.Type.Group, Widget.Type.Text, Widget.Type.Default -> TextRow()
+        Widget.Type.Group, Widget.Type.Text, Widget.Type.Default -> TextRow(onOpenPage)
 
         Widget.Type.Image, Widget.Type.Chart, Widget.Type.Video -> TvMediaRow(widget, connection, serverFlags)
 
         // Not usable with a D-pad (yet), so only show label and state
-        else -> TextRow()
+        else -> TextRow(onOpenPage)
     }
 }
 
@@ -178,7 +174,8 @@ private class TvWidgetRowScope(
     val widget: Widget,
     val connection: Connection,
     val serverFlags: Int,
-    val actions: TvWidgetActions,
+    val onOpenPage: (LinkedPage) -> Unit,
+    val onSendCommand: (item: Item?, command: String) -> Unit,
     val colorMapper: (String?) -> Color?
 ) {
     val labelColor get() = colorMapper(widget.labelColor) ?: Color.Unspecified
@@ -186,7 +183,7 @@ private class TvWidgetRowScope(
 
     fun send(command: String?) {
         if (command != null) {
-            actions.sendCommand(widget.item, command)
+            onSendCommand(widget.item, command)
         }
     }
 
@@ -230,15 +227,20 @@ private fun TvWidgetRowScope.WidgetListItem(
 @Composable
 private fun TvWidgetRowScope.StateText() {
     widget.stateFromLabel?.let { state ->
-        Text(text = state, color = valueColor, style = MaterialTheme.typography.bodyLarge, maxLines = 1)
+        Text(
+            text = state,
+            color = valueColor,
+            style = MaterialTheme.typography.bodyLarge,
+            maxLines = 1
+        )
     }
 }
 
 @Composable
-private fun TvWidgetRowScope.TextRow() {
+private fun TvWidgetRowScope.TextRow(onOpenPage: (LinkedPage) -> Unit) {
     val linkedPage = widget.linkedPage
     WidgetListItem(
-        onClick = { linkedPage?.let { page -> actions.openPage(page.link) } },
+        onClick = { linkedPage?.let { onOpenPage(it) } },
         trailingContent = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 StateText()
@@ -346,7 +348,7 @@ private fun TvWidgetRowScope.ButtonGridRow(buttons: List<Widget>) {
                     TvOption(
                         label = button.mapping.label,
                         selected = button.stateful && button.item?.state?.asString == button.mapping.value,
-                        onClick = { button.item?.let { item -> actions.sendCommand(item, button.mapping.value) } }
+                        onClick = { button.item?.let { item -> onSendCommand(item, button.mapping.value) } }
                     )
                 },
                 showLabel = index == 0

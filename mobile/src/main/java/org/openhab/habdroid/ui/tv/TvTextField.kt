@@ -78,7 +78,9 @@ fun TvTextField(
     val isActive = isSurfaceFocused || editing
 
     // Focus group, so a focus requester passed in the modifier focuses the field
-    Column(modifier = modifier.focusGroup()) {
+    Column(
+        modifier = modifier.focusGroup()
+    ) {
         Text(
             text = label,
             style = MaterialTheme.typography.labelLarge,
@@ -95,8 +97,20 @@ fun TvTextField(
                 pressedContainerColor = Color.Transparent
             ),
             border = ClickableSurfaceDefaults.border(
-                border = Border(BorderStroke(if (editing) 3.dp else 1.dp, colors.onSurfaceVariant), shape = shape),
-                focusedBorder = Border(BorderStroke(3.dp, colors.primary), shape = shape)
+                border = Border(
+                    BorderStroke(
+                        width = if (editing) 3.dp else 1.dp,
+                        color = colors.onSurfaceVariant
+                    ),
+                    shape = shape
+                ),
+                focusedBorder = Border(
+                    BorderStroke(
+                        width = 3.dp,
+                        color = colors.primary
+                    ),
+                    shape = shape
+                )
             ),
             scale = ClickableSurfaceDefaults.scale(focusedScale = 1f),
             interactionSource = surfaceInteractionSource
@@ -105,7 +119,9 @@ fun TvTextField(
                 value = value,
                 onValueChange = onValueChange,
                 singleLine = true,
-                textStyle = MaterialTheme.typography.titleMedium.copy(color = colors.onSurface),
+                textStyle = MaterialTheme.typography.titleMedium.copy(
+                    color = colors.onSurface
+                ),
                 cursorBrush = SolidColor(colors.primary),
                 keyboardOptions = keyboardOptions,
                 keyboardActions = KeyboardActions(

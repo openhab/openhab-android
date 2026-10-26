@@ -26,6 +26,7 @@ import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.sitemap.SitemapPageRepository
 import org.openhab.habdroid.model.Item
+import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.model.Widget
@@ -126,8 +127,8 @@ class TvSitemapViewModel(application: Application) :
         }
     }
 
-    fun openPage(url: String) {
-        pageStack.add(url)
+    fun openPage(page: LinkedPage) {
+        pageStack.add(page.link)
         updateTrackedPage()
     }
 

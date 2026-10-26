@@ -55,6 +55,7 @@ import androidx.tv.material3.Surface
 import androidx.tv.material3.SurfaceDefaults
 import androidx.tv.material3.Text
 import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.HsvState
@@ -72,8 +73,10 @@ fun TvColorDialog(title: String, initialColor: HsvState?, onColorChanged: (Strin
     val initialFocus = remember { FocusRequester() }
 
     LaunchedEffect(changeCount) {
-        if (changeCount == 0) return@LaunchedEffect
-        delay(COLOR_SEND_DELAY_MS)
+        if (changeCount == 0) {
+            return@LaunchedEffect
+        }
+        delay(COLOR_SEND_DELAY)
         onColorChanged("${hue.roundToInt()},${saturation.roundToInt()},${brightness.roundToInt()}")
     }
 
@@ -82,14 +85,18 @@ fun TvColorDialog(title: String, initialColor: HsvState?, onColorChanged: (Strin
     Dialog(onDismissRequest = onDismiss) {
         Surface(
             shape = RoundedCornerShape(16.dp),
-            colors = SurfaceDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+            colors = SurfaceDefaults.colors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant
+            )
         ) {
             Column(
                 modifier = Modifier
                     .padding(24.dp)
                     .width(560.dp)
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Text(
                         text = title,
                         style = MaterialTheme.typography.headlineSmall,
@@ -166,11 +173,20 @@ private fun ColorSlider(
         headlineContent = {
             Column {
                 Row {
-                    Text(text = label, modifier = Modifier.weight(1f))
-                    Text(text = displayValue, style = MaterialTheme.typography.bodyLarge)
+                    Text(
+                        text = label,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Text(
+                        text = displayValue,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
-                ColorTrack(fraction = value / maxValue, gradient = gradient)
+                ColorTrack(
+                    fraction = value / maxValue,
+                    gradient = gradient
+                )
             }
         },
         modifier = modifier.onKeyEvent { event ->
@@ -199,7 +215,9 @@ private fun ColorTrack(fraction: Float, gradient: List<Color>) {
             .clip(RoundedCornerShape(6.dp))
             .background(Brush.horizontalGradient(gradient))
     ) {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
             if (fraction > 0f) {
                 Spacer(modifier = Modifier.weight(fraction))
             }
@@ -217,6 +235,6 @@ private fun ColorTrack(fraction: Float, gradient: List<Color>) {
     }
 }
 
-private const val COLOR_SEND_DELAY_MS = 500L
+private val COLOR_SEND_DELAY = 500.milliseconds
 private const val HUE_STEP = 10f
 private const val PERCENT_STEP = 5f

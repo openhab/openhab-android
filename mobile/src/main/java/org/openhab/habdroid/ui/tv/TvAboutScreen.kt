@@ -41,7 +41,6 @@ import androidx.tv.material3.ListItem
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import com.mikepenz.aboutlibraries.Libs
-import com.mikepenz.aboutlibraries.entity.Library
 import com.mikepenz.aboutlibraries.util.withContext
 import java.util.Calendar
 import kotlinx.coroutines.Dispatchers
@@ -56,7 +55,7 @@ import org.openhab.habdroid.R
 fun TvAboutScreen() {
     val context = LocalContext.current
     val year = remember { Calendar.getInstance().get(Calendar.YEAR).toString() }
-    val libraries by produceState(initialValue = emptyList<Library>()) {
+    val libraries by produceState(initialValue = emptyList()) {
         value = withContext(Dispatchers.IO) {
             Libs.Builder().withContext(context).build().libraries
         }
@@ -76,7 +75,10 @@ fun TvAboutScreen() {
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column {
-                Text(text = stringResource(R.string.app_name), style = MaterialTheme.typography.headlineMedium)
+                Text(
+                    text = stringResource(R.string.app_name),
+                    style = MaterialTheme.typography.headlineMedium
+                )
                 Text(
                     text = stringResource(R.string.about_copyright, year),
                     style = MaterialTheme.typography.bodyMedium,

@@ -45,12 +45,14 @@ fun TvApp(
         TvRoutes.SITEMAP
     }
 
-    // Surface provides the content color for all screens
     Surface(
         modifier = Modifier.fillMaxSize(),
         colors = SurfaceDefaults.colors(containerColor = MaterialTheme.colorScheme.background)
     ) {
-        NavHost(navController = navController, startDestination = startDestination) {
+        NavHost(
+            navController = navController,
+            startDestination = startDestination
+        ) {
             composable(TvRoutes.SETUP) {
                 TvSetupScreen(
                     onSaveServer = { url, userName, password ->
@@ -62,7 +64,9 @@ fun TvApp(
                 )
             }
             composable(TvRoutes.SITEMAP) {
-                TvSitemapScreen(onOpenSettings = { navController.navigate(TvRoutes.SETTINGS) })
+                TvSitemapScreen(
+                    onOpenSettings = { navController.navigate(TvRoutes.SETTINGS) }
+                )
             }
             composable(TvRoutes.SETTINGS) {
                 TvSettingsScreen(
@@ -70,7 +74,9 @@ fun TvApp(
                     onOpenAbout = { navController.navigate(TvRoutes.ABOUT) }
                 )
             }
-            composable(TvRoutes.ABOUT) { TvAboutScreen() }
+            composable(TvRoutes.ABOUT) {
+                TvAboutScreen()
+            }
         }
     }
 }

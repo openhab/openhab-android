@@ -26,11 +26,13 @@ import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.determineDataUsagePolicy
+import org.openhab.habdroid.util.getChartScalingFactor
 import org.openhab.habdroid.util.getChartTheme
 import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.parcelable
+import org.openhab.habdroid.util.shouldRequestHighResChart
 
 class ChartImageActivity :
     AbstractBaseActivity(),
@@ -168,7 +170,8 @@ class ChartImageActivity :
     private fun loadChartImage(force: Boolean) {
         val conn = connection ?: return finish()
         val chartUrl = widget.toChartUrl(
-            getPrefs(),
+            getPrefs().getChartScalingFactor(),
+            getPrefs().shouldRequestHighResChart(),
             binding.chart.width,
             binding.chart.height,
             chartTheme,

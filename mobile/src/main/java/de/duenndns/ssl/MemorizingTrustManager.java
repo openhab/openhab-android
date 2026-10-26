@@ -86,7 +86,9 @@ import javax.net.ssl.X509TrustManager;
  * <b>WARNING:</b> This only works if a dedicated thread is used for
  * opening sockets!
  */
-public class MemorizingTrustManager implements X509TrustManager {
+public class
+
+MemorizingTrustManager implements X509TrustManager {
     final static String DECISION_INTENT = "de.duenndns.ssl.DECISION";
     public final static String DECISION_INTENT_ID     = DECISION_INTENT + ".decisionId";
     final static String DECISION_INTENT_CERT   = DECISION_INTENT + ".cert";
@@ -528,10 +530,12 @@ public class MemorizingTrustManager implements X509TrustManager {
 
     private String certChainReason(CertificateException cause) {
         Throwable e = cause;
-        if (isPathException(e))
+        if (isPathException(e)) {
             return master.getString(R.string.mtm_trust_anchor);
-        if (isExpiredException(e))
+        }
+        if (isExpiredException(e)) {
             return master.getString(R.string.mtm_cert_expired);
+        }
         // get to the cause
         while (e.getCause() != null)
             e = e.getCause();

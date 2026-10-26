@@ -95,7 +95,10 @@ class TvCertificateActivity : ComponentActivity() {
 @Composable
 private fun CertificateDecision(title: String, summary: String, fingerprint: String, onDecision: (Int) -> Unit) {
     val abortFocus = remember { FocusRequester() }
-    BackHandler { onDecision(MTMDecision.DECISION_ABORT) }
+
+    BackHandler {
+        onDecision(MTMDecision.DECISION_ABORT)
+    }
 
     Box(
         modifier = Modifier
@@ -103,7 +106,6 @@ private fun CertificateDecision(title: String, summary: String, fingerprint: Str
             .background(Color.Black.copy(alpha = 0.5f)),
         contentAlignment = Alignment.Center
     ) {
-        // Surface provides the content color for the texts
         Surface(
             modifier = Modifier.widthIn(max = 720.dp),
             shape = RoundedCornerShape(16.dp),
@@ -112,20 +114,38 @@ private fun CertificateDecision(title: String, summary: String, fingerprint: Str
                 contentColor = MaterialTheme.colorScheme.onSurface
             )
         ) {
-            Column(modifier = Modifier.padding(32.dp)) {
-                Text(text = title, style = MaterialTheme.typography.headlineSmall)
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(text = summary, style = MaterialTheme.typography.bodyLarge)
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(text = "SHA-256", style = MaterialTheme.typography.labelLarge)
+            Column(
+                modifier = Modifier.padding(32.dp)
+            ) {
                 Text(
-                    text = fingerprint.toFingerprintLines(),
-                    style = MaterialTheme.typography.bodyMedium.copy(fontFamily = FontFamily.Monospace)
+                    text = title,
+                    style = MaterialTheme.typography.headlineSmall
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(text = stringResource(R.string.mtm_connect_anyway), style = MaterialTheme.typography.bodyLarge)
+                Text(
+                    text = summary,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "SHA-256",
+                    style = MaterialTheme.typography.labelLarge
+                )
+                Text(
+                    text = fingerprint.toFingerprintLines(),
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontFamily = FontFamily.Monospace
+                    )
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = stringResource(R.string.mtm_connect_anyway),
+                    style = MaterialTheme.typography.bodyLarge
+                )
                 Spacer(modifier = Modifier.height(24.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
                     // Focus the safe option, so accidentally pressing OK doesn't trust the certificate
                     Button(
                         onClick = { onDecision(MTMDecision.DECISION_ABORT) },

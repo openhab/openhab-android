@@ -91,7 +91,10 @@ fun TvSettingsScreen(onSaveServer: (url: String, userName: String, password: Str
                 value = url,
                 onValueChange = { url = it },
                 label = stringResource(R.string.tv_settings_server),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri, imeAction = ImeAction.Done),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Uri,
+                    imeAction = ImeAction.Done
+                ),
                 onEditingFinished = saveServer,
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
@@ -101,7 +104,9 @@ fun TvSettingsScreen(onSaveServer: (url: String, userName: String, password: Str
                 value = userName,
                 onValueChange = { userName = it },
                 label = stringResource(R.string.settings_openhab_username),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done
+                ),
                 onEditingFinished = saveServer,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
@@ -109,7 +114,10 @@ fun TvSettingsScreen(onSaveServer: (url: String, userName: String, password: Str
                 value = password,
                 onValueChange = { password = it },
                 label = stringResource(R.string.settings_openhab_password),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Done
+                ),
                 visualTransformation = PasswordVisualTransformation(),
                 onEditingFinished = saveServer,
                 modifier = Modifier.padding(horizontal = 16.dp)
@@ -117,7 +125,9 @@ fun TvSettingsScreen(onSaveServer: (url: String, userName: String, password: Str
             ListItem(
                 selected = false,
                 onClick = { showSitemapDialog = true },
-                headlineContent = { Text(stringResource(R.string.tv_settings_sitemap)) },
+                headlineContent = {
+                    Text(stringResource(R.string.tv_settings_sitemap))
+                },
                 supportingContent = {
                     Text(config?.defaultSitemap?.label ?: stringResource(R.string.tv_no_sitemap_selected))
                 }

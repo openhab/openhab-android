@@ -49,7 +49,9 @@ fun TvWidgetIcon(icon: IconResource?, connection: Connection, modifier: Modifier
     val loadedIcon by produceState<LoadedIcon?>(initialValue = null, url, connection) {
         value = if (url == null) null else loadIcon(connection, url, sizeInPixels)
     }
-    Box(modifier = modifier.size(size)) {
+    Box(
+        modifier = modifier.size(size)
+    ) {
         loadedIcon?.let { loaded ->
             Image(
                 bitmap = loaded.bitmap,
@@ -77,8 +79,8 @@ private suspend fun loadIcon(connection: Connection, url: String, sizeInPixels: 
             .toBitmap(sizeInPixels, AndroidColor.WHITE, ImageConversionPolicy.PreferTargetSize)
     }
     LoadedIcon(bitmap.asImageBitmap(), usesContentColor)
-} catch (e: HttpClient.HttpException) {
+} catch (_: HttpClient.HttpException) {
     null
-} catch (e: IOException) {
+} catch (_: IOException) {
     null
 }
