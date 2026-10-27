@@ -161,12 +161,12 @@ private fun TvWidgetRowScope.Content(visibleWidgets: List<Widget>) {
 
         Widget.Type.Colorpicker -> ColorRow()
 
-        Widget.Type.Group, Widget.Type.Text, Widget.Type.Default -> TextRow(onOpenPage)
+        Widget.Type.Group, Widget.Type.Text, Widget.Type.Default -> TextRow()
 
         Widget.Type.Image, Widget.Type.Chart, Widget.Type.Video -> TvMediaRow(widget, connection, serverFlags)
 
         // Not usable with a D-pad (yet), so only show label and state
-        else -> TextRow(onOpenPage)
+        else -> TextRow()
     }
 }
 
@@ -237,7 +237,7 @@ private fun TvWidgetRowScope.StateText() {
 }
 
 @Composable
-private fun TvWidgetRowScope.TextRow(onOpenPage: (LinkedPage) -> Unit) {
+private fun TvWidgetRowScope.TextRow() {
     val linkedPage = widget.linkedPage
     WidgetListItem(
         onClick = { linkedPage?.let { onOpenPage(it) } },
