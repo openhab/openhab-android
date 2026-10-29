@@ -879,7 +879,10 @@ class MainActivity : AbstractBaseActivity() {
                     when {
                         defaultWebUi != null && result.props.hasWebViewUiInstalled(defaultWebUi) -> {
                             updateSitemapDrawerEntries()
-                            if (pendingAction == null && controller.shownWebViewUi != defaultWebUi && !controller.isTemporaryPageShowing) {
+                            if (pendingAction == null &&
+                                controller.shownWebViewUi != defaultWebUi &&
+                                !controller.isTemporaryPageShowing
+                            ) {
                                 pendingAction =
                                     PendingAction.OpenWebViewUi(defaultWebUi, prefs.getActiveServerId(), null)
                             }
