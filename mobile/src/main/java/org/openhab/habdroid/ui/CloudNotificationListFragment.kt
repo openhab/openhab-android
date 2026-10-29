@@ -172,7 +172,7 @@ class CloudNotificationListFragment : Fragment() {
         binding.retryButton.isVisible = loadError
     }
 
-    private fun usePrimaryServer() = requireArguments().getBoolean("primary")
+    fun usePrimaryServer() = requireArguments().getBoolean("primary")
 
     fun getTitle(context: Context): String {
         val prefs = context.getPrefs()
