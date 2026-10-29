@@ -270,6 +270,43 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     /**
+     * Get the currently shown sitemap and page stack.
+     * Page links are stored relative to the server base URL, so the state can be restored
+     * using a different connection to the same server (e.g. after switching from local to remote).
+     *
+     * @return Current sitemap state, or null if no sitemap is shown
+     */
+    fun getSitemapState(): SitemapState? {
+        val sitemap = currentSitemap ?: return null
+        val baseUrl = sitemap.homepageLink.sitemapBaseUrl()
+        val pages = pageStack
+            .map { (page, _) -> page }
+            .takeWhile { page -> page.link.startsWith(baseUrl) }
+            .map { page -> page.copy(link = page.link.removePrefix(baseUrl)) }
+        return SitemapState(sitemap.name, pages)
+    }
+
+    /**
+     * Show contents of a sitemap and restore a page stack previously returned by [getSitemapState]
+     *
+     * @param sitemap Sitemap to show
+     * @param state State to restore
+     */
+    fun restoreSitemapState(sitemap: Sitemap, state: SitemapState) {
+        openSitemap(sitemap)
+        val baseUrl = sitemap.homepageLink.sitemapBaseUrl()
+        state.pages.forEach { page ->
+            val restoredPage = page.copy(link = baseUrl + page.link)
+            val f = makePageFragment(restoredPage)
+            pageStack.push(Pair(restoredPage, f))
+            handleNewWidgetFragment(f)
+        }
+        if (state.pages.isNotEmpty()) {
+            activity.setProgressIndicatorVisible(true)
+        }
+    }
+
+    /**
      * Follow a link in a sitemap page
      * Sets up UI to show the contents of the given page
      *
@@ -705,6 +742,10 @@ abstract class ContentController protected constructor(private val activity: Mai
             activity.buildSitemapSourceId(sitemapName, page.id)
         )
     }
+
+    private fun String.sitemapBaseUrl() = substringBefore("/rest/sitemaps/")
+
+    data class SitemapState(val sitemapName: String, val pages: List<LinkedPage>)
 
     internal enum class FragmentUpdateReason {
         PAGE_ENTER,

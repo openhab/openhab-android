@@ -169,6 +169,10 @@ class MainActivity : AbstractBaseActivity() {
     private var sitemapSelectionDialog: AlertDialog? = null
     var connection: Connection? = null
         private set
+    private var connectionServerId: Int? = null
+
+    // Sitemap state to restore once a new connection to the same server is established
+    private var sitemapStateToRestore: Pair<Int, ContentController.SitemapState>? = null
     private var lastActiveConnectionResult: ConnectionFactory.ConnectionResult? = null
     private var lastActiveCloudConnectionResult: ConnectionFactory.CloudConnectionResult? = null
     private var lastPrimaryCloudConnectionResult: ConnectionFactory.CloudConnectionResult? = null
@@ -607,7 +611,13 @@ class MainActivity : AbstractBaseActivity() {
             }
         }
 
+        val prevServerId = connectionServerId
+        if (prevServerId != null && connection !is DemoConnection) {
+            controller.getSitemapState()?.let { state -> sitemapStateToRestore = Pair(prevServerId, state) }
+        }
+
         connection = newConnection
+        connectionServerId = if (newConnection != null) prefs.getActiveServerId() else null
         hideSnackbar(SNACKBAR_TAG_CONNECTION_ESTABLISHED)
         hideSnackbar(SNACKBAR_TAG_SSE_ERROR)
         hideSnackbar(SNACKBAR_TAG_DEMO_MODE_ACTIVE)
@@ -889,7 +899,9 @@ class MainActivity : AbstractBaseActivity() {
                         }
 
                         result.props.sitemaps.isNotEmpty() -> {
-                            chooseSitemap()
+                            if (!restoreSitemapState()) {
+                                chooseSitemap()
+                            }
                             updateSitemapDrawerEntries()
                         }
 
@@ -936,6 +948,23 @@ class MainActivity : AbstractBaseActivity() {
         } else {
             showSitemapSelectionDialog()
         }
+    }
+
+    /**
+     * Reopens the sitemap page that was shown before the connection changed, e.g. from local to remote.
+     *
+     * @return true if the sitemap has been restored
+     */
+    private fun restoreSitemapState(): Boolean {
+        val (serverId, state) = sitemapStateToRestore ?: return false
+        sitemapStateToRestore = null
+        if (serverId != prefs.getActiveServerId() || connection is DemoConnection) {
+            return false
+        }
+        val sitemap = serverProperties?.sitemaps?.firstOrNull { s -> s.name == state.sitemapName } ?: return false
+        Log.d(TAG, "Restoring sitemap ${sitemap.name} with ${state.pages.size} pages")
+        controller.restoreSitemapState(sitemap, state)
+        return true
     }
 
     private fun handleServiceResolveResult(info: ServiceInfo?) {
