@@ -103,6 +103,7 @@ import org.openhab.habdroid.core.connection.NoUrlInformationException
 import org.openhab.habdroid.core.connection.WrongWifiException
 import org.openhab.habdroid.databinding.ActivityMainBinding
 import org.openhab.habdroid.databinding.DrawerHeaderBinding
+import org.openhab.habdroid.model.CloudMessage
 import org.openhab.habdroid.model.CloudNotificationId
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.ServerConfiguration
@@ -347,6 +348,11 @@ class MainActivity : AbstractBaseActivity() {
                         showPushNotificationWarningIfNeeded()
                     }
                 }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                NotificationHelper.newNotifications.collect { showNewCloudNotification(it) }
             }
         }
     }
@@ -1429,6 +1435,23 @@ class MainActivity : AbstractBaseActivity() {
             .show()
     }
 
+    private fun showNewCloudNotification(notification: CloudMessage.CloudNotification) {
+        if (controller.reloadNotificationsIfShown()) {
+            return
+        }
+        val text = listOf(notification.title, notification.message)
+            .filter { it.isNotEmpty() }
+            .joinToString(": ")
+        showSnackbar(
+            SNACKBAR_TAG_NEW_NOTIFICATION,
+            text,
+            Snackbar.LENGTH_LONG,
+            R.string.notification_show
+        ) {
+            openNotifications(notification.id.persistedId, true)
+        }
+    }
+
     private fun openNotifications(highlightedId: String?, primaryServer: Boolean) {
         controller.openNotifications(highlightedId, primaryServer)
         drawerToggle.isDrawerIndicatorEnabled = false
@@ -1829,6 +1852,7 @@ class MainActivity : AbstractBaseActivity() {
         const val SNACKBAR_TAG_SHORTCUT_INFO = "shortcutInfo"
         const val SNACKBAR_TAG_SERVER_MISSING = "serverMissing"
         const val SNACKBAR_TAG_SWITCHED_SERVER = "switchedServer"
+        const val SNACKBAR_TAG_NEW_NOTIFICATION = "newNotification"
 
         private const val STATE_KEY_SERVER_PROPERTIES = "serverProperties"
         private const val STATE_KEY_SITEMAP_SELECTION_SHOWN = "isSitemapSelectionDialogShown"
