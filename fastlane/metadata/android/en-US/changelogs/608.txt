@@ -1,0 +1,5 @@
+## What's Changed
+* Keep aboutlibraries resource in release builds by @maniac103 in https://github.com/openhab/openhab-android/pull/4098
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.22.7-beta...3.22.8-beta
