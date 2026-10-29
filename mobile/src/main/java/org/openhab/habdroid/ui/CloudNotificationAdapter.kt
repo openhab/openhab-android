@@ -27,11 +27,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import java.util.Calendar
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
+import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.databinding.NotificationlistHeaderItemBinding
 import org.openhab.habdroid.databinding.NotificationlistItemBinding
 import org.openhab.habdroid.databinding.NotificationlistLoadingItemBinding
@@ -43,7 +45,7 @@ import org.openhab.habdroid.util.getBackgroundTasksManager
 import org.openhab.habdroid.util.getConnectionFactory
 
 class CloudNotificationAdapter(
-    context: Context,
+    private val context: Context,
     private val usePrimaryServer: Boolean,
     private val scope: CoroutineScope,
     private val loadMoreListener: () -> Unit
@@ -56,6 +58,9 @@ class CloudNotificationAdapter(
     private var waitingForMoreData: Boolean = false
     private var highlightedPosition = -1
     private var selectedTag: String? = null
+
+    // Attachments like item:CameraSnapshot are the same for many notifications, so load each one only once
+    private val sharedImageLoads = mutableMapOf<String, Deferred<Bitmap?>>()
 
     var currentTagFilter: String?
         get() = selectedTag
@@ -80,6 +85,7 @@ class CloudNotificationAdapter(
     fun clear() {
         allNotifications.clear()
         collapsedNotifications.clear()
+        sharedImageLoads.clear()
         displayItems.clear()
         hasMoreItems = false
         waitingForMoreData = false
@@ -158,6 +164,14 @@ class CloudNotificationAdapter(
         notifyDataSetChanged()
     }
 
+    private suspend fun loadImage(notification: CloudMessage.CloudNotification, conn: Connection, size: Int): Bitmap? {
+        val url = notification.mediaAttachmentUrl ?: return null
+        val load = sharedImageLoads.getOrPut(url) {
+            scope.async(Dispatchers.IO) { notification.loadImage(conn, context, size) }
+        }
+        return load.await()
+    }
+
     override fun getItemCount(): Int = displayItems.size + if (hasMoreItems) 1 else 0
 
     override fun getItemViewType(position: Int): Int = when {
@@ -178,7 +192,8 @@ class CloudNotificationAdapter(
         else -> NotificationViewHolder(
             NotificationlistItemBinding.inflate(inflater, parent, false),
             usePrimaryServer,
-            scope
+            scope,
+            ::loadImage
         )
     }
 
@@ -227,7 +242,8 @@ class CloudNotificationAdapter(
     class NotificationViewHolder(
         private val binding: NotificationlistItemBinding,
         private val usePrimaryServer: Boolean,
-        private val scope: CoroutineScope
+        private val scope: CoroutineScope,
+        private val imageLoader: suspend (CloudMessage.CloudNotification, Connection, Int) -> Bitmap?
     ) : RecyclerView.ViewHolder(binding.root) {
         private var imageLoadJob: Job? = null
 
@@ -304,7 +320,7 @@ class CloudNotificationAdapter(
                         val createdTimestamp = notification.createdTimestamp
                         var bitmap = cacheManager.loadNotificationImageFromDisk(persistedId, createdTimestamp)
                         if (bitmap == null && conn != null) {
-                            bitmap = withContext(Dispatchers.IO) { notification.loadImage(conn, ctx, targetWidth) }
+                            bitmap = imageLoader(notification, conn, targetWidth)
                             bitmap?.let { cacheManager.saveNotificationImage(persistedId, it, createdTimestamp) }
                         }
                         binding.notificationImageProgress.isGone = true
