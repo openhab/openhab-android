@@ -70,7 +70,8 @@ data class Widget(
     val releaseOnly: Boolean?,
     val height: Int,
     val visibility: Boolean,
-    val rawInputHint: InputTypeHint?
+    val rawInputHint: InputTypeHint?,
+    val commandConfirmMessage: String?
 ) : Parcelable {
     val label get() = rawLabel.substringBefore("[").trim()
     val stateFromLabel: String? get() {
@@ -245,7 +246,8 @@ data class Widget(
                 interpolation = source.interpolation,
                 height = source.height,
                 visibility = eventPayload.optBoolean("visibility", source.visibility),
-                rawInputHint = source.rawInputHint
+                rawInputHint = source.rawInputHint,
+                commandConfirmMessage = eventPayload.optStringOrNull("commandConfirmMessage")
             )
         }
 
@@ -420,7 +422,9 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
         height = height,
         // inputHint was added in openHAB 4, so no support for openHAB 1 required.
         rawInputHint = null,
-        visibility = true
+        visibility = true,
+        // commandConfirmMessage was added in openHAB 5.3, so no support for openHAB 1 required.
+        commandConfirmMessage = null
     )
     val childWidgets = childWidgetNodes.map { node -> node.collectWidgets(widget) }.flatten()
 
@@ -475,7 +479,8 @@ fun JSONObject.collectWidgets(parent: Widget?): List<Widget> {
         releaseOnly = optBooleanOrNull("releaseOnly"),
         height = optInt("height"),
         rawInputHint = optStringOrNull("inputHint").toInputHint(),
-        visibility = optBoolean("visibility", true)
+        visibility = optBoolean("visibility", true),
+        commandConfirmMessage = optStringOrNull("commandConfirmMessage")
     )
 
     val result = arrayListOf(widget)

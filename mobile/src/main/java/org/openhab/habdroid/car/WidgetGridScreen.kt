@@ -145,7 +145,7 @@ class WidgetGridScreen(
 
     private fun buildToggleSwitchPresentation(widget: Widget) =
         WidgetPresentation.TogglePresentation(widget, widget.item?.state?.asBoolean == true) { checked ->
-            onWidgetCommand(widget, if (checked) "ON" else "OFF")
+            sendCommand(widget, if (checked) "ON" else "OFF")
         }
 
     private fun buildSectionSwitchPresentation(widget: Widget, mappings: List<LabeledValue>): WidgetPresentation {
@@ -207,18 +207,43 @@ class WidgetGridScreen(
 
     private fun openActionListScreen(widget: Widget, actions: List<ActionListItem>) {
         val screen = ActionListScreen(carContext, widget.label, actions) { item ->
-            onWidgetCommand(widget, item.command)
-            screenManager.pop()
+            // Like in the phone UI, stopping a rollershutter doesn't need confirmation
+            val needsConfirmation = item !is InternalActionListItem || item.command != "STOP"
+            sendCommand(widget, item.command, needsConfirmation) { screenManager.pop() }
         }
         screenManager.push(screen)
     }
 
     private fun openSelectionScreen(widget: Widget, options: List<SelectionListItem>) {
         val screen = SelectionScreen(carContext, widget.label, options, widget.state?.asString) { item ->
-            onWidgetCommand(widget, item.command)
-            screenManager.pop()
+            sendCommand(widget, item.command) { screenManager.pop() }
         }
         screenManager.push(screen)
+    }
+
+    /**
+     * Sends [command], after asking the user for confirmation if the widget requires it and [needsConfirmation] is set.
+     * [onSent] is invoked once the command has been sent.
+     */
+    private fun sendCommand(
+        widget: Widget,
+        command: String,
+        needsConfirmation: Boolean = true,
+        onSent: () -> Unit = {}
+    ) {
+        val message = widget.commandConfirmMessage
+        if (message == null || !needsConfirmation) {
+            onWidgetCommand(widget, command)
+            onSent()
+            return
+        }
+        val screen = CommandConfirmationScreen(carContext, widget.label, message)
+        screenManager.pushForResult(screen) { confirmed ->
+            if (confirmed == true) {
+                onWidgetCommand(widget, command)
+                onSent()
+            }
+        }
     }
 
     private fun maxNestingDepthReached(): Boolean {
