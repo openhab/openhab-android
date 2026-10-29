@@ -14,7 +14,6 @@
 package org.openhab.habdroid.ui
 
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -33,7 +32,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.openhab.habdroid.R
-import org.openhab.habdroid.databinding.DialogNotificationImageBinding
 import org.openhab.habdroid.databinding.NotificationlistHeaderItemBinding
 import org.openhab.habdroid.databinding.NotificationlistItemBinding
 import org.openhab.habdroid.databinding.NotificationlistLoadingItemBinding
@@ -347,35 +345,9 @@ class CloudNotificationAdapter(
             binding.notificationImage.setImageBitmap(bitmap)
             binding.notificationImageCard.isVisible = true
             binding.notificationImageCard.setOnClickListener {
-                showImageDialog(itemView.context, notification, bitmap)
+                val ctx = itemView.context
+                ctx.startActivity(NotificationImageActivity.createIntent(ctx, notification, usePrimaryServer))
             }
-        }
-
-        private fun showImageDialog(context: Context, notification: CloudMessage.CloudNotification, bitmap: Bitmap) {
-            val dialog = Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
-            val dialogBinding = DialogNotificationImageBinding.inflate(LayoutInflater.from(context))
-            dialogBinding.photoView.setImageBitmap(bitmap)
-            dialogBinding.dialogTitle.text = notification.title.ifEmpty {
-                notification.message.ifEmpty { context.getString(R.string.app_notifications) }
-            }
-            val subtitleParts = mutableListOf<String>()
-            if (notification.title.isNotEmpty() && notification.message.isNotEmpty()) {
-                subtitleParts.add(notification.message)
-            }
-            if (notification.createdTimestamp > 0L) {
-                subtitleParts.add(
-                    DateUtils.formatDateTime(
-                        context,
-                        notification.createdTimestamp,
-                        DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_SHOW_TIME
-                    )
-                )
-            }
-            dialogBinding.dialogSubtitle.text = subtitleParts.joinToString(" · ")
-            dialogBinding.dialogSubtitle.isVisible = subtitleParts.isNotEmpty()
-            dialogBinding.closeButton.setOnClickListener { dialog.dismiss() }
-            dialog.setContentView(dialogBinding.root)
-            dialog.show()
         }
 
         private fun executeAction(

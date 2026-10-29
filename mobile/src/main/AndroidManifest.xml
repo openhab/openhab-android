@@ -128,6 +128,10 @@
             android:label="@string/widget_type_image"
             android:exported="false" />
         <activity
+            android:name=".ui.NotificationImageActivity"
+            android:label="@string/app_notifications"
+            android:exported="false" />
+        <activity
             android:name=".ui.ColorItemActivity"
             android:label="@string/widget_type_color"
             android:showWhenLocked="true"
