@@ -46,7 +46,8 @@ import org.openhab.habdroid.util.getConnectionFactory
 
 class CloudNotificationAdapter(
     context: Context,
-    private val usePrimaryServer: Boolean = false,
+    private val usePrimaryServer: Boolean,
+    private val scope: CoroutineScope,
     private val loadMoreListener: () -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val allNotifications = mutableListOf<CloudMessage.CloudNotification>()
@@ -178,7 +179,8 @@ class CloudNotificationAdapter(
 
         else -> NotificationViewHolder(
             NotificationlistItemBinding.inflate(inflater, parent, false),
-            usePrimaryServer
+            usePrimaryServer,
+            scope
         )
     }
 
@@ -226,7 +228,8 @@ class CloudNotificationAdapter(
 
     class NotificationViewHolder(
         private val binding: NotificationlistItemBinding,
-        private val usePrimaryServer: Boolean
+        private val usePrimaryServer: Boolean,
+        private val scope: CoroutineScope
     ) : RecyclerView.ViewHolder(binding.root) {
         private var imageLoadJob: Job? = null
 
@@ -284,50 +287,35 @@ class CloudNotificationAdapter(
             }
 
             imageLoadJob?.cancel()
+            binding.notificationImage.setImageDrawable(null)
+            binding.notificationImageCard.setOnClickListener(null)
+            binding.notificationImageProgress.isGone = true
             if (notification.mediaAttachmentUrl == null) {
-                binding.notificationImage.setImageDrawable(null)
                 binding.notificationImageCard.isGone = true
-                binding.notificationImageCard.setOnClickListener(null)
             } else {
                 val cacheManager = CacheManager.getInstance(ctx)
-                val cachedBitmap = cacheManager.getCachedNotificationImage(
-                    notification.id.persistedId,
-                    notification.createdTimestamp
-                )
+                val persistedId = notification.id.persistedId
+                val cachedBitmap = cacheManager.getNotificationImageFromMemory(persistedId)
                 if (cachedBitmap != null) {
-                    binding.notificationImage.setImageBitmap(cachedBitmap)
-                    binding.notificationImageCard.isVisible = true
-                    binding.notificationImageCard.setOnClickListener {
-                        showImageDialog(ctx, notification, cachedBitmap)
-                    }
-                } else if (conn != null) {
-                    binding.notificationImage.setImageDrawable(null)
-                    binding.notificationImageCard.isGone = true
-                    val targetWidth = ctx.resources.displayMetrics.widthPixels
-                    imageLoadJob = CoroutineScope(Dispatchers.IO + Job()).launch {
-                        val bitmap = notification.loadImage(conn, ctx, targetWidth)
-                        if (bitmap != null) {
-                            cacheManager.saveNotificationImage(
-                                notification.id.persistedId,
-                                bitmap,
-                                notification.createdTimestamp
-                            )
-                        }
-                        withContext(Dispatchers.Main) {
-                            if (bitmap != null) {
-                                binding.notificationImage.setImageBitmap(bitmap)
-                                binding.notificationImageCard.isVisible = true
-                                binding.notificationImageCard.setOnClickListener {
-                                    showImageDialog(ctx, notification, bitmap)
-                                }
-                            } else {
-                                binding.notificationImageCard.isGone = true
-                            }
-                        }
-                    }
+                    showImage(notification, cachedBitmap)
                 } else {
-                    binding.notificationImage.setImageDrawable(null)
-                    binding.notificationImageCard.isGone = true
+                    binding.notificationImageCard.isVisible = true
+                    binding.notificationImageProgress.isVisible = true
+                    val targetWidth = ctx.resources.displayMetrics.widthPixels
+                    imageLoadJob = scope.launch {
+                        val createdTimestamp = notification.createdTimestamp
+                        var bitmap = cacheManager.loadNotificationImageFromDisk(persistedId, createdTimestamp)
+                        if (bitmap == null && conn != null) {
+                            bitmap = withContext(Dispatchers.IO) { notification.loadImage(conn, ctx, targetWidth) }
+                            bitmap?.let { cacheManager.saveNotificationImage(persistedId, it, createdTimestamp) }
+                        }
+                        binding.notificationImageProgress.isGone = true
+                        if (bitmap != null) {
+                            showImage(notification, bitmap)
+                        } else {
+                            binding.notificationImageCard.isGone = true
+                        }
+                    }
                 }
             }
 
@@ -352,6 +340,14 @@ class CloudNotificationAdapter(
             } else {
                 binding.notificationCard.setOnClickListener(null)
                 binding.notificationCard.isClickable = false
+            }
+        }
+
+        private fun showImage(notification: CloudMessage.CloudNotification, bitmap: Bitmap) {
+            binding.notificationImage.setImageBitmap(bitmap)
+            binding.notificationImageCard.isVisible = true
+            binding.notificationImageCard.setOnClickListener {
+                showImageDialog(itemView.context, notification, bitmap)
             }
         }
 

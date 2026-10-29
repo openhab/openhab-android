@@ -23,6 +23,8 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.Cache
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
@@ -48,68 +50,49 @@ class CacheManager private constructor(appContext: Context) {
         notificationBitmapCache = NotificationBitmapCache(maxMemory / 16)
     }
 
-    fun getCachedNotificationImage(persistedId: String, createdTimestamp: Long): Bitmap? {
-        if (persistedId.isEmpty()) {
-            return null
-        }
-        val now = System.currentTimeMillis()
-        if (createdTimestamp > 0L && now - createdTimestamp > NOTIFICATION_IMAGE_TTL_MS) {
-            notificationBitmapCache.remove(persistedId)
-            getNotificationImageFile(persistedId).delete()
-            return null
-        }
-        notificationBitmapCache.get(persistedId)?.let { return it }
+    fun getNotificationImageFromMemory(persistedId: String): Bitmap? =
+        if (persistedId.isEmpty()) null else notificationBitmapCache.get(persistedId)
 
-        val file = getNotificationImageFile(persistedId)
-        if (!file.exists()) {
+    suspend fun loadNotificationImageFromDisk(persistedId: String, createdTimestamp: Long): Bitmap? {
+        if (persistedId.isEmpty() || isNotificationImageExpired(createdTimestamp)) {
             return null
         }
-        val effectiveTimestamp = if (createdTimestamp > 0L) createdTimestamp else file.lastModified()
-        if (now - effectiveTimestamp > NOTIFICATION_IMAGE_TTL_MS) {
-            file.delete()
-            return null
-        }
-        return try {
-            BitmapFactory.decodeFile(file.absolutePath)?.also { bitmap ->
-                notificationBitmapCache.put(persistedId, bitmap)
+        val bitmap = withContext(Dispatchers.IO) {
+            val file = getNotificationImageFile(persistedId)
+            try {
+                if (file.exists()) BitmapFactory.decodeFile(file.absolutePath) else null
+            } catch (ignored: OutOfMemoryError) {
+                null
             }
-        } catch (ignored: OutOfMemoryError) {
-            null
         }
+        bitmap?.let { notificationBitmapCache.put(persistedId, it) }
+        return bitmap
     }
 
-    fun saveNotificationImage(persistedId: String, bitmap: Bitmap, createdTimestamp: Long) {
+    suspend fun saveNotificationImage(persistedId: String, bitmap: Bitmap, createdTimestamp: Long) {
         if (persistedId.isEmpty()) {
             return
         }
-        val now = System.currentTimeMillis()
         notificationBitmapCache.put(persistedId, bitmap)
-        if (createdTimestamp > 0L && now - createdTimestamp > NOTIFICATION_IMAGE_TTL_MS) {
+        if (isNotificationImageExpired(createdTimestamp)) {
             return
         }
-        try {
-            if (!notificationImageDirectory.exists()) {
+        withContext(Dispatchers.IO) {
+            try {
                 notificationImageDirectory.mkdirs()
+                val targetFile = getNotificationImageFile(persistedId)
+                FileOutputStream(targetFile).use { out ->
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
+                }
+                targetFile.setLastModified(if (createdTimestamp > 0L) createdTimestamp else System.currentTimeMillis())
+            } catch (ignored: IOException) {
+                // ignored
             }
-            val targetFile = getNotificationImageFile(persistedId)
-            FileOutputStream(targetFile).use { out ->
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
-            }
-            val effectiveTimestamp = if (createdTimestamp > 0L) createdTimestamp else now
-            targetFile.setLastModified(effectiveTimestamp)
-            pruneExpiredNotificationImages(now)
-        } catch (ignored: IOException) {
-            // ignored
         }
     }
 
-    private fun pruneExpiredNotificationImages(now: Long) {
-        notificationImageDirectory.listFiles()?.forEach { file ->
-            if (now - file.lastModified() > NOTIFICATION_IMAGE_TTL_MS) {
-                file.delete()
-            }
-        }
-    }
+    private fun isNotificationImageExpired(createdTimestamp: Long) =
+        createdTimestamp > 0L && System.currentTimeMillis() - createdTimestamp > NOTIFICATION_IMAGE_TTL_MS
 
     private fun getNotificationImageFile(persistedId: String): File {
         val safeName = persistedId.replace(SAFE_FILENAME_REGEX, "_")

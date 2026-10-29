@@ -21,6 +21,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.Job
@@ -84,7 +85,9 @@ class CloudNotificationListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = CloudNotificationAdapter(view.context, usePrimaryServer()) { loadNotifications(false) }
+        adapter = CloudNotificationAdapter(view.context, usePrimaryServer(), viewLifecycleOwner.lifecycleScope) {
+            loadNotifications(false)
+        }
         layoutManager = LinearLayoutManager(view.context)
 
         recyclerView.layoutManager = layoutManager
