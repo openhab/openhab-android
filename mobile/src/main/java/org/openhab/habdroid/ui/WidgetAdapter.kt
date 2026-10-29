@@ -2228,13 +2228,22 @@ fun LabeledValue.toWidget(id: String, item: Item?): Widget = Widget(
 
 fun Context.getChartDetailsActivityIntent(widget: Widget, serverProperties: ServerProperties?): Intent {
     val flags = serverProperties?.flags ?: 0
-    return if ((flags and ServerProperties.SERVER_FLAG_JSON_REST_API) != 0) {
-        Intent(this, ChartWidgetActivity::class.java)
-            .putExtra(ChartWidgetActivity.EXTRA_WIDGET, widget)
-            .putExtra(ChartWidgetActivity.EXTRA_SERVER_PROPS, serverProperties)
-    } else {
-        Intent(this, ChartImageActivity::class.java)
-            .putExtra(ChartImageActivity.EXTRA_WIDGET, widget)
-            .putExtra(ChartImageActivity.EXTRA_SERVER_FLAGS, flags)
+    val item = widget.item
+    return when {
+        (flags and ServerProperties.SERVER_FLAG_JSON_REST_API) == 0 ->
+            Intent(this, ChartImageActivity::class.java)
+                .putExtra(ChartImageActivity.EXTRA_WIDGET, widget)
+                .putExtra(ChartImageActivity.EXTRA_SERVER_FLAGS, flags)
+
+        item != null && PersistenceDataLoader.isKnownNonNumeric(item) ->
+            Intent(this, StateHistoryActivity::class.java)
+                .putExtra(StateHistoryActivity.EXTRA_WIDGET, widget)
+                .putExtra(StateHistoryActivity.EXTRA_SERVER_PROPS, serverProperties)
+
+        // Whether the states can be plotted is decided once they have been loaded
+        else ->
+            Intent(this, ChartWidgetActivity::class.java)
+                .putExtra(ChartWidgetActivity.EXTRA_WIDGET, widget)
+                .putExtra(ChartWidgetActivity.EXTRA_SERVER_PROPS, serverProperties)
     }
 }

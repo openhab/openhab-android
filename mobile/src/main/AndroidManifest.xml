@@ -124,6 +124,10 @@
             android:label="@string/chart_activity_title"
             android:exported="false" />
         <activity
+            android:name=".ui.StateHistoryActivity"
+            android:label="@string/chart_activity_title"
+            android:exported="false" />
+        <activity
             android:name=".ui.ImageWidgetActivity"
             android:label="@string/widget_type_image"
             android:exported="false" />
