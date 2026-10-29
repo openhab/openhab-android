@@ -91,6 +91,15 @@ class CacheManager private constructor(appContext: Context) {
         }
     }
 
+    suspend fun pruneExpiredNotificationImages() = withContext(Dispatchers.IO) {
+        val now = System.currentTimeMillis()
+        notificationImageDirectory.listFiles()?.forEach { file ->
+            if (now - file.lastModified() > NOTIFICATION_IMAGE_TTL_MS) {
+                file.delete()
+            }
+        }
+    }
+
     private fun isNotificationImageExpired(createdTimestamp: Long) =
         createdTimestamp > 0L && System.currentTimeMillis() - createdTimestamp > NOTIFICATION_IMAGE_TTL_MS
 

@@ -97,6 +97,12 @@ class BackgroundTasksManager(private val context: Application) : SharedPreferenc
         infoLiveData.observeForever(NotificationUpdateObserver(context))
 
         prefs.registerOnSharedPreferenceChangeListener(this)
+
+        workManager.enqueueUniquePeriodicWork(
+            WORKER_TAG_NOTIFICATION_IMAGE_CLEANUP,
+            ExistingPeriodicWorkPolicy.KEEP,
+            PeriodicWorkRequest.Builder(NotificationImageCleanupWorker::class.java, 7, TimeUnit.DAYS).build()
+        )
     }
 
     fun enqueueNfcUpdateIfNeeded(tag: NfcTag?) {
@@ -547,6 +553,7 @@ class BackgroundTasksManager(private val context: Application) : SharedPreferenc
         private const val WORKER_TAG_PERIODIC_TRIGGER = "periodicTrigger"
         private const val WORKER_TAG_PERIODIC_TRIGGER_NOT_CHARGING = "periodicTriggerNotCharging"
         private const val WORKER_TAG_PERIODIC_TRIGGER_CHARGING = "periodicTriggerCharging"
+        private const val WORKER_TAG_NOTIFICATION_IMAGE_CLEANUP = "notificationImageCleanup"
         const val WORKER_TAG_PREFIX_NFC = "nfc-"
         const val WORKER_TAG_PREFIX_TASKER = "tasker-"
         const val WORKER_TAG_PREFIX_WIDGET = "widget-"
