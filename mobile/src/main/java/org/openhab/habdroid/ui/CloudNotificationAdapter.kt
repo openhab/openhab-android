@@ -233,18 +233,11 @@ class CloudNotificationAdapter(
         fun bind(notification: CloudMessage.CloudNotification, olderCount: Int) {
             val ctx = itemView.context
             if (notification.createdTimestamp > 0L) {
-                val timeStr = DateUtils.formatDateTime(
+                binding.notificationCreated.text = DateUtils.formatDateTime(
                     ctx,
                     notification.createdTimestamp,
                     DateUtils.FORMAT_SHOW_TIME
                 )
-                val relStr = DateUtils.getRelativeTimeSpanString(
-                    notification.createdTimestamp,
-                    System.currentTimeMillis(),
-                    DateUtils.MINUTE_IN_MILLIS,
-                    DateUtils.FORMAT_ABBREV_RELATIVE
-                )
-                binding.notificationCreated.text = "$timeStr · $relStr"
                 binding.notificationCreated.isVisible = true
             } else {
                 binding.notificationCreated.isGone = true
