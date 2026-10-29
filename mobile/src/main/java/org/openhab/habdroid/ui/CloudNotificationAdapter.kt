@@ -331,21 +331,17 @@ class CloudNotificationAdapter(
                 }
             }
 
-            binding.notificationActions.removeAllViews()
-            val actions = notification.actions.orEmpty()
-            if (actions.isEmpty()) {
-                binding.notificationActions.isGone = true
-            } else {
-                binding.notificationActions.isVisible = true
-                for (action in actions) {
+            binding.notificationActions.apply {
+                removeAllViews()
+                val actions = notification.actions.orEmpty()
+                isVisible = actions.isNotEmpty()
+                actions.forEach { action ->
                     val chip = Chip(ctx).apply {
                         text = action.label
                         isCheckable = false
-                        setOnClickListener {
-                            executeAction(ctx, notification, action)
-                        }
+                        setOnClickListener { executeAction(ctx, notification, action) }
                     }
-                    binding.notificationActions.addView(chip)
+                    addView(chip)
                 }
             }
 
