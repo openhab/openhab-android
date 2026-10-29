@@ -50,6 +50,7 @@ class CloudNotificationAdapter(
     private val loadMoreListener: () -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val allNotifications = mutableListOf<CloudMessage.CloudNotification>()
+    private val collapsedNotifications = mutableListOf<AdapterItem.NotificationEntry>()
     private val displayItems = mutableListOf<AdapterItem>()
     private val inflater = LayoutInflater.from(context)
     private var hasMoreItems: Boolean = false
@@ -70,6 +71,7 @@ class CloudNotificationAdapter(
         val existingIds = allNotifications.mapTo(mutableSetOf()) { it.id.persistedId }
         val newItems = loaded.filter { it.id.persistedId.isEmpty() || existingIds.add(it.id.persistedId) }
         allNotifications.addAll(newItems)
+        collapseByReferenceId()
         this.hasMoreItems = hasMoreItems
         waitingForMoreData = false
         rebuildDisplayItems()
@@ -78,16 +80,17 @@ class CloudNotificationAdapter(
     @SuppressLint("NotifyDataSetChanged")
     fun clear() {
         allNotifications.clear()
+        collapsedNotifications.clear()
         displayItems.clear()
         hasMoreItems = false
         waitingForMoreData = false
         notifyDataSetChanged()
     }
 
-    fun getTotalNotificationCount(): Int = allNotifications.size
+    fun getTotalNotificationCount(): Int = collapsedNotifications.size
 
-    fun getTagCounts(): List<Pair<String, Int>> = allNotifications
-        .mapNotNull { it.tag?.takeIf { tag -> tag.isNotEmpty() } }
+    fun getTagCounts(): List<Pair<String, Int>> = collapsedNotifications
+        .mapNotNull { it.notification.tag?.takeIf { tag -> tag.isNotEmpty() } }
         .groupingBy { it }
         .eachCount()
         .entries
@@ -103,18 +106,40 @@ class CloudNotificationAdapter(
         notifyItemChanged(position)
     }
 
+    /**
+     * Collapse notifications with the same reference ID into the latest one, keeping the number of older ones
+     */
+    private fun collapseByReferenceId() {
+        collapsedNotifications.clear()
+        val entryByReferenceId = mutableMapOf<String, Int>()
+        for (notification in allNotifications) {
+            val referenceId = notification.id.referenceId
+            val existingIndex = referenceId?.let { entryByReferenceId[it] }
+            if (existingIndex == null) {
+                if (referenceId != null) {
+                    entryByReferenceId[referenceId] = collapsedNotifications.size
+                }
+                collapsedNotifications.add(AdapterItem.NotificationEntry(notification, 0))
+            } else {
+                val existing = collapsedNotifications[existingIndex]
+                collapsedNotifications[existingIndex] = existing.copy(olderCount = existing.olderCount + 1)
+            }
+        }
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     private fun rebuildDisplayItems() {
         displayItems.clear()
         val filtered = if (selectedTag == null) {
-            allNotifications
+            collapsedNotifications
         } else {
-            allNotifications.filter { it.tag == selectedTag }
+            collapsedNotifications.filter { it.notification.tag == selectedTag }
         }
         var lastDayKey = -1L
         val cal = Calendar.getInstance()
         val now = System.currentTimeMillis()
-        for (notif in filtered) {
+        for (entry in filtered) {
+            val notif = entry.notification
             if (notif.createdTimestamp > 0L) {
                 cal.timeInMillis = notif.createdTimestamp
                 val dayKey = cal.get(Calendar.YEAR) * 1000L + cal.get(Calendar.DAY_OF_YEAR)
@@ -129,7 +154,7 @@ class CloudNotificationAdapter(
                     displayItems.add(AdapterItem.Header(headerText))
                 }
             }
-            displayItems.add(AdapterItem.NotificationEntry(notif))
+            displayItems.add(entry)
         }
         notifyDataSetChanged()
     }
@@ -161,7 +186,7 @@ class CloudNotificationAdapter(
         when (holder) {
             is NotificationViewHolder -> {
                 val entry = displayItems[position] as AdapterItem.NotificationEntry
-                holder.bind(entry.notification)
+                holder.bind(entry.notification, entry.olderCount)
             }
 
             is HeaderViewHolder -> {
@@ -188,7 +213,8 @@ class CloudNotificationAdapter(
 
     sealed class AdapterItem {
         data class Header(val title: String) : AdapterItem()
-        data class NotificationEntry(val notification: CloudMessage.CloudNotification) : AdapterItem()
+        data class NotificationEntry(val notification: CloudMessage.CloudNotification, val olderCount: Int) :
+            AdapterItem()
     }
 
     class HeaderViewHolder(private val binding: NotificationlistHeaderItemBinding) :
@@ -204,7 +230,7 @@ class CloudNotificationAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         private var imageLoadJob: Job? = null
 
-        fun bind(notification: CloudMessage.CloudNotification) {
+        fun bind(notification: CloudMessage.CloudNotification, olderCount: Int) {
             val ctx = itemView.context
             if (notification.createdTimestamp > 0L) {
                 val timeStr = DateUtils.formatDateTime(
@@ -222,6 +248,11 @@ class CloudNotificationAdapter(
                 binding.notificationCreated.isVisible = true
             } else {
                 binding.notificationCreated.isGone = true
+            }
+
+            binding.notificationOlderCount.apply {
+                text = ctx.resources.getQuantityString(R.plurals.notification_older_count, olderCount, olderCount)
+                isVisible = olderCount > 0
             }
 
             val displayTitle = notification.title.ifEmpty {

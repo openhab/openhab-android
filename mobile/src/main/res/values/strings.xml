@@ -339,6 +339,10 @@
     <string name="notification_channel_group_messages">Messages</string>
     <string name="notification_channel_severity_value">Tag \'%1$s\'</string>
     <string name="notification_channel_severity_value_description">Notifications sent by the server with tag \'%1$s\'</string>
+    <plurals name="notification_older_count">
+        <item quantity="one">+ %d more</item>
+        <item quantity="other">+ %d more</item>
+    </plurals>
     <plurals name="summary_notification_text">
         <item quantity="one">%d new notification</item>
         <item quantity="other">%d new notifications</item>

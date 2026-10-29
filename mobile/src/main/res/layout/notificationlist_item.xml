@@ -85,6 +85,21 @@
             app:layout_constraintTop_toBottomOf="@+id/notificationCreated"
             tools:text="Some notification" />
 
+        <TextView
+            android:id="@+id/notificationOlderCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/notificationIcon"
+            app:layout_constraintTop_toBottomOf="@+id/notificationMessage"
+            tools:text="+ 15 more"
+            tools:visibility="visible" />
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/notificationImageCard"
             android:layout_width="0dp"
@@ -95,7 +110,7 @@
             app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/notificationMessage"
+            app:layout_constraintTop_toBottomOf="@+id/notificationOlderCount"
             app:strokeWidth="0dp"
             tools:visibility="visible">
 
