@@ -157,6 +157,7 @@
     <string name="app_shortcut_disabled_notifications">Server remoto non è disponibile</string>
     <string name="app_shortcut_disabled_voice_recognition">Il tuo dispositivo non ha un\'app di riconoscimento vocale installata</string>
     <string name="no_position_set">Nessuna posizione impostata</string>
+    <string name="copy_item_name">Copia nome Item</string>
     <!-- An Item name has been copied to clipboard, e.g. Copied "GF_Lights" -->
     <string name="copied_item_name">Copiato \"%s\"</string>
     <!-- Error messages -->
@@ -571,6 +572,9 @@
     <string name="create_home_screen_widget_no_command">Mostra lo stato corrente</string>
     <string name="create_home_screen_widget_not_supported">Vai al menu widget nella schermata iniziale e crea un widget da lì</string>
     <string name="analyse">Analizza</string>
+    <!-- Android TV -->
+    <string name="tv_settings_sitemap">Sitemap</string>
+    <string name="tv_loading">Caricamento\u2026</string>
     <!-- Data saver -->
     <string name="data_saver_title">Risparmio dati</string>
     <string name="data_saver_on">Gli elementi della Sitemap che richiedono grandi trasferimenti dati non vengono caricati</string>
@@ -586,10 +590,27 @@
     <string name="widget_type_chart">Grafico</string>
     <string name="widget_type_color">Colore</string>
     <!-- Android Auto -->
+    <string name="android_auto_enabled_title">Android Auto</string>
+    <string name="android_auto_enabled_summary_off">Il supporto Android Auto è disabilitato</string>
+    <string name="android_auto_enabled_summary_on">Android Auto utilizza la sitemap \'%1$s\'</string>
+    <string name="android_auto_enable_switch_label">Abilita supporto per Android Auto</string>
+    <string name="android_auto_sitemap_selection_label">Sitemap usata</string>
+    <string name="car_error_sitemap_not_found">La Sitemap selezionata non è stata trovata sul server. Si prega di ricontrollare la selezione nelle impostazioni dell\'app.</string>
+    <string name="car_action_rollershutter_open">Aperto</string>
+    <string name="car_action_rollershutter_close">Chiuso</string>
     <string name="car_action_rollershutter_stop">Ferma</string>
+    <string name="car_action_player_prev">Traccia precedente</string>
     <string name="car_action_player_play">Riproduci</string>
     <string name="car_action_player_pause">Pausa</string>
+    <string name="car_action_player_next">Traccia successiva</string>
+    <string name="car_error_server_unreachable">openHAB server non può essere raggiunto</string>
+    <string name="car_error_no_network">Connessione alla rete non disponibile</string>
+    <string name="car_error_sitemap_load_failure">Sitemap non può essere caricata</string>
+    <string name="car_error_sitemap_list_load_failure">Impossibile caricare la lista Sitemap</string>
     <string name="car_error_retry_button">Riprova</string>
+    <string name="car_error_close_button">Chiuso</string>
+    <string name="car_error_debug_header">Motivo errore:</string>
+    <string name="car_section_header_other_items">Altri item</string>
     <!-- Tiles -->
     <string name="tile">Riquadro</string>
     <string name="tiles_for_quick_settings">Tile per configurazione veloce</string>
