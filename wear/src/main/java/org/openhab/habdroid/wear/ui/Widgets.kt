@@ -180,9 +180,9 @@ fun WidgetScope.WidgetRow(row: WidgetRowData, modifier: Modifier, transformation
                 transformation = transformation
             )
 
-            widget.mappings.isNotEmpty() -> MappingsRow(
+            widget.mappingsOrItemOptions.isNotEmpty() -> MappingsRow(
                 widget = widget,
-                mappings = widget.mappings,
+                mappings = widget.mappingsOrItemOptions,
                 modifier = modifier,
                 transformation = transformation
             )
