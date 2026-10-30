@@ -20,7 +20,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -28,6 +27,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -52,15 +52,19 @@ import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ButtonGroup
+import androidx.wear.compose.material3.Card
+import androidx.wear.compose.material3.CardDefaults
 import androidx.wear.compose.material3.FilledTonalButton
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.LocalContentColor
+import androidx.wear.compose.material3.LocalTextStyle
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Slider
 import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.SwitchButton
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.TitleCard
 import java.util.Locale
 import kotlin.math.ceil
 import kotlin.math.roundToInt
@@ -229,12 +233,14 @@ fun WidgetScope.WidgetRow(row: WidgetRowData, modifier: Modifier, transformation
 
         Widget.Type.Slider -> SliderRow(
             widget = widget,
-            modifier = modifier
+            modifier = modifier,
+            transformation = transformation
         )
 
         Widget.Type.Colortemperaturepicker -> ColorTemperaturePickerRow(
             widget = widget,
-            modifier = modifier
+            modifier = modifier,
+            transformation = transformation
         )
 
         Widget.Type.Colorpicker -> ColorRow(
@@ -245,12 +251,14 @@ fun WidgetScope.WidgetRow(row: WidgetRowData, modifier: Modifier, transformation
 
         Widget.Type.Image -> ImageRow(
             widget = widget,
-            modifier = modifier
+            modifier = modifier,
+            transformation = transformation
         )
 
         Widget.Type.Chart -> ChartRow(
             widget = widget,
-            modifier = modifier
+            modifier = modifier,
+            transformation = transformation
         )
 
         Widget.Type.Mapview -> TextRow(
@@ -297,13 +305,18 @@ private fun WidgetLabel(widget: Widget, maxLines: Int = 2) {
 }
 
 @Composable
-private fun WidgetState(widget: Widget, state: String? = widget.stateFromLabel) {
+private fun WidgetState(
+    widget: Widget,
+    modifier: Modifier = Modifier,
+    state: String? = widget.stateFromLabel
+) {
     state?.takeIf { it.isNotEmpty() }?.let {
         Text(
             text = it,
             color = mapColor(widget.valueColor) ?: Color.Unspecified,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            modifier = modifier
         )
     }
 }
@@ -330,7 +343,7 @@ private fun WidgetScope.TextRow(
         icon = { WidgetIcon(widget.icon) },
         secondaryLabel = state
             ?.takeIf { it.isNotEmpty() }
-            ?.let { { WidgetState(widget, state) } },
+            ?.let { { WidgetState(widget, state = state) } },
         label = { WidgetLabel(widget) }
     )
 }
@@ -541,13 +554,17 @@ private fun WidgetScope.ValueButton(
         icon = { WidgetIcon(widget.icon) },
         secondaryLabel = state
             ?.takeIf { it.isNotEmpty() }
-            ?.let { { WidgetState(widget, state) } },
+            ?.let { { WidgetState(widget, state = state) } },
         label = { WidgetLabel(widget) }
     )
 }
 
 @Composable
-private fun WidgetScope.ColorTemperaturePickerRow(widget: Widget, modifier: Modifier) {
+private fun WidgetScope.ColorTemperaturePickerRow(
+    widget: Widget,
+    modifier: Modifier,
+    transformation: SurfaceTransformation
+) {
     val numberState = widget.state?.asNumber?.toColorTemperatureInKelvin()
     SliderRow(
         widget = widget,
@@ -556,12 +573,13 @@ private fun WidgetScope.ColorTemperaturePickerRow(widget: Widget, modifier: Modi
         itemStep = 100f,
         unit = numberState?.unit,
         commandConverter = { numberState?.withValue(it)?.toItemCommand(widget.item) },
-        modifier = modifier
+        modifier = modifier,
+        transformation = transformation
     )
 }
 
 @Composable
-private fun WidgetScope.SliderRow(widget: Widget, modifier: Modifier) {
+private fun WidgetScope.SliderRow(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
     val numberState = widget.state?.asNumber
     SliderRow(
         widget = widget,
@@ -570,7 +588,8 @@ private fun WidgetScope.SliderRow(widget: Widget, modifier: Modifier) {
         itemStep = widget.step.takeIf { it > 0 } ?: 1f,
         unit = numberState?.unit,
         commandConverter = { widget.numberCommand(it) },
-        modifier = modifier
+        modifier = modifier,
+        transformation = transformation
     )
 }
 
@@ -582,7 +601,8 @@ private fun WidgetScope.SliderRow(
     itemStep: Float,
     unit: String?,
     commandConverter: (Float) -> String?,
-    modifier: Modifier
+    modifier: Modifier,
+    transformation: SurfaceTransformation
 ) {
     // The slider can only be changed with buttons, so combine small steps to limit the number of taps
     val units = (range.endInclusive - range.start) / itemStep
@@ -604,35 +624,39 @@ private fun WidgetScope.SliderRow(
         }
     }
 
-    Column(
-        modifier = modifier
+    val state = if (value == serverValue && widget.stateFromLabel != null) {
+        widget.stateFromLabel
+    } else {
+        widget.formatValue(value, step, unit)
+    }
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+        ),
+        modifier = modifier,
+        transformation = transformation
     ) {
-        Row(
+        CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.titleSmall) {
+            WidgetLabel(widget, maxLines = 1)
+        }
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 2.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(top = 2.dp)
         ) {
-            Box(modifier = Modifier.weight(1f)) {
-                WidgetLabel(widget, maxLines = 1)
-            }
-            val state = if (value == serverValue && widget.stateFromLabel != null) {
-                widget.stateFromLabel
-            } else {
-                widget.formatValue(value, step, unit)
-            }
+            Slider(
+                value = value,
+                onValueChange = { newValue -> value = newValue },
+                steps = steps,
+                valueRange = range,
+                modifier = Modifier.fillMaxWidth()
+            )
             WidgetState(
                 widget = widget,
-                state = state
+                state = state,
+                modifier = Modifier.align(Alignment.BottomCenter)
             )
         }
-        Slider(
-            value = value,
-            onValueChange = { newValue -> value = newValue },
-            steps = steps,
-            valueRange = range,
-            modifier = Modifier.fillMaxWidth()
-        )
     }
 }
 
@@ -702,7 +726,7 @@ private fun WidgetScope.ColorRow(widget: Widget, modifier: Modifier, transformat
 }
 
 @Composable
-private fun WidgetScope.ImageRow(widget: Widget, modifier: Modifier) {
+private fun WidgetScope.ImageRow(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
     // Image items contain the image as data URL in their state
     val dataUrl = widget.item?.state?.asString?.takeIf { state -> state.matches(DATA_URL_REGEX) }
     val dataBitmap = remember(dataUrl) {
@@ -711,24 +735,35 @@ private fun WidgetScope.ImageRow(widget: Widget, modifier: Modifier) {
     val url = widget.url ?: widget.item?.link
 
     when {
-        dataBitmap != null -> Image(
-            bitmap = dataBitmap,
-            contentDescription = widget.label,
-            contentScale = ContentScale.FillWidth,
-            modifier = modifier.clip(MaterialTheme.shapes.medium)
-        )
+        dataBitmap != null ->
+            Card(
+                modifier = modifier,
+                transformation = transformation,
+                content = {
+                    Image(
+                        bitmap = dataBitmap,
+                        contentDescription = widget.label,
+                        contentScale = ContentScale.FillWidth
+                    )
+                }
+            )
 
         url != null -> {
             val widthPixels = with(LocalDensity.current) {
                 LocalConfiguration.current.screenWidthDp.dp.roundToPx()
             }
-            RemoteImage(
-                url = url,
-                connection = connection,
-                widthPixels = widthPixels,
-                refreshMillis = widget.refresh,
-                contentDescription = widget.label,
-                modifier = modifier.clip(MaterialTheme.shapes.medium)
+            Card(
+                modifier = modifier,
+                transformation = transformation,
+                content = {
+                    RemoteImage(
+                        url = url,
+                        connection = connection,
+                        widthPixels = widthPixels,
+                        refreshMillis = widget.refresh,
+                        contentDescription = widget.label,
+                    )
+                }
             )
         }
     }
@@ -744,7 +779,7 @@ private fun String.decodeDataUrl(): ImageBitmap? = try {
 }
 
 @Composable
-private fun WidgetScope.ChartRow(widget: Widget, modifier: Modifier) {
+private fun WidgetScope.ChartRow(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
     val context = LocalContext.current
     val density = LocalDensity.current
     val screenWidthDp = LocalConfiguration.current.screenWidthDp
@@ -766,30 +801,28 @@ private fun WidgetScope.ChartRow(widget: Widget, modifier: Modifier) {
     )
 
     if (url != null) {
-        Column(
-            modifier = modifier
-        ) {
-            if (widget.label.isNotEmpty()) {
-                Box(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp)
-                ) {
+        TitleCard(
+            title = {
+                CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.titleSmall) {
                     WidgetLabel(
                         widget = widget,
                         maxLines = 1
                     )
                 }
-            }
-            RemoteImage(
-                url = url,
-                connection = connection,
-                widthPixels = widthPixels,
-                refreshMillis = widget.refresh,
-                contentDescription = widget.label,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(MaterialTheme.shapes.medium)
-            )
-        }
+            },
+            content = {
+                RemoteImage(
+                    url = url,
+                    connection = connection,
+                    widthPixels = widthPixels,
+                    refreshMillis = widget.refresh,
+                    contentDescription = widget.label
+                )
+            },
+            modifier = modifier,
+            colors = CardDefaults.cardColors(),
+            transformation = transformation
+        )
     }
 }
 
