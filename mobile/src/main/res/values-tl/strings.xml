@@ -106,6 +106,7 @@
     <!-- %1$s: Item label, %2$s: Action, e.g. "Lights: On". Use the source string as translation if the punctuation rules are the same as in English. -->
     <!-- Used in the widget preview -->
     <!-- %1$s: Item label, %2$s: State-->
+    <!-- Android TV -->
     <!-- Data saver -->
     <!-- Android Auto -->
     <!-- Tiles -->

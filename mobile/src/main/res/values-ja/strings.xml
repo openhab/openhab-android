@@ -455,6 +455,9 @@
     <string name="item_update_error_no_connection">接続されていません</string>
     <string name="item_update_error_couldnt_get_item_type">アイテムの種類を取得できませんでした</string>
     <string name="create_home_screen_widget_title">ウィジェットの作成</string>
+    <!-- Android TV -->
+    <string name="tv_settings_sitemap">サイトマップ</string>
+    <string name="tv_loading">読み込み中\u2026</string>
     <!-- Data saver -->
     <string name="data_saver_title">データセーバー</string>
     <string name="data_saver_on">大きなデータ転送が必要なサイトマップ要素は読み込まれていません</string>

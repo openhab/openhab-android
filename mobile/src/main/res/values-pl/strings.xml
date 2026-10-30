@@ -489,6 +489,9 @@
     <string name="item_update_error_couldnt_get_item_type">Nie można odnaleźć typu tego Itemu</string>
     <string name="create_home_screen_widget_title">Utwórz widget</string>
     <string name="create_home_screen_widget_not_supported">Przejdź do menu widgetów na ekranie głównym smartfona i utwórz widget</string>
+    <!-- Android TV -->
+    <string name="tv_settings_sitemap">Mapa witryny</string>
+    <string name="tv_loading">Wczytywanie\u2026</string>
     <!-- Data saver -->
     <string name="data_saver_title">Oszczędzanie danych</string>
     <string name="data_saver_on">Elementy map witryn, które mogą wymagać większych transferów danych nie są załadowane</string>

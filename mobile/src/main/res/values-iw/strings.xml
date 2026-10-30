@@ -564,6 +564,9 @@
     <string name="create_home_screen_widget_no_command">הצג מצב נוכחי</string>
     <string name="create_home_screen_widget_not_supported">אנא פנה לתפריט הווידג׳ט במסך הבית וצור ווידג׳ט שם</string>
     <string name="analyse">אבחן</string>
+    <!-- Android TV -->
+    <string name="tv_settings_sitemap">תצורת מערכת</string>
+    <string name="tv_loading">טוען...</string>
     <!-- Data saver -->
     <string name="data_saver_title">חסכון בנתונים</string>
     <string name="data_saver_on">רכיבי תצורת המערכת העלולים לדרוש העברת נפח נתונים גדול לא יטענו</string>
