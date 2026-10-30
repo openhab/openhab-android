@@ -128,7 +128,7 @@ sealed interface NavRoute : NavKey {
     @Serializable
     data class Color(val pageUrl: String, val widgetId: String) : NavRoute
     @Serializable
-    data class Buttons(val pageUrl: String, val widgetId: String, val buttons: List<IconButtonSpec>) : NavRoute
+    data class Buttons(val pageUrl: String, val widgetId: String, val buttons: List<ButtonInput>) : NavRoute
 }
 
 @Composable
@@ -214,6 +214,21 @@ fun WearApp(
                     ) { widget, _ ->
                         ColorScreen(
                             widget = widget,
+                            onCommand = { command -> viewModel.sendCommand(widget.item, command) }
+                        )
+                    }
+                }
+
+                entry<NavRoute.Buttons> { key ->
+                    WidgetState(
+                        viewModel = viewModel,
+                        pageUrl = key.pageUrl,
+                        widgetId = key.widgetId,
+                        onGoBack = { backStack.removeLastOrNull() }
+                    ) { widget, _ ->
+                        IconButtonListScreen(
+                            widget = widget,
+                            buttons = key.buttons,
                             onCommand = { command -> viewModel.sendCommand(widget.item, command) }
                         )
                     }

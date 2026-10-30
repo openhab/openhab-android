@@ -45,7 +45,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -53,7 +52,6 @@ import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ButtonGroup
-import androidx.wear.compose.material3.CompactButtonDefaults
 import androidx.wear.compose.material3.FilledTonalButton
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.ListHeader
@@ -67,7 +65,6 @@ import java.util.Locale
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 import kotlinx.coroutines.delay
-import kotlinx.serialization.Serializable
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.model.Item
@@ -90,7 +87,7 @@ data class WidgetScope(
     val onOpenPage: (url: String) -> Unit,
     val onOpenSelection: (widget: Widget) -> Unit,
     val onOpenSetpoint: (widget: Widget) -> Unit,
-    val onOpenButtons: (widget: Widget, buttons: List<IconButtonSpec>) -> Unit,
+    val onOpenButtons: (widget: Widget, buttons: List<ButtonInput>) -> Unit,
     val onOpenColor: (widget: Widget) -> Unit,
     val onSendCommand: (item: Item?, command: String) -> Unit
 )
@@ -99,20 +96,6 @@ data class WidgetScope(
  * A row of the page. Buttons of a button grid are part of the grid's row.
  */
 data class WidgetRowData(val widget: Widget, val children: List<Widget> = emptyList())
-
-/**
- * Maximum number of mappings shown as buttons. Switches with more mappings are shown like a selection.
- */
-private const val MAX_INLINE_MAPPINGS = 3
-
-/**
- * Maximum number of mappings with short labels, e.g. "<<" and ">>" of a player, shown as buttons
- */
-private const val MAX_INLINE_SHORT_MAPPINGS = 5
-private const val MAX_SHORT_MAPPING_LABEL_LENGTH = 3
-
-private fun List<LabeledValue>.canBeShownInline() = size in 1..MAX_INLINE_MAPPINGS ||
-    (size in 1..MAX_INLINE_SHORT_MAPPINGS && all { mapping -> mapping.label.length <= MAX_SHORT_MAPPING_LABEL_LENGTH })
 
 /**
  * Text of a small button. The text is shrunk to avoid breaking words.
@@ -189,24 +172,21 @@ fun WidgetScope.WidgetRow(row: WidgetRowData, modifier: Modifier, transformation
         Widget.Type.Switch -> when {
             widget.isPlayer() -> PlayerRow(
                 widget = widget,
-                modifier = modifier
+                modifier = modifier,
+                transformation = transformation
             )
 
-            widget.mappings.canBeShownInline() -> MappingsRow(
+            widget.mappings.isNotEmpty() -> MappingsRow(
                 widget = widget,
                 mappings = widget.mappings,
-                modifier = modifier
-            )
-
-            widget.mappings.isNotEmpty() -> SelectionRow(
-                widget = widget,
                 modifier = modifier,
                 transformation = transformation
             )
 
             item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> RollershutterRow(
                 widget = widget,
-                modifier = modifier
+                modifier = modifier,
+                transformation = transformation
             )
 
             else -> SwitchRow(
@@ -218,7 +198,8 @@ fun WidgetScope.WidgetRow(row: WidgetRowData, modifier: Modifier, transformation
 
         Widget.Type.Default if item?.isOfTypeOrGroupType(Item.Type.Player) == true -> PlayerRow(
             widget = widget,
-            modifier = modifier
+            modifier = modifier,
+            transformation = transformation
         )
 
         Widget.Type.Button -> ButtonRow(
@@ -332,17 +313,17 @@ private fun WidgetScope.TextRow(
     widget: Widget,
     modifier: Modifier,
     transformation: SurfaceTransformation,
-    state: String? = widget.stateFromLabel
+    state: String? = widget.stateFromLabel,
+    onClick: (() -> Unit)? = widget.linkedPage?.let { page -> { onOpenPage(page.link) } }
 ) {
-    val linkedPage = widget.linkedPage
-    val colors = if (linkedPage != null) {
+    val colors = if (onClick != null) {
         ButtonDefaults.filledTonalButtonColors()
     } else {
         ButtonDefaults.childButtonColors()
     }
 
     Button(
-        onClick = { linkedPage?.let { page -> onOpenPage(page.link) } },
+        onClick = onClick ?: {},
         modifier = modifier,
         colors = colors,
         transformation = transformation,
@@ -408,71 +389,37 @@ private fun LabeledButtonGroup(widget: Widget, modifier: Modifier, buttons: @Com
 }
 
 @Composable
-private fun WidgetScope.MappingsRow(widget: Widget, mappings: List<LabeledValue>, modifier: Modifier) {
-    LabeledButtonGroup(
-        widget = widget,
-        modifier = modifier
-    ) {
-        ButtonGroup(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            mappings.forEach { mapping ->
-                val selected = widget.state?.asString == mapping.value
-                Button(
-                    onClick = { onSendCommand(widget.item, mapping.value) },
-                    modifier = Modifier.weight(1f),
-                    colors = if (selected) ButtonDefaults.buttonColors() else ButtonDefaults.filledTonalButtonColors(),
-                    contentPadding = CompactButtonDefaults.ContentPadding
-                ) {
-                    ButtonText(mapping.label)
-                }
-            }
-        }
+private fun WidgetScope.MappingsRow(
+    widget: Widget,
+    mappings: List<LabeledValue>,
+    modifier: Modifier,
+    transformation: SurfaceTransformation
+) {
+    val commands = mappings.map {
+        ButtonInput.Button(it.value, it.label)
     }
-}
-
-@Composable
-private fun WidgetScope.RollershutterRow(widget: Widget, modifier: Modifier) {
-    val commands = listOf(
-        IconButtonSpec("UP", R.drawable.ic_arrow_up_24dp, R.string.rollershutter_up),
-        IconButtonSpec("STOP", R.drawable.ic_stop_24dp, R.string.rollershutter_stop),
-        IconButtonSpec("DOWN", R.drawable.ic_arrow_down_24dp, R.string.rollershutter_down)
-    )
-    IconButtonRow(
+    TextRow(
         widget = widget,
         modifier = modifier,
-        buttons = commands
+        transformation = transformation,
+        onClick = { onOpenButtons(widget, commands) }
     )
 }
 
-/**
- * Label with a row of icon buttons that send commands
- *
- * @param commands Command with icon and content description
- */
 @Composable
-private fun WidgetScope.IconButtonRow(widget: Widget, modifier: Modifier, buttons: List<IconButtonSpec>) {
-    LabeledButtonGroup(widget, modifier) {
-        ButtonGroup(modifier = Modifier.fillMaxWidth()) {
-            buttons.forEach { spec ->
-                FilledTonalButton(
-                    onClick = { onSendCommand(widget.item, spec.command) },
-                    modifier = Modifier.weight(1f),
-                    contentPadding = CompactButtonDefaults.ContentPadding
-                ) {
-                    Icon(
-                        painter = painterResource(spec.iconResId),
-                        contentDescription = stringResource(spec.descriptionResId),
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-            }
-        }
-    }
+private fun WidgetScope.RollershutterRow(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
+    val commands = listOf(
+        ButtonInput.IconButton("UP", R.drawable.ic_arrow_up_24dp, R.string.rollershutter_up),
+        ButtonInput.IconButton("STOP", R.drawable.ic_stop_24dp, R.string.rollershutter_stop),
+        ButtonInput.IconButton("DOWN", R.drawable.ic_arrow_down_24dp, R.string.rollershutter_down)
+    )
+    TextRow(
+        widget = widget,
+        modifier = modifier,
+        transformation = transformation,
+        onClick = { onOpenButtons(widget, commands) }
+    )
 }
-
-@Serializable
-data class IconButtonSpec(val command: String, val iconResId: Int, val descriptionResId: Int)
 
 /**
  * Player items are sent as switches with the player commands as mappings
@@ -481,21 +428,22 @@ private fun Widget.isPlayer() = item?.isOfTypeOrGroupType(Item.Type.Player) == t
     (mappings.isEmpty() || mappings.map { mapping -> mapping.value } == listOf("PREVIOUS", "PAUSE", "PLAY", "NEXT"))
 
 @Composable
-private fun WidgetScope.PlayerRow(widget: Widget, modifier: Modifier) {
+private fun WidgetScope.PlayerRow(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
     val isPlaying = widget.item?.state?.asString == "PLAY"
     val commands = listOf(
-        IconButtonSpec("PREVIOUS", R.drawable.ic_skip_previous_24dp, R.string.player_previous),
+        ButtonInput.IconButton("PREVIOUS", R.drawable.ic_skip_previous_24dp, R.string.player_previous),
         if (isPlaying) {
-            IconButtonSpec("PAUSE", R.drawable.ic_pause_24dp, R.string.player_pause)
+            ButtonInput.IconButton("PAUSE", R.drawable.ic_pause_24dp, R.string.player_pause)
         } else {
-            IconButtonSpec("PLAY", R.drawable.ic_play_24dp, R.string.player_play)
+            ButtonInput.IconButton("PLAY", R.drawable.ic_play_24dp, R.string.player_play)
         },
-        IconButtonSpec("NEXT", R.drawable.ic_skip_next_24dp, R.string.player_next)
+        ButtonInput.IconButton("NEXT", R.drawable.ic_skip_next_24dp, R.string.player_next)
     )
-    IconButtonRow(
+    TextRow(
         widget = widget,
         modifier = modifier,
-        buttons = commands
+        transformation = transformation,
+        onClick = { onOpenButtons(widget, commands) }
     )
 }
 

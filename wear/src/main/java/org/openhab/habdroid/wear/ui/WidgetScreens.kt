@@ -34,14 +34,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnItemScope
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.CompactButtonDefaults
-import androidx.wear.compose.material3.FilledTonalButton
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.MaterialTheme
@@ -49,12 +50,16 @@ import androidx.wear.compose.material3.RadioButton
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Slider
 import androidx.wear.compose.material3.Stepper
+import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.SwitchButton
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.lazy.TransformationSpec
+import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
 import kotlin.math.roundToInt
 import kotlinx.coroutines.delay
+import kotlinx.serialization.Serializable
 import org.openhab.habdroid.model.Widget
-import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.wear.R
 
 private const val STEPPER_COMMAND_DELAY_MILLIS = 500L
@@ -277,12 +282,42 @@ fun ColorScreen(widget: Widget, onCommand: (String) -> Unit) {
     }
 }
 
+@Serializable
+sealed interface ButtonInput {
+    val command: String
+    val iconResId: Int?
+
+    @Composable
+    fun label(): String
+
+    @Serializable
+    data class IconButton(
+        override val command: String,
+        override val iconResId: Int,
+        val descriptionResId: Int
+    ) : ButtonInput {
+        @Composable
+        override fun label()  = stringResource(descriptionResId)
+    }
+
+    @Serializable
+    data class Button(override val command: String, val label: String) : ButtonInput {
+        override val iconResId get() = null
+
+        @Composable
+        override fun label() = label
+    }
+}
+
 @Composable
 fun IconButtonListScreen(
-    buttons: List<IconButtonSpec>,
+    widget: Widget,
+    buttons: List<ButtonInput>,
     onCommand: (String) -> Unit
 ) {
     val listState = rememberTransformingLazyColumnState()
+    val transformationSpec = rememberTransformationSpec()
+
     ScreenScaffold(
         scrollState = listState
     ) { contentPadding ->
@@ -290,19 +325,80 @@ fun IconButtonListScreen(
             state = listState,
             contentPadding = contentPadding
         ) {
+            item {
+                WidgetScreenHeader(
+                    widget = widget,
+                    transformationSpec = transformationSpec
+                )
+            }
             items(buttons) { button ->
-                FilledTonalButton(
+                ButtonRow(
+                    label = button.label(),
+                    iconResId = button.iconResId,
                     onClick = { onCommand(button.command) },
-                    modifier = Modifier.fillMaxWidth(),
-                    contentPadding = CompactButtonDefaults.ContentPadding
-                ) {
-                    Icon(
-                        painter = painterResource(button.iconResId),
-                        contentDescription = stringResource(button.descriptionResId),
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
+                    transformationSpec = transformationSpec
+                )
             }
         }
     }
+}
+
+@Composable
+private fun TransformingLazyColumnItemScope.WidgetScreenHeader(widget: Widget, transformationSpec: TransformationSpec) {
+    ListHeader(
+        modifier = Modifier.transformedHeight(this, transformationSpec),
+        transformation = SurfaceTransformation(transformationSpec)
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = widget.label,
+                textAlign = TextAlign.Center,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+            widget.stateFromLabel
+                ?.takeIf { it.isNotEmpty() }
+                ?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodySmall,
+                        textAlign = TextAlign.Center,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+        }
+    }
+}
+
+@Composable
+private fun TransformingLazyColumnItemScope.ButtonRow(
+    label: String,
+    iconResId: Int?,
+    onClick: () -> Unit,
+    transformationSpec: TransformationSpec
+) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .transformedHeight(this, transformationSpec),
+        transformation = SurfaceTransformation(transformationSpec),
+        icon = iconResId?.let {
+            {
+                Icon(
+                    painter = painterResource(iconResId),
+                    contentDescription = label
+                )
+            }
+        },
+        label = {
+            Text(label)
+        },
+        colors = ButtonDefaults.filledTonalButtonColors(),
+        contentPadding = CompactButtonDefaults.ContentPadding
+    )
+
 }
