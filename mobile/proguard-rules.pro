@@ -18,3 +18,7 @@
 -keep class * implements com.google.firebase.components.ComponentRegistrar {
     <init>();
 }
+
+# androidx.window references classes provided by the device at runtime
+-dontwarn androidx.window.extensions.**
+-dontwarn androidx.window.sidecar.**

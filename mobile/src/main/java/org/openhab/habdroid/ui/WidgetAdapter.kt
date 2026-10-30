@@ -137,6 +137,7 @@ import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.asColorTemperatureInKelvinToColor
 import org.openhab.habdroid.util.beautify
 import org.openhab.habdroid.util.determineDataUsagePolicy
+import org.openhab.habdroid.util.getChartScalingFactor
 import org.openhab.habdroid.util.getChartTheme
 import org.openhab.habdroid.util.getIconFallbackColor
 import org.openhab.habdroid.util.getImageWidgetScalingType
@@ -144,6 +145,7 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.resolveThemedColor
 import org.openhab.habdroid.util.resolveThemedColorArray
+import org.openhab.habdroid.util.shouldRequestHighResChart
 import org.openhab.habdroid.util.toColoredRoundedRect
 
 /**
@@ -1580,8 +1582,13 @@ class WidgetAdapter(
             }
 
             val theme = requireHolderContext().chartTheme
-            val chartUrl =
-                widget.toChartUrl(prefs, initData.parent.width, chartTheme = theme, density = density) ?: return
+            val chartUrl = widget.toChartUrl(
+                prefs.getChartScalingFactor(),
+                prefs.shouldRequestHighResChart(),
+                initData.parent.width,
+                chartTheme = theme,
+                density = density
+            ) ?: return
             Log.d(TAG, "Chart url = $chartUrl")
             binding.chart.setImageUrl(connection, chartUrl, refreshDelayInMs = widget.refresh, forceLoad = true)
         }
