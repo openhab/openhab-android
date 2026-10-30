@@ -17,10 +17,14 @@ import android.graphics.Bitmap
 import android.util.Log
 import android.util.LruCache
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
@@ -28,6 +32,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.LocalContentColor
 import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
@@ -114,12 +119,24 @@ fun RemoteImage(
             cachingMode = HttpClient.CachingMode.AVOID_CACHE
         } while (isActive && refreshMillis > 0)
     }
-    bitmap?.let {
+
+    val loadedBitmap = bitmap
+    if (loadedBitmap != null) {
         Image(
-            bitmap = it,
+            bitmap = loadedBitmap,
             contentDescription = contentDescription,
             modifier = modifier,
             contentScale = ContentScale.FillWidth
         )
+    } else {
+        Box(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
     }
 }
