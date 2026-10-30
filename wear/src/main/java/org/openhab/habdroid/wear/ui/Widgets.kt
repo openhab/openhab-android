@@ -67,6 +67,7 @@ import java.util.Locale
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 import kotlinx.coroutines.delay
+import kotlinx.serialization.Serializable
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.model.Item
@@ -89,6 +90,7 @@ data class WidgetScope(
     val onOpenPage: (url: String) -> Unit,
     val onOpenSelection: (widget: Widget) -> Unit,
     val onOpenSetpoint: (widget: Widget) -> Unit,
+    val onOpenButtons: (widget: Widget, buttons: List<IconButtonSpec>) -> Unit,
     val onOpenColor: (widget: Widget) -> Unit,
     val onSendCommand: (item: Item?, command: String) -> Unit
 )
@@ -469,6 +471,7 @@ private fun WidgetScope.IconButtonRow(widget: Widget, modifier: Modifier, button
     }
 }
 
+@Serializable
 data class IconButtonSpec(val command: String, val iconResId: Int, val descriptionResId: Int)
 
 /**

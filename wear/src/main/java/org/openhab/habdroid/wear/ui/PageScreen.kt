@@ -28,7 +28,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
@@ -54,7 +53,7 @@ fun PageScreen(
     pageUrl: String,
     state: SitemapViewModel.State.Ready,
     viewModel: SitemapViewModel,
-    navController: NavHostController,
+    onOpenSubpage: (NavRoute) -> Unit,
     onOpenVoiceCommand: (() -> Unit)?,
     onOpenSettings: (() -> Unit)?
 ) {
@@ -69,10 +68,11 @@ fun PageScreen(
     val widgetScope = WidgetScope(
         connection = state.connection,
         serverFlags = state.serverFlags,
-        onOpenPage = { url -> navController.navigate(Routes.page(url)) },
-        onOpenSelection = { widget -> navController.navigate(Routes.selection(pageUrl, widget.id)) },
-        onOpenSetpoint = { widget -> navController.navigate(Routes.setpoint(pageUrl, widget.id)) },
-        onOpenColor = { widget -> navController.navigate(Routes.color(pageUrl, widget.id)) },
+        onOpenPage = { url -> onOpenSubpage(NavRoute.Page(url)) },
+        onOpenSelection = { widget -> onOpenSubpage(NavRoute.Selection(pageUrl, widget.id)) },
+        onOpenSetpoint = { widget -> onOpenSubpage(NavRoute.Setpoint(pageUrl, widget.id)) },
+        onOpenColor = { widget -> onOpenSubpage(NavRoute.Color(pageUrl, widget.id)) },
+        onOpenButtons = { widget, buttons -> onOpenSubpage(NavRoute.Buttons(pageUrl, widget.id, buttons)) },
         onSendCommand = viewModel::sendCommand
     )
 

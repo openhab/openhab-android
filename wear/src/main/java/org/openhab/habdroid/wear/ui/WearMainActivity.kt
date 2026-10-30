@@ -14,7 +14,6 @@
 package org.openhab.habdroid.wear.ui
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -27,15 +26,17 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.core.net.toUri
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavHostController
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
 import androidx.wear.compose.material3.AppScaffold
-import androidx.wear.compose.navigation.SwipeDismissableNavHost
-import androidx.wear.compose.navigation.composable
-import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
+import androidx.wear.compose.navigation3.SwipeDismissableSceneStrategy
 import androidx.wear.remote.interactions.RemoteActivityHelper
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.guava.await
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.wear.BuildConfig
 import org.openhab.habdroid.wear.config.WearConfigRepository
@@ -111,35 +112,23 @@ class WearMainActivity : ComponentActivity() {
     }
 }
 
-object Routes {
-    const val MAIN = "main"
-    const val SETTINGS = "settings"
-    private const val PAGE = "page"
-    private const val SELECTION = "selection"
-    private const val SETPOINT = "setpoint"
-    private const val COLOR = "color"
-    private const val ARG_PAGE = "page"
-    private const val ARG_WIDGET = "widget"
+@Serializable
+sealed interface NavRoute : NavKey {
+    @Serializable
+    data object Main : NavRoute
+    @Serializable
+    data object Settings : NavRoute
+    @Serializable
+    data class Page(val pageUrl: String) : NavRoute
 
-    const val PAGE_PATTERN = "$PAGE?$ARG_PAGE={$ARG_PAGE}"
-    const val SELECTION_PATTERN = "$SELECTION?$ARG_PAGE={$ARG_PAGE}&$ARG_WIDGET={$ARG_WIDGET}"
-    const val SETPOINT_PATTERN = "$SETPOINT?$ARG_PAGE={$ARG_PAGE}&$ARG_WIDGET={$ARG_WIDGET}"
-    const val COLOR_PATTERN = "$COLOR?$ARG_PAGE={$ARG_PAGE}&$ARG_WIDGET={$ARG_WIDGET}"
-
-    fun page(pageUrl: String) = "$PAGE?$ARG_PAGE=${Uri.encode(pageUrl)}"
-
-    fun selection(pageUrl: String, widgetId: String) = widgetRoute(SELECTION, pageUrl, widgetId)
-
-    fun setpoint(pageUrl: String, widgetId: String) = widgetRoute(SETPOINT, pageUrl, widgetId)
-
-    fun color(pageUrl: String, widgetId: String) = widgetRoute(COLOR, pageUrl, widgetId)
-
-    fun pageArg(args: Bundle?) = args?.getString(ARG_PAGE).orEmpty()
-
-    fun widgetArg(args: Bundle?) = args?.getString(ARG_WIDGET).orEmpty()
-
-    private fun widgetRoute(route: String, pageUrl: String, widgetId: String) =
-        "$route?$ARG_PAGE=${Uri.encode(pageUrl)}&$ARG_WIDGET=${Uri.encode(widgetId)}"
+    @Serializable
+    data class Selection(val pageUrl: String, val widgetId: String) : NavRoute
+    @Serializable
+    data class Setpoint(val pageUrl: String, val widgetId: String) : NavRoute
+    @Serializable
+    data class Color(val pageUrl: String, val widgetId: String) : NavRoute
+    @Serializable
+    data class Buttons(val pageUrl: String, val widgetId: String, val buttons: List<IconButtonSpec>) : NavRoute
 }
 
 @Composable
@@ -151,91 +140,107 @@ fun WearApp(
     onSetDemoMode: (Boolean) -> Unit
 ) {
     val scope = rememberCoroutineScope()
-    val navController = rememberSwipeDismissableNavController()
+    val backStack = rememberNavBackStack(NavRoute.Main)
+
     AppScaffold {
-        SwipeDismissableNavHost(
-            navController = navController,
-            startDestination = Routes.MAIN
-        ) {
-            composable(Routes.MAIN) {
-                MainScreen(
-                    viewModel = viewModel,
-                    navController = navController,
-                    onOpenVoiceCommand = onOpenVoiceCommand,
-                    onOpenSetupOnPhone = {
-                        scope.launch {
-                            onOpenSetupOnPhone()
-                        }
-                    },
-                    onEnableDemoMode = { onSetDemoMode(true) }
-                )
-            }
-
-            composable(Routes.PAGE_PATTERN) { entry ->
-                val pageUrl = Routes.pageArg(entry.arguments)
-                ReadyState(viewModel) { ready ->
-                    PageScreen(
-                        pageUrl = pageUrl,
-                        state = ready,
+        NavDisplay(
+            backStack = backStack,
+            sceneStrategies = listOf(SwipeDismissableSceneStrategy()),
+            entryProvider = entryProvider {
+                entry<NavRoute.Main> {
+                    MainScreen(
                         viewModel = viewModel,
-                        navController = navController,
-                        onOpenVoiceCommand = null,
-                        onOpenSettings = null
+                        onOpenRoute = { backStack += it },
+                        onOpenVoiceCommand = onOpenVoiceCommand,
+                        onOpenSetupOnPhone = {
+                            scope.launch {
+                                onOpenSetupOnPhone()
+                            }
+                        },
+                        onEnableDemoMode = { onSetDemoMode(true) }
+                    )
+                }
+
+                entry<NavRoute.Page> { key ->
+                    ReadyState(viewModel) { ready ->
+                        PageScreen(
+                            pageUrl = key.pageUrl,
+                            state = ready,
+                            viewModel = viewModel,
+                            onOpenSubpage = { route -> backStack += route },
+                            onOpenVoiceCommand = null,
+                            onOpenSettings = null
+                        )
+                    }
+                }
+
+                entry<NavRoute.Selection> { key ->
+                    WidgetState(
+                        viewModel = viewModel,
+                        pageUrl = key.pageUrl,
+                        widgetId = key.widgetId,
+                        onGoBack = { backStack.removeLastOrNull() }
+                    ) { widget, _ ->
+                        SelectionScreen(
+                            widget = widget,
+                            onSelect = { command ->
+                                viewModel.sendCommand(widget.item, command)
+                                backStack.removeLastOrNull()
+                            }
+                        )
+                    }
+                }
+
+                entry<NavRoute.Setpoint> { key ->
+                    WidgetState(
+                        viewModel = viewModel,
+                        pageUrl = key.pageUrl,
+                        widgetId = key.widgetId,
+                        onGoBack = { backStack.removeLastOrNull() }
+                    ) { widget, _ ->
+                        SetpointScreen(
+                            widget = widget,
+                            onCommand = { command -> viewModel.sendCommand(widget.item, command) }
+                        )
+                    }
+                }
+
+                entry<NavRoute.Color> { key ->
+                    WidgetState(
+                        viewModel = viewModel,
+                        pageUrl = key.pageUrl,
+                        widgetId = key.widgetId,
+                        onGoBack = { backStack.removeLastOrNull() }
+                    ) { widget, _ ->
+                        ColorScreen(
+                            widget = widget,
+                            onCommand = { command -> viewModel.sendCommand(widget.item, command) }
+                        )
+                    }
+                }
+
+                entry<NavRoute.Settings> {
+                    // Go back to the sitemap, so the user sees the reconnection
+                    SettingsScreen(
+                        settingsFlow = settingsFlow,
+                        stateFlow = viewModel.state,
+                        onReconnect = {
+                            viewModel.retry()
+                            backStack.removeLastOrNull()
+                        },
+                        onSetDemoMode = onSetDemoMode,
+                        onOpenSetupOnPhone = onOpenSetupOnPhone
                     )
                 }
             }
-
-            composable(Routes.SELECTION_PATTERN) { entry ->
-                WidgetState(viewModel, entry.arguments, navController = navController) { widget, _ ->
-                    SelectionScreen(
-                        widget = widget,
-                        onSelect = { command ->
-                            viewModel.sendCommand(widget.item, command)
-                            navController.popBackStack()
-                        }
-                    )
-                }
-            }
-
-            composable(Routes.SETPOINT_PATTERN) { entry ->
-                WidgetState(viewModel, entry.arguments, navController) { widget, _ ->
-                    SetpointScreen(
-                        widget = widget,
-                        onCommand = { command -> viewModel.sendCommand(widget.item, command) }
-                    )
-                }
-            }
-
-            composable(Routes.COLOR_PATTERN) { entry ->
-                WidgetState(viewModel, entry.arguments, navController) { widget, _ ->
-                    ColorScreen(
-                        widget = widget,
-                        onCommand = { command -> viewModel.sendCommand(widget.item, command) }
-                    )
-                }
-            }
-
-            composable(Routes.SETTINGS) {
-                // Go back to the sitemap, so the user sees the reconnection
-                SettingsScreen(
-                    settingsFlow = settingsFlow,
-                    stateFlow = viewModel.state,
-                    onReconnect = {
-                        viewModel.retry()
-                        navController.popBackStack()
-                    },
-                    onSetDemoMode = onSetDemoMode,
-                    onOpenSetupOnPhone = onOpenSetupOnPhone
-                )
-            }
-        }
+        )
     }
 }
 
 @Composable
 private fun MainScreen(
     viewModel: SitemapViewModel,
-    navController: NavHostController,
+    onOpenRoute: (NavRoute) -> Unit,
     onOpenVoiceCommand: () -> Unit,
     onOpenSetupOnPhone: () -> Unit,
     onEnableDemoMode: () -> Unit
@@ -253,7 +258,7 @@ private fun MainScreen(
             error = current.error,
             url = current.url,
             onRetry = viewModel::retry,
-            onGoToSettings = { navController.navigate(Routes.SETTINGS) }
+            onGoToSettings = { onOpenRoute(NavRoute.Settings) }
         )
 
         is SitemapViewModel.State.NoSitemaps -> NoSitemapsScreen(onRetry = viewModel::retry)
@@ -262,9 +267,9 @@ private fun MainScreen(
             pageUrl = current.sitemap.homepageLink,
             state = current,
             viewModel = viewModel,
-            navController = navController,
             onOpenVoiceCommand = onOpenVoiceCommand,
-            onOpenSettings = { navController.navigate(Routes.SETTINGS) }
+            onOpenSubpage = onOpenRoute,
+            onOpenSettings = { onOpenRoute(NavRoute.Settings) }
         )
     }
 }
@@ -292,13 +297,13 @@ private fun ReadyState(viewModel: SitemapViewModel, content: @Composable (Sitema
 @Composable
 private fun WidgetState(
     viewModel: SitemapViewModel,
-    args: Bundle?,
-    navController: NavHostController,
+    pageUrl: String,
+    widgetId: String,
+    onGoBack: () -> Unit,
     content: @Composable (Widget, SitemapViewModel.State.Ready) -> Unit
 ) {
     val pages by viewModel.pages.collectAsStateWithLifecycle()
-    val widgetId = Routes.widgetArg(args)
-    val widget = pages[Routes.pageArg(args)]
+    val widget = pages[pageUrl]
         ?.widgets
         ?.firstOrNull { widget -> widget.id == widgetId }
 
@@ -306,7 +311,7 @@ private fun WidgetState(
         if (widget == null) {
             // The page has been reloaded and the widget is gone
             LaunchedEffect(Unit) {
-                navController.popBackStack()
+                onGoBack()
             }
         } else {
             content(widget, ready)

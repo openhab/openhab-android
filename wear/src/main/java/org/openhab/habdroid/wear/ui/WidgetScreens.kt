@@ -40,6 +40,8 @@ import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
+import androidx.wear.compose.material3.CompactButtonDefaults
+import androidx.wear.compose.material3.FilledTonalButton
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.MaterialTheme
@@ -270,6 +272,36 @@ fun ColorScreen(widget: Widget, onCommand: (String) -> Unit) {
                     label = { Text(stringResource(R.string.color_white)) },
                     modifier = Modifier.fillMaxWidth()
                 )
+            }
+        }
+    }
+}
+
+@Composable
+fun IconButtonListScreen(
+    buttons: List<IconButtonSpec>,
+    onCommand: (String) -> Unit
+) {
+    val listState = rememberTransformingLazyColumnState()
+    ScreenScaffold(
+        scrollState = listState
+    ) { contentPadding ->
+        TransformingLazyColumn(
+            state = listState,
+            contentPadding = contentPadding
+        ) {
+            items(buttons) { button ->
+                FilledTonalButton(
+                    onClick = { onCommand(button.command) },
+                    modifier = Modifier.fillMaxWidth(),
+                    contentPadding = CompactButtonDefaults.ContentPadding
+                ) {
+                    Icon(
+                        painter = painterResource(button.iconResId),
+                        contentDescription = stringResource(button.descriptionResId),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
         }
     }
