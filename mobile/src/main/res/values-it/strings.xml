@@ -436,6 +436,7 @@
     <string name="about_translation">Aiutaci a tradurre openHAB</string>
     <string name="about_privacy_policy">Informativa sulla privacy</string>
     <string name="about_rate_this_app">Valuta questa app</string>
+    <string name="about_version">Versione</string>
     <string name="settings_debug_messages_title">Mostra informazioni per la risoluzione dei problemi</string>
     <string name="settings_troubleshooting_title">Risoluzione Dei Problemi</string>
     <string name="undo">Annulla</string>
@@ -573,8 +574,23 @@
     <string name="create_home_screen_widget_not_supported">Vai al menu widget nella schermata iniziale e crea un widget da lì</string>
     <string name="analyse">Analizza</string>
     <!-- Android TV -->
+    <string name="tv_setup_title">Configura openHAB</string>
+    <string name="tv_setup_server_found">Trovato server openHAB in %s</string>
+    <string name="tv_setup_no_server_found">Nessun server openHAB trovato nella tua rete.</string>
+    <string name="tv_setup_use_server">Usa questo server</string>
+    <string name="tv_setup_search_again">Cerca ancora</string>
+    <string name="tv_setup_enter_manually">Inserisci il server manualmente</string>
+    <string name="tv_settings_server">Server</string>
     <string name="tv_settings_sitemap">Sitemap</string>
     <string name="tv_loading">Caricamento\u2026</string>
+    <string name="tv_color_hue">Hue</string>
+    <string name="tv_color_saturation">Saturazione</string>
+    <string name="tv_color_brightness">Luminosità</string>
+    <string name="tv_error_connection_failed">Impossibile connettersi al server openHAB in %s.</string>
+    <string name="tv_select_sitemap">Seleziona Sitemap</string>
+    <string name="tv_no_sitemap_selected">Nessuna Sitemap selezionata</string>
+    <string name="tv_select_sitemap_hint">È possibile modificare la Sitemap in seguito nelle impostazioni.</string>
+    <string name="tv_no_sitemaps">Nessuna sitemaps trovata. Questa app supporta solo le sitemaps. Per utilizzare Main UI, apri %s in un browser web.</string>
     <!-- Data saver -->
     <string name="data_saver_title">Risparmio dati</string>
     <string name="data_saver_on">Gli elementi della Sitemap che richiedono grandi trasferimenti dati non vengono caricati</string>
