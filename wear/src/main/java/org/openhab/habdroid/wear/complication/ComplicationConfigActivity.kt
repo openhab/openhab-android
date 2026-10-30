@@ -94,15 +94,28 @@ class ComplicationConfigActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun Content(current: State, onSelect: (String) -> Unit) {
+    private fun Content(state: State, onSelect: (String) -> Unit) {
         val listState = rememberTransformingLazyColumnState()
-        ScreenScaffold(scrollState = listState) { contentPadding ->
-            TransformingLazyColumn(state = listState, contentPadding = contentPadding) {
+        ScreenScaffold(
+            scrollState = listState
+        ) { contentPadding ->
+            TransformingLazyColumn(
+                state = listState,
+                contentPadding = contentPadding
+            ) {
                 item {
-                    ListHeader { Text(stringResource(R.string.complication_choose_item), textAlign = TextAlign.Center) }
+                    ListHeader {
+                        Text(
+                            text = stringResource(R.string.complication_choose_item),
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
-                when (current) {
-                    is State.Loading -> item { CircularProgressIndicator() }
+
+                when (state) {
+                    is State.Loading -> item {
+                        CircularProgressIndicator()
+                    }
 
                     is State.Failed -> item {
                         Text(
@@ -112,12 +125,24 @@ class ComplicationConfigActivity : ComponentActivity() {
                         )
                     }
 
-                    is State.Items -> items(current.items) { (name, label) ->
+                    is State.Items -> items(state.items) { (name, label) ->
                         Button(
                             onClick = { onSelect(name) },
                             colors = ButtonDefaults.filledTonalButtonColors(),
-                            secondaryLabel = { Text(name, maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                            label = { Text(label, maxLines = 2, overflow = TextOverflow.Ellipsis) },
+                            label = {
+                                Text(
+                                    text = label,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            },
+                            secondaryLabel = {
+                                Text(
+                                    text = name,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            },
                             modifier = Modifier.fillMaxWidth()
                         )
                     }

@@ -37,18 +37,19 @@ class ComplicationTapReceiver : BroadcastReceiver() {
             try {
                 val connection = app.connectionManager.awaitConnection()?.connection ?: return@launch
                 // Load the current state, as the complication might show an outdated state
-                val (item, _) = connection.loadItem(itemName)
+                val item = connection.loadItem(itemName)
                 val command = if (item.state?.asBoolean == true) "OFF" else "ON"
                 Log.d(TAG, "Send $command to $itemName")
                 connection.httpClient.sendItemCommand(item, command, buildSourceId(null, null))?.join()
+
+                // Other complications or the tile might show the same item
+                ItemComplicationService.requestUpdate(context)
+                SitemapTileService.requestUpdate(context)
             } catch (e: HttpClient.HttpException) {
                 Log.w(TAG, "Toggling $itemName failed", e)
             } catch (e: JSONException) {
                 Log.w(TAG, "Parsing $itemName failed", e)
             } finally {
-                // Other complications or the tile might show the same item
-                ItemComplicationService.requestUpdate(context)
-                SitemapTileService.requestUpdate(context)
                 pendingResult.finish()
             }
         }

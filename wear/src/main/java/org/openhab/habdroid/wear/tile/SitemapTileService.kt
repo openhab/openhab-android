@@ -77,12 +77,20 @@ class SitemapTileService : Material3TileService(defaultColorScheme = OpenHabTile
     override suspend fun MaterialScope.tileResponse(requestParams: TileRequest): Tile {
         val content = loadContent(requestParams.currentState.lastClickableId)
         val layout = primaryLayout(
-            titleSlot = { text(content.title.layoutString) },
-            mainSlot = { mainContent(content) },
+            titleSlot = {
+                text(content.title.layoutString)
+            },
+            mainSlot = {
+                mainContent(content)
+            },
             bottomSlot = {
                 iconEdgeButton(
-                    onClick = clickable(launchAction(ComponentName(context, WearMainActivity::class.java))),
-                    iconContent = { icon(imageResource(androidImageResource(R.drawable.ic_openhab_monochrome_24dp))) }
+                    onClick = clickable(
+                        launchAction(ComponentName(context, WearMainActivity::class.java))
+                    ),
+                    iconContent = {
+                        icon(imageResource(androidImageResource(R.drawable.ic_openhab_monochrome_24dp)))
+                    }
                 )
             }
         )
@@ -95,7 +103,11 @@ class SitemapTileService : Material3TileService(defaultColorScheme = OpenHabTile
 
     private fun MaterialScope.mainContent(content: TileContent): LayoutElement {
         if (content.message != null) {
-            return text(content.message.layoutString, maxLines = 3, typography = Typography.BODY_MEDIUM)
+            return text(
+                text = content.message.layoutString,
+                maxLines = 3,
+                typography = Typography.BODY_MEDIUM
+            )
         }
         // Two rows with two buttons each
         val rows = content.widgets.chunked(2).map { rowWidgets ->
@@ -104,12 +116,11 @@ class SitemapTileService : Material3TileService(defaultColorScheme = OpenHabTile
             }
         }
         val elements = rows.flatMapIndexed { index, row ->
-            if (index ==
-                0
-            ) {
-                listOf(row)
-            } else {
-                listOf(spacer(height = 4f.dp), row)
+            buildList {
+                if (index > 0) {
+                    add(spacer(height = 4f.dp))
+                }
+                add(row)
             }
         }
         return column(*elements.toTypedArray(), width = expand())
@@ -121,9 +132,21 @@ class SitemapTileService : Material3TileService(defaultColorScheme = OpenHabTile
         val state = widget.stateFromLabel ?: widget.state?.asString?.takeIf { !isSwitch }
         return button(
             onClick = clickable(id = CLICKABLE_PREFIX + widget.id),
-            labelContent = { text(widget.label.layoutString, maxLines = 1, overflow = TEXT_OVERFLOW_ELLIPSIZE) },
+            labelContent = {
+                text(
+                    text = widget.label.layoutString,
+                    maxLines = 1,
+                    overflow = TEXT_OVERFLOW_ELLIPSIZE
+                )
+            },
             secondaryLabelContent = state?.let {
-                { text(it.layoutString, maxLines = 1, overflow = TEXT_OVERFLOW_ELLIPSIZE) }
+                {
+                    text(
+                        text = it.layoutString,
+                        maxLines = 1,
+                        overflow = TEXT_OVERFLOW_ELLIPSIZE
+                    )
+                }
             },
             width = expand(),
             height = expand(),
@@ -156,9 +179,13 @@ class SitemapTileService : Material3TileService(defaultColorScheme = OpenHabTile
             return TileContent(sitemap.label, emptyList(), getString(R.string.tile_not_connected))
         }
 
-        var tileWidgets = widgets.filter { widget -> widget.visibility && widget.isShownOnTile() }.take(MAX_WIDGETS)
-        val clickedWidget = tileWidgets.firstOrNull { widget -> CLICKABLE_PREFIX + widget.id == clickedId }
-        if (clickedWidget != null && clickedWidget.isToggleable()) {
+        var tileWidgets = widgets
+            .filter { widget -> widget.visibility && widget.isShownOnTile() }
+            .take(MAX_WIDGETS)
+        val clickedWidget = tileWidgets
+            .firstOrNull { widget -> CLICKABLE_PREFIX + widget.id == clickedId }
+
+        if (clickedWidget?.isToggleable() == true) {
             val command = if (clickedWidget.state?.asBoolean == true) "OFF" else "ON"
             Log.d(TAG, "Send $command to ${clickedWidget.item?.name}")
             connected.connection.httpClient
@@ -169,6 +196,7 @@ class SitemapTileService : Material3TileService(defaultColorScheme = OpenHabTile
                 if (widget.id == clickedWidget.id) widget.withSwitchState(command == "ON") else widget
             }
         }
+
         if (tileWidgets.isEmpty()) {
             return TileContent(sitemap.label, emptyList(), getString(R.string.tile_no_widgets))
         }

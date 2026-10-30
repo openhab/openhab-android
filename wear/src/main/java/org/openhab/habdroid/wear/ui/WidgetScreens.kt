@@ -64,10 +64,20 @@ private const val STEPPER_COMMAND_DELAY_MILLIS = 500L
 fun SelectionScreen(widget: Widget, onSelect: (String) -> Unit) {
     val listState = rememberTransformingLazyColumnState()
     val currentState = widget.state?.asString
-    ScreenScaffold(scrollState = listState) { contentPadding ->
-        TransformingLazyColumn(state = listState, contentPadding = contentPadding) {
+    ScreenScaffold(
+        scrollState = listState
+    ) { contentPadding ->
+        TransformingLazyColumn(
+            state = listState,
+            contentPadding = contentPadding
+        ) {
             item {
-                ListHeader { Text(widget.label, textAlign = TextAlign.Center) }
+                ListHeader {
+                    Text(
+                        text = widget.label,
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
             items(widget.mappingsOrItemOptions) { mapping ->
                 RadioButton(
@@ -91,7 +101,9 @@ fun SetpointScreen(widget: Widget, onCommand: (String) -> Unit) {
     val step = widget.step.takeIf { it > 0 } ?: 1f
     val steps = (((max - min) / step).roundToInt() - 1).coerceAtLeast(0)
     val serverValue = widget.state?.asNumber?.value ?: min
-    var value by remember(widget.id) { mutableFloatStateOf(serverValue.coerceIn(min, max)) }
+    var value by remember(widget.id) {
+        mutableFloatStateOf(serverValue.coerceIn(min, max))
+    }
 
     // Wait for further changes to avoid sending a command for every step
     LaunchedEffect(value) {
@@ -108,15 +120,29 @@ fun SetpointScreen(widget: Widget, onCommand: (String) -> Unit) {
             steps = steps,
             valueRange = min..max,
             decreaseIcon = {
-                Icon(painterResource(R.drawable.ic_remove_24dp), contentDescription = stringResource(R.string.decrease))
+                Icon(
+                    painter = painterResource(R.drawable.ic_remove_24dp),
+                    contentDescription = stringResource(R.string.decrease)
+                )
             },
             increaseIcon = {
-                Icon(painterResource(R.drawable.ic_add_24dp), contentDescription = stringResource(R.string.increase))
+                Icon(
+                    painter = painterResource(R.drawable.ic_add_24dp),
+                    contentDescription = stringResource(R.string.increase)
+                )
             }
         ) {
-            Box(contentAlignment = Alignment.Center) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(widget.label, style = MaterialTheme.typography.labelMedium, textAlign = TextAlign.Center)
+            Box(
+                contentAlignment = Alignment.Center
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = widget.label,
+                        style = MaterialTheme.typography.labelMedium,
+                        textAlign = TextAlign.Center
+                    )
                     Text(
                         text = if (value == serverValue && widget.stateFromLabel != null) {
                             widget.stateFromLabel.orEmpty()
@@ -132,7 +158,7 @@ fun SetpointScreen(widget: Widget, onCommand: (String) -> Unit) {
     }
 }
 
-private val presetColors = listOf(
+private val PresetColors = listOf(
     R.string.color_red to 0f,
     R.string.color_orange to 30f,
     R.string.color_yellow to 60f,
@@ -150,7 +176,9 @@ private val presetColors = listOf(
 fun ColorScreen(widget: Widget, onCommand: (String) -> Unit) {
     val listState = rememberTransformingLazyColumnState()
     val serverBrightness = widget.state?.asBrightness ?: 0
-    var brightness by remember(widget.id) { mutableFloatStateOf(serverBrightness.toFloat()) }
+    var brightness by remember(widget.id) {
+        mutableFloatStateOf(serverBrightness.toFloat())
+    }
 
     LaunchedEffect(brightness) {
         if (brightness.roundToInt() != serverBrightness) {
@@ -159,10 +187,20 @@ fun ColorScreen(widget: Widget, onCommand: (String) -> Unit) {
         }
     }
 
-    ScreenScaffold(scrollState = listState) { contentPadding ->
-        TransformingLazyColumn(state = listState, contentPadding = contentPadding) {
+    ScreenScaffold(
+        scrollState = listState
+    ) { contentPadding ->
+        TransformingLazyColumn(
+            state = listState,
+            contentPadding = contentPadding
+        ) {
             item {
-                ListHeader { Text(widget.label, textAlign = TextAlign.Center) }
+                ListHeader {
+                    Text(
+                        text = widget.label,
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
             item {
                 SwitchButton(
@@ -173,8 +211,14 @@ fun ColorScreen(widget: Widget, onCommand: (String) -> Unit) {
                 )
             }
             item {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 2.dp)) {
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 2.dp)
+                    ) {
                         Text(stringResource(R.string.color_brightness), modifier = Modifier.weight(1f))
                         Text("${brightness.roundToInt()} %")
                     }
@@ -187,8 +231,8 @@ fun ColorScreen(widget: Widget, onCommand: (String) -> Unit) {
                     )
                 }
             }
-            items(presetColors) { (labelRes, hue) ->
-                val color = Color(android.graphics.Color.HSVToColor(floatArrayOf(hue, 1f, 1f)))
+            items(PresetColors) { (labelRes, hue) ->
+                val color = Color.hsv(hue / 360f, 1f, 1f)
                 Button(
                     onClick = {
                         // Keep the brightness, but make sure the light is visible
@@ -196,16 +240,33 @@ fun ColorScreen(widget: Widget, onCommand: (String) -> Unit) {
                         onCommand("${hue.roundToInt()},100,$value")
                     },
                     colors = ButtonDefaults.filledTonalButtonColors(),
-                    icon = { Box(modifier = Modifier.size(24.dp).clip(CircleShape).background(color)) },
+                    icon = {
+                        Box(
+                            modifier = Modifier
+                                .size(24.dp)
+                                .clip(CircleShape)
+                                .background(color)
+                        )
+                    },
                     label = { Text(stringResource(labelRes)) },
                     modifier = Modifier.fillMaxWidth()
                 )
             }
             item {
                 Button(
-                    onClick = { onCommand("0,0,${brightness.roundToInt().takeIf { it > 0 } ?: 100}") },
+                    onClick = {
+                        val brightness = brightness.roundToInt().takeIf { it > 0 } ?: 100
+                        onCommand("0,0,$brightness")
+                    },
                     colors = ButtonDefaults.filledTonalButtonColors(),
-                    icon = { Box(modifier = Modifier.size(24.dp).clip(CircleShape).background(Color.White)) },
+                    icon = {
+                        Box(
+                            modifier = Modifier
+                                .size(24.dp)
+                                .clip(CircleShape)
+                                .background(Color.White)
+                        )
+                    },
                     label = { Text(stringResource(R.string.color_white)) },
                     modifier = Modifier.fillMaxWidth()
                 )

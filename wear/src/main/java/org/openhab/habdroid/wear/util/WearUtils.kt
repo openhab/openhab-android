@@ -26,8 +26,8 @@ private const val SOURCE_ID_BASE = "org.openhab.android.wear"
  * @param name Name of the sitemap selected on the phone
  * @return The selected sitemap, or the first sitemap if none is selected or it doesn't exist on the server
  */
-fun ServerProperties.findWearSitemap(name: String?): Sitemap? =
-    sitemaps.firstOrNull { sitemap -> sitemap.name == name } ?: sitemaps.sortedWithDefaultName("").firstOrNull()
+fun ServerProperties.findWearSitemap(name: String?): Sitemap? = sitemaps.firstOrNull { sitemap -> sitemap.name == name }
+    ?: sitemaps.sortedWithDefaultName("").firstOrNull()
 
 fun buildSourceId(sitemap: Sitemap?, pageUrl: String?): String {
     if (sitemap == null) {

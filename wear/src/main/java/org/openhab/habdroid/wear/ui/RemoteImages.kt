@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
@@ -30,7 +29,9 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.LocalContentColor
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.util.HttpClient
@@ -55,6 +56,7 @@ suspend fun Connection.loadBitmap(
     if (cachingMode != HttpClient.CachingMode.AVOID_CACHE) {
         bitmapCache.get(cacheKey)?.let { return it }
     }
+
     return try {
         httpClient.get(url, caching = cachingMode)
             .asBitmap(sizePixels, fallbackColor, policy)
@@ -67,22 +69,24 @@ suspend fun Connection.loadBitmap(
 }
 
 @Composable
-fun WidgetIcon(
-    icon: IconResource?,
-    connection: Connection,
-    serverFlags: Int,
-    modifier: Modifier = Modifier,
-    size: Dp = 24.dp
-) {
-    icon ?: return
+fun WidgetScope.WidgetIcon(icon: IconResource?, modifier: Modifier = Modifier, size: Dp = 24.dp) {
+    if (icon == null) {
+        return
+    }
+
     val sizePixels = with(LocalDensity.current) { size.roundToPx() }
     val fallbackColor = LocalContentColor.current.toArgb()
     val url = icon.toUrl(serverFlags, sizePixels)
-    val bitmap by produceState<ImageBitmap?>(bitmapCache.get("$url@$sizePixels")?.asImageBitmap(), url, connection) {
+    val bitmap by produceState(bitmapCache.get("$url@$sizePixels")?.asImageBitmap(), url, connection) {
         value = connection.loadBitmap(url, sizePixels, fallbackColor)?.asImageBitmap()
     }
     bitmap?.let {
-        Image(bitmap = it, contentDescription = null, modifier = modifier.size(size), contentScale = ContentScale.Fit)
+        Image(
+            bitmap = it,
+            contentDescription = null,
+            modifier = modifier.size(size),
+            contentScale = ContentScale.Fit
+        )
     }
 }
 
@@ -101,17 +105,14 @@ fun RemoteImage(
     modifier: Modifier = Modifier
 ) {
     val fallbackColor = LocalContentColor.current.toArgb()
-    val bitmap by produceState<ImageBitmap?>(bitmapCache.get("$url@$widthPixels")?.asImageBitmap(), url, connection) {
+    val bitmap by produceState(bitmapCache.get("$url@$widthPixels")?.asImageBitmap(), url, connection) {
         var cachingMode = HttpClient.CachingMode.DEFAULT
-        while (true) {
+        do {
             connection.loadBitmap(url, widthPixels, fallbackColor, ImageConversionPolicy.PreferSourceSize, cachingMode)
                 ?.let { value = it.asImageBitmap() }
-            if (refreshMillis <= 0) {
-                break
-            }
-            delay(refreshMillis.toLong())
+            delay(refreshMillis.milliseconds)
             cachingMode = HttpClient.CachingMode.AVOID_CACHE
-        }
+        } while (isActive && refreshMillis > 0)
     }
     bitmap?.let {
         Image(

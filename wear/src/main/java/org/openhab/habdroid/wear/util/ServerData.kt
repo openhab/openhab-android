@@ -40,10 +40,10 @@ suspend fun Connection.loadPageWidgets(url: String): List<Widget> {
  * @return The item and its state formatted by the server
  */
 @Throws(HttpClient.HttpException::class, JSONException::class)
-suspend fun Connection.loadItem(name: String): Pair<Item, String?> {
+suspend fun Connection.loadItem(name: String): Item {
     val response = httpClient.get("rest/items/$name", headers = JSON_HEADERS).asText().response
     val json = JSONObject(response)
-    return json.toItem() to json.optStringOrNull("displayState")
+    return json.toItem()
 }
 
 /**
@@ -61,8 +61,11 @@ suspend fun Connection.loadItemNames(groupName: String?): List<Pair<String, Stri
     }
     return items
         .map { item ->
-            item.getString("name") to
-                (item.optStringOrNull("label")?.takeIf { it.isNotEmpty() } ?: item.getString("name"))
+            val itemName = item.getString("name")
+            val itemLabel = item.optStringOrNull("label")
+                ?.takeIf { it.isNotEmpty() }
+                ?: itemName
+            itemName to itemLabel
         }
         .sortedBy { (_, label) -> label.lowercase() }
 }

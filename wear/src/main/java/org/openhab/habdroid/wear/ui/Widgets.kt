@@ -14,7 +14,6 @@
 package org.openhab.habdroid.wear.ui
 
 import android.graphics.BitmapFactory
-import android.location.Location
 import android.util.Base64
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -44,6 +43,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -83,19 +83,15 @@ import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.shouldRequestHighResChart
 import org.openhab.habdroid.wear.R
 
-interface WidgetActions {
-    fun openPage(url: String)
-
-    fun openSelection(widget: Widget)
-
-    fun openSetpoint(widget: Widget)
-
-    fun openColor(widget: Widget)
-
-    fun sendCommand(item: Item?, command: String)
-}
-
-class WidgetScope(val connection: Connection, val serverFlags: Int, val actions: WidgetActions)
+data class WidgetScope(
+    val connection: Connection,
+    val serverFlags: Int,
+    val onOpenPage: (url: String) -> Unit,
+    val onOpenSelection: (widget: Widget) -> Unit,
+    val onOpenSetpoint: (widget: Widget) -> Unit,
+    val onOpenColor: (widget: Widget) -> Unit,
+    val onSendCommand: (item: Item?, command: String) -> Unit
+)
 
 /**
  * A row of the page. Buttons of a button grid are part of the grid's row.
@@ -140,11 +136,8 @@ private fun ButtonText(text: String) {
 
 private val UNSUPPORTED_TYPES = setOf(Widget.Type.Video, Widget.Type.Webview)
 
-private fun Location.format() = String.format(Locale.getDefault(), "%.5f, %.5f", latitude, longitude)
-
 private const val SLIDER_COMMAND_DELAY_MILLIS = 300L
 private const val MAX_SLIDER_SEGMENTS = 10
-private const val COLOR_TEMPERATURE_STEP = 100f
 private const val MIN_COLOR_TEMPERATURE = 1000f
 
 /**
@@ -179,52 +172,133 @@ fun buildWidgetRows(widgets: List<Widget>): List<WidgetRowData> {
 }
 
 @Composable
-fun WidgetRow(row: WidgetRowData, scope: WidgetScope, modifier: Modifier, transformation: SurfaceTransformation) {
+fun WidgetScope.WidgetRow(row: WidgetRowData, modifier: Modifier, transformation: SurfaceTransformation) {
+    val locale = LocalLocale.current
     val widget = row.widget
     val item = widget.item
+
     when (widget.type) {
-        Widget.Type.Frame -> FrameHeader(widget, modifier, transformation)
+        Widget.Type.Frame -> FrameHeader(
+            widget = widget,
+            modifier = modifier,
+            transformation = transformation
+        )
 
         Widget.Type.Switch -> when {
-            widget.isPlayer() -> PlayerRow(widget, scope, modifier)
-            widget.mappings.canBeShownInline() -> MappingsRow(widget, scope, widget.mappings, modifier)
-            widget.mappings.isNotEmpty() -> SelectionRow(widget, scope, modifier, transformation)
-            item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> RollershutterRow(widget, scope, modifier)
-            else -> SwitchRow(widget, scope, modifier, transformation)
+            widget.isPlayer() -> PlayerRow(
+                widget = widget,
+                modifier = modifier
+            )
+
+            widget.mappings.canBeShownInline() -> MappingsRow(
+                widget = widget,
+                mappings = widget.mappings,
+                modifier = modifier
+            )
+
+            widget.mappings.isNotEmpty() -> SelectionRow(
+                widget = widget,
+                modifier = modifier,
+                transformation = transformation
+            )
+
+            item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> RollershutterRow(
+                widget = widget,
+                modifier = modifier
+            )
+
+            else -> SwitchRow(
+                widget = widget,
+                modifier = modifier,
+                transformation = transformation
+            )
         }
 
-        Widget.Type.Default if item?.isOfTypeOrGroupType(Item.Type.Player) == true -> PlayerRow(widget, scope, modifier)
+        Widget.Type.Default if item?.isOfTypeOrGroupType(Item.Type.Player) == true -> PlayerRow(
+            widget = widget,
+            modifier = modifier
+        )
 
-        Widget.Type.Button -> ButtonRow(widget, scope, modifier, transformation)
+        Widget.Type.Button -> ButtonRow(
+            widget = widget,
+            modifier = modifier,
+            transformation = transformation
+        )
 
-        Widget.Type.Buttongrid -> ButtonGridRow(widget, row.children, scope, modifier)
+        Widget.Type.Buttongrid -> ButtonGridRow(
+            widget = widget,
+            buttons = row.children,
+            modifier = modifier
+        )
 
-        Widget.Type.Selection -> SelectionRow(widget, scope, modifier, transformation)
+        Widget.Type.Selection -> SelectionRow(
+            widget = widget,
+            modifier = modifier,
+            transformation = transformation
+        )
 
-        Widget.Type.Setpoint -> ValueButton(widget, scope, modifier, transformation) {
-            scope.actions.openSetpoint(widget)
-        }
+        Widget.Type.Setpoint -> ValueButton(
+            widget = widget,
+            modifier = modifier,
+            transformation = transformation,
+            onClick = { onOpenSetpoint(widget) }
+        )
 
-        Widget.Type.Slider, Widget.Type.Colortemperaturepicker -> SliderRow(widget, scope, modifier)
+        Widget.Type.Slider -> SliderRow(
+            widget = widget,
+            modifier = modifier
+        )
 
-        Widget.Type.Colorpicker -> ColorRow(widget, scope, modifier, transformation)
+        Widget.Type.Colortemperaturepicker -> ColorTemperaturePickerRow(
+            widget = widget,
+            modifier = modifier
+        )
 
-        Widget.Type.Image -> ImageRow(widget, scope, modifier)
+        Widget.Type.Colorpicker -> ColorRow(
+            widget = widget,
+            modifier = modifier,
+            transformation = transformation
+        )
 
-        Widget.Type.Chart -> ChartRow(widget, scope, modifier)
+        Widget.Type.Image -> ImageRow(
+            widget = widget,
+            modifier = modifier
+        )
 
-        Widget.Type.Mapview -> TextRow(widget, scope, modifier, transformation, widget.state?.asLocation?.format())
+        Widget.Type.Chart -> ChartRow(
+            widget = widget,
+            modifier = modifier
+        )
+
+        Widget.Type.Mapview -> TextRow(
+            widget = widget,
+            modifier = modifier,
+            transformation = transformation,
+            state = widget.state?.asLocation?.let {
+                String.format(locale.platformLocale, "%.5f, %.5f", it.latitude, it.longitude)
+            }
+        )
 
         // Group, Text, Default and widgets that can't be used on a watch, e.g. Webview or Mapview
-        else -> TextRow(widget, scope, modifier, transformation)
+        else -> TextRow(
+            widget = widget,
+            modifier = modifier,
+            transformation = transformation
+        )
     }
 }
 
 @Composable
 private fun FrameHeader(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
     if (widget.label.isNotEmpty()) {
-        ListHeader(modifier = modifier, transformation = transformation) {
-            Text(widget.label, color = mapColor(widget.labelColor) ?: Color.Unspecified)
+        ListHeader(
+            modifier = modifier,
+            transformation = transformation
+        ) {
+            Text(
+                text = widget.label,
+                color = mapColor(widget.labelColor) ?: Color.Unspecified
+            )
         }
     }
 }
@@ -252,56 +326,59 @@ private fun WidgetState(widget: Widget, state: String? = widget.stateFromLabel) 
 }
 
 @Composable
-private fun TextRow(
+private fun WidgetScope.TextRow(
     widget: Widget,
-    scope: WidgetScope,
     modifier: Modifier,
     transformation: SurfaceTransformation,
     state: String? = widget.stateFromLabel
 ) {
     val linkedPage = widget.linkedPage
-    val colors = if (linkedPage !=
-        null
-    ) {
+    val colors = if (linkedPage != null) {
         ButtonDefaults.filledTonalButtonColors()
     } else {
         ButtonDefaults.childButtonColors()
     }
+
     Button(
-        onClick = { linkedPage?.let { page -> scope.actions.openPage(page.link) } },
+        onClick = { linkedPage?.let { page -> onOpenPage(page.link) } },
         modifier = modifier,
         colors = colors,
         transformation = transformation,
-        icon = { WidgetIcon(widget.icon, scope.connection, scope.serverFlags) },
-        secondaryLabel = state?.takeIf { it.isNotEmpty() }?.let { { WidgetState(widget, state) } },
+        icon = { WidgetIcon(widget.icon) },
+        secondaryLabel = state
+            ?.takeIf { it.isNotEmpty() }
+            ?.let { { WidgetState(widget, state) } },
         label = { WidgetLabel(widget) }
     )
 }
 
 @Composable
-private fun SwitchRow(widget: Widget, scope: WidgetScope, modifier: Modifier, transformation: SurfaceTransformation) {
+private fun WidgetScope.SwitchRow(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
     val isOn = widget.state?.asBoolean == true
     SwitchButton(
         checked = isOn,
-        onCheckedChange = { checked -> scope.actions.sendCommand(widget.item, if (checked) "ON" else "OFF") },
+        onCheckedChange = { checked -> onSendCommand(widget.item, if (checked) "ON" else "OFF") },
         modifier = modifier,
         transformation = transformation,
-        icon = { WidgetIcon(widget.icon, scope.connection, scope.serverFlags) },
-        secondaryLabel = widget.stateFromLabel?.takeIf { it.isNotEmpty() }?.let { { WidgetState(widget) } },
+        icon = { WidgetIcon(widget.icon) },
+        secondaryLabel = widget.stateFromLabel
+            ?.takeIf { it.isNotEmpty() }
+            ?.let { { WidgetState(widget) } },
         label = { WidgetLabel(widget) }
     )
 }
 
 @Composable
-private fun ButtonRow(widget: Widget, scope: WidgetScope, modifier: Modifier, transformation: SurfaceTransformation) {
-    val command = widget.command ?: return TextRow(widget, scope, modifier, transformation)
+private fun WidgetScope.ButtonRow(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
+    val command = widget.command
+        ?: return TextRow(widget, modifier, transformation)
     val isActive = widget.stateless == false && widget.item?.state?.asString == command
     Button(
-        onClick = { scope.actions.sendCommand(widget.item, command) },
+        onClick = { onSendCommand(widget.item, command) },
         modifier = modifier,
         colors = if (isActive) ButtonDefaults.buttonColors() else ButtonDefaults.filledTonalButtonColors(),
         transformation = transformation,
-        icon = { WidgetIcon(widget.icon, scope.connection, scope.serverFlags) },
+        icon = { WidgetIcon(widget.icon) },
         label = { WidgetLabel(widget) }
     )
 }
@@ -311,10 +388,17 @@ private fun ButtonRow(widget: Widget, scope: WidgetScope, modifier: Modifier, tr
  */
 @Composable
 private fun LabeledButtonGroup(widget: Widget, modifier: Modifier, buttons: @Composable () -> Unit) {
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier
+    ) {
         if (widget.label.isNotEmpty()) {
-            Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp)) {
-                WidgetLabel(widget, maxLines = 1)
+            Box(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp)
+            ) {
+                WidgetLabel(
+                    widget = widget,
+                    maxLines = 1
+                )
             }
         }
         buttons()
@@ -322,13 +406,18 @@ private fun LabeledButtonGroup(widget: Widget, modifier: Modifier, buttons: @Com
 }
 
 @Composable
-private fun MappingsRow(widget: Widget, scope: WidgetScope, mappings: List<LabeledValue>, modifier: Modifier) {
-    LabeledButtonGroup(widget, modifier) {
-        ButtonGroup(modifier = Modifier.fillMaxWidth()) {
+private fun WidgetScope.MappingsRow(widget: Widget, mappings: List<LabeledValue>, modifier: Modifier) {
+    LabeledButtonGroup(
+        widget = widget,
+        modifier = modifier
+    ) {
+        ButtonGroup(
+            modifier = Modifier.fillMaxWidth()
+        ) {
             mappings.forEach { mapping ->
                 val selected = widget.state?.asString == mapping.value
                 Button(
-                    onClick = { scope.actions.sendCommand(widget.item, mapping.value) },
+                    onClick = { onSendCommand(widget.item, mapping.value) },
                     modifier = Modifier.weight(1f),
                     colors = if (selected) ButtonDefaults.buttonColors() else ButtonDefaults.filledTonalButtonColors(),
                     contentPadding = CompactButtonDefaults.ContentPadding
@@ -341,13 +430,17 @@ private fun MappingsRow(widget: Widget, scope: WidgetScope, mappings: List<Label
 }
 
 @Composable
-private fun RollershutterRow(widget: Widget, scope: WidgetScope, modifier: Modifier) {
+private fun WidgetScope.RollershutterRow(widget: Widget, modifier: Modifier) {
     val commands = listOf(
-        "UP" to (R.drawable.ic_arrow_up_24dp to R.string.rollershutter_up),
-        "STOP" to (R.drawable.ic_stop_24dp to R.string.rollershutter_stop),
-        "DOWN" to (R.drawable.ic_arrow_down_24dp to R.string.rollershutter_down)
+        IconButtonSpec("UP", R.drawable.ic_arrow_up_24dp, R.string.rollershutter_up),
+        IconButtonSpec("STOP", R.drawable.ic_stop_24dp, R.string.rollershutter_stop),
+        IconButtonSpec("DOWN", R.drawable.ic_arrow_down_24dp, R.string.rollershutter_down)
     )
-    IconButtonRow(widget, scope, modifier, commands)
+    IconButtonRow(
+        widget = widget,
+        modifier = modifier,
+        buttons = commands
+    )
 }
 
 /**
@@ -356,23 +449,18 @@ private fun RollershutterRow(widget: Widget, scope: WidgetScope, modifier: Modif
  * @param commands Command with icon and content description
  */
 @Composable
-private fun IconButtonRow(
-    widget: Widget,
-    scope: WidgetScope,
-    modifier: Modifier,
-    commands: List<Pair<String, Pair<Int, Int>>>
-) {
+private fun WidgetScope.IconButtonRow(widget: Widget, modifier: Modifier, buttons: List<IconButtonSpec>) {
     LabeledButtonGroup(widget, modifier) {
         ButtonGroup(modifier = Modifier.fillMaxWidth()) {
-            commands.forEach { (command, resources) ->
+            buttons.forEach { spec ->
                 FilledTonalButton(
-                    onClick = { scope.actions.sendCommand(widget.item, command) },
+                    onClick = { onSendCommand(widget.item, spec.command) },
                     modifier = Modifier.weight(1f),
                     contentPadding = CompactButtonDefaults.ContentPadding
                 ) {
                     Icon(
-                        painter = painterResource(resources.first),
-                        contentDescription = stringResource(resources.second),
+                        painter = painterResource(spec.iconResId),
+                        contentDescription = stringResource(spec.descriptionResId),
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
@@ -381,6 +469,8 @@ private fun IconButtonRow(
     }
 }
 
+data class IconButtonSpec(val command: String, val iconResId: Int, val descriptionResId: Int)
+
 /**
  * Player items are sent as switches with the player commands as mappings
  */
@@ -388,22 +478,26 @@ private fun Widget.isPlayer() = item?.isOfTypeOrGroupType(Item.Type.Player) == t
     (mappings.isEmpty() || mappings.map { mapping -> mapping.value } == listOf("PREVIOUS", "PAUSE", "PLAY", "NEXT"))
 
 @Composable
-private fun PlayerRow(widget: Widget, scope: WidgetScope, modifier: Modifier) {
+private fun WidgetScope.PlayerRow(widget: Widget, modifier: Modifier) {
     val isPlaying = widget.item?.state?.asString == "PLAY"
     val commands = listOf(
-        "PREVIOUS" to (R.drawable.ic_skip_previous_24dp to R.string.player_previous),
+        IconButtonSpec("PREVIOUS", R.drawable.ic_skip_previous_24dp, R.string.player_previous),
         if (isPlaying) {
-            "PAUSE" to (R.drawable.ic_pause_24dp to R.string.player_pause)
+            IconButtonSpec("PAUSE", R.drawable.ic_pause_24dp, R.string.player_pause)
         } else {
-            "PLAY" to (R.drawable.ic_play_24dp to R.string.player_play)
+            IconButtonSpec("PLAY", R.drawable.ic_play_24dp, R.string.player_play)
         },
-        "NEXT" to (R.drawable.ic_skip_next_24dp to R.string.player_next)
+        IconButtonSpec("NEXT", R.drawable.ic_skip_next_24dp, R.string.player_next)
     )
-    IconButtonRow(widget, scope, modifier, commands)
+    IconButtonRow(
+        widget = widget,
+        modifier = modifier,
+        buttons = commands
+    )
 }
 
 @Composable
-private fun ButtonGridRow(widget: Widget, buttons: List<Widget>, scope: WidgetScope, modifier: Modifier) {
+private fun WidgetScope.ButtonGridRow(widget: Widget, buttons: List<Widget>, modifier: Modifier) {
     // Button grids either have Button child widgets (openHAB 4.2+) or mappings with row and column
     data class GridButton(
         val row: Int,
@@ -423,28 +517,42 @@ private fun ButtonGridRow(widget: Widget, buttons: List<Widget>, scope: WidgetSc
     val columns = entries.map { entry -> entry.column }
     val columnRange = (columns.minOrNull() ?: 0)..(columns.maxOrNull() ?: 0)
 
-    LabeledButtonGroup(widget, modifier) {
+    LabeledButtonGroup(
+        widget = widget,
+        modifier = modifier
+    ) {
         Column {
-            entries.groupBy { entry -> entry.row }.toSortedMap().values.forEach { rowEntries ->
-                ButtonGroup(modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp)) {
+            val rows = entries
+                .groupBy { entry -> entry.row }
+                .toSortedMap()
+                .values
+            rows.forEach { rowEntries ->
+                ButtonGroup(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 2.dp)
+                ) {
                     // Keep the buttons in their columns, e.g. for arrow keys of a remote control
                     columnRange.forEach { column ->
                         val entry = rowEntries.firstOrNull { entry -> entry.column == column }
                         if (entry == null) {
                             Box(modifier = Modifier.weight(1f))
-                            return@forEach
-                        }
-                        FilledTonalButton(
-                            onClick = { scope.actions.sendCommand(entry.item, entry.command) },
-                            modifier = Modifier.weight(1f),
-                            contentPadding = PaddingValues(horizontal = 2.dp)
-                        ) {
-                            if (entry.icon != null) {
-                                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                                    WidgetIcon(entry.icon, scope.connection, scope.serverFlags)
+                        } else {
+                            FilledTonalButton(
+                                onClick = { onSendCommand(entry.item, entry.command) },
+                                modifier = Modifier.weight(1f),
+                                contentPadding = PaddingValues(horizontal = 2.dp)
+                            ) {
+                                if (entry.icon != null) {
+                                    Box(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        WidgetIcon(entry.icon)
+                                    }
+                                } else {
+                                    ButtonText(entry.label)
                                 }
-                            } else {
-                                ButtonText(entry.label)
                             }
                         }
                     }
@@ -455,22 +563,21 @@ private fun ButtonGridRow(widget: Widget, buttons: List<Widget>, scope: WidgetSc
 }
 
 @Composable
-private fun SelectionRow(
-    widget: Widget,
-    scope: WidgetScope,
-    modifier: Modifier,
-    transformation: SurfaceTransformation
-) {
-    ValueButton(widget, scope, modifier, transformation) { scope.actions.openSelection(widget) }
+private fun WidgetScope.SelectionRow(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
+    ValueButton(
+        widget = widget,
+        modifier = modifier,
+        transformation = transformation,
+        onClick = { onOpenSelection(widget) }
+    )
 }
 
 /**
  * Button with label and state, that opens a screen to change the value
  */
 @Composable
-private fun ValueButton(
+private fun WidgetScope.ValueButton(
     widget: Widget,
-    scope: WidgetScope,
     modifier: Modifier,
     transformation: SurfaceTransformation,
     onClick: () -> Unit
@@ -480,44 +587,79 @@ private fun ValueButton(
         onClick = onClick,
         modifier = modifier,
         transformation = transformation,
-        icon = { WidgetIcon(widget.icon, scope.connection, scope.serverFlags) },
-        secondaryLabel = state?.takeIf { it.isNotEmpty() }?.let { { WidgetState(widget, state) } },
+        icon = { WidgetIcon(widget.icon) },
+        secondaryLabel = state
+            ?.takeIf { it.isNotEmpty() }
+            ?.let { { WidgetState(widget, state) } },
         label = { WidgetLabel(widget) }
     )
 }
 
 @Composable
-private fun SliderRow(widget: Widget, scope: WidgetScope, modifier: Modifier) {
-    val isColorTemperature = widget.type == Widget.Type.Colortemperaturepicker
-    val numberState = widget.state?.asNumber.let { state ->
-        if (isColorTemperature) state?.toColorTemperatureInKelvin() else state
-    }
-    val range = if (isColorTemperature) widget.colorTemperatureRange() else widget.minValue..widget.maxValue
-    val itemStep = if (isColorTemperature) COLOR_TEMPERATURE_STEP else widget.step.takeIf { it > 0 } ?: 1f
+private fun WidgetScope.ColorTemperaturePickerRow(widget: Widget, modifier: Modifier) {
+    val numberState = widget.state?.asNumber?.toColorTemperatureInKelvin()
+    SliderRow(
+        widget = widget,
+        currentState = numberState?.value,
+        range = widget.colorTemperatureRange(),
+        itemStep = 100f,
+        unit = numberState?.unit,
+        commandConverter = { numberState?.withValue(it)?.toItemCommand(widget.item) },
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun WidgetScope.SliderRow(widget: Widget, modifier: Modifier) {
+    val numberState = widget.state?.asNumber
+    SliderRow(
+        widget = widget,
+        currentState = numberState?.value ?: widget.state?.asBrightness?.toFloat(),
+        range = widget.minValue..widget.maxValue,
+        itemStep = widget.step.takeIf { it > 0 } ?: 1f,
+        unit = numberState?.unit,
+        commandConverter = { widget.numberCommand(it) },
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun WidgetScope.SliderRow(
+    widget: Widget,
+    currentState: Float?,
+    range: ClosedFloatingPointRange<Float>,
+    itemStep: Float,
+    unit: String?,
+    commandConverter: (Float) -> String?,
+    modifier: Modifier
+) {
     // The slider can only be changed with buttons, so combine small steps to limit the number of taps
     val units = (range.endInclusive - range.start) / itemStep
     val step = if (units > MAX_SLIDER_SEGMENTS) itemStep * ceil(units / MAX_SLIDER_SEGMENTS) else itemStep
-    val steps = (((range.endInclusive - range.start) / step).roundToInt() - 1).coerceAtLeast(0)
-    val serverValue = (numberState?.value ?: widget.state?.asBrightness?.toFloat() ?: range.start)
+    val steps = (((range.endInclusive - range.start) / step).roundToInt() - 1)
+        .coerceAtLeast(0)
+    val serverValue = (currentState ?: range.start)
         .coerceIn(range.start, range.endInclusive)
-    var value by remember(widget.id, serverValue) { mutableFloatStateOf(serverValue) }
+    var value by remember(widget.id, serverValue) {
+        mutableFloatStateOf(serverValue)
+    }
 
     // Wait for further changes to avoid sending a command for every step
     LaunchedEffect(value) {
         if (value != serverValue) {
             delay(SLIDER_COMMAND_DELAY_MILLIS)
-            val command = if (isColorTemperature) {
-                numberState?.withValue(value)?.toItemCommand(widget.item)
-            } else {
-                widget.numberCommand(value)
-            }
-            command?.let { scope.actions.sendCommand(widget.item, it) }
+            val command = commandConverter(value)
+            command?.let { onSendCommand(widget.item, it) }
         }
     }
 
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier
+    ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 2.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 2.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(modifier = Modifier.weight(1f)) {
@@ -526,9 +668,12 @@ private fun SliderRow(widget: Widget, scope: WidgetScope, modifier: Modifier) {
             val state = if (value == serverValue && widget.stateFromLabel != null) {
                 widget.stateFromLabel
             } else {
-                widget.formatValue(value, itemStep, numberState?.unit)
+                widget.formatValue(value, step, unit)
             }
-            WidgetState(widget, state)
+            WidgetState(
+                widget = widget,
+                state = state
+            )
         }
         Slider(
             value = value,
@@ -578,47 +723,64 @@ fun Widget.numberCommand(value: Float): String? = if (item?.isOfTypeOrGroupType(
 }
 
 @Composable
-private fun ColorRow(widget: Widget, scope: WidgetScope, modifier: Modifier, transformation: SurfaceTransformation) {
-    val color = widget.state?.asHsv?.let { hsv -> Color(hsv.toColor(includeValue = false)) }
+private fun WidgetScope.ColorRow(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
+    val color = widget.state?.asHsv?.let { hsv -> Color.hsv(hsv.hue, hsv.saturation, hsv.value) }
     FilledTonalButton(
-        onClick = { scope.actions.openColor(widget) },
+        onClick = { onOpenColor(widget) },
         modifier = modifier,
         transformation = transformation,
         icon = {
             if (color != null) {
-                Box(modifier = Modifier.size(24.dp).clip(CircleShape).background(color))
+                Box(
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clip(CircleShape)
+                        .background(color)
+                )
             } else {
-                Icon(painterResource(R.drawable.ic_palette_24dp), contentDescription = null)
+                Icon(
+                    painter = painterResource(R.drawable.ic_palette_24dp),
+                    contentDescription = null
+                )
             }
         },
-        label = { WidgetLabel(widget) }
+        label = {
+            WidgetLabel(widget)
+        }
     )
 }
 
 @Composable
-private fun ImageRow(widget: Widget, scope: WidgetScope, modifier: Modifier) {
+private fun WidgetScope.ImageRow(widget: Widget, modifier: Modifier) {
     // Image items contain the image as data URL in their state
     val dataUrl = widget.item?.state?.asString?.takeIf { state -> state.matches(DATA_URL_REGEX) }
-    val dataBitmap = remember(dataUrl) { dataUrl?.decodeDataUrl() }
-    if (dataBitmap != null) {
-        Image(
+    val dataBitmap = remember(dataUrl) {
+        dataUrl?.decodeDataUrl()
+    }
+    val url = widget.url ?: widget.item?.link
+
+    when {
+        dataBitmap != null -> Image(
             bitmap = dataBitmap,
             contentDescription = widget.label,
             contentScale = ContentScale.FillWidth,
             modifier = modifier.clip(MaterialTheme.shapes.medium)
         )
-        return
+
+        url != null -> {
+            val widthPixels = with(LocalDensity.current) {
+                LocalConfiguration.current.screenWidthDp.dp.roundToPx()
+            }
+            RemoteImage(
+                url = url,
+                connection = connection,
+                widthPixels = widthPixels,
+                refreshMillis = widget.refresh,
+                contentDescription = widget.label,
+                modifier = modifier.clip(MaterialTheme.shapes.medium)
+            )
+        }
     }
-    val url = widget.url ?: widget.item?.link ?: return
-    val widthPixels = with(LocalDensity.current) { LocalConfiguration.current.screenWidthDp.dp.roundToPx() }
-    RemoteImage(
-        url = url,
-        connection = scope.connection,
-        widthPixels = widthPixels,
-        refreshMillis = widget.refresh,
-        contentDescription = widget.label,
-        modifier = modifier.clip(MaterialTheme.shapes.medium)
-    )
 }
 
 private val DATA_URL_REGEX = "data:image/.*;base64,.*".toRegex()
@@ -631,12 +793,12 @@ private fun String.decodeDataUrl(): ImageBitmap? = try {
 }
 
 @Composable
-private fun ChartRow(widget: Widget, scope: WidgetScope, modifier: Modifier) {
+private fun WidgetScope.ChartRow(widget: Widget, modifier: Modifier) {
     val context = LocalContext.current
     val density = LocalDensity.current
     val screenWidthDp = LocalConfiguration.current.screenWidthDp
     val widthPixels = with(density) { screenWidthDp.dp.roundToPx() }
-    val theme = if (scope.serverFlags and ServerProperties.SERVER_FLAG_TRANSPARENT_CHARTS != 0) {
+    val theme = if (serverFlags and ServerProperties.SERVER_FLAG_TRANSPARENT_CHARTS != 0) {
         "black_transparent"
     } else {
         "black"
@@ -650,21 +812,33 @@ private fun ChartRow(widget: Widget, scope: WidgetScope, modifier: Modifier) {
         // Lower the density, so that the chart is laid out like on a phone screen instead of using large fonts
         density = context.resources.displayMetrics.densityDpi * screenWidthDp / CHART_REFERENCE_WIDTH_DP,
         forcedLegend = false
-    ) ?: return
-    Column(modifier = modifier) {
-        if (widget.label.isNotEmpty()) {
-            Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp)) {
-                WidgetLabel(widget, maxLines = 1)
+    )
+
+    if (url != null) {
+        Column(
+            modifier = modifier
+        ) {
+            if (widget.label.isNotEmpty()) {
+                Box(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp)
+                ) {
+                    WidgetLabel(
+                        widget = widget,
+                        maxLines = 1
+                    )
+                }
             }
+            RemoteImage(
+                url = url,
+                connection = connection,
+                widthPixels = widthPixels,
+                refreshMillis = widget.refresh,
+                contentDescription = widget.label,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(MaterialTheme.shapes.medium)
+            )
         }
-        RemoteImage(
-            url = url,
-            connection = scope.connection,
-            widthPixels = widthPixels,
-            refreshMillis = widget.refresh,
-            contentDescription = widget.label,
-            modifier = Modifier.fillMaxWidth().clip(MaterialTheme.shapes.medium)
-        )
     }
 }
 

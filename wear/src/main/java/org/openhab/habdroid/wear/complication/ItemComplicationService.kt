@@ -47,7 +47,7 @@ class ItemComplicationService : SuspendingComplicationDataSourceService() {
             ?: return NotConfiguredComplicationData()
         val connection = wearApplication.connectionManager.awaitConnection()?.connection
             ?: return NoDataComplicationData()
-        val (item, displayState) = try {
+        val item = try {
             connection.loadItem(itemName)
         } catch (e: HttpClient.HttpException) {
             Log.w(TAG, "Loading item $itemName failed", e)
@@ -58,7 +58,7 @@ class ItemComplicationService : SuspendingComplicationDataSourceService() {
         }
 
         val label = item.label?.takeIf { it.isNotEmpty() } ?: item.name
-        val state = displayState?.takeIf { it.isNotEmpty() } ?: item.state?.asString ?: "-"
+        val state = item.displayState?.takeIf { it.isNotEmpty() } ?: item.state?.asString ?: "-"
         val tapAction = buildTapAction(item, request.complicationInstanceId)
         return buildData(request.complicationType, label, state, item, tapAction)
     }
@@ -79,29 +79,25 @@ class ItemComplicationService : SuspendingComplicationDataSourceService() {
     ): ComplicationData? {
         val description = "$label: $state".toComplicationText()
         return when (type) {
-            ComplicationType.SHORT_TEXT -> ShortTextComplicationData.Builder(state.toComplicationText(), description)
-                .setTitle(label.toComplicationText())
-                .setTapAction(tapAction)
-                .build()
+            ComplicationType.SHORT_TEXT ->
+                ShortTextComplicationData.Builder(state.toComplicationText(), description)
+                    .setTitle(label.toComplicationText())
+                    .setTapAction(tapAction)
+                    .build()
 
-            ComplicationType.LONG_TEXT -> LongTextComplicationData.Builder(state.toComplicationText(), description)
-                .setTitle(label.toComplicationText())
-                .setTapAction(tapAction)
-                .build()
+            ComplicationType.LONG_TEXT ->
+                LongTextComplicationData.Builder(state.toComplicationText(), description)
+                    .setTitle(label.toComplicationText())
+                    .setTapAction(tapAction)
+                    .build()
 
             ComplicationType.RANGED_VALUE -> {
-                val value = if (item ==
-                    null
-                ) {
-                    21.5f
-                } else {
-                    item.state?.asNumber?.value ?: item.state?.asBrightness?.toFloat()
-                }
+                val value = item?.state?.asNumber?.value ?: item?.state?.asBrightness?.toFloat()
                 if (value == null) {
                     return NoDataComplicationData()
                 }
                 val min = item?.minimum ?: 0f
-                val max = item?.maximum ?: if (item == null) 30f else 100f
+                val max = item?.maximum ?: 100f
                 RangedValueComplicationData.Builder(value.coerceIn(min, max), min, max, description)
                     .setText(state.toComplicationText())
                     .setTitle(label.toComplicationText())
@@ -120,7 +116,8 @@ class ItemComplicationService : SuspendingComplicationDataSourceService() {
                 .putExtra(ComplicationTapReceiver.EXTRA_ITEM_NAME, item.name)
             PendingIntent.getBroadcast(this, complicationId, intent, flags)
         } else {
-            val intent = Intent(this, WearMainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            val intent = Intent(this, WearMainActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             PendingIntent.getActivity(this, complicationId, intent, flags)
         }
     }

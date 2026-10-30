@@ -82,8 +82,13 @@ class WearConfigRepository(private val context: Context) {
         try {
             val items = Wearable.getDataClient(context).dataItems.await()
             val item = items.firstOrNull { item -> item.uri.path == WearConfig.DATA_PATH }
-            val json = item?.let { DataMapItem.fromDataItem(it).dataMap.getString(WearConfig.DATA_KEY_CONFIG) }
+            val json = item?.let {
+                DataMapItem.fromDataItem(it)
+                    .dataMap
+                    .getString(WearConfig.DATA_KEY_CONFIG)
+            }
             items.release()
+
             if (json != null) {
                 val config = WearConfig.fromJson(json)
                 if (config != this.config && !isDemo) {

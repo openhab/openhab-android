@@ -13,10 +13,6 @@
 
 package org.openhab.habdroid.wear.ui
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,12 +25,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnScope
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
@@ -56,26 +50,22 @@ import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TimeText
 import androidx.wear.compose.material3.confirmationDialogCurvedText
 import androidx.wear.compose.material3.openOnPhoneDialogCurvedText
-import androidx.wear.remote.interactions.RemoteActivityHelper
-import kotlinx.coroutines.guava.await
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.core.connection.Connection
-import org.openhab.habdroid.wear.BuildConfig
 import org.openhab.habdroid.wear.R
 import org.openhab.habdroid.wear.config.WearConfigRepository
-import org.openhab.habdroid.wear.connection.WearConnectionManager
 import org.openhab.habdroid.wear.connection.WearConnectionManager.ConnectionError
-import org.openhab.habdroid.wear.wearApplication
-
-/**
- * Deep link handled by the phone app to open the settings of the primary server
- */
-private const val PHONE_SETUP_URI = "openhab://wear-setup"
 
 @Composable
 fun LoadingScreen() {
-    ScreenScaffold(timeText = { TimeText() }) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+    ScreenScaffold(
+        timeText = { TimeText() }
+    ) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
             CircularProgressIndicator()
         }
     }
@@ -93,9 +83,17 @@ private fun MessageScreen(
 ) {
     val listState = rememberTransformingLazyColumnState()
     val content: @Composable (PaddingValues) -> Unit = { contentPadding ->
-        TransformingLazyColumn(state = listState, contentPadding = contentPadding) {
+        TransformingLazyColumn(
+            state = listState,
+            contentPadding = contentPadding
+        ) {
             item {
-                ListHeader { Text(title, textAlign = TextAlign.Center) }
+                ListHeader {
+                    Text(
+                        text = title,
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
             item {
                 Text(
@@ -109,48 +107,47 @@ private fun MessageScreen(
         }
     }
     if (edgeButton != null) {
-        ScreenScaffold(scrollState = listState, edgeButton = { edgeButton() }) { padding -> content(padding) }
+        ScreenScaffold(
+            scrollState = listState,
+            edgeButton = { edgeButton() },
+            content = { padding -> content(padding) }
+        )
     } else {
-        ScreenScaffold(scrollState = listState) { padding -> content(padding) }
+        ScreenScaffold(
+            scrollState = listState,
+            content = { padding -> content(padding) }
+        )
     }
 }
 
 @Composable
-fun SetupScreen() {
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
+fun SetupScreen(onOpenSetupOnPhone: () -> Unit, onEnableDemoMode: () -> Unit) {
     var openOnPhoneResult by remember { mutableStateOf<Boolean?>(null) }
 
     MessageScreen(
         title = stringResource(R.string.setup_title),
         message = stringResource(R.string.setup_message),
         edgeButton = {
-            EdgeButton(onClick = {
-                scope.launch {
-                    openOnPhoneResult = context.openSetupOnPhone()
-                }
-            }) {
+            EdgeButton(onClick = onOpenSetupOnPhone) {
                 Text(stringResource(R.string.setup_open_on_phone))
             }
         }
     ) {
         item {
             FilledTonalButton(
-                onClick = { context.wearApplication.configRepository.setDemoMode(true) },
+                onClick = onEnableDemoMode,
                 label = { Text(stringResource(R.string.setup_demo)) },
                 modifier = Modifier.fillMaxWidth()
             )
         }
     }
 
-    OpenOnPhoneResultDialog(openOnPhoneResult, onDismissRequest = { openOnPhoneResult = null })
+    OpenOnPhoneResultDialog(
+        result = openOnPhoneResult,
+        onDismissRequest = { openOnPhoneResult = null }
+    )
 }
 
-/**
- * Tells the user to continue on the phone, or that the phone isn't reachable
- *
- * @param result Result of [openSetupOnPhone], null to hide the dialog
- */
 @Composable
 private fun OpenOnPhoneResultDialog(result: Boolean?, onDismissRequest: () -> Unit) {
     val continueText = stringResource(R.string.continue_on_phone)
@@ -160,63 +157,56 @@ private fun OpenOnPhoneResultDialog(result: Boolean?, onDismissRequest: () -> Un
     OpenOnPhoneDialog(
         visible = result == true,
         onDismissRequest = onDismissRequest,
-        curvedText = { openOnPhoneDialogCurvedText(text = continueText, style = openOnPhoneTextStyle) }
+        curvedText = {
+            openOnPhoneDialogCurvedText(
+                text = continueText,
+                style = openOnPhoneTextStyle
+            )
+        }
     )
     FailureConfirmationDialog(
         visible = result == false,
         onDismissRequest = onDismissRequest,
-        curvedText = { confirmationDialogCurvedText(failedText, failureTextStyle) }
+        curvedText = {
+            confirmationDialogCurvedText(
+                text = failedText,
+                style = failureTextStyle
+            )
+        }
     )
 }
 
-/**
- * Opens the server settings of the phone app, or the app in the Play Store if it isn't installed.
- *
- * @return true if the phone has been asked to open the page
- */
-private suspend fun Context.openSetupOnPhone(): Boolean {
-    val helper = RemoteActivityHelper(this)
-    val setupIntent = Intent(Intent.ACTION_VIEW, Uri.parse(PHONE_SETUP_URI)).addCategory(Intent.CATEGORY_BROWSABLE)
-    val storeIntent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${BuildConfig.APPLICATION_ID}"))
-        .addCategory(Intent.CATEGORY_BROWSABLE)
-    return try {
-        helper.startRemoteActivity(setupIntent).await()
-        true
-    } catch (e: Exception) {
-        Log.d("SetupScreen", "Unable to open setup on phone, try to open the Play Store", e)
-        try {
-            helper.startRemoteActivity(storeIntent).await()
-            true
-        } catch (e: Exception) {
-            Log.w("SetupScreen", "Unable to open Play Store on phone", e)
-            false
-        }
-    }
-}
-
 @Composable
-fun ErrorScreen(state: SitemapViewModel.State.Error, onRetry: () -> Unit, navController: NavHostController?) {
-    val message = when (state.error) {
-        ConnectionError.ConnectionFailed -> stringResource(R.string.error_connection_failed, state.url.orEmpty())
+fun ErrorScreen(error: ConnectionError, url: String?, onRetry: () -> Unit, onGoToSettings: (() -> Unit)?) {
+    val message = when (error) {
+        ConnectionError.ConnectionFailed -> stringResource(R.string.error_connection_failed, url.orEmpty())
         ConnectionError.CertificateNotTrusted -> stringResource(R.string.error_certificate_not_trusted)
         ConnectionError.AuthenticationFailed -> stringResource(R.string.error_authentication_failed)
-        ConnectionError.HttpError -> stringResource(R.string.error_http, state.url.orEmpty())
+        ConnectionError.HttpError -> stringResource(R.string.error_http, url.orEmpty())
     }
     MessageScreen(
         title = stringResource(R.string.error_title),
         message = message,
         edgeButton = {
             EdgeButton(onClick = onRetry) {
-                Icon(painterResource(R.drawable.ic_refresh_24dp), contentDescription = stringResource(R.string.retry))
+                Icon(
+                    painter = painterResource(R.drawable.ic_refresh_24dp),
+                    contentDescription = stringResource(R.string.retry)
+                )
             }
         }
     ) {
-        if (navController != null) {
+        if (onGoToSettings != null) {
             item {
                 FilledTonalButton(
-                    onClick = { navController.navigate(Routes.SETTINGS) },
+                    onClick = onGoToSettings,
                     label = { Text(stringResource(R.string.settings)) },
-                    icon = { Icon(painterResource(R.drawable.ic_settings_24dp), contentDescription = null) },
+                    icon = {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_settings_24dp),
+                            contentDescription = null
+                        )
+                    },
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -231,19 +221,26 @@ fun NoSitemapsScreen(onRetry: () -> Unit) {
         message = stringResource(R.string.error_no_sitemaps),
         edgeButton = {
             EdgeButton(onClick = onRetry) {
-                Icon(painterResource(R.drawable.ic_refresh_24dp), contentDescription = stringResource(R.string.retry))
+                Icon(
+                    painter = painterResource(R.drawable.ic_refresh_24dp),
+                    contentDescription = stringResource(R.string.retry)
+                )
             }
         }
     )
 }
 
 @Composable
-fun SettingsScreen(viewModel: SitemapViewModel, onReconnect: () -> Unit) {
-    val context = LocalContext.current
+fun SettingsScreen(
+    settingsFlow: StateFlow<WearConfigRepository.Settings>,
+    stateFlow: StateFlow<SitemapViewModel.State>,
+    onReconnect: () -> Unit,
+    onSetDemoMode: (Boolean) -> Unit,
+    onOpenSetupOnPhone: suspend () -> Boolean
+) {
     val scope = rememberCoroutineScope()
-    val repository = context.wearApplication.configRepository
-    val settings by repository.settings.collectAsStateWithLifecycle()
-    val connectionState by context.wearApplication.connectionManager.state.collectAsStateWithLifecycle()
+    val state by stateFlow.collectAsStateWithLifecycle()
+    val settings by settingsFlow.collectAsStateWithLifecycle()
     var openOnPhoneResult by remember { mutableStateOf<Boolean?>(null) }
     val listState = rememberTransformingLazyColumnState()
 
@@ -253,8 +250,7 @@ fun SettingsScreen(viewModel: SitemapViewModel, onReconnect: () -> Unit) {
                 ListHeader { Text(stringResource(R.string.settings)) }
             }
             item {
-                val connection = (connectionState as? WearConnectionManager.State.Connected)
-                    ?.connection
+                val connection = (state as? SitemapViewModel.State.Ready)?.connection
                 val summary = when {
                     connection == null -> stringResource(R.string.settings_not_connected)
 
@@ -264,10 +260,7 @@ fun SettingsScreen(viewModel: SitemapViewModel, onReconnect: () -> Unit) {
                     else -> stringResource(R.string.settings_connected_remote)
                 }
                 Button(
-                    onClick = {
-                        viewModel.retry()
-                        onReconnect()
-                    },
+                    onClick = onReconnect,
                     label = { Text(stringResource(R.string.settings_connection)) },
                     secondaryLabel = { Text(summary) },
                     colors = ButtonDefaults.filledTonalButtonColors(),
@@ -279,19 +272,18 @@ fun SettingsScreen(viewModel: SitemapViewModel, onReconnect: () -> Unit) {
                     ?.isDemo == true
                 SwitchButton(
                     checked = isDemo,
-                    onCheckedChange = { checked ->
-                        repository.setDemoMode(checked)
-                        if (!checked) {
-                            scope.launch { repository.syncFromDataLayer() }
-                        }
-                    },
+                    onCheckedChange = onSetDemoMode,
                     label = { Text(stringResource(R.string.settings_demo_mode)) },
                     modifier = Modifier.fillMaxWidth()
                 )
             }
             item {
                 FilledTonalButton(
-                    onClick = { scope.launch { openOnPhoneResult = context.openSetupOnPhone() } },
+                    onClick = {
+                        scope.launch {
+                            openOnPhoneResult = onOpenSetupOnPhone()
+                        }
+                    },
                     label = { Text(stringResource(R.string.settings_edit_on_phone)) },
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -299,5 +291,8 @@ fun SettingsScreen(viewModel: SitemapViewModel, onReconnect: () -> Unit) {
         }
     }
 
-    OpenOnPhoneResultDialog(openOnPhoneResult, onDismissRequest = { openOnPhoneResult = null })
+    OpenOnPhoneResultDialog(
+        result = openOnPhoneResult,
+        onDismissRequest = { openOnPhoneResult = null }
+    )
 }

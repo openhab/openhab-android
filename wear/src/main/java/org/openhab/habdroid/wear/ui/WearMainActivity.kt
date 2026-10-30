@@ -13,14 +13,18 @@
 
 package org.openhab.habdroid.wear.ui
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.core.net.toUri
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
@@ -28,20 +32,43 @@ import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
+import androidx.wear.remote.interactions.RemoteActivityHelper
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.guava.await
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.model.Widget
+import org.openhab.habdroid.wear.BuildConfig
+import org.openhab.habdroid.wear.config.WearConfigRepository
+import org.openhab.habdroid.wear.voice.VoiceCommandActivity
 import org.openhab.habdroid.wear.wearApplication
 
 class WearMainActivity : ComponentActivity() {
     private val viewModel: SitemapViewModel by viewModels()
+    private val configRepository get() = wearApplication.configRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             WearTheme {
-                WearApp(viewModel)
+                WearApp(
+                    viewModel = viewModel,
+                    settingsFlow = configRepository.settings,
+                    onOpenVoiceCommand = {
+                        startActivity(Intent(this, VoiceCommandActivity::class.java))
+                    },
+                    onOpenSetupOnPhone = this::openSetupOnPhone,
+                    onSetDemoMode = { enable ->
+                        configRepository.setDemoMode(enable)
+                        if (!enable) {
+                            lifecycleScope.launch {
+                                configRepository.syncFromDataLayer()
+                            }
+                        }
+                    }
+                )
             }
         }
+
         lifecycleScope.launch {
             wearApplication.configRepository.syncFromDataLayer()
         }
@@ -56,6 +83,31 @@ class WearMainActivity : ComponentActivity() {
     override fun onStop() {
         super.onStop()
         viewModel.stop()
+    }
+
+    private suspend fun openSetupOnPhone(): Boolean {
+        val helper = RemoteActivityHelper(this)
+        val setupIntent = Intent(Intent.ACTION_VIEW, "openhab://wear-setup".toUri())
+            .addCategory(Intent.CATEGORY_BROWSABLE)
+        val storeIntent = Intent(Intent.ACTION_VIEW, "market://details?id=${BuildConfig.APPLICATION_ID}".toUri())
+            .addCategory(Intent.CATEGORY_BROWSABLE)
+        return try {
+            helper.startRemoteActivity(setupIntent).await()
+            true
+        } catch (e: Exception) {
+            Log.d(TAG, "Unable to open setup on phone, try to open the Play Store", e)
+            try {
+                helper.startRemoteActivity(storeIntent).await()
+                true
+            } catch (e: Exception) {
+                Log.w(TAG, "Unable to open Play Store on phone", e)
+                false
+            }
+        }
+    }
+
+    companion object {
+        private const val TAG = "WearMainActivity"
     }
 }
 
@@ -91,60 +143,129 @@ object Routes {
 }
 
 @Composable
-fun WearApp(viewModel: SitemapViewModel) {
+fun WearApp(
+    viewModel: SitemapViewModel,
+    settingsFlow: StateFlow<WearConfigRepository.Settings>,
+    onOpenVoiceCommand: () -> Unit,
+    onOpenSetupOnPhone: suspend () -> Boolean,
+    onSetDemoMode: (Boolean) -> Unit
+) {
+    val scope = rememberCoroutineScope()
     val navController = rememberSwipeDismissableNavController()
     AppScaffold {
-        SwipeDismissableNavHost(navController = navController, startDestination = Routes.MAIN) {
+        SwipeDismissableNavHost(
+            navController = navController,
+            startDestination = Routes.MAIN
+        ) {
             composable(Routes.MAIN) {
-                MainScreen(viewModel, navController)
+                MainScreen(
+                    viewModel = viewModel,
+                    navController = navController,
+                    onOpenVoiceCommand = onOpenVoiceCommand,
+                    onOpenSetupOnPhone = {
+                        scope.launch {
+                            onOpenSetupOnPhone()
+                        }
+                    },
+                    onEnableDemoMode = { onSetDemoMode(true) }
+                )
             }
+
             composable(Routes.PAGE_PATTERN) { entry ->
                 val pageUrl = Routes.pageArg(entry.arguments)
-                ReadyState(viewModel) { ready -> PageScreen(pageUrl, ready, viewModel, navController) }
-            }
-            composable(Routes.SELECTION_PATTERN) { entry ->
-                WidgetState(viewModel, entry.arguments, navController) { widget, _ ->
-                    SelectionScreen(widget, onSelect = { command ->
-                        viewModel.sendCommand(widget.item, command)
-                        navController.popBackStack()
-                    })
+                ReadyState(viewModel) { ready ->
+                    PageScreen(
+                        pageUrl = pageUrl,
+                        state = ready,
+                        viewModel = viewModel,
+                        navController = navController,
+                        onOpenVoiceCommand = null,
+                        onOpenSettings = null
+                    )
                 }
             }
+
+            composable(Routes.SELECTION_PATTERN) { entry ->
+                WidgetState(viewModel, entry.arguments, navController = navController) { widget, _ ->
+                    SelectionScreen(
+                        widget = widget,
+                        onSelect = { command ->
+                            viewModel.sendCommand(widget.item, command)
+                            navController.popBackStack()
+                        }
+                    )
+                }
+            }
+
             composable(Routes.SETPOINT_PATTERN) { entry ->
                 WidgetState(viewModel, entry.arguments, navController) { widget, _ ->
-                    SetpointScreen(widget, onCommand = { command -> viewModel.sendCommand(widget.item, command) })
+                    SetpointScreen(
+                        widget = widget,
+                        onCommand = { command -> viewModel.sendCommand(widget.item, command) }
+                    )
                 }
             }
+
             composable(Routes.COLOR_PATTERN) { entry ->
                 WidgetState(viewModel, entry.arguments, navController) { widget, _ ->
-                    ColorScreen(widget, onCommand = { command -> viewModel.sendCommand(widget.item, command) })
+                    ColorScreen(
+                        widget = widget,
+                        onCommand = { command -> viewModel.sendCommand(widget.item, command) }
+                    )
                 }
             }
+
             composable(Routes.SETTINGS) {
                 // Go back to the sitemap, so the user sees the reconnection
-                SettingsScreen(viewModel, onReconnect = { navController.popBackStack() })
+                SettingsScreen(
+                    settingsFlow = settingsFlow,
+                    stateFlow = viewModel.state,
+                    onReconnect = {
+                        viewModel.retry()
+                        navController.popBackStack()
+                    },
+                    onSetDemoMode = onSetDemoMode,
+                    onOpenSetupOnPhone = onOpenSetupOnPhone
+                )
             }
         }
     }
 }
 
 @Composable
-private fun MainScreen(viewModel: SitemapViewModel, navController: NavHostController) {
+private fun MainScreen(
+    viewModel: SitemapViewModel,
+    navController: NavHostController,
+    onOpenVoiceCommand: () -> Unit,
+    onOpenSetupOnPhone: () -> Unit,
+    onEnableDemoMode: () -> Unit
+) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     when (val current = state) {
         is SitemapViewModel.State.Loading -> LoadingScreen()
 
-        is SitemapViewModel.State.NotConfigured -> SetupScreen()
+        is SitemapViewModel.State.NotConfigured -> SetupScreen(
+            onOpenSetupOnPhone = onOpenSetupOnPhone,
+            onEnableDemoMode = onEnableDemoMode
+        )
 
         is SitemapViewModel.State.Error -> ErrorScreen(
-            current,
+            error = current.error,
+            url = current.url,
             onRetry = viewModel::retry,
-            navController = navController
+            onGoToSettings = { navController.navigate(Routes.SETTINGS) }
         )
 
         is SitemapViewModel.State.NoSitemaps -> NoSitemapsScreen(onRetry = viewModel::retry)
 
-        is SitemapViewModel.State.Ready -> PageScreen(current.sitemap.homepageLink, current, viewModel, navController)
+        is SitemapViewModel.State.Ready -> PageScreen(
+            pageUrl = current.sitemap.homepageLink,
+            state = current,
+            viewModel = viewModel,
+            navController = navController,
+            onOpenVoiceCommand = onOpenVoiceCommand,
+            onOpenSettings = { navController.navigate(Routes.SETTINGS) }
+        )
     }
 }
 
@@ -156,7 +277,14 @@ private fun ReadyState(viewModel: SitemapViewModel, content: @Composable (Sitema
     val state by viewModel.state.collectAsStateWithLifecycle()
     when (val current = state) {
         is SitemapViewModel.State.Ready -> content(current)
-        is SitemapViewModel.State.Error -> ErrorScreen(current, onRetry = viewModel::retry, navController = null)
+
+        is SitemapViewModel.State.Error -> ErrorScreen(
+            error = current.error,
+            url = current.url,
+            onRetry = viewModel::retry,
+            onGoToSettings = null
+        )
+
         else -> LoadingScreen()
     }
 }
@@ -170,11 +298,16 @@ private fun WidgetState(
 ) {
     val pages by viewModel.pages.collectAsStateWithLifecycle()
     val widgetId = Routes.widgetArg(args)
-    val widget = pages[Routes.pageArg(args)]?.widgets?.firstOrNull { widget -> widget.id == widgetId }
+    val widget = pages[Routes.pageArg(args)]
+        ?.widgets
+        ?.firstOrNull { widget -> widget.id == widgetId }
+
     ReadyState(viewModel) { ready ->
         if (widget == null) {
             // The page has been reloaded and the widget is gone
-            LaunchedEffect(Unit) { navController.popBackStack() }
+            LaunchedEffect(Unit) {
+                navController.popBackStack()
+            }
         } else {
             content(widget, ready)
         }

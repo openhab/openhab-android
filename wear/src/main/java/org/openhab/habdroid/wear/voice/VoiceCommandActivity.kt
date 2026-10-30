@@ -135,7 +135,10 @@ class VoiceCommandActivity : ComponentActivity() {
     @Composable
     private fun Content(current: State) {
         ScreenScaffold {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
                 if (current is State.Sending || current is State.Listening) {
                     CircularProgressIndicator()
                 }
@@ -144,10 +147,16 @@ class VoiceCommandActivity : ComponentActivity() {
         ConfirmationDialog(
             visible = current is State.Sent,
             onDismissRequest = { finish() },
-            text = { Text((current as? State.Sent)?.text.orEmpty(), textAlign = TextAlign.Center) }
-        ) {
-            ConfirmationDialogDefaults.SuccessIcon()
-        }
+            text = {
+                Text(
+                    text = (current as? State.Sent)?.text.orEmpty(),
+                    textAlign = TextAlign.Center
+                )
+            },
+            content = {
+                ConfirmationDialogDefaults.SuccessIcon()
+            }
+        )
         val failedText = stringResource(R.string.voice_failed)
         val curvedTextStyle = ConfirmationDialogDefaults.curvedTextStyle
         FailureConfirmationDialog(
