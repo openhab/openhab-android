@@ -288,7 +288,6 @@ class ConnectionFactory internal constructor(
     private fun loadServerConnections(serverId: Int): ServerConnections? {
         val config = ServerConfiguration.load(prefs, secretPrefs, serverId) ?: return null
         val local = config.localPath?.let { path -> DefaultConnection(httpClient, Connection.TYPE_LOCAL, path) }
-        // Only local connections are supported on TV
         val remote = config.remotePath?.let { path -> DefaultConnection(httpClient, Connection.TYPE_REMOTE, path) }
         return ServerConnections(local, remote)
     }
