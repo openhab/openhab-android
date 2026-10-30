@@ -463,6 +463,9 @@
     <string name="item_update_error_no_connection">Keng Connectioun</string>
     <string name="item_update_error_couldnt_get_item_type">Item-Typ net fonnt</string>
     <string name="create_home_screen_widget_title">Widget erstellen</string>
+    <!-- Android TV -->
+    <string name="tv_settings_sitemap">Sitemap</string>
+    <string name="tv_loading">Lueden\u2026</string>
     <!-- Data saver -->
     <string name="data_saver_title">Datespuermodus</string>
     <string name="data_saver_load">Trotzdeem lueden</string>
