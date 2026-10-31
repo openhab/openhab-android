@@ -17,7 +17,6 @@ import android.app.Dialog
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.service.quicksettings.TileService
 import android.view.MenuItem
@@ -54,8 +53,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         if (savedInstanceState == null) {
             resultIntent = Intent()
             val fragment = when {
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
-                    intent.action == TileService.ACTION_QS_TILE_PREFERENCES -> {
+                intent.action == TileService.ACTION_QS_TILE_PREFERENCES -> {
                     val tile = intent.parcelable<ComponentName>(Intent.EXTRA_COMPONENT_NAME)
                     val tileId: Int = tile?.className?.let { AbstractTileService.getIdFromClassName(it) } ?: 0
                     if (tileId > 0) {

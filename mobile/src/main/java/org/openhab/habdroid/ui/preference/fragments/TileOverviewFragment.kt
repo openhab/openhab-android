@@ -13,9 +13,7 @@
 
 package org.openhab.habdroid.ui.preference.fragments
 
-import android.os.Build
 import android.os.Bundle
-import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.preference.Preference
@@ -24,7 +22,6 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.background.tiles.AbstractTileService
 import org.openhab.habdroid.background.tiles.getTileData
 
-@RequiresApi(Build.VERSION_CODES.N)
 class TileOverviewFragment : AbstractSettingsFragment() {
     override val titleResId: Int @StringRes get() = R.string.tiles_for_quick_settings
 

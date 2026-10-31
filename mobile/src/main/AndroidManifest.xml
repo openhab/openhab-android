@@ -153,14 +153,12 @@
             android:windowSoftInputMode="adjustPan"
             android:exported="true">
 
-            <!-- for Nougat -->
             <layout
                 android:defaultWidth="600dp"
                 android:defaultHeight="500dp"
                 android:gravity="top|end"
                 android:minWidth="80dp"
-                android:minHeight="80dp"
-                tools:targetApi="n" />
+                android:minHeight="80dp" />
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -333,7 +331,6 @@
             android:enabled="@bool/enable_system_foreground_service_default"
             android:exported="false"
             android:foregroundServiceType="shortService"
-            tools:targetApi="n"
             tools:ignore="Instantiatable" />
 
         <service

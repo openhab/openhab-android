@@ -660,7 +660,6 @@
     <string name="data_saver_title">Data saver</string>
     <string name="data_saver_on">Sitemap elements that may require larger data transfers aren\'t loaded</string>
     <string name="data_saver_off">The system wide data saver setting is followed when loading data-using Sitemap elements</string>
-    <string name="data_saver_off_pre_n">All Sitemap elements are loaded, disregarding their data usage</string>
     <string name="data_saver_load">Load anyway</string>
     <string name="data_saver_hint">%s was not loaded to save data</string>
     <string name="data_saver_snackbar">Icons aren\'t based on Item states, because data saver is turned on</string>

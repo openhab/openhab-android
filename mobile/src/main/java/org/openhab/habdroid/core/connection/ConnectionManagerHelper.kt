@@ -81,7 +81,7 @@ interface ConnectionManagerHelper {
 
     companion object {
         fun create(context: Context): ConnectionManagerHelper = when (Build.VERSION.SDK_INT) {
-            in 21..25 -> HelperApi21(context)
+            in 24..25 -> HelperApi21(context)
             in 26..30 -> HelperApi26(context)
             else -> HelperApi31(context)
         }
@@ -284,12 +284,10 @@ fun NetworkCapabilities.isUsable(): Boolean {
             return false
         }
     }
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        // We don't need validation for e.g. Wifi as we'll use a local connection there,
-        // but we definitely need a working internet connection on mobile
-        if (hasTransport(TRANSPORT_CELLULAR) && !hasCapability(NET_CAPABILITY_VALIDATED)) {
-            return false
-        }
+    // We don't need validation for e.g. Wifi as we'll use a local connection there,
+    // but we definitely need a working internet connection on mobile
+    if (hasTransport(TRANSPORT_CELLULAR) && !hasCapability(NET_CAPABILITY_VALIDATED)) {
+        return false
     }
 
     return true

@@ -13,7 +13,6 @@
 
 package org.openhab.habdroid.core
 
-import android.annotation.TargetApi
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -62,14 +61,12 @@ class NotificationHelper(private val context: Context) {
 
     fun cancelNotificationById(id: CloudNotificationId) {
         notificationManager.cancel(id.notificationId)
-        if (HAS_GROUPING_SUPPORT) {
-            val active = notificationManager.activeNotifications
-            if (countCloudNotifications(active) == 0) {
-                // Cancel summary when removing the last sub-notification
-                notificationManager.cancel(SUMMARY_NOTIFICATION_ID)
-            } else {
-                updateGroupNotification()
-            }
+        val active = notificationManager.activeNotifications
+        if (countCloudNotifications(active) == 0) {
+            // Cancel summary when removing the last sub-notification
+            notificationManager.cancel(SUMMARY_NOTIFICATION_ID)
+        } else {
+            updateGroupNotification()
         }
     }
 
@@ -89,9 +86,6 @@ class NotificationHelper(private val context: Context) {
     }
 
     fun handleNotificationDismissed(notificationId: Int) {
-        if (!HAS_GROUPING_SUPPORT) {
-            return
-        }
         if (notificationId == SUMMARY_NOTIFICATION_ID) {
             // Cancel all sub-notifications when removing the summary
             notificationManager.activeNotifications.forEach { notificationManager.cancel(it.id) }
@@ -101,9 +95,6 @@ class NotificationHelper(private val context: Context) {
     }
 
     private fun updateGroupNotification() {
-        if (!HAS_GROUPING_SUPPORT) {
-            return
-        }
         val count = countCloudNotifications(notificationManager.activeNotifications)
         if (count > 1) {
             val deleteIntent = NotificationHandlingReceiver.createDismissedPendingIntent(
@@ -141,7 +132,6 @@ class NotificationHelper(private val context: Context) {
         }
     }
 
-    @TargetApi(23)
     private fun countCloudNotifications(active: Array<StatusBarNotification>): Int =
         active.count { n -> n.id != 0 && (n.groupKey?.endsWith("gcm") == true) }
 
@@ -238,7 +228,6 @@ class NotificationHelper(private val context: Context) {
         }
     }
 
-    @TargetApi(24)
     fun makeSummaryNotification(subNotificationCount: Int, timestamp: Long, deleteIntent: PendingIntent): Notification {
         val text = context.resources.getQuantityString(
             R.plurals.summary_notification_text,
@@ -301,9 +290,5 @@ class NotificationHelper(private val context: Context) {
         }
 
         internal const val SUMMARY_NOTIFICATION_ID = 0
-
-        // Notification grouping is only available on N or higher, as mentioned in
-        // https://developer.android.com/guide/topics/ui/notifiers/notifications#bundle
-        private val HAS_GROUPING_SUPPORT = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
     }
 }

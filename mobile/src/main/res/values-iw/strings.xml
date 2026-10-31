@@ -568,7 +568,6 @@
     <string name="data_saver_title">חסכון בנתונים</string>
     <string name="data_saver_on">רכיבי תצורת המערכת העלולים לדרוש העברת נפח נתונים גדול לא יטענו</string>
     <string name="data_saver_off">ההגדרה של חיסכון הנתונים ברמת המערכת מתבצעת בעת טעינת נתונים באמצעות רכיבי Sitemap</string>
-    <string name="data_saver_off_pre_n">כל רכיבי ה-Sitemap נטענים, ללא התחשבות בשימוש בנתונים שלהם</string>
     <string name="data_saver_load">טען בכל מקרה</string>
     <string name="data_saver_hint">%s לא נטען על מנת לשמור על נפח המידע</string>
     <string name="data_saver_snackbar">הצלמיות אינן מבוססות על מצבי פריט מכיוון שמצב חסכון בנתונים מופעל</string>

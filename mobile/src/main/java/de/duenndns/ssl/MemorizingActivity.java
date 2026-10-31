@@ -31,7 +31,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 
@@ -62,10 +61,8 @@ public class MemorizingActivity extends Activity
 			mThemedContext = DynamicColors.wrapContextIfAvailable(mThemedContext);
 		}
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			int colorPrimary = ExtensionFuncsKt.resolveThemedColor(mThemedContext, R.attr.colorPrimary, 0);
-			setTaskDescription(new ActivityManager.TaskDescription(null, null, colorPrimary));
-		}
+		int colorPrimary = ExtensionFuncsKt.resolveThemedColor(mThemedContext, R.attr.colorPrimary, 0);
+		setTaskDescription(new ActivityManager.TaskDescription(null, null, colorPrimary));
 
 		LOGGER.log(Level.FINE, "onCreate");
 		super.onCreate(savedInstanceState);

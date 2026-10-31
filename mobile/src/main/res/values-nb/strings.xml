@@ -568,7 +568,6 @@
     <string name="data_saver_title">Datasparing</string>
     <string name="data_saver_on">Sitemap-elementer som kan kreve større dataoverføringer blir ikke lastet</string>
     <string name="data_saver_off">Datasparingsinstillingen for systemet følges når du laster inn Sitemap-elementer som bruker data</string>
-    <string name="data_saver_off_pre_n">Alle Sitemap-elementer blir lastet, uavhengig av deres dataforbruk</string>
     <string name="data_saver_load">Last inn uansett</string>
     <string name="data_saver_hint">%s ble ikke lastet for å spare data</string>
     <string name="data_saver_snackbar">Ikoner er ikke basert på Item-tilstand fordi datasparing er slått på</string>

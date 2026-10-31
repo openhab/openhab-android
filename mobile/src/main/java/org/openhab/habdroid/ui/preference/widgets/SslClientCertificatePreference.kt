@@ -17,7 +17,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
-import android.os.Build
 import android.security.KeyChain
 import android.security.KeyChainException
 import android.security.keystore.KeyProperties
@@ -66,11 +65,7 @@ class SslClientCertificatePreference(context: Context, attrs: AttributeSet) :
 
     @SuppressLint("WrongConstant")
     override fun onClick() {
-        val keyTypes = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            arrayOf(KeyProperties.KEY_ALGORITHM_RSA, KeyProperties.KEY_ALGORITHM_EC)
-        } else {
-            arrayOf("RSA", "DSA")
-        }
+        val keyTypes = arrayOf(KeyProperties.KEY_ALGORITHM_RSA, KeyProperties.KEY_ALGORITHM_EC)
 
         try {
             Log.d(TAG, "Query for key types: ${keyTypes.contentToString()}")

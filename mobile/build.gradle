@@ -38,7 +38,7 @@ android {
 
     defaultConfig {
         applicationId "org.openhab.habdroid"
-        minSdkVersion 23
+        minSdkVersion 24
         targetSdkVersion 36
         versionCode 609
         versionName "3.22.9-beta"

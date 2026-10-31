@@ -182,7 +182,7 @@ internal object UpdateValueGetters {
         return ItemUpdateWorker.ValueWithInfo(ssidToSend)
     }
 
-    fun buildDndModeUpdateInfo(context: Context) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+    fun buildDndModeUpdateInfo(context: Context): ItemUpdateWorker.ValueWithInfo {
         val nm = context.getSystemService<NotificationManager>()
         val mode = when (nm?.currentInterruptionFilter) {
             NotificationManager.INTERRUPTION_FILTER_NONE -> "TOTAL_SILENCE"
@@ -191,9 +191,7 @@ internal object UpdateValueGetters {
             NotificationManager.INTERRUPTION_FILTER_ALL -> "OFF"
             else -> "UNDEF"
         }
-        ItemUpdateWorker.ValueWithInfo(mode)
-    } else {
-        ItemUpdateWorker.ValueWithInfo("UNDEF")
+        return ItemUpdateWorker.ValueWithInfo(mode)
     }
 
     fun buildBluetoothDevicesUpdateInfo(context: Context): ItemUpdateWorker.ValueWithInfo {

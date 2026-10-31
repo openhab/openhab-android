@@ -14,7 +14,6 @@
 package org.openhab.habdroid.ui.preference.fragments
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -25,7 +24,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
@@ -47,7 +45,6 @@ import org.openhab.habdroid.ui.preference.widgets.CustomInputTypePreference
 import org.openhab.habdroid.ui.preference.widgets.ItemAndStatePreference
 import org.openhab.habdroid.util.parcelableArrayList
 
-@RequiresApi(Build.VERSION_CODES.N)
 class TileSettingsFragment :
     AbstractSettingsFragment(),
     PreferencesActivity.ConfirmLeaveDialogFragment.Callback,

@@ -564,7 +564,6 @@
     <string name="data_saver_title">Adatforgalom-csökkentő</string>
     <string name="data_saver_on">A nagyobb adatátvitelt igénylő honlap elemek nem lesznek betöltve</string>
     <string name="data_saver_off">A rendszerszintű adat megtakarító beállítások érvényben lesznek, amikor az elemek betöltődnek</string>
-    <string name="data_saver_off_pre_n">Minden elemet töltsön be függetlenül az adathasználatától</string>
     <string name="data_saver_load">Betölt mindenképp</string>
     <string name="data_saver_hint">Adat megtakarítás miatt %s nem került betöltésre</string>
     <string name="data_saver_snackbar">Az adatmegtakarítás bekapcsolása miatt az ikonok állapota nem követi az Elemek állapotát</string>

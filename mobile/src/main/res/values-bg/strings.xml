@@ -382,7 +382,6 @@
     <string name="data_saver_title">Пестене на данни</string>
     <string name="data_saver_on">Елементи от сайткартата, които могат да изискват много данни, няма да се зареждат</string>
     <string name="data_saver_off">При зареждане на сайткарти се вземат предвид настройките на устройството за пестене на данни</string>
-    <string name="data_saver_off_pre_n">Всички елементи от сайткартата се зареждат, независимо от употребата на данни</string>
     <string name="data_saver_load">Зареди въпреки това</string>
     <string name="data_saver_hint">Графиката за „%s“ не беше зареденa, за да се пестят данни</string>
     <string name="data_saver_snackbar">Картинките не се основават на състоянието на елементите, за да се пестят данни</string>

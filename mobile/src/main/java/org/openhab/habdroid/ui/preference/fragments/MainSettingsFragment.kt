@@ -25,7 +25,6 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -36,7 +35,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
-import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.color.DynamicColors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -108,10 +106,7 @@ class MainSettingsFragment : AbstractSettingsFragment() {
             prefs.getStringOrFallbackIfEmpty(PrefKeys.SCREEN_LOCK, getString(R.string.settings_screen_lock_off_value))
         )
         populateServerPrefs()
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            updateTileSummary()
-        }
+        updateTileSummary()
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -139,11 +134,6 @@ class MainSettingsFragment : AbstractSettingsFragment() {
         val deviceControlPref = getPreference(PrefKeys.SUBSCREEN_DEVICE_CONTROL)
         val crashReporting = getPreference(PrefKeys.CRASH_REPORTING)
         val androidAuto = getPreference(PrefKeys.CAR_SITEMAP_INFO)
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            val dataSaverPref = getPreference(PrefKeys.DATA_SAVER) as SwitchPreferenceCompat
-            dataSaverPref.setSwitchTextOff(R.string.data_saver_off_pre_n)
-        }
 
         updateRingtonePreferenceSummary(ringtonePref, prefs.getNotificationTone())
         updateVibrationPreferenceIcon(vibrationPref, prefs.getStringOrNull(PrefKeys.NOTIFICATION_VIBRATION))
@@ -298,15 +288,11 @@ class MainSettingsFragment : AbstractSettingsFragment() {
             true
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            tilePref.setOnPreferenceClickListener {
-                parentActivity.openSubScreen(TileOverviewFragment())
-                false
-            }
-            updateTileSummary()
-        } else {
-            preferenceScreen.removePreferenceRecursively(PrefKeys.SUBSCREEN_TILE)
+        tilePref.setOnPreferenceClickListener {
+            parentActivity.openSubScreen(TileOverviewFragment())
+            false
         }
+        updateTileSummary()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             deviceControlPref.setOnPreferenceClickListener {
@@ -397,7 +383,7 @@ class MainSettingsFragment : AbstractSettingsFragment() {
     private fun updateScreenLockStateAndSummary(value: String?) {
         val pref = findPreference<Preference>(PrefKeys.SCREEN_LOCK) ?: return
         val km = ContextCompat.getSystemService(pref.context, KeyguardManager::class.java)!!
-        val locked = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) km.isDeviceSecure else km.isKeyguardSecure
+        val locked = km.isDeviceSecure
         pref.isEnabled = locked
         pref.summary = getString(
             when {
@@ -444,7 +430,6 @@ class MainSettingsFragment : AbstractSettingsFragment() {
         pref.setIcon(if (noVibration) R.drawable.ic_vibrate_off_grey_24dp else R.drawable.ic_vibration_grey_24dp)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun updateTileSummary() {
         val activeTileCount = (1..AbstractTileService.TILE_COUNT)
             .mapNotNull { id -> prefs.getTileData(id) }

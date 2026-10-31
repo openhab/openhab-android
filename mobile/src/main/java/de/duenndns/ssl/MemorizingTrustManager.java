@@ -26,7 +26,6 @@
  */
 package de.duenndns.ssl;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Notification;
@@ -41,8 +40,6 @@ import android.os.Handler;
 import android.text.SpannableStringBuilder;
 import android.text.style.RelativeSizeSpan;
 import android.util.SparseArray;
-
-import androidx.annotation.RequiresApi;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.background.NotificationUpdateObserver;
@@ -207,15 +204,9 @@ MemorizingTrustManager implements X509TrustManager {
      * If the server certificate is untrusted and doesn't match the host name either,
      * the user is asked only once about both issues instead of being asked about the
      * certificate first and about the host name afterwards.
-     *
-     * Getting the host name requires {@link X509ExtendedTrustManager}, which is only
-     * available on Android 7.0 and newer. On older versions this instance is returned.
      */
     public X509TrustManager getHostnameAwareTrustManager() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return new HostnameAwareTrustManager();
-        }
-        return this;
+        return new HostnameAwareTrustManager();
     }
 
     /**
@@ -684,7 +675,6 @@ MemorizingTrustManager implements X509TrustManager {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     void startActivityNotification(Intent intent, int decisionId, CharSequence certName) {
         final PendingIntent call = PendingIntent.getActivity(
             master,
@@ -852,7 +842,6 @@ MemorizingTrustManager implements X509TrustManager {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     class HostnameAwareTrustManager extends X509ExtendedTrustManager {
         @Override
         public void checkServerTrusted(X509Certificate[] chain, String authType, Socket socket)

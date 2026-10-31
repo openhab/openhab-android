@@ -132,13 +132,7 @@ open class ItemUpdateWidget : AppWidgetProvider() {
         appWidgetIds.forEach {
             Log.d(TAG, "Deleting data for id $it")
             CacheManager.getInstance(context).removeWidgetIcon(it)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                context.deleteSharedPreferences(getPrefsNameForWidget(it))
-            } else {
-                getPrefsForWidget(context, it).edit {
-                    clear()
-                }
-            }
+            context.deleteSharedPreferences(getPrefsNameForWidget(it))
         }
         super.onDeleted(context, appWidgetIds)
     }
