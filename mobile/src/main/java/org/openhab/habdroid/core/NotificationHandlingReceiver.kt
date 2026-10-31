@@ -123,6 +123,20 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
                 )
             }
 
+            is CloudNotificationAction.Action.AppAction -> {
+                val intent = Intent(Intent.ACTION_MAIN).apply {
+                    addCategory(Intent.CATEGORY_LAUNCHER)
+                    setPackage(cnaAction.packageName)
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+                }
+                PendingIntent.getActivity(
+                    context,
+                    notificationId.notificationId + cna.hashCode(),
+                    intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
+                )
+            }
+
             else -> {
                 val intent = Intent(context, NotificationHandlingReceiver::class.java).apply {
                     action = ACTION_NOTIF_ACTION

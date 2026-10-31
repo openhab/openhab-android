@@ -35,6 +35,19 @@ class CloudNotificationTest {
         assertEquals("Open page2", navigateUiCommandAction.label)
         assertEquals(CloudNotificationAction.Action.UiCommandAction("navigate:/foo"), navigateUiCommandAction.action)
 
+        val appAction = "Open Sonos=app:android=com.sonos.acr2,ios=sonos-2://".toCloudNotificationAction()!!
+        assertEquals("Open Sonos", appAction.label)
+        assertEquals(CloudNotificationAction.Action.AppAction("com.sonos.acr2"), appAction.action)
+
+        val reversedAppAction = "Open app=app:ios=acme://foo,android=com.acme.app".toCloudNotificationAction()!!
+        assertEquals(CloudNotificationAction.Action.AppAction("com.acme.app"), reversedAppAction.action)
+
+        val androidOnlyAppAction = "Open app=app:android=com.acme.app".toCloudNotificationAction()!!
+        assertEquals(CloudNotificationAction.Action.AppAction("com.acme.app"), androidOnlyAppAction.action)
+
+        val iosOnlyAppAction = "Open app=app:ios=acme://foo".toCloudNotificationAction()!!
+        assertEquals(CloudNotificationAction.Action.NoAction, iosOnlyAppAction.action)
+
         val invalidAction = "Invalid=foo".toCloudNotificationAction()!!
         assertEquals("Invalid", invalidAction.label)
         assertEquals(CloudNotificationAction.Action.NoAction, invalidAction.action)
