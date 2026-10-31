@@ -1769,6 +1769,9 @@ class MainActivity : AbstractBaseActivity() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
             return
         }
+        val manager = shortcutManager ?: return
+        // ShortcutManager#addDynamicShortcuts() and #disableShortcuts() may take several seconds,
+        // so they must not run on the main thread.
         if (visible) {
             val intent = Intent(this, MainActivity::class.java)
                 .setAction(action)
@@ -1777,13 +1780,18 @@ class MainActivity : AbstractBaseActivity() {
                 .setIcon(Icon.createWithResource(this, icon))
                 .setIntent(intent)
                 .build()
-            try {
-                shortcutManager?.addDynamicShortcuts(listOf(shortcut))
-            } catch (e: IllegalArgumentException) {
-                Log.e(TAG, "Failed to add shortcut $id", e)
+            launch(Dispatchers.IO) {
+                try {
+                    manager.addDynamicShortcuts(listOf(shortcut))
+                } catch (e: IllegalArgumentException) {
+                    Log.e(TAG, "Failed to add shortcut $id", e)
+                }
             }
         } else {
-            shortcutManager?.disableShortcuts(listOf(id), getString(disableMessage))
+            val message = getString(disableMessage)
+            launch(Dispatchers.IO) {
+                manager.disableShortcuts(listOf(id), message)
+            }
         }
     }
 
