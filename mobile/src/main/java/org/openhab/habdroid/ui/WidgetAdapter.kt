@@ -1625,12 +1625,40 @@ class WidgetAdapter(
         override val dataSaverBinding get() = binding.dataSaver
         override val iconTextBinding get() = binding.icontext
 
-        private val exoPlayer = ExoPlayer.Builder(itemView.context).build()
+        private var exoPlayer: ExoPlayer? = null
+        private var needsReloadAfterRelease = false
 
         init {
-            binding.player.player = exoPlayer
             binding.videoPlayerErrorButton.setOnClickListener(this)
-            exoPlayer.addAnalyticsListener(this)
+            // The player holds a decoder and a playback thread, so release it as soon as the view
+            // isn't shown anymore. This also covers the case of the whole page being left, where
+            // no detach callback is sent to the adapter.
+            itemView.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+                override fun onViewAttachedToWindow(v: View) {}
+
+                override fun onViewDetachedFromWindow(v: View) {
+                    releasePlayer()
+                }
+            })
+        }
+
+        private fun getOrCreatePlayer(): ExoPlayer = exoPlayer ?: ExoPlayer.Builder(itemView.context).build().also {
+            it.addAnalyticsListener(this)
+            binding.player.player = it
+            exoPlayer = it
+        }
+
+        private fun releasePlayer() {
+            val player = exoPlayer ?: return
+            needsReloadAfterRelease = player.currentMediaItem != null
+            binding.player.player = null
+            player.release()
+            exoPlayer = null
+        }
+
+        override fun bindImpl(widget: Widget) {
+            needsReloadAfterRelease = false
+            super.bindImpl(widget)
         }
 
         @androidx.media3.common.util.UnstableApi
@@ -1638,14 +1666,19 @@ class WidgetAdapter(
             loadVideo(widget, false)
         }
 
+        @androidx.media3.common.util.UnstableApi
         override fun onStart() {
+            val widget = boundWidget
+            if (exoPlayer == null && needsReloadAfterRelease && widget != null) {
+                loadVideo(widget, true)
+            }
             if (itemView.context.determineDataUsagePolicy(connection).autoPlayVideos) {
-                exoPlayer.play()
+                exoPlayer?.play()
             }
         }
 
         override fun onStop() {
-            exoPlayer.pause()
+            exoPlayer?.pause()
         }
 
         @androidx.media3.common.util.UnstableApi
@@ -1683,21 +1716,24 @@ class WidgetAdapter(
             val mediaItem = absoluteUrl?.let { MediaItem.fromUri(it) }
             val mediaSource = mediaItem?.let { factory.createMediaSource(it) }
 
-            if (exoPlayer.currentMediaItem == mediaItem && !forceReload) {
-                binding.videoPlayerLoading.isVisible = exoPlayer.playbackState != Player.STATE_READY
-                exoPlayer.play()
+            val currentPlayer = exoPlayer
+            if (currentPlayer != null && currentPlayer.currentMediaItem == mediaItem && !forceReload) {
+                binding.videoPlayerLoading.isVisible = currentPlayer.playbackState != Player.STATE_READY
+                currentPlayer.play()
                 return
             }
 
-            exoPlayer.stop()
-            exoPlayer.clearMediaItems()
+            needsReloadAfterRelease = false
+            currentPlayer?.stop()
+            currentPlayer?.clearMediaItems()
             if (mediaSource == null) {
                 binding.videoPlayerLoading.isVisible = false
                 return
             }
 
-            exoPlayer.setMediaSource(mediaSource)
-            exoPlayer.prepare()
+            val player = getOrCreatePlayer()
+            player.setMediaSource(mediaSource)
+            player.prepare()
         }
 
         @androidx.media3.common.util.UnstableApi
