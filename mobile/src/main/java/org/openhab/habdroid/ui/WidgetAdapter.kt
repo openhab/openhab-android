@@ -1752,8 +1752,9 @@ class WidgetAdapter(
             wasCanceled: Boolean
         ) {
             super.onLoadError(eventTime, loadEventInfo, mediaLoadData, error, wasCanceled)
-            Log.e(TAG, "onLoadError()", error)
-            handleError()
+            // Load errors are retried by the player, so they don't necessarily mean that playback failed.
+            // If retrying doesn't help, onPlayerError() is called.
+            Log.w(TAG, "onLoadError()", error)
         }
 
         @androidx.media3.common.util.UnstableApi
