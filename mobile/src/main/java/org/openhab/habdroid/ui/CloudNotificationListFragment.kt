@@ -130,7 +130,7 @@ class CloudNotificationListFragment : Fragment() {
                 var skip = 0
                 var pages = 0
                 do {
-                    val url = "api/v1/notifications?limit=$PAGE_SIZE&skip=$skip"
+                    val url = "api/v1/notifications?limit=$LIST_PAGE_SIZE&skip=$skip"
                     val response = conn.httpClient.get(url).asText().response
                     val items = JSONArray(response).map { obj -> obj.toCloudMessage() }
                     notifications.addAll(items.filterIsInstance<CloudMessage.CloudNotification>())
@@ -235,7 +235,8 @@ class CloudNotificationListFragment : Fragment() {
     }
 
     companion object {
-        private const val PAGE_SIZE = 100
+        const val PAGE_SIZE = 50
+        private const val LIST_PAGE_SIZE = 100
         private const val MAX_PAGES = 20
 
         private val TAG = CloudNotificationListFragment::class.java.simpleName

@@ -368,6 +368,7 @@ class CloudNotificationAdapter(
             val action = cna.action
             when {
                 intent != null -> context.startActivity(intent)
+
                 action is CloudNotificationAction.Action.ItemCommandAction ->
                     context.getBackgroundTasksManager().enqueueNotificationAction(action)
             }
