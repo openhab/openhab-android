@@ -1758,6 +1758,16 @@ class WidgetAdapter(
 
         @androidx.media3.common.util.UnstableApi
         override fun onPlayerError(eventTime: AnalyticsListener.EventTime, error: PlaybackException) {
+            val player = exoPlayer
+            if (error.errorCode == PlaybackException.ERROR_CODE_BEHIND_LIVE_WINDOW && player != null) {
+                // The playback position isn't part of the live stream anymore, e.g. after a longer pause.
+                // Jump to the live edge instead of showing an error.
+                Log.d(TAG, "Playback fell behind live window, restarting at live edge")
+                binding.videoPlayerLoading.isVisible = true
+                player.seekToDefaultPosition()
+                player.prepare()
+                return
+            }
             Log.e(TAG, "onPlayerError()", error)
             handleError()
         }
