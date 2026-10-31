@@ -54,7 +54,6 @@ class CloudNotificationListFragment : Fragment() {
     private var requestJob: Job? = null
     private lateinit var adapter: CloudNotificationAdapter
     private lateinit var layoutManager: LinearLayoutManager
-    private var loadOffset: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
@@ -72,12 +71,12 @@ class CloudNotificationListFragment : Fragment() {
             setOnRefreshListener {
                 Log.d(TAG, "onRefresh()")
                 binding.swipeContainer.isRefreshing = false
-                loadNotifications(true)
+                loadNotifications()
             }
             applyColors()
         }
         binding.retryButton.setOnClickListener {
-            loadNotifications(true)
+            loadNotifications()
         }
 
         return binding.root
@@ -85,9 +84,7 @@ class CloudNotificationListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = CloudNotificationAdapter(view.context, usePrimaryServer(), viewLifecycleOwner.lifecycleScope) {
-            loadNotifications(false)
-        }
+        adapter = CloudNotificationAdapter(view.context, usePrimaryServer(), viewLifecycleOwner.lifecycleScope)
         layoutManager = LinearLayoutManager(view.context)
 
         recyclerView.layoutManager = layoutManager
@@ -97,7 +94,7 @@ class CloudNotificationListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume()")
-        loadNotifications(true)
+        loadNotifications()
     }
 
     override fun onPause() {
@@ -107,7 +104,7 @@ class CloudNotificationListFragment : Fragment() {
         requestJob?.cancel()
     }
 
-    private fun loadNotifications(clearExisting: Boolean) {
+    private fun loadNotifications() {
         val activity = activity as AbstractBaseActivity? ?: return
         val connInfo = if (usePrimaryServer()) {
             activity.getConnectionFactory().currentPrimary
@@ -119,27 +116,28 @@ class CloudNotificationListFragment : Fragment() {
             updateViewVisibility(loading = false, loadError = true)
             return
         }
-        if (clearExisting) {
-            adapter.clear()
-            binding.tagFilterGroup.removeAllViews()
-            binding.tagFilterScroll.isVisible = false
-            loadOffset = 0
-            updateViewVisibility(loading = true, loadError = false)
-        }
+        adapter.clear()
+        binding.tagFilterGroup.removeAllViews()
+        binding.tagFilterScroll.isVisible = false
+        updateViewVisibility(loading = true, loadError = false)
 
-        // If we're passed an ID to be highlighted initially, we'd theoretically need to load all
-        // items instead of loading page-wise. As the initial highlight is only needed for
-        // notifications and a new notification is very likely to be contained in the first page,
-        // we skip that additional effort.
-        val url = "api/v1/notifications?limit=$PAGE_SIZE&skip=$loadOffset"
+        // Load all notifications at once, so tag counts and collapsed notifications cover all of them.
+        // The server keeps notifications for 30 days and returns at most 100 per request.
+        requestJob?.cancel()
         requestJob = activity.launch {
             try {
-                val response = conn.httpClient.get(url).asText().response
-                val allItems = JSONArray(response).map { obj -> obj.toCloudMessage() }
-                val filteredItems = allItems.filterIsInstance<CloudMessage.CloudNotification>()
-                Log.d(TAG, "Notifications request success, got ${allItems.size} items")
-                loadOffset += allItems.size
-                adapter.addLoadedItems(filteredItems, allItems.size == PAGE_SIZE)
+                val notifications = mutableListOf<CloudMessage.CloudNotification>()
+                var skip = 0
+                var pages = 0
+                do {
+                    val url = "api/v1/notifications?limit=$PAGE_SIZE&skip=$skip"
+                    val response = conn.httpClient.get(url).asText().response
+                    val items = JSONArray(response).map { obj -> obj.toCloudMessage() }
+                    notifications.addAll(items.filterIsInstance<CloudMessage.CloudNotification>())
+                    skip += items.size
+                } while (items.isNotEmpty() && ++pages < MAX_PAGES)
+                Log.d(TAG, "Notifications request success, got ${notifications.size} items")
+                adapter.setNotifications(notifications)
                 updateTagFilterChips()
                 handleInitialHighlight()
                 updateViewVisibility(loading = false, loadError = false)
@@ -166,7 +164,11 @@ class CloudNotificationListFragment : Fragment() {
         val activeTag = adapter.currentTagFilter
         val allChip = Chip(ctx).apply {
             id = View.generateViewId()
-            text = "${getString(R.string.app_notifications)} (${adapter.getTotalNotificationCount()})"
+            text = getString(
+                R.string.notification_tag_filter_chip,
+                getString(R.string.notification_tag_filter_all),
+                adapter.getTotalNotificationCount()
+            )
             isCheckable = true
             isChecked = activeTag == null
             tag = null
@@ -175,7 +177,7 @@ class CloudNotificationListFragment : Fragment() {
         for ((tagName, count) in tagCounts) {
             val chip = Chip(ctx).apply {
                 id = View.generateViewId()
-                text = "$tagName ($count)"
+                text = getString(R.string.notification_tag_filter_chip, tagName, count)
                 isCheckable = true
                 isChecked = activeTag == tagName
                 tag = tagName
@@ -186,6 +188,7 @@ class CloudNotificationListFragment : Fragment() {
             val checkedId = checkedIds.firstOrNull()
             val selectedChip = checkedId?.let { chipGroup.findViewById<Chip>(it) }
             adapter.currentTagFilter = selectedChip?.tag as? String
+            layoutManager.scrollToPosition(0)
         }
         binding.tagFilterScroll.isVisible = true
     }
@@ -195,7 +198,7 @@ class CloudNotificationListFragment : Fragment() {
         val position = adapter.findPositionForId(highlightedId)
         if (position >= 0) {
             layoutManager.scrollToPositionWithOffset(position, 0)
-            recyclerView.postDelayed({ adapter.highlightItem(position) }, 600)
+            recyclerView.postDelayed({ adapter.highlightItem(highlightedId) }, 600)
         }
 
         // highlight only once
@@ -232,7 +235,8 @@ class CloudNotificationListFragment : Fragment() {
     }
 
     companion object {
-        const val PAGE_SIZE = 50
+        private const val PAGE_SIZE = 100
+        private const val MAX_PAGES = 20
 
         private val TAG = CloudNotificationListFragment::class.java.simpleName
 

@@ -36,7 +36,6 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.databinding.NotificationlistHeaderItemBinding
 import org.openhab.habdroid.databinding.NotificationlistItemBinding
-import org.openhab.habdroid.databinding.NotificationlistLoadingItemBinding
 import org.openhab.habdroid.model.CloudMessage
 import org.openhab.habdroid.model.CloudNotificationAction
 import org.openhab.habdroid.util.CacheManager
@@ -47,20 +46,19 @@ import org.openhab.habdroid.util.getConnectionFactory
 class CloudNotificationAdapter(
     private val context: Context,
     private val usePrimaryServer: Boolean,
-    private val scope: CoroutineScope,
-    private val loadMoreListener: () -> Unit
+    private val scope: CoroutineScope
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val allNotifications = mutableListOf<CloudMessage.CloudNotification>()
     private val collapsedNotifications = mutableListOf<AdapterItem.NotificationEntry>()
     private val displayItems = mutableListOf<AdapterItem>()
     private val inflater = LayoutInflater.from(context)
-    private var hasMoreItems: Boolean = false
-    private var waitingForMoreData: Boolean = false
-    private var highlightedPosition = -1
+    private var highlightedId: String? = null
     private var selectedTag: String? = null
 
-    // Attachments like item:CameraSnapshot are the same for many notifications, so load each one only once
+    // Attachments like item:CameraSnapshot are the same for many notifications, so load each one only once.
+    // They show the current state, so they are only kept in memory and not stored for the notification.
     private val sharedImageLoads = mutableMapOf<String, Deferred<Bitmap?>>()
+    private val loadedImages = mutableMapOf<String, Bitmap>()
 
     var currentTagFilter: String?
         get() = selectedTag
@@ -71,13 +69,11 @@ class CloudNotificationAdapter(
             }
         }
 
-    fun addLoadedItems(loaded: List<CloudMessage.CloudNotification>, hasMoreItems: Boolean) {
-        val existingIds = allNotifications.mapTo(mutableSetOf()) { it.id.persistedId }
-        val newItems = loaded.filter { it.id.persistedId.isEmpty() || existingIds.add(it.id.persistedId) }
-        allNotifications.addAll(newItems)
+    fun setNotifications(notifications: List<CloudMessage.CloudNotification>) {
+        val ids = mutableSetOf<String>()
+        allNotifications.clear()
+        allNotifications.addAll(notifications.filter { it.id.persistedId.isEmpty() || ids.add(it.id.persistedId) })
         collapseByReferenceId()
-        this.hasMoreItems = hasMoreItems
-        waitingForMoreData = false
         rebuildDisplayItems()
     }
 
@@ -86,9 +82,8 @@ class CloudNotificationAdapter(
         allNotifications.clear()
         collapsedNotifications.clear()
         sharedImageLoads.clear()
+        loadedImages.clear()
         displayItems.clear()
-        hasMoreItems = false
-        waitingForMoreData = false
         notifyDataSetChanged()
     }
 
@@ -106,9 +101,12 @@ class CloudNotificationAdapter(
         item is AdapterItem.NotificationEntry && item.notification.id.persistedId == id
     }
 
-    fun highlightItem(position: Int) {
-        highlightedPosition = position
-        notifyItemChanged(position)
+    fun highlightItem(id: String) {
+        highlightedId = id
+        val position = findPositionForId(id)
+        if (position >= 0) {
+            notifyItemChanged(position)
+        }
     }
 
     /**
@@ -164,27 +162,33 @@ class CloudNotificationAdapter(
         notifyDataSetChanged()
     }
 
+    private fun getLoadedImage(notification: CloudMessage.CloudNotification): Bitmap? =
+        CacheManager.getInstance(context).getNotificationImageFromMemory(notification.id.persistedId)
+            ?: notification.mediaAttachmentUrl?.let { url -> loadedImages[url] }
+
     private suspend fun loadImage(notification: CloudMessage.CloudNotification, conn: Connection, size: Int): Bitmap? {
         val url = notification.mediaAttachmentUrl ?: return null
         val load = sharedImageLoads.getOrPut(url) {
             scope.async(Dispatchers.IO) { notification.loadImage(conn, context, size) }
         }
-        return load.await()
+        val bitmap = load.await()
+        if (bitmap != null) {
+            loadedImages[url] = bitmap
+        } else if (sharedImageLoads[url] === load) {
+            // Try again when the card is bound the next time
+            sharedImageLoads.remove(url)
+        }
+        return bitmap
     }
 
-    override fun getItemCount(): Int = displayItems.size + if (hasMoreItems) 1 else 0
+    override fun getItemCount(): Int = displayItems.size
 
-    override fun getItemViewType(position: Int): Int = when {
-        position == displayItems.size -> VIEW_TYPE_LOADING
-        displayItems[position] is AdapterItem.Header -> VIEW_TYPE_HEADER
+    override fun getItemViewType(position: Int): Int = when (displayItems[position]) {
+        is AdapterItem.Header -> VIEW_TYPE_HEADER
         else -> VIEW_TYPE_NOTIFICATION
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
-        VIEW_TYPE_LOADING -> LoadingIndicatorViewHolder(
-            NotificationlistLoadingItemBinding.inflate(inflater, parent, false)
-        )
-
         VIEW_TYPE_HEADER -> HeaderViewHolder(
             NotificationlistHeaderItemBinding.inflate(inflater, parent, false)
         )
@@ -193,6 +197,7 @@ class CloudNotificationAdapter(
             NotificationlistItemBinding.inflate(inflater, parent, false),
             usePrimaryServer,
             scope,
+            ::getLoadedImage,
             ::loadImage
         )
     }
@@ -202,26 +207,15 @@ class CloudNotificationAdapter(
             is NotificationViewHolder -> {
                 val entry = displayItems[position] as AdapterItem.NotificationEntry
                 holder.bind(entry.notification, entry.olderCount)
+                if (highlightedId != null && entry.notification.id.persistedId == highlightedId) {
+                    highlightedId = null
+                    holder.itemView.playPressAnimationAndCallBack {}
+                }
             }
 
             is HeaderViewHolder -> {
                 val header = displayItems[position] as AdapterItem.Header
                 holder.bind(header.title)
-            }
-
-            else -> {
-                // loading indicator
-                holder.itemView.isVisible = hasMoreItems
-                if (hasMoreItems && !waitingForMoreData) {
-                    loadMoreListener()
-                    waitingForMoreData = true
-                }
-            }
-        }
-
-        if (position == highlightedPosition) {
-            holder.itemView.playPressAnimationAndCallBack {
-                highlightedPosition = -1
             }
         }
     }
@@ -243,6 +237,7 @@ class CloudNotificationAdapter(
         private val binding: NotificationlistItemBinding,
         private val usePrimaryServer: Boolean,
         private val scope: CoroutineScope,
+        private val loadedImage: (CloudMessage.CloudNotification) -> Bitmap?,
         private val imageLoader: suspend (CloudMessage.CloudNotification, Connection, Int) -> Bitmap?
     ) : RecyclerView.ViewHolder(binding.root) {
         private var imageLoadJob: Job? = null
@@ -309,7 +304,7 @@ class CloudNotificationAdapter(
             } else {
                 val cacheManager = CacheManager.getInstance(ctx)
                 val persistedId = notification.id.persistedId
-                val cachedBitmap = cacheManager.getNotificationImageFromMemory(persistedId)
+                val cachedBitmap = loadedImage(notification)
                 if (cachedBitmap != null) {
                     showImage(notification, cachedBitmap)
                 } else {
@@ -321,7 +316,6 @@ class CloudNotificationAdapter(
                         var bitmap = cacheManager.loadNotificationImageFromDisk(persistedId, createdTimestamp)
                         if (bitmap == null && conn != null) {
                             bitmap = imageLoader(notification, conn, targetWidth)
-                            bitmap?.let { cacheManager.saveNotificationImage(persistedId, it, createdTimestamp) }
                         }
                         binding.notificationImageProgress.isGone = true
                         if (bitmap != null) {
@@ -398,12 +392,8 @@ class CloudNotificationAdapter(
         }
     }
 
-    class LoadingIndicatorViewHolder(binding: NotificationlistLoadingItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
-
     companion object {
         private const val VIEW_TYPE_NOTIFICATION = 0
-        private const val VIEW_TYPE_LOADING = 1
-        private const val VIEW_TYPE_HEADER = 2
+        private const val VIEW_TYPE_HEADER = 1
     }
 }
