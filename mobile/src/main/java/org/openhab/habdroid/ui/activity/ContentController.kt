@@ -63,7 +63,6 @@ import org.openhab.habdroid.util.buildSitemapSourceId
 import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.getHumanReadableErrorMessage
 import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.getWifiManager
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.openInBrowser
@@ -574,18 +573,8 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     private fun dismissNotifications(): Boolean {
-        val startPageUi = when (activity.getPrefs().getStringOrNull(PrefKeys.START_PAGE)) {
-            MainActivity.ACTION_MAIN_UI_SELECTED -> WebViewUi.MAIN_UI
-            MainActivity.ACTION_HABPANEL_SELECTED -> WebViewUi.HABPANEL
-            MainActivity.ACTION_FRONTAIL_SELECTED -> WebViewUi.FRONTAIL
-            else -> null
-        }
-        val webViewUi = webViewUiBelowNotifications
-            ?: startPageUi
-                ?.takeIf { ui -> activity.serverProperties?.hasWebViewUiInstalled(ui) != false }
-                ?.let { ui -> WebViewUiState(ui, true, null) }
-            ?: return false
-        showWebViewUi(webViewUi.ui, webViewUi.isStackRoot || webViewUi.ui == startPageUi, webViewUi.subpage)
+        val webViewUi = webViewUiBelowNotifications ?: return false
+        showWebViewUi(webViewUi.ui, webViewUi.isStackRoot, webViewUi.subpage)
         return true
     }
 
