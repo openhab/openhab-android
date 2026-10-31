@@ -128,8 +128,14 @@ class SitemapTileService : Material3TileService(defaultColorScheme = OpenHabTile
 
     private fun MaterialScope.widgetButton(widget: Widget): LayoutElement {
         val isSwitch = widget.isToggleable()
-        val isOn = isSwitch && widget.state?.asBoolean == true
-        val state = widget.stateFromLabel ?: widget.state?.asString?.takeIf { !isSwitch }
+        val mapping = widget.singleMapping()
+        val isOn = when {
+            isSwitch -> widget.state?.asBoolean == true
+            mapping != null -> widget.state?.asString == mapping.value
+            else -> false
+        }
+        // For a single mapping show what tapping the button does
+        val state = mapping?.label ?: widget.stateFromLabel ?: widget.state?.asString?.takeIf { !isSwitch }
         return button(
             onClick = clickable(id = CLICKABLE_PREFIX + widget.id),
             labelContent = {
@@ -195,6 +201,16 @@ class SitemapTileService : Material3TileService(defaultColorScheme = OpenHabTile
             tileWidgets = tileWidgets.map { widget ->
                 if (widget.id == clickedWidget.id) widget.withSwitchState(command == "ON") else widget
             }
+        } else if (clickedWidget != null) {
+            clickedWidget.singleMapping()?.let { mapping ->
+                Log.d(TAG, "Send ${mapping.value} to ${clickedWidget.item?.name}")
+                connected.connection.httpClient
+                    .sendItemCommand(clickedWidget.item, mapping.value, buildSourceId(sitemap, sitemap.homepageLink))
+                    ?.join()
+                tileWidgets = tileWidgets.map { widget ->
+                    if (widget.id == clickedWidget.id) widget.withStringState(mapping.value) else widget
+                }
+            }
         }
 
         if (tileWidgets.isEmpty()) {
@@ -207,11 +223,27 @@ class SitemapTileService : Material3TileService(defaultColorScheme = OpenHabTile
         mappings.isEmpty() &&
         item?.isOfTypeOrGroupType(Item.Type.Rollershutter) != true
 
+    /**
+     * Returns the mapping of a switch with exactly one mapping. Such a switch is shown as a button that sends the
+     * command of the mapping. Mappings with a release command are ignored, as a tile can't detect releasing a button.
+     */
+    private fun Widget.singleMapping() = mappings.singleOrNull()?.takeIf { mapping ->
+        type == Widget.Type.Switch &&
+            mapping.valueRelease == null &&
+            item?.isOfTypeOrGroupType(Item.Type.Rollershutter) != true
+    }
+
     private fun Widget.isShownOnTile() = isToggleable() ||
+        singleMapping() != null ||
         (type in setOf(Widget.Type.Text, Widget.Type.Default) && !stateFromLabel.isNullOrEmpty())
 
     private fun Widget.withSwitchState(isOn: Boolean): Widget {
         val newState = state?.copy(asBoolean = isOn, asString = if (isOn) "ON" else "OFF")
+        return copy(state = newState)
+    }
+
+    private fun Widget.withStringState(value: String): Widget {
+        val newState = state?.copy(asString = value)
         return copy(state = newState)
     }
 
