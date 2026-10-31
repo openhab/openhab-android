@@ -87,6 +87,8 @@
     <string name="settings_wear">Wear OS</string>
     <string name="settings_wear_sitemap">Sitemap on watch</string>
     <string name="settings_wear_sitemap_default">Same as default Sitemap</string>
+    <string name="settings_wear_tile_sitemap">Sitemap on tile</string>
+    <string name="settings_wear_tile_sitemap_default">Same as Sitemap on watch</string>
     <string name="settings_wear_complication_group">Items for complications</string>
     <string name="settings_wear_complication_group_all">All items</string>
     <string name="settings_wear_complication_group_summary">Members of %1$s</string>

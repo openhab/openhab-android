@@ -41,6 +41,7 @@ data class ServerConfiguration(
     val frontailUrl: String?,
     val mainUiStartPage: String?,
     val wearSitemap: DefaultSitemap? = null,
+    val wearTileSitemap: DefaultSitemap? = null,
     val wearComplicationGroup: String? = null
 ) : Parcelable {
     fun saveToPrefs(prefs: SharedPreferences, secretPrefs: SharedPreferences) {
@@ -55,6 +56,8 @@ data class ServerConfiguration(
             putString(PrefKeys.buildServerKey(id, PrefKeys.MAIN_UI_START_PAGE_PREFIX), mainUiStartPage)
             putString(PrefKeys.buildServerKey(id, PrefKeys.WEAR_SITEMAP_NAME_PREFIX), wearSitemap?.name)
             putString(PrefKeys.buildServerKey(id, PrefKeys.WEAR_SITEMAP_LABEL_PREFIX), wearSitemap?.label)
+            putString(PrefKeys.buildServerKey(id, PrefKeys.WEAR_TILE_SITEMAP_NAME_PREFIX), wearTileSitemap?.name)
+            putString(PrefKeys.buildServerKey(id, PrefKeys.WEAR_TILE_SITEMAP_LABEL_PREFIX), wearTileSitemap?.label)
             putString(PrefKeys.buildServerKey(id, PrefKeys.WEAR_COMPLICATION_GROUP_PREFIX), wearComplicationGroup)
             putString(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX), sslClientCert)
             putStringSet(PrefKeys.buildServerKey(id, PrefKeys.WIFI_SSID_PREFIX), wifiSsids)
@@ -90,6 +93,8 @@ data class ServerConfiguration(
             remove(PrefKeys.buildServerKey(id, PrefKeys.MAIN_UI_START_PAGE_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.WEAR_SITEMAP_NAME_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.WEAR_SITEMAP_LABEL_PREFIX))
+            remove(PrefKeys.buildServerKey(id, PrefKeys.WEAR_TILE_SITEMAP_NAME_PREFIX))
+            remove(PrefKeys.buildServerKey(id, PrefKeys.WEAR_TILE_SITEMAP_LABEL_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.WEAR_COMPLICATION_GROUP_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.SSL_CLIENT_CERT_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_NAME_PREFIX))
@@ -163,15 +168,18 @@ data class ServerConfiguration(
                 prefs.getBoolean(PrefKeys.buildServerKey(id, PrefKeys.RESTRICT_TO_SSID_PREFIX), false)
             val frontailUrl = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.FRONTAIL_URL_PREFIX))
             val mainUiStartPage = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.MAIN_UI_START_PAGE_PREFIX))
-            val wearSitemapName = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.WEAR_SITEMAP_NAME_PREFIX))
-            val wearSitemapLabel = prefs.getStringOrNull(
-                PrefKeys.buildServerKey(id, PrefKeys.WEAR_SITEMAP_LABEL_PREFIX)
+            val wearSitemap = loadSitemap(
+                prefs,
+                id,
+                PrefKeys.WEAR_SITEMAP_NAME_PREFIX,
+                PrefKeys.WEAR_SITEMAP_LABEL_PREFIX
             )
-            val wearSitemap = if (wearSitemapName != null && wearSitemapLabel != null) {
-                DefaultSitemap(wearSitemapName, wearSitemapLabel)
-            } else {
-                null
-            }
+            val wearTileSitemap = loadSitemap(
+                prefs,
+                id,
+                PrefKeys.WEAR_TILE_SITEMAP_NAME_PREFIX,
+                PrefKeys.WEAR_TILE_SITEMAP_LABEL_PREFIX
+            )
             val wearComplicationGroup =
                 prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.WEAR_COMPLICATION_GROUP_PREFIX))
 
@@ -187,6 +195,7 @@ data class ServerConfiguration(
                 frontailUrl,
                 mainUiStartPage,
                 wearSitemap,
+                wearTileSitemap,
                 wearComplicationGroup
             )
             Log.d(TAG, "load: ${config.toRedactedString()}")
@@ -200,16 +209,22 @@ data class ServerConfiguration(
             }
         }
 
-        fun getDefaultSitemap(prefs: SharedPreferences, id: Int): DefaultSitemap? {
-            val defaultSitemapName =
-                prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_NAME_PREFIX))
-            val defaultSitemapLabel =
-                prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.DEFAULT_SITEMAP_LABEL_PREFIX))
-            return if (defaultSitemapName != null && defaultSitemapLabel != null) {
-                DefaultSitemap(defaultSitemapName, defaultSitemapLabel)
-            } else {
-                null
-            }
+        fun getDefaultSitemap(prefs: SharedPreferences, id: Int): DefaultSitemap? = loadSitemap(
+            prefs,
+            id,
+            PrefKeys.DEFAULT_SITEMAP_NAME_PREFIX,
+            PrefKeys.DEFAULT_SITEMAP_LABEL_PREFIX
+        )
+
+        private fun loadSitemap(
+            prefs: SharedPreferences,
+            id: Int,
+            namePrefix: String,
+            labelPrefix: String
+        ): DefaultSitemap? {
+            val name = prefs.getStringOrNull(PrefKeys.buildServerKey(id, namePrefix))
+            val label = prefs.getStringOrNull(PrefKeys.buildServerKey(id, labelPrefix))
+            return if (name != null && label != null) DefaultSitemap(name, label) else null
         }
 
         fun createFrom(
@@ -225,6 +240,7 @@ data class ServerConfiguration(
             frontailUrl: String? = config.frontailUrl,
             mainUiStartPage: String? = config.mainUiStartPage,
             wearSitemap: DefaultSitemap? = config.wearSitemap,
+            wearTileSitemap: DefaultSitemap? = config.wearTileSitemap,
             wearComplicationGroup: String? = config.wearComplicationGroup
         ) = ServerConfiguration(
             id,
@@ -238,6 +254,7 @@ data class ServerConfiguration(
             frontailUrl,
             mainUiStartPage,
             wearSitemap,
+            wearTileSitemap,
             wearComplicationGroup
         )
     }

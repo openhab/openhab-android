@@ -24,6 +24,7 @@ import org.openhab.habdroid.util.optStringOrNull
  * Configuration the phone app sends to the Wear OS app via the Wearable Data Layer.
  *
  * @param sitemapName Name of the sitemap to show on the watch, null to use the first sitemap of the server
+ * @param tileSitemapName Name of the sitemap to show on the tile, null to use [sitemapName]
  * @param complicationGroup Name of a group item. If set, only its members are offered as complication data source.
  * @param trustedCertificates Base64 encoded DER certificates the user trusted on the phone
  */
@@ -31,6 +32,7 @@ data class WearConfig(
     val localPath: ServerPath?,
     val remotePath: ServerPath?,
     val sitemapName: String?,
+    val tileSitemapName: String?,
     val complicationGroup: String?,
     val trustedCertificates: List<String>
 ) {
@@ -40,12 +42,13 @@ data class WearConfig(
         .put(KEY_LOCAL, localPath?.toJson())
         .put(KEY_REMOTE, remotePath?.toJson())
         .put(KEY_SITEMAP, sitemapName)
+        .put(KEY_TILE_SITEMAP, tileSitemapName)
         .put(KEY_COMPLICATION_GROUP, complicationGroup)
         .put(KEY_CERTIFICATES, JSONArray(trustedCertificates))
         .toString()
 
     override fun toString() = "WearConfig(local=${localPath?.url}, remote=${remotePath?.url}, " +
-        "sitemap=$sitemapName, complicationGroup=$complicationGroup, certificates=${trustedCertificates.size})"
+        "sitemap=$sitemapName, tileSitemap=$tileSitemapName, complicationGroup=$complicationGroup, certificates=${trustedCertificates.size})"
 
     companion object {
         /**
@@ -81,6 +84,7 @@ data class WearConfig(
         private const val KEY_LOCAL = "local"
         private const val KEY_REMOTE = "remote"
         private const val KEY_SITEMAP = "sitemap"
+        private const val KEY_TILE_SITEMAP = "tileSitemap"
         private const val KEY_COMPLICATION_GROUP = "complicationGroup"
         private const val KEY_CERTIFICATES = "certificates"
         private const val KEY_URL = "url"
@@ -93,6 +97,7 @@ data class WearConfig(
                 localPath = obj.optJSONObject(KEY_LOCAL)?.toServerPath(),
                 remotePath = obj.optJSONObject(KEY_REMOTE)?.toServerPath(),
                 sitemapName = obj.optStringOrNull(KEY_SITEMAP),
+                tileSitemapName = obj.optStringOrNull(KEY_TILE_SITEMAP),
                 complicationGroup = obj.optStringOrNull(KEY_COMPLICATION_GROUP),
                 trustedCertificates = obj.optJSONArray(KEY_CERTIFICATES)?.mapString { cert -> cert }.orEmpty()
             )

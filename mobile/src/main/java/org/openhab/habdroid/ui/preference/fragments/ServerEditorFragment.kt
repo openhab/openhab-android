@@ -329,6 +329,7 @@ class ServerEditorFragment :
     private fun setupWearPreferences() {
         val wearCategory = getPreference(PREF_WEAR)
         val sitemapPref = getPreference(PREF_WEAR_SITEMAP)
+        val tileSitemapPref = getPreference(PREF_WEAR_TILE_SITEMAP)
         val groupPref = getPreference(PREF_WEAR_COMPLICATION_GROUP)
         if (WearHelper.IS_SUPPORTED && config.id == prefs.getPrimaryServerId()) {
             lifecycleScope.launch {
@@ -338,15 +339,23 @@ class ServerEditorFragment :
         updateWearSummaries()
 
         sitemapPref.setOnPreferenceClickListener {
-            loadFromPrimaryServer { connection ->
-                val props = ServerProperties.fetch(connection) as? ServerProperties.Companion.PropsSuccess
-                    ?: return@loadFromPrimaryServer null
-                val sitemaps = props.props.sitemaps.sortedWithDefaultName(config.defaultSitemap?.name.orEmpty())
-                val options = listOf(null to getString(R.string.settings_wear_sitemap_default)) +
-                    sitemaps.map { sitemap -> DefaultSitemap(sitemap.name, sitemap.label) to sitemap.label }
-                showWearChoiceDialog(R.string.settings_wear_sitemap, options, config.wearSitemap) { selected ->
-                    config = ServerConfiguration.createFrom(config, wearSitemap = selected)
-                }
+            showWearSitemapDialog(
+                R.string.settings_wear_sitemap,
+                R.string.settings_wear_sitemap_default,
+                config.wearSitemap
+            ) { selected ->
+                config = ServerConfiguration.createFrom(config, wearSitemap = selected)
+            }
+            true
+        }
+
+        tileSitemapPref.setOnPreferenceClickListener {
+            showWearSitemapDialog(
+                R.string.settings_wear_tile_sitemap,
+                R.string.settings_wear_tile_sitemap_default,
+                config.wearTileSitemap
+            ) { selected ->
+                config = ServerConfiguration.createFrom(config, wearTileSitemap = selected)
             }
             true
         }
@@ -374,9 +383,32 @@ class ServerEditorFragment :
         }
     }
 
+    /**
+     * Lets the user choose a sitemap of the primary server for the watch
+     *
+     * @param defaultRes Label of the option to not set a sitemap
+     */
+    private fun showWearSitemapDialog(
+        @StringRes titleRes: Int,
+        @StringRes defaultRes: Int,
+        current: DefaultSitemap?,
+        onSelected: (DefaultSitemap?) -> Unit
+    ) {
+        loadFromPrimaryServer { connection ->
+            val props = ServerProperties.fetch(connection) as? ServerProperties.Companion.PropsSuccess
+                ?: return@loadFromPrimaryServer null
+            val sitemaps = props.props.sitemaps.sortedWithDefaultName(config.defaultSitemap?.name.orEmpty())
+            val options = listOf(null to getString(defaultRes)) +
+                sitemaps.map { sitemap -> DefaultSitemap(sitemap.name, sitemap.label) to sitemap.label }
+            showWearChoiceDialog(titleRes, options, current, onSelected)
+        }
+    }
+
     private fun updateWearSummaries() {
         getPreference(PREF_WEAR_SITEMAP).summary =
             config.wearSitemap?.label ?: getString(R.string.settings_wear_sitemap_default)
+        getPreference(PREF_WEAR_TILE_SITEMAP).summary =
+            config.wearTileSitemap?.label ?: getString(R.string.settings_wear_tile_sitemap_default)
         getPreference(PREF_WEAR_COMPLICATION_GROUP).summary = config.wearComplicationGroup
             ?.let { group -> getString(R.string.settings_wear_complication_group_summary, group) }
             ?: getString(R.string.settings_wear_complication_group_all)
@@ -465,6 +497,7 @@ class ServerEditorFragment :
         private val TAG = ServerEditorFragment::class.java.simpleName
         private const val PREF_WEAR = "wear"
         private const val PREF_WEAR_SITEMAP = "wear_sitemap"
+        private const val PREF_WEAR_TILE_SITEMAP = "wear_tile_sitemap"
         private const val PREF_WEAR_COMPLICATION_GROUP = "wear_complication_group"
         private const val SNACKBAR_TAG_WEAR_LOAD_FAILED = "wear_load_failed"
 

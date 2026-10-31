@@ -38,6 +38,8 @@ object PrefKeys {
     const val MAIN_UI_START_PAGE_PREFIX = "main_ui_start_page_"
     const val WEAR_SITEMAP_NAME_PREFIX = "wear_sitemap_name_"
     const val WEAR_SITEMAP_LABEL_PREFIX = "wear_sitemap_label_"
+    const val WEAR_TILE_SITEMAP_NAME_PREFIX = "wear_tile_sitemap_name_"
+    const val WEAR_TILE_SITEMAP_LABEL_PREFIX = "wear_tile_sitemap_label_"
     const val WEAR_COMPLICATION_GROUP_PREFIX = "wear_complication_group_"
     const val CLEAR_DEFAULT_SITEMAP = "clear_default_sitemap"
 

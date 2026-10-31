@@ -145,6 +145,7 @@ class WearConfigRepository(private val context: Context) {
             localPath = null,
             remotePath = ServerPath("https://demo.openhab.org/", null, null),
             sitemapName = "demo",
+            tileSitemapName = null,
             complicationGroup = null,
             trustedCertificates = emptyList()
         )

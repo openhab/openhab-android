@@ -172,7 +172,9 @@ class SitemapTileService : Material3TileService(defaultColorScheme = OpenHabTile
             }
             return TileContent(appName, emptyList(), message)
         }
-        val sitemap = connected.properties.findWearSitemap(connected.config.sitemapName)
+        val sitemap = connected.properties.findWearSitemap(
+            connected.config.tileSitemapName ?: connected.config.sitemapName
+        )
             ?: return TileContent(appName, emptyList(), getString(R.string.error_no_sitemaps))
 
         val widgets = try {

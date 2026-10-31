@@ -79,6 +79,11 @@
             android:title="@string/settings_wear_sitemap"
             app:singleLineTitle="false" />
         <Preference
+            android:key="wear_tile_sitemap"
+            android:persistent="false"
+            android:title="@string/settings_wear_tile_sitemap"
+            app:singleLineTitle="false" />
+        <Preference
             android:key="wear_complication_group"
             android:persistent="false"
             android:title="@string/settings_wear_complication_group"

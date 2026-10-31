@@ -25,6 +25,7 @@ class WearConfigTest {
             localPath = ServerPath("http://openhab.local:8080/", "user", "secret"),
             remotePath = ServerPath("https://myopenhab.org/", "mail@example.com", null),
             sitemapName = "watch",
+            tileSitemapName = "tile",
             complicationGroup = "gWatch",
             trustedCertificates = listOf("Y2VydDE=", "Y2VydDI=")
         )
@@ -37,6 +38,7 @@ class WearConfigTest {
             localPath = null,
             remotePath = ServerPath("https://myopenhab.org/", null, null),
             sitemapName = null,
+            tileSitemapName = null,
             complicationGroup = null,
             trustedCertificates = emptyList()
         )
@@ -54,6 +56,7 @@ class WearConfigTest {
             localPath = ServerPath("http://openhab.local:8080/", "user", "secret"),
             remotePath = null,
             sitemapName = null,
+            tileSitemapName = null,
             complicationGroup = null,
             trustedCertificates = emptyList()
         )

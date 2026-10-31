@@ -38,6 +38,7 @@ private val WEAR_CONFIG_PREF_PREFIXES = listOf(
     PrefKeys.REMOTE_PASSWORD_PREFIX,
     PrefKeys.DEFAULT_SITEMAP_NAME_PREFIX,
     PrefKeys.WEAR_SITEMAP_NAME_PREFIX,
+    PrefKeys.WEAR_TILE_SITEMAP_NAME_PREFIX,
     PrefKeys.WEAR_COMPLICATION_GROUP_PREFIX
 )
 
@@ -50,10 +51,12 @@ fun isWearConfigPref(key: String?): Boolean = key != null &&
 fun Context.loadWearConfig(): WearConfig? {
     val prefs = getPrefs()
     val config = ServerConfiguration.load(prefs, getSecretPrefs(), prefs.getPrimaryServerId()) ?: return null
+    val sitemapName = config.wearSitemap?.name ?: config.defaultSitemap?.name
     return WearConfig(
         localPath = config.localPath,
         remotePath = config.remotePath,
-        sitemapName = config.wearSitemap?.name ?: config.defaultSitemap?.name,
+        sitemapName = sitemapName,
+        tileSitemapName = config.wearTileSitemap?.name ?: sitemapName,
         complicationGroup = config.wearComplicationGroup,
         trustedCertificates = loadTrustedCertificates()
     )
