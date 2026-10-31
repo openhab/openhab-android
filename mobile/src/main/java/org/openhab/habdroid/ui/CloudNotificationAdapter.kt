@@ -109,22 +109,18 @@ class CloudNotificationAdapter(
     }
 
     /**
-     * Collapse notifications with the same reference ID into the latest one, keeping the number of older ones
+     * Collapse consecutive notifications with the same reference ID into the latest one, keeping the number of
+     * older ones, e.g. "A B A A B" becomes "A B A+1 B"
      */
     private fun collapseByReferenceId() {
         collapsedNotifications.clear()
-        val entryByReferenceId = mutableMapOf<String, Int>()
         for (notification in allNotifications) {
             val referenceId = notification.id.referenceId
-            val existingIndex = referenceId?.let { entryByReferenceId[it] }
-            if (existingIndex == null) {
-                if (referenceId != null) {
-                    entryByReferenceId[referenceId] = collapsedNotifications.size
-                }
-                collapsedNotifications.add(AdapterItem.NotificationEntry(notification, 0))
+            val last = collapsedNotifications.lastOrNull()
+            if (referenceId != null && last?.notification?.id?.referenceId == referenceId) {
+                collapsedNotifications[collapsedNotifications.lastIndex] = last.copy(olderCount = last.olderCount + 1)
             } else {
-                val existing = collapsedNotifications[existingIndex]
-                collapsedNotifications[existingIndex] = existing.copy(olderCount = existing.olderCount + 1)
+                collapsedNotifications.add(AdapterItem.NotificationEntry(notification, 0))
             }
         }
     }
