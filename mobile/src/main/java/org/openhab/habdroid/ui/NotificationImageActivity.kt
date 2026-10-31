@@ -29,6 +29,7 @@ import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.ScreenLockMode
 import org.openhab.habdroid.util.getConnectionFactory
 import org.openhab.habdroid.util.parcelable
+import org.openhab.habdroid.util.showToast
 
 class NotificationImageActivity : AbstractBaseActivity() {
     private lateinit var binding: ActivityImageBinding
@@ -88,6 +89,7 @@ class NotificationImageActivity : AbstractBaseActivity() {
             }
         }
         if (bitmap == null) {
+            showToast(R.string.notification_image_load_failed)
             finish()
             return
         }
