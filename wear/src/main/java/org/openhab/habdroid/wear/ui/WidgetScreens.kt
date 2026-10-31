@@ -239,7 +239,7 @@ fun ColorScreen(widget: Widget, onCommand: (String) -> Unit) {
                 }
             }
             items(PresetColors) { (labelRes, hue) ->
-                val color = Color.hsv(hue / 360f, 1f, 1f)
+                val color = Color.hsv(hue, 1f, 1f)
                 Button(
                     onClick = {
                         // Keep the brightness, but make sure the light is visible
