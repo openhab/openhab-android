@@ -62,6 +62,7 @@ sealed class CloudMessage : Parcelable {
             if (mediaAttachmentUrl == null) {
                 return null
             }
+            val targetSize = if (size > 0) size else context.resources.displayMetrics.widthPixels
             val itemStateFromMedia = if (mediaAttachmentUrl.startsWith("item:")) {
                 val itemName = mediaAttachmentUrl.removePrefix("item:")
                 val item = try {
@@ -88,7 +89,7 @@ sealed class CloudMessage : Parcelable {
             return try {
                 connection.httpClient
                     .get(itemStateFromMedia ?: mediaAttachmentUrl)
-                    .asBitmap(size, fallbackColor, ImageConversionPolicy.PreferTargetSize)
+                    .asBitmap(targetSize, fallbackColor, ImageConversionPolicy.PreferTargetSize)
                     .response
             } catch (e: HttpClient.HttpException) {
                 Log.e(TAG, "Error loading image", e)

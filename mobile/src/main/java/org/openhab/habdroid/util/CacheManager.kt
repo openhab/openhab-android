@@ -15,6 +15,7 @@ package org.openhab.habdroid.util
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.LruCache
 import androidx.annotation.ColorInt
 import java.io.File
@@ -22,6 +23,8 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.Cache
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
@@ -32,7 +35,9 @@ class CacheManager private constructor(appContext: Context) {
     val httpCache: Cache = Cache(File(appContext.cacheDir, "http"), (10 * 1024 * 1024).toLong())
     private val iconBitmapCache: BitmapCache
     private val temporaryBitmapCache: BitmapCache
+    private val notificationBitmapCache: NotificationBitmapCache
     private val widgetIconDirectory = appContext.getDir("widgeticons", Context.MODE_PRIVATE)
+    private val notificationImageDirectory = File(appContext.filesDir, "notification_images")
 
     init {
         // Get max available VM memory, exceeding this amount will throw an
@@ -42,6 +47,65 @@ class CacheManager private constructor(appContext: Context) {
         // Use up to 2/8 of the available VM memory for the bitmap cache
         iconBitmapCache = BitmapCache(maxMemory / 8)
         temporaryBitmapCache = BitmapCache(maxMemory / 8)
+        notificationBitmapCache = NotificationBitmapCache(maxMemory / 16)
+    }
+
+    fun getNotificationImageFromMemory(persistedId: String): Bitmap? =
+        if (persistedId.isEmpty()) null else notificationBitmapCache.get(persistedId)
+
+    suspend fun loadNotificationImageFromDisk(persistedId: String, createdTimestamp: Long): Bitmap? {
+        if (persistedId.isEmpty() || isNotificationImageExpired(createdTimestamp)) {
+            return null
+        }
+        val bitmap = withContext(Dispatchers.IO) {
+            val file = getNotificationImageFile(persistedId)
+            try {
+                if (file.exists()) BitmapFactory.decodeFile(file.absolutePath) else null
+            } catch (ignored: OutOfMemoryError) {
+                null
+            }
+        }
+        bitmap?.let { notificationBitmapCache.put(persistedId, it) }
+        return bitmap
+    }
+
+    suspend fun saveNotificationImage(persistedId: String, bitmap: Bitmap, createdTimestamp: Long) {
+        if (persistedId.isEmpty()) {
+            return
+        }
+        notificationBitmapCache.put(persistedId, bitmap)
+        if (isNotificationImageExpired(createdTimestamp)) {
+            return
+        }
+        withContext(Dispatchers.IO) {
+            try {
+                notificationImageDirectory.mkdirs()
+                val targetFile = getNotificationImageFile(persistedId)
+                FileOutputStream(targetFile).use { out ->
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
+                }
+                targetFile.setLastModified(if (createdTimestamp > 0L) createdTimestamp else System.currentTimeMillis())
+            } catch (ignored: IOException) {
+                // ignored
+            }
+        }
+    }
+
+    suspend fun pruneExpiredNotificationImages() = withContext(Dispatchers.IO) {
+        val now = System.currentTimeMillis()
+        notificationImageDirectory.listFiles()?.forEach { file ->
+            if (now - file.lastModified() > NOTIFICATION_IMAGE_TTL_MS) {
+                file.delete()
+            }
+        }
+    }
+
+    private fun isNotificationImageExpired(createdTimestamp: Long) =
+        createdTimestamp > 0L && System.currentTimeMillis() - createdTimestamp > NOTIFICATION_IMAGE_TTL_MS
+
+    private fun getNotificationImageFile(persistedId: String): File {
+        val safeName = persistedId.replace(SAFE_FILENAME_REGEX, "_")
+        return File(notificationImageDirectory, "$safeName.jpg")
     }
 
     fun getCachedBitmap(url: HttpUrl, @ColorInt fallbackColor: Int): Bitmap? {
@@ -122,10 +186,16 @@ class CacheManager private constructor(appContext: Context) {
         override fun sizeOf(key: CacheKey, value: Bitmap): Int = value.byteCount / 1024
     }
 
+    class NotificationBitmapCache(maxSize: Int) : LruCache<String, Bitmap>(maxSize) {
+        override fun sizeOf(key: String, value: Bitmap): Int = value.byteCount / 1024
+    }
+
     data class CacheKey(val url: HttpUrl, @param:ColorInt val fallbackColor: Int)
 
     companion object {
         private val TAG = CacheManager::class.java.simpleName
+        private const val NOTIFICATION_IMAGE_TTL_MS = 30L * 24L * 60L * 60L * 1000L
+        private val SAFE_FILENAME_REGEX = "[^a-zA-Z0-9._-]".toRegex()
         private var instance: CacheManager? = null
 
         fun getInstance(context: Context): CacheManager {
