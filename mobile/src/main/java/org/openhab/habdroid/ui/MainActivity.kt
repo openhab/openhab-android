@@ -171,6 +171,10 @@ class MainActivity : AbstractBaseActivity() {
     private var sitemapSelectionDialog: AlertDialog? = null
     var connection: Connection? = null
         private set
+    private var connectionServerId: Int? = null
+
+    // Content state to restore once a new connection to the same server is established
+    private var contentStateToRestore: Pair<Int, ContentController.ContentState>? = null
     private var lastActiveConnectionResult: ConnectionFactory.ConnectionResult? = null
     private var lastActiveCloudConnectionResult: ConnectionFactory.CloudConnectionResult? = null
     private var lastPrimaryCloudConnectionResult: ConnectionFactory.CloudConnectionResult? = null
@@ -596,7 +600,13 @@ class MainActivity : AbstractBaseActivity() {
 
         retryJob?.cancel(CancellationException("onAvailableConnectionChanged() was called"))
 
+        val prevServerId = connectionServerId
+        if (prevServerId != null && connection !is DemoConnection) {
+            controller.getContentState()?.let { state -> contentStateToRestore = Pair(prevServerId, state) }
+        }
+
         connection = newConnection
+        connectionServerId = if (newConnection != null) prefs.getActiveServerId() else null
         hideSnackbar(SNACKBAR_TAG_CONNECTION_ESTABLISHED)
         hideSnackbar(SNACKBAR_TAG_SSE_ERROR)
         hideSnackbar(SNACKBAR_TAG_DEMO_MODE_ACTIVE)
@@ -769,6 +779,15 @@ class MainActivity : AbstractBaseActivity() {
         prefs.edit {
             putActiveServerId(serverForCurrentWifi.id)
         }
+        val defaultWebUi = when (prefs.getStringOrNull(PrefKeys.START_PAGE)) {
+            ACTION_HABPANEL_SELECTED -> PendingAction.OpenWebViewUi(WebViewUi.HABPANEL, serverForCurrentWifi.id, null)
+            ACTION_MAIN_UI_SELECTED -> PendingAction.OpenWebViewUi(WebViewUi.MAIN_UI, serverForCurrentWifi.id, null)
+            ACTION_FRONTAIL_SELECTED -> PendingAction.OpenWebViewUi(WebViewUi.FRONTAIL, serverForCurrentWifi.id, null)
+            else -> null
+        }
+        if (defaultWebUi != null) {
+            pendingAction = defaultWebUi
+        }
         showSnackbar(
             SNACKBAR_TAG_SWITCHED_SERVER,
             getString(R.string.settings_multi_server_wifi_ssid_switched, serverForCurrentWifi.name),
@@ -851,6 +870,10 @@ class MainActivity : AbstractBaseActivity() {
                     val fallbackUi = listOf(WebViewUi.MAIN_UI, WebViewUi.HABPANEL)
                         .firstOrNull { ui -> result.props.hasWebViewUiInstalled(ui) }
                     when {
+                        restoreContentState() -> {
+                            updateSitemapDrawerEntries()
+                        }
+
                         result.props.sitemaps.isNotEmpty() -> {
                             chooseSitemap()
                             updateSitemapDrawerEntries()
@@ -899,6 +922,22 @@ class MainActivity : AbstractBaseActivity() {
         } else {
             showSitemapSelectionDialog()
         }
+    }
+
+    /**
+     * Shows the content that was shown before the connection changed, e.g. from local to remote.
+     *
+     * @return true if the content has been restored
+     */
+    private fun restoreContentState(): Boolean {
+        val (serverId, state) = contentStateToRestore ?: return false
+        contentStateToRestore = null
+        val props = serverProperties
+        if (serverId != prefs.getActiveServerId() || connection is DemoConnection || props == null) {
+            return false
+        }
+        Log.d(TAG, "Restoring content state $state")
+        return controller.restoreContentState(state, props)
     }
 
     private fun handleServiceResolveResult(info: ServiceInfo?) {
