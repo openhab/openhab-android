@@ -37,7 +37,7 @@ class CacheManager private constructor(appContext: Context) {
     private val temporaryBitmapCache: BitmapCache
     private val notificationBitmapCache: NotificationBitmapCache
     private val widgetIconDirectory = appContext.getDir("widgeticons", Context.MODE_PRIVATE)
-    private val notificationImageDirectory = File(appContext.filesDir, "notification_images")
+    private val notificationImageDirectory = File(appContext.cacheDir, "notification_images")
 
     init {
         // Get max available VM memory, exceeding this amount will throw an
@@ -58,9 +58,10 @@ class CacheManager private constructor(appContext: Context) {
             return null
         }
         val bitmap = withContext(Dispatchers.IO) {
-            val file = getNotificationImageFile(persistedId)
             try {
-                if (file.exists()) BitmapFactory.decodeFile(file.absolutePath) else null
+                getNotificationImageFiles(persistedId)
+                    .firstOrNull { file -> file.exists() }
+                    ?.let { file -> BitmapFactory.decodeFile(file.absolutePath) }
             } catch (ignored: OutOfMemoryError) {
                 null
             }
@@ -80,9 +81,15 @@ class CacheManager private constructor(appContext: Context) {
         withContext(Dispatchers.IO) {
             try {
                 notificationImageDirectory.mkdirs()
-                val targetFile = getNotificationImageFile(persistedId)
+                // Keep transparency of PNG attachments, JPEG is much smaller for camera snapshots
+                val (pngFile, jpgFile) = getNotificationImageFiles(persistedId)
+                val targetFile = if (bitmap.hasAlpha()) pngFile else jpgFile
                 FileOutputStream(targetFile).use { out ->
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
+                    if (bitmap.hasAlpha()) {
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+                    } else {
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
+                    }
                 }
                 targetFile.setLastModified(if (createdTimestamp > 0L) createdTimestamp else System.currentTimeMillis())
             } catch (ignored: IOException) {
@@ -103,9 +110,9 @@ class CacheManager private constructor(appContext: Context) {
     private fun isNotificationImageExpired(createdTimestamp: Long) =
         createdTimestamp > 0L && System.currentTimeMillis() - createdTimestamp > NOTIFICATION_IMAGE_TTL_MS
 
-    private fun getNotificationImageFile(persistedId: String): File {
+    private fun getNotificationImageFiles(persistedId: String): List<File> {
         val safeName = persistedId.replace(SAFE_FILENAME_REGEX, "_")
-        return File(notificationImageDirectory, "$safeName.jpg")
+        return listOf("png", "jpg").map { extension -> File(notificationImageDirectory, "$safeName.$extension") }
     }
 
     fun getCachedBitmap(url: HttpUrl, @ColorInt fallbackColor: Int): Bitmap? {
@@ -159,6 +166,8 @@ class CacheManager private constructor(appContext: Context) {
             }
             widgetIconDirectory?.listFiles()?.forEach { f -> f.delete() }
             iconBitmapCache.evictAll()
+            notificationImageDirectory.listFiles()?.forEach { f -> f.delete() }
+            notificationBitmapCache.evictAll()
         } else {
             // Don't evict icons from httpCache
             try {
