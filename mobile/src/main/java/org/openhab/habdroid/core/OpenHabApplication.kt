@@ -37,6 +37,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.ConnectionManagerHelper
+import org.openhab.habdroid.core.wear.WearHelper
 import org.openhab.habdroid.ui.WebViewManager
 import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.getDayNightMode
@@ -92,6 +93,7 @@ class OpenHabApplication : Application() {
 
         connectionFactory.start()
         webViewManager.start()
+        WearHelper.start(this)
 
         dataSaverChangeListener.let { listener ->
             registerExportedReceiver(

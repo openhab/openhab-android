@@ -1,0 +1,58 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+apply plugin: "com.android.library"
+apply plugin: "kotlin-parcelize"
+
+android {
+    namespace "org.openhab.habdroid.core"
+    compileSdk = 37
+
+    defaultConfig {
+        minSdkVersion 23
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        targetCompatibility 11
+        sourceCompatibility 11
+    }
+
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_11
+            freeCompilerArgs = [ "-opt-in=kotlinx.coroutines.DelicateCoroutinesApi" ]
+            allWarningsAsErrors = true
+        }
+    }
+
+    lint {
+        abortOnError false
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+repositories {
+    mavenCentral()
+    google()
+}
+
+dependencies {
+    coreLibraryDesugaring libs.desugar.jdk.libs
+
+    api libs.kotlinx.coroutines.core
+    api libs.kotlinx.coroutines.android
+
+    api libs.androidx.core.ktx
+    api libs.androidx.preference.ktx
+
+    api libs.okhttp
+    api libs.okhttp.sse
+    api libs.androidsvg
+
+    testImplementation libs.junit
+    testImplementation libs.json
+}

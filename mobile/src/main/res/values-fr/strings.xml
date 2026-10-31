@@ -630,11 +630,4 @@
     <string name="tile_icon_lamp_outdoor">Lampe extérieure</string>
     <!-- Tile icon values -->
     <!-- Item tag type labels -->
-    <string name="item_tag_location_garage">Garage</string>
-    <string name="item_tag_location_house">Maison</string>
-    <string name="item_tag_equipment_battery">Batterie</string>
-    <string name="item_tag_equipment_camera">Caméra</string>
-    <string name="item_tag_equipment_ceilingfan">Déstratificateur</string>
-    <string name="item_tag_equipment_fan">Ventilateur</string>
-    <string name="item_tag_equipment_lock">Verrouiller</string>
 </resources>

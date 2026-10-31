@@ -541,9 +541,4 @@
     <string name="tile_icon_lamp_outdoor">屋外灯</string>
     <!-- Tile icon values -->
     <!-- Item tag type labels -->
-    <string name="item_tag_location_garage">ガレージ</string>
-    <string name="item_tag_location_house">家</string>
-    <string name="item_tag_equipment_battery">バッテリー</string>
-    <string name="item_tag_equipment_camera">カメラ</string>
-    <string name="item_tag_equipment_lock">錠</string>
 </resources>

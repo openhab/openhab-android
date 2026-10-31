@@ -584,10 +584,4 @@
     <string name="tile_icon_lamp_outdoor">Luminária externa</string>
     <!-- Tile icon values -->
     <!-- Item tag type labels -->
-    <string name="item_tag_location_garage">Garagem</string>
-    <string name="item_tag_location_house">Casa</string>
-    <string name="item_tag_equipment_battery">Bateria</string>
-    <string name="item_tag_equipment_camera">Câmera</string>
-    <string name="item_tag_equipment_fan">Ventilador</string>
-    <string name="item_tag_equipment_lock">Cadeado</string>
 </resources>
