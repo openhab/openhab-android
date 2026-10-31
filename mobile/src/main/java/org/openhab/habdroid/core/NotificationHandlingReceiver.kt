@@ -89,53 +89,61 @@ class NotificationHandlingReceiver : BroadcastReceiver() {
             )
         }
 
-        fun createActionPendingIntent(
+        /**
+         * Create the intent for actions that open an activity
+         *
+         * @return The intent, or null if the action is handled in the background
+         */
+        fun createActivityIntent(
             context: Context,
             notificationId: CloudNotificationId,
             cna: CloudNotificationAction
-        ): PendingIntent = when (val cnaAction = cna.action) {
+        ): Intent? = when (val cnaAction = cna.action) {
             is CloudNotificationAction.Action.UiCommandAction -> {
-                val intent = Intent(context, MainActivity::class.java).apply {
+                Intent(context, MainActivity::class.java).apply {
                     action = Intent.ACTION_VIEW
                     flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP or
                         Intent.FLAG_ACTIVITY_NEW_TASK
                     putExtra(MainActivity.EXTRA_UI_COMMAND, cnaAction.command)
                     putExtra(MainActivity.EXTRA_CLOUD_NOTIFICATION_ID, notificationId)
                 }
-                PendingIntent.getActivity(
-                    context,
-                    notificationId.notificationId + cna.hashCode(),
-                    intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
-                )
             }
 
             is CloudNotificationAction.Action.UrlAction -> {
-                val intent = Intent(Intent.ACTION_VIEW, cnaAction.url.toUri()).apply {
+                Intent(Intent.ACTION_VIEW, cnaAction.url.toUri()).apply {
                     flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP or
                         Intent.FLAG_ACTIVITY_NEW_TASK
                 }
-                PendingIntent.getActivity(
-                    context,
-                    notificationId.notificationId + cna.hashCode(),
-                    intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
-                )
             }
 
-            else -> {
-                val intent = Intent(context, NotificationHandlingReceiver::class.java).apply {
-                    action = ACTION_NOTIF_ACTION
-                    putExtra(EXTRA_NOTIFICATION_ID, notificationId)
-                    putExtra(EXTRA_NOTIFICATION_ACTION, cna)
-                }
-                PendingIntent.getBroadcast(
+            else -> null
+        }
+
+        fun createActionPendingIntent(
+            context: Context,
+            notificationId: CloudNotificationId,
+            cna: CloudNotificationAction
+        ): PendingIntent {
+            val activityIntent = createActivityIntent(context, notificationId, cna)
+            if (activityIntent != null) {
+                return PendingIntent.getActivity(
                     context,
                     notificationId.notificationId + cna.hashCode(),
-                    intent,
+                    activityIntent,
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
                 )
             }
+            val intent = Intent(context, NotificationHandlingReceiver::class.java).apply {
+                action = ACTION_NOTIF_ACTION
+                putExtra(EXTRA_NOTIFICATION_ID, notificationId)
+                putExtra(EXTRA_NOTIFICATION_ACTION, cna)
+            }
+            return PendingIntent.getBroadcast(
+                context,
+                notificationId.notificationId + cna.hashCode(),
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent_Immutable
+            )
         }
     }
 }

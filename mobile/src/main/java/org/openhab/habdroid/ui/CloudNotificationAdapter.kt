@@ -15,12 +15,10 @@ package org.openhab.habdroid.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +31,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
+import org.openhab.habdroid.core.NotificationHandlingReceiver
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.databinding.NotificationlistHeaderItemBinding
 import org.openhab.habdroid.databinding.NotificationlistItemBinding
@@ -365,29 +364,12 @@ class CloudNotificationAdapter(
             notification: CloudMessage.CloudNotification,
             cna: CloudNotificationAction
         ) {
-            when (val action = cna.action) {
-                is CloudNotificationAction.Action.ItemCommandAction -> {
+            val intent = NotificationHandlingReceiver.createActivityIntent(context, notification.id, cna)
+            val action = cna.action
+            when {
+                intent != null -> context.startActivity(intent)
+                action is CloudNotificationAction.Action.ItemCommandAction ->
                     context.getBackgroundTasksManager().enqueueNotificationAction(action)
-                }
-
-                is CloudNotificationAction.Action.UiCommandAction -> {
-                    val intent = Intent(context, MainActivity::class.java).apply {
-                        this.action = Intent.ACTION_VIEW
-                        flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        putExtra(MainActivity.EXTRA_UI_COMMAND, action.command)
-                        putExtra(MainActivity.EXTRA_CLOUD_NOTIFICATION_ID, notification.id)
-                    }
-                    context.startActivity(intent)
-                }
-
-                is CloudNotificationAction.Action.UrlAction -> {
-                    val intent = Intent(Intent.ACTION_VIEW, action.url.toUri())
-                    context.startActivity(intent)
-                }
-
-                is CloudNotificationAction.Action.NoAction -> {
-                    // no-op
-                }
             }
         }
     }
