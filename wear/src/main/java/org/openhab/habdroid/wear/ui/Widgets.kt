@@ -305,11 +305,7 @@ private fun WidgetLabel(widget: Widget, maxLines: Int = 2) {
 }
 
 @Composable
-private fun WidgetState(
-    widget: Widget,
-    modifier: Modifier = Modifier,
-    state: String? = widget.stateFromLabel
-) {
+private fun WidgetState(widget: Widget, modifier: Modifier = Modifier, state: String? = widget.stateFromLabel) {
     state?.takeIf { it.isNotEmpty() }?.let {
         Text(
             text = it,
@@ -761,7 +757,7 @@ private fun WidgetScope.ImageRow(widget: Widget, modifier: Modifier, transformat
                         connection = connection,
                         widthPixels = widthPixels,
                         refreshMillis = widget.refresh,
-                        contentDescription = widget.label,
+                        contentDescription = widget.label
                     )
                 }
             )

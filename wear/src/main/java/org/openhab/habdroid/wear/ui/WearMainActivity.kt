@@ -116,17 +116,22 @@ class WearMainActivity : ComponentActivity() {
 sealed interface NavRoute : NavKey {
     @Serializable
     data object Main : NavRoute
+
     @Serializable
     data object Settings : NavRoute
+
     @Serializable
     data class Page(val pageUrl: String) : NavRoute
 
     @Serializable
     data class Selection(val pageUrl: String, val widgetId: String) : NavRoute
+
     @Serializable
     data class Setpoint(val pageUrl: String, val widgetId: String) : NavRoute
+
     @Serializable
     data class Color(val pageUrl: String, val widgetId: String) : NavRoute
+
     @Serializable
     data class Buttons(val pageUrl: String, val widgetId: String, val buttons: List<ButtonInput>) : NavRoute
 }

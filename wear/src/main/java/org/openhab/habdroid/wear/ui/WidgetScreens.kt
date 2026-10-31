@@ -291,13 +291,10 @@ sealed interface ButtonInput {
     fun label(): String
 
     @Serializable
-    data class IconButton(
-        override val command: String,
-        override val iconResId: Int,
-        val descriptionResId: Int
-    ) : ButtonInput {
+    data class IconButton(override val command: String, override val iconResId: Int, val descriptionResId: Int) :
+        ButtonInput {
         @Composable
-        override fun label()  = stringResource(descriptionResId)
+        override fun label() = stringResource(descriptionResId)
     }
 
     @Serializable
@@ -310,11 +307,7 @@ sealed interface ButtonInput {
 }
 
 @Composable
-fun IconButtonListScreen(
-    widget: Widget,
-    buttons: List<ButtonInput>,
-    onCommand: (String) -> Unit
-) {
+fun IconButtonListScreen(widget: Widget, buttons: List<ButtonInput>, onCommand: (String) -> Unit) {
     val listState = rememberTransformingLazyColumnState()
     val transformationSpec = rememberTransformationSpec()
 
@@ -400,5 +393,4 @@ private fun TransformingLazyColumnItemScope.ButtonRow(
         colors = ButtonDefaults.filledTonalButtonColors(),
         contentPadding = CompactButtonDefaults.ContentPadding
     )
-
 }
