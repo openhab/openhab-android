@@ -26,7 +26,6 @@
  */
 package de.duenndns.ssl;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Notification;
@@ -52,6 +51,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.Socket;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.MessageDigest;
@@ -71,10 +71,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocket;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509ExtendedTrustManager;
 import javax.net.ssl.X509TrustManager;
+
+import okhttp3.internal.tls.OkHostnameVerifier;
 
 /**
  * A X509 trust manager implementation which asks the user about invalid
@@ -189,7 +194,19 @@ MemorizingTrustManager implements X509TrustManager {
      * @param c Activity or Service to show the Dialog / Notification
      */
     public static X509TrustManager[] getInstanceList(Context c) {
-        return new X509TrustManager[] { new MemorizingTrustManager(c) };
+        return new X509TrustManager[] { new MemorizingTrustManager(c).getHostnameAwareTrustManager() };
+    }
+
+    /**
+     * Returns a trust manager backed by this instance that knows the host name of the
+     * server it checks.
+     *
+     * If the server certificate is untrusted and doesn't match the host name either,
+     * the user is asked only once about both issues instead of being asked about the
+     * certificate first and about the host name afterwards.
+     */
+    public X509TrustManager getHostnameAwareTrustManager() {
+        return new HostnameAwareTrustManager();
     }
 
     /**
@@ -426,7 +443,18 @@ MemorizingTrustManager implements X509TrustManager {
     public void checkCertTrusted(X509Certificate[] chain, String authType, boolean isServer)
             throws CertificateException
     {
-        LOGGER.log(Level.FINE, "checkCertTrusted(" + chain.length + " certs, " + authType + ", " + isServer + ")");
+        checkCertTrusted(chain, authType, isServer, null);
+    }
+
+    /**
+     * @param hostname host name of the server, if known. If the certificate is untrusted
+     *                 and also doesn't match this host name, the user is asked about both
+     *                 issues at once.
+     */
+    void checkCertTrusted(X509Certificate[] chain, String authType, boolean isServer, String hostname)
+            throws CertificateException
+    {
+        LOGGER.log(Level.FINE, "checkCertTrusted(" + chain.length + " certs, " + authType + ", " + isServer + ", " + hostname + ")");
         try {
             LOGGER.log(Level.FINE, "checkCertTrusted: trying appTrustManager");
             if (isServer)
@@ -456,7 +484,9 @@ MemorizingTrustManager implements X509TrustManager {
                     defaultTrustManager.checkClientTrusted(chain, authType);
             } catch (CertificateException e) {
                 LOGGER.log(Level.FINER, "checkCertTrusted: defaultTrustManager failed", e);
-                interactCert(chain, authType, e);
+                String mismatchedHostname = isServer && hostname != null
+                        && !OkHostnameVerifier.INSTANCE.verify(hostname, chain[0]) ? hostname : null;
+                interactCert(chain, authType, e, mismatchedHostname);
             }
         }
     }
@@ -542,11 +572,16 @@ MemorizingTrustManager implements X509TrustManager {
         return e.getLocalizedMessage();
     }
 
-    private CharSequence certChainMessage(final X509Certificate[] chain, CertificateException cause) {
+    private CharSequence certChainMessage(final X509Certificate[] chain, CertificateException cause,
+                                          String mismatchedHostname) {
         LOGGER.log(Level.FINE, "certChainMessage for " + cause);
         SpannableStringBuilder si = new SpannableStringBuilder();
         si.append(certChainReason(cause));
         si.append("\n\n");
+        if (mismatchedHostname != null) {
+            appendHostnameMismatch(si, chain[0], mismatchedHostname);
+            si.append("\n");
+        }
         si.append(master.getString(R.string.mtm_connect_anyway));
         si.append("\n\n");
         si.append(master.getString(R.string.mtm_cert_details));
@@ -591,9 +626,7 @@ MemorizingTrustManager implements X509TrustManager {
     private CharSequence hostNameMessage(X509Certificate cert, String hostname) {
         SpannableStringBuilder si = new SpannableStringBuilder();
 
-        si.append(master.getString(R.string.mtm_hostname_mismatch, hostname));
-        si.append("\n\n");
-        si.append(certNames(cert, true));
+        appendHostnameMismatch(si, cert, hostname);
         si.append("\n");
         si.append(master.getString(R.string.mtm_connect_anyway));
         si.append("\n\n");
@@ -602,6 +635,12 @@ MemorizingTrustManager implements X509TrustManager {
         certDetails(si, cert);
         si.setSpan(new RelativeSizeSpan(0.8f), start, si.length(), 0);
         return si;
+    }
+
+    private void appendHostnameMismatch(SpannableStringBuilder si, X509Certificate cert, String hostname) {
+        si.append(master.getString(R.string.mtm_hostname_mismatch, hostname));
+        si.append("\n\n");
+        si.append(certNames(cert, true));
     }
 
     /**
@@ -636,7 +675,6 @@ MemorizingTrustManager implements X509TrustManager {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     void startActivityNotification(Intent intent, int decisionId, CharSequence certName) {
         final PendingIntent call = PendingIntent.getActivity(
             master,
@@ -717,14 +755,23 @@ MemorizingTrustManager implements X509TrustManager {
         return choice.state;
     }
 
-    void interactCert(final X509Certificate[] chain, String authType, CertificateException cause)
+    void interactCert(final X509Certificate[] chain, String authType, CertificateException cause,
+                      String mismatchedHostname)
             throws CertificateException
     {
         String summary = certChainReason(cause);
+        if (mismatchedHostname != null) {
+            summary += "\n" + master.getString(R.string.mtm_hostname_mismatch, mismatchedHostname);
+        }
         String fingerprint = certHash(chain[0], "SHA-256");
-        switch (interact(certChainMessage(chain, cause), R.string.mtm_accept_cert, summary, fingerprint)) {
+        switch (interact(certChainMessage(chain, cause, mismatchedHostname), R.string.mtm_accept_cert,
+                summary, fingerprint)) {
             case MTMDecision.DECISION_ALWAYS:
                 storeCert(chain[0]); // only store the server cert, not the whole chain
+                if (mismatchedHostname != null) {
+                    // The user accepted the host name as well, so don't ask again in the hostname verifier
+                    storeCert(mismatchedHostname.toLowerCase(Locale.US), chain[0]);
+                }
             case MTMDecision.DECISION_ONCE:
                 break;
             default:
@@ -738,7 +785,7 @@ MemorizingTrustManager implements X509TrustManager {
         String fingerprint = certHash(cert, "SHA-256");
         switch (interact(hostNameMessage(cert, hostname), R.string.mtm_accept_servername, summary, fingerprint)) {
             case MTMDecision.DECISION_ALWAYS:
-                storeCert(hostname, cert);
+                storeCert(hostname.toLowerCase(Locale.US), cert);
             case MTMDecision.DECISION_ONCE:
                 return true;
             default:
@@ -792,6 +839,56 @@ MemorizingTrustManager implements X509TrustManager {
                 e.printStackTrace();
                 return false;
             }
+        }
+    }
+
+    class HostnameAwareTrustManager extends X509ExtendedTrustManager {
+        @Override
+        public void checkServerTrusted(X509Certificate[] chain, String authType, Socket socket)
+                throws CertificateException {
+            String hostname = null;
+            if (socket instanceof SSLSocket) {
+                SSLSession session = ((SSLSocket) socket).getHandshakeSession();
+                if (session != null) {
+                    hostname = session.getPeerHost();
+                }
+            }
+            checkCertTrusted(chain, authType, true, hostname);
+        }
+
+        @Override
+        public void checkServerTrusted(X509Certificate[] chain, String authType, SSLEngine engine)
+                throws CertificateException {
+            checkCertTrusted(chain, authType, true, engine != null ? engine.getPeerHost() : null);
+        }
+
+        @Override
+        public void checkServerTrusted(X509Certificate[] chain, String authType)
+                throws CertificateException {
+            checkCertTrusted(chain, authType, true, null);
+        }
+
+        @Override
+        public void checkClientTrusted(X509Certificate[] chain, String authType, Socket socket)
+                throws CertificateException {
+            checkCertTrusted(chain, authType, false, null);
+        }
+
+        @Override
+        public void checkClientTrusted(X509Certificate[] chain, String authType, SSLEngine engine)
+                throws CertificateException {
+            checkCertTrusted(chain, authType, false, null);
+        }
+
+        @Override
+        public void checkClientTrusted(X509Certificate[] chain, String authType)
+                throws CertificateException {
+            checkCertTrusted(chain, authType, false, null);
+        }
+
+        @Override
+        public X509Certificate[] getAcceptedIssuers() {
+            return MemorizingTrustManager.this.getAcceptedIssuers();
         }
     }
 }

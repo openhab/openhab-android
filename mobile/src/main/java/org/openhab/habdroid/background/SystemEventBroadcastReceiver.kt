@@ -112,9 +112,7 @@ class SystemEventBroadcastReceiver : BroadcastReceiver() {
                 }
             }
             // This broadcast is only sent to registered receivers, so we need that in any case
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                prefs.isItemUpdatePrefEnabled(PrefKeys.SEND_DND_MODE)
-            ) {
+            if (prefs.isItemUpdatePrefEnabled(PrefKeys.SEND_DND_MODE)) {
                 addAction(NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED)
             }
         }

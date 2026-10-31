@@ -210,10 +210,8 @@ class UpdateBroadcastReceiver : BroadcastReceiver() {
             updateComparableVersion(this)
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            for (tileId in 1..AbstractTileService.TILE_COUNT) {
-                AbstractTileService.requestTileUpdate(context, tileId)
-            }
+        for (tileId in 1..AbstractTileService.TILE_COUNT) {
+            AbstractTileService.requestTileUpdate(context, tileId)
         }
     }
 

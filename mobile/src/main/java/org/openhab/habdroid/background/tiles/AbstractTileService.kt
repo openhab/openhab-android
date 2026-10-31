@@ -48,7 +48,6 @@ import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.util.getBackgroundTasksManager
 import org.openhab.habdroid.util.getPrefs
 
-@RequiresApi(Build.VERSION_CODES.N)
 abstract class AbstractTileService : TileService() {
     @VisibleForTesting
     abstract val id: Int
@@ -291,7 +290,6 @@ data class TileData(
         icon.isNotEmpty()
 }
 
-@RequiresApi(Build.VERSION_CODES.N)
 fun SharedPreferences.getTileData(id: Int): TileData? {
     val tileString = getString(getPrefKeyForId(id), null) ?: return null
     return try {
@@ -309,7 +307,6 @@ fun SharedPreferences.getTileData(id: Int): TileData? {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.N)
 fun SharedPreferences.Editor.putTileData(id: Int, data: TileData?): SharedPreferences.Editor {
     if (data == null) {
         putString(getPrefKeyForId(id), null)

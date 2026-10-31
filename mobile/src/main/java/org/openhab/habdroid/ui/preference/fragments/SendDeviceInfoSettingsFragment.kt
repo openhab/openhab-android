@@ -56,10 +56,6 @@ class SendDeviceInfoSettingsFragment : AbstractSettingsFragment() {
             wifiSsidPref.setSummaryOnAndUpdate(getString(R.string.settings_wifi_ssid_summary_on_location_on))
         }
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            preferenceScreen.removePreferenceRecursively(PrefKeys.SEND_DND_MODE)
-        }
-
         BackgroundTasksManager.KNOWN_KEYS.forEach { key ->
             findPreference<ItemUpdatingPreference>(key)?.startObserving(this)
         }

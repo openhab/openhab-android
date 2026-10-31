@@ -396,9 +396,7 @@ fun Context.getHumanReadableErrorMessage(url: String, httpCode: Int, error: Thro
         getString(
             if (short) R.string.error_short_certificate_not_valid_yet else R.string.error_certificate_not_valid_yet
         )
-    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
-        error.hasCause(CertificateRevokedException::class.java)
-    ) {
+    } else if (error.hasCause(CertificateRevokedException::class.java)) {
         getString(if (short) R.string.error_short_certificate_revoked else R.string.error_certificate_revoked)
     } else if (error.hasCause(SSLPeerUnverifiedException::class.java)) {
         getString(
@@ -467,7 +465,7 @@ fun Context.determineDataUsagePolicy(conn: Connection? = null): DataUsagePolicy 
     }
 
     val dataSaverPref = getPrefs().getBoolean(PrefKeys.DATA_SAVER, false)
-    if (dataSaverPref || Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+    if (dataSaverPref) {
         canDoLargeTransfers = canDoLargeTransfers && !dataSaverPref
         loadIconsWithState = loadIconsWithState && !dataSaverPref
         autoPlayVideos = autoPlayVideos && !dataSaverPref
@@ -640,16 +638,8 @@ fun Context.withAttribution(tag: String): Context = if (Build.VERSION.SDK_INT >=
     this
 }
 
-fun Context.getWifiManager(attributionTag: String): WifiManager {
-    // Android < N requires applicationContext for getting WifiManager, otherwise leaks may occur
-    val context = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-        applicationContext
-    } else {
-        withAttribution(attributionTag)
-    }
-
-    return context.getSystemService(Context.WIFI_SERVICE) as WifiManager
-}
+fun Context.getWifiManager(attributionTag: String): WifiManager =
+    withAttribution(attributionTag).getSystemService(Context.WIFI_SERVICE) as WifiManager
 
 fun Socket.bindToNetworkIfPossible(network: Network?) {
     try {
@@ -705,11 +695,7 @@ fun PackageManager.isInstalled(app: String): Boolean = try {
     false
 }
 
-val PendingIntent_Immutable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-    PendingIntent.FLAG_IMMUTABLE
-} else {
-    0
-}
+val PendingIntent_Immutable = PendingIntent.FLAG_IMMUTABLE
 
 val PendingIntent_Mutable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
     PendingIntent.FLAG_MUTABLE

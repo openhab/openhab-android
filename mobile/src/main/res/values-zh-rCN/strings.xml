@@ -547,7 +547,6 @@
     <string name="data_saver_title">节省流量模式</string>
     <string name="data_saver_on">可能需要更大数据传输的站点地图元素未加载</string>
     <string name="data_saver_off">在使用 Sitemap 把元素加载数据时，遵循系统范围的数据保存程序设置</string>
-    <string name="data_saver_off_pre_n">所有Sitemap元素都已加载，无视使用了多少数据</string>
     <string name="data_saver_load">仍然添加</string>
     <string name="data_saver_hint">%s 未加载以保存数据</string>
     <string name="data_saver_snackbar">图标不是基于项目实时状态，因为数据保护程序已开启</string>

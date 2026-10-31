@@ -368,8 +368,7 @@ abstract class AbstractBaseActivity :
 
     private fun promptForDevicePassword() {
         val km = getSystemService(KEYGUARD_SERVICE) as KeyguardManager
-        val locked = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) km.isDeviceSecure else km.isKeyguardSecure
-        if (locked) {
+        if (km.isDeviceSecure) {
             authPrompt = AuthPrompt()
             authPrompt?.authenticate()
         }

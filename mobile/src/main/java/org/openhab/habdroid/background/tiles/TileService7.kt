@@ -13,10 +13,6 @@
 
 package org.openhab.habdroid.background.tiles
 
-import android.os.Build
-import androidx.annotation.RequiresApi
-
-@RequiresApi(Build.VERSION_CODES.N)
 class TileService7 : AbstractTileService() {
     override val id = 7
 }

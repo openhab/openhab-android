@@ -15,7 +15,6 @@ package org.openhab.habdroid.ui
 
 import android.animation.ObjectAnimator
 import android.graphics.Rect
-import android.os.Build
 import android.service.dreams.DreamService
 import android.text.Html
 import android.text.format.DateFormat
@@ -131,12 +130,7 @@ class DayDream : DreamService() {
     private fun setText(text: String) {
         val textView = binding?.text ?: return
         textView.isVisible = text.isNotEmpty()
-        textView.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Html.fromHtml(text.replace("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT)
-        } else {
-            @Suppress("DEPRECATION")
-            Html.fromHtml(text.replace("\n", "<br>"))
-        }
+        textView.text = Html.fromHtml(text.replace("\n", "<br>"), Html.FROM_HTML_MODE_COMPACT)
         if (!textView.isFullyVisible()) {
             moveToRandomPosition()
         }

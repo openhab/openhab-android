@@ -97,9 +97,7 @@ class OpenHabApplication : Application() {
             registerExportedReceiver(
                 listener,
                 IntentFilter().apply {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        addAction(ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED)
-                    }
+                    addAction(ConnectivityManager.ACTION_RESTRICT_BACKGROUND_CHANGED)
                     addAction(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED)
                 }
             )
@@ -175,9 +173,6 @@ class OpenHabApplication : Application() {
 
     inner class SystemDataSaverStateChangeReceiver : BroadcastReceiver() {
         fun getSystemDataSaverStatus(context: Context): Int {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                return ConnectivityManager.RESTRICT_BACKGROUND_STATUS_DISABLED
-            }
             val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             return cm.restrictBackgroundStatus
         }
