@@ -80,7 +80,14 @@ sealed class CloudMessage : Parcelable {
                 return try {
                     val dataString = itemStateFromMedia.substring(itemStateFromMedia.indexOf(",") + 1)
                     val data = Base64.decode(dataString, Base64.DEFAULT)
-                    BitmapFactory.decodeByteArray(data, 0, data.size)
+                    val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+                    BitmapFactory.decodeByteArray(data, 0, data.size, bounds)
+                    var sampleSize = 1
+                    while (bounds.outWidth / (sampleSize * 2) >= targetSize) {
+                        sampleSize *= 2
+                    }
+                    val options = BitmapFactory.Options().apply { inSampleSize = sampleSize }
+                    BitmapFactory.decodeByteArray(data, 0, data.size, options)
                 } catch (e: IllegalArgumentException) {
                     null
                 }
