@@ -74,10 +74,12 @@ class NotificationImageActivity : AbstractBaseActivity() {
     private suspend fun loadImage(notification: CloudMessage.CloudNotification, usePrimaryServer: Boolean) {
         val cacheManager = CacheManager.getInstance(this)
         val persistedId = notification.id.persistedId
+        val url = notification.mediaAttachmentUrl
         var bitmap = cacheManager.getNotificationImageFromMemory(persistedId)
         if (bitmap == null) {
             binding.skeleton.showSkeleton()
             bitmap = cacheManager.loadNotificationImageFromDisk(persistedId, notification.createdTimestamp)
+                ?: url?.let { cacheManager.getAttachmentImageFromMemory(it) }
         }
         if (bitmap == null) {
             val connInfo = getConnectionFactory().let { if (usePrimaryServer) it.currentPrimary else it.currentActive }
@@ -86,6 +88,9 @@ class NotificationImageActivity : AbstractBaseActivity() {
                 val size = max(resources.displayMetrics.widthPixels, resources.displayMetrics.heightPixels)
                 val context = this
                 bitmap = withContext(Dispatchers.IO) { notification.loadImage(conn, context, size) }
+                if (bitmap != null && url != null) {
+                    cacheManager.putAttachmentImageInMemory(url, bitmap)
+                }
             }
         }
         if (bitmap == null) {

@@ -44,7 +44,7 @@ class CacheManager private constructor(appContext: Context) {
         // OutOfMemory exception. Stored in kilobytes as LruCache takes an
         // int in its constructor.
         val maxMemory = (Runtime.getRuntime().maxMemory() / 1024).toInt()
-        // Use up to 2/8 of the available VM memory for the bitmap cache
+        // Use up to 2/8 of the available VM memory for the bitmap caches and 1/16 for notification images
         iconBitmapCache = BitmapCache(maxMemory / 8)
         temporaryBitmapCache = BitmapCache(maxMemory / 8)
         notificationBitmapCache = NotificationBitmapCache(maxMemory / 16)
@@ -52,6 +52,15 @@ class CacheManager private constructor(appContext: Context) {
 
     fun getNotificationImageFromMemory(persistedId: String): Bitmap? =
         if (persistedId.isEmpty()) null else notificationBitmapCache.get(persistedId)
+
+    /**
+     * Images of attachments like item:CameraSnapshot show the current state, so they are only kept in memory
+     */
+    fun getAttachmentImageFromMemory(url: String): Bitmap? = notificationBitmapCache.get(ATTACHMENT_KEY_PREFIX + url)
+
+    fun putAttachmentImageInMemory(url: String, bitmap: Bitmap) {
+        notificationBitmapCache.put(ATTACHMENT_KEY_PREFIX + url, bitmap)
+    }
 
     suspend fun loadNotificationImageFromDisk(persistedId: String, createdTimestamp: Long): Bitmap? {
         if (persistedId.isEmpty() || isNotificationImageExpired(createdTimestamp)) {
@@ -83,14 +92,21 @@ class CacheManager private constructor(appContext: Context) {
                 notificationImageDirectory.mkdirs()
                 // Keep transparency of PNG attachments, JPEG is much smaller for camera snapshots
                 val (pngFile, jpgFile) = getNotificationImageFiles(persistedId)
-                val targetFile = if (bitmap.hasAlpha()) pngFile else jpgFile
-                FileOutputStream(targetFile).use { out ->
+                val (targetFile, otherFile) = if (bitmap.hasAlpha()) pngFile to jpgFile else jpgFile to pngFile
+                // Write to a temporary file first, so a killed process doesn't leave a truncated image
+                val tempFile = File(notificationImageDirectory, targetFile.name + ".tmp")
+                FileOutputStream(tempFile).use { out ->
                     if (bitmap.hasAlpha()) {
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
                     } else {
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
                     }
                 }
+                if (!tempFile.renameTo(targetFile)) {
+                    tempFile.delete()
+                    return@withContext
+                }
+                otherFile.delete()
                 targetFile.setLastModified(if (createdTimestamp > 0L) createdTimestamp else System.currentTimeMillis())
             } catch (ignored: IOException) {
                 // ignored
@@ -203,10 +219,12 @@ class CacheManager private constructor(appContext: Context) {
 
     companion object {
         private val TAG = CacheManager::class.java.simpleName
+        private const val ATTACHMENT_KEY_PREFIX = "attachment:"
         private const val NOTIFICATION_IMAGE_TTL_MS = 30L * 24L * 60L * 60L * 1000L
         private val SAFE_FILENAME_REGEX = "[^a-zA-Z0-9._-]".toRegex()
         private var instance: CacheManager? = null
 
+        @Synchronized
         fun getInstance(context: Context): CacheManager {
             val inst = instance ?: CacheManager(context.applicationContext)
             instance = inst
