@@ -26,7 +26,6 @@ import org.openhab.habdroid.util.getStringOrNull
 import org.openhab.habdroid.util.putActiveServerId
 import org.openhab.habdroid.util.putConfiguredServerIds
 import org.openhab.habdroid.util.putPrimaryServerId
-import org.openhab.habdroid.util.toNormalizedUrl
 
 @Parcelize
 data class ServerConfiguration(
@@ -40,6 +39,7 @@ data class ServerConfiguration(
     val restrictToWifiSsids: Boolean,
     val frontailUrl: String?,
     val mainUiStartPage: String?,
+    val autoSitemap: DefaultSitemap? = null,
     val wearSitemap: DefaultSitemap? = null,
     val wearTileSitemap: DefaultSitemap? = null,
     val wearComplicationGroup: String? = null
@@ -54,6 +54,8 @@ data class ServerConfiguration(
             putString(PrefKeys.buildServerKey(id, PrefKeys.REMOTE_URL_PREFIX), remotePath?.url)
             putString(PrefKeys.buildServerKey(id, PrefKeys.FRONTAIL_URL_PREFIX), frontailUrl)
             putString(PrefKeys.buildServerKey(id, PrefKeys.MAIN_UI_START_PAGE_PREFIX), mainUiStartPage)
+            putString(PrefKeys.buildServerKey(id, PrefKeys.CAR_SITEMAP_NAME_PREFIX), autoSitemap?.name)
+            putString(PrefKeys.buildServerKey(id, PrefKeys.CAR_SITEMAP_LABEL_PREFIX), autoSitemap?.label)
             putString(PrefKeys.buildServerKey(id, PrefKeys.WEAR_SITEMAP_NAME_PREFIX), wearSitemap?.name)
             putString(PrefKeys.buildServerKey(id, PrefKeys.WEAR_SITEMAP_LABEL_PREFIX), wearSitemap?.label)
             putString(PrefKeys.buildServerKey(id, PrefKeys.WEAR_TILE_SITEMAP_NAME_PREFIX), wearTileSitemap?.name)
@@ -91,6 +93,8 @@ data class ServerConfiguration(
             remove(PrefKeys.buildServerKey(id, PrefKeys.REMOTE_URL_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.FRONTAIL_URL_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.MAIN_UI_START_PAGE_PREFIX))
+            remove(PrefKeys.buildServerKey(id, PrefKeys.CAR_SITEMAP_NAME_PREFIX))
+            remove(PrefKeys.buildServerKey(id, PrefKeys.CAR_SITEMAP_LABEL_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.WEAR_SITEMAP_NAME_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.WEAR_SITEMAP_LABEL_PREFIX))
             remove(PrefKeys.buildServerKey(id, PrefKeys.WEAR_TILE_SITEMAP_NAME_PREFIX))
@@ -168,6 +172,12 @@ data class ServerConfiguration(
                 prefs.getBoolean(PrefKeys.buildServerKey(id, PrefKeys.RESTRICT_TO_SSID_PREFIX), false)
             val frontailUrl = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.FRONTAIL_URL_PREFIX))
             val mainUiStartPage = prefs.getStringOrNull(PrefKeys.buildServerKey(id, PrefKeys.MAIN_UI_START_PAGE_PREFIX))
+            val carSitemap = loadSitemap(
+                prefs,
+                id,
+                PrefKeys.CAR_SITEMAP_NAME_PREFIX,
+                PrefKeys.CAR_SITEMAP_LABEL_PREFIX
+            )
             val wearSitemap = loadSitemap(
                 prefs,
                 id,
@@ -194,6 +204,7 @@ data class ServerConfiguration(
                 restrictToWifiSsids,
                 frontailUrl,
                 mainUiStartPage,
+                carSitemap,
                 wearSitemap,
                 wearTileSitemap,
                 wearComplicationGroup
@@ -239,6 +250,7 @@ data class ServerConfiguration(
             restrictToWifiSsids: Boolean = config.restrictToWifiSsids,
             frontailUrl: String? = config.frontailUrl,
             mainUiStartPage: String? = config.mainUiStartPage,
+            autoSitemap: DefaultSitemap? = config.autoSitemap,
             wearSitemap: DefaultSitemap? = config.wearSitemap,
             wearTileSitemap: DefaultSitemap? = config.wearTileSitemap,
             wearComplicationGroup: String? = config.wearComplicationGroup
@@ -253,6 +265,7 @@ data class ServerConfiguration(
             restrictToWifiSsids,
             frontailUrl,
             mainUiStartPage,
+            autoSitemap,
             wearSitemap,
             wearTileSitemap,
             wearComplicationGroup

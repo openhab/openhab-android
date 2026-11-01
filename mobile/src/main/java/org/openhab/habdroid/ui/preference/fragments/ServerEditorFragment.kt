@@ -236,6 +236,7 @@ class ServerEditorFragment :
             true
         }
 
+        setupAutoPreferences()
         setupWearPreferences()
 
         val wifiSsidPref = getPreference("wifi_ssid") as WifiSsidInputPreference
@@ -323,6 +324,25 @@ class ServerEditorFragment :
         }
     }
 
+    private fun setupAutoPreferences() {
+        val autoCategory = getPreference(PREF_AUTO)
+        val sitemapPref = getPreference(PREF_AUTO_SITEMAP)
+
+        updateAutoSummaries()
+
+        sitemapPref.setOnPreferenceClickListener {
+            showSitemapDialog(
+                R.string.settings_car_sitemap,
+                R.string.settings_car_sitemap_default,
+                config.autoSitemap
+            ) { selected ->
+                config = ServerConfiguration.createFrom(config, autoSitemap = selected)
+                updateAutoSummaries()
+            }
+            true
+        }
+    }
+
     /**
      * Only the primary server is used on the watch
      */
@@ -339,23 +359,25 @@ class ServerEditorFragment :
         updateWearSummaries()
 
         sitemapPref.setOnPreferenceClickListener {
-            showWearSitemapDialog(
+            showSitemapDialog(
                 R.string.settings_wear_sitemap,
                 R.string.settings_wear_sitemap_default,
                 config.wearSitemap
             ) { selected ->
                 config = ServerConfiguration.createFrom(config, wearSitemap = selected)
+                updateWearSummaries()
             }
             true
         }
 
         tileSitemapPref.setOnPreferenceClickListener {
-            showWearSitemapDialog(
+            showSitemapDialog(
                 R.string.settings_wear_tile_sitemap,
                 R.string.settings_wear_tile_sitemap_default,
                 config.wearTileSitemap
             ) { selected ->
                 config = ServerConfiguration.createFrom(config, wearTileSitemap = selected)
+                updateWearSummaries()
             }
             true
         }
@@ -371,12 +393,13 @@ class ServerEditorFragment :
                     .sortedBy { (name, label) -> (label ?: name).lowercase() }
                 val options = listOf(null to getString(R.string.settings_wear_complication_group_all)) +
                     groups.map { (name, label) -> name to (label?.let { "$it ($name)" } ?: name) }
-                showWearChoiceDialog(
+                showChoiceDialog(
                     R.string.settings_wear_complication_group,
                     options,
                     config.wearComplicationGroup
                 ) { selected ->
                     config = ServerConfiguration.createFrom(config, wearComplicationGroup = selected)
+                    updateWearSummaries()
                 }
             }
             true
@@ -388,7 +411,7 @@ class ServerEditorFragment :
      *
      * @param defaultRes Label of the option to not set a sitemap
      */
-    private fun showWearSitemapDialog(
+    private fun showSitemapDialog(
         @StringRes titleRes: Int,
         @StringRes defaultRes: Int,
         current: DefaultSitemap?,
@@ -400,8 +423,13 @@ class ServerEditorFragment :
             val sitemaps = props.props.sitemaps.sortedWithDefaultName(config.defaultSitemap?.name.orEmpty())
             val options = listOf(null to getString(defaultRes)) +
                 sitemaps.map { sitemap -> DefaultSitemap(sitemap.name, sitemap.label) to sitemap.label }
-            showWearChoiceDialog(titleRes, options, current, onSelected)
+            showChoiceDialog(titleRes, options, current, onSelected)
         }
+    }
+
+    private fun updateAutoSummaries() {
+        getPreference(PREF_AUTO_SITEMAP).summary =
+            config.autoSitemap?.label ?: getString(R.string.settings_wear_sitemap_default)
     }
 
     private fun updateWearSummaries() {
@@ -437,7 +465,7 @@ class ServerEditorFragment :
         }
     }
 
-    private fun <T> showWearChoiceDialog(
+    private fun <T> showChoiceDialog(
         @StringRes titleResId: Int,
         options: List<Pair<T?, String>>,
         selected: T?,
@@ -448,7 +476,6 @@ class ServerEditorFragment :
             .setTitle(titleResId)
             .setSingleChoiceItems(options.map { (_, label) -> label }.toTypedArray(), selectedIndex) { dialog, which ->
                 onSelected(options[which].first)
-                updateWearSummaries()
                 dialog.dismiss()
             }
             .setNegativeButton(android.R.string.cancel, null)
@@ -495,6 +522,8 @@ class ServerEditorFragment :
 
     companion object {
         private val TAG = ServerEditorFragment::class.java.simpleName
+        private const val PREF_AUTO = "auto"
+        private const val PREF_AUTO_SITEMAP = "auto_sitemap"
         private const val PREF_WEAR = "wear"
         private const val PREF_WEAR_SITEMAP = "wear_sitemap"
         private const val PREF_WEAR_TILE_SITEMAP = "wear_tile_sitemap"

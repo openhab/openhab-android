@@ -36,6 +36,8 @@ object PrefKeys {
     const val RESTRICT_TO_SSID_PREFIX = "restrict_to_ssid_"
     const val FRONTAIL_URL_PREFIX = "frontail_url_"
     const val MAIN_UI_START_PAGE_PREFIX = "main_ui_start_page_"
+    const val CAR_SITEMAP_NAME_PREFIX = "auto_sitemap_name_"
+    const val CAR_SITEMAP_LABEL_PREFIX = "auto_sitemap_label_"
     const val WEAR_SITEMAP_NAME_PREFIX = "wear_sitemap_name_"
     const val WEAR_SITEMAP_LABEL_PREFIX = "wear_sitemap_label_"
     const val WEAR_TILE_SITEMAP_NAME_PREFIX = "wear_tile_sitemap_name_"
@@ -55,7 +57,6 @@ object PrefKeys {
     const val CHART_HQ = "default_openhab_chart_hq"
     const val UI_COMMAND_ITEM = "ui_command_item"
     const val IMAGE_WIDGET_SCALE_TO_FIT = "imageWidgetScaleToFit"
-    const val CAR_SITEMAP_INFO = "android_auto_sitemap"
 
     const val DRAWER_ENTRIES = "drawer_entries"
     const val THEME = "theme"

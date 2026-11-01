@@ -22,19 +22,20 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import org.openhab.habdroid.R
+import org.openhab.habdroid.model.DefaultSitemap
 import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.util.buildSitemapSourceId
 import org.openhab.habdroid.util.getConnectionFactory
-import org.openhab.habdroid.util.getDefaultCarSitemapName
-import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.onDestroy
 
 class CarSession(
     sitemapsFlow: Flow<Result<List<Sitemap>>?>,
+    defaultSitemapFlow: Flow<DefaultSitemap?>,
     private val onPageListChanged: () -> Unit,
     private val onSendWidgetCommand: (widget: Widget, command: String, sourceId: String) -> Unit
 ) : Session() {
@@ -45,10 +46,10 @@ class CarSession(
     init {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                sitemapsFlow.collect { sitemapsResult ->
-                    val selectedSitemap = carContext.getPrefs().getDefaultCarSitemapName()
+                val sitemapsAndDefaultSitemapFlow = combine(sitemapsFlow, defaultSitemapFlow) { s, d -> s to d }
+                sitemapsAndDefaultSitemapFlow.collect { (sitemapsResult, defaultSitemap) ->
                     val sitemapResult = sitemapsResult
-                        ?.map { SitemapLookupResult(it, selectedSitemap) }
+                        ?.map { SitemapLookupResult(it, defaultSitemap?.name) }
 
                     if (sitemapResult != latestSitemapResult) {
                         Log.d(TAG, "Got new sitemap result $sitemapResult")

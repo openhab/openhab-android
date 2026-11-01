@@ -26,12 +26,9 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.DemoConnection
 import org.openhab.habdroid.model.DefaultSitemap
-import org.openhab.habdroid.model.IconFormat
 import org.openhab.habdroid.model.ServerConfiguration
-import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.ui.preference.widgets.toItemUpdatePrefValue
-import org.openhab.habdroid.ui.preference.widgets.toSitemapInfo
 import org.openhab.habdroid.ui.widget.WidgetImageView
 
 enum class ScreenLockMode {
@@ -66,9 +63,6 @@ fun SharedPreferences.getDefaultSitemap(connection: Connection?, id: Int = getAc
     }
     return ServerConfiguration.getDefaultSitemap(this, id)
 }
-
-fun SharedPreferences.getDefaultCarSitemapName(): String? =
-    getStringOrNull(PrefKeys.CAR_SITEMAP_INFO)?.toSitemapInfo()?.name
 
 fun SharedPreferences.isDemoModeEnabled(): Boolean = getBoolean(PrefKeys.DEMO_MODE, false)
 
