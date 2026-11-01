@@ -180,15 +180,28 @@ fun WidgetScope.WidgetRow(row: WidgetRowData, modifier: Modifier, transformation
                 transformation = transformation
             )
 
-            widget.mappingsOrItemOptions.isNotEmpty() -> MappingsRow(
+            widget.mappings.isNotEmpty() -> MappingsRow(
                 widget = widget,
-                mappings = widget.mappingsOrItemOptions,
+                mappings = widget.mappings,
+                modifier = modifier,
+                transformation = transformation
+            )
+
+            item?.isOfTypeOrGroupType(Item.Type.Switch) == true -> SwitchRow(
+                widget = widget,
                 modifier = modifier,
                 transformation = transformation
             )
 
             item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> RollershutterRow(
                 widget = widget,
+                modifier = modifier,
+                transformation = transformation
+            )
+
+            widget.mappingsOrItemOptions.isNotEmpty() -> MappingsRow(
+                widget = widget,
+                mappings = widget.mappingsOrItemOptions,
                 modifier = modifier,
                 transformation = transformation
             )
