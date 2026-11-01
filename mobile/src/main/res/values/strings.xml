@@ -341,6 +341,7 @@
     <string name="notification_channel_severity_value_description">Notifications sent by the server with tag \'%1$s\'</string>
     <string name="notification_tag_filter_all">All</string>
     <string name="notification_tag_filter_chip">%1$s (%2$d)</string>
+    <string name="notification_image">Notification image</string>
     <string name="notification_image_load_failed">The image could not be loaded</string>
     <plurals name="notification_older_count">
         <item quantity="one">+ %d more</item>

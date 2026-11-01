@@ -155,7 +155,10 @@ class BackgroundTasksManager(private val context: Application) : SharedPreferenc
         )
     }
 
-    fun enqueueNotificationAction(action: CloudNotificationAction.Action.ItemCommandAction) {
+    fun enqueueNotificationAction(
+        action: CloudNotificationAction.Action.ItemCommandAction,
+        primaryServer: Boolean = true
+    ) {
         enqueueItemUpload(
             WORKER_TAG_PREFIX_NOTIFICATION + action.itemName,
             action.itemName,
@@ -164,7 +167,8 @@ class BackgroundTasksManager(private val context: Application) : SharedPreferenc
             isImportant = true,
             showToast = true,
             asCommand = true,
-            forceUpdate = true
+            forceUpdate = true,
+            primaryServer = primaryServer
         )
     }
 

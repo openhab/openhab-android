@@ -14,9 +14,11 @@
 package org.openhab.habdroid.ui
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.graphics.Bitmap
 import android.text.format.DateUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isGone
@@ -327,9 +329,10 @@ class CloudNotificationAdapter(
                 }
             }
 
-            if (notification.onClickAction != null) {
+            val onClickAction = notification.onClickAction
+            if (onClickAction != null && onClickAction.action !is CloudNotificationAction.Action.NoAction) {
                 binding.notificationCard.setOnClickListener {
-                    executeAction(ctx, notification, notification.onClickAction)
+                    executeAction(ctx, notification, onClickAction)
                 }
             } else {
                 binding.notificationCard.setOnClickListener(null)
@@ -354,15 +357,20 @@ class CloudNotificationAdapter(
             val intent = NotificationHandlingReceiver.createActivityIntent(context, notification.id, cna)
             val action = cna.action
             when {
-                intent != null -> context.startActivity(intent)
+                intent != null -> try {
+                    context.startActivity(intent)
+                } catch (e: ActivityNotFoundException) {
+                    Log.d(TAG, "Unable to open $intent", e)
+                }
 
                 action is CloudNotificationAction.Action.ItemCommandAction ->
-                    context.getBackgroundTasksManager().enqueueNotificationAction(action)
+                    context.getBackgroundTasksManager().enqueueNotificationAction(action, usePrimaryServer)
             }
         }
     }
 
     companion object {
+        private val TAG = CloudNotificationAdapter::class.java.simpleName
         private const val VIEW_TYPE_NOTIFICATION = 0
         private const val VIEW_TYPE_HEADER = 1
     }
