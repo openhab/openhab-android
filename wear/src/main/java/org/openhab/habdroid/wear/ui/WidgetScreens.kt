@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -31,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -49,6 +51,7 @@ import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.RadioButton
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Slider
+import androidx.wear.compose.material3.SliderDefaults
 import androidx.wear.compose.material3.Stepper
 import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.SwitchButton
@@ -57,12 +60,13 @@ import androidx.wear.compose.material3.lazy.TransformationSpec
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 import kotlinx.serialization.Serializable
 import org.openhab.habdroid.model.Widget
+import org.openhab.habdroid.model.toItemCommand
+import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.wear.R
-
-private const val STEPPER_COMMAND_DELAY_MILLIS = 500L
 
 /**
  * Lets the user choose one of the mappings or command options of a selection or switch widget
@@ -70,6 +74,7 @@ private const val STEPPER_COMMAND_DELAY_MILLIS = 500L
 @Composable
 fun SelectionScreen(widget: Widget, onSelect: (String) -> Unit) {
     val listState = rememberTransformingLazyColumnState()
+    val transformationSpec = rememberTransformationSpec()
     val currentState = widget.state?.asString
     ScreenScaffold(
         scrollState = listState
@@ -79,19 +84,21 @@ fun SelectionScreen(widget: Widget, onSelect: (String) -> Unit) {
             contentPadding = contentPadding
         ) {
             item {
-                ListHeader {
-                    Text(
-                        text = widget.label,
-                        textAlign = TextAlign.Center
-                    )
-                }
+                WidgetScreenHeader(
+                    widget = widget,
+                    transformationSpec = transformationSpec,
+                    showState = false
+                )
             }
             items(widget.mappingsOrItemOptions) { mapping ->
                 RadioButton(
                     selected = mapping.value == currentState,
                     onSelect = { onSelect(mapping.value) },
                     label = { Text(mapping.label) },
-                    modifier = Modifier.fillMaxWidth()
+                    transformation = SurfaceTransformation(transformationSpec),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
                 )
             }
         }
@@ -107,7 +114,8 @@ fun SetpointScreen(widget: Widget, onCommand: (String) -> Unit) {
     val max = widget.maxValue
     val step = widget.step.takeIf { it > 0 } ?: 1f
     val steps = (((max - min) / step).roundToInt() - 1).coerceAtLeast(0)
-    val serverValue = widget.state?.asNumber?.value ?: min
+    val numberState = widget.state?.asNumber
+    val serverValue = numberState?.value ?: min
     var value by remember(widget.id) {
         mutableFloatStateOf(serverValue.coerceIn(min, max))
     }
@@ -115,8 +123,8 @@ fun SetpointScreen(widget: Widget, onCommand: (String) -> Unit) {
     // Wait for further changes to avoid sending a command for every step
     LaunchedEffect(value) {
         if (value != serverValue) {
-            delay(STEPPER_COMMAND_DELAY_MILLIS)
-            widget.numberCommand(value)?.let(onCommand)
+            delay(500.milliseconds)
+            numberState.withValue(value).toItemCommand(widget.item)?.let(onCommand)
         }
     }
 
@@ -182,6 +190,8 @@ private val PresetColors = listOf(
 @Composable
 fun ColorScreen(widget: Widget, onCommand: (String) -> Unit) {
     val listState = rememberTransformingLazyColumnState()
+    val transformationSpec = rememberTransformationSpec()
+
     val serverBrightness = widget.state?.asBrightness ?: 0
     var brightness by remember(widget.id) {
         mutableFloatStateOf(serverBrightness.toFloat())
@@ -189,7 +199,7 @@ fun ColorScreen(widget: Widget, onCommand: (String) -> Unit) {
 
     LaunchedEffect(brightness) {
         if (brightness.roundToInt() != serverBrightness) {
-            delay(STEPPER_COMMAND_DELAY_MILLIS)
+            delay(500.milliseconds)
             onCommand(brightness.roundToInt().toString())
         }
     }
@@ -202,31 +212,46 @@ fun ColorScreen(widget: Widget, onCommand: (String) -> Unit) {
             contentPadding = contentPadding
         ) {
             item {
-                ListHeader {
-                    Text(
-                        text = widget.label,
-                        textAlign = TextAlign.Center
-                    )
-                }
+                WidgetScreenHeader(
+                    widget = widget,
+                    transformationSpec = transformationSpec,
+                    showState = false
+                )
             }
             item {
                 SwitchButton(
                     checked = serverBrightness > 0,
                     onCheckedChange = { checked -> onCommand(if (checked) "ON" else "OFF") },
                     label = { Text(stringResource(R.string.color_power)) },
-                    modifier = Modifier.fillMaxWidth()
+                    transformation = SurfaceTransformation(transformationSpec),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
                 )
             }
             item {
+                val colors = SliderDefaults.sliderColors()
                 Column(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
+                        .graphicsLayer {
+                            with(transformationSpec) {
+                                applyContainerTransformation(scrollProgress)
+                            }
+                        }
+                        .clip(RoundedCornerShape(24.dp))
+                        .background(colors.containerColor)
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 2.dp)
+                            .padding(start = 16.dp, end = 16.dp, top = 4.dp)
                     ) {
-                        Text(stringResource(R.string.color_brightness), modifier = Modifier.weight(1f))
+                        Text(
+                            text = stringResource(R.string.color_brightness),
+                            modifier = Modifier.weight(1f)
+                        )
                         Text("${brightness.roundToInt()} %")
                     }
                     Slider(
@@ -234,6 +259,9 @@ fun ColorScreen(widget: Widget, onCommand: (String) -> Unit) {
                         onValueChange = { newValue -> brightness = newValue },
                         steps = 9,
                         valueRange = 0f..100f,
+                        colors = colors.copy(
+                            containerColor = Color.Transparent
+                        ),
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
@@ -256,7 +284,10 @@ fun ColorScreen(widget: Widget, onCommand: (String) -> Unit) {
                         )
                     },
                     label = { Text(stringResource(labelRes)) },
-                    modifier = Modifier.fillMaxWidth()
+                    transformation = SurfaceTransformation(transformationSpec),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
                 )
             }
             item {
@@ -275,7 +306,10 @@ fun ColorScreen(widget: Widget, onCommand: (String) -> Unit) {
                         )
                     },
                     label = { Text(stringResource(R.string.color_white)) },
-                    modifier = Modifier.fillMaxWidth()
+                    transformation = SurfaceTransformation(transformationSpec),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
                 )
             }
         }
@@ -337,7 +371,11 @@ fun IconButtonListScreen(widget: Widget, buttons: List<ButtonInput>, onCommand: 
 }
 
 @Composable
-private fun TransformingLazyColumnItemScope.WidgetScreenHeader(widget: Widget, transformationSpec: TransformationSpec) {
+private fun TransformingLazyColumnItemScope.WidgetScreenHeader(
+    widget: Widget,
+    showState: Boolean = true,
+    transformationSpec: TransformationSpec
+) {
     ListHeader(
         modifier = Modifier.transformedHeight(this, transformationSpec),
         transformation = SurfaceTransformation(transformationSpec)
@@ -352,7 +390,7 @@ private fun TransformingLazyColumnItemScope.WidgetScreenHeader(widget: Widget, t
                 overflow = TextOverflow.Ellipsis
             )
             widget.stateFromLabel
-                ?.takeIf { it.isNotEmpty() }
+                ?.takeIf { it.isNotEmpty() && showState }
                 ?.let {
                     Text(
                         text = it,

@@ -74,16 +74,16 @@ suspend fun Connection.loadBitmap(
 }
 
 @Composable
-fun WidgetScope.WidgetIcon(icon: IconResource?, modifier: Modifier = Modifier, size: Dp = 24.dp) {
+fun WidgetRowScope.WidgetIcon(icon: IconResource?, modifier: Modifier = Modifier, size: Dp = 24.dp) {
     if (icon == null) {
         return
     }
 
     val sizePixels = with(LocalDensity.current) { size.roundToPx() }
     val fallbackColor = LocalContentColor.current.toArgb()
-    val url = icon.toUrl(serverFlags, sizePixels)
-    val bitmap by produceState(bitmapCache.get("$url@$sizePixels")?.asImageBitmap(), url, connection) {
-        value = connection.loadBitmap(url, sizePixels, fallbackColor)?.asImageBitmap()
+    val url = icon.toUrl(widgetScope.serverFlags, sizePixels)
+    val bitmap by produceState(bitmapCache.get("$url@$sizePixels")?.asImageBitmap(), url, widgetScope.connection) {
+        value = widgetScope.connection.loadBitmap(url, sizePixels, fallbackColor)?.asImageBitmap()
     }
     bitmap?.let {
         Image(

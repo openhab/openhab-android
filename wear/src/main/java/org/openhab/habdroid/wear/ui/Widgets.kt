@@ -20,10 +20,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.runtime.Composable
@@ -39,6 +41,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
@@ -48,6 +51,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.toColorInt
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnItemScope
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ButtonGroup
@@ -60,13 +65,16 @@ import androidx.wear.compose.material3.LocalContentColor
 import androidx.wear.compose.material3.LocalTextStyle
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Slider
+import androidx.wear.compose.material3.SliderDefaults
 import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.SwitchButton
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TitleCard
-import java.util.Locale
+import androidx.wear.compose.material3.lazy.TransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
 import kotlin.math.ceil
 import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.IconResource
@@ -97,6 +105,31 @@ data class WidgetScope(
  */
 data class WidgetRowData(val widget: Widget, val children: List<Widget> = emptyList())
 
+data class WidgetRowScope(
+    val widgetScope: WidgetScope,
+    val row: WidgetRowData,
+    val itemScope: TransformingLazyColumnItemScope,
+    val transformationSpec: TransformationSpec
+) {
+    val widget get() = row.widget
+    val item get() = row.widget.item
+
+    val transformation = with(itemScope) {
+        SurfaceTransformation(transformationSpec)
+    }
+
+    val modifier get() = Modifier
+        .fillMaxWidth()
+        .transformedHeight(itemScope, transformationSpec)
+    val transformingModifier get() = modifier.graphicsLayer {
+        with(itemScope) {
+            with(transformationSpec) {
+                applyContentTransformation(scrollProgress)
+            }
+        }
+    }
+}
+
 /**
  * Text of a small button. The text is shrunk to avoid breaking words.
  */
@@ -120,12 +153,6 @@ private fun ButtonText(text: String) {
 }
 
 private val UNSUPPORTED_TYPES = setOf(Widget.Type.Video, Widget.Type.Webview)
-
-private const val SLIDER_COMMAND_DELAY_MILLIS = 300L
-private const val MAX_SLIDER_SEGMENTS = 10
-private const val MIN_COLOR_TEMPERATURE = 1000f
-
-private val DEFAULT_COLOR_TEMPERATURE_RANGE = 2000f..6500f
 
 fun buildWidgetRows(widgets: List<Widget>): List<WidgetRowData> {
     val visibleWidgets = widgets.filter { widget -> widget.visibility }
@@ -152,139 +179,58 @@ fun buildWidgetRows(widgets: List<Widget>): List<WidgetRowData> {
 }
 
 @Composable
-fun WidgetScope.WidgetRow(row: WidgetRowData, modifier: Modifier, transformation: SurfaceTransformation) {
+fun WidgetRowScope.WidgetRow() {
     val locale = LocalLocale.current
-    val widget = row.widget
-    val item = widget.item
 
     when (widget.type) {
-        Widget.Type.Frame -> FrameHeader(
-            widget = widget,
-            modifier = modifier,
-            transformation = transformation
-        )
+        Widget.Type.Frame -> FrameHeader()
 
         Widget.Type.Switch -> when {
-            widget.isPlayer() -> PlayerRow(
-                widget = widget,
-                modifier = modifier,
-                transformation = transformation
-            )
-
-            widget.mappings.isNotEmpty() -> MappingsRow(
-                widget = widget,
-                mappings = widget.mappings,
-                modifier = modifier,
-                transformation = transformation
-            )
-
-            item?.isOfTypeOrGroupType(Item.Type.Switch) == true -> SwitchRow(
-                widget = widget,
-                modifier = modifier,
-                transformation = transformation
-            )
-
-            item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> RollershutterRow(
-                widget = widget,
-                modifier = modifier,
-                transformation = transformation
-            )
-
-            widget.mappingsOrItemOptions.isNotEmpty() -> MappingsRow(
-                widget = widget,
-                mappings = widget.mappingsOrItemOptions,
-                modifier = modifier,
-                transformation = transformation
-            )
-
-            else -> SwitchRow(
-                widget = widget,
-                modifier = modifier,
-                transformation = transformation
-            )
+            widget.isPlayer() -> PlayerRow()
+            widget.mappings.isNotEmpty() -> MappingsRow(widget.mappings)
+            item?.isOfTypeOrGroupType(Item.Type.Switch) == true -> SwitchRow()
+            item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> RollershutterRow()
+            widget.mappingsOrItemOptions.isNotEmpty() -> MappingsRow(widget.mappingsOrItemOptions)
+            else -> SwitchRow()
         }
 
-        Widget.Type.Default if item?.isOfTypeOrGroupType(Item.Type.Player) == true -> PlayerRow(
-            widget = widget,
-            modifier = modifier,
-            transformation = transformation
-        )
+        Widget.Type.Default if item?.isOfTypeOrGroupType(Item.Type.Player) == true -> PlayerRow()
 
-        Widget.Type.Button -> ButtonRow(
-            widget = widget,
-            modifier = modifier,
-            transformation = transformation
-        )
+        Widget.Type.Button -> ButtonRow()
 
-        Widget.Type.Buttongrid -> ButtonGridRow(
-            widget = widget,
-            buttons = row.children,
-            modifier = modifier
-        )
+        Widget.Type.Buttongrid -> ButtonGridRow(row.children)
 
-        Widget.Type.Selection -> SelectionRow(
-            widget = widget,
-            modifier = modifier,
-            transformation = transformation
+        Widget.Type.Selection -> ValueButton(
+            onClick = { widgetScope.onOpenSelection(widget) }
         )
 
         Widget.Type.Setpoint -> ValueButton(
-            widget = widget,
-            modifier = modifier,
-            transformation = transformation,
-            onClick = { onOpenSetpoint(widget) }
+            onClick = { widgetScope.onOpenSetpoint(widget) }
         )
 
-        Widget.Type.Slider -> SliderRow(
-            widget = widget,
-            modifier = modifier,
-            transformation = transformation
-        )
+        Widget.Type.Slider -> SliderRow()
 
-        Widget.Type.Colortemperaturepicker -> ColorTemperaturePickerRow(
-            widget = widget,
-            modifier = modifier,
-            transformation = transformation
-        )
+        Widget.Type.Colortemperaturepicker -> ColorTemperaturePickerRow()
 
-        Widget.Type.Colorpicker -> ColorRow(
-            widget = widget,
-            modifier = modifier,
-            transformation = transformation
-        )
+        Widget.Type.Colorpicker -> ColorRow()
 
-        Widget.Type.Image -> ImageRow(
-            widget = widget,
-            modifier = modifier,
-            transformation = transformation
-        )
+        Widget.Type.Image -> ImageRow()
 
-        Widget.Type.Chart -> ChartRow(
-            widget = widget,
-            modifier = modifier,
-            transformation = transformation
-        )
+        Widget.Type.Chart -> ChartRow()
 
         Widget.Type.Mapview -> TextRow(
-            widget = widget,
-            modifier = modifier,
-            transformation = transformation,
             state = widget.state?.asLocation?.let {
                 String.format(locale.platformLocale, "%.5f, %.5f", it.latitude, it.longitude)
             }
         )
 
         // Group, Text, Default and widgets that can't be used on a watch, e.g. Webview or Mapview
-        else -> TextRow(
-            widget = widget,
-            modifier = modifier,
-            transformation = transformation
-        )
+        else -> TextRow()
     }
 }
 
 @Composable
-private fun FrameHeader(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
+private fun WidgetRowScope.FrameHeader() {
     if (widget.label.isNotEmpty()) {
         ListHeader(
             modifier = modifier,
@@ -299,12 +245,13 @@ private fun FrameHeader(widget: Widget, modifier: Modifier, transformation: Surf
 }
 
 @Composable
-private fun WidgetLabel(widget: Widget, maxLines: Int = 2) {
+private fun WidgetLabel(widget: Widget, modifier: Modifier = Modifier, maxLines: Int = 2) {
     Text(
         text = widget.label,
         color = mapColor(widget.labelColor) ?: Color.Unspecified,
         maxLines = maxLines,
-        overflow = TextOverflow.Ellipsis
+        overflow = TextOverflow.Ellipsis,
+        modifier = modifier
     )
 }
 
@@ -322,12 +269,9 @@ private fun WidgetState(widget: Widget, modifier: Modifier = Modifier, state: St
 }
 
 @Composable
-private fun WidgetScope.TextRow(
-    widget: Widget,
-    modifier: Modifier,
-    transformation: SurfaceTransformation,
+private fun WidgetRowScope.TextRow(
     state: String? = widget.stateFromLabel,
-    onClick: (() -> Unit)? = widget.linkedPage?.let { page -> { onOpenPage(page.link) } }
+    onClick: (() -> Unit)? = widget.linkedPage?.let { page -> { widgetScope.onOpenPage(page.link) } }
 ) {
     val colors = if (onClick != null) {
         ButtonDefaults.filledTonalButtonColors()
@@ -349,11 +293,11 @@ private fun WidgetScope.TextRow(
 }
 
 @Composable
-private fun WidgetScope.SwitchRow(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
+private fun WidgetRowScope.SwitchRow() {
     val isOn = widget.state?.asBoolean == true
     SwitchButton(
         checked = isOn,
-        onCheckedChange = { checked -> onSendCommand(widget.item, if (checked) "ON" else "OFF") },
+        onCheckedChange = { checked -> widgetScope.onSendCommand(widget.item, if (checked) "ON" else "OFF") },
         modifier = modifier,
         transformation = transformation,
         icon = { WidgetIcon(widget.icon) },
@@ -365,12 +309,12 @@ private fun WidgetScope.SwitchRow(widget: Widget, modifier: Modifier, transforma
 }
 
 @Composable
-private fun WidgetScope.ButtonRow(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
+private fun WidgetRowScope.ButtonRow() {
     val command = widget.command
-        ?: return TextRow(widget, modifier, transformation)
+        ?: return TextRow()
     val isActive = widget.stateless == false && widget.item?.state?.asString == command
     Button(
-        onClick = { onSendCommand(widget.item, command) },
+        onClick = { widgetScope.onSendCommand(widget.item, command) },
         modifier = modifier,
         colors = if (isActive) ButtonDefaults.buttonColors() else ButtonDefaults.filledTonalButtonColors(),
         transformation = transformation,
@@ -379,58 +323,25 @@ private fun WidgetScope.ButtonRow(widget: Widget, modifier: Modifier, transforma
     )
 }
 
-/**
- * Label with a row of buttons below
- */
 @Composable
-private fun LabeledButtonGroup(widget: Widget, modifier: Modifier, buttons: @Composable () -> Unit) {
-    Column(
-        modifier = modifier
-    ) {
-        if (widget.label.isNotEmpty()) {
-            Box(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp)
-            ) {
-                WidgetLabel(
-                    widget = widget,
-                    maxLines = 1
-                )
-            }
-        }
-        buttons()
-    }
-}
-
-@Composable
-private fun WidgetScope.MappingsRow(
-    widget: Widget,
-    mappings: List<LabeledValue>,
-    modifier: Modifier,
-    transformation: SurfaceTransformation
-) {
+private fun WidgetRowScope.MappingsRow(mappings: List<LabeledValue>) {
     val commands = mappings.map {
         ButtonInput.Button(it.value, it.label)
     }
     TextRow(
-        widget = widget,
-        modifier = modifier,
-        transformation = transformation,
-        onClick = { onOpenButtons(widget, commands) }
+        onClick = { widgetScope.onOpenButtons(widget, commands) }
     )
 }
 
 @Composable
-private fun WidgetScope.RollershutterRow(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
+private fun WidgetRowScope.RollershutterRow() {
     val commands = listOf(
         ButtonInput.IconButton("UP", R.drawable.ic_arrow_up_24dp, R.string.rollershutter_up),
         ButtonInput.IconButton("STOP", R.drawable.ic_stop_24dp, R.string.rollershutter_stop),
         ButtonInput.IconButton("DOWN", R.drawable.ic_arrow_down_24dp, R.string.rollershutter_down)
     )
     TextRow(
-        widget = widget,
-        modifier = modifier,
-        transformation = transformation,
-        onClick = { onOpenButtons(widget, commands) }
+        onClick = { widgetScope.onOpenButtons(widget, commands) }
     )
 }
 
@@ -441,7 +352,7 @@ private fun Widget.isPlayer() = item?.isOfTypeOrGroupType(Item.Type.Player) == t
     (mappings.isEmpty() || mappings.map { mapping -> mapping.value } == listOf("PREVIOUS", "PAUSE", "PLAY", "NEXT"))
 
 @Composable
-private fun WidgetScope.PlayerRow(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
+private fun WidgetRowScope.PlayerRow() {
     val isPlaying = widget.item?.state?.asString == "PLAY"
     val commands = listOf(
         ButtonInput.IconButton("PREVIOUS", R.drawable.ic_skip_previous_24dp, R.string.player_previous),
@@ -453,15 +364,12 @@ private fun WidgetScope.PlayerRow(widget: Widget, modifier: Modifier, transforma
         ButtonInput.IconButton("NEXT", R.drawable.ic_skip_next_24dp, R.string.player_next)
     )
     TextRow(
-        widget = widget,
-        modifier = modifier,
-        transformation = transformation,
-        onClick = { onOpenButtons(widget, commands) }
+        onClick = { widgetScope.onOpenButtons(widget, commands) }
     )
 }
 
 @Composable
-private fun WidgetScope.ButtonGridRow(widget: Widget, buttons: List<Widget>, modifier: Modifier) {
+private fun WidgetRowScope.ButtonGridRow(buttons: List<Widget>) {
     // Button grids either have Button child widgets (openHAB 4.2+) or mappings with row and column
     data class GridButton(
         val row: Int,
@@ -481,10 +389,20 @@ private fun WidgetScope.ButtonGridRow(widget: Widget, buttons: List<Widget>, mod
     val columns = entries.map { entry -> entry.column }
     val columnRange = (columns.minOrNull() ?: 0)..(columns.maxOrNull() ?: 0)
 
-    LabeledButtonGroup(
-        widget = widget,
-        modifier = modifier
+    Column(
+        modifier = transformingModifier
     ) {
+        if (widget.label.isNotEmpty()) {
+            Box(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp)
+            ) {
+                WidgetLabel(
+                    widget = widget,
+                    maxLines = 1
+                )
+            }
+        }
+
         Column {
             val rows = entries
                 .groupBy { entry -> entry.row }
@@ -503,7 +421,7 @@ private fun WidgetScope.ButtonGridRow(widget: Widget, buttons: List<Widget>, mod
                             Box(modifier = Modifier.weight(1f))
                         } else {
                             FilledTonalButton(
-                                onClick = { onSendCommand(entry.item, entry.command) },
+                                onClick = { widgetScope.onSendCommand(entry.item, entry.command) },
                                 modifier = Modifier.weight(1f),
                                 contentPadding = PaddingValues(horizontal = 2.dp)
                             ) {
@@ -526,26 +444,11 @@ private fun WidgetScope.ButtonGridRow(widget: Widget, buttons: List<Widget>, mod
     }
 }
 
-@Composable
-private fun WidgetScope.SelectionRow(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
-    ValueButton(
-        widget = widget,
-        modifier = modifier,
-        transformation = transformation,
-        onClick = { onOpenSelection(widget) }
-    )
-}
-
 /**
  * Button with label and state, that opens a screen to change the value
  */
 @Composable
-private fun WidgetScope.ValueButton(
-    widget: Widget,
-    modifier: Modifier,
-    transformation: SurfaceTransformation,
-    onClick: () -> Unit
-) {
+private fun WidgetRowScope.ValueButton(onClick: () -> Unit) {
     val state = widget.stateFromLabel ?: widget.state?.asNumber?.toString()
     FilledTonalButton(
         onClick = onClick,
@@ -560,55 +463,55 @@ private fun WidgetScope.ValueButton(
 }
 
 @Composable
-private fun WidgetScope.ColorTemperaturePickerRow(
-    widget: Widget,
-    modifier: Modifier,
-    transformation: SurfaceTransformation
-) {
+private fun WidgetRowScope.ColorTemperaturePickerRow() {
     val numberState = widget.state?.asNumber?.toColorTemperatureInKelvin()
     SliderRow(
-        widget = widget,
         currentState = numberState?.value,
         range = widget.colorTemperatureRange(),
         itemStep = 100f,
         unit = numberState?.unit,
-        commandConverter = { numberState?.withValue(it)?.toItemCommand(widget.item) },
-        modifier = modifier,
-        transformation = transformation
+        commandConverter = { numberState?.withValue(it)?.toItemCommand(widget.item) }
     )
 }
 
 @Composable
-private fun WidgetScope.SliderRow(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
+private fun WidgetRowScope.SliderRow() {
     val numberState = widget.state?.asNumber
     SliderRow(
-        widget = widget,
         currentState = numberState?.value ?: widget.state?.asBrightness?.toFloat(),
         range = widget.minValue..widget.maxValue,
         itemStep = widget.step.takeIf { it > 0 } ?: 1f,
         unit = numberState?.unit,
-        commandConverter = { widget.numberCommand(it) },
-        modifier = modifier,
-        transformation = transformation
+        commandConverter = { value ->
+            if (widget.item?.isOfTypeOrGroupType(Item.Type.Color) == true) {
+                value.beautify()
+            } else {
+                numberState.withValue(value).toItemCommand(widget.item)
+            }
+        }
     )
 }
 
 @Composable
-private fun WidgetScope.SliderRow(
-    widget: Widget,
+private fun WidgetRowScope.SliderRow(
     currentState: Float?,
     range: ClosedFloatingPointRange<Float>,
     itemStep: Float,
     unit: String?,
-    commandConverter: (Float) -> String?,
-    modifier: Modifier,
-    transformation: SurfaceTransformation
+    commandConverter: (Float) -> String?
 ) {
     // The slider can only be changed with buttons, so combine small steps to limit the number of taps
-    val units = (range.endInclusive - range.start) / itemStep
-    val step = if (units > MAX_SLIDER_SEGMENTS) itemStep * ceil(units / MAX_SLIDER_SEGMENTS) else itemStep
+    val tickCount = (range.endInclusive - range.start) / itemStep
+    val maxTicks = 10
+
+    val step = if (tickCount <= maxTicks) {
+        itemStep
+    } else {
+        itemStep * ceil(tickCount / maxTicks)
+    }
     val steps = (((range.endInclusive - range.start) / step).roundToInt() - 1)
         .coerceAtLeast(0)
+
     val serverValue = (currentState ?: range.start)
         .coerceIn(range.start, range.endInclusive)
     var value by remember(widget.id, serverValue) {
@@ -618,9 +521,9 @@ private fun WidgetScope.SliderRow(
     // Wait for further changes to avoid sending a command for every step
     LaunchedEffect(value) {
         if (value != serverValue) {
-            delay(SLIDER_COMMAND_DELAY_MILLIS)
+            delay(300.milliseconds)
             val command = commandConverter(value)
-            command?.let { onSendCommand(widget.item, it) }
+            command?.let { widgetScope.onSendCommand(widget.item, it) }
         }
     }
 
@@ -629,34 +532,39 @@ private fun WidgetScope.SliderRow(
     } else {
         widget.formatValue(value, step, unit)
     }
-    Card(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        ),
-        modifier = modifier,
-        transformation = transformation
+
+    val colors = SliderDefaults.sliderColors()
+
+    Column(
+        modifier = transformingModifier
+            .clip(RoundedCornerShape(24.dp))
+            .background(colors.containerColor)
     ) {
-        CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.titleSmall) {
-            WidgetLabel(widget, maxLines = 1)
-        }
-        Box(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 2.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 4.dp)
         ) {
-            Slider(
-                value = value,
-                onValueChange = { newValue -> value = newValue },
-                steps = steps,
-                valueRange = range,
-                modifier = Modifier.fillMaxWidth()
+            WidgetLabel(
+                widget = widget,
+                maxLines = 1,
+                modifier = Modifier.weight(1F)
             )
             WidgetState(
                 widget = widget,
-                state = state,
-                modifier = Modifier.align(Alignment.BottomCenter)
+                state = state
             )
         }
+        Slider(
+            value = value,
+            onValueChange = { newValue -> value = newValue },
+            steps = steps,
+            valueRange = range,
+            colors = colors.copy(
+                containerColor = Color.Transparent
+            ),
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }
 
@@ -668,40 +576,36 @@ private fun Widget.colorTemperatureRange(): ClosedFloatingPointRange<Float> {
     val second = maxValue.asColorTemperatureToKelvin()
     val min = minOf(first, second)
     val max = maxOf(first, second)
-    return if (min.isFinite() && max.isFinite() && min >= MIN_COLOR_TEMPERATURE && max > min) {
+    return if (min.isFinite() && max.isFinite() && min >= 1000F && max > min) {
         min..max
     } else {
-        DEFAULT_COLOR_TEMPERATURE_RANGE
+        2000F..6500F
     }
 }
 
 /**
  * Formats a value with the precision of the step, as the format of the item might round it
  */
+@Composable
 fun Widget.formatValue(value: Float, step: Float, unit: String?): String {
     val decimals = step.toBigDecimal().stripTrailingZeros().scale().coerceAtLeast(0)
-    val number = String.format(Locale.getDefault(), "%.${decimals}f", value)
-    val actualUnit = unit ?: if (item?.isOfTypeOrGroupType(Item.Type.Dimmer) == true ||
-        item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true
-    ) {
-        "%"
-    } else {
-        null
+    val number = String.format(LocalLocale.current.platformLocale, "%.${decimals}f", value)
+    val actualUnit = when {
+        unit != null -> unit
+
+        item?.isOfTypeOrGroupType(Item.Type.Dimmer) == true ||
+            item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true -> "%"
+
+        else -> null
     }
     return if (actualUnit.isNullOrEmpty()) number else "$number $actualUnit"
 }
 
-fun Widget.numberCommand(value: Float): String? = if (item?.isOfTypeOrGroupType(Item.Type.Color) == true) {
-    value.beautify()
-} else {
-    state?.asNumber.withValue(value).toItemCommand(item)
-}
-
 @Composable
-private fun WidgetScope.ColorRow(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
+private fun WidgetRowScope.ColorRow() {
     val color = widget.state?.asHsv?.let { hsv -> Color.hsv(hsv.hue, hsv.saturation, hsv.value) }
     FilledTonalButton(
-        onClick = { onOpenColor(widget) },
+        onClick = { widgetScope.onOpenColor(widget) },
         modifier = modifier,
         transformation = transformation,
         icon = {
@@ -726,7 +630,7 @@ private fun WidgetScope.ColorRow(widget: Widget, modifier: Modifier, transformat
 }
 
 @Composable
-private fun WidgetScope.ImageRow(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
+private fun WidgetRowScope.ImageRow() {
     // Image items contain the image as data URL in their state
     val dataUrl = widget.item?.state?.asString?.takeIf { state -> state.matches(DATA_URL_REGEX) }
     val dataBitmap = remember(dataUrl) {
@@ -758,7 +662,7 @@ private fun WidgetScope.ImageRow(widget: Widget, modifier: Modifier, transformat
                 content = {
                     RemoteImage(
                         url = url,
-                        connection = connection,
+                        connection = widgetScope.connection,
                         widthPixels = widthPixels,
                         refreshMillis = widget.refresh,
                         contentDescription = widget.label
@@ -779,11 +683,12 @@ private fun String.decodeDataUrl(): ImageBitmap? = try {
 }
 
 @Composable
-private fun WidgetScope.ChartRow(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
+private fun WidgetRowScope.ChartRow() {
     val configuration = LocalConfiguration.current
-    val density = LocalDensity.current
-    val widthPixels = with(density) { configuration.screenWidthDp.dp.roundToPx() }
-    val theme = if (serverFlags and ServerProperties.SERVER_FLAG_TRANSPARENT_CHARTS != 0) {
+    val widthPixels = with(LocalDensity.current) {
+        configuration.screenWidthDp.dp.roundToPx()
+    }
+    val theme = if (widgetScope.serverFlags and ServerProperties.SERVER_FLAG_TRANSPARENT_CHARTS != 0) {
         "black_transparent"
     } else {
         "black"
@@ -810,7 +715,7 @@ private fun WidgetScope.ChartRow(widget: Widget, modifier: Modifier, transformat
             content = {
                 RemoteImage(
                     url = url,
-                    connection = connection,
+                    connection = widgetScope.connection,
                     widthPixels = widthPixels,
                     refreshMillis = widget.refresh,
                     contentDescription = widget.label
@@ -855,7 +760,7 @@ private fun mapColor(name: String?): Color? = when {
     name == "secondary" -> MaterialTheme.colorScheme.secondary
 
     name.startsWith("#") -> try {
-        Color(android.graphics.Color.parseColor(name))
+        Color(name.toColorInt())
     } catch (_: IllegalArgumentException) {
         null
     }

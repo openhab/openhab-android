@@ -137,14 +137,8 @@ fun PageScreen(
                     items = rows,
                     key = { row -> row.widget.id }
                 ) { row ->
-                    with(widgetScope) {
-                        WidgetRow(
-                            row = row,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .transformedHeight(this@items, transformationSpec),
-                            transformation = SurfaceTransformation(transformationSpec)
-                        )
+                    with(WidgetRowScope(widgetScope, row, this, transformationSpec)) {
+                        WidgetRow()
                     }
                 }
 
