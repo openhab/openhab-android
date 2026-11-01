@@ -54,6 +54,7 @@ class CloudNotificationListFragment : Fragment() {
     private var requestJob: Job? = null
     private lateinit var adapter: CloudNotificationAdapter
     private lateinit var layoutManager: LinearLayoutManager
+    private var hasLoaded = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
@@ -71,12 +72,12 @@ class CloudNotificationListFragment : Fragment() {
             setOnRefreshListener {
                 Log.d(TAG, "onRefresh()")
                 binding.swipeContainer.isRefreshing = false
-                loadNotifications()
+                loadNotifications(showSkeleton = true)
             }
             applyColors()
         }
         binding.retryButton.setOnClickListener {
-            loadNotifications()
+            loadNotifications(showSkeleton = true)
         }
 
         return binding.root
@@ -85,6 +86,7 @@ class CloudNotificationListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = CloudNotificationAdapter(view.context, usePrimaryServer(), viewLifecycleOwner.lifecycleScope)
+        hasLoaded = false
         layoutManager = LinearLayoutManager(view.context)
 
         recyclerView.layoutManager = layoutManager
@@ -94,7 +96,8 @@ class CloudNotificationListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume()")
-        loadNotifications()
+        // Coming back from e.g. the image viewer only refreshes the list in place
+        loadNotifications(showSkeleton = !hasLoaded)
     }
 
     override fun onPause() {
@@ -104,7 +107,7 @@ class CloudNotificationListFragment : Fragment() {
         requestJob?.cancel()
     }
 
-    private fun loadNotifications() {
+    private fun loadNotifications(showSkeleton: Boolean) {
         val activity = activity as AbstractBaseActivity? ?: return
         val connInfo = if (usePrimaryServer()) {
             activity.getConnectionFactory().currentPrimary
@@ -113,20 +116,25 @@ class CloudNotificationListFragment : Fragment() {
         }
         val conn = connInfo?.cloud?.connection
         if (conn == null) {
-            updateViewVisibility(loading = false, loadError = true)
+            if (!hasLoaded) {
+                updateViewVisibility(loading = false, loadError = true)
+            }
             return
         }
-        adapter.clear()
-        binding.tagFilterGroup.removeAllViews()
-        binding.tagFilterScroll.isVisible = false
-        updateViewVisibility(loading = true, loadError = false)
+        if (showSkeleton) {
+            adapter.clear()
+            binding.tagFilterGroup.removeAllViews()
+            binding.tagFilterScroll.isVisible = false
+            updateViewVisibility(loading = true, loadError = false)
+        }
 
-        // Load all notifications at once, so tag counts and collapsed notifications cover all of them.
+        // Load all notifications, so tag counts and collapsed notifications cover all of them.
         // The server keeps notifications for 30 days and returns at most 100 per request.
         requestJob?.cancel()
         requestJob = activity.launch {
+            val notifications = mutableListOf<CloudMessage.CloudNotification>()
+            var failed = false
             try {
-                val notifications = mutableListOf<CloudMessage.CloudNotification>()
                 var skip = 0
                 var pages = 0
                 do {
@@ -135,18 +143,32 @@ class CloudNotificationListFragment : Fragment() {
                     val items = JSONArray(response).map { obj -> obj.toCloudMessage() }
                     notifications.addAll(items.filterIsInstance<CloudMessage.CloudNotification>())
                     skip += items.size
+                    if (pages == 0 && showSkeleton) {
+                        // Show the newest notifications while the older ones are loaded
+                        adapter.setNotifications(notifications)
+                        handleInitialHighlight(lastAttempt = false)
+                        updateViewVisibility(loading = false, loadError = false)
+                    }
                 } while (items.isNotEmpty() && ++pages < MAX_PAGES)
                 Log.d(TAG, "Notifications request success, got ${notifications.size} items")
-                adapter.setNotifications(notifications)
-                updateTagFilterChips()
-                handleInitialHighlight()
-                updateViewVisibility(loading = false, loadError = false)
             } catch (e: JSONException) {
-                updateViewVisibility(loading = false, loadError = true)
+                failed = true
                 Log.d(TAG, "Notification response could not be parsed", e)
             } catch (e: HttpClient.HttpException) {
-                updateViewVisibility(loading = false, loadError = true)
+                failed = true
                 Log.e(TAG, "Notifications request failure", e)
+            }
+            // On a failure keep what was loaded before or on the previous pages
+            if (failed && notifications.isEmpty()) {
+                if (showSkeleton || !hasLoaded) {
+                    updateViewVisibility(loading = false, loadError = true)
+                }
+            } else {
+                hasLoaded = true
+                adapter.setNotifications(notifications)
+                updateTagFilterChips()
+                handleInitialHighlight(lastAttempt = true)
+                updateViewVisibility(loading = false, loadError = false)
             }
         }
     }
@@ -157,6 +179,9 @@ class CloudNotificationListFragment : Fragment() {
         val group = binding.tagFilterGroup
         group.setOnCheckedStateChangeListener(null)
         group.removeAllViews()
+        if (tagCounts.none { (tagName, _) -> tagName == adapter.currentTagFilter }) {
+            adapter.currentTagFilter = null
+        }
         if (tagCounts.isEmpty()) {
             binding.tagFilterScroll.isVisible = false
             return
@@ -193,7 +218,7 @@ class CloudNotificationListFragment : Fragment() {
         binding.tagFilterScroll.isVisible = true
     }
 
-    private fun handleInitialHighlight() {
+    private fun handleInitialHighlight(lastAttempt: Boolean) {
         val highlightedId = arguments?.getString("highlightedId") ?: return
         val position = adapter.findPositionForId(highlightedId)
         if (position >= 0) {
@@ -202,7 +227,9 @@ class CloudNotificationListFragment : Fragment() {
         }
 
         // highlight only once
-        arguments?.remove("highlightedId")
+        if (position >= 0 || lastAttempt) {
+            arguments?.remove("highlightedId")
+        }
     }
 
     private fun updateViewVisibility(loading: Boolean, loadError: Boolean) {
