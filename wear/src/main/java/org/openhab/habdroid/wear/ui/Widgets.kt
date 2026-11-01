@@ -41,7 +41,6 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.res.painterResource
@@ -80,9 +79,6 @@ import org.openhab.habdroid.model.toItemCommand
 import org.openhab.habdroid.model.withValue
 import org.openhab.habdroid.util.asColorTemperatureToKelvin
 import org.openhab.habdroid.util.beautify
-import org.openhab.habdroid.util.getChartScalingFactor
-import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.shouldRequestHighResChart
 import org.openhab.habdroid.wear.R
 
 data class WidgetScope(
@@ -128,11 +124,6 @@ private val UNSUPPORTED_TYPES = setOf(Widget.Type.Video, Widget.Type.Webview)
 private const val SLIDER_COMMAND_DELAY_MILLIS = 300L
 private const val MAX_SLIDER_SEGMENTS = 10
 private const val MIN_COLOR_TEMPERATURE = 1000f
-
-/**
- * Width of a typical phone screen, which charts are laid out for
- */
-private const val CHART_REFERENCE_WIDTH_DP = 400
 
 private val DEFAULT_COLOR_TEMPERATURE_RANGE = 2000f..6500f
 
@@ -789,23 +780,20 @@ private fun String.decodeDataUrl(): ImageBitmap? = try {
 
 @Composable
 private fun WidgetScope.ChartRow(widget: Widget, modifier: Modifier, transformation: SurfaceTransformation) {
-    val context = LocalContext.current
+    val configuration = LocalConfiguration.current
     val density = LocalDensity.current
-    val screenWidthDp = LocalConfiguration.current.screenWidthDp
-    val widthPixels = with(density) { screenWidthDp.dp.roundToPx() }
+    val widthPixels = with(density) { configuration.screenWidthDp.dp.roundToPx() }
     val theme = if (serverFlags and ServerProperties.SERVER_FLAG_TRANSPARENT_CHARTS != 0) {
         "black_transparent"
     } else {
         "black"
     }
-    val prefs = context.getPrefs()
     val url = widget.toChartUrl(
-        scalingFactor = prefs.getChartScalingFactor(),
-        requestHighResCharts = prefs.shouldRequestHighResChart(),
+        scalingFactor = 2.5F,
+        requestHighResCharts = true,
         width = widthPixels,
         chartTheme = theme,
-        // Lower the density, so that the chart is laid out like on a phone screen instead of using large fonts
-        density = context.resources.displayMetrics.densityDpi * screenWidthDp / CHART_REFERENCE_WIDTH_DP,
+        density = configuration.densityDpi,
         forcedLegend = false
     )
 
