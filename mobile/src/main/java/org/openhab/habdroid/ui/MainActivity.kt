@@ -600,7 +600,9 @@ class MainActivity : AbstractBaseActivity() {
         retryJob?.cancel(CancellationException("onAvailableConnectionChanged() was called"))
 
         val prevServerId = connectionServerId
-        if (prevServerId != null && connection !is DemoConnection) {
+        // Only take the content state if the previous connection loaded the server properties. Otherwise the
+        // content was already reset by a previous connection change and would replace the state to restore.
+        if (prevServerId != null && connection !is DemoConnection && serverProperties != null) {
             controller.getContentState(prevServerId)?.let { state -> contentStateToRestore = state }
         }
 
