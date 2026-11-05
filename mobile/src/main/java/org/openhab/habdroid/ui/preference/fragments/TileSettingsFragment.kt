@@ -13,7 +13,6 @@
 
 package org.openhab.habdroid.ui.preference.fragments
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -200,8 +199,7 @@ class TileSettingsFragment :
 
         namePref.summaryProvider = EditTextPreference.SimpleSummaryProvider.getInstance()
         itemAndStatePref.setOnPreferenceClickListener {
-            val intent = Intent(it.context, BasicItemPickerActivity::class.java)
-            intent.putExtra("item", itemAndStatePref.item)
+            val intent = BasicItemPickerActivity.createIntent(it.context, itemAndStatePref.item)
             itemAndStatePrefCallback.launch(intent)
             true
         }

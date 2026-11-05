@@ -134,10 +134,12 @@ class WidgetSettingsFragment :
 
         namePref.summaryProvider = EditTextPreference.SimpleSummaryProvider.getInstance()
         itemAndStatePref.setOnPreferenceClickListener {
-            val intent = Intent(it.context, BasicItemPickerActivity::class.java)
-            intent.putExtra("item", itemAndStatePref.item)
-            intent.putExtra("show_no_command", true)
-            intent.putExtra("hide_read_only", false)
+            val intent = BasicItemPickerActivity.createIntent(
+                it.context,
+                itemAndStatePref.item,
+                showNoCommand = true,
+                hideReadOnly = false
+            )
             itemAndStatePrefCallback.launch(intent)
             true
         }

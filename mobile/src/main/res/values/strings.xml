@@ -270,6 +270,7 @@
     <string name="action_settings">Settings</string>
     <string name="nfc_info_hint">Item updates can be written to NFC tags. You can select an Item here or you can long press a Widget on the Sitemap.</string>
     <string name="info_not_set">Not set</string>
+    <string name="item_preference_clear">Clear</string>
     <string name="empty_page">This page doesn\'t contain any widgets that are set to be visible</string>
 
     <!-- Background tasks -->
