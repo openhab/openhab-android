@@ -322,6 +322,7 @@ class WidgetAdapter(
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
         holder.vhc = null
+        holder.onRecycled()
     }
 
     override fun getItemCount(): Int = items.size
@@ -506,11 +507,23 @@ class WidgetAdapter(
             stop()
             scope?.cancel()
             scope = null
+            onDetached()
         }
 
         open fun onStart() {}
 
         open fun onStop() {}
+
+        /**
+         * Called after the view has been detached from the window, e.g. when it was scrolled out of view
+         * or the page was left. The holder may be attached again without being bound again.
+         */
+        open fun onDetached() {}
+
+        /**
+         * Called when the holder was put into the view pool. It will be bound again before being shown.
+         */
+        open fun onRecycled() {}
 
         open fun handleRowClick() {}
 
@@ -1630,16 +1643,15 @@ class WidgetAdapter(
 
         init {
             binding.videoPlayerErrorButton.setOnClickListener(this)
-            // The player holds a decoder and a playback thread, so release it as soon as the view
-            // isn't shown anymore. This also covers the case of the whole page being left, where
-            // no detach callback is sent to the adapter.
-            itemView.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
-                override fun onViewAttachedToWindow(v: View) {}
+        }
 
-                override fun onViewDetachedFromWindow(v: View) {
-                    releasePlayer()
-                }
-            })
+        // The player holds a decoder and a playback thread, so release it as soon as the view isn't shown anymore.
+        override fun onDetached() {
+            releasePlayer()
+        }
+
+        override fun onRecycled() {
+            releasePlayer()
         }
 
         private fun getOrCreatePlayer(): ExoPlayer = exoPlayer ?: ExoPlayer.Builder(itemView.context).build().also {
@@ -1650,6 +1662,7 @@ class WidgetAdapter(
 
         private fun releasePlayer() {
             val player = exoPlayer ?: return
+            Log.d(TAG, "Releasing video player")
             needsReloadAfterRelease = player.currentMediaItem != null
             binding.player.player = null
             player.release()
