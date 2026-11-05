@@ -545,6 +545,9 @@
     <string name="create_home_screen_widget_title">Vytvořit widget</string>
     <string name="create_home_screen_widget_no_command">Zobrazit aktuální stav</string>
     <string name="create_home_screen_widget_not_supported">Přejděte do menu widgetů na domovské obrazovce a tam vytvořte widget</string>
+    <!-- Android TV -->
+    <string name="tv_settings_sitemap">Sitemap</string>
+    <string name="tv_loading">Načítá se\u2026</string>
     <!-- Data saver -->
     <string name="data_saver_title">Spořič dat</string>
     <string name="data_saver_on">Prvky Sitemap, které mohou vyžadovat větší přenos dat, nejsou načteny</string>

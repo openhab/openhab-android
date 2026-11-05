@@ -455,6 +455,9 @@
     <string name="item_update_error_no_connection">Ei yhteyttä</string>
     <string name="item_update_error_couldnt_get_item_type">Ei saatu Itemin tyyppiä</string>
     <string name="create_home_screen_widget_title">Luo widget</string>
+    <!-- Android TV -->
+    <string name="tv_settings_sitemap">Sivukartta</string>
+    <string name="tv_loading">Ladataan\u2026</string>
     <!-- Data saver -->
     <string name="data_saver_title">Datan säästäjä</string>
     <string name="data_saver_on">Sivukartan elementtejä, jotka mahdollisesti vaativaat isomman datamäärän, ei ladata</string>

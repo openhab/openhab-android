@@ -378,6 +378,9 @@
     <string name="item_update_short_success_message_rewind">Превърта</string>
     <string name="item_update_error_no_connection">Няма връзка</string>
     <string name="create_home_screen_widget_no_command">Покажи текущото състояние</string>
+    <!-- Android TV -->
+    <string name="tv_settings_sitemap">Сайткарта</string>
+    <string name="tv_loading">Зарежда се\u2026</string>
     <!-- Data saver -->
     <string name="data_saver_title">Пестене на данни</string>
     <string name="data_saver_on">Елементи от сайткартата, които могат да изискват много данни, няма да се зареждат</string>
