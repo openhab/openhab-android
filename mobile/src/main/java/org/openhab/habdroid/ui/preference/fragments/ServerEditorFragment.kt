@@ -324,9 +324,13 @@ class ServerEditorFragment :
         }
     }
 
+    /**
+     * Only the primary server is used in Android Auto
+     */
     private fun setupAutoPreferences() {
         val autoCategory = getPreference(PREF_AUTO)
         val sitemapPref = getPreference(PREF_AUTO_SITEMAP)
+        autoCategory.isVisible = config.id == prefs.getPrimaryServerId()
 
         updateAutoSummaries()
 
