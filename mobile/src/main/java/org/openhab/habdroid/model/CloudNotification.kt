@@ -186,8 +186,6 @@ data class CloudNotificationAction internal constructor(val label: String, priva
                     .map { it.trim() }
                     .firstOrNull { it.startsWith("android=") }
                     ?.removePrefix("android=")
-                    ?.substringBefore(":")
-                    ?.trim()
                     ?.takeIf { it.isNotEmpty() }
                     ?.let { Action.AppAction(it) }
                     ?: Action.NoAction
