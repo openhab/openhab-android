@@ -78,6 +78,7 @@ class CloudNotificationAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     fun clear() {
+        selectedTag = null
         allNotifications.clear()
         collapsedNotifications.clear()
         sharedImageLoads.values.forEach { load -> load.cancel() }

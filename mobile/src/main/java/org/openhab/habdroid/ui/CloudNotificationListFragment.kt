@@ -71,8 +71,7 @@ class CloudNotificationListFragment : Fragment() {
         binding.swipeContainer.apply {
             setOnRefreshListener {
                 Log.d(TAG, "onRefresh()")
-                binding.swipeContainer.isRefreshing = false
-                loadNotifications(showSkeleton = true)
+                loadNotifications(showSkeleton = !hasLoaded)
             }
             applyColors()
         }
@@ -105,6 +104,7 @@ class CloudNotificationListFragment : Fragment() {
         Log.d(TAG, "onPause()")
         // Cancel request for notifications if there was any
         requestJob?.cancel()
+        binding.swipeContainer.isRefreshing = false
     }
 
     private fun loadNotifications(showSkeleton: Boolean) {
@@ -116,12 +116,14 @@ class CloudNotificationListFragment : Fragment() {
         }
         val conn = connInfo?.cloud?.connection
         if (conn == null) {
+            binding.swipeContainer.isRefreshing = false
             if (!hasLoaded) {
                 updateViewVisibility(loading = false, loadError = true)
             }
             return
         }
         if (showSkeleton) {
+            binding.swipeContainer.isRefreshing = false
             adapter.clear()
             binding.tagFilterGroup.removeAllViews()
             binding.tagFilterScroll.isVisible = false
@@ -158,8 +160,9 @@ class CloudNotificationListFragment : Fragment() {
                 failed = true
                 Log.e(TAG, "Notifications request failure", e)
             }
-            // On a failure keep what was loaded before or on the previous pages
-            if (failed && notifications.isEmpty()) {
+            binding.swipeContainer.isRefreshing = false
+            // On a failure keep the list shown before, or on the first load the pages loaded so far
+            if (failed && (notifications.isEmpty() || (hasLoaded && !showSkeleton))) {
                 if (showSkeleton || !hasLoaded) {
                     updateViewVisibility(loading = false, loadError = true)
                 }
