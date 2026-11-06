@@ -155,7 +155,17 @@ private fun ButtonText(text: String) {
 private val UNSUPPORTED_TYPES = setOf(Widget.Type.Video, Widget.Type.Webview)
 
 fun buildWidgetRows(widgets: List<Widget>): List<WidgetRowData> {
-    val visibleWidgets = widgets.filter { widget -> widget.visibility }
+    val widgetsById = widgets.associateBy { it.id }
+
+    tailrec fun isWidgetOrParentVisible(widget: Widget): Boolean {
+        if (!widget.visibility) {
+            return false
+        }
+        val parent = widget.parentId?.let { widgetsById[it] } ?: return true
+        return isWidgetOrParentVisible(parent)
+    }
+
+    val visibleWidgets = widgets.filter { isWidgetOrParentVisible(it) }
     val buttonGridIds = visibleWidgets
         .filter { widget -> widget.type == Widget.Type.Buttongrid }
         .map { widget -> widget.id }
