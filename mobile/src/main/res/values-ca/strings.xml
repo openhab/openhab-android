@@ -524,6 +524,9 @@ No s\'ha pogut carregar el Sitemap. S\'ha produït l\'error següent: %1$s</stri
     <string name="item_update_error_couldnt_get_item_type">No s\'ha pogut obtenir el tipus d\'Item</string>
     <string name="create_home_screen_widget_title">Crear un nou estri</string>
     <string name="create_home_screen_widget_not_supported">Si us plau, aneu al menú d\'estris a la vostra pantalla d\'inici i creeu-ne un</string>
+    <!-- Android TV -->
+    <string name="tv_settings_sitemap">Mapa del lloc</string>
+    <string name="tv_loading">S\'està carregant...</string>
     <!-- Data saver -->
     <string name="data_saver_title">Estalvi de dades</string>
     <string name="data_saver_on">Els elements Sitemap que poden requerir transferències de dades més grans no es carreguen</string>

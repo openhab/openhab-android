@@ -452,6 +452,9 @@
     <string name="item_update_error_no_connection">Ingen anslutning</string>
     <string name="item_update_error_couldnt_get_item_type">Kunde inte hämta Item-typ</string>
     <string name="create_home_screen_widget_title">Skapa widget</string>
+    <!-- Android TV -->
+    <string name="tv_settings_sitemap">Platskarta</string>
+    <string name="tv_loading">Laddar\u2026</string>
     <!-- Data saver -->
     <string name="data_saver_load">Ladda ändå</string>
     <string name="widget_type_image">Bild</string>

@@ -543,6 +543,9 @@
     <string name="create_home_screen_widget_title">创建小部件</string>
     <string name="create_home_screen_widget_no_command">显示当前状态</string>
     <string name="create_home_screen_widget_not_supported">请前往主页上的小部件菜单并从那里创建一个小部件</string>
+    <!-- Android TV -->
+    <string name="tv_settings_sitemap">网站地图</string>
+    <string name="tv_loading">正在载入\u2026</string>
     <!-- Data saver -->
     <string name="data_saver_title">节省流量模式</string>
     <string name="data_saver_on">可能需要更大数据传输的站点地图元素未加载</string>

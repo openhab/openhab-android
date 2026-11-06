@@ -490,6 +490,9 @@
     <string name="item_update_error_couldnt_get_item_type">Não foi possível obter o tipo do Item</string>
     <string name="create_home_screen_widget_title">Criar widget</string>
     <string name="create_home_screen_widget_not_supported">Por favor, vá ao menu de widgets na sua tela inicial e crie um widget a partir daí</string>
+    <!-- Android TV -->
+    <string name="tv_settings_sitemap">Sitemap</string>
+    <string name="tv_loading">Carregando\u2026</string>
     <!-- Data saver -->
     <string name="data_saver_title">Economia de dados</string>
     <string name="data_saver_on">Elementos do Sitemap que podem exigir transferência de dados maiores não são carregados</string>

@@ -1,0 +1,8 @@
+## What's Changed
+* Support app: notification actions by @mueller-ma in https://github.com/openhab/openhab-android/pull/4102
+* Fix video player by @mueller-ma in https://github.com/openhab/openhab-android/pull/4101
+
+## New Contributors
+* @miloit made their first contribution in https://github.com/openhab/openhab-android/pull/4099
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.22.9-beta...3.22.10-beta

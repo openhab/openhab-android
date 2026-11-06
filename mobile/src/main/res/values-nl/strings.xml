@@ -561,6 +561,9 @@
     <string name="create_home_screen_widget_no_command">Huidige status weergeven</string>
     <string name="create_home_screen_widget_not_supported">Ga naar het widget menu op uw startscherm en maak vanaf daar een widget</string>
     <string name="analyse">Analyseren</string>
+    <!-- Android TV -->
+    <string name="tv_settings_sitemap">Sitemap</string>
+    <string name="tv_loading">Laden\u2026</string>
     <!-- Data saver -->
     <string name="data_saver_title">Gegevensbesparing</string>
     <string name="data_saver_on">Sitemap elementen die mogelijk grotere data transfers vereisen zijn niet geladen</string>

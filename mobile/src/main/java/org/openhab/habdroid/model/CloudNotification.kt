@@ -166,6 +166,7 @@ data class CloudNotificationAction internal constructor(val label: String, priva
         data class UrlAction(val url: String) : Action()
         data class ItemCommandAction(val itemName: String, val command: String) : Action()
         data class UiCommandAction(val command: String) : Action()
+        data class AppAction(val packageName: String) : Action()
         data object NoAction : Action()
     }
 
@@ -184,6 +185,18 @@ data class CloudNotificationAction internal constructor(val label: String, priva
 
             split[0] == "ui" && split.size == 2 -> {
                 Action.UiCommandAction("navigate:${split[1]}")
+            }
+
+            split[0] == "app" -> {
+                // Syntax: app:android=$appId,ios=$appId:$path, either platform may be omitted
+                internalAction.removePrefix("app:")
+                    .split(",")
+                    .map { it.trim() }
+                    .firstOrNull { it.startsWith("android=") }
+                    ?.removePrefix("android=")
+                    ?.takeIf { it.isNotEmpty() }
+                    ?.let { Action.AppAction(it) }
+                    ?: Action.NoAction
             }
 
             else -> Action.NoAction

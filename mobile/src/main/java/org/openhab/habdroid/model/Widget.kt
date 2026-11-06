@@ -13,7 +13,6 @@
 
 package org.openhab.habdroid.model
 
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Parcelable
 import kotlin.math.abs
@@ -24,14 +23,12 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.util.appendQueryParameter
 import org.openhab.habdroid.util.forEach
-import org.openhab.habdroid.util.getChartScalingFactor
 import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.optBooleanOrNull
 import org.openhab.habdroid.util.optFloatOrNull
 import org.openhab.habdroid.util.optIntOrNull
 import org.openhab.habdroid.util.optStringOrFallback
 import org.openhab.habdroid.util.optStringOrNull
-import org.openhab.habdroid.util.shouldRequestHighResChart
 import org.w3c.dom.Node
 
 @Parcelize
@@ -163,7 +160,8 @@ data class Widget(
     }
 
     fun toChartUrl(
-        prefs: SharedPreferences,
+        scalingFactor: Float,
+        requestHighResCharts: Boolean,
         width: Int,
         height: Int = width / 2,
         chartTheme: CharSequence?,
@@ -171,10 +169,10 @@ data class Widget(
         forcedPeriod: String = period,
         forcedLegend: Boolean? = legend
     ): String? {
-        item ?: return null
+        if (item == null) return null
 
-        val actualDensity = density.toFloat() / prefs.getChartScalingFactor()
-        val resDivider = if (prefs.shouldRequestHighResChart()) 1 else 2
+        val actualDensity = density.toFloat() / scalingFactor
+        val resDivider = if (requestHighResCharts) 1 else 2
 
         val chartUrl = Uri.Builder()
             .path("chart")

@@ -353,6 +353,11 @@ abstract class AbstractWebViewFragment :
         webView.addJavascriptInterface(jsInterface, "OHApp")
 
         webView.webViewClient = object : ConnectionWebViewClient(conn) {
+            override fun doUpdateVisitedHistory(view: WebView, url: String?, isReload: Boolean) {
+                super.doUpdateVisitedHistory(view, url, isReload)
+                mainActivity?.updateBackPressedCallbackState()
+            }
+
             private fun handleError(url: Uri) {
                 if (url.path == pathForError) {
                     updateViewVisibility(true, null)

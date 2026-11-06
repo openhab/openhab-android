@@ -560,6 +560,9 @@
     <string name="create_home_screen_widget_no_command">Jelenlegi állapot mutatása</string>
     <string name="create_home_screen_widget_not_supported">Kérem nyissa meg a Widget menüt a főképernyőről és hozza létre onnan</string>
     <string name="analyse">Elemzés</string>
+    <!-- Android TV -->
+    <string name="tv_settings_sitemap">Felület</string>
+    <string name="tv_loading">Betöltés\u2026</string>
     <!-- Data saver -->
     <string name="data_saver_title">Adatforgalom-csökkentő</string>
     <string name="data_saver_on">A nagyobb adatátvitelt igénylő honlap elemek nem lesznek betöltve</string>

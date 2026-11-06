@@ -67,6 +67,11 @@ abstract class AbstractItemPickerActivity :
     private lateinit var itemPickerAdapter: ItemPickerAdapter
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var searchView: SearchView
+    private val backCallback = object : OnBackPressedCallback(false) {
+        override fun handleOnBackPressed() {
+            searchView.isIconified = true
+        }
+    }
     private var toolbarExtension: View? = null
     protected abstract var hintMessageId: Int
     protected abstract var hintButtonMessageId: Int
@@ -105,17 +110,6 @@ abstract class AbstractItemPickerActivity :
 
         binding.appBar.root.setLiftOnScrollTargetView(binding.list)
 
-        val backCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (!searchView.isIconified) {
-                    searchView.isIconified = true
-                } else {
-                    isEnabled = false
-                    onBackPressedDispatcher.onBackPressed()
-                }
-            }
-        }
-
         onBackPressedDispatcher.addCallback(this, backCallback)
     }
 
@@ -144,6 +138,13 @@ abstract class AbstractItemPickerActivity :
         searchView = searchItem.actionView as SearchView
         searchView.inputType = InputType.TYPE_CLASS_TEXT
         searchView.setOnQueryTextListener(this)
+        // Only intercept back navigation while the search view is expanded to allow predictive back otherwise
+        searchView.setOnSearchClickListener { backCallback.isEnabled = true }
+        searchView.setOnCloseListener {
+            backCallback.isEnabled = false
+            false
+        }
+        backCallback.isEnabled = !searchView.isIconified
 
         return true
     }
