@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <!-- Errors -->
+    <!-- Settings -->
+    <string name="settings">Ρυθμίσεις</string>
+    <string name="settings_connection">Σύνδεση</string>
+    <string name="settings_demo_mode">Κατάσταση επίδειξης</string>
+    <!-- Widgets -->
+    <string name="rollershutter_up">Πάνω</string>
+    <string name="rollershutter_down">Κάτω</string>
+    <!-- Tile -->
+    <!-- Complication -->
+    <!-- Voice -->
+</resources>

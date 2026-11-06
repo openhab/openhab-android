@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <!-- Errors -->
+    <string name="retry">Reîncearcă</string>
+    <!-- Settings -->
+    <string name="settings">Setări</string>
+    <string name="settings_connection">Conexiune</string>
+    <string name="settings_demo_mode">Modul demonstrativ</string>
+    <!-- Widgets -->
+    <string name="rollershutter_up">Sus</string>
+    <string name="rollershutter_stop">Oprește</string>
+    <string name="rollershutter_down">Jos</string>
+    <string name="player_previous">Anterior</string>
+    <string name="player_play">Redare</string>
+    <string name="player_pause">Pauză</string>
+    <string name="player_next">Următor</string>
+    <string name="increase">Creșteți</string>
+    <string name="decrease">Reduceți</string>
+    <!-- Tile -->
+    <string name="tile_label">Sitemap</string>
+    <!-- Complication -->
+    <!-- Voice -->
+</resources>

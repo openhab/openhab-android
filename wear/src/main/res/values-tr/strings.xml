@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <!-- Errors -->
+    <string name="retry">Yeniden Dene</string>
+    <!-- Settings -->
+    <string name="settings">Ayarlar</string>
+    <string name="settings_connection">Bağlantı</string>
+    <string name="settings_demo_mode">Deneme Modu</string>
+    <!-- Widgets -->
+    <string name="rollershutter_up">Yukarı</string>
+    <string name="rollershutter_stop">Durdur</string>
+    <string name="rollershutter_down">Aşağı</string>
+    <string name="player_previous">Önceki</string>
+    <string name="player_play">Oynat</string>
+    <string name="player_pause">Duraklat</string>
+    <string name="player_next">Sonraki</string>
+    <string name="increase">Arttır</string>
+    <string name="decrease">Azalt</string>
+    <!-- Tile -->
+    <string name="tile_label">Site Haritası</string>
+    <!-- Complication -->
+    <!-- Voice -->
+    <string name="voice_command">Sesli Komut</string>
+</resources>

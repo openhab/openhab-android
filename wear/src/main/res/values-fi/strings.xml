@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <!-- Errors -->
+    <string name="retry">Yritä uudelleen</string>
+    <!-- Settings -->
+    <string name="settings">Asetukset</string>
+    <string name="settings_connection">Yhteys</string>
+    <string name="settings_demo_mode">Esittelytila</string>
+    <!-- Widgets -->
+    <string name="rollershutter_up">Ylös</string>
+    <string name="rollershutter_stop">Pysäytä</string>
+    <string name="rollershutter_down">Alas</string>
+    <string name="player_previous">Edellinen</string>
+    <string name="player_play">Toista</string>
+    <string name="player_pause">Tauko</string>
+    <string name="player_next">Seuraava</string>
+    <string name="increase">Lisää</string>
+    <string name="decrease">Vähennä</string>
+    <!-- Tile -->
+    <string name="tile_label">Sivukartta</string>
+    <!-- Complication -->
+    <!-- Voice -->
+    <string name="voice_command">Äänikomento</string>
+</resources>

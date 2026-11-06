@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <!-- Errors -->
+    <string name="retry">Uuesti</string>
+    <!-- Settings -->
+    <string name="settings">Seaded</string>
+    <string name="settings_connection">Ühendus</string>
+    <string name="settings_demo_mode">Demorežiim</string>
+    <!-- Widgets -->
+    <string name="rollershutter_up">Üles</string>
+    <string name="rollershutter_stop">Peata</string>
+    <string name="rollershutter_down">Alla</string>
+    <string name="player_previous">Eelmine</string>
+    <string name="player_play">Esita</string>
+    <string name="player_pause">Paus</string>
+    <string name="player_next">Järgmine</string>
+    <string name="increase">Suurenda</string>
+    <string name="decrease">Vähenda</string>
+    <!-- Tile -->
+    <string name="tile_label">Sisukaart</string>
+    <!-- Complication -->
+    <!-- Voice -->
+</resources>

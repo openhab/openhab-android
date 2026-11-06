@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <!-- Errors -->
+    <string name="retry">נסה שנית</string>
+    <!-- Settings -->
+    <string name="settings">הגדרות</string>
+    <string name="settings_connection">חיבור</string>
+    <string name="settings_demo_mode">מצב הדגמה</string>
+    <!-- Widgets -->
+    <string name="rollershutter_up">העלה</string>
+    <string name="rollershutter_stop">עצור</string>
+    <string name="rollershutter_down">הורד</string>
+    <string name="player_previous">קודם</string>
+    <string name="player_play">נגן</string>
+    <string name="player_pause">השהה</string>
+    <string name="player_next">הבא</string>
+    <string name="increase">הגדל</string>
+    <string name="decrease">הקטן</string>
+    <!-- Tile -->
+    <string name="tile_label">תצורת מערכת</string>
+    <!-- Complication -->
+    <!-- Voice -->
+    <string name="voice_command">פקודה קולית</string>
+</resources>

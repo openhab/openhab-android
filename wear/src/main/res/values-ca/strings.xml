@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <!-- Errors -->
+    <string name="retry">Reintenta</string>
+    <!-- Settings -->
+    <string name="settings">Configuració</string>
+    <string name="settings_connection">Connexió</string>
+    <string name="settings_demo_mode">Mode de demostració</string>
+    <!-- Widgets -->
+    <string name="rollershutter_up">Amunt</string>
+    <string name="rollershutter_stop">Atura</string>
+    <string name="rollershutter_down">Avall</string>
+    <string name="player_previous">Anterior</string>
+    <string name="player_play">Reprodueix</string>
+    <string name="player_pause">Pausa</string>
+    <string name="player_next">Següent</string>
+    <string name="increase">Incrementa</string>
+    <string name="decrease">Disminueix</string>
+    <!-- Tile -->
+    <string name="tile_label">Mapa del lloc</string>
+    <!-- Complication -->
+    <!-- Voice -->
+    <string name="voice_command">Ordre de veu</string>
+</resources>
