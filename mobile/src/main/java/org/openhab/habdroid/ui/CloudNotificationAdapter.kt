@@ -56,7 +56,7 @@ class CloudNotificationAdapter(
     private var highlightedId: String? = null
     private var selectedTag: String? = null
 
-    // Attachments like item:CameraSnapshot are the same for many notifications, so load each one only once
+    // Many notifications can have the same attachment URL, so load each one only once
     private val sharedImageLoads = mutableMapOf<String, Deferred<Bitmap?>>()
 
     var currentTagFilter: String?
@@ -302,7 +302,7 @@ class CloudNotificationAdapter(
                     imageLoadJob = scope.launch {
                         val createdTimestamp = notification.createdTimestamp
                         var bitmap = cacheManager.loadNotificationImageFromDisk(persistedId, createdTimestamp)
-                        if (bitmap == null && conn != null) {
+                        if (bitmap == null && conn != null && !notification.hasItemAttachment) {
                             bitmap = imageLoader(notification, conn, targetWidth)
                         }
                         binding.notificationImageProgress.isGone = true

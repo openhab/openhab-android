@@ -79,9 +79,11 @@ class NotificationImageActivity : AbstractBaseActivity() {
         if (bitmap == null) {
             binding.skeleton.showSkeleton()
             bitmap = cacheManager.loadNotificationImageFromDisk(persistedId, notification.createdTimestamp)
-                ?: url?.let { cacheManager.getAttachmentImageFromMemory(it) }
+            if (bitmap == null && url != null && !notification.hasItemAttachment) {
+                bitmap = cacheManager.getAttachmentImageFromMemory(url)
+            }
         }
-        if (bitmap == null) {
+        if (bitmap == null && !notification.hasItemAttachment) {
             val connInfo = getConnectionFactory().let { if (usePrimaryServer) it.currentPrimary else it.currentActive }
             val conn = connInfo?.usableConnection ?: connInfo?.cloud?.connection
             if (conn != null) {

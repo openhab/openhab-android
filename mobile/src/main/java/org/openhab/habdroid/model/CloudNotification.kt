@@ -58,6 +58,12 @@ sealed class CloudMessage : Parcelable {
         val onClickAction: CloudNotificationAction?,
         val mediaAttachmentUrl: String?
     ) : CloudMessage() {
+        /**
+         * Item attachments show the current item state, so only the image saved when the notification arrived
+         * belongs to the notification
+         */
+        val hasItemAttachment: Boolean get() = mediaAttachmentUrl?.startsWith("item:") == true
+
         suspend fun loadImage(connection: Connection, context: Context, size: Int): Bitmap? {
             if (mediaAttachmentUrl == null) {
                 return null

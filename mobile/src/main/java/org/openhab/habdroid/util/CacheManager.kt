@@ -54,7 +54,7 @@ class CacheManager private constructor(appContext: Context) {
         if (persistedId.isEmpty()) null else notificationBitmapCache.get(persistedId)
 
     /**
-     * Images of attachments like item:CameraSnapshot show the current state, so they are only kept in memory
+     * Attachment images loaded after the notification arrived aren't saved, so they are only kept in memory
      */
     fun getAttachmentImageFromMemory(url: String): Bitmap? = notificationBitmapCache.get(ATTACHMENT_KEY_PREFIX + url)
 
