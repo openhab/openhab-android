@@ -20,6 +20,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Build
 import android.service.notification.StatusBarNotification
 import android.util.Log
@@ -34,6 +35,7 @@ import org.openhab.habdroid.model.CloudMessage
 import org.openhab.habdroid.model.CloudNotificationId
 import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.ui.MainActivity
+import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.IconBackground
 import org.openhab.habdroid.util.ImageConversionPolicy
@@ -83,9 +85,13 @@ class NotificationHelper(private val context: Context) {
 
     private suspend fun showNotification(message: CloudMessage.CloudNotification) {
         createChannelForTag(message.tag)
-        val n = makeNotification(message)
+        val (n, image) = makeNotification(message)
         notificationManager.notify(message.id.notificationId, n)
         updateGroupNotification()
+        if (image != null) {
+            CacheManager.getInstance(context)
+                .saveNotificationImage(message.id.persistedId, image, message.createdTimestamp)
+        }
     }
 
     fun handleNotificationDismissed(notificationId: Int) {
@@ -145,7 +151,7 @@ class NotificationHelper(private val context: Context) {
     private fun countCloudNotifications(active: Array<StatusBarNotification>): Int =
         active.count { n -> n.id != 0 && (n.groupKey?.endsWith("gcm") == true) }
 
-    private suspend fun makeNotification(message: CloudMessage.CloudNotification): Notification {
+    private suspend fun makeNotification(message: CloudMessage.CloudNotification): Pair<Notification, Bitmap?> {
         val connection = context.getConnectionFactory().primaryFlow.first().conn?.connection
         val iconBitmap = getNotificationIcon(connection, message.icon)
 
@@ -197,7 +203,7 @@ class NotificationHelper(private val context: Context) {
             builder.addAction(action)
         }
 
-        return builder.build()
+        return Pair(builder.build(), messageImage)
     }
 
     private suspend fun getNotificationIcon(connection: Connection?, icon: IconResource?) = when {
