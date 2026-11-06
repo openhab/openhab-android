@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <!-- Errors -->
+    <string name="retry">重试</string>
+    <!-- Settings -->
+    <string name="settings">设置</string>
+    <string name="settings_connection">连接</string>
+    <string name="settings_demo_mode">演示模式</string>
+    <!-- Widgets -->
+    <string name="rollershutter_up">向上</string>
+    <string name="rollershutter_stop">停止</string>
+    <string name="rollershutter_down">向下</string>
+    <string name="player_previous">上一个</string>
+    <string name="player_play">播放</string>
+    <string name="player_pause">暂停</string>
+    <string name="player_next">下一个</string>
+    <string name="increase">增加</string>
+    <string name="decrease">减少</string>
+    <!-- Tile -->
+    <string name="tile_label">网站地图</string>
+    <!-- Complication -->
+    <!-- Voice -->
+    <string name="voice_command">语音命令</string>
+</resources>
