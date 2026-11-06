@@ -24,7 +24,8 @@ import org.openhab.habdroid.model.withValue
 class SuggestedCommandsFactory(private val context: Context, private val showUndef: Boolean) {
     fun fill(widget: Widget?, forItemUpdate: Boolean = false): SuggestedCommands {
         val suggestedCommands = SuggestedCommands()
-        if (widget?.item == null || widget.type == Widget.Type.Chart) {
+        val item = widget?.item
+        if (item == null || widget.type == Widget.Type.Chart) {
             return suggestedCommands
         }
 
@@ -44,7 +45,7 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
             }
         }
 
-        fill(widget.item, suggestedCommands, forItemUpdate)
+        fill(item, suggestedCommands, forItemUpdate)
         return suggestedCommands
     }
 
@@ -62,8 +63,8 @@ class SuggestedCommandsFactory(private val context: Context, private val showUnd
         item.isOfTypeOrGroupType(Item.Type.Color) -> {
             addOnOffCommands(suggestedCommands)
             addIncreaseDecreaseCommands(suggestedCommands)
-            if (item.state != null) {
-                add(suggestedCommands, item.state.asString, R.string.nfc_action_current_color)
+            item.state?.let { state ->
+                add(suggestedCommands, state.asString, R.string.nfc_action_current_color)
             }
             addCommonPercentCommands(suggestedCommands)
             suggestedCommands.shouldShowCustom = true

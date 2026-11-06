@@ -201,9 +201,10 @@ class WidgetListFragment :
     }
 
     override fun onItemClicked(widget: Widget): Boolean {
-        if (widget.linkedPage != null) {
+        val linkedPage = widget.linkedPage
+        if (linkedPage != null) {
             val activity = activity as MainActivity?
-            activity?.onWidgetSelected(widget.linkedPage, this@WidgetListFragment)
+            activity?.onWidgetSelected(linkedPage, this@WidgetListFragment)
             return true
         }
         return false
@@ -321,7 +322,8 @@ class WidgetListFragment :
                 }
         }
 
-        if (widget.linkedPage != null && ShortcutManagerCompat.isRequestPinShortcutSupported(activity)) {
+        val linkedPage = widget.linkedPage
+        if (linkedPage != null && ShortcutManagerCompat.isRequestPinShortcutSupported(activity)) {
             val shortcutMenu = menu.addSubMenu(
                 Menu.NONE,
                 CONTEXT_MENU_ID_PIN_HOME_MENU,
@@ -335,7 +337,7 @@ class WidgetListFragment :
                 Menu.NONE,
                 R.string.theme_name_light
             ).setOnMenuItemClickListener {
-                createShortcut(activity, widget.linkedPage, true)
+                createShortcut(activity, linkedPage, true)
                 return@setOnMenuItemClickListener true
             }
 
@@ -345,7 +347,7 @@ class WidgetListFragment :
                 Menu.NONE,
                 R.string.theme_name_dark
             ).setOnMenuItemClickListener {
-                createShortcut(activity, widget.linkedPage, false)
+                createShortcut(activity, linkedPage, false)
                 return@setOnMenuItemClickListener true
             }
         }
@@ -381,10 +383,10 @@ class WidgetListFragment :
             menu.add(Menu.NONE, CONTEXT_MENU_ID_WRITE_SITEMAP_TAG, Menu.NONE, R.string.nfc_action_to_sitemap_page)
         }
 
-        widget.item?.let {
+        widget.item?.let { item ->
             menu.add(Menu.NONE, CONTEXT_MENU_ID_COPY_ITEM_NAME, Menu.NONE, R.string.copy_item_name)
                 .setOnMenuItemClickListener {
-                    val itemName = widget.item.name
+                    val itemName = item.name
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                         // Avoid duplicate notifications
                         // https://developer.android.com/develop/ui/views/touch-and-input/copy-paste?hl=en#duplicate-notifications
@@ -476,7 +478,7 @@ class WidgetListFragment :
         val adapter = adapter ?: return
 
         val position = adapter.itemList.indexOfFirst { w ->
-            w.linkedPage != null && w.linkedPage.link == highlightedPageLink
+            w.linkedPage.let { page -> page != null && page.link == highlightedPageLink }
         }
         if (adapter.setSelectedPosition(position) && position >= 0) {
             layoutManager.scrollToPosition(position)
@@ -597,13 +599,14 @@ class WidgetListFragment :
              *  46dp foreground + 2 * 31dp border = 108dp
              **/
             val foregroundSize = activity.resources.dpToPixel(46F).toInt()
-            val iconBitmap = if (linkedPage.icon != null) {
+            val iconResource = linkedPage.icon
+            val iconBitmap = if (iconResource != null) {
                 try {
                     val iconFallbackColor = activity.getIconFallbackColor(
                         if (whiteBackground) IconBackground.LIGHT else IconBackground.DARK
                     )
                     connection.httpClient
-                        .get(linkedPage.icon.toUrl(activity, true))
+                        .get(iconResource.toUrl(activity, true))
                         .asBitmap(foregroundSize, iconFallbackColor, ImageConversionPolicy.ForceTargetSize)
                         .response
                 } catch (e: HttpClient.HttpException) {

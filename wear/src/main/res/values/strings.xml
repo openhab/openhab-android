@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <string name="setup_title">Set up openHAB</string>
+    <string name="setup_message">Set up a server in the openHAB app on your phone. It will be transferred to the watch automatically.</string>
+    <string name="setup_open_on_phone">Open on phone</string>
+    <string name="setup_demo">Try demo server</string>
+    <string name="continue_on_phone">Continue on phone</string>
+    <string name="phone_not_reachable">Phone not reachable</string>
+
+    <!-- Errors -->
+    <string name="error_title">openHAB</string>
+    <string name="error_connection_failed">Unable to connect to %s</string>
+    <string name="error_certificate_not_trusted">The certificate of the server isn\'t trusted. Accept it in the openHAB app on your phone.</string>
+    <string name="error_authentication_failed">Wrong username or password</string>
+    <string name="error_http">The server %s returned an error</string>
+    <string name="error_no_sitemaps">The server has no sitemaps</string>
+    <string name="retry">Retry</string>
+    <string name="page_empty">This page is empty</string>
+
+    <!-- Settings -->
+    <string name="settings">Settings</string>
+    <string name="settings_connection">Connection</string>
+    <string name="settings_not_connected">Not connected</string>
+    <string name="settings_connected_local">Local connection</string>
+    <string name="settings_connected_remote">Remote connection</string>
+    <string name="settings_demo_mode">Demo mode</string>
+    <string name="settings_edit_on_phone">Edit on phone</string>
+
+    <!-- Widgets -->
+    <string name="rollershutter_up">Up</string>
+    <string name="rollershutter_stop">Stop</string>
+    <string name="rollershutter_down">Down</string>
+    <string name="player_previous">Previous</string>
+    <string name="player_play">Play</string>
+    <string name="player_pause">Pause</string>
+    <string name="player_next">Next</string>
+    <string name="increase">Increase</string>
+    <string name="decrease">Decrease</string>
+    <string name="color_power">Power</string>
+    <string name="color_brightness">Brightness</string>
+    <string name="color_red">Red</string>
+    <string name="color_orange">Orange</string>
+    <string name="color_yellow">Yellow</string>
+    <string name="color_green">Green</string>
+    <string name="color_cyan">Cyan</string>
+    <string name="color_blue">Blue</string>
+    <string name="color_purple">Purple</string>
+    <string name="color_pink">Pink</string>
+    <string name="color_white">White</string>
+
+    <!-- Tile -->
+    <string name="tile_label">Sitemap</string>
+    <string name="tile_not_configured">Set up openHAB on your phone</string>
+    <string name="tile_not_connected">Unable to connect to openHAB</string>
+    <string name="tile_no_widgets">Add switches to the start page of the sitemap to show them here</string>
+
+    <!-- Complication -->
+    <string name="complication_label">Item state</string>
+    <string name="complication_preview_label">Temperature</string>
+    <string name="complication_choose_item">Choose item</string>
+
+    <!-- Voice -->
+    <string name="voice_command">Voice command</string>
+    <string name="voice_prompt">Say a command</string>
+    <string name="voice_failed">Failed to send</string>
+</resources>

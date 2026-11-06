@@ -325,8 +325,9 @@ private fun VideoContent(widget: Widget, connection: Connection, modifier: Modif
     val context = LocalContext.current
     var hasError by remember(widget.url, widget.state) { mutableStateOf(false) }
     val isHls = widget.encoding.equals("hls", ignoreCase = true)
-    val url = if (isHls && widget.item?.type == Item.Type.StringItem && widget.item.state != null) {
-        widget.item.state.asString
+    val itemState = widget.item?.state
+    val url = if (isHls && widget.item?.type == Item.Type.StringItem && itemState != null) {
+        itemState.asString
     } else {
         widget.url
     }

@@ -374,6 +374,11 @@ MemorizingTrustManager implements X509TrustManager {
         storeCert(cert.getSubjectDN().toString(), cert);
     }
 
+    /**
+     * Called after a certificate has been added or removed, e.g. to sync the certificates to other devices
+     */
+    public static Runnable keyStoreChangeListener;
+
     void keyStoreUpdated() {
         // reload appTrustManager
         appTrustManager = getTrustManager(appKeyStore);
@@ -393,6 +398,9 @@ MemorizingTrustManager implements X509TrustManager {
                     LOGGER.log(Level.SEVERE, "storeCert(" + keyStoreFile + ")", e);
                 }
             }
+        }
+        if (keyStoreChangeListener != null) {
+            keyStoreChangeListener.run();
         }
     }
 

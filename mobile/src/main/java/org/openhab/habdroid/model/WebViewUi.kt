@@ -36,3 +36,6 @@ data class WebViewUi(val serverFlag: Int, val fragment: Class<out AbstractWebVie
         )
     }
 }
+
+fun ServerProperties.hasWebViewUiInstalled(ui: WebViewUi): Boolean =
+    if (ui.serverFlag == 0) true else flags and ui.serverFlag != 0
