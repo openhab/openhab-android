@@ -33,6 +33,7 @@ import android.view.inputmethod.EditorInfo
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.GridLayout
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
@@ -48,6 +49,7 @@ import androidx.core.view.get
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.media3.common.MediaItem
@@ -173,6 +175,7 @@ class WidgetAdapter(
     private var compactMode = false
     private var selectedPosition = RecyclerView.NO_POSITION
     private var firstVisibleWidgetPosition = RecyclerView.NO_POSITION
+    private var fillPagePosition = RecyclerView.NO_POSITION
     private val colorMapper = ColorMapper(context)
 
     interface ItemClickListener {
@@ -208,6 +211,7 @@ class WidgetAdapter(
                     ?.let { parentId -> widgetsByParentId.getOrPut(parentId) { mutableListOf() } }
                     ?.add(w)
             }
+            fillPagePosition = determineFillPagePosition()
             notifyDataSetChanged()
         }
         updateFirstVisibleWidgetPosition()
@@ -294,6 +298,9 @@ class WidgetAdapter(
             sourceId,
             { widgetsByParentId[widget.id] }
         )
+        if (holder is WebViewHolder) {
+            holder.fillsPage = position == fillPagePosition
+        }
         holder.bind(widget)
         if (holder is AbstractFrameViewHolder) {
             holder.setShownAsFirst(position == firstVisibleWidgetPosition)
@@ -365,6 +372,19 @@ class WidgetAdapter(
         }
     }
 
+    /**
+     * Returns the position of a Webview that is the only widget on the page and thus should fill it.
+     * Hidden widgets are counted as well, as they might become visible at any time.
+     */
+    private fun determineFillPagePosition(): Int {
+        val position = items.indices.singleOrNull { pos -> items[pos].type != Widget.Type.Frame }
+        return if (position != null && items[position].type == Widget.Type.Webview) {
+            position
+        } else {
+            RecyclerView.NO_POSITION
+        }
+    }
+
     private fun updateFirstVisibleWidgetPosition() {
         firstVisibleWidgetPosition = items.indexOfFirst { w -> shouldShowWidget(w) }
     }
@@ -386,7 +406,8 @@ class WidgetAdapter(
     }
 
     private fun getItemViewType(widget: Widget): Int {
-        if (!shouldShowWidget(widget)) {
+        // Frame labels are hidden if a widget fills the page, as the page title is sufficient
+        if (!shouldShowWidget(widget) || (widget.type == Widget.Type.Frame && fillPagePosition >= 0)) {
             return toInternalViewType(TYPE_INVISIBLE, compactMode)
         }
         val actualViewType = when (widget.type) {
@@ -1812,11 +1833,14 @@ class WidgetAdapter(
     }
 
     class WebViewHolder internal constructor(initData: ViewHolderInitData) :
-        HeavyDataViewHolder(initData, R.layout.widgetlist_webitem) {
+        HeavyDataViewHolder(initData, R.layout.widgetlist_webitem),
+        View.OnTouchListener {
         private val binding = WidgetlistWebitemBinding.bind(itemView)
         override val widgetContentView get() = binding.webview
         override val dataSaverBinding get() = binding.dataSaver
         override val iconTextBinding get() = binding.icontext
+        internal var fillsPage = false
+        private var touchDownY = 0F
 
         init {
             binding.webview.webChromeClient = object : WebChromeClient() {
@@ -1831,6 +1855,44 @@ class WidgetAdapter(
                     }
                 }
             }
+            binding.webview.setOnTouchListener(this)
+        }
+
+        @SuppressLint("ClickableViewAccessibility")
+        override fun onTouch(v: View, event: MotionEvent): Boolean {
+            if (fillsPage) {
+                // Let the web page handle scroll gestures, except for pulling down while it's
+                // scrolled to the top, which should trigger the refresh of the sitemap page
+                when (event.actionMasked) {
+                    MotionEvent.ACTION_DOWN -> {
+                        touchDownY = event.y
+                        v.parent.requestDisallowInterceptTouchEvent(true)
+                    }
+
+                    MotionEvent.ACTION_MOVE -> if (event.y > touchDownY && !v.canScrollVertically(-1)) {
+                        v.parent.requestDisallowInterceptTouchEvent(false)
+                    }
+                }
+            }
+            return false
+        }
+
+        override fun bindImpl(widget: Widget) {
+            itemView.updateLayoutParams {
+                height = if (fillsPage) ViewGroup.LayoutParams.MATCH_PARENT else ViewGroup.LayoutParams.WRAP_CONTENT
+            }
+            if (fillsPage) {
+                binding.webview.updateLayoutParams<LinearLayout.LayoutParams> {
+                    height = 0
+                    weight = 1F
+                }
+            } else {
+                binding.webview.updateLayoutParams<LinearLayout.LayoutParams> { weight = 0F }
+                binding.webview.adjustForWidgetHeight(widget, 0)
+            }
+            super.bindImpl(widget)
+            // The page title already shows the label
+            iconTextBinding.root.isVisible = !fillsPage
         }
 
         @SuppressLint("SetJavaScriptEnabled")
@@ -1839,7 +1901,6 @@ class WidgetAdapter(
                 connection.httpClient.buildUrl(widget.url)
             }
             binding.webview.apply {
-                adjustForWidgetHeight(widget, 0)
                 loadUrl(ConnectionWebViewClient.EMPTY_PAGE)
 
                 if (url != null) {
