@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <!-- Errors -->
+    <!-- Settings -->
+    <string name="settings">Mga setting</string>
+    <string name="settings_connection">Koneksyon</string>
+    <!-- Widgets -->
+    <string name="rollershutter_up">Taas</string>
+    <string name="rollershutter_down">Baba</string>
+    <!-- Tile -->
+    <!-- Complication -->
+    <!-- Voice -->
+</resources>
