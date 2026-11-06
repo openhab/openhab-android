@@ -476,6 +476,9 @@ class WidgetAdapter(
 
         protected abstract fun bindImpl(widget: Widget)
 
+        private var pressConfirmPending = false
+        private var releaseAfterConfirm: (() -> Unit)? = null
+
         fun bind(widget: Widget) {
             updateRevertJob?.cancel()
             bindImpl(widget)
@@ -541,6 +544,65 @@ class WidgetAdapter(
             updateRevertJob = scope?.launch {
                 delay(1.seconds)
                 bindImpl(widget)
+            }
+        }
+
+        /**
+         * Runs [action] once the user confirmed the command, if the widget requires it.
+         * If the user cancels, the view is rebound to revert any UI change made by the user.
+         */
+        protected fun confirmCommandIfNeeded(widget: Widget? = boundWidget, action: () -> Unit) {
+            if (widget == null) return
+            itemView.context.confirmWidgetCommandIfNeeded(
+                widget = widget,
+                onConfirmed = action,
+                onCanceled = { boundWidget?.let { bindImpl(it) } }
+            )
+        }
+
+        /**
+         * Handles buttons that send one command when pressed and another one when released.
+         * If the press command needs to be confirmed, the release command is sent after confirmation.
+         */
+        protected fun handlePressReleaseTouch(
+            widget: Widget,
+            event: MotionEvent,
+            press: () -> Unit,
+            release: () -> Unit
+        ) {
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    if (widget.commandConfirmMessage == null) {
+                        press()
+                        return
+                    }
+                    pressConfirmPending = true
+                    releaseAfterConfirm = null
+                    itemView.context.confirmWidgetCommandIfNeeded(
+                        widget,
+                        onConfirmed = {
+                            pressConfirmPending = false
+                            press()
+                            releaseAfterConfirm?.invoke()
+                            releaseAfterConfirm = null
+                        },
+                        onCanceled = {
+                            pressConfirmPending = false
+                            releaseAfterConfirm = null
+                            boundWidget?.let { bindImpl(it) }
+                        }
+                    )
+                }
+
+                MotionEvent.ACTION_UP ->
+                    if (pressConfirmPending) {
+                        releaseAfterConfirm = release
+                    } else {
+                        release()
+                    }
+
+                // Showing the confirmation dialog may cancel the touch gesture
+                MotionEvent.ACTION_CANCEL -> if (pressConfirmPending) releaseAfterConfirm = release
             }
         }
 
@@ -709,7 +771,7 @@ class WidgetAdapter(
         init {
             binding.toggle.setOnCheckedChangeListener { _, checked ->
                 if (!isBinding) {
-                    tryToUpdateItemWithCommand(if (checked) "ON" else "OFF")
+                    confirmCommandIfNeeded { tryToUpdateItemWithCommand(if (checked) "ON" else "OFF") }
                 }
             }
         }
@@ -827,26 +889,27 @@ class WidgetAdapter(
 
         private fun updateValue() {
             val newValue = binding.inputvalue.text.toString()
-            // We don't have a guarantee that the command to be sent is valid,
-            // therefore reset to the old value if no update is received within 1s
-            updateJob?.cancel()
-            updateJob = scope?.launch {
-                delay(1000)
-                binding.inputvalue.setText(oldValue)
-            }
-
-            val item = boundWidget?.item
-            when {
-                item?.isOfTypeOrGroupType(Item.Type.Number) == true ||
-                    item?.isOfTypeOrGroupType(Item.Type.NumberWithDimension) == true -> {
-                    val state = newValue.let { ParsedState.parseAsNumber(it, item.state?.asNumber?.format) }
-                    state.toItemCommand(item)?.let { tryToUpdateItemWithCommand(it) }
+            hasChanged = false
+            confirmCommandIfNeeded {
+                // We don't have a guarantee that the command to be sent is valid,
+                // therefore reset to the old value if no update is received within 1s
+                updateJob?.cancel()
+                updateJob = scope?.launch {
+                    delay(1000)
+                    binding.inputvalue.setText(oldValue)
                 }
 
-                else -> tryToUpdateItemWithCommand(newValue)
-            }
+                val item = boundWidget?.item
+                when {
+                    item?.isOfTypeOrGroupType(Item.Type.Number) == true ||
+                        item?.isOfTypeOrGroupType(Item.Type.NumberWithDimension) == true -> {
+                        val state = newValue.let { ParsedState.parseAsNumber(it, item.state?.asNumber?.format) }
+                        state.toItemCommand(item)?.let { tryToUpdateItemWithCommand(it) }
+                    }
 
-            hasChanged = false
+                    else -> tryToUpdateItemWithCommand(newValue)
+                }
+            }
         }
     }
 
@@ -946,7 +1009,7 @@ class WidgetAdapter(
 
         private fun sendUpdate(widget: Widget, dateTime: LocalDateTime) {
             dateTime.toItemCommand(widget.item)?.let {
-                sendItemUpdateCommand(widget.item, it)
+                confirmCommandIfNeeded(widget) { sendItemUpdateCommand(widget.item, it) }
             }
         }
     }
@@ -986,7 +1049,9 @@ class WidgetAdapter(
             }
 
             val buttons = childWidgets.orEmpty() +
-                widget.mappings.mapIndexed { index, it -> it.toWidget("${widget.id}-mappings-$index", widget.item) }
+                widget.mappings.mapIndexed { index, it ->
+                    it.toWidget("${widget.id}-mappings-$index", widget.item, widget.commandConfirmMessage)
+                }
 
             val rowCount = buttons.maxOfOrNull { it.row ?: 0 } ?: 0
             val columnCount = min(buttons.maxOfOrNull { it.column ?: 0 } ?: 0, maxColumns)
@@ -1075,7 +1140,7 @@ class WidgetAdapter(
             val button = view.tag as Widget
             // When there's a releaseCommand, the command is sent on ACTION_DOWN
             if (button.releaseCommand.isNullOrEmpty() && button.command != null) {
-                sendItemUpdateCommand(button.item, button.command)
+                confirmCommandIfNeeded(button) { sendItemUpdateCommand(button.item, button.command) }
             }
         }
 
@@ -1084,14 +1149,12 @@ class WidgetAdapter(
             val button = view.tag as Widget
 
             if (!button.releaseCommand.isNullOrEmpty()) {
-                val command = when (event.action) {
-                    MotionEvent.ACTION_DOWN -> button.command
-                    MotionEvent.ACTION_UP -> button.releaseCommand
-                    else -> null
-                }
-                command?.let {
-                    sendItemUpdateCommand(button.item, it)
-                }
+                handlePressReleaseTouch(
+                    button,
+                    event,
+                    press = { button.command?.let { sendItemUpdateCommand(button.item, it) } },
+                    release = { sendItemUpdateCommand(button.item, button.releaseCommand) }
+                )
             }
             // Don't return true here!
             // Even though we're handing this event, we want the click gesture to be handled normally
@@ -1121,7 +1184,10 @@ class WidgetAdapter(
             binding.seekbar.isVisible = hasValidValues
             binding.seekbar.isEnabled = !widget.readOnly
             if (hasValidValues) {
-                binding.seekbar.bindToWidget(widget, widget.shouldUseSliderUpdatesDuringMove())
+                binding.seekbar.bindToWidget(
+                    widget,
+                    widget.shouldUseSliderUpdatesDuringMove() && widget.commandConfirmMessage == null
+                )
             } else {
                 Log.e(TAG, "Slider has invalid values: from '${widget.minValue}' to '${widget.maxValue}'")
             }
@@ -1133,7 +1199,8 @@ class WidgetAdapter(
                 return
             }
             if (widget.switchSupport) {
-                sendItemUpdateCommand(widget.item, if (binding.seekbar.value <= widget.minValue) "ON" else "OFF")
+                val command = if (binding.seekbar.value <= widget.minValue) "ON" else "OFF"
+                confirmCommandIfNeeded(widget) { sendItemUpdateCommand(widget.item, command) }
             }
         }
 
@@ -1144,7 +1211,7 @@ class WidgetAdapter(
             } else {
                 widget.state?.asNumber.withValue(value).toItemCommand(widget.item)
             }
-            command?.let { tryToUpdateItemWithCommand(it) }
+            command?.let { confirmCommandIfNeeded(widget) { tryToUpdateItemWithCommand(it) } }
         }
     }
 
@@ -1341,19 +1408,20 @@ class WidgetAdapter(
         override fun onClick(view: View) {
             val mapping = view.tag as LabeledValue
             if (mapping.valueRelease.isNullOrEmpty()) {
-                tryToUpdateItemWithCommand(mapping.value)
+                confirmCommandIfNeeded { tryToUpdateItemWithCommand(mapping.value) }
             }
         }
 
         override fun onTouch(view: View, event: MotionEvent): Boolean {
             val mapping = view.tag as LabeledValue
-            if (!mapping.valueRelease.isNullOrEmpty()) {
-                val command = when (event.action) {
-                    MotionEvent.ACTION_DOWN -> mapping.value
-                    MotionEvent.ACTION_UP -> mapping.valueRelease
-                    else -> null
-                }
-                command?.let { tryToUpdateItemWithCommand(it) }
+            val widget = boundWidget
+            if (!mapping.valueRelease.isNullOrEmpty() && widget != null) {
+                handlePressReleaseTouch(
+                    widget,
+                    event,
+                    press = { tryToUpdateItemWithCommand(mapping.value) },
+                    release = { tryToUpdateItemWithCommand(mapping.valueRelease) }
+                )
             }
             return false
         }
@@ -1412,19 +1480,20 @@ class WidgetAdapter(
             (view as MaterialButton).isChecked = true
             val mapping = view.tag as LabeledValue
             if (mapping.valueRelease.isNullOrEmpty()) {
-                tryToUpdateItemWithCommand(mapping.value)
+                confirmCommandIfNeeded { tryToUpdateItemWithCommand(mapping.value) }
             }
         }
 
         override fun onTouch(view: View, event: MotionEvent): Boolean {
             val mapping = view.tag as LabeledValue
-            if (!mapping.valueRelease.isNullOrEmpty()) {
-                val command = when (event.action) {
-                    MotionEvent.ACTION_DOWN -> mapping.value
-                    MotionEvent.ACTION_UP -> mapping.valueRelease
-                    else -> null
-                }
-                command?.let { tryToUpdateItemWithCommand(it) }
+            val widget = boundWidget
+            if (!mapping.valueRelease.isNullOrEmpty() && widget != null) {
+                handlePressReleaseTouch(
+                    widget,
+                    event,
+                    press = { tryToUpdateItemWithCommand(mapping.value) },
+                    release = { tryToUpdateItemWithCommand(mapping.valueRelease) }
+                )
             }
             return false
         }
@@ -1465,12 +1534,19 @@ class WidgetAdapter(
 
         override fun onClick(view: View) {
             val buttonState = view.tag as UpDownButtonState
-            val command = if (buttonState.inLongPress) "STOP" else buttonState.command
-            sendItemUpdateCommand(buttonState.item, command)
+            if (buttonState.inLongPress) {
+                sendItemUpdateCommand(buttonState.item, "STOP")
+            } else {
+                confirmCommandIfNeeded { sendItemUpdateCommand(buttonState.item, buttonState.command) }
+            }
             buttonState.inLongPress = false
         }
 
         override fun onLongClick(view: View): Boolean {
+            if (boundWidget?.commandConfirmMessage != null) {
+                // Handle as normal click, which asks for confirmation
+                return false
+            }
             val buttonState = view.tag as UpDownButtonState
             buttonState.inLongPress = true
             sendItemUpdateCommand(buttonState.item, buttonState.command)
@@ -1516,7 +1592,7 @@ class WidgetAdapter(
 
         override fun onClick(view: View) {
             val command = view.tag as String
-            sendItemUpdateCommand(boundWidget?.item, command)
+            confirmCommandIfNeeded { sendItemUpdateCommand(boundWidget?.item, command) }
         }
     }
 
@@ -1562,7 +1638,7 @@ class WidgetAdapter(
 
             if (newValue >= widget.minValue && newValue <= widget.maxValue) {
                 state.withValue(newValue).toItemCommand(widget.item)?.let {
-                    sendItemUpdateCommand(widget.item, it)
+                    confirmCommandIfNeeded(widget) { sendItemUpdateCommand(widget.item, it) }
                 }
             }
         }
@@ -1905,12 +1981,16 @@ class WidgetAdapter(
                 repeater.cancel()
             } else {
                 // short press
-                sendItemUpdateCommand(buttonState.item, buttonState.shortCommand)
+                confirmCommandIfNeeded { sendItemUpdateCommand(buttonState.item, buttonState.shortCommand) }
             }
             buttonState.repeatJob = null
         }
 
         override fun onLongClick(view: View): Boolean {
+            if (boundWidget?.commandConfirmMessage != null) {
+                // Repeating commands can't be confirmed, handle as normal click instead
+                return false
+            }
             val buttonState = view.tag as UpDownButtonState
             buttonState.repeatJob = scope?.launch {
                 while (isActive) {
@@ -2255,7 +2335,7 @@ fun LocalDateTime?.toItemCommand(item: Item?) =
         null
     }
 
-fun LabeledValue.toWidget(id: String, item: Item?): Widget = Widget(
+fun LabeledValue.toWidget(id: String, item: Item?, commandConfirmMessage: String? = null): Widget = Widget(
     id = id,
     parentId = null,
     rawLabel = label,
@@ -2290,7 +2370,8 @@ fun LabeledValue.toWidget(id: String, item: Item?): Widget = Widget(
     releaseOnly = null,
     height = 0,
     visibility = true,
-    rawInputHint = null
+    rawInputHint = null,
+    commandConfirmMessage = commandConfirmMessage
 )
 
 fun Context.getChartDetailsActivityIntent(widget: Widget, serverProperties: ServerProperties?): Intent {

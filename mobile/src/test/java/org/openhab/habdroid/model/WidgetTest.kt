@@ -233,6 +233,21 @@ class WidgetTest {
     }
 
     @Test
+    fun testGetCommandConfirmMessage() {
+        assertEquals("Are you sure?", sut1[0].commandConfirmMessage)
+        assertEquals(null, sut2[0].commandConfirmMessage)
+        assertEquals(null, sutXml[0].commandConfirmMessage)
+    }
+
+    @Test
+    fun testUpdateCommandConfirmMessageFromEvent() {
+        val enabled = Widget.updateFromEvent(sut2[0], JSONObject("{ 'commandConfirmMessage': 'Really?' }"))
+        assertEquals("Really?", enabled.commandConfirmMessage)
+        val disabled = Widget.updateFromEvent(sut1[0], JSONObject("{ 'visibility': true }"))
+        assertEquals(null, disabled.commandConfirmMessage)
+    }
+
+    @Test
     fun testGetEncoding() {
         assertEquals("mpeg", sut1[0].encoding)
         assertEquals(null, sut2[0].encoding)
@@ -319,6 +334,7 @@ class WidgetTest {
                   'labelcolor': '#ff0000',
                   'valuecolor': '#00ffff',
                   'encoding': 'mpeg',
+                  'commandConfirmMessage': 'Are you sure?',
                   'mappings': [ {
                     'command': 'ON',
                     'label': 'On'
