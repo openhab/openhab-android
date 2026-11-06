@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <string name="setup_title">Configura openHAB</string>
+    <!-- Errors -->
+    <string name="error_title">openHAB</string>
+    <string name="retry">Riprova</string>
+    <!-- Settings -->
+    <string name="settings">Impostazioni</string>
+    <string name="settings_connection">Connessione</string>
+    <string name="settings_demo_mode">Modalità demo</string>
+    <!-- Widgets -->
+    <string name="rollershutter_up">Su</string>
+    <string name="rollershutter_stop">Ferma</string>
+    <string name="rollershutter_down">Giù</string>
+    <string name="player_previous">Precedente</string>
+    <string name="player_play">Riproduci</string>
+    <string name="player_pause">Pausa</string>
+    <string name="player_next">Prossimo</string>
+    <string name="increase">Aumenta</string>
+    <string name="decrease">Diminuisci</string>
+    <string name="color_brightness">Luminosità</string>
+    <!-- Tile -->
+    <string name="tile_label">Sitemap</string>
+    <!-- Complication -->
+    <!-- Voice -->
+    <string name="voice_command">Comando vocale</string>
+</resources>
