@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Item tag type labels -->
     <string name="item_tag_location_garage">Garatge</string>
     <string name="item_tag_location_house">Casa</string>
     <string name="item_tag_equipment_battery">Bateria</string>
