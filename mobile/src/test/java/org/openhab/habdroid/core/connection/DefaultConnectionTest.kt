@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.core.connection
 
+import java.net.UnknownHostException
 import java.nio.charset.StandardCharsets
 import kotlinx.coroutines.runBlocking
 import okhttp3.Credentials
@@ -26,7 +27,6 @@ import org.junit.Before
 import org.junit.Test
 import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.util.HttpClient
-import java.net.UnknownHostException
 
 class DefaultConnectionTest {
     private lateinit var client: OkHttpClient
