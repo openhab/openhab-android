@@ -180,6 +180,8 @@ class ConnectionFactoryTest {
     fun testGetConnectionCloudWithUrl() {
         val server = MockWebServer()
         server.enqueue(MockResponse().setBody("{'gcm': { 'senderId': '12345'} }"))
+        // Answer the proxy URL request as well, otherwise it waits for the read timeout
+        server.enqueue(MockResponse().setResponseCode(404))
         server.start()
 
         fillInServers(remote = server.url("/").toString())
@@ -247,7 +249,7 @@ class ConnectionFactoryTest {
     @Test
     @Retry
     fun testGetConnectionUnknownNetwork() {
-        fillInServers("https://openhab.local:8080", "https://openhab.local:8080")
+        fillInServers("https://openhab.invalid:8080", "https://openhab.invalid:8080")
         mockConnectionHelper.update(ConnectionManagerHelper.ConnectionType.Unknown(mockNetwork, mockNetworkCaps))
         updateAndWaitForConnections()
         assertEquals(

@@ -13,6 +13,7 @@
 
 package org.openhab.habdroid.core.connection
 
+import java.net.UnknownHostException
 import java.nio.charset.StandardCharsets
 import kotlinx.coroutines.runBlocking
 import okhttp3.Credentials
@@ -36,7 +37,10 @@ class DefaultConnectionTest {
 
     @Before
     fun setup() {
-        client = OkHttpClient.Builder().build()
+        // Fail host lookups right away, resolving .local names can take several seconds
+        client = OkHttpClient.Builder()
+            .dns { hostname -> throw UnknownHostException(hostname) }
+            .build()
         testConnection = DefaultConnection(
             client,
             Connection.TYPE_LOCAL,
