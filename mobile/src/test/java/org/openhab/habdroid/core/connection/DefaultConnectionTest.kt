@@ -26,6 +26,7 @@ import org.junit.Before
 import org.junit.Test
 import org.openhab.habdroid.model.ServerPath
 import org.openhab.habdroid.util.HttpClient
+import java.net.UnknownHostException
 
 class DefaultConnectionTest {
     private lateinit var client: OkHttpClient
@@ -36,7 +37,10 @@ class DefaultConnectionTest {
 
     @Before
     fun setup() {
-        client = OkHttpClient.Builder().build()
+        // Fail host lookups right away, resolving .local names can take several seconds
+        client = OkHttpClient.Builder()
+            .dns { hostname -> throw UnknownHostException(hostname) }
+            .build()
         testConnection = DefaultConnection(
             client,
             Connection.TYPE_LOCAL,
