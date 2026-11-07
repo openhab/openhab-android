@@ -36,6 +36,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.webkit.WebChromeClient
+import android.webkit.WebView
 import android.widget.EditText
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
@@ -68,12 +70,14 @@ import org.openhab.habdroid.util.PendingIntent_Mutable
 import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.SuggestedCommandsFactory
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.dpToPixel
 import org.openhab.habdroid.util.getActiveServerId
 import org.openhab.habdroid.util.getIconFallbackColor
 import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.getStringOrEmpty
 import org.openhab.habdroid.util.openInBrowser
+import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.useCompactSitemapLayout
 
 /**
@@ -92,6 +96,9 @@ class WidgetListFragment :
     private lateinit var layoutManager: LinearLayoutManager
     private var adapter: WidgetAdapter? = null
     private var lastContextMenu: ContextMenu? = null
+
+    // Webview widget that is shown in a dedicated view filling the page instead of the list
+    private var pageWebViewWidget: Widget? = null
 
     @VisibleForTesting val recyclerView get() = binding.recyclerview
 
@@ -127,6 +134,8 @@ class WidgetListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.d(TAG, "onViewCreated() $displayPageUrl")
         super.onViewCreated(view, savedInstanceState)
+        // The view might be recreated, so make sure the new Webview gets loaded
+        pageWebViewWidget = null
 
         val activity = activity as MainActivity
         adapter = activity.connection?.let { conn ->
@@ -144,9 +153,23 @@ class WidgetListFragment :
             registerForContextMenu(this)
         }
 
+        binding.pageWebview.webChromeClient = object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                binding.pageWebviewProgress.apply {
+                    if (newProgress == 100) {
+                        hide()
+                    } else {
+                        show()
+                    }
+                    progress = newProgress
+                }
+            }
+        }
+
         binding.swiperefresh.apply {
             applyColors()
             recyclerView = binding.recyclerview
+            setOnChildScrollUpCallback { _, _ -> binding.pageWebview.canScrollVertically(-1) }
             setOnRefreshListener {
                 activity.showRefreshHintSnackbarIfNeeded()
                 CacheManager.getInstance(activity).clearCache(false)
@@ -196,6 +219,10 @@ class WidgetListFragment :
             } else if (holder is WidgetAdapter.AbstractMapViewHolder) {
                 holder.handleDataUsagePolicyChange()
             }
+        }
+        val widget = pageWebViewWidget
+        if (widget != null && binding.pageWebviewDataSaver.dataSaver.isVisible) {
+            loadPageWebView(widget, false)
         }
         (activity as MainActivity?)?.showDataSaverHintSnackbarIfNeeded()
     }
@@ -491,8 +518,9 @@ class WidgetListFragment :
 
     fun updateWidgets(widgets: List<Widget>) {
         val adapter = adapter ?: return
-        adapter.update(widgets, binding.swiperefresh.isRefreshing)
-        updateUiState(adapter)
+        val isRefresh = binding.swiperefresh.isRefreshing
+        adapter.update(widgets, isRefresh)
+        updateUiState(adapter, isRefresh)
         setHighlightedPageLink(highlightedPageLink)
         binding.swiperefresh.isRefreshing = false
     }
@@ -504,9 +532,57 @@ class WidgetListFragment :
         }
     }
 
-    private fun updateUiState(adapter: WidgetAdapter) {
-        binding.recyclerview.isVisible = adapter.hasVisibleWidgets
-        binding.empty.isVisible = !binding.recyclerview.isVisible
+    private fun updateUiState(adapter: WidgetAdapter, forceReload: Boolean = false) {
+        val newPageWebViewWidget = findPageFillingWebView(adapter.itemList)
+        val oldPageWebViewWidget = pageWebViewWidget
+        pageWebViewWidget = newPageWebViewWidget
+        if (newPageWebViewWidget == null) {
+            if (oldPageWebViewWidget != null) {
+                binding.pageWebview.loadUrl(ConnectionWebViewClient.EMPTY_PAGE)
+            }
+        } else if (forceReload || newPageWebViewWidget.url != oldPageWebViewWidget?.url) {
+            loadPageWebView(newPageWebViewWidget, false)
+        }
+
+        binding.pageWebviewContainer.isVisible = newPageWebViewWidget != null
+        binding.recyclerview.isVisible = newPageWebViewWidget == null && adapter.hasVisibleWidgets
+        binding.empty.isVisible = !binding.recyclerview.isVisible && !binding.pageWebviewContainer.isVisible
+    }
+
+    /**
+     * If a Webview is the only widget on the page (not counting frames), it's shown using the full page
+     * instead of the list, as its label and the frame labels add no value besides the page title.
+     */
+    private fun findPageFillingWebView(widgets: List<Widget>) = widgets
+        .singleOrNull { widget -> widget.type != Widget.Type.Frame }
+        ?.takeIf { widget -> widget.type == Widget.Type.Webview && widget.visibility }
+
+    private fun loadPageWebView(widget: Widget, ignoreDataSaver: Boolean) {
+        val connection = adapter?.connection ?: return
+        val context = requireContext()
+        val dataSaverActive = !ignoreDataSaver && !context.determineDataUsagePolicy(connection).canDoLargeTransfers
+
+        binding.pageWebview.isVisible = !dataSaverActive
+        binding.pageWebviewDataSaver.apply {
+            dataSaver.isVisible = dataSaverActive
+            dataSaverHint.text = context.getString(
+                R.string.data_saver_hint,
+                widget.label.orDefaultIfEmpty(context.getString(R.string.widget_type_webview))
+            )
+            dataSaverButton.setOnClickListener { loadPageWebView(widget, true) }
+        }
+        if (dataSaverActive) {
+            binding.pageWebviewProgress.hide()
+            return
+        }
+
+        binding.pageWebview.apply {
+            loadUrl(ConnectionWebViewClient.EMPTY_PAGE)
+            widget.url?.let { url ->
+                setUpForConnection(connection)
+                loadUrl(connection.httpClient.buildUrl(url).toString())
+            }
+        }
     }
 
     fun closeAllDialogs() {

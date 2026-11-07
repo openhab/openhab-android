@@ -19,6 +19,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import androidx.core.view.NestedScrollingChildHelper
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -40,7 +41,8 @@ class RecyclerViewSwipeRefreshLayout(context: Context, attrs: AttributeSet) : Sw
     }
 
     override fun canChildScrollUp(): Boolean {
-        val layoutManager = recyclerView?.layoutManager as LinearLayoutManager?
+        // Use the default behavior if another view is shown instead of the RecyclerView
+        val layoutManager = recyclerView?.takeIf { it.isVisible }?.layoutManager as LinearLayoutManager?
         val firstVisibleItem = layoutManager?.findFirstCompletelyVisibleItemPosition()
         return if (firstVisibleItem == null) super.canChildScrollUp() else firstVisibleItem != 0
     }
