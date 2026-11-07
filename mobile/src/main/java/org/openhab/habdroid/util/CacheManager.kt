@@ -68,8 +68,8 @@ class CacheManager private constructor(appContext: Context) {
         }
         val bitmap = withContext(Dispatchers.IO) {
             try {
-                getNotificationImageFiles(persistedId)
-                    .firstOrNull { file -> file.exists() }
+                getNotificationImageFile(persistedId)
+                    .takeIf { file -> file.exists() }
                     ?.let { file -> BitmapFactory.decodeFile(file.absolutePath) }
             } catch (ignored: OutOfMemoryError) {
                 null
@@ -90,24 +90,23 @@ class CacheManager private constructor(appContext: Context) {
         withContext(Dispatchers.IO) {
             try {
                 notificationImageDirectory.mkdirs()
-                // Keep transparency of PNG attachments, JPEG is much smaller for camera snapshots
-                val (pngFile, jpgFile) = getNotificationImageFiles(persistedId)
-                val (targetFile, otherFile) = if (bitmap.hasAlpha()) pngFile to jpgFile else jpgFile to pngFile
+                val targetFile = getNotificationImageFile(persistedId)
                 // Write to a temporary file first, so a killed process doesn't leave a truncated image
                 val tempFile = File(notificationImageDirectory, targetFile.name + ".tmp")
                 FileOutputStream(tempFile).use { out ->
+                    // Keep transparency of PNG attachments, JPEG is much smaller for camera snapshots
                     if (bitmap.hasAlpha()) {
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
                     } else {
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
                     }
                 }
-                if (!tempFile.renameTo(targetFile)) {
+                if (tempFile.renameTo(targetFile)) {
+                    val lastModified = if (createdTimestamp > 0L) createdTimestamp else System.currentTimeMillis()
+                    targetFile.setLastModified(lastModified)
+                } else {
                     tempFile.delete()
-                    return@withContext
                 }
-                otherFile.delete()
-                targetFile.setLastModified(if (createdTimestamp > 0L) createdTimestamp else System.currentTimeMillis())
             } catch (ignored: IOException) {
                 // ignored
             }
@@ -126,10 +125,9 @@ class CacheManager private constructor(appContext: Context) {
     private fun isNotificationImageExpired(createdTimestamp: Long) =
         createdTimestamp > 0L && System.currentTimeMillis() - createdTimestamp > NOTIFICATION_IMAGE_TTL_MS
 
-    private fun getNotificationImageFiles(persistedId: String): List<File> {
-        val safeName = persistedId.replace(SAFE_FILENAME_REGEX, "_")
-        return listOf("png", "jpg").map { extension -> File(notificationImageDirectory, "$safeName.$extension") }
-    }
+    // BitmapFactory detects PNG and JPEG by their content, so the file has no extension
+    private fun getNotificationImageFile(persistedId: String): File =
+        File(notificationImageDirectory, persistedId.replace(SAFE_FILENAME_REGEX, "_"))
 
     fun getCachedBitmap(url: HttpUrl, @ColorInt fallbackColor: Int): Bitmap? {
         val key = CacheKey(url, fallbackColor)
