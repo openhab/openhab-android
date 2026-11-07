@@ -34,6 +34,10 @@ data class WebViewUi(val serverFlag: Int, val fragment: Class<out AbstractWebVie
             0,
             FrontailWebViewFragment::class.java
         )
+
+        fun forFragmentName(name: String?) = listOf(HABPANEL, MAIN_UI, FRONTAIL).firstOrNull { ui ->
+            ui.fragment.name == name
+        }
     }
 }
 

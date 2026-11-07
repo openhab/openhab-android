@@ -172,6 +172,10 @@ class MainActivity : AbstractBaseActivity() {
     private var sitemapSelectionDialog: AlertDialog? = null
     var connection: Connection? = null
         private set
+    private var connectionServerId: Int? = null
+
+    // Content state to restore once a new connection to the same server is established
+    private var contentStateToRestore: ContentController.ContentState? = null
     private var lastActiveConnectionResult: ConnectionFactory.ConnectionResult? = null
     private var lastActiveCloudConnectionResult: ConnectionFactory.CloudConnectionResult? = null
     private var lastPrimaryCloudConnectionResult: ConnectionFactory.CloudConnectionResult? = null
@@ -269,6 +273,7 @@ class MainActivity : AbstractBaseActivity() {
                 val c = getConnectionFactory().currentActive?.conn?.connection
                 if (c != null && c.hashCode() == lastConnectionHash) {
                     connection = c
+                    connectionServerId = prefs.getActiveServerId()
                 }
             }
 
@@ -597,7 +602,15 @@ class MainActivity : AbstractBaseActivity() {
 
         retryJob?.cancel(CancellationException("onAvailableConnectionChanged() was called"))
 
+        val prevServerId = connectionServerId
+        // Only take the content state if the previous connection loaded the server properties. Otherwise the
+        // content was already reset by a previous connection change and would replace the state to restore.
+        if (prevServerId != null && connection !is DemoConnection && serverProperties != null) {
+            controller.getContentState(prevServerId)?.let { state -> contentStateToRestore = state }
+        }
+
         connection = newConnection
+        connectionServerId = if (newConnection != null) prefs.getActiveServerId() else null
         hideSnackbar(SNACKBAR_TAG_CONNECTION_ESTABLISHED)
         hideSnackbar(SNACKBAR_TAG_SSE_ERROR)
         hideSnackbar(SNACKBAR_TAG_DEMO_MODE_ACTIVE)
@@ -770,12 +783,19 @@ class MainActivity : AbstractBaseActivity() {
         prefs.edit {
             putActiveServerId(serverForCurrentWifi.id)
         }
+        val startPageAction = startPageAction(serverForCurrentWifi.id)
+        if (startPageAction != null) {
+            pendingAction = startPageAction
+        }
         showSnackbar(
             SNACKBAR_TAG_SWITCHED_SERVER,
             getString(R.string.settings_multi_server_wifi_ssid_switched, serverForCurrentWifi.name),
             Snackbar.LENGTH_LONG,
             R.string.undo
         ) {
+            if (pendingAction == null || pendingAction === startPageAction) {
+                pendingAction = startPageAction(prevActiveServer)
+            }
             prefs.edit {
                 putActiveServerId(prevActiveServer)
             }
@@ -851,7 +871,12 @@ class MainActivity : AbstractBaseActivity() {
                     updateDrawerServerEntries()
                     val fallbackUi = listOf(WebViewUi.MAIN_UI, WebViewUi.HABPANEL)
                         .firstOrNull { ui -> result.props.hasWebViewUiInstalled(ui) }
+                    val contentRestored = restoreContentState()
                     when {
+                        contentRestored -> {
+                            updateSitemapDrawerEntries()
+                        }
+
                         result.props.sitemaps.isNotEmpty() -> {
                             chooseSitemap()
                             updateSitemapDrawerEntries()
@@ -900,6 +925,22 @@ class MainActivity : AbstractBaseActivity() {
         } else {
             showSitemapSelectionDialog()
         }
+    }
+
+    /**
+     * Shows the content that was shown before the connection changed, e.g. from local to remote.
+     *
+     * @return true if the content has been restored
+     */
+    private fun restoreContentState(): Boolean {
+        val state = contentStateToRestore ?: return false
+        contentStateToRestore = null
+        val props = serverProperties
+        if (state.serverId != prefs.getActiveServerId() || connection is DemoConnection || props == null) {
+            return false
+        }
+        Log.d(TAG, "Restoring content state $state")
+        return controller.restoreContentState(state, props)
     }
 
     private fun handleServiceResolveResult(info: ServiceInfo?) {
@@ -974,11 +1015,7 @@ class MainActivity : AbstractBaseActivity() {
 
             ACTION_HABPANEL_SELECTED, ACTION_MAIN_UI_SELECTED, ACTION_FRONTAIL_SELECTED -> {
                 val serverId = intent.getIntExtra(EXTRA_SERVER_ID, prefs.getActiveServerId())
-                val ui = when (intent.action) {
-                    ACTION_HABPANEL_SELECTED -> WebViewUi.HABPANEL
-                    ACTION_FRONTAIL_SELECTED -> WebViewUi.FRONTAIL
-                    else -> WebViewUi.MAIN_UI
-                }
+                val ui = webViewUiForAction(intent.action) ?: WebViewUi.MAIN_UI
                 val subpage = intent.getStringExtra(EXTRA_SUBPAGE)
                 executeOrStoreAction(PendingAction.OpenWebViewUi(ui, serverId, subpage))
             }
@@ -1124,12 +1161,7 @@ class MainActivity : AbstractBaseActivity() {
             if (item.groupId == R.id.servers) {
                 if (item.itemId != prefs.getActiveServerId()) {
                     // Executed once the properties of the new server are loaded
-                    pendingAction = when (prefs.getStringOrNull(PrefKeys.START_PAGE)) {
-                        ACTION_HABPANEL_SELECTED -> PendingAction.OpenWebViewUi(WebViewUi.HABPANEL, item.itemId, null)
-                        ACTION_MAIN_UI_SELECTED -> PendingAction.OpenWebViewUi(WebViewUi.MAIN_UI, item.itemId, null)
-                        ACTION_FRONTAIL_SELECTED -> PendingAction.OpenWebViewUi(WebViewUi.FRONTAIL, item.itemId, null)
-                        else -> null
-                    }
+                    pendingAction = startPageAction(item.itemId)
                 }
                 prefs.edit {
                     putActiveServerId(item.itemId)
@@ -1366,6 +1398,16 @@ class MainActivity : AbstractBaseActivity() {
         else -> false
     }
 
+    private fun startPageAction(serverId: Int) = webViewUiForAction(prefs.getStringOrNull(PrefKeys.START_PAGE))
+        ?.let { ui -> PendingAction.OpenWebViewUi(ui, serverId, null) }
+
+    private fun webViewUiForAction(action: String?) = when (action) {
+        ACTION_HABPANEL_SELECTED -> WebViewUi.HABPANEL
+        ACTION_MAIN_UI_SELECTED -> WebViewUi.MAIN_UI
+        ACTION_FRONTAIL_SELECTED -> WebViewUi.FRONTAIL
+        else -> null
+    }
+
     private fun executeActionForServer(serverId: Int, action: () -> Unit): Boolean = when {
         serverId !in prefs.getConfiguredServerIds() -> {
             showSnackbar(
@@ -1382,6 +1424,9 @@ class MainActivity : AbstractBaseActivity() {
             updateDrawerServerEntries()
             false
         }
+
+        // Wait for the connection to the server, e.g. after a Wi-Fi based server switch
+        serverId != connectionServerId -> false
 
         else -> {
             action()
