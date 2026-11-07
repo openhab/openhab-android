@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <!-- Errors -->
+    <string name="retry">リトライ</string>
+    <!-- Settings -->
+    <string name="settings">設定</string>
+    <string name="settings_connection">接続設定</string>
+    <string name="settings_demo_mode">デモモード</string>
+    <!-- Widgets -->
+    <string name="rollershutter_up">上</string>
+    <string name="rollershutter_stop">停止</string>
+    <string name="rollershutter_down">下</string>
+    <string name="player_previous">前へ</string>
+    <string name="player_play">再生</string>
+    <string name="player_pause">一時停止</string>
+    <string name="player_next">次へ</string>
+    <string name="increase">増やす</string>
+    <string name="decrease">減らす</string>
+    <!-- Tile -->
+    <string name="tile_label">サイトマップ</string>
+    <!-- Complication -->
+    <!-- Voice -->
+    <string name="voice_command">音声コマンド</string>
+</resources>
