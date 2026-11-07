@@ -109,6 +109,7 @@ import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.model.WebViewUi
+import org.openhab.habdroid.model.hasWebViewUiInstalled
 import org.openhab.habdroid.model.sortedWithDefaultName
 import org.openhab.habdroid.model.toTagData
 import org.openhab.habdroid.ui.activity.ContentController
@@ -116,6 +117,7 @@ import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
 import org.openhab.habdroid.ui.preference.PreferencesActivity
 import org.openhab.habdroid.ui.preference.widgets.toItemUpdatePrefValue
+import org.openhab.habdroid.ui.tv.TvMainActivity
 import org.openhab.habdroid.util.AsyncServiceResolver
 import org.openhab.habdroid.util.CrashReportingHelper
 import org.openhab.habdroid.util.HttpClient
@@ -147,6 +149,7 @@ import org.openhab.habdroid.util.getWifiManager
 import org.openhab.habdroid.util.hasPermissions
 import org.openhab.habdroid.util.isDebugModeEnabled
 import org.openhab.habdroid.util.isScreenTimerDisabled
+import org.openhab.habdroid.util.isTv
 import org.openhab.habdroid.util.openInAppStore
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.parcelable
@@ -227,6 +230,13 @@ class MainActivity : AbstractBaseActivity() {
         prefs = getPrefs()
 
         super.onCreate(savedInstanceState)
+
+        if (isTv()) {
+            // Some TV launchers, e.g. on Fire TV, use the regular launcher intent
+            startActivity(Intent(this, TvMainActivity::class.java))
+            finish()
+            return
+        }
 
         val controllerClassName = resources.getString(R.string.controller_class)
         try {
@@ -427,7 +437,7 @@ class MainActivity : AbstractBaseActivity() {
         CrashReportingHelper.d(TAG, "onResume()")
         super.onResume()
 
-        onBackPressedCallback.isEnabled = true
+        updateBackPressedCallbackState()
 
         val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         if (nfcAdapter != null) {
@@ -559,20 +569,13 @@ class MainActivity : AbstractBaseActivity() {
                 controller.canGoBack() -> controller.goBack()
 
                 isFullscreenEnabled -> when {
-                    lastSnackbar?.isShown != true -> showSnackbar(
-                        SNACKBAR_TAG_PRESS_AGAIN_EXIT,
-                        R.string.press_back_to_exit
-                    )
-
-                    lastSnackbar?.view?.tag?.toString() == SNACKBAR_TAG_PRESS_AGAIN_EXIT -> {
+                    lastSnackbar?.isShown == true &&
+                        lastSnackbar?.view?.tag?.toString() == SNACKBAR_TAG_PRESS_AGAIN_EXIT -> {
                         isEnabled = false
                         onBackPressedDispatcher.onBackPressed()
                     }
 
-                    else -> showSnackbar(
-                        SNACKBAR_TAG_PRESS_AGAIN_EXIT,
-                        R.string.press_back_to_exit
-                    )
+                    else -> showPressBackAgainToExitSnackbar()
                 }
 
                 else -> {
@@ -1044,6 +1047,7 @@ class MainActivity : AbstractBaseActivity() {
             addDrawerListener(
                 object : DrawerLayout.SimpleDrawerListener() {
                     override fun onDrawerOpened(drawerView: View) {
+                        updateBackPressedCallbackState()
                         val loadedProperties = serverProperties ?: return
                         val connection = connection ?: return
                         if (propsRequestJob?.isActive == true) {
@@ -1069,6 +1073,7 @@ class MainActivity : AbstractBaseActivity() {
                     override fun onDrawerClosed(drawerView: View) {
                         super.onDrawerClosed(drawerView)
                         updateDrawerMode(false)
+                        updateBackPressedCallbackState()
                     }
                 }
             )
@@ -1302,15 +1307,16 @@ class MainActivity : AbstractBaseActivity() {
         val defaultIcon = ContextCompat.getDrawable(this, R.drawable.ic_openhab_appicon_24dp)
         item.icon = applyDrawerIconTint(defaultIcon)
         val conn = connection
+        val icon = sitemap.icon
 
-        if (sitemap.icon == null || conn == null) {
+        if (icon == null || conn == null) {
             return
         }
         launch {
             val context = this@MainActivity
             try {
                 item.icon = conn.httpClient
-                    .get(sitemap.icon.toUrl(context, context.determineDataUsagePolicy(conn).loadIconsWithState))
+                    .get(icon.toUrl(context, context.determineDataUsagePolicy(conn).loadIconsWithState))
                     .asBitmap(
                         defaultIcon!!.intrinsicWidth,
                         getIconFallbackColor(IconBackground.APP_THEME),
@@ -1504,6 +1510,28 @@ class MainActivity : AbstractBaseActivity() {
         val activeServerName = ServerConfiguration.load(prefs, getSecretPrefs(), prefs.getActiveServerId())?.name
         setTitle(title.orDefaultIfEmpty(activeServerName.orEmpty()).orDefaultIfEmpty(getString(R.string.app_name)))
         drawerToggle.isDrawerIndicatorEnabled = !controller.canGoBack()
+        updateBackPressedCallbackState()
+    }
+
+    /**
+     * Only intercept back navigation if we're going to consume it. Otherwise the system can't
+     * show the predictive back animation.
+     */
+    fun updateBackPressedCallbackState() {
+        val isExitSnackbarShown = lastSnackbar?.view?.tag == SNACKBAR_TAG_PRESS_AGAIN_EXIT &&
+            lastSnackbar?.isShownOrQueued == true
+        onBackPressedCallback.isEnabled = binding.drawerContainer.isDrawerOpen(binding.leftDrawer) ||
+            controller.canGoBack() ||
+            (isFullscreenEnabled && !isExitSnackbarShown)
+    }
+
+    private fun showPressBackAgainToExitSnackbar() {
+        showSnackbar(
+            SNACKBAR_TAG_PRESS_AGAIN_EXIT,
+            R.string.press_back_to_exit,
+            onDismissListener = { updateBackPressedCallbackState() }
+        )
+        updateBackPressedCallbackState()
     }
 
     fun setProgressIndicatorVisible(visible: Boolean) {
@@ -1788,6 +1816,9 @@ class MainActivity : AbstractBaseActivity() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
             return
         }
+        val manager = shortcutManager ?: return
+        // ShortcutManager#addDynamicShortcuts() and #disableShortcuts() may take several seconds,
+        // so they must not run on the main thread.
         if (visible) {
             val intent = Intent(this, MainActivity::class.java)
                 .setAction(action)
@@ -1796,13 +1827,18 @@ class MainActivity : AbstractBaseActivity() {
                 .setIcon(Icon.createWithResource(this, icon))
                 .setIntent(intent)
                 .build()
-            try {
-                shortcutManager?.addDynamicShortcuts(listOf(shortcut))
-            } catch (e: IllegalArgumentException) {
-                Log.e(TAG, "Failed to add shortcut $id", e)
+            launch(Dispatchers.IO) {
+                try {
+                    manager.addDynamicShortcuts(listOf(shortcut))
+                } catch (e: IllegalArgumentException) {
+                    Log.e(TAG, "Failed to add shortcut $id", e)
+                }
             }
         } else {
-            shortcutManager?.disableShortcuts(listOf(id), getString(disableMessage))
+            val message = getString(disableMessage)
+            launch(Dispatchers.IO) {
+                manager.disableShortcuts(listOf(id), message)
+            }
         }
     }
 

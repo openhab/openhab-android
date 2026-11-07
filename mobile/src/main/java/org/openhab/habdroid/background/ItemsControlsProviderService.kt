@@ -246,7 +246,7 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 controlTemplate.templateType !in typesWithState -> null
 
                 !item.options.isNullOrEmpty() -> {
-                    item.options
+                    item.options.orEmpty()
                         .firstOrNull { labeledValue -> labeledValue.value == item.state?.asString }
                         ?.label
                 }
@@ -346,8 +346,9 @@ class ItemsControlsProviderService : ControlsProviderService() {
                 }
                 val tagByType = group.tags.firstOrNull { tag -> tag.parent == type }
                 if (tagByType != null) {
-                    return if (group.label.isNullOrBlank() && tagByType.labelResId != null) {
-                        context.getString(tagByType.labelResId)
+                    val labelResId = tagByType.labelResId
+                    return if (group.label.isNullOrBlank() && labelResId != null) {
+                        context.getString(labelResId)
                     } else {
                         group.label
                     }

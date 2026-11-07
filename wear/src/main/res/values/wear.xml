@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@array/android_wear_capabilities">
+    <!-- Lets the phone app find watches with this app installed, see WearConfig.CAPABILITY_WEAR_APP -->
+    <string-array name="android_wear_capabilities" translatable="false">
+        <item>openhab_wear_app</item>
+    </string-array>
+</resources>

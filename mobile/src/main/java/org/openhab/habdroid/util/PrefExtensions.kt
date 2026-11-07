@@ -26,12 +26,9 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.DemoConnection
 import org.openhab.habdroid.model.DefaultSitemap
-import org.openhab.habdroid.model.IconFormat
 import org.openhab.habdroid.model.ServerConfiguration
-import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.ui.preference.widgets.toItemUpdatePrefValue
-import org.openhab.habdroid.ui.preference.widgets.toSitemapInfo
 import org.openhab.habdroid.ui.widget.WidgetImageView
 
 enum class ScreenLockMode {
@@ -67,18 +64,6 @@ fun SharedPreferences.getDefaultSitemap(connection: Connection?, id: Int = getAc
     return ServerConfiguration.getDefaultSitemap(this, id)
 }
 
-fun SharedPreferences.getDefaultCarSitemapName(): String? =
-    getStringOrNull(PrefKeys.CAR_SITEMAP_INFO)?.toSitemapInfo()?.name
-
-fun SharedPreferences.getIconFormat(): IconFormat {
-    val serverProps = getInt(PrefKeys.PREV_SERVER_FLAGS, 0)
-    if (serverProps and ServerProperties.SERVER_FLAG_SUPPORTS_ANY_FORMAT_ICON != 0) {
-        return IconFormat.Svg
-    }
-    val formatString = getStringOrFallbackIfEmpty(PrefKeys.ICON_FORMAT, "PNG")
-    return if (formatString == "SVG") IconFormat.Svg else IconFormat.Png
-}
-
 fun SharedPreferences.isDemoModeEnabled(): Boolean = getBoolean(PrefKeys.DEMO_MODE, false)
 
 fun SharedPreferences.isDebugModeEnabled(): Boolean = getBoolean(PrefKeys.DEBUG_MESSAGES, false)
@@ -93,10 +78,6 @@ fun SharedPreferences.getNotificationTone(): Uri? {
 }
 
 fun SharedPreferences.isScreenTimerDisabled(): Boolean = getBoolean(PrefKeys.SCREEN_TIMER_OFF, false)
-
-fun SharedPreferences.getChartScalingFactor(): Float = getFloat(PrefKeys.CHART_SCALING, 1.5F)
-
-fun SharedPreferences.shouldRequestHighResChart(): Boolean = getBoolean(PrefKeys.CHART_HQ, true)
 
 fun SharedPreferences.useCompactSitemapLayout(): Boolean = getBoolean(PrefKeys.SITEMAP_COMPACT_MODE, false)
 
@@ -142,14 +123,7 @@ fun SharedPreferences.getPrefixForBgTasks(): String {
     return if (enabled) getStringOrEmpty(PrefKeys.DEV_ID) else ""
 }
 
-fun SharedPreferences.getStringOrNull(key: String): String? = getString(key, null)
-
 fun SharedPreferences.getStringOrEmpty(key: String): String = getString(key, "").orEmpty()
-
-fun SharedPreferences.getStringOrFallbackIfEmpty(key: String, fallback: String): String {
-    val value = getStringOrNull(key)
-    return if (value.isNullOrEmpty()) fallback else value
-}
 
 fun SharedPreferences.getScreenLockMode(context: Context): ScreenLockMode =
     when (getStringOrNull(PrefKeys.SCREEN_LOCK)) {

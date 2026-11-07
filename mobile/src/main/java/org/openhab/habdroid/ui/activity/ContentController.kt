@@ -49,6 +49,7 @@ import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Sitemap
 import org.openhab.habdroid.model.WebViewUi
 import org.openhab.habdroid.model.Widget
+import org.openhab.habdroid.model.hasWebViewUiInstalled
 import org.openhab.habdroid.ui.CloudNotificationListFragment
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.ui.WidgetListFragment

@@ -335,6 +335,9 @@
     <string name="item_update_success_message_previous">%s arată titlul anterior</string>
     <string name="item_update_success_message_rewind">%s se derulează înapoi</string>
     <string name="item_update_success_message_fastforward">%s se derulează înainte</string>
+    <!-- Android TV -->
+    <string name="tv_settings_sitemap">Sitemap</string>
+    <string name="tv_loading">Se încarcă\u2026</string>
     <!-- Data saver -->
     <!-- Android Auto -->
     <string name="car_action_rollershutter_stop">Oprește</string>

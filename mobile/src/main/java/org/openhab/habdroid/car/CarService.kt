@@ -14,6 +14,7 @@
 package org.openhab.habdroid.car
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.util.Log
 import androidx.annotation.CallSuper
@@ -31,10 +32,16 @@ import kotlinx.coroutines.launch
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.sitemap.SitemapPageRepository
+import org.openhab.habdroid.model.DefaultSitemap
+import org.openhab.habdroid.model.ServerConfiguration
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.util.HttpClient
+import org.openhab.habdroid.util.PrefKeys
 import org.openhab.habdroid.util.getConnectionFactory
+import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getPrimaryServerId
+import org.openhab.habdroid.util.getSecretPrefs
 import org.openhab.habdroid.util.onDestroy
 
 class CarService :
@@ -46,15 +53,31 @@ class CarService :
     private val pageRepository = SitemapPageRepository(lifecycleScope)
     private val sessions = mutableMapOf<String, CarSession>()
     private val initDataFlow = MutableStateFlow<Result<InitData>?>(null)
+    private val sitemapFlow = MutableStateFlow<DefaultSitemap?>(null)
 
     override val lifecycle get() = dispatcher.lifecycle
     override val isDetailedLoggingEnabled get() = false
     override val serverProperties get() = initDataFlow.value?.getOrNull()?.props
 
+    private val prefsListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+        if (key == PrefKeys.PRIMARY_SERVER_ID ||
+            key?.startsWith(PrefKeys.CAR_SITEMAP_NAME_PREFIX) == true ||
+            key?.startsWith(PrefKeys.CAR_SITEMAP_LABEL_PREFIX) == true ||
+            key?.startsWith(PrefKeys.DEFAULT_SITEMAP_NAME_PREFIX) == true ||
+            key?.startsWith(PrefKeys.DEFAULT_SITEMAP_LABEL_PREFIX) == true
+        ) {
+            updateDefaultSitemap()
+        }
+    }
+
     @CallSuper
     override fun onCreate() {
         dispatcher.onServicePreSuperOnCreate()
         super.onCreate()
+
+        getPrefs().registerOnSharedPreferenceChangeListener(prefsListener)
+        updateDefaultSitemap()
+
         pageRepository.setCallback(this)
         pageRepository.start()
 
@@ -76,13 +99,15 @@ class CarService :
     override fun onDestroy() {
         dispatcher.onServicePreSuperOnDestroy()
         pageRepository.stop()
+        getPrefs().unregisterOnSharedPreferenceChangeListener(prefsListener)
         super.onDestroy()
     }
 
     override fun onCreateSession(sessionInfo: SessionInfo): Session {
         dispatcher.onServicePreSuperOnBind()
         val session = CarSession(
-            initDataFlow.map { result -> result?.map { it.props.sitemaps } },
+            sitemapsFlow = initDataFlow.map { result -> result?.map { it.props.sitemaps } },
+            defaultSitemapFlow = sitemapFlow,
             onPageListChanged = this::updateConnections,
             onSendWidgetCommand = this::sendWidgetCommand
         )
@@ -150,6 +175,12 @@ class CarService :
     private fun sendWidgetCommand(widget: Widget, command: String, sourceId: String) {
         val connection = initDataFlow.value?.getOrNull()?.connection ?: return
         connection.httpClient.sendItemCommand(widget.item, command, sourceId)
+    }
+
+    private fun updateDefaultSitemap() {
+        val prefs = getPrefs()
+        val config = ServerConfiguration.load(prefs, getSecretPrefs(), prefs.getPrimaryServerId())
+        sitemapFlow.value = config?.autoSitemap ?: config?.defaultSitemap
     }
 
     private data class InitData(val connection: Connection, val props: ServerProperties)

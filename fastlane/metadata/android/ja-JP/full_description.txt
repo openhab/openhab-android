@@ -9,12 +9,12 @@ openHAB は、Java ベースのオープンソース ホームオートメーシ
 
 <b>サポートされている製品</b>
 
-200 以上の特定のアドオンは、ブランド、デバイス ・技術・通信プロトコルをサポートします。 例えば、Z-Wave、Philips Hue、アマゾンエコー、Chromecast、Sonos です。 利用可能なアドオンやサポートされているデバイス、および機能は: https://www.openhab.org/addons/
+200 以上の特定のアドオンは、ブランド、デバイス ・技術・通信プロトコルをサポートします。例えば、Z-Wave、Philips Hue、アマゾンエコー、Chromecast、Sonos です。利用可能なアドオンやサポートされているデバイス、および機能は: https://www.openhab.org/addons/
 アプリは Tasker と Locale 用のアクションプラグインが含まれています.
 
 <b>オープンソース コミュニティ</b>
 
-openHAB オープンソース イニシアチブは、その活気に満ちたコミュニティを強く支持します。 登録ユーザー数が13,000を超えるフォーラムは、ガイダンス、ヘルプ、インスピレーションが見つかる場所です。 
+openHAB オープンソース イニシアチブは、その活気に満ちたコミュニティを強く支持します。登録ユーザー数が13,000を超えるフォーラムは、ガイダンス、ヘルプ、インスピレーションが見つかる場所です。 
 When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues.
 If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android.
 

@@ -533,6 +533,9 @@
     <string name="create_home_screen_widget_title">Créer un widget</string>
     <string name="create_home_screen_widget_no_command">Afficher l\'état actuel</string>
     <string name="create_home_screen_widget_not_supported">Veuillez créer un widget depuis le menu widget de votre écran d\'accueil</string>
+    <!-- Android TV -->
+    <string name="tv_settings_sitemap">Sitemap</string>
+    <string name="tv_loading">Chargement\u2026</string>
     <!-- Data saver -->
     <string name="data_saver_title">Économiseur de données</string>
     <string name="data_saver_on">Des éléments Sitemap pouvant nécessiter des transferts de données plus importants ne sont pas chargés</string>
@@ -630,11 +633,4 @@
     <string name="tile_icon_lamp_outdoor">Lampe extérieure</string>
     <!-- Tile icon values -->
     <!-- Item tag type labels -->
-    <string name="item_tag_location_garage">Garage</string>
-    <string name="item_tag_location_house">Maison</string>
-    <string name="item_tag_equipment_battery">Batterie</string>
-    <string name="item_tag_equipment_camera">Caméra</string>
-    <string name="item_tag_equipment_ceilingfan">Déstratificateur</string>
-    <string name="item_tag_equipment_fan">Ventilateur</string>
-    <string name="item_tag_equipment_lock">Verrouiller</string>
 </resources>

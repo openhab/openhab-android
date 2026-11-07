@@ -47,6 +47,11 @@ class LogActivity :
     SearchView.OnQueryTextListener {
     private lateinit var binding: ActivityLogBinding
     private var searchView: SearchView? = null
+    private val backCallback = object : OnBackPressedCallback(false) {
+        override fun handleOnBackPressed() {
+            searchView?.isIconified = true
+        }
+    }
     private var showErrorsOnly: Boolean = false
     private var fullLog = ""
 
@@ -75,17 +80,6 @@ class LogActivity :
         }
 
         setUiState(true)
-
-        val backCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (searchView?.isIconified == false) {
-                    searchView?.isIconified = true
-                } else {
-                    isEnabled = false
-                    onBackPressedDispatcher.onBackPressed()
-                }
-            }
-        }
 
         onBackPressedDispatcher.addCallback(this, backCallback)
     }
@@ -118,6 +112,13 @@ class LogActivity :
         searchView = searchItem.actionView as SearchView?
         searchView?.inputType = InputType.TYPE_CLASS_TEXT
         searchView?.setOnQueryTextListener(this)
+        // Only intercept back navigation while the search view is expanded to allow predictive back otherwise
+        searchView?.setOnSearchClickListener { backCallback.isEnabled = true }
+        searchView?.setOnCloseListener {
+            backCallback.isEnabled = false
+            false
+        }
+        backCallback.isEnabled = searchView?.isIconified == false
 
         updateErrorsOnlyButtonState(menu.findItem(R.id.show_errors))
         return true

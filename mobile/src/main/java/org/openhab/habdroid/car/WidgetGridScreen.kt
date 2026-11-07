@@ -105,10 +105,13 @@ class WidgetGridScreen(
 
             Widget.Type.Selection -> buildSelectionPresentation(widget)
 
-            else -> if (widget.linkedPage != null) {
-                WidgetPresentation.PageLinkPresentation(widget, widget.linkedPage)
-            } else {
-                WidgetPresentation.TextPresentation(widget)
+            else -> {
+                val linkedPage = widget.linkedPage
+                if (linkedPage != null) {
+                    WidgetPresentation.PageLinkPresentation(widget, linkedPage)
+                } else {
+                    WidgetPresentation.TextPresentation(widget)
+                }
             }
         }
 
