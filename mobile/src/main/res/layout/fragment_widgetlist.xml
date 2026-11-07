@@ -18,6 +18,32 @@
             tools:visibility="gone" />
 
         <LinearLayout
+            android:id="@+id/page_webview_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/page_webview_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <WebView
+                android:id="@+id/page_webview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <include
+                android:id="@+id/page_webview_data_saver"
+                layout="@layout/widgetlist_data_saver" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@android:id/empty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
