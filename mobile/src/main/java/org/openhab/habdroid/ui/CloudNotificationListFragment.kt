@@ -151,7 +151,7 @@ class CloudNotificationListFragment : Fragment() {
                         handleInitialHighlight(lastAttempt = false)
                         updateViewVisibility(loading = false, loadError = false)
                     }
-                } while (items.isNotEmpty() && ++pages < MAX_PAGES)
+                } while (items.size == LIST_PAGE_SIZE && ++pages < MAX_PAGES)
                 Log.d(TAG, "Notifications request success, got ${notifications.size} items")
             } catch (e: JSONException) {
                 failed = true
