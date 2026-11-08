@@ -15,6 +15,7 @@ package org.openhab.habdroid.util
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.LruCache
 import androidx.annotation.ColorInt
 import java.io.File
@@ -22,6 +23,8 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.Cache
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
@@ -32,17 +35,99 @@ class CacheManager private constructor(appContext: Context) {
     val httpCache: Cache = Cache(File(appContext.cacheDir, "http"), (10 * 1024 * 1024).toLong())
     private val iconBitmapCache: BitmapCache
     private val temporaryBitmapCache: BitmapCache
+    private val notificationBitmapCache: NotificationBitmapCache
     private val widgetIconDirectory = appContext.getDir("widgeticons", Context.MODE_PRIVATE)
+    private val notificationImageDirectory = File(appContext.cacheDir, "notification_images")
 
     init {
         // Get max available VM memory, exceeding this amount will throw an
         // OutOfMemory exception. Stored in kilobytes as LruCache takes an
         // int in its constructor.
         val maxMemory = (Runtime.getRuntime().maxMemory() / 1024).toInt()
-        // Use up to 2/8 of the available VM memory for the bitmap cache
+        // Use up to 2/8 of the available VM memory for the bitmap caches and 1/16 for notification images
         iconBitmapCache = BitmapCache(maxMemory / 8)
         temporaryBitmapCache = BitmapCache(maxMemory / 8)
+        notificationBitmapCache = NotificationBitmapCache(maxMemory / 16)
     }
+
+    fun getNotificationImageFromMemory(persistedId: String): Bitmap? =
+        if (persistedId.isEmpty()) null else notificationBitmapCache.get(persistedId)
+
+    /**
+     * Attachment images loaded after the notification arrived aren't saved, so they are only kept in memory
+     */
+    fun getAttachmentImageFromMemory(url: String): Bitmap? = notificationBitmapCache.get(ATTACHMENT_KEY_PREFIX + url)
+
+    fun putAttachmentImageInMemory(url: String, bitmap: Bitmap) {
+        notificationBitmapCache.put(ATTACHMENT_KEY_PREFIX + url, bitmap)
+    }
+
+    suspend fun loadNotificationImageFromDisk(persistedId: String, createdTimestamp: Long): Bitmap? {
+        if (persistedId.isEmpty() || isNotificationImageExpired(createdTimestamp)) {
+            return null
+        }
+        val bitmap = withContext(Dispatchers.IO) {
+            try {
+                getNotificationImageFile(persistedId)
+                    .takeIf { file -> file.exists() }
+                    ?.let { file -> BitmapFactory.decodeFile(file.absolutePath) }
+            } catch (ignored: OutOfMemoryError) {
+                null
+            }
+        }
+        bitmap?.let { notificationBitmapCache.put(persistedId, it) }
+        return bitmap
+    }
+
+    suspend fun saveNotificationImage(persistedId: String, bitmap: Bitmap, createdTimestamp: Long) {
+        if (persistedId.isEmpty()) {
+            return
+        }
+        notificationBitmapCache.put(persistedId, bitmap)
+        if (isNotificationImageExpired(createdTimestamp)) {
+            return
+        }
+        withContext(Dispatchers.IO) {
+            try {
+                notificationImageDirectory.mkdirs()
+                val targetFile = getNotificationImageFile(persistedId)
+                // Write to a temporary file first, so a killed process doesn't leave a truncated image
+                val tempFile = File(notificationImageDirectory, targetFile.name + ".tmp")
+                FileOutputStream(tempFile).use { out ->
+                    // Keep transparency of PNG attachments, JPEG is much smaller for camera snapshots
+                    if (bitmap.hasAlpha()) {
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+                    } else {
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
+                    }
+                }
+                if (tempFile.renameTo(targetFile)) {
+                    val lastModified = if (createdTimestamp > 0L) createdTimestamp else System.currentTimeMillis()
+                    targetFile.setLastModified(lastModified)
+                } else {
+                    tempFile.delete()
+                }
+            } catch (ignored: IOException) {
+                // ignored
+            }
+        }
+    }
+
+    suspend fun pruneExpiredNotificationImages() = withContext(Dispatchers.IO) {
+        val now = System.currentTimeMillis()
+        notificationImageDirectory.listFiles()?.forEach { file ->
+            if (now - file.lastModified() > NOTIFICATION_IMAGE_TTL_MS) {
+                file.delete()
+            }
+        }
+    }
+
+    private fun isNotificationImageExpired(createdTimestamp: Long) =
+        createdTimestamp > 0L && System.currentTimeMillis() - createdTimestamp > NOTIFICATION_IMAGE_TTL_MS
+
+    // BitmapFactory detects PNG and JPEG by their content, so the file has no extension
+    private fun getNotificationImageFile(persistedId: String): File =
+        File(notificationImageDirectory, persistedId.replace(SAFE_FILENAME_REGEX, "_"))
 
     fun getCachedBitmap(url: HttpUrl, @ColorInt fallbackColor: Int): Bitmap? {
         val key = CacheKey(url, fallbackColor)
@@ -95,6 +180,8 @@ class CacheManager private constructor(appContext: Context) {
             }
             widgetIconDirectory?.listFiles()?.forEach { f -> f.delete() }
             iconBitmapCache.evictAll()
+            notificationImageDirectory.listFiles()?.forEach { f -> f.delete() }
+            notificationBitmapCache.evictAll()
         } else {
             // Don't evict icons from httpCache
             try {
@@ -122,12 +209,20 @@ class CacheManager private constructor(appContext: Context) {
         override fun sizeOf(key: CacheKey, value: Bitmap): Int = value.byteCount / 1024
     }
 
+    class NotificationBitmapCache(maxSize: Int) : LruCache<String, Bitmap>(maxSize) {
+        override fun sizeOf(key: String, value: Bitmap): Int = value.byteCount / 1024
+    }
+
     data class CacheKey(val url: HttpUrl, @param:ColorInt val fallbackColor: Int)
 
     companion object {
         private val TAG = CacheManager::class.java.simpleName
+        private const val ATTACHMENT_KEY_PREFIX = "attachment:"
+        private const val NOTIFICATION_IMAGE_TTL_MS = 30L * 24L * 60L * 60L * 1000L
+        private val SAFE_FILENAME_REGEX = "[^a-zA-Z0-9._-]".toRegex()
         private var instance: CacheManager? = null
 
+        @Synchronized
         fun getInstance(context: Context): CacheManager {
             val inst = instance ?: CacheManager(context.applicationContext)
             instance = inst
