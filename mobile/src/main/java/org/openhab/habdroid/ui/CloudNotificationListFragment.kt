@@ -103,6 +103,12 @@ class CloudNotificationListFragment : Fragment() {
         requestJob?.cancel()
     }
 
+    fun reload() {
+        if (isResumed) {
+            loadNotifications(true)
+        }
+    }
+
     private fun loadNotifications(clearExisting: Boolean) {
         val activity = activity as AbstractBaseActivity? ?: return
         val connInfo = if (usePrimaryServer()) {
