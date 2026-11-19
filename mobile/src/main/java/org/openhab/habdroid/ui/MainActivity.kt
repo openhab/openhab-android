@@ -16,6 +16,7 @@ package org.openhab.habdroid.ui
 import android.Manifest
 import android.app.Dialog
 import android.app.PendingIntent
+import android.appwidget.AppWidgetManager
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Context
@@ -90,6 +91,8 @@ import org.openhab.habdroid.background.BackgroundTasksManager
 import org.openhab.habdroid.background.NotificationUpdateObserver
 import org.openhab.habdroid.background.PeriodicItemUpdateWorker
 import org.openhab.habdroid.background.SystemEventBroadcastReceiver
+import org.openhab.habdroid.background.tiles.AbstractTileService
+import org.openhab.habdroid.background.tiles.getTileData
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.NotificationHelper
 import org.openhab.habdroid.core.OpenHabApplication
@@ -113,6 +116,7 @@ import org.openhab.habdroid.model.hasWebViewUiInstalled
 import org.openhab.habdroid.model.sortedWithDefaultName
 import org.openhab.habdroid.model.toTagData
 import org.openhab.habdroid.ui.activity.ContentController
+import org.openhab.habdroid.ui.homescreenwidget.ItemUpdateWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
 import org.openhab.habdroid.ui.preference.PreferencesActivity
@@ -1605,12 +1609,12 @@ class MainActivity : AbstractBaseActivity() {
     }
 
     private fun showMissingPermissionsWarningIfNeeded() {
-        val missingPermissions = BackgroundTasksManager.KNOWN_KEYS
+        val enabledBackgroundTasks = BackgroundTasksManager.KNOWN_KEYS
+            .filter { entry -> prefs.getStringOrNull(entry)?.toItemUpdatePrefValue()?.first == true }
+        val missingPermissions = enabledBackgroundTasks
             .filter { entry ->
                 val requiredPermissions = BackgroundTasksManager.getRequiredPermissionsForTask(entry)
-                prefs.getStringOrNull(entry)?.toItemUpdatePrefValue()?.first == true &&
-                    requiredPermissions != null &&
-                    !hasPermissions(requiredPermissions)
+                requiredPermissions != null && !hasPermissions(requiredPermissions)
             }
             .mapNotNull { entry -> BackgroundTasksManager.getRequiredPermissionsForTask(entry)?.toList() }
             .flatten()
@@ -1620,7 +1624,13 @@ class MainActivity : AbstractBaseActivity() {
 
         val length = if (
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-            !hasPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS))
+            !hasPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS)) &&
+            (
+                enabledBackgroundTasks.isNotEmpty() ||
+                    hasConfiguredTiles() ||
+                    hasItemUpdateWidgets() ||
+                    canReceivePushNotifications()
+                )
         ) {
             missingPermissions.add(Manifest.permission.POST_NOTIFICATIONS)
             Snackbar.LENGTH_LONG
@@ -1664,6 +1674,25 @@ class MainActivity : AbstractBaseActivity() {
                 requestPermissionsIfRequired(missingPermissions.toTypedArray(), permissionRequestNoActionCallback)
             }
         }
+    }
+
+    private fun hasConfiguredTiles(): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            return false
+        }
+        return (1..AbstractTileService.TILE_COUNT).any { id -> prefs.getTileData(id)?.isValid() == true }
+    }
+
+    private fun hasItemUpdateWidgets(): Boolean {
+        val widgetComponent = ComponentName(this, ItemUpdateWidget::class.java)
+        return AppWidgetManager.getInstance(this).getAppWidgetIds(widgetComponent).isNotEmpty()
+    }
+
+    private fun canReceivePushNotifications(): Boolean {
+        if (prefs.getRemoteUrl(prefs.getPrimaryServerId()).isEmpty()) {
+            return false
+        }
+        return !CloudMessagingHelper.isPollingBuild() || CloudMessagingHelper.needsPollingForNotifications(this)
     }
 
     private fun setupUiCommandItem() {
