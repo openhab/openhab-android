@@ -1,0 +1,5 @@
+## What's Changed
+* Overhaul notification list UI and cache images for 30 days by @stamateviorel in https://github.com/openhab/openhab-android/pull/4096
+
+
+**Full Changelog**: https://github.com/openhab/openhab-android/compare/3.22.11-beta...3.22.12-beta
