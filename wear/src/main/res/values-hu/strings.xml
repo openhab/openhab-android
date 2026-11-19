@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <!-- Errors -->
+    <string name="retry">Újra</string>
+    <!-- Settings -->
+    <string name="settings">Beállítások</string>
+    <string name="settings_connection">Kapcsolat</string>
+    <string name="settings_demo_mode">Bemutató mód</string>
+    <!-- Widgets -->
+    <string name="rollershutter_up">Fel</string>
+    <string name="rollershutter_stop">Megállítás</string>
+    <string name="rollershutter_down">Le</string>
+    <string name="player_previous">Előző</string>
+    <string name="player_play">Lejátszás</string>
+    <string name="player_pause">Szünet</string>
+    <string name="player_next">Következő</string>
+    <string name="increase">Növelés</string>
+    <string name="decrease">Csökkentés</string>
+    <!-- Tile -->
+    <string name="tile_label">Felület</string>
+    <!-- Complication -->
+    <!-- Voice -->
+    <string name="voice_command">Hangutasítás</string>
+</resources>

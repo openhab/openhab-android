@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <!-- Errors -->
+    <string name="retry">اعد المحاولة</string>
+    <!-- Settings -->
+    <string name="settings">إعدادات</string>
+    <string name="settings_connection">اتصال</string>
+    <string name="settings_demo_mode">الوضع التجريبي</string>
+    <!-- Widgets -->
+    <string name="rollershutter_up">أعلى</string>
+    <string name="rollershutter_down">أسفل</string>
+    <!-- Tile -->
+    <!-- Complication -->
+    <!-- Voice -->
+</resources>

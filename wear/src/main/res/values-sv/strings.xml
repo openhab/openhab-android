@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <!-- Errors -->
+    <string name="retry">Försök igen</string>
+    <!-- Settings -->
+    <string name="settings">Inställningar</string>
+    <string name="settings_connection">Anslutning</string>
+    <string name="settings_demo_mode">Demoläge</string>
+    <!-- Widgets -->
+    <string name="rollershutter_up">Upp</string>
+    <string name="rollershutter_stop">Stopp</string>
+    <string name="rollershutter_down">Ner</string>
+    <string name="player_previous">Föregående</string>
+    <string name="player_play">Spela</string>
+    <string name="player_pause">Pausa</string>
+    <string name="player_next">Nästa</string>
+    <string name="increase">Öka</string>
+    <string name="decrease">Minska</string>
+    <!-- Tile -->
+    <string name="tile_label">Platskarta</string>
+    <!-- Complication -->
+    <!-- Voice -->
+    <string name="voice_command">Röstkommando</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <!-- Errors -->
+    <!-- Settings -->
+    <string name="settings">Nustatymai</string>
+    <string name="settings_demo_mode">Demonstracinis režimas</string>
+    <!-- Widgets -->
+    <string name="rollershutter_up">Į viršų</string>
+    <string name="rollershutter_down">Žemyn</string>
+    <!-- Tile -->
+    <!-- Complication -->
+    <!-- Voice -->
+</resources>

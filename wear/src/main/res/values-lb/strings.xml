@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <!-- Errors -->
+    <string name="retry">Nach emol probéieren</string>
+    <!-- Settings -->
+    <string name="settings">Astellungen</string>
+    <string name="settings_connection">Connectioun</string>
+    <string name="settings_demo_mode">Demo Modus</string>
+    <!-- Widgets -->
+    <string name="rollershutter_up">Erop</string>
+    <string name="rollershutter_stop">Stopp</string>
+    <string name="rollershutter_down">Erof</string>
+    <string name="player_previous">Zeréck</string>
+    <string name="player_play">Play</string>
+    <string name="player_pause">Paus</string>
+    <string name="player_next">Weider</string>
+    <string name="increase">Eropsetzen</string>
+    <string name="decrease">Erofsetzen</string>
+    <!-- Tile -->
+    <string name="tile_label">Sitemap</string>
+    <!-- Complication -->
+    <!-- Voice -->
+    <string name="voice_command">Sproochbefeel</string>
+</resources>

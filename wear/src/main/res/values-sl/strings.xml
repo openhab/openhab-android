@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <!-- Errors -->
+    <!-- Settings -->
+    <string name="settings">Nastavitve</string>
+    <string name="settings_connection">Povezava</string>
+    <string name="settings_demo_mode">Preizkusni način</string>
+    <!-- Widgets -->
+    <!-- Tile -->
+    <string name="tile_label">Sitemap</string>
+    <!-- Complication -->
+    <!-- Voice -->
+</resources>

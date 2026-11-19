@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <!-- Errors -->
+    <string name="retry">Coba lagi</string>
+    <!-- Settings -->
+    <string name="settings">Pengaturan</string>
+    <string name="settings_connection">Pengaturan Koneksi</string>
+    <string name="settings_demo_mode">Mode demo</string>
+    <!-- Widgets -->
+    <string name="rollershutter_up">Naik</string>
+    <string name="rollershutter_stop">Berhenti</string>
+    <string name="rollershutter_down">Turun</string>
+    <string name="player_previous">Sebelumnya</string>
+    <string name="player_play">Putar</string>
+    <string name="player_pause">Jeda</string>
+    <string name="player_next">Lanjut</string>
+    <!-- Tile -->
+    <!-- Complication -->
+    <!-- Voice -->
+</resources>

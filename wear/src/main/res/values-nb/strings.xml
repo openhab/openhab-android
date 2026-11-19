@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <!-- Errors -->
+    <string name="retry">Prøv på nytt</string>
+    <!-- Settings -->
+    <string name="settings">Innstillinger</string>
+    <string name="settings_connection">Tilkobling</string>
+    <string name="settings_demo_mode">Demomodus</string>
+    <!-- Widgets -->
+    <string name="rollershutter_up">Opp</string>
+    <string name="rollershutter_stop">Stopp</string>
+    <string name="rollershutter_down">Ned</string>
+    <string name="player_previous">Forrige</string>
+    <string name="player_play">Spill</string>
+    <string name="player_pause">Pause</string>
+    <string name="player_next">Neste</string>
+    <string name="increase">Øk</string>
+    <string name="decrease">Reduser</string>
+    <!-- Tile -->
+    <string name="tile_label">Sitemap</string>
+    <!-- Complication -->
+    <!-- Voice -->
+    <string name="voice_command">Talekommando</string>
+</resources>

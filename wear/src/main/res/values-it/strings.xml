@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <string name="setup_title">Configura openHAB</string>
+    <string name="setup_message">Imposta un server nell\'app openHAB sul tuo telefono. Sarà trasferito automaticamente all\'orologio.</string>
+    <string name="setup_open_on_phone">Apri sul telefono</string>
+    <string name="setup_demo">Prova il server demo</string>
+    <string name="continue_on_phone">Continua sul telefono</string>
+    <string name="phone_not_reachable">Telefono non raggiungibile</string>
+    <!-- Errors -->
+    <string name="error_title">openHAB</string>
+    <string name="error_connection_failed">Impossibile connettersi a %s</string>
+    <string name="error_certificate_not_trusted">Il certificato del server non è attendibile. Accettalo nell\'app openHAB sul tuo telefono.</string>
+    <string name="error_authentication_failed">Nome utente o password errati</string>
+    <string name="error_http">Il server %s ha restituito un errore</string>
+    <string name="error_no_sitemaps">Il server non ha sitemaps</string>
+    <string name="retry">Riprova</string>
+    <string name="page_empty">Questa pagina è vuota</string>
+    <!-- Settings -->
+    <string name="settings">Impostazioni</string>
+    <string name="settings_connection">Connessione</string>
+    <string name="settings_not_connected">Non connesso</string>
+    <string name="settings_connected_local">Connessione locale</string>
+    <string name="settings_connected_remote">Connessione remota</string>
+    <string name="settings_demo_mode">Modalità demo</string>
+    <string name="settings_edit_on_phone">Modifica sul telefono</string>
+    <!-- Widgets -->
+    <string name="rollershutter_up">Su</string>
+    <string name="rollershutter_stop">Ferma</string>
+    <string name="rollershutter_down">Giù</string>
+    <string name="player_previous">Precedente</string>
+    <string name="player_play">Riproduci</string>
+    <string name="player_pause">Pausa</string>
+    <string name="player_next">Prossimo</string>
+    <string name="increase">Aumenta</string>
+    <string name="decrease">Diminuisci</string>
+    <string name="color_power">Accensione</string>
+    <string name="color_brightness">Luminosità</string>
+    <string name="color_red">Rosso</string>
+    <string name="color_orange">Arancio</string>
+    <string name="color_yellow">Giallo</string>
+    <string name="color_green">Verde</string>
+    <string name="color_cyan">Azzurro</string>
+    <string name="color_blue">Blu</string>
+    <string name="color_purple">Viola</string>
+    <string name="color_pink">Rosa</string>
+    <string name="color_white">Bianco</string>
+    <!-- Tile -->
+    <string name="tile_label">Sitemap</string>
+    <string name="tile_not_configured">Imposta openHAB sul tuo telefono</string>
+    <string name="tile_not_connected">Impossibile connettersi a openHAB</string>
+    <string name="tile_no_widgets">Aggiungi switch alla pagina iniziale della Sitemap per mostrarli qui</string>
+    <!-- Complication -->
+    <string name="complication_label">Stato Item</string>
+    <string name="complication_preview_label">Temperatura</string>
+    <string name="complication_choose_item">Scegli item</string>
+    <!-- Voice -->
+    <string name="voice_command">Comando vocale</string>
+    <string name="voice_prompt">Dì un comando</string>
+    <string name="voice_failed">Invio fallito</string>
+</resources>

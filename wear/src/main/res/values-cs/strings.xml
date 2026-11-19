@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <!-- Errors -->
+    <string name="retry">Opakovat</string>
+    <!-- Settings -->
+    <string name="settings">Nastavení</string>
+    <string name="settings_connection">Připojení</string>
+    <string name="settings_demo_mode">Ukázkový režim</string>
+    <!-- Widgets -->
+    <string name="rollershutter_up">Nahoru</string>
+    <string name="rollershutter_stop">Zastavit</string>
+    <string name="rollershutter_down">Dolů</string>
+    <string name="player_previous">Předchozí</string>
+    <string name="player_play">Přehrát</string>
+    <string name="player_pause">Pozastavit</string>
+    <string name="player_next">Následující</string>
+    <string name="increase">Zvýšit</string>
+    <string name="decrease">Snížit</string>
+    <!-- Tile -->
+    <string name="tile_label">Sitemap</string>
+    <!-- Complication -->
+    <!-- Voice -->
+    <string name="voice_command">Hlasový příkaz</string>
+</resources>

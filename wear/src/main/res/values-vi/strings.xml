@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Setup -->
+    <!-- Errors -->
+    <!-- Settings -->
+    <string name="settings">Cài đặt</string>
+    <string name="settings_connection">Kết nối</string>
+    <string name="settings_demo_mode">Chế độ demo</string>
+    <!-- Widgets -->
+    <!-- Tile -->
+    <string name="tile_label">Sơ đồ trang web</string>
+    <!-- Complication -->
+    <!-- Voice -->
+</resources>
