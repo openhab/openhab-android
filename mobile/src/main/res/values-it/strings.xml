@@ -76,6 +76,15 @@
     <string name="settings_no_default_sitemap">Nessun Sitemap predefinito selezionato</string>
     <!-- %1$s: Default Sitemap label -->
     <string name="settings_current_default_sitemap">Sitemap predefinito attuale: %1$s</string>
+    <string name="settings_wear">Wear OS</string>
+    <string name="settings_wear_sitemap">Sitemap su orologio</string>
+    <string name="settings_wear_sitemap_default">Lo stesso della Sitemap di default</string>
+    <string name="settings_wear_tile_sitemap">Sitemap su tile</string>
+    <string name="settings_wear_tile_sitemap_default">Lo stessa Sitemap dell\'orologio</string>
+    <string name="settings_wear_complication_group">Item per complicazioni</string>
+    <string name="settings_wear_complication_group_all">Tutti gli item</string>
+    <string name="settings_wear_complication_group_summary">Membri di %1$s</string>
+    <string name="settings_wear_load_failed">Impossibile caricare i dati dal server</string>
     <string name="settings_main_ui_start_page">Pagina Iniziale Main UI</string>
     <string name="settings_ui_command_item">Item comando UI</string>
     <string name="settings_ui_command_item_summary_on">La sitemap può essere controllata tramite l\'item \"%s\"</string>
@@ -304,6 +313,14 @@
     <string name="notification_channel_group_messages">Messaggi</string>
     <string name="notification_channel_severity_value">Tag \'%1$s\'</string>
     <string name="notification_channel_severity_value_description">Notifiche inviate dal server con tag \'%1$s\'</string>
+    <string name="notification_tag_filter_all">Tutto</string>
+    <string name="notification_tag_filter_chip">%1$s (%2$d)</string>
+    <string name="notification_image">Immagine di Notifica</string>
+    <string name="notification_image_load_failed">Impossibile caricare l\'immagine</string>
+    <plurals name="notification_older_count">
+        <item quantity="one">+ %d in più</item>
+        <item quantity="other">+ %d in più</item>
+    </plurals>
     <plurals name="summary_notification_text">
         <item quantity="one">%d nuova notifica</item>
         <item quantity="other">%d nuove notifiche</item>
@@ -606,6 +623,9 @@
     <string name="widget_type_chart">Grafico</string>
     <string name="widget_type_color">Colore</string>
     <!-- Android Auto -->
+    <string name="settings_android_auto">Android Auto</string>
+    <string name="settings_car_sitemap">Sitemap in macchina</string>
+    <string name="settings_car_sitemap_default">Lo stesso della Sitemap di default</string>
     <string name="car_error_sitemap_not_found">La Sitemap selezionata non è stata trovata sul server. Si prega di ricontrollare la selezione nelle impostazioni dell\'app.</string>
     <string name="car_action_rollershutter_open">Aperto</string>
     <string name="car_action_rollershutter_close">Chiuso</string>
