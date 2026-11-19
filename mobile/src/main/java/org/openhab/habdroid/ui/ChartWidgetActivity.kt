@@ -16,7 +16,6 @@ package org.openhab.habdroid.ui
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.text.format.DateFormat
@@ -50,7 +49,6 @@ import java.time.Duration
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.Period
-import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -65,25 +63,19 @@ import kotlin.math.log10
 import kotlin.math.nextUp
 import kotlin.math.pow
 import kotlin.math.roundToInt
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
-import org.json.JSONObject
 import org.openhab.habdroid.R
-import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.databinding.ActivityChartBinding
 import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.withValue
+import org.openhab.habdroid.ui.PersistenceDataLoader.DataPoint
+import org.openhab.habdroid.ui.PersistenceDataLoader.Series
 import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.ItemClient
-import org.openhab.habdroid.util.appendQueryParameter
 import org.openhab.habdroid.util.determineDataUsagePolicy
 import org.openhab.habdroid.util.getConnectionFactory
-import org.openhab.habdroid.util.map
 import org.openhab.habdroid.util.orDefaultIfEmpty
 import org.openhab.habdroid.util.parcelable
 import org.openhab.habdroid.util.resolveThemedColor
@@ -220,8 +212,9 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         invalidateOptionsMenu()
         showLoadingIndicator()
 
+        val loader = PersistenceDataLoader(connection, serverProperties, widget.service)
         val data = try {
-            loadData(connection, item, period, widget.service) { itemName ->
+            loadData(loader, item, period) { itemName ->
                 binding.progressText.text = getString(R.string.chart_activity_loading_progress_item, itemName)
             }
         } catch (e: HttpClient.HttpException) {
@@ -242,9 +235,11 @@ class ChartWidgetActivity : AbstractBaseActivity() {
                 }
             }
             return@launch
-        } catch (e: StateParsingException) {
-            Log.w(TAG, "Could not load chart data", e)
-            showError(getString(R.string.chart_error_state_format, e.item.label ?: e.item.name), "")
+        }
+
+        if (!data.isNumeric) {
+            // States can't be plotted (e.g. String or DateTime Items), so show a list of state changes instead
+            goToStateHistoryActivity()
             return@launch
         }
 
@@ -285,37 +280,32 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         startActivity(intent)
     }
 
+    private fun goToStateHistoryActivity() {
+        val intent = Intent(this, StateHistoryActivity::class.java)
+            .putExtra(StateHistoryActivity.EXTRA_WIDGET, widget)
+            .putExtra(StateHistoryActivity.EXTRA_SERVER_PROPS, serverProperties)
+        finish()
+        startActivity(intent)
+    }
+
     private fun retryLoad() {
         onRefresh()
     }
 
-    @Throws(HttpClient.HttpException::class, StateParsingException::class)
+    @Throws(HttpClient.HttpException::class)
     private suspend fun loadData(
-        connection: Connection,
+        loader: PersistenceDataLoader,
         item: Item,
         period: TemporalAmount,
-        serviceId: String?,
         progressCb: (itemName: String) -> Unit
     ): ChartData {
-        val itemsForChart = if (item.type == Item.Type.Group) {
-            // sitemap response doesn't include member list, so re-fetch item to get members
-            ItemClient.loadItem(connection, item.name)?.members ?: listOf(item)
-        } else {
-            listOf(item)
-        }
-        val serverTimeZoneId = serverProperties?.timezoneId?.let { ZoneId.of(it) }
-        val timestamp = ZonedDateTime.now().let { zdt ->
-            if (serverTimeZoneId != null) zdt.withZoneSameInstant(serverTimeZoneId) else zdt
-        }
+        val itemsForChart = loader.resolveItems(item)
+        val timestamp = loader.now()
         val startTime = timestamp.minus(period)
 
         val allSeries = itemsForChart.map { item ->
             progressCb(item.label ?: item.name)
-            try {
-                loadSeriesForItem(connection, item, startTime, serverTimeZoneId, serviceId)
-            } catch (e: NumberFormatException) {
-                throw StateParsingException(e, item)
-            }
+            loader.loadSeries(item, startTime)
         }
         return ChartData(allSeries, timestamp, startTime)
     }
@@ -367,14 +357,14 @@ class ChartWidgetActivity : AbstractBaseActivity() {
 
     private fun configureChartForData(data: ChartData) {
         val dataSets = data.data.mapIndexed { index, series ->
-            val values = series.dataPoints.map {
+            val values = series.dataPoints.filter { it.value != null }.map {
                 val dpTimestamp = ZonedDateTime.ofInstant(it.timestamp, data.startTime.zone)
                 val entryData = DataPointWithSeries(it, series)
                 // Entry x and y values are floats only (not double), so we use increments of 100ms as X axis
                 // scale to avoid imprecisions due to large values
                 Entry(
                     Duration.between(data.startTime, dpTimestamp).toMillis().toFloat().div(100),
-                    it.value.toFloat(),
+                    it.value!!.toFloat(),
                     entryData
                 )
             }
@@ -458,58 +448,6 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         }
     }
 
-    @Throws(HttpClient.HttpException::class, NumberFormatException::class)
-    private suspend fun loadSeriesForItem(
-        connection: Connection,
-        item: Item,
-        startTime: ZonedDateTime,
-        serverTimeZoneId: ZoneId?,
-        serviceId: String?
-    ): Series {
-        // Timing of 'server provides its own time zone' and 'server understands ZDT format' luckily coincides
-        val startTimeParameter = if (serverTimeZoneId != null) {
-            // OH 5.x: start time parser understands ZonedDateTime format
-            startTime.toString()
-        } else {
-            // OH up to 4.x: start time parser only understands LocalDateTime format
-            startTime.toLocalDateTime().toString()
-        }
-
-        val uriBuilder = Uri.Builder()
-            .path("rest/persistence/items/${item.name}")
-            .appendQueryParameter("starttime", startTimeParameter)
-            .appendQueryParameter("boundary", true)
-            .appendQueryParameter("itemState", true)
-        if (!serviceId.isNullOrEmpty()) {
-            uriBuilder.appendQueryParameter("serviceId", serviceId)
-        }
-
-        return connection.httpClient
-            .get(uriBuilder.build().toString())
-            .asText()
-            .let { resp ->
-                withContext(Dispatchers.IO) {
-                    val json = JSONObject(resp.response)
-                    val dataPoints = json.getJSONArray("data").map { dpjson ->
-                        val timestamp = Instant.ofEpochMilli(dpjson.getLong("time"))
-                        val state = when (val state = dpjson.getString("state").substringBefore(' ')) {
-                            "ON", "OPEN" -> 1.0
-                            "OFF", "CLOSED" -> 0.0
-                            else -> state.toDouble()
-                        }
-                        DataPoint(timestamp, state)
-                    }
-                    Series(
-                        item.label ?: item.name,
-                        item.type,
-                        item.state?.asNumber,
-                        startTime.zone,
-                        dataPoints
-                    )
-                }
-            }
-    }
-
     private fun parsePeriod(period: String): TemporalAmount? {
         if (period.isEmpty() || period.last() !in listOf('h', 'H', 'D', 'W', 'M', 'Y')) {
             return null
@@ -530,35 +468,6 @@ class ChartWidgetActivity : AbstractBaseActivity() {
                 Log.e(TAG, "Could not parse period specification '$period'", e)
                 null
             }
-        }
-    }
-
-    @Parcelize
-    data class DataPoint(val timestamp: Instant, val value: Double) : Parcelable
-
-    @Parcelize
-    data class Series(
-        val name: String,
-        val type: Item.Type,
-        val state: ParsedState.NumberState?,
-        val zoneId: ZoneId,
-        val dataPoints: List<DataPoint>
-    ) : Parcelable {
-        fun canBeUsedForAxisFormatting() = when (type) {
-            Item.Type.Switch, Item.Type.Contact -> true
-            else -> state != null
-        }
-
-        fun formatValue(value: Float, context: Context) = when (type) {
-            Item.Type.Switch -> context.getString(
-                if (value.roundToInt() > 0) R.string.nfc_action_on else R.string.nfc_action_off
-            )
-
-            Item.Type.Contact -> context.getString(
-                if (value.roundToInt() > 0) R.string.nfc_action_open else R.string.nfc_action_closed
-            )
-
-            else -> state.withValue(value).toString()
         }
     }
 
@@ -667,6 +576,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
     data class ChartData(val data: List<Series>, val timestamp: ZonedDateTime, val startTime: ZonedDateTime) :
         Parcelable {
         val totalDataPointCount get() = data.sumOf { series -> series.dataPoints.size }
+        val isNumeric get() = data.all { series -> series.isNumeric }
     }
 
     data class DataPointWithSeries(val dp: DataPoint, val series: Series)
@@ -696,7 +606,7 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         override fun refreshContent(e: Entry?, highlight: Highlight?) {
             val data = e?.data as? DataPointWithSeries
             text.isVisible = data != null
-            if (data != null) {
+            if (data != null && data.dp.value != null) {
                 val value = data.series.formatValue(data.dp.value.toFloat(), text.context)
                 val formattedTimestamp = formatter.format(
                     LocalDateTime.ofInstant(data.dp.timestamp, data.series.zoneId)
@@ -707,8 +617,6 @@ class ChartWidgetActivity : AbstractBaseActivity() {
             super.refreshContent(e, highlight)
         }
     }
-
-    private class StateParsingException(cause: Throwable, val item: Item) : Exception(cause)
 
     @Suppress("DEPRECATION")
     class ChartDataCacheFragment : Fragment() {
@@ -743,4 +651,21 @@ class ChartWidgetActivity : AbstractBaseActivity() {
         const val EXTRA_WIDGET = "widget"
         const val EXTRA_SERVER_PROPS = "server_properties"
     }
+}
+
+private fun Series.canBeUsedForAxisFormatting() = when (type) {
+    Item.Type.Switch, Item.Type.Contact -> true
+    else -> state != null
+}
+
+private fun Series.formatValue(value: Float, context: Context) = when (type) {
+    Item.Type.Switch -> context.getString(
+        if (value.roundToInt() > 0) R.string.nfc_action_on else R.string.nfc_action_off
+    )
+
+    Item.Type.Contact -> context.getString(
+        if (value.roundToInt() > 0) R.string.nfc_action_open else R.string.nfc_action_closed
+    )
+
+    else -> state.withValue(value).toString()
 }
