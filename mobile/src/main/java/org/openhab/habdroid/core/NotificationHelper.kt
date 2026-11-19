@@ -34,6 +34,7 @@ import org.openhab.habdroid.model.CloudMessage
 import org.openhab.habdroid.model.CloudNotificationId
 import org.openhab.habdroid.model.IconResource
 import org.openhab.habdroid.ui.MainActivity
+import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import org.openhab.habdroid.util.IconBackground
 import org.openhab.habdroid.util.ImageConversionPolicy
@@ -186,6 +187,8 @@ class NotificationHelper(private val context: Context) {
             null
         }
         if (messageImage != null) {
+            CacheManager.getInstance(context)
+                .saveNotificationImage(message.id.persistedId, messageImage, message.createdTimestamp)
             builder.setStyle(NotificationCompat.BigPictureStyle().bigPicture(messageImage))
         } else {
             builder.setStyle(NotificationCompat.BigTextStyle().bigText(message.message))

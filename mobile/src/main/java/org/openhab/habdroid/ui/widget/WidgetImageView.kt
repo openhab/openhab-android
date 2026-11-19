@@ -340,6 +340,13 @@ class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageV
         }
 
         override fun applyFallbackDrawable() {
+            // A recycled view may still have a load running that would replace the fallback once done
+            pendingRequest = null
+            prepareForNonHttpImage()
+            showFallbackDrawable()
+        }
+
+        private fun showFallbackDrawable() {
             if (originalScaleType == null) {
                 originalScaleType = scaleType
                 super.setScaleType(ScaleType.CENTER)
@@ -401,7 +408,7 @@ class WidgetImageView(context: Context, attrs: AttributeSet?, private val imageV
                             Log.d(TAG, "Failed to load image '$url', HTTP code ${e.statusCode}", e)
                         }
                         loadProgressCallback?.invoke(false)
-                        applyFallbackDrawable()
+                        showFallbackDrawable()
                     }
                 }
             }

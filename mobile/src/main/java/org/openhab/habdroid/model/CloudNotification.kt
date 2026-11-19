@@ -58,10 +58,17 @@ sealed class CloudMessage : Parcelable {
         val onClickAction: CloudNotificationAction?,
         val mediaAttachmentUrl: String?
     ) : CloudMessage() {
+        /**
+         * Item attachments show the current item state, so only the image saved when the notification arrived
+         * belongs to the notification
+         */
+        val hasItemAttachment: Boolean get() = mediaAttachmentUrl?.startsWith("item:") == true
+
         suspend fun loadImage(connection: Connection, context: Context, size: Int): Bitmap? {
             if (mediaAttachmentUrl == null) {
                 return null
             }
+            val targetSize = if (size > 0) size else context.resources.displayMetrics.widthPixels
             val itemStateFromMedia = if (mediaAttachmentUrl.startsWith("item:")) {
                 val itemName = mediaAttachmentUrl.removePrefix("item:")
                 val item = try {
@@ -79,7 +86,14 @@ sealed class CloudMessage : Parcelable {
                 return try {
                     val dataString = itemStateFromMedia.substring(itemStateFromMedia.indexOf(",") + 1)
                     val data = Base64.decode(dataString, Base64.DEFAULT)
-                    BitmapFactory.decodeByteArray(data, 0, data.size)
+                    val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+                    BitmapFactory.decodeByteArray(data, 0, data.size, bounds)
+                    var sampleSize = 1
+                    while (bounds.outWidth / (sampleSize * 2) >= targetSize) {
+                        sampleSize *= 2
+                    }
+                    val options = BitmapFactory.Options().apply { inSampleSize = sampleSize }
+                    BitmapFactory.decodeByteArray(data, 0, data.size, options)
                 } catch (e: IllegalArgumentException) {
                     null
                 }
@@ -88,7 +102,7 @@ sealed class CloudMessage : Parcelable {
             return try {
                 connection.httpClient
                     .get(itemStateFromMedia ?: mediaAttachmentUrl)
-                    .asBitmap(size, fallbackColor, ImageConversionPolicy.PreferTargetSize)
+                    .asBitmap(targetSize, fallbackColor, ImageConversionPolicy.PreferTargetSize)
                     .response
             } catch (e: HttpClient.HttpException) {
                 Log.e(TAG, "Error loading image", e)
