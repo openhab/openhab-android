@@ -88,12 +88,14 @@ abstract class AbstractWebViewFragment :
     private val webView get() = binding?.webview
     private var callback: ParentCallback? = null
     private val mainActivity get() = context as MainActivity?
-    var isStackRoot = false
-        private set
+    val isStackRoot get() = arguments?.getBoolean(KEY_IS_STACK_ROOT) == true
     var title: String? = null
         private set
     var wantsActionBar = true
         private set
+    val currentSubpage: String?
+        get() = webView?.url?.toHttpUrlOrNull()?.toRelativeUrl()
+    private var loadedServerId: Int? = null
 
     private val permissionRequester = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -156,7 +158,9 @@ abstract class AbstractWebViewFragment :
                     val usedConnection = webView?.tag as? Connection
                     val newConnection = info.conn?.connection
                     if (newConnection != null && newConnection != usedConnection) {
-                        loadWebsite()
+                        // Stay on the current page if only the connection to the same server changed
+                        val sameServer = loadedServerId == requireContext().getPrefs().getActiveServerId()
+                        loadWebsite(currentSubpage.takeIf { sameServer } ?: urlToLoad)
                     }
                 }
             }
@@ -221,8 +225,6 @@ abstract class AbstractWebViewFragment :
                 }
             }
         }
-
-        isStackRoot = requireArguments().getBoolean(KEY_IS_STACK_ROOT)
 
         binding?.retryButton?.setOnClickListener {
             Log.d(TAG, "Retry button clicked, reload website")
@@ -342,6 +344,7 @@ abstract class AbstractWebViewFragment :
         val url = buildUrl(conn, urlToLoad)
 
         Log.d(TAG, "Loading web page $url")
+        loadedServerId = requireContext().getPrefs().getActiveServerId()
         webView.setUpForConnection(conn)
         webView.setBackgroundColor(Color.TRANSPARENT)
 

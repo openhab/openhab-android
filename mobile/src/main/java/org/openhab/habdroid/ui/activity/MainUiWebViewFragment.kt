@@ -40,7 +40,7 @@ class MainUiWebViewFragment : AbstractWebViewFragment() {
         }
 
         val mainUiStartPage = context?.loadActiveServerConfig()?.mainUiStartPage
-        if (!mainUiStartPage.isNullOrEmpty()) {
+        if (!mainUiStartPage.isNullOrEmpty() && url == urlToLoad) {
             urlBuilder.encodedPath(mainUiStartPage)
         }
 
